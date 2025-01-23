@@ -17,12 +17,14 @@ import class ClientRuntime.HttpClientConfiguration
 import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
+import class Smithy.Context
 import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
+import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
@@ -41,8 +43,8 @@ import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
+@_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
-import struct AWSClientRuntime.EndpointResolverMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
@@ -65,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PinpointSMSVoiceV2Client: ClientRuntime.Client {
     public static let clientName = "PinpointSMSVoiceV2Client"
-    public static let version = "1.0.40"
+    public static let version = "1.2.1"
     let client: ClientRuntime.SdkHttpClient
     let config: PinpointSMSVoiceV2Client.PinpointSMSVoiceV2ClientConfiguration
     let serviceName = "Pinpoint SMS Voice V2"
@@ -87,58 +89,69 @@ public class PinpointSMSVoiceV2Client: ClientRuntime.Client {
 }
 
 extension PinpointSMSVoiceV2Client {
+
     public class PinpointSMSVoiceV2ClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
         public var useFIPS: Swift.Bool?
-
         public var useDualStack: Swift.Bool?
-
         public var appID: Swift.String?
-
         public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
-
         public var awsRetryMode: AWSClientRuntime.AWSRetryMode
-
         public var maxAttempts: Swift.Int?
-
+        public var requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var ignoreConfiguredEndpointURLs: Swift.Bool?
         public var region: Swift.String?
-
         public var signingRegion: Swift.String?
-
         public var endpointResolver: EndpointResolver
-
         public var telemetryProvider: ClientRuntime.TelemetryProvider
-
         public var retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions
-
         public var clientLogMode: ClientRuntime.ClientLogMode
-
         public var endpoint: Swift.String?
-
         public var idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator
-
         public var httpClientEngine: SmithyHTTPAPI.HTTPClient
-
         public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
-
         public var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
-
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
-
         public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
-
         public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
-
         public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-
         internal let logger: Smithy.LogAgent
 
-        private init(_ useFIPS: Swift.Bool?, _ useDualStack: Swift.Bool?, _ appID: Swift.String?, _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver, _ awsRetryMode: AWSClientRuntime.AWSRetryMode, _ maxAttempts: Swift.Int?, _ region: Swift.String?, _ signingRegion: Swift.String?, _ endpointResolver: EndpointResolver, _ telemetryProvider: ClientRuntime.TelemetryProvider, _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions, _ clientLogMode: ClientRuntime.ClientLogMode, _ endpoint: Swift.String?, _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator, _ httpClientEngine: SmithyHTTPAPI.HTTPClient, _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration, _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?, _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver, _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver, _ interceptorProviders: [ClientRuntime.InterceptorProvider], _ httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]) {
+        private init(
+            _ useFIPS: Swift.Bool?,
+            _ useDualStack: Swift.Bool?,
+            _ appID: Swift.String?,
+            _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver,
+            _ awsRetryMode: AWSClientRuntime.AWSRetryMode,
+            _ maxAttempts: Swift.Int?,
+            _ requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode,
+            _ responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode,
+            _ ignoreConfiguredEndpointURLs: Swift.Bool?,
+            _ region: Swift.String?,
+            _ signingRegion: Swift.String?,
+            _ endpointResolver: EndpointResolver,
+            _ telemetryProvider: ClientRuntime.TelemetryProvider,
+            _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions,
+            _ clientLogMode: ClientRuntime.ClientLogMode,
+            _ endpoint: Swift.String?,
+            _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator,
+            _ httpClientEngine: SmithyHTTPAPI.HTTPClient,
+            _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration,
+            _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?,
+            _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver,
+            _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver,
+            _ interceptorProviders: [ClientRuntime.InterceptorProvider],
+            _ httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
+        ) {
             self.useFIPS = useFIPS
             self.useDualStack = useDualStack
             self.appID = appID
             self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
             self.awsRetryMode = awsRetryMode
             self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = requestChecksumCalculation
+            self.responseChecksumValidation = responseChecksumValidation
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
             self.region = region
             self.signingRegion = signingRegion
             self.endpointResolver = endpointResolver
@@ -157,25 +170,176 @@ extension PinpointSMSVoiceV2Client {
             self.logger = telemetryProvider.loggerProvider.getLogger(name: PinpointSMSVoiceV2Client.clientName)
         }
 
-        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, maxAttempts: Swift.Int? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil, interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil, httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil) throws {
-            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), maxAttempts, region, signingRegion, try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(), endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(), httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(), authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()], authSchemeResolver ?? DefaultPinpointSMSVoiceV2AuthSchemeResolver(), bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")), interceptorProviders ?? [], httpInterceptorProviders ?? [])
+        public convenience init(
+            useFIPS: Swift.Bool? = nil,
+            useDualStack: Swift.Bool? = nil,
+            appID: Swift.String? = nil,
+            awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
+            awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
+            maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            region: Swift.String? = nil,
+            signingRegion: Swift.String? = nil,
+            endpointResolver: EndpointResolver? = nil,
+            telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
+            retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
+            clientLogMode: ClientRuntime.ClientLogMode? = nil,
+            endpoint: Swift.String? = nil,
+            idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
+            httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
+            httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
+            authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
+        ) throws {
+            self.init(
+                useFIPS,
+                useDualStack,
+                try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
+                try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                maxAttempts,
+                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
+                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
+                ignoreConfiguredEndpointURLs,
+                region,
+                signingRegion,
+                try endpointResolver ?? DefaultEndpointResolver(),
+                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
+                try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
+                clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
+                endpoint,
+                idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemeResolver ?? DefaultPinpointSMSVoiceV2AuthSchemeResolver(),
+                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                interceptorProviders ?? [],
+                httpInterceptorProviders ?? []
+            )
         }
 
-        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, maxAttempts: Swift.Int? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil, interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil, httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil) async throws {
-            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), maxAttempts, try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(), endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(), httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(), authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()], authSchemeResolver ?? DefaultPinpointSMSVoiceV2AuthSchemeResolver(), bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")), interceptorProviders ?? [], httpInterceptorProviders ?? [])
+        public convenience init(
+            useFIPS: Swift.Bool? = nil,
+            useDualStack: Swift.Bool? = nil,
+            appID: Swift.String? = nil,
+            awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
+            awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
+            maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            region: Swift.String? = nil,
+            signingRegion: Swift.String? = nil,
+            endpointResolver: EndpointResolver? = nil,
+            telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
+            retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
+            clientLogMode: ClientRuntime.ClientLogMode? = nil,
+            endpoint: Swift.String? = nil,
+            idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
+            httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
+            httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
+            authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
+        ) async throws {
+            self.init(
+                useFIPS,
+                useDualStack,
+                try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
+                try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                maxAttempts,
+                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
+                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
+                ignoreConfiguredEndpointURLs,
+                try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
+                try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
+                try endpointResolver ?? DefaultEndpointResolver(),
+                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
+                try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
+                clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
+                endpoint,
+                idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemeResolver ?? DefaultPinpointSMSVoiceV2AuthSchemeResolver(),
+                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                interceptorProviders ?? [],
+                httpInterceptorProviders ?? []
+            )
         }
 
         public convenience required init() async throws {
-            try await self.init(useFIPS: nil, useDualStack: nil, appID: nil, awsCredentialIdentityResolver: nil, awsRetryMode: nil, maxAttempts: nil, region: nil, signingRegion: nil, endpointResolver: nil, telemetryProvider: nil, retryStrategyOptions: nil, clientLogMode: nil, endpoint: nil, idempotencyTokenGenerator: nil, httpClientEngine: nil, httpClientConfiguration: nil, authSchemes: nil, authSchemeResolver: nil, bearerTokenIdentityResolver: nil, interceptorProviders: nil, httpInterceptorProviders: nil)
+            try await self.init(
+                useFIPS: nil,
+                useDualStack: nil,
+                appID: nil,
+                awsCredentialIdentityResolver: nil,
+                awsRetryMode: nil,
+                maxAttempts: nil,
+                requestChecksumCalculation: nil,
+                responseChecksumValidation: nil,
+                ignoreConfiguredEndpointURLs: nil,
+                region: nil,
+                signingRegion: nil,
+                endpointResolver: nil,
+                telemetryProvider: nil,
+                retryStrategyOptions: nil,
+                clientLogMode: nil,
+                endpoint: nil,
+                idempotencyTokenGenerator: nil,
+                httpClientEngine: nil,
+                httpClientConfiguration: nil,
+                authSchemes: nil,
+                authSchemeResolver: nil,
+                bearerTokenIdentityResolver: nil,
+                interceptorProviders: nil,
+                httpInterceptorProviders: nil
+            )
         }
 
-        public convenience init(region: String) throws {
-            self.init(nil, nil, try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(), try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), nil, region, region, try DefaultEndpointResolver(), ClientRuntime.DefaultTelemetry.provider, try AWSClientConfigDefaultsProvider.retryStrategyOptions(), AWSClientConfigDefaultsProvider.clientLogMode(), nil, AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), AWSClientConfigDefaultsProvider.httpClientEngine(), AWSClientConfigDefaultsProvider.httpClientConfiguration(), [AWSSDKHTTPAuth.SigV4AuthScheme()], DefaultPinpointSMSVoiceV2AuthSchemeResolver(), SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")), [], [])
+        public convenience init(region: Swift.String) throws {
+            self.init(
+                nil,
+                nil,
+                try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(),
+                try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                nil,
+                try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
+                try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
+                nil,
+                region,
+                region,
+                try DefaultEndpointResolver(),
+                ClientRuntime.DefaultTelemetry.provider,
+                try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                AWSClientConfigDefaultsProvider.clientLogMode(),
+                nil,
+                AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                AWSClientConfigDefaultsProvider.httpClientEngine(),
+                AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                DefaultPinpointSMSVoiceV2AuthSchemeResolver(),
+                SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                [],
+                []
+            )
         }
 
         public var partitionID: String? {
             return "\(PinpointSMSVoiceV2Client.clientName) - \(region ?? "")"
         }
+
         public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
             self.interceptorProviders.append(provider)
         }
@@ -230,6 +394,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -249,15 +415,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateOriginationIdentityOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<AssociateOriginationIdentityOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateOriginationIdentityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutput>(xAmzTarget: "PinpointSMSVoiceV2.AssociateOriginationIdentity"))
         builder.serialize(ClientRuntime.BodyMiddleware<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateOriginationIdentityInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateOriginationIdentityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateOriginationIdentityInput, AssociateOriginationIdentityOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateOriginationIdentity")
@@ -306,6 +475,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -324,15 +495,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateProtectConfigurationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<AssociateProtectConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateProtectConfigurationInput, AssociateProtectConfigurationOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateProtectConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateProtectConfigurationInput, AssociateProtectConfigurationOutput>(xAmzTarget: "PinpointSMSVoiceV2.AssociateProtectConfiguration"))
         builder.serialize(ClientRuntime.BodyMiddleware<AssociateProtectConfigurationInput, AssociateProtectConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateProtectConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateProtectConfigurationInput, AssociateProtectConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateProtectConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateProtectConfigurationInput, AssociateProtectConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateProtectConfigurationInput, AssociateProtectConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateProtectConfigurationInput, AssociateProtectConfigurationOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateProtectConfiguration")
@@ -381,6 +555,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -400,15 +576,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConfigurationSetOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateConfigurationSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateConfigurationSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutput>(xAmzTarget: "PinpointSMSVoiceV2.CreateConfigurationSet"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateConfigurationSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateConfigurationSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateConfigurationSet")
@@ -458,6 +637,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -477,15 +658,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEventDestinationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateEventDestinationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateEventDestinationInput, CreateEventDestinationOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateEventDestinationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateEventDestinationInput, CreateEventDestinationOutput>(xAmzTarget: "PinpointSMSVoiceV2.CreateEventDestination"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateEventDestinationInput, CreateEventDestinationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateEventDestinationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEventDestinationInput, CreateEventDestinationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateEventDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateEventDestinationInput, CreateEventDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateEventDestinationInput, CreateEventDestinationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateEventDestinationInput, CreateEventDestinationOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateEventDestination")
@@ -534,6 +718,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -553,15 +739,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateOptOutListOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateOptOutListOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateOptOutListInput, CreateOptOutListOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateOptOutListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateOptOutListInput, CreateOptOutListOutput>(xAmzTarget: "PinpointSMSVoiceV2.CreateOptOutList"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateOptOutListInput, CreateOptOutListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateOptOutListInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateOptOutListInput, CreateOptOutListOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateOptOutListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateOptOutListInput, CreateOptOutListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateOptOutListInput, CreateOptOutListOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateOptOutListInput, CreateOptOutListOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateOptOutList")
@@ -611,6 +800,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -630,15 +821,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePoolOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreatePoolOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePoolInput, CreatePoolOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePoolOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreatePoolInput, CreatePoolOutput>(xAmzTarget: "PinpointSMSVoiceV2.CreatePool"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreatePoolInput, CreatePoolOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePoolInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePoolInput, CreatePoolOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePoolOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePoolInput, CreatePoolOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreatePoolInput, CreatePoolOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePoolInput, CreatePoolOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreatePool")
@@ -686,6 +880,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -705,15 +901,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProtectConfigurationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateProtectConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateProtectConfigurationInput, CreateProtectConfigurationOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateProtectConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateProtectConfigurationInput, CreateProtectConfigurationOutput>(xAmzTarget: "PinpointSMSVoiceV2.CreateProtectConfiguration"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateProtectConfigurationInput, CreateProtectConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateProtectConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProtectConfigurationInput, CreateProtectConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProtectConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateProtectConfigurationInput, CreateProtectConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateProtectConfigurationInput, CreateProtectConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateProtectConfigurationInput, CreateProtectConfigurationOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateProtectConfiguration")
@@ -762,6 +961,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -781,15 +982,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRegistrationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateRegistrationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateRegistrationInput, CreateRegistrationOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRegistrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateRegistrationInput, CreateRegistrationOutput>(xAmzTarget: "PinpointSMSVoiceV2.CreateRegistration"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateRegistrationInput, CreateRegistrationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRegistrationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRegistrationInput, CreateRegistrationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRegistrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRegistrationInput, CreateRegistrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateRegistrationInput, CreateRegistrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateRegistrationInput, CreateRegistrationOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateRegistration")
@@ -839,6 +1043,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -857,15 +1063,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRegistrationAssociationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateRegistrationAssociationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateRegistrationAssociationInput, CreateRegistrationAssociationOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRegistrationAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateRegistrationAssociationInput, CreateRegistrationAssociationOutput>(xAmzTarget: "PinpointSMSVoiceV2.CreateRegistrationAssociation"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateRegistrationAssociationInput, CreateRegistrationAssociationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRegistrationAssociationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRegistrationAssociationInput, CreateRegistrationAssociationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRegistrationAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRegistrationAssociationInput, CreateRegistrationAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateRegistrationAssociationInput, CreateRegistrationAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateRegistrationAssociationInput, CreateRegistrationAssociationOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateRegistrationAssociation")
@@ -914,6 +1123,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -933,15 +1144,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRegistrationAttachmentOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateRegistrationAttachmentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateRegistrationAttachmentInput, CreateRegistrationAttachmentOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRegistrationAttachmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateRegistrationAttachmentInput, CreateRegistrationAttachmentOutput>(xAmzTarget: "PinpointSMSVoiceV2.CreateRegistrationAttachment"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateRegistrationAttachmentInput, CreateRegistrationAttachmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRegistrationAttachmentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRegistrationAttachmentInput, CreateRegistrationAttachmentOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRegistrationAttachmentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRegistrationAttachmentInput, CreateRegistrationAttachmentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateRegistrationAttachmentInput, CreateRegistrationAttachmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateRegistrationAttachmentInput, CreateRegistrationAttachmentOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateRegistrationAttachment")
@@ -991,6 +1205,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1009,15 +1225,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRegistrationVersionOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateRegistrationVersionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateRegistrationVersionInput, CreateRegistrationVersionOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRegistrationVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateRegistrationVersionInput, CreateRegistrationVersionOutput>(xAmzTarget: "PinpointSMSVoiceV2.CreateRegistrationVersion"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateRegistrationVersionInput, CreateRegistrationVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRegistrationVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRegistrationVersionInput, CreateRegistrationVersionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRegistrationVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRegistrationVersionInput, CreateRegistrationVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateRegistrationVersionInput, CreateRegistrationVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateRegistrationVersionInput, CreateRegistrationVersionOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateRegistrationVersion")
@@ -1066,6 +1285,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1085,15 +1306,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVerifiedDestinationNumberOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateVerifiedDestinationNumberOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateVerifiedDestinationNumberInput, CreateVerifiedDestinationNumberOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateVerifiedDestinationNumberOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateVerifiedDestinationNumberInput, CreateVerifiedDestinationNumberOutput>(xAmzTarget: "PinpointSMSVoiceV2.CreateVerifiedDestinationNumber"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateVerifiedDestinationNumberInput, CreateVerifiedDestinationNumberOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateVerifiedDestinationNumberInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVerifiedDestinationNumberInput, CreateVerifiedDestinationNumberOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateVerifiedDestinationNumberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateVerifiedDestinationNumberInput, CreateVerifiedDestinationNumberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateVerifiedDestinationNumberInput, CreateVerifiedDestinationNumberOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateVerifiedDestinationNumberInput, CreateVerifiedDestinationNumberOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateVerifiedDestinationNumber")
@@ -1141,6 +1365,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1159,15 +1385,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccountDefaultProtectConfigurationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteAccountDefaultProtectConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAccountDefaultProtectConfigurationInput, DeleteAccountDefaultProtectConfigurationOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAccountDefaultProtectConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteAccountDefaultProtectConfigurationInput, DeleteAccountDefaultProtectConfigurationOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteAccountDefaultProtectConfiguration"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteAccountDefaultProtectConfigurationInput, DeleteAccountDefaultProtectConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAccountDefaultProtectConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAccountDefaultProtectConfigurationInput, DeleteAccountDefaultProtectConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAccountDefaultProtectConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAccountDefaultProtectConfigurationInput, DeleteAccountDefaultProtectConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAccountDefaultProtectConfigurationInput, DeleteAccountDefaultProtectConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAccountDefaultProtectConfigurationInput, DeleteAccountDefaultProtectConfigurationOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteAccountDefaultProtectConfiguration")
@@ -1215,6 +1444,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1233,15 +1464,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfigurationSetOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteConfigurationSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteConfigurationSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteConfigurationSet"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteConfigurationSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConfigurationSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteConfigurationSet")
@@ -1289,6 +1523,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1307,15 +1543,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDefaultMessageTypeOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteDefaultMessageTypeOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDefaultMessageTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteDefaultMessageType"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDefaultMessageTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDefaultMessageTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDefaultMessageTypeInput, DeleteDefaultMessageTypeOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteDefaultMessageType")
@@ -1363,6 +1602,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1381,15 +1622,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDefaultSenderIdOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteDefaultSenderIdOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDefaultSenderIdOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteDefaultSenderId"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDefaultSenderIdInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDefaultSenderIdOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDefaultSenderIdInput, DeleteDefaultSenderIdOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteDefaultSenderId")
@@ -1437,6 +1681,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1455,15 +1701,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEventDestinationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteEventDestinationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteEventDestinationInput, DeleteEventDestinationOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEventDestinationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteEventDestinationInput, DeleteEventDestinationOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteEventDestination"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteEventDestinationInput, DeleteEventDestinationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEventDestinationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEventDestinationInput, DeleteEventDestinationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEventDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteEventDestinationInput, DeleteEventDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteEventDestinationInput, DeleteEventDestinationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteEventDestinationInput, DeleteEventDestinationOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteEventDestination")
@@ -1512,6 +1761,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1530,15 +1781,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteKeywordOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteKeywordOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteKeywordInput, DeleteKeywordOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteKeywordOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteKeywordInput, DeleteKeywordOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteKeyword"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteKeywordInput, DeleteKeywordOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteKeywordInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteKeywordInput, DeleteKeywordOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteKeywordOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteKeywordInput, DeleteKeywordOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteKeywordInput, DeleteKeywordOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteKeywordInput, DeleteKeywordOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteKeyword")
@@ -1585,6 +1839,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1603,15 +1859,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMediaMessageSpendLimitOverrideOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteMediaMessageSpendLimitOverrideOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMediaMessageSpendLimitOverrideInput, DeleteMediaMessageSpendLimitOverrideOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteMediaMessageSpendLimitOverrideOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteMediaMessageSpendLimitOverrideInput, DeleteMediaMessageSpendLimitOverrideOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteMediaMessageSpendLimitOverride"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteMediaMessageSpendLimitOverrideInput, DeleteMediaMessageSpendLimitOverrideOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteMediaMessageSpendLimitOverrideInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMediaMessageSpendLimitOverrideInput, DeleteMediaMessageSpendLimitOverrideOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMediaMessageSpendLimitOverrideOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMediaMessageSpendLimitOverrideInput, DeleteMediaMessageSpendLimitOverrideOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteMediaMessageSpendLimitOverrideInput, DeleteMediaMessageSpendLimitOverrideOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMediaMessageSpendLimitOverrideInput, DeleteMediaMessageSpendLimitOverrideOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteMediaMessageSpendLimitOverride")
@@ -1660,6 +1919,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1678,15 +1939,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOptOutListOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteOptOutListOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteOptOutListInput, DeleteOptOutListOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteOptOutListOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteOptOutListInput, DeleteOptOutListOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteOptOutList"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteOptOutListInput, DeleteOptOutListOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteOptOutListInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteOptOutListInput, DeleteOptOutListOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteOptOutListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteOptOutListInput, DeleteOptOutListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteOptOutListInput, DeleteOptOutListOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteOptOutListInput, DeleteOptOutListOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteOptOutList")
@@ -1735,6 +1999,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1753,15 +2019,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOptedOutNumberOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteOptedOutNumberOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteOptedOutNumberOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteOptedOutNumber"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteOptedOutNumberInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteOptedOutNumberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteOptedOutNumberInput, DeleteOptedOutNumberOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteOptedOutNumber")
@@ -1810,6 +2079,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1828,15 +2099,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePoolOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeletePoolOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeletePoolInput, DeletePoolOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeletePoolOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeletePoolInput, DeletePoolOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeletePool"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeletePoolInput, DeletePoolOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeletePoolInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeletePoolInput, DeletePoolOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePoolOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeletePoolInput, DeletePoolOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeletePoolInput, DeletePoolOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeletePoolInput, DeletePoolOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeletePool")
@@ -1885,6 +2159,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1903,18 +2179,100 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProtectConfigurationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteProtectConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteProtectConfigurationInput, DeleteProtectConfigurationOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProtectConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteProtectConfigurationInput, DeleteProtectConfigurationOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteProtectConfiguration"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteProtectConfigurationInput, DeleteProtectConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProtectConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProtectConfigurationInput, DeleteProtectConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProtectConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProtectConfigurationInput, DeleteProtectConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteProtectConfigurationInput, DeleteProtectConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteProtectConfigurationInput, DeleteProtectConfigurationOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteProtectConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteProtectConfigurationRuleSetNumberOverride` operation on the `PinpointSMSVoiceV2` service.
+    ///
+    /// Permanently delete the protect configuration rule set number override.
+    ///
+    /// - Parameter DeleteProtectConfigurationRuleSetNumberOverrideInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteProtectConfigurationRuleSetNumberOverrideOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient permissions to access the resource.
+    /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
+    /// - `ResourceNotFoundException` : A requested resource couldn't be found.
+    /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : A validation exception for a field.
+    public func deleteProtectConfigurationRuleSetNumberOverride(input: DeleteProtectConfigurationRuleSetNumberOverrideInput) async throws -> DeleteProtectConfigurationRuleSetNumberOverrideOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteProtectConfigurationRuleSetNumberOverride")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sms-voice")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput>(DeleteProtectConfigurationRuleSetNumberOverrideInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideOutput>(DeleteProtectConfigurationRuleSetNumberOverrideOutput.httpOutput(from:), DeleteProtectConfigurationRuleSetNumberOverrideOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteProtectConfigurationRuleSetNumberOverride"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProtectConfigurationRuleSetNumberOverrideInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteProtectConfigurationRuleSetNumberOverride")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1960,6 +2318,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1978,15 +2338,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRegistrationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteRegistrationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRegistrationInput, DeleteRegistrationOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRegistrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteRegistrationInput, DeleteRegistrationOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteRegistration"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteRegistrationInput, DeleteRegistrationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRegistrationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRegistrationInput, DeleteRegistrationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRegistrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRegistrationInput, DeleteRegistrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRegistrationInput, DeleteRegistrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRegistrationInput, DeleteRegistrationOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteRegistration")
@@ -2035,6 +2398,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2053,15 +2418,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRegistrationAttachmentOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteRegistrationAttachmentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRegistrationAttachmentInput, DeleteRegistrationAttachmentOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRegistrationAttachmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteRegistrationAttachmentInput, DeleteRegistrationAttachmentOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteRegistrationAttachment"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteRegistrationAttachmentInput, DeleteRegistrationAttachmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRegistrationAttachmentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRegistrationAttachmentInput, DeleteRegistrationAttachmentOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRegistrationAttachmentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRegistrationAttachmentInput, DeleteRegistrationAttachmentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRegistrationAttachmentInput, DeleteRegistrationAttachmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRegistrationAttachmentInput, DeleteRegistrationAttachmentOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteRegistrationAttachment")
@@ -2110,6 +2478,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2128,15 +2498,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRegistrationFieldValueOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteRegistrationFieldValueOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRegistrationFieldValueInput, DeleteRegistrationFieldValueOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRegistrationFieldValueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteRegistrationFieldValueInput, DeleteRegistrationFieldValueOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteRegistrationFieldValue"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteRegistrationFieldValueInput, DeleteRegistrationFieldValueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRegistrationFieldValueInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRegistrationFieldValueInput, DeleteRegistrationFieldValueOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRegistrationFieldValueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRegistrationFieldValueInput, DeleteRegistrationFieldValueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRegistrationFieldValueInput, DeleteRegistrationFieldValueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRegistrationFieldValueInput, DeleteRegistrationFieldValueOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteRegistrationFieldValue")
@@ -2184,6 +2557,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2202,15 +2577,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteResourcePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteResourcePolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteResourcePolicy")
@@ -2257,6 +2635,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2275,15 +2655,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTextMessageSpendLimitOverrideOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteTextMessageSpendLimitOverrideOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTextMessageSpendLimitOverrideOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteTextMessageSpendLimitOverride"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTextMessageSpendLimitOverrideInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTextMessageSpendLimitOverrideOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteTextMessageSpendLimitOverrideInput, DeleteTextMessageSpendLimitOverrideOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTextMessageSpendLimitOverride")
@@ -2332,6 +2715,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2350,15 +2735,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVerifiedDestinationNumberOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteVerifiedDestinationNumberOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteVerifiedDestinationNumberInput, DeleteVerifiedDestinationNumberOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteVerifiedDestinationNumberOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteVerifiedDestinationNumberInput, DeleteVerifiedDestinationNumberOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteVerifiedDestinationNumber"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteVerifiedDestinationNumberInput, DeleteVerifiedDestinationNumberOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteVerifiedDestinationNumberInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVerifiedDestinationNumberInput, DeleteVerifiedDestinationNumberOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteVerifiedDestinationNumberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteVerifiedDestinationNumberInput, DeleteVerifiedDestinationNumberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteVerifiedDestinationNumberInput, DeleteVerifiedDestinationNumberOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteVerifiedDestinationNumberInput, DeleteVerifiedDestinationNumberOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteVerifiedDestinationNumber")
@@ -2405,6 +2793,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2423,15 +2813,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVoiceMessageSpendLimitOverrideOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteVoiceMessageSpendLimitOverrideOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteVoiceMessageSpendLimitOverrideOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteVoiceMessageSpendLimitOverride"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteVoiceMessageSpendLimitOverrideInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteVoiceMessageSpendLimitOverrideOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteVoiceMessageSpendLimitOverrideInput, DeleteVoiceMessageSpendLimitOverrideOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteVoiceMessageSpendLimitOverride")
@@ -2478,6 +2871,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2496,15 +2891,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccountAttributesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeAccountAttributesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAccountAttributesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeAccountAttributes"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAccountAttributesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAccountAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAccountAttributes")
@@ -2551,6 +2949,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2569,15 +2969,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccountLimitsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeAccountLimitsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAccountLimitsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeAccountLimits"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAccountLimitsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAccountLimitsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAccountLimits")
@@ -2625,6 +3028,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2643,15 +3048,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConfigurationSetsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeConfigurationSetsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeConfigurationSetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeConfigurationSets"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeConfigurationSetsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConfigurationSetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConfigurationSetsInput, DescribeConfigurationSetsOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeConfigurationSets")
@@ -2699,6 +3107,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2717,15 +3127,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeKeywordsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeKeywordsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeKeywordsInput, DescribeKeywordsOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeKeywordsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeKeywordsInput, DescribeKeywordsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeKeywords"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeKeywordsInput, DescribeKeywordsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeKeywordsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeKeywordsInput, DescribeKeywordsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeKeywordsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeKeywordsInput, DescribeKeywordsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeKeywordsInput, DescribeKeywordsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeKeywordsInput, DescribeKeywordsOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeKeywords")
@@ -2773,6 +3186,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2791,15 +3206,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOptOutListsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeOptOutListsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeOptOutListsInput, DescribeOptOutListsOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeOptOutListsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeOptOutListsInput, DescribeOptOutListsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeOptOutLists"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeOptOutListsInput, DescribeOptOutListsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeOptOutListsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeOptOutListsInput, DescribeOptOutListsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeOptOutListsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeOptOutListsInput, DescribeOptOutListsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeOptOutListsInput, DescribeOptOutListsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeOptOutListsInput, DescribeOptOutListsOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeOptOutLists")
@@ -2847,6 +3265,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2865,15 +3285,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOptedOutNumbersOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeOptedOutNumbersOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeOptedOutNumbersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeOptedOutNumbers"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeOptedOutNumbersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeOptedOutNumbersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeOptedOutNumbersInput, DescribeOptedOutNumbersOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeOptedOutNumbers")
@@ -2921,6 +3344,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2939,15 +3364,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePhoneNumbersOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribePhoneNumbersOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribePhoneNumbersInput, DescribePhoneNumbersOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribePhoneNumbersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribePhoneNumbersInput, DescribePhoneNumbersOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribePhoneNumbers"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribePhoneNumbersInput, DescribePhoneNumbersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePhoneNumbersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePhoneNumbersInput, DescribePhoneNumbersOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePhoneNumbersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribePhoneNumbersInput, DescribePhoneNumbersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribePhoneNumbersInput, DescribePhoneNumbersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribePhoneNumbersInput, DescribePhoneNumbersOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribePhoneNumbers")
@@ -2995,6 +3423,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3013,15 +3443,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePoolsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribePoolsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribePoolsInput, DescribePoolsOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribePoolsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribePoolsInput, DescribePoolsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribePools"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribePoolsInput, DescribePoolsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePoolsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePoolsInput, DescribePoolsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePoolsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribePoolsInput, DescribePoolsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribePoolsInput, DescribePoolsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribePoolsInput, DescribePoolsOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribePools")
@@ -3069,6 +3502,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3087,15 +3522,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeProtectConfigurationsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeProtectConfigurationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeProtectConfigurationsInput, DescribeProtectConfigurationsOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeProtectConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeProtectConfigurationsInput, DescribeProtectConfigurationsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeProtectConfigurations"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeProtectConfigurationsInput, DescribeProtectConfigurationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeProtectConfigurationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProtectConfigurationsInput, DescribeProtectConfigurationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProtectConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeProtectConfigurationsInput, DescribeProtectConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeProtectConfigurationsInput, DescribeProtectConfigurationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeProtectConfigurationsInput, DescribeProtectConfigurationsOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeProtectConfigurations")
@@ -3143,6 +3581,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3161,15 +3601,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRegistrationAttachmentsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeRegistrationAttachmentsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRegistrationAttachmentsInput, DescribeRegistrationAttachmentsOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRegistrationAttachmentsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeRegistrationAttachmentsInput, DescribeRegistrationAttachmentsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeRegistrationAttachments"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeRegistrationAttachmentsInput, DescribeRegistrationAttachmentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRegistrationAttachmentsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRegistrationAttachmentsInput, DescribeRegistrationAttachmentsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRegistrationAttachmentsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRegistrationAttachmentsInput, DescribeRegistrationAttachmentsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeRegistrationAttachmentsInput, DescribeRegistrationAttachmentsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRegistrationAttachmentsInput, DescribeRegistrationAttachmentsOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeRegistrationAttachments")
@@ -3216,6 +3659,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3234,15 +3679,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRegistrationFieldDefinitionsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeRegistrationFieldDefinitionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRegistrationFieldDefinitionsInput, DescribeRegistrationFieldDefinitionsOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRegistrationFieldDefinitionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeRegistrationFieldDefinitionsInput, DescribeRegistrationFieldDefinitionsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeRegistrationFieldDefinitions"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeRegistrationFieldDefinitionsInput, DescribeRegistrationFieldDefinitionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRegistrationFieldDefinitionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRegistrationFieldDefinitionsInput, DescribeRegistrationFieldDefinitionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRegistrationFieldDefinitionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRegistrationFieldDefinitionsInput, DescribeRegistrationFieldDefinitionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeRegistrationFieldDefinitionsInput, DescribeRegistrationFieldDefinitionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRegistrationFieldDefinitionsInput, DescribeRegistrationFieldDefinitionsOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeRegistrationFieldDefinitions")
@@ -3290,6 +3738,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3308,15 +3758,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRegistrationFieldValuesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeRegistrationFieldValuesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRegistrationFieldValuesInput, DescribeRegistrationFieldValuesOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRegistrationFieldValuesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeRegistrationFieldValuesInput, DescribeRegistrationFieldValuesOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeRegistrationFieldValues"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeRegistrationFieldValuesInput, DescribeRegistrationFieldValuesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRegistrationFieldValuesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRegistrationFieldValuesInput, DescribeRegistrationFieldValuesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRegistrationFieldValuesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRegistrationFieldValuesInput, DescribeRegistrationFieldValuesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeRegistrationFieldValuesInput, DescribeRegistrationFieldValuesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRegistrationFieldValuesInput, DescribeRegistrationFieldValuesOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeRegistrationFieldValues")
@@ -3363,6 +3816,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3381,15 +3836,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRegistrationSectionDefinitionsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeRegistrationSectionDefinitionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRegistrationSectionDefinitionsInput, DescribeRegistrationSectionDefinitionsOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRegistrationSectionDefinitionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeRegistrationSectionDefinitionsInput, DescribeRegistrationSectionDefinitionsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeRegistrationSectionDefinitions"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeRegistrationSectionDefinitionsInput, DescribeRegistrationSectionDefinitionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRegistrationSectionDefinitionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRegistrationSectionDefinitionsInput, DescribeRegistrationSectionDefinitionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRegistrationSectionDefinitionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRegistrationSectionDefinitionsInput, DescribeRegistrationSectionDefinitionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeRegistrationSectionDefinitionsInput, DescribeRegistrationSectionDefinitionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRegistrationSectionDefinitionsInput, DescribeRegistrationSectionDefinitionsOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeRegistrationSectionDefinitions")
@@ -3436,6 +3894,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3454,15 +3914,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRegistrationTypeDefinitionsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeRegistrationTypeDefinitionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRegistrationTypeDefinitionsInput, DescribeRegistrationTypeDefinitionsOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRegistrationTypeDefinitionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeRegistrationTypeDefinitionsInput, DescribeRegistrationTypeDefinitionsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeRegistrationTypeDefinitions"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeRegistrationTypeDefinitionsInput, DescribeRegistrationTypeDefinitionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRegistrationTypeDefinitionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRegistrationTypeDefinitionsInput, DescribeRegistrationTypeDefinitionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRegistrationTypeDefinitionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRegistrationTypeDefinitionsInput, DescribeRegistrationTypeDefinitionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeRegistrationTypeDefinitionsInput, DescribeRegistrationTypeDefinitionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRegistrationTypeDefinitionsInput, DescribeRegistrationTypeDefinitionsOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeRegistrationTypeDefinitions")
@@ -3510,6 +3973,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3528,15 +3993,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRegistrationVersionsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeRegistrationVersionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRegistrationVersionsInput, DescribeRegistrationVersionsOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRegistrationVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeRegistrationVersionsInput, DescribeRegistrationVersionsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeRegistrationVersions"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeRegistrationVersionsInput, DescribeRegistrationVersionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRegistrationVersionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRegistrationVersionsInput, DescribeRegistrationVersionsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRegistrationVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRegistrationVersionsInput, DescribeRegistrationVersionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeRegistrationVersionsInput, DescribeRegistrationVersionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRegistrationVersionsInput, DescribeRegistrationVersionsOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeRegistrationVersions")
@@ -3584,6 +4052,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3602,15 +4072,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRegistrationsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeRegistrationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRegistrationsInput, DescribeRegistrationsOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRegistrationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeRegistrationsInput, DescribeRegistrationsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeRegistrations"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeRegistrationsInput, DescribeRegistrationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRegistrationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRegistrationsInput, DescribeRegistrationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRegistrationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRegistrationsInput, DescribeRegistrationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeRegistrationsInput, DescribeRegistrationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRegistrationsInput, DescribeRegistrationsOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeRegistrations")
@@ -3658,6 +4131,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3676,15 +4151,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSenderIdsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeSenderIdsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeSenderIdsInput, DescribeSenderIdsOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSenderIdsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeSenderIdsInput, DescribeSenderIdsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeSenderIds"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeSenderIdsInput, DescribeSenderIdsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSenderIdsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSenderIdsInput, DescribeSenderIdsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSenderIdsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSenderIdsInput, DescribeSenderIdsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeSenderIdsInput, DescribeSenderIdsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeSenderIdsInput, DescribeSenderIdsOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeSenderIds")
@@ -3731,6 +4209,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3749,15 +4229,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSpendLimitsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeSpendLimitsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeSpendLimitsInput, DescribeSpendLimitsOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSpendLimitsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeSpendLimitsInput, DescribeSpendLimitsOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeSpendLimits"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeSpendLimitsInput, DescribeSpendLimitsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSpendLimitsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSpendLimitsInput, DescribeSpendLimitsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSpendLimitsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSpendLimitsInput, DescribeSpendLimitsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeSpendLimitsInput, DescribeSpendLimitsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeSpendLimitsInput, DescribeSpendLimitsOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeSpendLimits")
@@ -3775,7 +4258,7 @@ extension PinpointSMSVoiceV2Client {
 
     /// Performs the `DescribeVerifiedDestinationNumbers` operation on the `PinpointSMSVoiceV2` service.
     ///
-    /// Retrieves the specified verified destiona numbers.
+    /// Retrieves the specified verified destination numbers.
     ///
     /// - Parameter DescribeVerifiedDestinationNumbersInput : [no documentation found]
     ///
@@ -3805,6 +4288,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3823,15 +4308,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVerifiedDestinationNumbersOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeVerifiedDestinationNumbersOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeVerifiedDestinationNumbersInput, DescribeVerifiedDestinationNumbersOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeVerifiedDestinationNumbersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeVerifiedDestinationNumbersInput, DescribeVerifiedDestinationNumbersOutput>(xAmzTarget: "PinpointSMSVoiceV2.DescribeVerifiedDestinationNumbers"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeVerifiedDestinationNumbersInput, DescribeVerifiedDestinationNumbersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeVerifiedDestinationNumbersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeVerifiedDestinationNumbersInput, DescribeVerifiedDestinationNumbersOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeVerifiedDestinationNumbersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeVerifiedDestinationNumbersInput, DescribeVerifiedDestinationNumbersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeVerifiedDestinationNumbersInput, DescribeVerifiedDestinationNumbersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeVerifiedDestinationNumbersInput, DescribeVerifiedDestinationNumbersOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeVerifiedDestinationNumbers")
@@ -3880,6 +4368,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3899,15 +4389,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateOriginationIdentityOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DisassociateOriginationIdentityOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateOriginationIdentityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutput>(xAmzTarget: "PinpointSMSVoiceV2.DisassociateOriginationIdentity"))
         builder.serialize(ClientRuntime.BodyMiddleware<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateOriginationIdentityInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateOriginationIdentityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateOriginationIdentityInput, DisassociateOriginationIdentityOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateOriginationIdentity")
@@ -3956,6 +4449,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3974,15 +4469,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateProtectConfigurationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DisassociateProtectConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateProtectConfigurationInput, DisassociateProtectConfigurationOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateProtectConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateProtectConfigurationInput, DisassociateProtectConfigurationOutput>(xAmzTarget: "PinpointSMSVoiceV2.DisassociateProtectConfiguration"))
         builder.serialize(ClientRuntime.BodyMiddleware<DisassociateProtectConfigurationInput, DisassociateProtectConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateProtectConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateProtectConfigurationInput, DisassociateProtectConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateProtectConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateProtectConfigurationInput, DisassociateProtectConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateProtectConfigurationInput, DisassociateProtectConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateProtectConfigurationInput, DisassociateProtectConfigurationOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateProtectConfiguration")
@@ -4031,6 +4529,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4049,15 +4549,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DiscardRegistrationVersionOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DiscardRegistrationVersionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DiscardRegistrationVersionInput, DiscardRegistrationVersionOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DiscardRegistrationVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DiscardRegistrationVersionInput, DiscardRegistrationVersionOutput>(xAmzTarget: "PinpointSMSVoiceV2.DiscardRegistrationVersion"))
         builder.serialize(ClientRuntime.BodyMiddleware<DiscardRegistrationVersionInput, DiscardRegistrationVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DiscardRegistrationVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DiscardRegistrationVersionInput, DiscardRegistrationVersionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DiscardRegistrationVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DiscardRegistrationVersionInput, DiscardRegistrationVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DiscardRegistrationVersionInput, DiscardRegistrationVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DiscardRegistrationVersionInput, DiscardRegistrationVersionOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DiscardRegistrationVersion")
@@ -4105,6 +4608,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4123,15 +4628,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetProtectConfigurationCountryRuleSetOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetProtectConfigurationCountryRuleSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetProtectConfigurationCountryRuleSetInput, GetProtectConfigurationCountryRuleSetOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetProtectConfigurationCountryRuleSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetProtectConfigurationCountryRuleSetInput, GetProtectConfigurationCountryRuleSetOutput>(xAmzTarget: "PinpointSMSVoiceV2.GetProtectConfigurationCountryRuleSet"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetProtectConfigurationCountryRuleSetInput, GetProtectConfigurationCountryRuleSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetProtectConfigurationCountryRuleSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetProtectConfigurationCountryRuleSetInput, GetProtectConfigurationCountryRuleSetOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetProtectConfigurationCountryRuleSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetProtectConfigurationCountryRuleSetInput, GetProtectConfigurationCountryRuleSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetProtectConfigurationCountryRuleSetInput, GetProtectConfigurationCountryRuleSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetProtectConfigurationCountryRuleSetInput, GetProtectConfigurationCountryRuleSetOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetProtectConfigurationCountryRuleSet")
@@ -4179,6 +4687,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4197,15 +4707,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePolicyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetResourcePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(xAmzTarget: "PinpointSMSVoiceV2.GetResourcePolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetResourcePolicy")
@@ -4253,6 +4766,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4271,15 +4786,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPoolOriginationIdentitiesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListPoolOriginationIdentitiesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPoolOriginationIdentitiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutput>(xAmzTarget: "PinpointSMSVoiceV2.ListPoolOriginationIdentities"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPoolOriginationIdentitiesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPoolOriginationIdentitiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPoolOriginationIdentitiesInput, ListPoolOriginationIdentitiesOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListPoolOriginationIdentities")
@@ -4295,9 +4813,88 @@ extension PinpointSMSVoiceV2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListProtectConfigurationRuleSetNumberOverrides` operation on the `PinpointSMSVoiceV2` service.
+    ///
+    /// Retrieve all of the protect configuration rule set number overrides that match the filters.
+    ///
+    /// - Parameter ListProtectConfigurationRuleSetNumberOverridesInput : [no documentation found]
+    ///
+    /// - Returns: `ListProtectConfigurationRuleSetNumberOverridesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient permissions to access the resource.
+    /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
+    /// - `ResourceNotFoundException` : A requested resource couldn't be found.
+    /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : A validation exception for a field.
+    public func listProtectConfigurationRuleSetNumberOverrides(input: ListProtectConfigurationRuleSetNumberOverridesInput) async throws -> ListProtectConfigurationRuleSetNumberOverridesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listProtectConfigurationRuleSetNumberOverrides")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sms-voice")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput>(ListProtectConfigurationRuleSetNumberOverridesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProtectConfigurationRuleSetNumberOverridesOutput>(ListProtectConfigurationRuleSetNumberOverridesOutput.httpOutput(from:), ListProtectConfigurationRuleSetNumberOverridesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListProtectConfigurationRuleSetNumberOverridesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListProtectConfigurationRuleSetNumberOverridesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput>(xAmzTarget: "PinpointSMSVoiceV2.ListProtectConfigurationRuleSetNumberOverrides"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListProtectConfigurationRuleSetNumberOverridesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProtectConfigurationRuleSetNumberOverridesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListProtectConfigurationRuleSetNumberOverrides")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListRegistrationAssociations` operation on the `PinpointSMSVoiceV2` service.
     ///
-    /// Retreive all of the origination identies that are associated with a registration.
+    /// Retrieve all of the origination identities that are associated with a registration.
     ///
     /// - Parameter ListRegistrationAssociationsInput : [no documentation found]
     ///
@@ -4327,6 +4924,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4345,15 +4944,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRegistrationAssociationsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListRegistrationAssociationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRegistrationAssociationsInput, ListRegistrationAssociationsOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRegistrationAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListRegistrationAssociationsInput, ListRegistrationAssociationsOutput>(xAmzTarget: "PinpointSMSVoiceV2.ListRegistrationAssociations"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListRegistrationAssociationsInput, ListRegistrationAssociationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRegistrationAssociationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRegistrationAssociationsInput, ListRegistrationAssociationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRegistrationAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRegistrationAssociationsInput, ListRegistrationAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRegistrationAssociationsInput, ListRegistrationAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRegistrationAssociationsInput, ListRegistrationAssociationsOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListRegistrationAssociations")
@@ -4401,6 +5003,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4419,15 +5023,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "PinpointSMSVoiceV2.ListTagsForResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForResource")
@@ -4477,6 +5084,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4495,18 +5104,100 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutKeywordOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutKeywordOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutKeywordInput, PutKeywordOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutKeywordOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutKeywordInput, PutKeywordOutput>(xAmzTarget: "PinpointSMSVoiceV2.PutKeyword"))
         builder.serialize(ClientRuntime.BodyMiddleware<PutKeywordInput, PutKeywordOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutKeywordInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutKeywordInput, PutKeywordOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutKeywordOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutKeywordInput, PutKeywordOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutKeywordInput, PutKeywordOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutKeywordInput, PutKeywordOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutKeyword")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutMessageFeedback` operation on the `PinpointSMSVoiceV2` service.
+    ///
+    /// Set the MessageFeedbackStatus as RECEIVED or FAILED for the passed in MessageId. If you use message feedback then you must update message feedback record. When you receive a signal that a user has received the message you must use PutMessageFeedback to set the message feedback record as RECEIVED; Otherwise, an hour after the message feedback record is set to FAILED.
+    ///
+    /// - Parameter PutMessageFeedbackInput : [no documentation found]
+    ///
+    /// - Returns: `PutMessageFeedbackOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient permissions to access the resource.
+    /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
+    /// - `ResourceNotFoundException` : A requested resource couldn't be found.
+    /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : A validation exception for a field.
+    public func putMessageFeedback(input: PutMessageFeedbackInput) async throws -> PutMessageFeedbackOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putMessageFeedback")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sms-voice")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutMessageFeedbackInput, PutMessageFeedbackOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput>(PutMessageFeedbackInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutMessageFeedbackOutput>(PutMessageFeedbackOutput.httpOutput(from:), PutMessageFeedbackOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutMessageFeedbackOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutMessageFeedbackOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput>(xAmzTarget: "PinpointSMSVoiceV2.PutMessageFeedback"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutMessageFeedbackInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutMessageFeedbackOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutMessageFeedback")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4551,6 +5242,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4569,18 +5262,102 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutOptedOutNumberOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutOptedOutNumberOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutOptedOutNumberInput, PutOptedOutNumberOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutOptedOutNumberOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutOptedOutNumberInput, PutOptedOutNumberOutput>(xAmzTarget: "PinpointSMSVoiceV2.PutOptedOutNumber"))
         builder.serialize(ClientRuntime.BodyMiddleware<PutOptedOutNumberInput, PutOptedOutNumberOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutOptedOutNumberInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutOptedOutNumberInput, PutOptedOutNumberOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutOptedOutNumberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutOptedOutNumberInput, PutOptedOutNumberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutOptedOutNumberInput, PutOptedOutNumberOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutOptedOutNumberInput, PutOptedOutNumberOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutOptedOutNumber")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutProtectConfigurationRuleSetNumberOverride` operation on the `PinpointSMSVoiceV2` service.
+    ///
+    /// Create or update a RuleSetNumberOverride and associate it with a protect configuration.
+    ///
+    /// - Parameter PutProtectConfigurationRuleSetNumberOverrideInput : [no documentation found]
+    ///
+    /// - Returns: `PutProtectConfigurationRuleSetNumberOverrideOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient permissions to access the resource.
+    /// - `ConflictException` : Your request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time or it could be that the requested action isn't valid for the current state or configuration of the resource.
+    /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : A validation exception for a field.
+    public func putProtectConfigurationRuleSetNumberOverride(input: PutProtectConfigurationRuleSetNumberOverrideInput) async throws -> PutProtectConfigurationRuleSetNumberOverrideOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putProtectConfigurationRuleSetNumberOverride")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sms-voice")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput>(PutProtectConfigurationRuleSetNumberOverrideInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutProtectConfigurationRuleSetNumberOverrideOutput>(PutProtectConfigurationRuleSetNumberOverrideOutput.httpOutput(from:), PutProtectConfigurationRuleSetNumberOverrideOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutProtectConfigurationRuleSetNumberOverrideOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutProtectConfigurationRuleSetNumberOverrideOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput>(xAmzTarget: "PinpointSMSVoiceV2.PutProtectConfigurationRuleSetNumberOverride"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutProtectConfigurationRuleSetNumberOverrideInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutProtectConfigurationRuleSetNumberOverrideOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutProtectConfigurationRuleSetNumberOverride")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4626,6 +5403,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4644,15 +5423,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRegistrationFieldValueOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutRegistrationFieldValueOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutRegistrationFieldValueInput, PutRegistrationFieldValueOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutRegistrationFieldValueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutRegistrationFieldValueInput, PutRegistrationFieldValueOutput>(xAmzTarget: "PinpointSMSVoiceV2.PutRegistrationFieldValue"))
         builder.serialize(ClientRuntime.BodyMiddleware<PutRegistrationFieldValueInput, PutRegistrationFieldValueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutRegistrationFieldValueInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutRegistrationFieldValueInput, PutRegistrationFieldValueOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutRegistrationFieldValueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutRegistrationFieldValueInput, PutRegistrationFieldValueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutRegistrationFieldValueInput, PutRegistrationFieldValueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutRegistrationFieldValueInput, PutRegistrationFieldValueOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutRegistrationFieldValue")
@@ -4700,6 +5482,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4718,15 +5502,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutResourcePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(xAmzTarget: "PinpointSMSVoiceV2.PutResourcePolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutResourcePolicy")
@@ -4775,6 +5562,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4793,15 +5582,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReleasePhoneNumberOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ReleasePhoneNumberOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ReleasePhoneNumberInput, ReleasePhoneNumberOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ReleasePhoneNumberOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ReleasePhoneNumberInput, ReleasePhoneNumberOutput>(xAmzTarget: "PinpointSMSVoiceV2.ReleasePhoneNumber"))
         builder.serialize(ClientRuntime.BodyMiddleware<ReleasePhoneNumberInput, ReleasePhoneNumberOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ReleasePhoneNumberInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ReleasePhoneNumberInput, ReleasePhoneNumberOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ReleasePhoneNumberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ReleasePhoneNumberInput, ReleasePhoneNumberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ReleasePhoneNumberInput, ReleasePhoneNumberOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ReleasePhoneNumberInput, ReleasePhoneNumberOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ReleasePhoneNumber")
@@ -4850,6 +5642,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4868,15 +5662,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReleaseSenderIdOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ReleaseSenderIdOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ReleaseSenderIdInput, ReleaseSenderIdOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ReleaseSenderIdOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ReleaseSenderIdInput, ReleaseSenderIdOutput>(xAmzTarget: "PinpointSMSVoiceV2.ReleaseSenderId"))
         builder.serialize(ClientRuntime.BodyMiddleware<ReleaseSenderIdInput, ReleaseSenderIdOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ReleaseSenderIdInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ReleaseSenderIdInput, ReleaseSenderIdOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ReleaseSenderIdOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ReleaseSenderIdInput, ReleaseSenderIdOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ReleaseSenderIdInput, ReleaseSenderIdOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ReleaseSenderIdInput, ReleaseSenderIdOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ReleaseSenderId")
@@ -4926,6 +5723,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4945,15 +5744,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RequestPhoneNumberOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<RequestPhoneNumberOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RequestPhoneNumberInput, RequestPhoneNumberOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RequestPhoneNumberOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RequestPhoneNumberInput, RequestPhoneNumberOutput>(xAmzTarget: "PinpointSMSVoiceV2.RequestPhoneNumber"))
         builder.serialize(ClientRuntime.BodyMiddleware<RequestPhoneNumberInput, RequestPhoneNumberOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RequestPhoneNumberInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RequestPhoneNumberInput, RequestPhoneNumberOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RequestPhoneNumberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RequestPhoneNumberInput, RequestPhoneNumberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RequestPhoneNumberInput, RequestPhoneNumberOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RequestPhoneNumberInput, RequestPhoneNumberOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RequestPhoneNumber")
@@ -5002,6 +5804,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -5021,15 +5825,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RequestSenderIdOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<RequestSenderIdOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RequestSenderIdInput, RequestSenderIdOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RequestSenderIdOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RequestSenderIdInput, RequestSenderIdOutput>(xAmzTarget: "PinpointSMSVoiceV2.RequestSenderId"))
         builder.serialize(ClientRuntime.BodyMiddleware<RequestSenderIdInput, RequestSenderIdOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RequestSenderIdInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RequestSenderIdInput, RequestSenderIdOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RequestSenderIdOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RequestSenderIdInput, RequestSenderIdOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RequestSenderIdInput, RequestSenderIdOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RequestSenderIdInput, RequestSenderIdOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RequestSenderId")
@@ -5079,6 +5886,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -5097,15 +5906,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendDestinationNumberVerificationCodeOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SendDestinationNumberVerificationCodeOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendDestinationNumberVerificationCodeInput, SendDestinationNumberVerificationCodeOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendDestinationNumberVerificationCodeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SendDestinationNumberVerificationCodeInput, SendDestinationNumberVerificationCodeOutput>(xAmzTarget: "PinpointSMSVoiceV2.SendDestinationNumberVerificationCode"))
         builder.serialize(ClientRuntime.BodyMiddleware<SendDestinationNumberVerificationCodeInput, SendDestinationNumberVerificationCodeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendDestinationNumberVerificationCodeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendDestinationNumberVerificationCodeInput, SendDestinationNumberVerificationCodeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendDestinationNumberVerificationCodeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendDestinationNumberVerificationCodeInput, SendDestinationNumberVerificationCodeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendDestinationNumberVerificationCodeInput, SendDestinationNumberVerificationCodeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendDestinationNumberVerificationCodeInput, SendDestinationNumberVerificationCodeOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SendDestinationNumberVerificationCode")
@@ -5155,6 +5967,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -5173,15 +5987,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendMediaMessageOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SendMediaMessageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendMediaMessageInput, SendMediaMessageOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendMediaMessageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SendMediaMessageInput, SendMediaMessageOutput>(xAmzTarget: "PinpointSMSVoiceV2.SendMediaMessage"))
         builder.serialize(ClientRuntime.BodyMiddleware<SendMediaMessageInput, SendMediaMessageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendMediaMessageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendMediaMessageInput, SendMediaMessageOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendMediaMessageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendMediaMessageInput, SendMediaMessageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendMediaMessageInput, SendMediaMessageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendMediaMessageInput, SendMediaMessageOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SendMediaMessage")
@@ -5231,6 +6048,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -5249,15 +6068,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendTextMessageOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SendTextMessageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendTextMessageInput, SendTextMessageOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendTextMessageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SendTextMessageInput, SendTextMessageOutput>(xAmzTarget: "PinpointSMSVoiceV2.SendTextMessage"))
         builder.serialize(ClientRuntime.BodyMiddleware<SendTextMessageInput, SendTextMessageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendTextMessageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendTextMessageInput, SendTextMessageOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendTextMessageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendTextMessageInput, SendTextMessageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendTextMessageInput, SendTextMessageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendTextMessageInput, SendTextMessageOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SendTextMessage")
@@ -5307,6 +6129,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -5325,15 +6149,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendVoiceMessageOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SendVoiceMessageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendVoiceMessageInput, SendVoiceMessageOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendVoiceMessageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SendVoiceMessageInput, SendVoiceMessageOutput>(xAmzTarget: "PinpointSMSVoiceV2.SendVoiceMessage"))
         builder.serialize(ClientRuntime.BodyMiddleware<SendVoiceMessageInput, SendVoiceMessageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendVoiceMessageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendVoiceMessageInput, SendVoiceMessageOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendVoiceMessageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendVoiceMessageInput, SendVoiceMessageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendVoiceMessageInput, SendVoiceMessageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendVoiceMessageInput, SendVoiceMessageOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SendVoiceMessage")
@@ -5381,6 +6208,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -5399,18 +6228,100 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetAccountDefaultProtectConfigurationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SetAccountDefaultProtectConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SetAccountDefaultProtectConfigurationInput, SetAccountDefaultProtectConfigurationOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetAccountDefaultProtectConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SetAccountDefaultProtectConfigurationInput, SetAccountDefaultProtectConfigurationOutput>(xAmzTarget: "PinpointSMSVoiceV2.SetAccountDefaultProtectConfiguration"))
         builder.serialize(ClientRuntime.BodyMiddleware<SetAccountDefaultProtectConfigurationInput, SetAccountDefaultProtectConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetAccountDefaultProtectConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetAccountDefaultProtectConfigurationInput, SetAccountDefaultProtectConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetAccountDefaultProtectConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetAccountDefaultProtectConfigurationInput, SetAccountDefaultProtectConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SetAccountDefaultProtectConfigurationInput, SetAccountDefaultProtectConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SetAccountDefaultProtectConfigurationInput, SetAccountDefaultProtectConfigurationOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SetAccountDefaultProtectConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `SetDefaultMessageFeedbackEnabled` operation on the `PinpointSMSVoiceV2` service.
+    ///
+    /// Sets a configuration set's default for message feedback.
+    ///
+    /// - Parameter SetDefaultMessageFeedbackEnabledInput : [no documentation found]
+    ///
+    /// - Returns: `SetDefaultMessageFeedbackEnabledOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient permissions to access the resource.
+    /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
+    /// - `ResourceNotFoundException` : A requested resource couldn't be found.
+    /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : A validation exception for a field.
+    public func setDefaultMessageFeedbackEnabled(input: SetDefaultMessageFeedbackEnabledInput) async throws -> SetDefaultMessageFeedbackEnabledOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "setDefaultMessageFeedbackEnabled")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sms-voice")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput>(SetDefaultMessageFeedbackEnabledInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SetDefaultMessageFeedbackEnabledOutput>(SetDefaultMessageFeedbackEnabledOutput.httpOutput(from:), SetDefaultMessageFeedbackEnabledOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<SetDefaultMessageFeedbackEnabledOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetDefaultMessageFeedbackEnabledOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput>(xAmzTarget: "PinpointSMSVoiceV2.SetDefaultMessageFeedbackEnabled"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetDefaultMessageFeedbackEnabledInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetDefaultMessageFeedbackEnabledOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SetDefaultMessageFeedbackEnabled")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -5455,6 +6366,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -5473,15 +6386,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetDefaultMessageTypeOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SetDefaultMessageTypeOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetDefaultMessageTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutput>(xAmzTarget: "PinpointSMSVoiceV2.SetDefaultMessageType"))
         builder.serialize(ClientRuntime.BodyMiddleware<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetDefaultMessageTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetDefaultMessageTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SetDefaultMessageTypeInput, SetDefaultMessageTypeOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SetDefaultMessageType")
@@ -5529,6 +6445,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -5547,15 +6465,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetDefaultSenderIdOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SetDefaultSenderIdOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SetDefaultSenderIdInput, SetDefaultSenderIdOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetDefaultSenderIdOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SetDefaultSenderIdInput, SetDefaultSenderIdOutput>(xAmzTarget: "PinpointSMSVoiceV2.SetDefaultSenderId"))
         builder.serialize(ClientRuntime.BodyMiddleware<SetDefaultSenderIdInput, SetDefaultSenderIdOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetDefaultSenderIdInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetDefaultSenderIdInput, SetDefaultSenderIdOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetDefaultSenderIdOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetDefaultSenderIdInput, SetDefaultSenderIdOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SetDefaultSenderIdInput, SetDefaultSenderIdOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SetDefaultSenderIdInput, SetDefaultSenderIdOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SetDefaultSenderId")
@@ -5602,6 +6523,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -5620,15 +6543,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetMediaMessageSpendLimitOverrideOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SetMediaMessageSpendLimitOverrideOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SetMediaMessageSpendLimitOverrideInput, SetMediaMessageSpendLimitOverrideOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetMediaMessageSpendLimitOverrideOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SetMediaMessageSpendLimitOverrideInput, SetMediaMessageSpendLimitOverrideOutput>(xAmzTarget: "PinpointSMSVoiceV2.SetMediaMessageSpendLimitOverride"))
         builder.serialize(ClientRuntime.BodyMiddleware<SetMediaMessageSpendLimitOverrideInput, SetMediaMessageSpendLimitOverrideOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetMediaMessageSpendLimitOverrideInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetMediaMessageSpendLimitOverrideInput, SetMediaMessageSpendLimitOverrideOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetMediaMessageSpendLimitOverrideOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetMediaMessageSpendLimitOverrideInput, SetMediaMessageSpendLimitOverrideOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SetMediaMessageSpendLimitOverrideInput, SetMediaMessageSpendLimitOverrideOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SetMediaMessageSpendLimitOverrideInput, SetMediaMessageSpendLimitOverrideOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SetMediaMessageSpendLimitOverride")
@@ -5675,6 +6601,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -5693,15 +6621,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetTextMessageSpendLimitOverrideOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SetTextMessageSpendLimitOverrideOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetTextMessageSpendLimitOverrideOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutput>(xAmzTarget: "PinpointSMSVoiceV2.SetTextMessageSpendLimitOverride"))
         builder.serialize(ClientRuntime.BodyMiddleware<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetTextMessageSpendLimitOverrideInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetTextMessageSpendLimitOverrideOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SetTextMessageSpendLimitOverrideInput, SetTextMessageSpendLimitOverrideOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SetTextMessageSpendLimitOverride")
@@ -5748,6 +6679,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -5766,15 +6699,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetVoiceMessageSpendLimitOverrideOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SetVoiceMessageSpendLimitOverrideOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetVoiceMessageSpendLimitOverrideOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutput>(xAmzTarget: "PinpointSMSVoiceV2.SetVoiceMessageSpendLimitOverride"))
         builder.serialize(ClientRuntime.BodyMiddleware<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetVoiceMessageSpendLimitOverrideInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetVoiceMessageSpendLimitOverrideOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SetVoiceMessageSpendLimitOverrideInput, SetVoiceMessageSpendLimitOverrideOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SetVoiceMessageSpendLimitOverride")
@@ -5823,6 +6759,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -5841,15 +6779,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SubmitRegistrationVersionOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SubmitRegistrationVersionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SubmitRegistrationVersionInput, SubmitRegistrationVersionOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SubmitRegistrationVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SubmitRegistrationVersionInput, SubmitRegistrationVersionOutput>(xAmzTarget: "PinpointSMSVoiceV2.SubmitRegistrationVersion"))
         builder.serialize(ClientRuntime.BodyMiddleware<SubmitRegistrationVersionInput, SubmitRegistrationVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SubmitRegistrationVersionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SubmitRegistrationVersionInput, SubmitRegistrationVersionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SubmitRegistrationVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SubmitRegistrationVersionInput, SubmitRegistrationVersionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SubmitRegistrationVersionInput, SubmitRegistrationVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SubmitRegistrationVersionInput, SubmitRegistrationVersionOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SubmitRegistrationVersion")
@@ -5898,6 +6839,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -5916,15 +6859,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<TagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "PinpointSMSVoiceV2.TagResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TagResource")
@@ -5972,6 +6918,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -5990,15 +6938,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "PinpointSMSVoiceV2.UntagResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
@@ -6047,6 +6998,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -6065,15 +7018,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEventDestinationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateEventDestinationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateEventDestinationInput, UpdateEventDestinationOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateEventDestinationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateEventDestinationInput, UpdateEventDestinationOutput>(xAmzTarget: "PinpointSMSVoiceV2.UpdateEventDestination"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateEventDestinationInput, UpdateEventDestinationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateEventDestinationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateEventDestinationInput, UpdateEventDestinationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateEventDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateEventDestinationInput, UpdateEventDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateEventDestinationInput, UpdateEventDestinationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateEventDestinationInput, UpdateEventDestinationOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateEventDestination")
@@ -6122,6 +7078,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -6140,15 +7098,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePhoneNumberOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdatePhoneNumberOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdatePhoneNumberOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput>(xAmzTarget: "PinpointSMSVoiceV2.UpdatePhoneNumber"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePhoneNumberInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePhoneNumberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdatePhoneNumber")
@@ -6197,6 +7158,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -6215,15 +7178,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePoolOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdatePoolOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdatePoolInput, UpdatePoolOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdatePoolOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdatePoolInput, UpdatePoolOutput>(xAmzTarget: "PinpointSMSVoiceV2.UpdatePool"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdatePoolInput, UpdatePoolOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePoolInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePoolInput, UpdatePoolOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePoolOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdatePoolInput, UpdatePoolOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdatePoolInput, UpdatePoolOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdatePoolInput, UpdatePoolOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdatePool")
@@ -6271,6 +7237,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -6289,15 +7257,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProtectConfigurationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateProtectConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateProtectConfigurationInput, UpdateProtectConfigurationOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProtectConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateProtectConfigurationInput, UpdateProtectConfigurationOutput>(xAmzTarget: "PinpointSMSVoiceV2.UpdateProtectConfiguration"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateProtectConfigurationInput, UpdateProtectConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateProtectConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProtectConfigurationInput, UpdateProtectConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProtectConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProtectConfigurationInput, UpdateProtectConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateProtectConfigurationInput, UpdateProtectConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateProtectConfigurationInput, UpdateProtectConfigurationOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateProtectConfiguration")
@@ -6345,6 +7316,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -6363,15 +7336,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProtectConfigurationCountryRuleSetOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateProtectConfigurationCountryRuleSetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateProtectConfigurationCountryRuleSetInput, UpdateProtectConfigurationCountryRuleSetOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProtectConfigurationCountryRuleSetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateProtectConfigurationCountryRuleSetInput, UpdateProtectConfigurationCountryRuleSetOutput>(xAmzTarget: "PinpointSMSVoiceV2.UpdateProtectConfigurationCountryRuleSet"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateProtectConfigurationCountryRuleSetInput, UpdateProtectConfigurationCountryRuleSetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateProtectConfigurationCountryRuleSetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProtectConfigurationCountryRuleSetInput, UpdateProtectConfigurationCountryRuleSetOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProtectConfigurationCountryRuleSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProtectConfigurationCountryRuleSetInput, UpdateProtectConfigurationCountryRuleSetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateProtectConfigurationCountryRuleSetInput, UpdateProtectConfigurationCountryRuleSetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateProtectConfigurationCountryRuleSetInput, UpdateProtectConfigurationCountryRuleSetOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateProtectConfigurationCountryRuleSet")
@@ -6419,6 +7395,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -6437,15 +7415,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSenderIdOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateSenderIdOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateSenderIdInput, UpdateSenderIdOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSenderIdOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateSenderIdInput, UpdateSenderIdOutput>(xAmzTarget: "PinpointSMSVoiceV2.UpdateSenderId"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateSenderIdInput, UpdateSenderIdOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSenderIdInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSenderIdInput, UpdateSenderIdOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSenderIdOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSenderIdInput, UpdateSenderIdOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateSenderIdInput, UpdateSenderIdOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateSenderIdInput, UpdateSenderIdOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateSenderId")
@@ -6494,6 +7475,8 @@ extension PinpointSMSVoiceV2Client {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sms-voice")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -6512,15 +7495,18 @@ extension PinpointSMSVoiceV2Client {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<VerifyDestinationNumberOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<VerifyDestinationNumberOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<VerifyDestinationNumberInput, VerifyDestinationNumberOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<VerifyDestinationNumberOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<VerifyDestinationNumberInput, VerifyDestinationNumberOutput>(xAmzTarget: "PinpointSMSVoiceV2.VerifyDestinationNumber"))
         builder.serialize(ClientRuntime.BodyMiddleware<VerifyDestinationNumberInput, VerifyDestinationNumberOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: VerifyDestinationNumberInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<VerifyDestinationNumberInput, VerifyDestinationNumberOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<VerifyDestinationNumberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<VerifyDestinationNumberInput, VerifyDestinationNumberOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<VerifyDestinationNumberInput, VerifyDestinationNumberOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<VerifyDestinationNumberInput, VerifyDestinationNumberOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "VerifyDestinationNumber")

@@ -34,15 +34,20 @@ public struct AddTagsOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteDirectQueryDataSourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct RemoveTagsOutput: Swift.Sendable {
 
     public init() { }
 }
 
 /// An error occured because the client wanted to access an unsupported operation.
-public struct DisabledOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DisabledOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -58,16 +63,15 @@ public struct DisabledOperationException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An exception for trying to create more than the allowed number of resources or sub-resources.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -83,16 +87,15 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An exception for accessing or deleting a resource that doesn't exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -108,8 +111,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -122,8 +124,7 @@ public struct AcceptInboundConnectionInput: Swift.Sendable {
 
     public init(
         connectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
     }
 }
@@ -237,8 +238,7 @@ extension OpenSearchClientTypes {
         public init(
             message: Swift.String? = nil,
             statusCode: OpenSearchClientTypes.InboundConnectionStatusCode? = nil
-        )
-        {
+        ) {
             self.message = message
             self.statusCode = statusCode
         }
@@ -261,8 +261,7 @@ extension OpenSearchClientTypes {
             domainName: Swift.String? = nil,
             ownerId: Swift.String? = nil,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.domainName = domainName
             self.ownerId = ownerId
             self.region = region
@@ -279,8 +278,7 @@ extension OpenSearchClientTypes {
 
         public init(
             awsDomainInformation: OpenSearchClientTypes.AWSDomainInformation? = nil
-        )
-        {
+        ) {
             self.awsDomainInformation = awsDomainInformation
         }
     }
@@ -307,8 +305,7 @@ extension OpenSearchClientTypes {
             connectionStatus: OpenSearchClientTypes.InboundConnectionStatus? = nil,
             localDomainInfo: OpenSearchClientTypes.DomainInformationContainer? = nil,
             remoteDomainInfo: OpenSearchClientTypes.DomainInformationContainer? = nil
-        )
-        {
+        ) {
             self.connectionId = connectionId
             self.connectionMode = connectionMode
             self.connectionStatus = connectionStatus
@@ -325,16 +322,15 @@ public struct AcceptInboundConnectionOutput: Swift.Sendable {
 
     public init(
         connection: OpenSearchClientTypes.InboundConnection? = nil
-    )
-    {
+    ) {
         self.connection = connection
     }
 }
 
 /// An error occurred because you don't have permissions to access the resource.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -350,8 +346,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -417,8 +412,7 @@ extension OpenSearchClientTypes {
             state: OpenSearchClientTypes.OptionState? = nil,
             updateDate: Foundation.Date? = nil,
             updateVersion: Swift.Int = 0
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.pendingDeletion = pendingDeletion
             self.state = state
@@ -442,8 +436,7 @@ extension OpenSearchClientTypes {
         public init(
             options: Swift.String? = nil,
             status: OpenSearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -556,9 +549,9 @@ extension OpenSearchClientTypes {
 }
 
 /// An error occurred while processing the request.
-public struct BaseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BaseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -574,16 +567,15 @@ public struct BaseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An exception for when a failure in one of the dependencies results in the service being unable to fetch details about the resource.
-public struct DependencyFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DependencyFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -599,16 +591,15 @@ public struct DependencyFailureException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Request processing failed because of an unknown error, exception, or internal failure.
-public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -624,16 +615,15 @@ public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An exception for accessing or deleting a resource that doesn't exist.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -649,8 +639,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -664,8 +653,7 @@ extension OpenSearchClientTypes {
 
         public init(
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.roleArn = roleArn
         }
     }
@@ -700,8 +688,7 @@ public struct AddDataSourceInput: Swift.Sendable {
         description: Swift.String? = nil,
         domainName: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSourceType = dataSourceType
         self.description = description
         self.domainName = domainName
@@ -716,31 +703,52 @@ public struct AddDataSourceOutput: Swift.Sendable {
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
     }
 }
 
 extension OpenSearchClientTypes {
 
-    /// List of limits that are specific to a given instance type.
-    public struct AdditionalLimit: Swift.Sendable {
-        /// * MaximumNumberOfDataNodesSupported - This attribute only applies to master nodes and specifies the maximum number of data nodes of a given instance type a master node can support.
-        ///
-        /// * MaximumNumberOfDataNodesWithoutMasterNode - This attribute only applies to data nodes and specifies the maximum number of data nodes of a given instance type can exist without a master node governing them.
-        public var limitName: Swift.String?
-        /// The values of the additional instance type limits.
-        public var limitValues: [Swift.String]?
+    /// Configuration details for a CloudWatch Logs data source that can be used for direct queries.
+    public struct CloudWatchDirectQueryDataSource: Swift.Sendable {
+        /// The unique identifier of the IAM role that grants OpenSearch Service permission to access the specified data source.
+        /// This member is required.
+        public var roleArn: Swift.String?
 
         public init(
-            limitName: Swift.String? = nil,
-            limitValues: [Swift.String]? = nil
-        )
-        {
-            self.limitName = limitName
-            self.limitValues = limitValues
+            roleArn: Swift.String? = nil
+        ) {
+            self.roleArn = roleArn
         }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Configuration details for a Security Lake data source that can be used for direct queries.
+    public struct SecurityLakeDirectQueryDataSource: Swift.Sendable {
+        /// The unique identifier of the IAM role that grants OpenSearch Service permission to access the specified data source.
+        /// This member is required.
+        public var roleArn: Swift.String?
+
+        public init(
+            roleArn: Swift.String? = nil
+        ) {
+            self.roleArn = roleArn
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The type of data source that is used for direct queries. This is a supported Amazon Web Services service, such as CloudWatch Logs or Security Lake.
+    public enum DirectQueryDataSourceType: Swift.Sendable {
+        /// Specifies CloudWatch Logs as a type of data source for direct queries.
+        case cloudwatchlog(OpenSearchClientTypes.CloudWatchDirectQueryDataSource)
+        /// Specifies Security Lake as a type of data source for direct queries.
+        case securitylake(OpenSearchClientTypes.SecurityLakeDirectQueryDataSource)
+        case sdkUnknown(Swift.String)
     }
 }
 
@@ -758,17 +766,78 @@ extension OpenSearchClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
     }
 }
 
-/// Container for the parameters to the AddTags operation. Specifies the tags to attach to the domain.
+public struct AddDirectQueryDataSourceInput: Swift.Sendable {
+    /// A unique, user-defined label to identify the data source within your OpenSearch Service environment.
+    /// This member is required.
+    public var dataSourceName: Swift.String?
+    /// The supported Amazon Web Services service that you want to use as the source for direct queries in OpenSearch Service.
+    /// This member is required.
+    public var dataSourceType: OpenSearchClientTypes.DirectQueryDataSourceType?
+    /// An optional text field for providing additional context and details about the data source.
+    public var description: Swift.String?
+    /// A list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source.
+    /// This member is required.
+    public var openSearchArns: [Swift.String]?
+    /// A list of tags attached to a domain.
+    public var tagList: [OpenSearchClientTypes.Tag]?
+
+    public init(
+        dataSourceName: Swift.String? = nil,
+        dataSourceType: OpenSearchClientTypes.DirectQueryDataSourceType? = nil,
+        description: Swift.String? = nil,
+        openSearchArns: [Swift.String]? = nil,
+        tagList: [OpenSearchClientTypes.Tag]? = nil
+    ) {
+        self.dataSourceName = dataSourceName
+        self.dataSourceType = dataSourceType
+        self.description = description
+        self.openSearchArns = openSearchArns
+        self.tagList = tagList
+    }
+}
+
+public struct AddDirectQueryDataSourceOutput: Swift.Sendable {
+    /// The unique, system-generated identifier that represents the data source.
+    public var dataSourceArn: Swift.String?
+
+    public init(
+        dataSourceArn: Swift.String? = nil
+    ) {
+        self.dataSourceArn = dataSourceArn
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// List of limits that are specific to a given instance type.
+    public struct AdditionalLimit: Swift.Sendable {
+        /// * MaximumNumberOfDataNodesSupported - This attribute only applies to master nodes and specifies the maximum number of data nodes of a given instance type a master node can support.
+        ///
+        /// * MaximumNumberOfDataNodesWithoutMasterNode - This attribute only applies to data nodes and specifies the maximum number of data nodes of a given instance type can exist without a master node governing them.
+        public var limitName: Swift.String?
+        /// The values of the additional instance type limits.
+        public var limitValues: [Swift.String]?
+
+        public init(
+            limitName: Swift.String? = nil,
+            limitValues: [Swift.String]? = nil
+        ) {
+            self.limitName = limitName
+            self.limitValues = limitValues
+        }
+    }
+}
+
+/// Container for the parameters to the AddTags operation. Specifies the tags to attach to the domain, data source, or application.
 public struct AddTagsInput: Swift.Sendable {
-    /// Amazon Resource Name (ARN) for the OpenSearch Service domain to which you want to attach resource tags.
+    /// Amazon Resource Name (ARN) for the OpenSearch Service domain, data source, or application to which you want to attach resource tags.
     /// This member is required.
     public var arn: Swift.String?
     /// List of resource tags.
@@ -778,8 +847,7 @@ public struct AddTagsInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         tagList: [OpenSearchClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.tagList = tagList
     }
@@ -810,8 +878,7 @@ extension OpenSearchClientTypes {
         public init(
             options: [Swift.String: Swift.String]? = nil,
             status: OpenSearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -836,8 +903,7 @@ extension OpenSearchClientTypes {
             publicKey: Swift.String? = nil,
             rolesKey: Swift.String? = nil,
             subjectKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.publicKey = publicKey
             self.rolesKey = rolesKey
@@ -860,8 +926,7 @@ extension OpenSearchClientTypes {
         public init(
             entityId: Swift.String? = nil,
             metadataContent: Swift.String? = nil
-        )
-        {
+        ) {
             self.entityId = entityId
             self.metadataContent = metadataContent
         }
@@ -889,8 +954,7 @@ extension OpenSearchClientTypes {
             rolesKey: Swift.String? = nil,
             sessionTimeoutMinutes: Swift.Int? = nil,
             subjectKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.idp = idp
             self.rolesKey = rolesKey
@@ -924,8 +988,7 @@ extension OpenSearchClientTypes {
             internalUserDatabaseEnabled: Swift.Bool? = nil,
             jwtOptions: OpenSearchClientTypes.JWTOptionsOutput? = nil,
             samlOptions: OpenSearchClientTypes.SAMLOptionsOutput? = nil
-        )
-        {
+        ) {
             self.anonymousAuthDisableDate = anonymousAuthDisableDate
             self.anonymousAuthEnabled = anonymousAuthEnabled
             self.enabled = enabled
@@ -954,8 +1017,7 @@ extension OpenSearchClientTypes {
             publicKey: Swift.String? = nil,
             rolesKey: Swift.String? = nil,
             subjectKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.publicKey = publicKey
             self.rolesKey = rolesKey
@@ -979,8 +1041,7 @@ extension OpenSearchClientTypes {
             masterUserARN: Swift.String? = nil,
             masterUserName: Swift.String? = nil,
             masterUserPassword: Swift.String? = nil
-        )
-        {
+        ) {
             self.masterUserARN = masterUserARN
             self.masterUserName = masterUserName
             self.masterUserPassword = masterUserPassword
@@ -1020,8 +1081,7 @@ extension OpenSearchClientTypes {
             rolesKey: Swift.String? = nil,
             sessionTimeoutMinutes: Swift.Int? = nil,
             subjectKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.idp = idp
             self.masterBackendRole = masterBackendRole
@@ -1062,8 +1122,7 @@ extension OpenSearchClientTypes {
             jwtOptions: OpenSearchClientTypes.JWTOptionsInput? = nil,
             masterUserOptions: OpenSearchClientTypes.MasterUserOptions? = nil,
             samlOptions: OpenSearchClientTypes.SAMLOptionsInput? = nil
-        )
-        {
+        ) {
             self.anonymousAuthEnabled = anonymousAuthEnabled
             self.enabled = enabled
             self.internalUserDatabaseEnabled = internalUserDatabaseEnabled
@@ -1088,8 +1147,7 @@ extension OpenSearchClientTypes {
         public init(
             options: OpenSearchClientTypes.AdvancedSecurityOptions? = nil,
             status: OpenSearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -1134,8 +1192,7 @@ extension OpenSearchClientTypes {
 
         public init(
             desiredState: OpenSearchClientTypes.NaturalLanguageQueryGenerationDesiredState? = nil
-        )
-        {
+        ) {
             self.desiredState = desiredState
         }
     }
@@ -1150,8 +1207,7 @@ extension OpenSearchClientTypes {
 
         public init(
             naturalLanguageQueryGenerationOptions: OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsInput? = nil
-        )
-        {
+        ) {
             self.naturalLanguageQueryGenerationOptions = naturalLanguageQueryGenerationOptions
         }
     }
@@ -1213,8 +1269,7 @@ extension OpenSearchClientTypes {
         public init(
             currentState: OpenSearchClientTypes.NaturalLanguageQueryGenerationCurrentState? = nil,
             desiredState: OpenSearchClientTypes.NaturalLanguageQueryGenerationDesiredState? = nil
-        )
-        {
+        ) {
             self.currentState = currentState
             self.desiredState = desiredState
         }
@@ -1230,8 +1285,7 @@ extension OpenSearchClientTypes {
 
         public init(
             naturalLanguageQueryGenerationOptions: OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsOutput? = nil
-        )
-        {
+        ) {
             self.naturalLanguageQueryGenerationOptions = naturalLanguageQueryGenerationOptions
         }
     }
@@ -1249,8 +1303,7 @@ extension OpenSearchClientTypes {
         public init(
             options: OpenSearchClientTypes.AIMLOptionsOutput? = nil,
             status: OpenSearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -1258,9 +1311,9 @@ extension OpenSearchClientTypes {
 }
 
 /// An error occurred because the client attempts to remove a resource that is currently in use.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1276,8 +1329,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1295,8 +1347,7 @@ extension OpenSearchClientTypes {
         public init(
             keyAccessRoleArn: Swift.String? = nil,
             keyStoreAccessEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.keyAccessRoleArn = keyAccessRoleArn
             self.keyStoreAccessEnabled = keyStoreAccessEnabled
         }
@@ -1312,8 +1363,7 @@ extension OpenSearchClientTypes {
 
         public init(
             keyStoreAccessOption: OpenSearchClientTypes.KeyStoreAccessOption? = nil
-        )
-        {
+        ) {
             self.keyStoreAccessOption = keyStoreAccessOption
         }
     }
@@ -1337,8 +1387,7 @@ public struct AssociatePackageInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         packageID: Swift.String? = nil,
         prerequisitePackageIDList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.associationConfiguration = associationConfiguration
         self.domainName = domainName
         self.packageID = packageID
@@ -1396,8 +1445,7 @@ extension OpenSearchClientTypes {
         public init(
             errorMessage: Swift.String? = nil,
             errorType: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorMessage = errorMessage
             self.errorType = errorType
         }
@@ -1478,8 +1526,7 @@ extension OpenSearchClientTypes {
             packageVersion: Swift.String? = nil,
             prerequisitePackageIDList: [Swift.String]? = nil,
             referencePath: Swift.String? = nil
-        )
-        {
+        ) {
             self.associationConfiguration = associationConfiguration
             self.domainName = domainName
             self.domainPackageStatus = domainPackageStatus
@@ -1502,8 +1549,7 @@ public struct AssociatePackageOutput: Swift.Sendable {
 
     public init(
         domainPackageDetails: OpenSearchClientTypes.DomainPackageDetails? = nil
-    )
-    {
+    ) {
         self.domainPackageDetails = domainPackageDetails
     }
 }
@@ -1524,8 +1570,7 @@ extension OpenSearchClientTypes {
             associationConfiguration: OpenSearchClientTypes.PackageAssociationConfiguration? = nil,
             packageID: Swift.String? = nil,
             prerequisitePackageIDList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.associationConfiguration = associationConfiguration
             self.packageID = packageID
             self.prerequisitePackageIDList = prerequisitePackageIDList
@@ -1544,8 +1589,7 @@ public struct AssociatePackagesInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         packageList: [OpenSearchClientTypes.PackageDetailsForAssociation]? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.packageList = packageList
     }
@@ -1557,8 +1601,7 @@ public struct AssociatePackagesOutput: Swift.Sendable {
 
     public init(
         domainPackageDetailsList: [OpenSearchClientTypes.DomainPackageDetails]? = nil
-    )
-    {
+    ) {
         self.domainPackageDetailsList = domainPackageDetailsList
     }
 }
@@ -1602,8 +1645,7 @@ public struct AuthorizeVpcEndpointAccessInput: Swift.Sendable {
         account: Swift.String? = nil,
         domainName: Swift.String? = nil,
         service: OpenSearchClientTypes.AWSServicePrincipal? = nil
-    )
-    {
+    ) {
         self.account = account
         self.domainName = domainName
         self.service = service
@@ -1651,8 +1693,7 @@ extension OpenSearchClientTypes {
         public init(
             principal: Swift.String? = nil,
             principalType: OpenSearchClientTypes.PrincipalType? = nil
-        )
-        {
+        ) {
             self.principal = principal
             self.principalType = principalType
         }
@@ -1666,8 +1707,7 @@ public struct AuthorizeVpcEndpointAccessOutput: Swift.Sendable {
 
     public init(
         authorizedPrincipal: OpenSearchClientTypes.AuthorizedPrincipal? = nil
-    )
-    {
+    ) {
         self.authorizedPrincipal = authorizedPrincipal
     }
 }
@@ -1682,8 +1722,7 @@ public struct CancelDomainConfigChangeInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         dryRun: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.dryRun = dryRun
     }
@@ -1704,8 +1743,7 @@ extension OpenSearchClientTypes {
             activeValue: Swift.String? = nil,
             cancelledValue: Swift.String? = nil,
             propertyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.activeValue = activeValue
             self.cancelledValue = cancelledValue
             self.propertyName = propertyName
@@ -1725,8 +1763,7 @@ public struct CancelDomainConfigChangeOutput: Swift.Sendable {
         cancelledChangeIds: [Swift.String]? = nil,
         cancelledChangeProperties: [OpenSearchClientTypes.CancelledChangeProperty]? = nil,
         dryRun: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.cancelledChangeIds = cancelledChangeIds
         self.cancelledChangeProperties = cancelledChangeProperties
         self.dryRun = dryRun
@@ -1741,8 +1778,7 @@ public struct CancelServiceSoftwareUpdateInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -1815,8 +1851,7 @@ extension OpenSearchClientTypes {
             optionalDeployment: Swift.Bool? = nil,
             updateAvailable: Swift.Bool? = nil,
             updateStatus: OpenSearchClientTypes.DeploymentStatus? = nil
-        )
-        {
+        ) {
             self.automatedUpdateDate = automatedUpdateDate
             self.cancellable = cancellable
             self.currentVersion = currentVersion
@@ -1836,8 +1871,7 @@ public struct CancelServiceSoftwareUpdateOutput: Swift.Sendable {
 
     public init(
         serviceSoftwareOptions: OpenSearchClientTypes.ServiceSoftwareOptions? = nil
-    )
-    {
+    ) {
         self.serviceSoftwareOptions = serviceSoftwareOptions
     }
 }
@@ -1883,8 +1917,7 @@ extension OpenSearchClientTypes {
         public init(
             key: OpenSearchClientTypes.AppConfigType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1903,8 +1936,7 @@ extension OpenSearchClientTypes {
         public init(
             dataSourceArn: Swift.String? = nil,
             dataSourceDescription: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataSourceArn = dataSourceArn
             self.dataSourceDescription = dataSourceDescription
         }
@@ -1926,8 +1958,7 @@ extension OpenSearchClientTypes {
             enabled: Swift.Bool? = nil,
             iamIdentityCenterInstanceArn: Swift.String? = nil,
             iamRoleForIdentityCenterApplicationArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.iamIdentityCenterInstanceArn = iamIdentityCenterInstanceArn
             self.iamRoleForIdentityCenterApplicationArn = iamRoleForIdentityCenterApplicationArn
@@ -1957,8 +1988,7 @@ public struct CreateApplicationInput: Swift.Sendable {
         iamIdentityCenterOptions: OpenSearchClientTypes.IamIdentityCenterOptionsInput? = nil,
         name: Swift.String? = nil,
         tagList: [OpenSearchClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.appConfigs = appConfigs
         self.clientToken = clientToken
         self.dataSources = dataSources
@@ -1986,8 +2016,7 @@ extension OpenSearchClientTypes {
             iamIdentityCenterApplicationArn: Swift.String? = nil,
             iamIdentityCenterInstanceArn: Swift.String? = nil,
             iamRoleForIdentityCenterApplicationArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.iamIdentityCenterApplicationArn = iamIdentityCenterApplicationArn
             self.iamIdentityCenterInstanceArn = iamIdentityCenterInstanceArn
@@ -2023,8 +2052,7 @@ public struct CreateApplicationOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         tagList: [OpenSearchClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.appConfigs = appConfigs
         self.arn = arn
         self.createdAt = createdAt
@@ -2037,9 +2065,9 @@ public struct CreateApplicationOutput: Swift.Sendable {
 }
 
 /// An exception for trying to create or access a sub-resource that's either invalid or not supported.
-public struct InvalidTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2055,16 +2083,15 @@ public struct InvalidTypeException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An exception for creating a resource that already exists.
-public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2080,8 +2107,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2155,8 +2181,7 @@ extension OpenSearchClientTypes {
         public init(
             unit: OpenSearchClientTypes.TimeUnit? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.unit = unit
             self.value = value
         }
@@ -2178,8 +2203,7 @@ extension OpenSearchClientTypes {
             cronExpressionForRecurrence: Swift.String? = nil,
             duration: OpenSearchClientTypes.Duration? = nil,
             startAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.cronExpressionForRecurrence = cronExpressionForRecurrence
             self.duration = duration
             self.startAt = startAt
@@ -2202,8 +2226,7 @@ extension OpenSearchClientTypes {
             desiredState: OpenSearchClientTypes.AutoTuneDesiredState? = nil,
             maintenanceSchedules: [OpenSearchClientTypes.AutoTuneMaintenanceSchedule]? = nil,
             useOffPeakWindow: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.desiredState = desiredState
             self.maintenanceSchedules = maintenanceSchedules
             self.useOffPeakWindow = useOffPeakWindow
@@ -2221,8 +2244,7 @@ extension OpenSearchClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -2575,8 +2597,7 @@ extension OpenSearchClientTypes {
             count: Swift.Int? = nil,
             enabled: Swift.Bool? = nil,
             type: OpenSearchClientTypes.OpenSearchPartitionInstanceType? = nil
-        )
-        {
+        ) {
             self.count = count
             self.enabled = enabled
             self.type = type
@@ -2622,8 +2643,7 @@ extension OpenSearchClientTypes {
         public init(
             nodeConfig: OpenSearchClientTypes.NodeConfig? = nil,
             nodeType: OpenSearchClientTypes.NodeOptionsNodeType? = nil
-        )
-        {
+        ) {
             self.nodeConfig = nodeConfig
             self.nodeType = nodeType
         }
@@ -2671,8 +2691,7 @@ extension OpenSearchClientTypes {
 
         public init(
             availabilityZoneCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.availabilityZoneCount = availabilityZoneCount
         }
     }
@@ -2723,8 +2742,7 @@ extension OpenSearchClientTypes {
             warmType: OpenSearchClientTypes.OpenSearchWarmPartitionInstanceType? = nil,
             zoneAwarenessConfig: OpenSearchClientTypes.ZoneAwarenessConfig? = nil,
             zoneAwarenessEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.coldStorageOptions = coldStorageOptions
             self.dedicatedMasterCount = dedicatedMasterCount
             self.dedicatedMasterEnabled = dedicatedMasterEnabled
@@ -2760,8 +2778,7 @@ extension OpenSearchClientTypes {
             identityPoolId: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             userPoolId: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.identityPoolId = identityPoolId
             self.roleArn = roleArn
@@ -2829,8 +2846,7 @@ extension OpenSearchClientTypes {
             customEndpointEnabled: Swift.Bool? = nil,
             enforceHTTPS: Swift.Bool? = nil,
             tlsSecurityPolicy: OpenSearchClientTypes.TLSSecurityPolicy? = nil
-        )
-        {
+        ) {
             self.customEndpoint = customEndpoint
             self.customEndpointCertificateArn = customEndpointCertificateArn
             self.customEndpointEnabled = customEndpointEnabled
@@ -2897,8 +2913,7 @@ extension OpenSearchClientTypes {
             throughput: Swift.Int? = nil,
             volumeSize: Swift.Int? = nil,
             volumeType: OpenSearchClientTypes.VolumeType? = nil
-        )
-        {
+        ) {
             self.ebsEnabled = ebsEnabled
             self.iops = iops
             self.throughput = throughput
@@ -2920,8 +2935,7 @@ extension OpenSearchClientTypes {
         public init(
             enabled: Swift.Bool? = nil,
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.kmsKeyId = kmsKeyId
         }
@@ -3007,8 +3021,7 @@ extension OpenSearchClientTypes {
             identityCenterInstanceARN: Swift.String? = nil,
             rolesKey: OpenSearchClientTypes.RolesKeyIdCOption? = nil,
             subjectKey: OpenSearchClientTypes.SubjectKeyIdCOption? = nil
-        )
-        {
+        ) {
             self.enabledAPIAccess = enabledAPIAccess
             self.identityCenterInstanceARN = identityCenterInstanceARN
             self.rolesKey = rolesKey
@@ -3102,8 +3115,7 @@ extension OpenSearchClientTypes {
         public init(
             cloudWatchLogsLogGroupArn: Swift.String? = nil,
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.enabled = enabled
         }
@@ -3119,8 +3131,7 @@ extension OpenSearchClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -3140,8 +3151,7 @@ extension OpenSearchClientTypes {
         public init(
             hours: Swift.Int = 0,
             minutes: Swift.Int = 0
-        )
-        {
+        ) {
             self.hours = hours
             self.minutes = minutes
         }
@@ -3157,8 +3167,7 @@ extension OpenSearchClientTypes {
 
         public init(
             windowStartTime: OpenSearchClientTypes.WindowStartTime? = nil
-        )
-        {
+        ) {
             self.windowStartTime = windowStartTime
         }
     }
@@ -3176,8 +3185,7 @@ extension OpenSearchClientTypes {
         public init(
             enabled: Swift.Bool? = nil,
             offPeakWindow: OpenSearchClientTypes.OffPeakWindow? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.offPeakWindow = offPeakWindow
         }
@@ -3193,8 +3201,7 @@ extension OpenSearchClientTypes {
 
         public init(
             automatedSnapshotStartHour: Swift.Int? = nil
-        )
-        {
+        ) {
             self.automatedSnapshotStartHour = automatedSnapshotStartHour
         }
     }
@@ -3209,8 +3216,7 @@ extension OpenSearchClientTypes {
 
         public init(
             autoSoftwareUpdateEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.autoSoftwareUpdateEnabled = autoSoftwareUpdateEnabled
         }
     }
@@ -3228,8 +3234,7 @@ extension OpenSearchClientTypes {
         public init(
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
@@ -3314,8 +3319,7 @@ public struct CreateDomainInput: Swift.Sendable {
         softwareUpdateOptions: OpenSearchClientTypes.SoftwareUpdateOptions? = nil,
         tagList: [OpenSearchClientTypes.Tag]? = nil,
         vpcOptions: OpenSearchClientTypes.VPCOptions? = nil
-    )
-    {
+    ) {
         self.accessPolicies = accessPolicies
         self.advancedOptions = advancedOptions
         self.advancedSecurityOptions = advancedSecurityOptions
@@ -3406,8 +3410,7 @@ extension OpenSearchClientTypes {
             errorMessage: Swift.String? = nil,
             state: OpenSearchClientTypes.AutoTuneState? = nil,
             useOffPeakWindow: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.errorMessage = errorMessage
             self.state = state
             self.useOffPeakWindow = useOffPeakWindow
@@ -3515,8 +3518,7 @@ extension OpenSearchClientTypes {
             lastUpdatedTime: Foundation.Date? = nil,
             message: Swift.String? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.changeId = changeId
             self.configChangeStatus = configChangeStatus
             self.initiatedBy = initiatedBy
@@ -3595,8 +3597,7 @@ extension OpenSearchClientTypes {
             identityStoreId: Swift.String? = nil,
             rolesKey: OpenSearchClientTypes.RolesKeyIdCOption? = nil,
             subjectKey: OpenSearchClientTypes.SubjectKeyIdCOption? = nil
-        )
-        {
+        ) {
             self.enabledAPIAccess = enabledAPIAccess
             self.identityCenterApplicationARN = identityCenterApplicationARN
             self.identityCenterInstanceARN = identityCenterInstanceARN
@@ -3658,8 +3659,7 @@ extension OpenSearchClientTypes {
             name: Swift.String? = nil,
             pendingValue: Swift.String? = nil,
             valueType: OpenSearchClientTypes.PropertyValueType? = nil
-        )
-        {
+        ) {
             self.activeValue = activeValue
             self.name = name
             self.pendingValue = pendingValue
@@ -3686,8 +3686,7 @@ extension OpenSearchClientTypes {
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZones = availabilityZones
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -3812,8 +3811,7 @@ extension OpenSearchClientTypes {
             softwareUpdateOptions: OpenSearchClientTypes.SoftwareUpdateOptions? = nil,
             upgradeProcessing: Swift.Bool? = nil,
             vpcOptions: OpenSearchClientTypes.VPCDerivedInfo? = nil
-        )
-        {
+        ) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -3859,8 +3857,7 @@ public struct CreateDomainOutput: Swift.Sendable {
 
     public init(
         domainStatus: OpenSearchClientTypes.DomainStatus? = nil
-    )
-    {
+    ) {
         self.domainStatus = domainStatus
     }
 }
@@ -3908,8 +3905,7 @@ extension OpenSearchClientTypes {
 
         public init(
             skipUnavailable: OpenSearchClientTypes.SkipUnavailableStatus? = nil
-        )
-        {
+        ) {
             self.skipUnavailable = skipUnavailable
         }
     }
@@ -3927,8 +3923,7 @@ extension OpenSearchClientTypes {
         public init(
             crossClusterSearch: OpenSearchClientTypes.CrossClusterSearchConnectionProperties? = nil,
             endpoint: Swift.String? = nil
-        )
-        {
+        ) {
             self.crossClusterSearch = crossClusterSearch
             self.endpoint = endpoint
         }
@@ -3957,8 +3952,7 @@ public struct CreateOutboundConnectionInput: Swift.Sendable {
         connectionProperties: OpenSearchClientTypes.ConnectionProperties? = nil,
         localDomainInfo: OpenSearchClientTypes.DomainInformationContainer? = nil,
         remoteDomainInfo: OpenSearchClientTypes.DomainInformationContainer? = nil
-    )
-    {
+    ) {
         self.connectionAlias = connectionAlias
         self.connectionMode = connectionMode
         self.connectionProperties = connectionProperties
@@ -4052,8 +4046,7 @@ extension OpenSearchClientTypes {
         public init(
             message: Swift.String? = nil,
             statusCode: OpenSearchClientTypes.OutboundConnectionStatusCode? = nil
-        )
-        {
+        ) {
             self.message = message
             self.statusCode = statusCode
         }
@@ -4085,8 +4078,7 @@ public struct CreateOutboundConnectionOutput: Swift.Sendable {
         connectionStatus: OpenSearchClientTypes.OutboundConnectionStatus? = nil,
         localDomainInfo: OpenSearchClientTypes.DomainInformationContainer? = nil,
         remoteDomainInfo: OpenSearchClientTypes.DomainInformationContainer? = nil
-    )
-    {
+    ) {
         self.connectionAlias = connectionAlias
         self.connectionId = connectionId
         self.connectionMode = connectionMode
@@ -4149,8 +4141,7 @@ extension OpenSearchClientTypes {
             licenseFilepath: Swift.String? = nil,
             licenseRequirement: OpenSearchClientTypes.RequirementLevel? = nil,
             requiresRestartForConfigurationUpdate: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.configurationRequirement = configurationRequirement
             self.licenseFilepath = licenseFilepath
             self.licenseRequirement = licenseRequirement
@@ -4172,8 +4163,7 @@ extension OpenSearchClientTypes {
         public init(
             encryptionEnabled: Swift.Bool? = nil,
             kmsKeyIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.encryptionEnabled = encryptionEnabled
             self.kmsKeyIdentifier = kmsKeyIdentifier
         }
@@ -4192,8 +4182,7 @@ extension OpenSearchClientTypes {
         public init(
             s3BucketName: Swift.String? = nil,
             s3Key: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3BucketName = s3BucketName
             self.s3Key = s3Key
         }
@@ -4210,8 +4199,7 @@ extension OpenSearchClientTypes {
 
         public init(
             vendingEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.vendingEnabled = vendingEnabled
         }
     }
@@ -4248,8 +4236,7 @@ public struct CreatePackageInput: Swift.Sendable {
         packageSource: OpenSearchClientTypes.PackageSource? = nil,
         packageType: OpenSearchClientTypes.PackageType? = nil,
         packageVendingOptions: OpenSearchClientTypes.PackageVendingOptions? = nil
-    )
-    {
+    ) {
         self.engineVersion = engineVersion
         self.packageConfiguration = packageConfiguration
         self.packageDescription = packageDescription
@@ -4282,8 +4269,7 @@ extension OpenSearchClientTypes {
             name: Swift.String? = nil,
             uncompressedSizeInBytes: Swift.Int? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.className = className
             self.description = description
             self.name = name
@@ -4394,8 +4380,7 @@ extension OpenSearchClientTypes {
             packageStatus: OpenSearchClientTypes.PackageStatus? = nil,
             packageType: OpenSearchClientTypes.PackageType? = nil,
             packageVendingOptions: OpenSearchClientTypes.PackageVendingOptions? = nil
-        )
-        {
+        ) {
             self.allowListedUserList = allowListedUserList
             self.availablePackageConfiguration = availablePackageConfiguration
             self.availablePackageVersion = availablePackageVersion
@@ -4423,8 +4408,7 @@ public struct CreatePackageOutput: Swift.Sendable {
 
     public init(
         packageDetails: OpenSearchClientTypes.PackageDetails? = nil
-    )
-    {
+    ) {
         self.packageDetails = packageDetails
     }
 }
@@ -4443,8 +4427,7 @@ public struct CreateVpcEndpointInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         domainArn: Swift.String? = nil,
         vpcOptions: OpenSearchClientTypes.VPCOptions? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.domainArn = domainArn
         self.vpcOptions = vpcOptions
@@ -4519,8 +4502,7 @@ extension OpenSearchClientTypes {
             vpcEndpointId: Swift.String? = nil,
             vpcEndpointOwner: Swift.String? = nil,
             vpcOptions: OpenSearchClientTypes.VPCDerivedInfo? = nil
-        )
-        {
+        ) {
             self.domainArn = domainArn
             self.endpoint = endpoint
             self.status = status
@@ -4538,8 +4520,7 @@ public struct CreateVpcEndpointOutput: Swift.Sendable {
 
     public init(
         vpcEndpoint: OpenSearchClientTypes.VpcEndpoint? = nil
-    )
-    {
+    ) {
         self.vpcEndpoint = vpcEndpoint
     }
 }
@@ -4551,8 +4532,7 @@ public struct DeleteApplicationInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -4574,8 +4554,7 @@ public struct DeleteDataSourceInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.name = name
     }
@@ -4588,9 +4567,20 @@ public struct DeleteDataSourceOutput: Swift.Sendable {
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
+    }
+}
+
+public struct DeleteDirectQueryDataSourceInput: Swift.Sendable {
+    /// A unique, user-defined label to identify the data source within your OpenSearch Service environment.
+    /// This member is required.
+    public var dataSourceName: Swift.String?
+
+    public init(
+        dataSourceName: Swift.String? = nil
+    ) {
+        self.dataSourceName = dataSourceName
     }
 }
 
@@ -4602,8 +4592,7 @@ public struct DeleteDomainInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -4615,8 +4604,7 @@ public struct DeleteDomainOutput: Swift.Sendable {
 
     public init(
         domainStatus: OpenSearchClientTypes.DomainStatus? = nil
-    )
-    {
+    ) {
         self.domainStatus = domainStatus
     }
 }
@@ -4629,8 +4617,7 @@ public struct DeleteInboundConnectionInput: Swift.Sendable {
 
     public init(
         connectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
     }
 }
@@ -4642,8 +4629,7 @@ public struct DeleteInboundConnectionOutput: Swift.Sendable {
 
     public init(
         connection: OpenSearchClientTypes.InboundConnection? = nil
-    )
-    {
+    ) {
         self.connection = connection
     }
 }
@@ -4656,8 +4642,7 @@ public struct DeleteOutboundConnectionInput: Swift.Sendable {
 
     public init(
         connectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
     }
 }
@@ -4689,8 +4674,7 @@ extension OpenSearchClientTypes {
             connectionStatus: OpenSearchClientTypes.OutboundConnectionStatus? = nil,
             localDomainInfo: OpenSearchClientTypes.DomainInformationContainer? = nil,
             remoteDomainInfo: OpenSearchClientTypes.DomainInformationContainer? = nil
-        )
-        {
+        ) {
             self.connectionAlias = connectionAlias
             self.connectionId = connectionId
             self.connectionMode = connectionMode
@@ -4709,8 +4693,7 @@ public struct DeleteOutboundConnectionOutput: Swift.Sendable {
 
     public init(
         connection: OpenSearchClientTypes.OutboundConnection? = nil
-    )
-    {
+    ) {
         self.connection = connection
     }
 }
@@ -4723,8 +4706,7 @@ public struct DeletePackageInput: Swift.Sendable {
 
     public init(
         packageID: Swift.String? = nil
-    )
-    {
+    ) {
         self.packageID = packageID
     }
 }
@@ -4736,8 +4718,7 @@ public struct DeletePackageOutput: Swift.Sendable {
 
     public init(
         packageDetails: OpenSearchClientTypes.PackageDetails? = nil
-    )
-    {
+    ) {
         self.packageDetails = packageDetails
     }
 }
@@ -4749,8 +4730,7 @@ public struct DeleteVpcEndpointInput: Swift.Sendable {
 
     public init(
         vpcEndpointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.vpcEndpointId = vpcEndpointId
     }
 }
@@ -4773,8 +4753,7 @@ extension OpenSearchClientTypes {
             status: OpenSearchClientTypes.VpcEndpointStatus? = nil,
             vpcEndpointId: Swift.String? = nil,
             vpcEndpointOwner: Swift.String? = nil
-        )
-        {
+        ) {
             self.domainArn = domainArn
             self.status = status
             self.vpcEndpointId = vpcEndpointId
@@ -4790,8 +4769,7 @@ public struct DeleteVpcEndpointOutput: Swift.Sendable {
 
     public init(
         vpcEndpointSummary: OpenSearchClientTypes.VpcEndpointSummary? = nil
-    )
-    {
+    ) {
         self.vpcEndpointSummary = vpcEndpointSummary
     }
 }
@@ -4804,8 +4782,7 @@ public struct DescribeDomainInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -4818,8 +4795,7 @@ public struct DescribeDomainOutput: Swift.Sendable {
 
     public init(
         domainStatus: OpenSearchClientTypes.DomainStatus? = nil
-    )
-    {
+    ) {
         self.domainStatus = domainStatus
     }
 }
@@ -4838,8 +4814,7 @@ public struct DescribeDomainAutoTunesInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4927,8 +4902,7 @@ extension OpenSearchClientTypes {
             actionType: OpenSearchClientTypes.ScheduledAutoTuneActionType? = nil,
             date: Foundation.Date? = nil,
             severity: OpenSearchClientTypes.ScheduledAutoTuneSeverityType? = nil
-        )
-        {
+        ) {
             self.action = action
             self.actionType = actionType
             self.date = date
@@ -4946,8 +4920,7 @@ extension OpenSearchClientTypes {
 
         public init(
             scheduledAutoTuneDetails: OpenSearchClientTypes.ScheduledAutoTuneDetails? = nil
-        )
-        {
+        ) {
             self.scheduledAutoTuneDetails = scheduledAutoTuneDetails
         }
     }
@@ -4992,8 +4965,7 @@ extension OpenSearchClientTypes {
         public init(
             autoTuneDetails: OpenSearchClientTypes.AutoTuneDetails? = nil,
             autoTuneType: OpenSearchClientTypes.AutoTuneType? = nil
-        )
-        {
+        ) {
             self.autoTuneDetails = autoTuneDetails
             self.autoTuneType = autoTuneType
         }
@@ -5010,8 +4982,7 @@ public struct DescribeDomainAutoTunesOutput: Swift.Sendable {
     public init(
         autoTunes: [OpenSearchClientTypes.AutoTune]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoTunes = autoTunes
         self.nextToken = nextToken
     }
@@ -5028,8 +4999,7 @@ public struct DescribeDomainChangeProgressInput: Swift.Sendable {
     public init(
         changeId: Swift.String? = nil,
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeId = changeId
         self.domainName = domainName
     }
@@ -5053,8 +5023,7 @@ extension OpenSearchClientTypes {
             lastUpdated: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.lastUpdated = lastUpdated
             self.name = name
@@ -5135,8 +5104,7 @@ extension OpenSearchClientTypes {
             startTime: Foundation.Date? = nil,
             status: OpenSearchClientTypes.OverallChangeStatus? = nil,
             totalNumberOfStages: Swift.Int = 0
-        )
-        {
+        ) {
             self.changeId = changeId
             self.changeProgressStages = changeProgressStages
             self.completedProperties = completedProperties
@@ -5158,8 +5126,7 @@ public struct DescribeDomainChangeProgressOutput: Swift.Sendable {
 
     public init(
         changeProgressStatus: OpenSearchClientTypes.ChangeProgressStatusDetails? = nil
-    )
-    {
+    ) {
         self.changeProgressStatus = changeProgressStatus
     }
 }
@@ -5172,8 +5139,7 @@ public struct DescribeDomainConfigInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -5226,8 +5192,7 @@ extension OpenSearchClientTypes {
             maintenanceSchedules: [OpenSearchClientTypes.AutoTuneMaintenanceSchedule]? = nil,
             rollbackOnDisable: OpenSearchClientTypes.RollbackOnDisable? = nil,
             useOffPeakWindow: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.desiredState = desiredState
             self.maintenanceSchedules = maintenanceSchedules
             self.rollbackOnDisable = rollbackOnDisable
@@ -5263,8 +5228,7 @@ extension OpenSearchClientTypes {
             state: OpenSearchClientTypes.AutoTuneState? = nil,
             updateDate: Foundation.Date? = nil,
             updateVersion: Swift.Int = 0
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.errorMessage = errorMessage
             self.pendingDeletion = pendingDeletion
@@ -5287,8 +5251,7 @@ extension OpenSearchClientTypes {
         public init(
             options: OpenSearchClientTypes.AutoTuneOptions? = nil,
             status: OpenSearchClientTypes.AutoTuneStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -5309,8 +5272,7 @@ extension OpenSearchClientTypes {
         public init(
             options: OpenSearchClientTypes.ClusterConfig? = nil,
             status: OpenSearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -5331,8 +5293,7 @@ extension OpenSearchClientTypes {
         public init(
             options: OpenSearchClientTypes.CognitoOptions? = nil,
             status: OpenSearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -5353,8 +5314,7 @@ extension OpenSearchClientTypes {
         public init(
             options: OpenSearchClientTypes.DomainEndpointOptions? = nil,
             status: OpenSearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -5375,8 +5335,7 @@ extension OpenSearchClientTypes {
         public init(
             options: OpenSearchClientTypes.EBSOptions? = nil,
             status: OpenSearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -5397,8 +5356,7 @@ extension OpenSearchClientTypes {
         public init(
             options: OpenSearchClientTypes.EncryptionAtRestOptions? = nil,
             status: OpenSearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -5419,8 +5377,7 @@ extension OpenSearchClientTypes {
         public init(
             options: Swift.String? = nil,
             status: OpenSearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -5441,8 +5398,7 @@ extension OpenSearchClientTypes {
         public init(
             options: OpenSearchClientTypes.IdentityCenterOptions? = nil,
             status: OpenSearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -5463,8 +5419,7 @@ extension OpenSearchClientTypes {
         public init(
             options: OpenSearchClientTypes.IPAddressType? = nil,
             status: OpenSearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -5483,8 +5438,7 @@ extension OpenSearchClientTypes {
         public init(
             options: [Swift.String: OpenSearchClientTypes.LogPublishingOption]? = nil,
             status: OpenSearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -5505,8 +5459,7 @@ extension OpenSearchClientTypes {
         public init(
             options: OpenSearchClientTypes.NodeToNodeEncryptionOptions? = nil,
             status: OpenSearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -5525,8 +5478,7 @@ extension OpenSearchClientTypes {
         public init(
             options: OpenSearchClientTypes.OffPeakWindowOptions? = nil,
             status: OpenSearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -5547,8 +5499,7 @@ extension OpenSearchClientTypes {
         public init(
             options: OpenSearchClientTypes.SnapshotOptions? = nil,
             status: OpenSearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -5567,8 +5518,7 @@ extension OpenSearchClientTypes {
         public init(
             options: OpenSearchClientTypes.SoftwareUpdateOptions? = nil,
             status: OpenSearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -5589,8 +5539,7 @@ extension OpenSearchClientTypes {
         public init(
             options: OpenSearchClientTypes.VPCDerivedInfo? = nil,
             status: OpenSearchClientTypes.OptionStatus? = nil
-        )
-        {
+        ) {
             self.options = options
             self.status = status
         }
@@ -5666,8 +5615,7 @@ extension OpenSearchClientTypes {
             snapshotOptions: OpenSearchClientTypes.SnapshotOptionsStatus? = nil,
             softwareUpdateOptions: OpenSearchClientTypes.SoftwareUpdateOptionsStatus? = nil,
             vpcOptions: OpenSearchClientTypes.VPCDerivedInfoStatus? = nil
-        )
-        {
+        ) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -5701,8 +5649,7 @@ public struct DescribeDomainConfigOutput: Swift.Sendable {
 
     public init(
         domainConfig: OpenSearchClientTypes.DomainConfig? = nil
-    )
-    {
+    ) {
         self.domainConfig = domainConfig
     }
 }
@@ -5715,8 +5662,7 @@ public struct DescribeDomainHealthInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -5850,8 +5796,7 @@ extension OpenSearchClientTypes {
             totalShards: Swift.String? = nil,
             totalUnAssignedShards: Swift.String? = nil,
             zoneStatus: OpenSearchClientTypes.ZoneStatus? = nil
-        )
-        {
+        ) {
             self.availabilityZoneName = availabilityZoneName
             self.availableDataNodeCount = availableDataNodeCount
             self.configuredDataNodeCount = configuredDataNodeCount
@@ -5871,8 +5816,7 @@ extension OpenSearchClientTypes {
 
         public init(
             availabilityZoneInformation: [OpenSearchClientTypes.AvailabilityZoneInfo]? = nil
-        )
-        {
+        ) {
             self.availabilityZoneInformation = availabilityZoneInformation
         }
     }
@@ -5966,8 +5910,7 @@ public struct DescribeDomainHealthOutput: Swift.Sendable {
         totalShards: Swift.String? = nil,
         totalUnAssignedShards: Swift.String? = nil,
         warmNodeCount: Swift.String? = nil
-    )
-    {
+    ) {
         self.activeAvailabilityZoneCount = activeAvailabilityZoneCount
         self.availabilityZoneCount = availabilityZoneCount
         self.clusterHealth = clusterHealth
@@ -5992,8 +5935,7 @@ public struct DescribeDomainNodesInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -6092,8 +6034,7 @@ extension OpenSearchClientTypes {
             storageSize: Swift.String? = nil,
             storageType: Swift.String? = nil,
             storageVolumeType: OpenSearchClientTypes.VolumeType? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.instanceType = instanceType
             self.nodeId = nodeId
@@ -6113,8 +6054,7 @@ public struct DescribeDomainNodesOutput: Swift.Sendable {
 
     public init(
         domainNodesStatusList: [OpenSearchClientTypes.DomainNodesStatus]? = nil
-    )
-    {
+    ) {
         self.domainNodesStatusList = domainNodesStatusList
     }
 }
@@ -6127,8 +6067,7 @@ public struct DescribeDomainsInput: Swift.Sendable {
 
     public init(
         domainNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.domainNames = domainNames
     }
 }
@@ -6141,8 +6080,7 @@ public struct DescribeDomainsOutput: Swift.Sendable {
 
     public init(
         domainStatusList: [OpenSearchClientTypes.DomainStatus]? = nil
-    )
-    {
+    ) {
         self.domainStatusList = domainStatusList
     }
 }
@@ -6160,8 +6098,7 @@ public struct DescribeDryRunProgressInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         dryRunId: Swift.String? = nil,
         loadDryRunConfig: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.dryRunId = dryRunId
         self.loadDryRunConfig = loadDryRunConfig
@@ -6180,8 +6117,7 @@ extension OpenSearchClientTypes {
         public init(
             code: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -6213,8 +6149,7 @@ extension OpenSearchClientTypes {
             dryRunStatus: Swift.String? = nil,
             updateDate: Swift.String? = nil,
             validationFailures: [OpenSearchClientTypes.ValidationFailure]? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.dryRunId = dryRunId
             self.dryRunStatus = dryRunStatus
@@ -6244,8 +6179,7 @@ extension OpenSearchClientTypes {
         public init(
             deploymentType: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.deploymentType = deploymentType
             self.message = message
         }
@@ -6264,8 +6198,7 @@ public struct DescribeDryRunProgressOutput: Swift.Sendable {
         dryRunConfig: OpenSearchClientTypes.DomainStatus? = nil,
         dryRunProgressStatus: OpenSearchClientTypes.DryRunProgressStatus? = nil,
         dryRunResults: OpenSearchClientTypes.DryRunResults? = nil
-    )
-    {
+    ) {
         self.dryRunConfig = dryRunConfig
         self.dryRunProgressStatus = dryRunProgressStatus
         self.dryRunResults = dryRunResults
@@ -6273,9 +6206,9 @@ public struct DescribeDryRunProgressOutput: Swift.Sendable {
 }
 
 /// Request processing failed because you provided an invalid pagination token.
-public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6291,8 +6224,7 @@ public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6309,8 +6241,7 @@ extension OpenSearchClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -6330,8 +6261,7 @@ public struct DescribeInboundConnectionsInput: Swift.Sendable {
         filters: [OpenSearchClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6348,8 +6278,7 @@ public struct DescribeInboundConnectionsOutput: Swift.Sendable {
     public init(
         connections: [OpenSearchClientTypes.InboundConnection]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connections = connections
         self.nextToken = nextToken
     }
@@ -6370,8 +6299,7 @@ public struct DescribeInstanceTypeLimitsInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         instanceType: OpenSearchClientTypes.OpenSearchPartitionInstanceType? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.engineVersion = engineVersion
         self.instanceType = instanceType
@@ -6390,8 +6318,7 @@ extension OpenSearchClientTypes {
         public init(
             maximumInstanceCount: Swift.Int = 0,
             minimumInstanceCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.maximumInstanceCount = maximumInstanceCount
             self.minimumInstanceCount = minimumInstanceCount
         }
@@ -6407,8 +6334,7 @@ extension OpenSearchClientTypes {
 
         public init(
             instanceCountLimits: OpenSearchClientTypes.InstanceCountLimits? = nil
-        )
-        {
+        ) {
             self.instanceCountLimits = instanceCountLimits
         }
     }
@@ -6438,8 +6364,7 @@ extension OpenSearchClientTypes {
         public init(
             limitName: Swift.String? = nil,
             limitValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.limitName = limitName
             self.limitValues = limitValues
         }
@@ -6461,8 +6386,7 @@ extension OpenSearchClientTypes {
             storageSubTypeName: Swift.String? = nil,
             storageTypeLimits: [OpenSearchClientTypes.StorageTypeLimit]? = nil,
             storageTypeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.storageSubTypeName = storageSubTypeName
             self.storageTypeLimits = storageTypeLimits
             self.storageTypeName = storageTypeName
@@ -6485,8 +6409,7 @@ extension OpenSearchClientTypes {
             additionalLimits: [OpenSearchClientTypes.AdditionalLimit]? = nil,
             instanceLimits: OpenSearchClientTypes.InstanceLimits? = nil,
             storageTypes: [OpenSearchClientTypes.StorageType]? = nil
-        )
-        {
+        ) {
             self.additionalLimits = additionalLimits
             self.instanceLimits = instanceLimits
             self.storageTypes = storageTypes
@@ -6501,8 +6424,7 @@ public struct DescribeInstanceTypeLimitsOutput: Swift.Sendable {
 
     public init(
         limitsByRole: [Swift.String: OpenSearchClientTypes.Limits]? = nil
-    )
-    {
+    ) {
         self.limitsByRole = limitsByRole
     }
 }
@@ -6520,8 +6442,7 @@ public struct DescribeOutboundConnectionsInput: Swift.Sendable {
         filters: [OpenSearchClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6538,8 +6459,7 @@ public struct DescribeOutboundConnectionsOutput: Swift.Sendable {
     public init(
         connections: [OpenSearchClientTypes.OutboundConnection]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connections = connections
         self.nextToken = nextToken
     }
@@ -6598,8 +6518,7 @@ extension OpenSearchClientTypes {
         public init(
             name: OpenSearchClientTypes.DescribePackagesFilterName? = nil,
             value: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -6619,8 +6538,7 @@ public struct DescribePackagesInput: Swift.Sendable {
         filters: [OpenSearchClientTypes.DescribePackagesFilter]? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6637,8 +6555,7 @@ public struct DescribePackagesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         packageDetailsList: [OpenSearchClientTypes.PackageDetails]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.packageDetailsList = packageDetailsList
     }
@@ -6657,8 +6574,7 @@ public struct DescribeReservedInstanceOfferingsInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         reservedInstanceOfferingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.reservedInstanceOfferingId = reservedInstanceOfferingId
@@ -6709,8 +6625,7 @@ extension OpenSearchClientTypes {
         public init(
             recurringChargeAmount: Swift.Double? = nil,
             recurringChargeFrequency: Swift.String? = nil
-        )
-        {
+        ) {
             self.recurringChargeAmount = recurringChargeAmount
             self.recurringChargeFrequency = recurringChargeFrequency
         }
@@ -6747,8 +6662,7 @@ extension OpenSearchClientTypes {
             recurringCharges: [OpenSearchClientTypes.RecurringCharge]? = nil,
             reservedInstanceOfferingId: Swift.String? = nil,
             usagePrice: Swift.Double? = nil
-        )
-        {
+        ) {
             self.currencyCode = currencyCode
             self.duration = duration
             self.fixedPrice = fixedPrice
@@ -6771,8 +6685,7 @@ public struct DescribeReservedInstanceOfferingsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         reservedInstanceOfferings: [OpenSearchClientTypes.ReservedInstanceOffering]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.reservedInstanceOfferings = reservedInstanceOfferings
     }
@@ -6791,8 +6704,7 @@ public struct DescribeReservedInstancesInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         reservedInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.reservedInstanceId = reservedInstanceId
@@ -6847,8 +6759,7 @@ extension OpenSearchClientTypes {
             startTime: Foundation.Date? = nil,
             state: Swift.String? = nil,
             usagePrice: Swift.Double? = nil
-        )
-        {
+        ) {
             self.billingSubscriptionId = billingSubscriptionId
             self.currencyCode = currencyCode
             self.duration = duration
@@ -6877,8 +6788,7 @@ public struct DescribeReservedInstancesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         reservedInstances: [OpenSearchClientTypes.ReservedInstance]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.reservedInstances = reservedInstances
     }
@@ -6891,8 +6801,7 @@ public struct DescribeVpcEndpointsInput: Swift.Sendable {
 
     public init(
         vpcEndpointIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.vpcEndpointIds = vpcEndpointIds
     }
 }
@@ -6941,8 +6850,7 @@ extension OpenSearchClientTypes {
             errorCode: OpenSearchClientTypes.VpcEndpointErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             vpcEndpointId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.vpcEndpointId = vpcEndpointId
@@ -6961,8 +6869,7 @@ public struct DescribeVpcEndpointsOutput: Swift.Sendable {
     public init(
         vpcEndpointErrors: [OpenSearchClientTypes.VpcEndpointError]? = nil,
         vpcEndpoints: [OpenSearchClientTypes.VpcEndpoint]? = nil
-    )
-    {
+    ) {
         self.vpcEndpointErrors = vpcEndpointErrors
         self.vpcEndpoints = vpcEndpoints
     }
@@ -6980,8 +6887,7 @@ public struct DissociatePackageInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         packageID: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.packageID = packageID
     }
@@ -6994,8 +6900,7 @@ public struct DissociatePackageOutput: Swift.Sendable {
 
     public init(
         domainPackageDetails: OpenSearchClientTypes.DomainPackageDetails? = nil
-    )
-    {
+    ) {
         self.domainPackageDetails = domainPackageDetails
     }
 }
@@ -7011,8 +6916,7 @@ public struct DissociatePackagesInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         packageList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.packageList = packageList
     }
@@ -7024,8 +6928,7 @@ public struct DissociatePackagesOutput: Swift.Sendable {
 
     public init(
         domainPackageDetailsList: [OpenSearchClientTypes.DomainPackageDetails]? = nil
-    )
-    {
+    ) {
         self.domainPackageDetailsList = domainPackageDetailsList
     }
 }
@@ -7037,8 +6940,7 @@ public struct GetApplicationInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -7114,8 +7016,7 @@ public struct GetApplicationOutput: Swift.Sendable {
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         status: OpenSearchClientTypes.ApplicationStatus? = nil
-    )
-    {
+    ) {
         self.appConfigs = appConfigs
         self.arn = arn
         self.createdAt = createdAt
@@ -7136,8 +7037,7 @@ public struct GetCompatibleVersionsInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -7154,8 +7054,7 @@ extension OpenSearchClientTypes {
         public init(
             sourceVersion: Swift.String? = nil,
             targetVersions: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.sourceVersion = sourceVersion
             self.targetVersions = targetVersions
         }
@@ -7169,8 +7068,7 @@ public struct GetCompatibleVersionsOutput: Swift.Sendable {
 
     public init(
         compatibleVersions: [OpenSearchClientTypes.CompatibleVersionsMap]? = nil
-    )
-    {
+    ) {
         self.compatibleVersions = compatibleVersions
     }
 }
@@ -7187,8 +7085,7 @@ public struct GetDataSourceInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.name = name
     }
@@ -7239,12 +7136,50 @@ public struct GetDataSourceOutput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         status: OpenSearchClientTypes.DataSourceStatus? = nil
-    )
-    {
+    ) {
         self.dataSourceType = dataSourceType
         self.description = description
         self.name = name
         self.status = status
+    }
+}
+
+public struct GetDirectQueryDataSourceInput: Swift.Sendable {
+    /// A unique, user-defined label that identifies the data source within your OpenSearch Service environment.
+    /// This member is required.
+    public var dataSourceName: Swift.String?
+
+    public init(
+        dataSourceName: Swift.String? = nil
+    ) {
+        self.dataSourceName = dataSourceName
+    }
+}
+
+public struct GetDirectQueryDataSourceOutput: Swift.Sendable {
+    /// The unique, system-generated identifier that represents the data source.
+    public var dataSourceArn: Swift.String?
+    /// A unique, user-defined label to identify the data source within your OpenSearch Service environment.
+    public var dataSourceName: Swift.String?
+    /// The supported Amazon Web Services service that is used as the source for direct queries in OpenSearch Service.
+    public var dataSourceType: OpenSearchClientTypes.DirectQueryDataSourceType?
+    /// A description that provides additional context and details about the data source.
+    public var description: Swift.String?
+    /// A list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source.
+    public var openSearchArns: [Swift.String]?
+
+    public init(
+        dataSourceArn: Swift.String? = nil,
+        dataSourceName: Swift.String? = nil,
+        dataSourceType: OpenSearchClientTypes.DirectQueryDataSourceType? = nil,
+        description: Swift.String? = nil,
+        openSearchArns: [Swift.String]? = nil
+    ) {
+        self.dataSourceArn = dataSourceArn
+        self.dataSourceName = dataSourceName
+        self.dataSourceType = dataSourceType
+        self.description = description
+        self.openSearchArns = openSearchArns
     }
 }
 
@@ -7260,8 +7195,7 @@ public struct GetDomainMaintenanceStatusInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         maintenanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maintenanceId = maintenanceId
     }
@@ -7359,8 +7293,7 @@ public struct GetDomainMaintenanceStatusOutput: Swift.Sendable {
         status: OpenSearchClientTypes.MaintenanceStatus? = nil,
         statusMessage: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.action = action
         self.createdAt = createdAt
         self.nodeId = nodeId
@@ -7384,8 +7317,7 @@ public struct GetPackageVersionHistoryInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         packageID: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.packageID = packageID
@@ -7413,8 +7345,7 @@ extension OpenSearchClientTypes {
             packageConfiguration: OpenSearchClientTypes.PackageConfiguration? = nil,
             packageVersion: Swift.String? = nil,
             pluginProperties: OpenSearchClientTypes.PluginProperties? = nil
-        )
-        {
+        ) {
             self.commitMessage = commitMessage
             self.createdAt = createdAt
             self.packageConfiguration = packageConfiguration
@@ -7437,8 +7368,7 @@ public struct GetPackageVersionHistoryOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         packageID: Swift.String? = nil,
         packageVersionHistoryList: [OpenSearchClientTypes.PackageVersionHistory]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.packageID = packageID
         self.packageVersionHistoryList = packageVersionHistoryList
@@ -7459,8 +7389,7 @@ public struct GetUpgradeHistoryInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7566,8 +7495,7 @@ extension OpenSearchClientTypes {
             progressPercent: Swift.Double? = nil,
             upgradeStep: OpenSearchClientTypes.UpgradeStep? = nil,
             upgradeStepStatus: OpenSearchClientTypes.UpgradeStatus? = nil
-        )
-        {
+        ) {
             self.issues = issues
             self.progressPercent = progressPercent
             self.upgradeStep = upgradeStep
@@ -7602,8 +7530,7 @@ extension OpenSearchClientTypes {
             stepsList: [OpenSearchClientTypes.UpgradeStepItem]? = nil,
             upgradeName: Swift.String? = nil,
             upgradeStatus: OpenSearchClientTypes.UpgradeStatus? = nil
-        )
-        {
+        ) {
             self.startTimestamp = startTimestamp
             self.stepsList = stepsList
             self.upgradeName = upgradeName
@@ -7622,8 +7549,7 @@ public struct GetUpgradeHistoryOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         upgradeHistories: [OpenSearchClientTypes.UpgradeHistory]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.upgradeHistories = upgradeHistories
     }
@@ -7637,8 +7563,7 @@ public struct GetUpgradeStatusInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -7656,8 +7581,7 @@ public struct GetUpgradeStatusOutput: Swift.Sendable {
         stepStatus: OpenSearchClientTypes.UpgradeStatus? = nil,
         upgradeName: Swift.String? = nil,
         upgradeStep: OpenSearchClientTypes.UpgradeStep? = nil
-    )
-    {
+    ) {
         self.stepStatus = stepStatus
         self.upgradeName = upgradeName
         self.upgradeStep = upgradeStep
@@ -7676,8 +7600,7 @@ public struct ListApplicationsInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         statuses: [OpenSearchClientTypes.ApplicationStatus]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.statuses = statuses
@@ -7711,8 +7634,7 @@ extension OpenSearchClientTypes {
             lastUpdatedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: OpenSearchClientTypes.ApplicationStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.endpoint = endpoint
@@ -7733,8 +7655,7 @@ public struct ListApplicationsOutput: Swift.Sendable {
     public init(
         applicationSummaries: [OpenSearchClientTypes.ApplicationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationSummaries = applicationSummaries
         self.nextToken = nextToken
     }
@@ -7748,8 +7669,7 @@ public struct ListDataSourcesInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -7772,8 +7692,7 @@ extension OpenSearchClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             status: OpenSearchClientTypes.DataSourceStatus? = nil
-        )
-        {
+        ) {
             self.dataSourceType = dataSourceType
             self.description = description
             self.name = name
@@ -7789,9 +7708,69 @@ public struct ListDataSourcesOutput: Swift.Sendable {
 
     public init(
         dataSources: [OpenSearchClientTypes.DataSourceDetails]? = nil
-    )
-    {
+    ) {
         self.dataSources = dataSources
+    }
+}
+
+public struct ListDirectQueryDataSourcesInput: Swift.Sendable {
+    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
+    public var nextToken: Swift.String?
+
+    public init(
+        nextToken: Swift.String? = nil
+    ) {
+        self.nextToken = nextToken
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The configuration details for a data source that can be directly queried.
+    public struct DirectQueryDataSource: Swift.Sendable {
+        /// The unique, system-generated identifier that represents the data source.
+        public var dataSourceArn: Swift.String?
+        /// A unique, user-defined label to identify the data source within your OpenSearch Service environment.
+        public var dataSourceName: Swift.String?
+        /// The supported Amazon Web Services service that is used as the source for direct queries in OpenSearch Service.
+        public var dataSourceType: OpenSearchClientTypes.DirectQueryDataSourceType?
+        /// A description that provides additional context and details about the data source.
+        public var description: Swift.String?
+        /// A list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source.
+        public var openSearchArns: [Swift.String]?
+        /// A list of tags attached to a direct query data source.
+        public var tagList: [OpenSearchClientTypes.Tag]?
+
+        public init(
+            dataSourceArn: Swift.String? = nil,
+            dataSourceName: Swift.String? = nil,
+            dataSourceType: OpenSearchClientTypes.DirectQueryDataSourceType? = nil,
+            description: Swift.String? = nil,
+            openSearchArns: [Swift.String]? = nil,
+            tagList: [OpenSearchClientTypes.Tag]? = nil
+        ) {
+            self.dataSourceArn = dataSourceArn
+            self.dataSourceName = dataSourceName
+            self.dataSourceType = dataSourceType
+            self.description = description
+            self.openSearchArns = openSearchArns
+            self.tagList = tagList
+        }
+    }
+}
+
+public struct ListDirectQueryDataSourcesOutput: Swift.Sendable {
+    /// A list of the direct query data sources that are returned by the ListDirectQueryDataSources API operation.
+    public var directQueryDataSources: [OpenSearchClientTypes.DirectQueryDataSource]?
+    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
+    public var nextToken: Swift.String?
+
+    public init(
+        directQueryDataSources: [OpenSearchClientTypes.DirectQueryDataSource]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.directQueryDataSources = directQueryDataSources
+        self.nextToken = nextToken
     }
 }
 
@@ -7815,8 +7794,7 @@ public struct ListDomainMaintenancesInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         status: OpenSearchClientTypes.MaintenanceStatus? = nil
-    )
-    {
+    ) {
         self.action = action
         self.domainName = domainName
         self.maxResults = maxResults
@@ -7855,8 +7833,7 @@ extension OpenSearchClientTypes {
             status: OpenSearchClientTypes.MaintenanceStatus? = nil,
             statusMessage: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.action = action
             self.createdAt = createdAt
             self.domainName = domainName
@@ -7879,8 +7856,7 @@ public struct ListDomainMaintenancesOutput: Swift.Sendable {
     public init(
         domainMaintenances: [OpenSearchClientTypes.DomainMaintenanceDetails]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainMaintenances = domainMaintenances
         self.nextToken = nextToken
     }
@@ -7922,8 +7898,7 @@ public struct ListDomainNamesInput: Swift.Sendable {
 
     public init(
         engineType: OpenSearchClientTypes.EngineType? = nil
-    )
-    {
+    ) {
         self.engineType = engineType
     }
 }
@@ -7940,8 +7915,7 @@ extension OpenSearchClientTypes {
         public init(
             domainName: Swift.String? = nil,
             engineType: OpenSearchClientTypes.EngineType? = nil
-        )
-        {
+        ) {
             self.domainName = domainName
             self.engineType = engineType
         }
@@ -7955,8 +7929,7 @@ public struct ListDomainNamesOutput: Swift.Sendable {
 
     public init(
         domainNames: [OpenSearchClientTypes.DomainInfo]? = nil
-    )
-    {
+    ) {
         self.domainNames = domainNames
     }
 }
@@ -7975,8 +7948,7 @@ public struct ListDomainsForPackageInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         packageID: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.packageID = packageID
@@ -7993,8 +7965,7 @@ public struct ListDomainsForPackageOutput: Swift.Sendable {
     public init(
         domainPackageDetailsList: [OpenSearchClientTypes.DomainPackageDetails]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainPackageDetailsList = domainPackageDetailsList
         self.nextToken = nextToken
     }
@@ -8022,8 +7993,7 @@ public struct ListInstanceTypeDetailsInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         retrieveAZs: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.engineVersion = engineVersion
         self.instanceType = instanceType
@@ -8063,8 +8033,7 @@ extension OpenSearchClientTypes {
             instanceRole: [Swift.String]? = nil,
             instanceType: OpenSearchClientTypes.OpenSearchPartitionInstanceType? = nil,
             warmEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.advancedSecurityEnabled = advancedSecurityEnabled
             self.appLogsEnabled = appLogsEnabled
             self.availabilityZones = availabilityZones
@@ -8086,8 +8055,7 @@ public struct ListInstanceTypeDetailsOutput: Swift.Sendable {
     public init(
         instanceTypeDetails: [OpenSearchClientTypes.InstanceTypeDetails]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceTypeDetails = instanceTypeDetails
         self.nextToken = nextToken
     }
@@ -8107,8 +8075,7 @@ public struct ListPackagesForDomainInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8125,8 +8092,7 @@ public struct ListPackagesForDomainOutput: Swift.Sendable {
     public init(
         domainPackageDetailsList: [OpenSearchClientTypes.DomainPackageDetails]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainPackageDetailsList = domainPackageDetailsList
         self.nextToken = nextToken
     }
@@ -8145,8 +8111,7 @@ public struct ListScheduledActionsInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -8219,8 +8184,7 @@ extension OpenSearchClientTypes {
             severity: OpenSearchClientTypes.ActionSeverity? = nil,
             status: OpenSearchClientTypes.ActionStatus? = nil,
             type: OpenSearchClientTypes.ActionType? = nil
-        )
-        {
+        ) {
             self.cancellable = cancellable
             self.description = description
             self.id = id
@@ -8243,8 +8207,7 @@ public struct ListScheduledActionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         scheduledActions: [OpenSearchClientTypes.ScheduledAction]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.scheduledActions = scheduledActions
     }
@@ -8252,27 +8215,25 @@ public struct ListScheduledActionsOutput: Swift.Sendable {
 
 /// Container for the parameters to the ListTags operation.
 public struct ListTagsInput: Swift.Sendable {
-    /// Amazon Resource Name (ARN) for the domain to view tags for.
+    /// Amazon Resource Name (ARN) for the domain, data source, or application to view tags for.
     /// This member is required.
     public var arn: Swift.String?
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
 
 /// The results of a ListTags operation.
 public struct ListTagsOutput: Swift.Sendable {
-    /// List of resource tags associated with the specified domain.
+    /// List of resource tags associated with the specified domain, data source, or application.
     public var tagList: [OpenSearchClientTypes.Tag]?
 
     public init(
         tagList: [OpenSearchClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tagList = tagList
     }
 }
@@ -8287,8 +8248,7 @@ public struct ListVersionsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -8304,8 +8264,7 @@ public struct ListVersionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         versions: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.versions = versions
     }
@@ -8321,8 +8280,7 @@ public struct ListVpcEndpointAccessInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.nextToken = nextToken
     }
@@ -8339,8 +8297,7 @@ public struct ListVpcEndpointAccessOutput: Swift.Sendable {
     public init(
         authorizedPrincipalList: [OpenSearchClientTypes.AuthorizedPrincipal]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorizedPrincipalList = authorizedPrincipalList
         self.nextToken = nextToken
     }
@@ -8352,8 +8309,7 @@ public struct ListVpcEndpointsInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -8369,8 +8325,7 @@ public struct ListVpcEndpointsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         vpcEndpointSummaryList: [OpenSearchClientTypes.VpcEndpointSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.vpcEndpointSummaryList = vpcEndpointSummaryList
     }
@@ -8386,8 +8341,7 @@ public struct ListVpcEndpointsForDomainInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.nextToken = nextToken
     }
@@ -8404,8 +8358,7 @@ public struct ListVpcEndpointsForDomainOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         vpcEndpointSummaryList: [OpenSearchClientTypes.VpcEndpointSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.vpcEndpointSummaryList = vpcEndpointSummaryList
     }
@@ -8426,8 +8379,7 @@ public struct PurchaseReservedInstanceOfferingInput: Swift.Sendable {
         instanceCount: Swift.Int? = nil,
         reservationName: Swift.String? = nil,
         reservedInstanceOfferingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceCount = instanceCount
         self.reservationName = reservationName
         self.reservedInstanceOfferingId = reservedInstanceOfferingId
@@ -8444,8 +8396,7 @@ public struct PurchaseReservedInstanceOfferingOutput: Swift.Sendable {
     public init(
         reservationName: Swift.String? = nil,
         reservedInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.reservationName = reservationName
         self.reservedInstanceId = reservedInstanceId
     }
@@ -8459,8 +8410,7 @@ public struct RejectInboundConnectionInput: Swift.Sendable {
 
     public init(
         connectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
     }
 }
@@ -8472,26 +8422,24 @@ public struct RejectInboundConnectionOutput: Swift.Sendable {
 
     public init(
         connection: OpenSearchClientTypes.InboundConnection? = nil
-    )
-    {
+    ) {
         self.connection = connection
     }
 }
 
 /// Container for the request parameters to the RemoveTags operation.
 public struct RemoveTagsInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the domain from which you want to delete the specified tags.
+    /// The Amazon Resource Name (ARN) of the domain, data source, or application from which you want to delete the specified tags.
     /// This member is required.
     public var arn: Swift.String?
-    /// The list of tag keys to remove from the domain.
+    /// The list of tag keys to remove from the domain, data source, or application.
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
     public init(
         arn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.tagKeys = tagKeys
     }
@@ -8510,8 +8458,7 @@ public struct RevokeVpcEndpointAccessInput: Swift.Sendable {
         account: Swift.String? = nil,
         domainName: Swift.String? = nil,
         service: OpenSearchClientTypes.AWSServicePrincipal? = nil
-    )
-    {
+    ) {
         self.account = account
         self.domainName = domainName
         self.service = service
@@ -8538,8 +8485,7 @@ public struct StartDomainMaintenanceInput: Swift.Sendable {
         action: OpenSearchClientTypes.MaintenanceType? = nil,
         domainName: Swift.String? = nil,
         nodeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.action = action
         self.domainName = domainName
         self.nodeId = nodeId
@@ -8553,8 +8499,7 @@ public struct StartDomainMaintenanceOutput: Swift.Sendable {
 
     public init(
         maintenanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maintenanceId = maintenanceId
     }
 }
@@ -8614,8 +8559,7 @@ public struct StartServiceSoftwareUpdateInput: Swift.Sendable {
         desiredStartTime: Swift.Int? = nil,
         domainName: Swift.String? = nil,
         scheduleAt: OpenSearchClientTypes.ScheduleAt? = nil
-    )
-    {
+    ) {
         self.desiredStartTime = desiredStartTime
         self.domainName = domainName
         self.scheduleAt = scheduleAt
@@ -8629,8 +8573,7 @@ public struct StartServiceSoftwareUpdateOutput: Swift.Sendable {
 
     public init(
         serviceSoftwareOptions: OpenSearchClientTypes.ServiceSoftwareOptions? = nil
-    )
-    {
+    ) {
         self.serviceSoftwareOptions = serviceSoftwareOptions
     }
 }
@@ -8648,8 +8591,7 @@ public struct UpdateApplicationInput: Swift.Sendable {
         appConfigs: [OpenSearchClientTypes.AppConfig]? = nil,
         dataSources: [OpenSearchClientTypes.DataSource]? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.appConfigs = appConfigs
         self.dataSources = dataSources
         self.id = id
@@ -8683,8 +8625,7 @@ public struct UpdateApplicationOutput: Swift.Sendable {
         id: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.appConfigs = appConfigs
         self.arn = arn
         self.createdAt = createdAt
@@ -8718,8 +8659,7 @@ public struct UpdateDataSourceInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         name: Swift.String? = nil,
         status: OpenSearchClientTypes.DataSourceStatus? = nil
-    )
-    {
+    ) {
         self.dataSourceType = dataSourceType
         self.description = description
         self.domainName = domainName
@@ -8735,9 +8675,45 @@ public struct UpdateDataSourceOutput: Swift.Sendable {
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
+    }
+}
+
+public struct UpdateDirectQueryDataSourceInput: Swift.Sendable {
+    /// A unique, user-defined label to identify the data source within your OpenSearch Service environment.
+    /// This member is required.
+    public var dataSourceName: Swift.String?
+    /// The supported Amazon Web Services service that you want to use as the source for direct queries in OpenSearch Service.
+    /// This member is required.
+    public var dataSourceType: OpenSearchClientTypes.DirectQueryDataSourceType?
+    /// An optional text field for providing additional context and details about the data source.
+    public var description: Swift.String?
+    /// A list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source.
+    /// This member is required.
+    public var openSearchArns: [Swift.String]?
+
+    public init(
+        dataSourceName: Swift.String? = nil,
+        dataSourceType: OpenSearchClientTypes.DirectQueryDataSourceType? = nil,
+        description: Swift.String? = nil,
+        openSearchArns: [Swift.String]? = nil
+    ) {
+        self.dataSourceName = dataSourceName
+        self.dataSourceType = dataSourceType
+        self.description = description
+        self.openSearchArns = openSearchArns
+    }
+}
+
+public struct UpdateDirectQueryDataSourceOutput: Swift.Sendable {
+    /// The unique, system-generated identifier that represents the data source.
+    public var dataSourceArn: Swift.String?
+
+    public init(
+        dataSourceArn: Swift.String? = nil
+    ) {
+        self.dataSourceArn = dataSourceArn
     }
 }
 
@@ -8851,8 +8827,7 @@ public struct UpdateDomainConfigInput: Swift.Sendable {
         snapshotOptions: OpenSearchClientTypes.SnapshotOptions? = nil,
         softwareUpdateOptions: OpenSearchClientTypes.SoftwareUpdateOptions? = nil,
         vpcOptions: OpenSearchClientTypes.VPCOptions? = nil
-    )
-    {
+    ) {
         self.accessPolicies = accessPolicies
         self.advancedOptions = advancedOptions
         self.advancedSecurityOptions = advancedSecurityOptions
@@ -8891,8 +8866,7 @@ public struct UpdateDomainConfigOutput: Swift.Sendable {
         domainConfig: OpenSearchClientTypes.DomainConfig? = nil,
         dryRunProgressStatus: OpenSearchClientTypes.DryRunProgressStatus? = nil,
         dryRunResults: OpenSearchClientTypes.DryRunResults? = nil
-    )
-    {
+    ) {
         self.domainConfig = domainConfig
         self.dryRunProgressStatus = dryRunProgressStatus
         self.dryRunResults = dryRunResults
@@ -8923,8 +8897,7 @@ public struct UpdatePackageInput: Swift.Sendable {
         packageEncryptionOptions: OpenSearchClientTypes.PackageEncryptionOptions? = nil,
         packageID: Swift.String? = nil,
         packageSource: OpenSearchClientTypes.PackageSource? = nil
-    )
-    {
+    ) {
         self.commitMessage = commitMessage
         self.packageConfiguration = packageConfiguration
         self.packageDescription = packageDescription
@@ -8941,8 +8914,7 @@ public struct UpdatePackageOutput: Swift.Sendable {
 
     public init(
         packageDetails: OpenSearchClientTypes.PackageDetails? = nil
-    )
-    {
+    ) {
         self.packageDetails = packageDetails
     }
 }
@@ -8994,8 +8966,7 @@ public struct UpdatePackageScopeInput: Swift.Sendable {
         operation: OpenSearchClientTypes.PackageScopeOperationEnum? = nil,
         packageID: Swift.String? = nil,
         packageUserList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.operation = operation
         self.packageID = packageID
         self.packageUserList = packageUserList
@@ -9014,8 +8985,7 @@ public struct UpdatePackageScopeOutput: Swift.Sendable {
         operation: OpenSearchClientTypes.PackageScopeOperationEnum? = nil,
         packageID: Swift.String? = nil,
         packageUserList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.operation = operation
         self.packageID = packageID
         self.packageUserList = packageUserList
@@ -9023,9 +8993,9 @@ public struct UpdatePackageScopeOutput: Swift.Sendable {
 }
 
 /// An exception for attempting to schedule a domain action during an unavailable time slot.
-public struct SlotNotAvailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SlotNotAvailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
         /// Alternate time slots during which OpenSearch Service has available capacity to schedule a domain action.
@@ -9044,8 +9014,7 @@ public struct SlotNotAvailableException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         slotSuggestions: [Swift.Int]? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.slotSuggestions = slotSuggestions
     }
@@ -9079,8 +9048,7 @@ public struct UpdateScheduledActionInput: Swift.Sendable {
         desiredStartTime: Swift.Int? = nil,
         domainName: Swift.String? = nil,
         scheduleAt: OpenSearchClientTypes.ScheduleAt? = nil
-    )
-    {
+    ) {
         self.actionID = actionID
         self.actionType = actionType
         self.desiredStartTime = desiredStartTime
@@ -9095,8 +9063,7 @@ public struct UpdateScheduledActionOutput: Swift.Sendable {
 
     public init(
         scheduledAction: OpenSearchClientTypes.ScheduledAction? = nil
-    )
-    {
+    ) {
         self.scheduledAction = scheduledAction
     }
 }
@@ -9112,8 +9079,7 @@ public struct UpdateVpcEndpointInput: Swift.Sendable {
     public init(
         vpcEndpointId: Swift.String? = nil,
         vpcOptions: OpenSearchClientTypes.VPCOptions? = nil
-    )
-    {
+    ) {
         self.vpcEndpointId = vpcEndpointId
         self.vpcOptions = vpcOptions
     }
@@ -9126,8 +9092,7 @@ public struct UpdateVpcEndpointOutput: Swift.Sendable {
 
     public init(
         vpcEndpoint: OpenSearchClientTypes.VpcEndpoint? = nil
-    )
-    {
+    ) {
         self.vpcEndpoint = vpcEndpoint
     }
 }
@@ -9150,8 +9115,7 @@ public struct UpgradeDomainInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         performCheckOnly: Swift.Bool? = nil,
         targetVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.advancedOptions = advancedOptions
         self.domainName = domainName
         self.performCheckOnly = performCheckOnly
@@ -9181,8 +9145,7 @@ public struct UpgradeDomainOutput: Swift.Sendable {
         performCheckOnly: Swift.Bool? = nil,
         targetVersion: Swift.String? = nil,
         upgradeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.advancedOptions = advancedOptions
         self.changeProgressDetails = changeProgressDetails
         self.domainName = domainName
@@ -9209,6 +9172,13 @@ extension AddDataSourceInput {
             return nil
         }
         return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/dataSource"
+    }
+}
+
+extension AddDirectQueryDataSourceInput {
+
+    static func urlPathProvider(_ value: AddDirectQueryDataSourceInput) -> Swift.String? {
+        return "/2021-01-01/opensearch/directQueryDataSource"
     }
 }
 
@@ -9321,6 +9291,16 @@ extension DeleteDataSourceInput {
             return nil
         }
         return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/dataSource/\(name.urlPercentEncoding())"
+    }
+}
+
+extension DeleteDirectQueryDataSourceInput {
+
+    static func urlPathProvider(_ value: DeleteDirectQueryDataSourceInput) -> Swift.String? {
+        guard let dataSourceName = value.dataSourceName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/directQueryDataSource/\(dataSourceName.urlPercentEncoding())"
     }
 }
 
@@ -9648,6 +9628,16 @@ extension GetDataSourceInput {
     }
 }
 
+extension GetDirectQueryDataSourceInput {
+
+    static func urlPathProvider(_ value: GetDirectQueryDataSourceInput) -> Swift.String? {
+        guard let dataSourceName = value.dataSourceName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/directQueryDataSource/\(dataSourceName.urlPercentEncoding())"
+    }
+}
+
 extension GetDomainMaintenanceStatusInput {
 
     static func urlPathProvider(_ value: GetDomainMaintenanceStatusInput) -> Swift.String? {
@@ -9770,6 +9760,25 @@ extension ListDataSourcesInput {
             return nil
         }
         return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/dataSource"
+    }
+}
+
+extension ListDirectQueryDataSourcesInput {
+
+    static func urlPathProvider(_ value: ListDirectQueryDataSourcesInput) -> Swift.String? {
+        return "/2021-01-01/opensearch/directQueryDataSource"
+    }
+}
+
+extension ListDirectQueryDataSourcesInput {
+
+    static func queryItemProvider(_ value: ListDirectQueryDataSourcesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
@@ -10123,6 +10132,16 @@ extension UpdateDataSourceInput {
     }
 }
 
+extension UpdateDirectQueryDataSourceInput {
+
+    static func urlPathProvider(_ value: UpdateDirectQueryDataSourceInput) -> Swift.String? {
+        guard let dataSourceName = value.dataSourceName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/directQueryDataSource/\(dataSourceName.urlPercentEncoding())"
+    }
+}
+
 extension UpdateDomainConfigInput {
 
     static func urlPathProvider(_ value: UpdateDomainConfigInput) -> Swift.String? {
@@ -10178,6 +10197,18 @@ extension AddDataSourceInput {
         try writer["DataSourceType"].write(value.dataSourceType, with: OpenSearchClientTypes.DataSourceType.write(value:to:))
         try writer["Description"].write(value.description)
         try writer["Name"].write(value.name)
+    }
+}
+
+extension AddDirectQueryDataSourceInput {
+
+    static func write(value: AddDirectQueryDataSourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataSourceName"].write(value.dataSourceName)
+        try writer["DataSourceType"].write(value.dataSourceType, with: OpenSearchClientTypes.DirectQueryDataSourceType.write(value:to:))
+        try writer["Description"].write(value.description)
+        try writer["OpenSearchArns"].writeList(value.openSearchArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TagList"].writeList(value.tagList, memberWritingClosure: OpenSearchClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -10441,6 +10472,16 @@ extension UpdateDataSourceInput {
     }
 }
 
+extension UpdateDirectQueryDataSourceInput {
+
+    static func write(value: UpdateDirectQueryDataSourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataSourceType"].write(value.dataSourceType, with: OpenSearchClientTypes.DirectQueryDataSourceType.write(value:to:))
+        try writer["Description"].write(value.description)
+        try writer["OpenSearchArns"].writeList(value.openSearchArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension UpdateDomainConfigInput {
 
     static func write(value: UpdateDomainConfigInput?, to writer: SmithyJSON.Writer) throws {
@@ -10542,6 +10583,18 @@ extension AddDataSourceOutput {
         let reader = responseReader
         var value = AddDataSourceOutput()
         value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension AddDirectQueryDataSourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AddDirectQueryDataSourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = AddDirectQueryDataSourceOutput()
+        value.dataSourceArn = try reader["DataSourceArn"].readIfPresent()
         return value
     }
 }
@@ -10704,6 +10757,13 @@ extension DeleteDataSourceOutput {
         var value = DeleteDataSourceOutput()
         value.message = try reader["Message"].readIfPresent()
         return value
+    }
+}
+
+extension DeleteDirectQueryDataSourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDirectQueryDataSourceOutput {
+        return DeleteDirectQueryDataSourceOutput()
     }
 }
 
@@ -11040,6 +11100,22 @@ extension GetDataSourceOutput {
     }
 }
 
+extension GetDirectQueryDataSourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDirectQueryDataSourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDirectQueryDataSourceOutput()
+        value.dataSourceArn = try reader["DataSourceArn"].readIfPresent()
+        value.dataSourceName = try reader["DataSourceName"].readIfPresent()
+        value.dataSourceType = try reader["DataSourceType"].readIfPresent(with: OpenSearchClientTypes.DirectQueryDataSourceType.read(from:))
+        value.description = try reader["Description"].readIfPresent()
+        value.openSearchArns = try reader["OpenSearchArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension GetDomainMaintenanceStatusOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDomainMaintenanceStatusOutput {
@@ -11119,6 +11195,19 @@ extension ListDataSourcesOutput {
         let reader = responseReader
         var value = ListDataSourcesOutput()
         value.dataSources = try reader["DataSources"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.DataSourceDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListDirectQueryDataSourcesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDirectQueryDataSourcesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDirectQueryDataSourcesOutput()
+        value.directQueryDataSources = try reader["DirectQueryDataSources"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.DirectQueryDataSource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
 }
@@ -11358,6 +11447,18 @@ extension UpdateDataSourceOutput {
     }
 }
 
+extension UpdateDirectQueryDataSourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDirectQueryDataSourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateDirectQueryDataSourceOutput()
+        value.dataSourceArn = try reader["DataSourceArn"].readIfPresent()
+        return value
+    }
+}
+
 extension UpdateDomainConfigOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDomainConfigOutput {
@@ -11465,6 +11566,25 @@ enum AddDataSourceOutputError {
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
             case "DependencyFailureException": return try DependencyFailureException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum AddDirectQueryDataSourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BaseException": return try BaseException.makeError(baseError: baseError)
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
@@ -11709,6 +11829,24 @@ enum DeleteDataSourceOutputError {
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
             case "DependencyFailureException": return try DependencyFailureException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteDirectQueryDataSourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BaseException": return try BaseException.makeError(baseError: baseError)
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -12152,6 +12290,24 @@ enum GetDataSourceOutputError {
     }
 }
 
+enum GetDirectQueryDataSourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BaseException": return try BaseException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetDomainMaintenanceStatusOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12253,6 +12409,24 @@ enum ListDataSourcesOutputError {
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
             case "DependencyFailureException": return try DependencyFailureException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDirectQueryDataSourcesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BaseException": return try BaseException.makeError(baseError: baseError)
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -12583,6 +12757,24 @@ enum UpdateDataSourceOutputError {
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
             case "DependencyFailureException": return try DependencyFailureException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateDirectQueryDataSourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BaseException": return try BaseException.makeError(baseError: baseError)
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -14421,6 +14613,64 @@ extension OpenSearchClientTypes.S3GlueDataCatalog {
     }
 }
 
+extension OpenSearchClientTypes.DirectQueryDataSourceType {
+
+    static func write(value: OpenSearchClientTypes.DirectQueryDataSourceType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .cloudwatchlog(cloudwatchlog):
+                try writer["CloudWatchLog"].write(cloudwatchlog, with: OpenSearchClientTypes.CloudWatchDirectQueryDataSource.write(value:to:))
+            case let .securitylake(securitylake):
+                try writer["SecurityLake"].write(securitylake, with: OpenSearchClientTypes.SecurityLakeDirectQueryDataSource.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.DirectQueryDataSourceType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "CloudWatchLog":
+                return .cloudwatchlog(try reader["CloudWatchLog"].read(with: OpenSearchClientTypes.CloudWatchDirectQueryDataSource.read(from:)))
+            case "SecurityLake":
+                return .securitylake(try reader["SecurityLake"].read(with: OpenSearchClientTypes.SecurityLakeDirectQueryDataSource.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension OpenSearchClientTypes.SecurityLakeDirectQueryDataSource {
+
+    static func write(value: OpenSearchClientTypes.SecurityLakeDirectQueryDataSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RoleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.SecurityLakeDirectQueryDataSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.SecurityLakeDirectQueryDataSource()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.CloudWatchDirectQueryDataSource {
+
+    static func write(value: OpenSearchClientTypes.CloudWatchDirectQueryDataSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RoleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.CloudWatchDirectQueryDataSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.CloudWatchDirectQueryDataSource()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension OpenSearchClientTypes.PackageVersionHistory {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.PackageVersionHistory {
@@ -14486,6 +14736,21 @@ extension OpenSearchClientTypes.DataSourceDetails {
         value.name = try reader["Name"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.DirectQueryDataSource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.DirectQueryDataSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.DirectQueryDataSource()
+        value.dataSourceName = try reader["DataSourceName"].readIfPresent()
+        value.dataSourceType = try reader["DataSourceType"].readIfPresent(with: OpenSearchClientTypes.DirectQueryDataSourceType.read(from:))
+        value.description = try reader["Description"].readIfPresent()
+        value.openSearchArns = try reader["OpenSearchArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataSourceArn = try reader["DataSourceArn"].readIfPresent()
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

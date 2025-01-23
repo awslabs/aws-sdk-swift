@@ -33,9 +33,9 @@ import struct SmithyHTTPAPI.Headers
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have sufficient permissions to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -51,8 +51,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -89,9 +88,9 @@ extension GrafanaClientTypes {
 }
 
 /// A resource was in an inconsistent state during an update or a deletion.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -116,8 +115,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -125,9 +123,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// Unexpected error while processing the request. Retry the request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -147,17 +145,16 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
 }
 
 /// The request references a resource that does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The value of a parameter in the request caused an error.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -182,8 +179,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -191,9 +187,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The request would cause a service quota to be exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -226,8 +222,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -237,9 +232,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The request was denied because of request throttling. Retry the request.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -265,8 +260,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -288,8 +282,7 @@ extension GrafanaClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -332,9 +325,9 @@ extension GrafanaClientTypes {
 }
 
 /// The value of a parameter in the request caused an error.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A list of fields that might be associated with the error.
         public internal(set) var fieldList: [GrafanaClientTypes.ValidationExceptionField]? = nil
         /// A description of the error.
@@ -358,8 +351,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [GrafanaClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: GrafanaClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -385,8 +377,7 @@ public struct CreateWorkspaceApiKeyInput: Swift.Sendable {
         keyRole: Swift.String? = nil,
         secondsToLive: Swift.Int? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyName = keyName
         self.keyRole = keyRole
         self.secondsToLive = secondsToLive
@@ -409,8 +400,7 @@ public struct CreateWorkspaceApiKeyOutput: Swift.Sendable {
         key: Swift.String? = nil,
         keyName: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.key = key
         self.keyName = keyName
         self.workspaceId = workspaceId
@@ -433,8 +423,7 @@ public struct DeleteWorkspaceApiKeyInput: Swift.Sendable {
     public init(
         keyName: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyName = keyName
         self.workspaceId = workspaceId
     }
@@ -451,8 +440,7 @@ public struct DeleteWorkspaceApiKeyOutput: Swift.Sendable {
     public init(
         keyName: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyName = keyName
         self.workspaceId = workspaceId
     }
@@ -482,8 +470,7 @@ extension GrafanaClientTypes {
             name: Swift.String? = nil,
             org: Swift.String? = nil,
             role: Swift.String? = nil
-        )
-        {
+        ) {
             self.email = email
             self.groups = groups
             self.login = login
@@ -539,8 +526,7 @@ public struct AssociateLicenseInput: Swift.Sendable {
         grafanaToken: Swift.String? = nil,
         licenseType: GrafanaClientTypes.LicenseType? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.grafanaToken = grafanaToken
         self.licenseType = licenseType
         self.workspaceId = workspaceId
@@ -622,8 +608,7 @@ extension GrafanaClientTypes {
         public init(
             providers: [GrafanaClientTypes.AuthenticationProviderTypes]? = nil,
             samlConfigurationStatus: GrafanaClientTypes.SamlConfigurationStatus? = nil
-        )
-        {
+        ) {
             self.providers = providers
             self.samlConfigurationStatus = samlConfigurationStatus
         }
@@ -703,8 +688,7 @@ extension GrafanaClientTypes {
         public init(
             prefixListIds: [Swift.String]? = nil,
             vpceIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.prefixListIds = prefixListIds
             self.vpceIds = vpceIds
         }
@@ -858,8 +842,7 @@ extension GrafanaClientTypes {
         public init(
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
@@ -955,8 +938,7 @@ extension GrafanaClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             vpcConfiguration: GrafanaClientTypes.VpcConfiguration? = nil,
             workspaceRoleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountAccessType = accountAccessType
             self.authentication = authentication
             self.created = created
@@ -998,8 +980,7 @@ public struct AssociateLicenseOutput: Swift.Sendable {
 
     public init(
         workspace: GrafanaClientTypes.WorkspaceDescription? = nil
-    )
-    {
+    ) {
         self.workspace = workspace
     }
 }
@@ -1011,8 +992,7 @@ public struct DescribeWorkspaceAuthenticationInput: Swift.Sendable {
 
     public init(
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.workspaceId = workspaceId
     }
 }
@@ -1026,8 +1006,7 @@ extension GrafanaClientTypes {
 
         public init(
             ssoClientId: Swift.String? = nil
-        )
-        {
+        ) {
             self.ssoClientId = ssoClientId
         }
     }
@@ -1057,8 +1036,7 @@ extension GrafanaClientTypes {
         public init(
             admin: [Swift.String]? = nil,
             editor: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.admin = admin
             self.editor = editor
         }
@@ -1092,8 +1070,7 @@ extension GrafanaClientTypes {
             idpMetadata: GrafanaClientTypes.IdpMetadata? = nil,
             loginValidityDuration: Swift.Int = 0,
             roleValues: GrafanaClientTypes.RoleValues? = nil
-        )
-        {
+        ) {
             self.allowedOrganizations = allowedOrganizations
             self.assertionAttributes = assertionAttributes
             self.idpMetadata = idpMetadata
@@ -1116,8 +1093,7 @@ extension GrafanaClientTypes {
         public init(
             configuration: GrafanaClientTypes.SamlConfiguration? = nil,
             status: GrafanaClientTypes.SamlConfigurationStatus? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.status = status
         }
@@ -1140,8 +1116,7 @@ extension GrafanaClientTypes {
             awsSso: GrafanaClientTypes.AwsSsoAuthentication? = nil,
             providers: [GrafanaClientTypes.AuthenticationProviderTypes]? = nil,
             saml: GrafanaClientTypes.SamlAuthentication? = nil
-        )
-        {
+        ) {
             self.awsSso = awsSso
             self.providers = providers
             self.saml = saml
@@ -1156,8 +1131,7 @@ public struct DescribeWorkspaceAuthenticationOutput: Swift.Sendable {
 
     public init(
         authentication: GrafanaClientTypes.AuthenticationDescription? = nil
-    )
-    {
+    ) {
         self.authentication = authentication
     }
 }
@@ -1176,8 +1150,7 @@ public struct UpdateWorkspaceAuthenticationInput: Swift.Sendable {
         authenticationProviders: [GrafanaClientTypes.AuthenticationProviderTypes]? = nil,
         samlConfiguration: GrafanaClientTypes.SamlConfiguration? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationProviders = authenticationProviders
         self.samlConfiguration = samlConfiguration
         self.workspaceId = workspaceId
@@ -1191,8 +1164,7 @@ public struct UpdateWorkspaceAuthenticationOutput: Swift.Sendable {
 
     public init(
         authentication: GrafanaClientTypes.AuthenticationDescription? = nil
-    )
-    {
+    ) {
         self.authentication = authentication
     }
 }
@@ -1204,8 +1176,7 @@ public struct DescribeWorkspaceConfigurationInput: Swift.Sendable {
 
     public init(
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.workspaceId = workspaceId
     }
 }
@@ -1220,8 +1191,7 @@ public struct DescribeWorkspaceConfigurationOutput: Swift.Sendable {
     public init(
         configuration: Swift.String? = nil,
         grafanaVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.grafanaVersion = grafanaVersion
     }
@@ -1241,8 +1211,7 @@ public struct UpdateWorkspaceConfigurationInput: Swift.Sendable {
         configuration: Swift.String? = nil,
         grafanaVersion: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.grafanaVersion = grafanaVersion
         self.workspaceId = workspaceId
@@ -1265,8 +1234,7 @@ public struct DisassociateLicenseInput: Swift.Sendable {
     public init(
         licenseType: GrafanaClientTypes.LicenseType? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenseType = licenseType
         self.workspaceId = workspaceId
     }
@@ -1279,8 +1247,7 @@ public struct DisassociateLicenseOutput: Swift.Sendable {
 
     public init(
         workspace: GrafanaClientTypes.WorkspaceDescription? = nil
-    )
-    {
+    ) {
         self.workspace = workspace
     }
 }
@@ -1292,8 +1259,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1304,8 +1270,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1322,8 +1287,7 @@ public struct ListVersionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.workspaceId = workspaceId
@@ -1339,8 +1303,7 @@ public struct ListVersionsOutput: Swift.Sendable {
     public init(
         grafanaVersions: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.grafanaVersions = grafanaVersions
         self.nextToken = nextToken
     }
@@ -1399,8 +1362,7 @@ public struct ListPermissionsInput: Swift.Sendable {
         userId: Swift.String? = nil,
         userType: GrafanaClientTypes.UserType? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupId = groupId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1459,8 +1421,7 @@ extension GrafanaClientTypes {
         public init(
             id: Swift.String? = nil,
             type: GrafanaClientTypes.UserType? = nil
-        )
-        {
+        ) {
             self.id = id
             self.type = type
         }
@@ -1481,8 +1442,7 @@ extension GrafanaClientTypes {
         public init(
             role: GrafanaClientTypes.Role? = nil,
             user: GrafanaClientTypes.User? = nil
-        )
-        {
+        ) {
             self.role = role
             self.user = user
         }
@@ -1499,8 +1459,7 @@ public struct ListPermissionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         permissions: [GrafanaClientTypes.PermissionEntry]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.permissions = permissions
     }
@@ -1555,8 +1514,7 @@ extension GrafanaClientTypes {
             action: GrafanaClientTypes.UpdateAction? = nil,
             role: GrafanaClientTypes.Role? = nil,
             users: [GrafanaClientTypes.User]? = nil
-        )
-        {
+        ) {
             self.action = action
             self.role = role
             self.users = users
@@ -1575,8 +1533,7 @@ public struct UpdatePermissionsInput: Swift.Sendable {
     public init(
         updateInstructionBatch: [GrafanaClientTypes.UpdateInstruction]? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.updateInstructionBatch = updateInstructionBatch
         self.workspaceId = workspaceId
     }
@@ -1600,8 +1557,7 @@ extension GrafanaClientTypes {
             causedBy: GrafanaClientTypes.UpdateInstruction? = nil,
             code: Swift.Int? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.causedBy = causedBy
             self.code = code
             self.message = message
@@ -1616,8 +1572,7 @@ public struct UpdatePermissionsOutput: Swift.Sendable {
 
     public init(
         errors: [GrafanaClientTypes.UpdateError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -1637,8 +1592,7 @@ public struct CreateWorkspaceServiceAccountInput: Swift.Sendable {
         grafanaRole: GrafanaClientTypes.Role? = nil,
         name: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.grafanaRole = grafanaRole
         self.name = name
         self.workspaceId = workspaceId
@@ -1664,8 +1618,7 @@ public struct CreateWorkspaceServiceAccountOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.grafanaRole = grafanaRole
         self.id = id
         self.name = name
@@ -1684,8 +1637,7 @@ public struct DeleteWorkspaceServiceAccountInput: Swift.Sendable {
     public init(
         serviceAccountId: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceAccountId = serviceAccountId
         self.workspaceId = workspaceId
     }
@@ -1702,8 +1654,7 @@ public struct DeleteWorkspaceServiceAccountOutput: Swift.Sendable {
     public init(
         serviceAccountId: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceAccountId = serviceAccountId
         self.workspaceId = workspaceId
     }
@@ -1722,8 +1673,7 @@ public struct ListWorkspaceServiceAccountsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.workspaceId = workspaceId
@@ -1752,8 +1702,7 @@ extension GrafanaClientTypes {
             id: Swift.String? = nil,
             isDisabled: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.grafanaRole = grafanaRole
             self.id = id
             self.isDisabled = isDisabled
@@ -1776,8 +1725,7 @@ public struct ListWorkspaceServiceAccountsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         serviceAccounts: [GrafanaClientTypes.ServiceAccountSummary]? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.serviceAccounts = serviceAccounts
         self.workspaceId = workspaceId
@@ -1803,8 +1751,7 @@ public struct CreateWorkspaceServiceAccountTokenInput: Swift.Sendable {
         secondsToLive: Swift.Int? = nil,
         serviceAccountId: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.secondsToLive = secondsToLive
         self.serviceAccountId = serviceAccountId
@@ -1830,8 +1777,7 @@ extension GrafanaClientTypes {
             id: Swift.String? = nil,
             key: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.key = key
             self.name = name
@@ -1859,8 +1805,7 @@ public struct CreateWorkspaceServiceAccountTokenOutput: Swift.Sendable {
         serviceAccountId: Swift.String? = nil,
         serviceAccountToken: GrafanaClientTypes.ServiceAccountTokenSummaryWithKey? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceAccountId = serviceAccountId
         self.serviceAccountToken = serviceAccountToken
         self.workspaceId = workspaceId
@@ -1882,8 +1827,7 @@ public struct DeleteWorkspaceServiceAccountTokenInput: Swift.Sendable {
         serviceAccountId: Swift.String? = nil,
         tokenId: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceAccountId = serviceAccountId
         self.tokenId = tokenId
         self.workspaceId = workspaceId
@@ -1905,8 +1849,7 @@ public struct DeleteWorkspaceServiceAccountTokenOutput: Swift.Sendable {
         serviceAccountId: Swift.String? = nil,
         tokenId: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceAccountId = serviceAccountId
         self.tokenId = tokenId
         self.workspaceId = workspaceId
@@ -1930,8 +1873,7 @@ public struct ListWorkspaceServiceAccountTokensInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         serviceAccountId: Swift.String? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.serviceAccountId = serviceAccountId
@@ -1964,8 +1906,7 @@ extension GrafanaClientTypes {
             id: Swift.String? = nil,
             lastUsedAt: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.expiresAt = expiresAt
             self.id = id
@@ -1993,8 +1934,7 @@ public struct ListWorkspaceServiceAccountTokensOutput: Swift.Sendable {
         serviceAccountId: Swift.String? = nil,
         serviceAccountTokens: [GrafanaClientTypes.ServiceAccountTokenSummary]? = nil,
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.serviceAccountId = serviceAccountId
         self.serviceAccountTokens = serviceAccountTokens
@@ -2013,8 +1953,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -2036,8 +1975,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -2105,8 +2043,7 @@ public struct CreateWorkspaceInput: Swift.Sendable {
         workspaceNotificationDestinations: [GrafanaClientTypes.NotificationDestinationType]? = nil,
         workspaceOrganizationalUnits: [Swift.String]? = nil,
         workspaceRoleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountAccessType = accountAccessType
         self.authenticationProviders = authenticationProviders
         self.clientToken = clientToken
@@ -2139,8 +2076,7 @@ public struct CreateWorkspaceOutput: Swift.Sendable {
 
     public init(
         workspace: GrafanaClientTypes.WorkspaceDescription? = nil
-    )
-    {
+    ) {
         self.workspace = workspace
     }
 }
@@ -2152,8 +2088,7 @@ public struct DeleteWorkspaceInput: Swift.Sendable {
 
     public init(
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.workspaceId = workspaceId
     }
 }
@@ -2165,8 +2100,7 @@ public struct DeleteWorkspaceOutput: Swift.Sendable {
 
     public init(
         workspace: GrafanaClientTypes.WorkspaceDescription? = nil
-    )
-    {
+    ) {
         self.workspace = workspace
     }
 }
@@ -2178,8 +2112,7 @@ public struct DescribeWorkspaceInput: Swift.Sendable {
 
     public init(
         workspaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.workspaceId = workspaceId
     }
 }
@@ -2191,8 +2124,7 @@ public struct DescribeWorkspaceOutput: Swift.Sendable {
 
     public init(
         workspace: GrafanaClientTypes.WorkspaceDescription? = nil
-    )
-    {
+    ) {
         self.workspace = workspace
     }
 }
@@ -2206,8 +2138,7 @@ public struct ListWorkspacesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2265,8 +2196,7 @@ extension GrafanaClientTypes {
             notificationDestinations: [GrafanaClientTypes.NotificationDestinationType]? = nil,
             status: GrafanaClientTypes.WorkspaceStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.authentication = authentication
             self.created = created
             self.description = description
@@ -2299,8 +2229,7 @@ public struct ListWorkspacesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         workspaces: [GrafanaClientTypes.WorkspaceSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.workspaces = workspaces
     }
@@ -2355,8 +2284,7 @@ public struct UpdateWorkspaceInput: Swift.Sendable {
         workspaceNotificationDestinations: [GrafanaClientTypes.NotificationDestinationType]? = nil,
         workspaceOrganizationalUnits: [Swift.String]? = nil,
         workspaceRoleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountAccessType = accountAccessType
         self.networkAccessControl = networkAccessControl
         self.organizationRoleName = organizationRoleName
@@ -2387,8 +2315,7 @@ public struct UpdateWorkspaceOutput: Swift.Sendable {
 
     public init(
         workspace: GrafanaClientTypes.WorkspaceDescription? = nil
-    )
-    {
+    ) {
         self.workspace = workspace
     }
 }

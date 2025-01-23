@@ -44,8 +44,7 @@ extension AppMeshClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -77,8 +76,7 @@ extension AppMeshClientTypes {
         public init(
             format: AppMeshClientTypes.LoggingFormat? = nil,
             path: Swift.String? = nil
-        )
-        {
+        ) {
             self.format = format
             self.path = path
         }
@@ -96,9 +94,9 @@ extension AppMeshClientTypes {
 }
 
 /// The request syntax was malformed. Check your request syntax and try again.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -113,16 +111,15 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You don't have permissions to perform this action.
-public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -137,16 +134,15 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request processing has failed because of an unknown error, exception, or failure.
-public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -161,16 +157,15 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified resource doesn't exist. Check your request syntax and try again.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -185,16 +180,15 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request has failed due to a temporary failure of the service.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -209,16 +203,15 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The maximum request rate permitted by the App Mesh APIs has been exceeded for your account. For best results, use an increasing or variable sleep interval between requests.
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -233,8 +226,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -253,8 +245,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextToken = nextToken
         self.resourceArn = resourceArn
@@ -275,8 +266,7 @@ extension AppMeshClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -294,17 +284,16 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [AppMeshClientTypes.TagRef]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
 }
 
 /// The request contains a client token that was used for a previous update resource call with different specifications. Try the request again with a new client token.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -319,16 +308,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You have exceeded a service limit for your account. For more information, see [Service Limits](https://docs.aws.amazon.com/app-mesh/latest/userguide/service-quotas.html) in the App Mesh User Guide.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -343,8 +331,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -388,8 +375,7 @@ extension AppMeshClientTypes {
 
         public init(
             type: AppMeshClientTypes.EgressFilterType? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -439,8 +425,7 @@ extension AppMeshClientTypes {
 
         public init(
             ipPreference: AppMeshClientTypes.IpPreference? = nil
-        )
-        {
+        ) {
             self.ipPreference = ipPreference
         }
     }
@@ -458,8 +443,7 @@ extension AppMeshClientTypes {
         public init(
             egressFilter: AppMeshClientTypes.EgressFilter? = nil,
             serviceDiscovery: AppMeshClientTypes.MeshServiceDiscovery? = nil
-        )
-        {
+        ) {
             self.egressFilter = egressFilter
             self.serviceDiscovery = serviceDiscovery
         }
@@ -483,8 +467,7 @@ public struct CreateMeshInput: Swift.Sendable {
         meshName: Swift.String? = nil,
         spec: AppMeshClientTypes.MeshSpec? = nil,
         tags: [AppMeshClientTypes.TagRef]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.meshName = meshName
         self.spec = spec
@@ -526,8 +509,7 @@ extension AppMeshClientTypes {
             resourceOwner: Swift.String? = nil,
             uid: Swift.String? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.lastUpdatedAt = lastUpdatedAt
@@ -580,8 +562,7 @@ extension AppMeshClientTypes {
 
         public init(
             status: AppMeshClientTypes.MeshStatusCode? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -609,8 +590,7 @@ extension AppMeshClientTypes {
             metadata: AppMeshClientTypes.ResourceMetadata? = nil,
             spec: AppMeshClientTypes.MeshSpec? = nil,
             status: AppMeshClientTypes.MeshStatus? = nil
-        )
-        {
+        ) {
             self.meshName = meshName
             self.metadata = metadata
             self.spec = spec
@@ -627,16 +607,15 @@ public struct CreateMeshOutput: Swift.Sendable {
 
     public init(
         mesh: AppMeshClientTypes.MeshData? = nil
-    )
-    {
+    ) {
         self.mesh = mesh
     }
 }
 
 /// You can't delete the specified resource because it's in use or required by another resource.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -651,8 +630,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -665,8 +643,7 @@ public struct DeleteMeshInput: Swift.Sendable {
 
     public init(
         meshName: Swift.String? = nil
-    )
-    {
+    ) {
         self.meshName = meshName
     }
 }
@@ -679,8 +656,7 @@ public struct DeleteMeshOutput: Swift.Sendable {
 
     public init(
         mesh: AppMeshClientTypes.MeshData? = nil
-    )
-    {
+    ) {
         self.mesh = mesh
     }
 }
@@ -696,8 +672,7 @@ public struct DescribeMeshInput: Swift.Sendable {
     public init(
         meshName: Swift.String? = nil,
         meshOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.meshName = meshName
         self.meshOwner = meshOwner
     }
@@ -711,8 +686,7 @@ public struct DescribeMeshOutput: Swift.Sendable {
 
     public init(
         mesh: AppMeshClientTypes.MeshData? = nil
-    )
-    {
+    ) {
         self.mesh = mesh
     }
 }
@@ -727,8 +701,7 @@ public struct ListMeshesInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextToken = nextToken
     }
@@ -768,8 +741,7 @@ extension AppMeshClientTypes {
             meshOwner: Swift.String? = nil,
             resourceOwner: Swift.String? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.lastUpdatedAt = lastUpdatedAt
@@ -792,8 +764,7 @@ public struct ListMeshesOutput: Swift.Sendable {
     public init(
         meshes: [AppMeshClientTypes.MeshRef]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.meshes = meshes
         self.nextToken = nextToken
     }
@@ -813,8 +784,7 @@ public struct UpdateMeshInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         meshName: Swift.String? = nil,
         spec: AppMeshClientTypes.MeshSpec? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.meshName = meshName
         self.spec = spec
@@ -829,8 +799,7 @@ public struct UpdateMeshOutput: Swift.Sendable {
 
     public init(
         mesh: AppMeshClientTypes.MeshData? = nil
-    )
-    {
+    ) {
         self.mesh = mesh
     }
 }
@@ -849,8 +818,7 @@ extension AppMeshClientTypes {
         public init(
             certificateChain: Swift.String? = nil,
             privateKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateChain = certificateChain
             self.privateKey = privateKey
         }
@@ -867,8 +835,7 @@ extension AppMeshClientTypes {
 
         public init(
             secretName: Swift.String? = nil
-        )
-        {
+        ) {
             self.secretName = secretName
         }
     }
@@ -896,8 +863,7 @@ extension AppMeshClientTypes {
 
         public init(
             exact: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.exact = exact
         }
     }
@@ -913,8 +879,7 @@ extension AppMeshClientTypes {
 
         public init(
             match: AppMeshClientTypes.SubjectAlternativeNameMatchers? = nil
-        )
-        {
+        ) {
             self.match = match
         }
     }
@@ -930,8 +895,7 @@ extension AppMeshClientTypes {
 
         public init(
             certificateAuthorityArns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.certificateAuthorityArns = certificateAuthorityArns
         }
     }
@@ -947,8 +911,7 @@ extension AppMeshClientTypes {
 
         public init(
             certificateChain: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateChain = certificateChain
         }
     }
@@ -964,8 +927,7 @@ extension AppMeshClientTypes {
 
         public init(
             secretName: Swift.String? = nil
-        )
-        {
+        ) {
             self.secretName = secretName
         }
     }
@@ -998,8 +960,7 @@ extension AppMeshClientTypes {
         public init(
             subjectAlternativeNames: AppMeshClientTypes.SubjectAlternativeNames? = nil,
             trust: AppMeshClientTypes.VirtualGatewayTlsValidationContextTrust? = nil
-        )
-        {
+        ) {
             self.subjectAlternativeNames = subjectAlternativeNames
             self.trust = trust
         }
@@ -1025,8 +986,7 @@ extension AppMeshClientTypes {
             enforce: Swift.Bool? = nil,
             ports: [Swift.Int]? = nil,
             validation: AppMeshClientTypes.VirtualGatewayTlsValidationContext? = nil
-        )
-        {
+        ) {
             self.certificate = certificate
             self.enforce = enforce
             self.ports = ports
@@ -1044,8 +1004,7 @@ extension AppMeshClientTypes {
 
         public init(
             tls: AppMeshClientTypes.VirtualGatewayClientPolicyTls? = nil
-        )
-        {
+        ) {
             self.tls = tls
         }
     }
@@ -1060,8 +1019,7 @@ extension AppMeshClientTypes {
 
         public init(
             clientPolicy: AppMeshClientTypes.VirtualGatewayClientPolicy? = nil
-        )
-        {
+        ) {
             self.clientPolicy = clientPolicy
         }
     }
@@ -1077,8 +1035,7 @@ extension AppMeshClientTypes {
 
         public init(
             maxRequests: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxRequests = maxRequests
         }
     }
@@ -1097,8 +1054,7 @@ extension AppMeshClientTypes {
         public init(
             maxConnections: Swift.Int? = nil,
             maxPendingRequests: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxConnections = maxConnections
             self.maxPendingRequests = maxPendingRequests
         }
@@ -1115,8 +1071,7 @@ extension AppMeshClientTypes {
 
         public init(
             maxRequests: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxRequests = maxRequests
         }
     }
@@ -1200,8 +1155,7 @@ extension AppMeshClientTypes {
             `protocol`: AppMeshClientTypes.VirtualGatewayPortProtocol? = nil,
             timeoutMillis: Swift.Int? = nil,
             unhealthyThreshold: Swift.Int? = nil
-        )
-        {
+        ) {
             self.healthyThreshold = healthyThreshold
             self.intervalMillis = intervalMillis
             self.path = path
@@ -1227,8 +1181,7 @@ extension AppMeshClientTypes {
         public init(
             port: Swift.Int? = nil,
             `protocol`: AppMeshClientTypes.VirtualGatewayPortProtocol? = nil
-        )
-        {
+        ) {
             self.port = port
             self.`protocol` = `protocol`
         }
@@ -1245,8 +1198,7 @@ extension AppMeshClientTypes {
 
         public init(
             certificateArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateArn = certificateArn
         }
     }
@@ -1323,8 +1275,7 @@ extension AppMeshClientTypes {
         public init(
             subjectAlternativeNames: AppMeshClientTypes.SubjectAlternativeNames? = nil,
             trust: AppMeshClientTypes.VirtualGatewayListenerTlsValidationContextTrust? = nil
-        )
-        {
+        ) {
             self.subjectAlternativeNames = subjectAlternativeNames
             self.trust = trust
         }
@@ -1354,8 +1305,7 @@ extension AppMeshClientTypes {
             certificate: AppMeshClientTypes.VirtualGatewayListenerTlsCertificate? = nil,
             mode: AppMeshClientTypes.VirtualGatewayListenerTlsMode? = nil,
             validation: AppMeshClientTypes.VirtualGatewayListenerTlsValidationContext? = nil
-        )
-        {
+        ) {
             self.certificate = certificate
             self.mode = mode
             self.validation = validation
@@ -1382,8 +1332,7 @@ extension AppMeshClientTypes {
             healthCheck: AppMeshClientTypes.VirtualGatewayHealthCheckPolicy? = nil,
             portMapping: AppMeshClientTypes.VirtualGatewayPortMapping? = nil,
             tls: AppMeshClientTypes.VirtualGatewayListenerTls? = nil
-        )
-        {
+        ) {
             self.connectionPool = connectionPool
             self.healthCheck = healthCheck
             self.portMapping = portMapping
@@ -1405,8 +1354,7 @@ extension AppMeshClientTypes {
         public init(
             format: AppMeshClientTypes.LoggingFormat? = nil,
             path: Swift.String? = nil
-        )
-        {
+        ) {
             self.format = format
             self.path = path
         }
@@ -1432,8 +1380,7 @@ extension AppMeshClientTypes {
 
         public init(
             accessLog: AppMeshClientTypes.VirtualGatewayAccessLog? = nil
-        )
-        {
+        ) {
             self.accessLog = accessLog
         }
     }
@@ -1455,8 +1402,7 @@ extension AppMeshClientTypes {
             backendDefaults: AppMeshClientTypes.VirtualGatewayBackendDefaults? = nil,
             listeners: [AppMeshClientTypes.VirtualGatewayListener]? = nil,
             logging: AppMeshClientTypes.VirtualGatewayLogging? = nil
-        )
-        {
+        ) {
             self.backendDefaults = backendDefaults
             self.listeners = listeners
             self.logging = logging
@@ -1488,8 +1434,7 @@ public struct CreateVirtualGatewayInput: Swift.Sendable {
         spec: AppMeshClientTypes.VirtualGatewaySpec? = nil,
         tags: [AppMeshClientTypes.TagRef]? = nil,
         virtualGatewayName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.meshName = meshName
         self.meshOwner = meshOwner
@@ -1541,8 +1486,7 @@ extension AppMeshClientTypes {
 
         public init(
             status: AppMeshClientTypes.VirtualGatewayStatusCode? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -1574,8 +1518,7 @@ extension AppMeshClientTypes {
             spec: AppMeshClientTypes.VirtualGatewaySpec? = nil,
             status: AppMeshClientTypes.VirtualGatewayStatus? = nil,
             virtualGatewayName: Swift.String? = nil
-        )
-        {
+        ) {
             self.meshName = meshName
             self.metadata = metadata
             self.spec = spec
@@ -1592,8 +1535,7 @@ public struct CreateVirtualGatewayOutput: Swift.Sendable {
 
     public init(
         virtualGateway: AppMeshClientTypes.VirtualGatewayData? = nil
-    )
-    {
+    ) {
         self.virtualGateway = virtualGateway
     }
 }
@@ -1612,8 +1554,7 @@ public struct DeleteVirtualGatewayInput: Swift.Sendable {
         meshName: Swift.String? = nil,
         meshOwner: Swift.String? = nil,
         virtualGatewayName: Swift.String? = nil
-    )
-    {
+    ) {
         self.meshName = meshName
         self.meshOwner = meshOwner
         self.virtualGatewayName = virtualGatewayName
@@ -1627,8 +1568,7 @@ public struct DeleteVirtualGatewayOutput: Swift.Sendable {
 
     public init(
         virtualGateway: AppMeshClientTypes.VirtualGatewayData? = nil
-    )
-    {
+    ) {
         self.virtualGateway = virtualGateway
     }
 }
@@ -1647,8 +1587,7 @@ public struct DescribeVirtualGatewayInput: Swift.Sendable {
         meshName: Swift.String? = nil,
         meshOwner: Swift.String? = nil,
         virtualGatewayName: Swift.String? = nil
-    )
-    {
+    ) {
         self.meshName = meshName
         self.meshOwner = meshOwner
         self.virtualGatewayName = virtualGatewayName
@@ -1662,8 +1601,7 @@ public struct DescribeVirtualGatewayOutput: Swift.Sendable {
 
     public init(
         virtualGateway: AppMeshClientTypes.VirtualGatewayData? = nil
-    )
-    {
+    ) {
         self.virtualGateway = virtualGateway
     }
 }
@@ -1706,8 +1644,7 @@ extension AppMeshClientTypes {
 
         public init(
             defaultTargetHostname: AppMeshClientTypes.DefaultGatewayRouteRewrite? = nil
-        )
-        {
+        ) {
             self.defaultTargetHostname = defaultTargetHostname
         }
     }
@@ -1722,8 +1659,7 @@ extension AppMeshClientTypes {
 
         public init(
             hostname: AppMeshClientTypes.GatewayRouteHostnameRewrite? = nil
-        )
-        {
+        ) {
             self.hostname = hostname
         }
     }
@@ -1739,8 +1675,7 @@ extension AppMeshClientTypes {
 
         public init(
             virtualServiceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.virtualServiceName = virtualServiceName
         }
     }
@@ -1759,8 +1694,7 @@ extension AppMeshClientTypes {
         public init(
             port: Swift.Int? = nil,
             virtualService: AppMeshClientTypes.GatewayRouteVirtualService? = nil
-        )
-        {
+        ) {
             self.port = port
             self.virtualService = virtualService
         }
@@ -1780,8 +1714,7 @@ extension AppMeshClientTypes {
         public init(
             rewrite: AppMeshClientTypes.GrpcGatewayRouteRewrite? = nil,
             target: AppMeshClientTypes.GatewayRouteTarget? = nil
-        )
-        {
+        ) {
             self.rewrite = rewrite
             self.target = target
         }
@@ -1800,8 +1733,7 @@ extension AppMeshClientTypes {
         public init(
             exact: Swift.String? = nil,
             suffix: Swift.String? = nil
-        )
-        {
+        ) {
             self.exact = exact
             self.suffix = suffix
         }
@@ -1822,8 +1754,7 @@ extension AppMeshClientTypes {
         public init(
             end: Swift.Int? = nil,
             start: Swift.Int? = nil
-        )
-        {
+        ) {
             self.end = end
             self.start = start
         }
@@ -1864,8 +1795,7 @@ extension AppMeshClientTypes {
             invert: Swift.Bool? = nil,
             match: AppMeshClientTypes.GrpcMetadataMatchMethod? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.invert = invert
             self.match = match
             self.name = name
@@ -1891,8 +1821,7 @@ extension AppMeshClientTypes {
             metadata: [AppMeshClientTypes.GrpcGatewayRouteMetadata]? = nil,
             port: Swift.Int? = nil,
             serviceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.hostname = hostname
             self.metadata = metadata
             self.port = port
@@ -1915,8 +1844,7 @@ extension AppMeshClientTypes {
         public init(
             action: AppMeshClientTypes.GrpcGatewayRouteAction? = nil,
             match: AppMeshClientTypes.GrpcGatewayRouteMatch? = nil
-        )
-        {
+        ) {
             self.action = action
             self.match = match
         }
@@ -1932,8 +1860,7 @@ extension AppMeshClientTypes {
 
         public init(
             exact: Swift.String? = nil
-        )
-        {
+        ) {
             self.exact = exact
         }
     }
@@ -1951,8 +1878,7 @@ extension AppMeshClientTypes {
         public init(
             defaultPrefix: AppMeshClientTypes.DefaultGatewayRouteRewrite? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultPrefix = defaultPrefix
             self.value = value
         }
@@ -1974,8 +1900,7 @@ extension AppMeshClientTypes {
             hostname: AppMeshClientTypes.GatewayRouteHostnameRewrite? = nil,
             path: AppMeshClientTypes.HttpGatewayRoutePathRewrite? = nil,
             `prefix`: AppMeshClientTypes.HttpGatewayRoutePrefixRewrite? = nil
-        )
-        {
+        ) {
             self.hostname = hostname
             self.path = path
             self.`prefix` = `prefix`
@@ -1996,8 +1921,7 @@ extension AppMeshClientTypes {
         public init(
             rewrite: AppMeshClientTypes.HttpGatewayRouteRewrite? = nil,
             target: AppMeshClientTypes.GatewayRouteTarget? = nil
-        )
-        {
+        ) {
             self.rewrite = rewrite
             self.target = target
         }
@@ -2038,8 +1962,7 @@ extension AppMeshClientTypes {
             invert: Swift.Bool? = nil,
             match: AppMeshClientTypes.HeaderMatchMethod? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.invert = invert
             self.match = match
             self.name = name
@@ -2109,8 +2032,7 @@ extension AppMeshClientTypes {
         public init(
             exact: Swift.String? = nil,
             regex: Swift.String? = nil
-        )
-        {
+        ) {
             self.exact = exact
             self.regex = regex
         }
@@ -2126,8 +2048,7 @@ extension AppMeshClientTypes {
 
         public init(
             exact: Swift.String? = nil
-        )
-        {
+        ) {
             self.exact = exact
         }
     }
@@ -2146,8 +2067,7 @@ extension AppMeshClientTypes {
         public init(
             match: AppMeshClientTypes.QueryParameterMatch? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.match = match
             self.name = name
         }
@@ -2181,8 +2101,7 @@ extension AppMeshClientTypes {
             port: Swift.Int? = nil,
             `prefix`: Swift.String? = nil,
             queryParameters: [AppMeshClientTypes.HttpQueryParameter]? = nil
-        )
-        {
+        ) {
             self.headers = headers
             self.hostname = hostname
             self.method = method
@@ -2208,8 +2127,7 @@ extension AppMeshClientTypes {
         public init(
             action: AppMeshClientTypes.HttpGatewayRouteAction? = nil,
             match: AppMeshClientTypes.HttpGatewayRouteMatch? = nil
-        )
-        {
+        ) {
             self.action = action
             self.match = match
         }
@@ -2234,8 +2152,7 @@ extension AppMeshClientTypes {
             http2Route: AppMeshClientTypes.HttpGatewayRoute? = nil,
             httpRoute: AppMeshClientTypes.HttpGatewayRoute? = nil,
             priority: Swift.Int? = nil
-        )
-        {
+        ) {
             self.grpcRoute = grpcRoute
             self.http2Route = http2Route
             self.httpRoute = httpRoute
@@ -2272,8 +2189,7 @@ public struct CreateGatewayRouteInput: Swift.Sendable {
         spec: AppMeshClientTypes.GatewayRouteSpec? = nil,
         tags: [AppMeshClientTypes.TagRef]? = nil,
         virtualGatewayName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.gatewayRouteName = gatewayRouteName
         self.meshName = meshName
@@ -2326,8 +2242,7 @@ extension AppMeshClientTypes {
 
         public init(
             status: AppMeshClientTypes.GatewayRouteStatusCode? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -2363,8 +2278,7 @@ extension AppMeshClientTypes {
             spec: AppMeshClientTypes.GatewayRouteSpec? = nil,
             status: AppMeshClientTypes.GatewayRouteStatus? = nil,
             virtualGatewayName: Swift.String? = nil
-        )
-        {
+        ) {
             self.gatewayRouteName = gatewayRouteName
             self.meshName = meshName
             self.metadata = metadata
@@ -2382,8 +2296,7 @@ public struct CreateGatewayRouteOutput: Swift.Sendable {
 
     public init(
         gatewayRoute: AppMeshClientTypes.GatewayRouteData? = nil
-    )
-    {
+    ) {
         self.gatewayRoute = gatewayRoute
     }
 }
@@ -2406,8 +2319,7 @@ public struct DeleteGatewayRouteInput: Swift.Sendable {
         meshName: Swift.String? = nil,
         meshOwner: Swift.String? = nil,
         virtualGatewayName: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayRouteName = gatewayRouteName
         self.meshName = meshName
         self.meshOwner = meshOwner
@@ -2422,8 +2334,7 @@ public struct DeleteGatewayRouteOutput: Swift.Sendable {
 
     public init(
         gatewayRoute: AppMeshClientTypes.GatewayRouteData? = nil
-    )
-    {
+    ) {
         self.gatewayRoute = gatewayRoute
     }
 }
@@ -2446,8 +2357,7 @@ public struct DescribeGatewayRouteInput: Swift.Sendable {
         meshName: Swift.String? = nil,
         meshOwner: Swift.String? = nil,
         virtualGatewayName: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayRouteName = gatewayRouteName
         self.meshName = meshName
         self.meshOwner = meshOwner
@@ -2462,8 +2372,7 @@ public struct DescribeGatewayRouteOutput: Swift.Sendable {
 
     public init(
         gatewayRoute: AppMeshClientTypes.GatewayRouteData? = nil
-    )
-    {
+    ) {
         self.gatewayRoute = gatewayRoute
     }
 }
@@ -2488,8 +2397,7 @@ public struct ListGatewayRoutesInput: Swift.Sendable {
         meshOwner: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         virtualGatewayName: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.meshName = meshName
         self.meshOwner = meshOwner
@@ -2540,8 +2448,7 @@ extension AppMeshClientTypes {
             resourceOwner: Swift.String? = nil,
             version: Swift.Int? = nil,
             virtualGatewayName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.gatewayRouteName = gatewayRouteName
@@ -2565,8 +2472,7 @@ public struct ListGatewayRoutesOutput: Swift.Sendable {
     public init(
         gatewayRoutes: [AppMeshClientTypes.GatewayRouteRef]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.gatewayRoutes = gatewayRoutes
         self.nextToken = nextToken
     }
@@ -2597,8 +2503,7 @@ public struct UpdateGatewayRouteInput: Swift.Sendable {
         meshOwner: Swift.String? = nil,
         spec: AppMeshClientTypes.GatewayRouteSpec? = nil,
         virtualGatewayName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.gatewayRouteName = gatewayRouteName
         self.meshName = meshName
@@ -2615,8 +2520,7 @@ public struct UpdateGatewayRouteOutput: Swift.Sendable {
 
     public init(
         gatewayRoute: AppMeshClientTypes.GatewayRouteData? = nil
-    )
-    {
+    ) {
         self.gatewayRoute = gatewayRoute
     }
 }
@@ -2637,8 +2541,7 @@ public struct ListVirtualGatewaysInput: Swift.Sendable {
         meshName: Swift.String? = nil,
         meshOwner: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.meshName = meshName
         self.meshOwner = meshOwner
@@ -2684,8 +2587,7 @@ extension AppMeshClientTypes {
             resourceOwner: Swift.String? = nil,
             version: Swift.Int? = nil,
             virtualGatewayName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.lastUpdatedAt = lastUpdatedAt
@@ -2708,8 +2610,7 @@ public struct ListVirtualGatewaysOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         virtualGateways: [AppMeshClientTypes.VirtualGatewayRef]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.virtualGateways = virtualGateways
     }
@@ -2736,8 +2637,7 @@ public struct UpdateVirtualGatewayInput: Swift.Sendable {
         meshOwner: Swift.String? = nil,
         spec: AppMeshClientTypes.VirtualGatewaySpec? = nil,
         virtualGatewayName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.meshName = meshName
         self.meshOwner = meshOwner
@@ -2753,8 +2653,7 @@ public struct UpdateVirtualGatewayOutput: Swift.Sendable {
 
     public init(
         virtualGateway: AppMeshClientTypes.VirtualGatewayData? = nil
-    )
-    {
+    ) {
         self.virtualGateway = virtualGateway
     }
 }
@@ -2773,8 +2672,7 @@ extension AppMeshClientTypes {
         public init(
             certificateChain: Swift.String? = nil,
             privateKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateChain = certificateChain
             self.privateKey = privateKey
         }
@@ -2791,8 +2689,7 @@ extension AppMeshClientTypes {
 
         public init(
             secretName: Swift.String? = nil
-        )
-        {
+        ) {
             self.secretName = secretName
         }
     }
@@ -2820,8 +2717,7 @@ extension AppMeshClientTypes {
 
         public init(
             certificateAuthorityArns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.certificateAuthorityArns = certificateAuthorityArns
         }
     }
@@ -2837,8 +2733,7 @@ extension AppMeshClientTypes {
 
         public init(
             certificateChain: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateChain = certificateChain
         }
     }
@@ -2854,8 +2749,7 @@ extension AppMeshClientTypes {
 
         public init(
             secretName: Swift.String? = nil
-        )
-        {
+        ) {
             self.secretName = secretName
         }
     }
@@ -2888,8 +2782,7 @@ extension AppMeshClientTypes {
         public init(
             subjectAlternativeNames: AppMeshClientTypes.SubjectAlternativeNames? = nil,
             trust: AppMeshClientTypes.TlsValidationContextTrust? = nil
-        )
-        {
+        ) {
             self.subjectAlternativeNames = subjectAlternativeNames
             self.trust = trust
         }
@@ -2915,8 +2808,7 @@ extension AppMeshClientTypes {
             enforce: Swift.Bool? = nil,
             ports: [Swift.Int]? = nil,
             validation: AppMeshClientTypes.TlsValidationContext? = nil
-        )
-        {
+        ) {
             self.certificate = certificate
             self.enforce = enforce
             self.ports = ports
@@ -2934,8 +2826,7 @@ extension AppMeshClientTypes {
 
         public init(
             tls: AppMeshClientTypes.ClientPolicyTls? = nil
-        )
-        {
+        ) {
             self.tls = tls
         }
     }
@@ -2950,8 +2841,7 @@ extension AppMeshClientTypes {
 
         public init(
             clientPolicy: AppMeshClientTypes.ClientPolicy? = nil
-        )
-        {
+        ) {
             self.clientPolicy = clientPolicy
         }
     }
@@ -2970,8 +2860,7 @@ extension AppMeshClientTypes {
         public init(
             clientPolicy: AppMeshClientTypes.ClientPolicy? = nil,
             virtualServiceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientPolicy = clientPolicy
             self.virtualServiceName = virtualServiceName
         }
@@ -2998,8 +2887,7 @@ extension AppMeshClientTypes {
 
         public init(
             maxRequests: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxRequests = maxRequests
         }
     }
@@ -3018,8 +2906,7 @@ extension AppMeshClientTypes {
         public init(
             maxConnections: Swift.Int? = nil,
             maxPendingRequests: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxConnections = maxConnections
             self.maxPendingRequests = maxPendingRequests
         }
@@ -3036,8 +2923,7 @@ extension AppMeshClientTypes {
 
         public init(
             maxRequests: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxRequests = maxRequests
         }
     }
@@ -3053,8 +2939,7 @@ extension AppMeshClientTypes {
 
         public init(
             maxConnections: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxConnections = maxConnections
         }
     }
@@ -3143,8 +3028,7 @@ extension AppMeshClientTypes {
             `protocol`: AppMeshClientTypes.PortProtocol? = nil,
             timeoutMillis: Swift.Int? = nil,
             unhealthyThreshold: Swift.Int? = nil
-        )
-        {
+        ) {
             self.healthyThreshold = healthyThreshold
             self.intervalMillis = intervalMillis
             self.path = path
@@ -3197,8 +3081,7 @@ extension AppMeshClientTypes {
         public init(
             unit: AppMeshClientTypes.DurationUnit? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.unit = unit
             self.value = value
         }
@@ -3227,8 +3110,7 @@ extension AppMeshClientTypes {
             interval: AppMeshClientTypes.Duration? = nil,
             maxEjectionPercent: Swift.Int? = nil,
             maxServerErrors: Swift.Int? = nil
-        )
-        {
+        ) {
             self.baseEjectionDuration = baseEjectionDuration
             self.interval = interval
             self.maxEjectionPercent = maxEjectionPercent
@@ -3251,8 +3133,7 @@ extension AppMeshClientTypes {
         public init(
             port: Swift.Int? = nil,
             `protocol`: AppMeshClientTypes.PortProtocol? = nil
-        )
-        {
+        ) {
             self.port = port
             self.`protocol` = `protocol`
         }
@@ -3271,8 +3152,7 @@ extension AppMeshClientTypes {
         public init(
             idle: AppMeshClientTypes.Duration? = nil,
             perRequest: AppMeshClientTypes.Duration? = nil
-        )
-        {
+        ) {
             self.idle = idle
             self.perRequest = perRequest
         }
@@ -3291,8 +3171,7 @@ extension AppMeshClientTypes {
         public init(
             idle: AppMeshClientTypes.Duration? = nil,
             perRequest: AppMeshClientTypes.Duration? = nil
-        )
-        {
+        ) {
             self.idle = idle
             self.perRequest = perRequest
         }
@@ -3308,8 +3187,7 @@ extension AppMeshClientTypes {
 
         public init(
             idle: AppMeshClientTypes.Duration? = nil
-        )
-        {
+        ) {
             self.idle = idle
         }
     }
@@ -3341,8 +3219,7 @@ extension AppMeshClientTypes {
 
         public init(
             certificateArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateArn = certificateArn
         }
     }
@@ -3419,8 +3296,7 @@ extension AppMeshClientTypes {
         public init(
             subjectAlternativeNames: AppMeshClientTypes.SubjectAlternativeNames? = nil,
             trust: AppMeshClientTypes.ListenerTlsValidationContextTrust? = nil
-        )
-        {
+        ) {
             self.subjectAlternativeNames = subjectAlternativeNames
             self.trust = trust
         }
@@ -3450,8 +3326,7 @@ extension AppMeshClientTypes {
             certificate: AppMeshClientTypes.ListenerTlsCertificate? = nil,
             mode: AppMeshClientTypes.ListenerTlsMode? = nil,
             validation: AppMeshClientTypes.ListenerTlsValidationContext? = nil
-        )
-        {
+        ) {
             self.certificate = certificate
             self.mode = mode
             self.validation = validation
@@ -3484,8 +3359,7 @@ extension AppMeshClientTypes {
             portMapping: AppMeshClientTypes.PortMapping? = nil,
             timeout: AppMeshClientTypes.ListenerTimeout? = nil,
             tls: AppMeshClientTypes.ListenerTls? = nil
-        )
-        {
+        ) {
             self.connectionPool = connectionPool
             self.healthCheck = healthCheck
             self.outlierDetection = outlierDetection
@@ -3505,8 +3379,7 @@ extension AppMeshClientTypes {
 
         public init(
             accessLog: AppMeshClientTypes.AccessLog? = nil
-        )
-        {
+        ) {
             self.accessLog = accessLog
         }
     }
@@ -3526,8 +3399,7 @@ extension AppMeshClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -3554,8 +3426,7 @@ extension AppMeshClientTypes {
             ipPreference: AppMeshClientTypes.IpPreference? = nil,
             namespaceName: Swift.String? = nil,
             serviceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.ipPreference = ipPreference
             self.namespaceName = namespaceName
@@ -3609,8 +3480,7 @@ extension AppMeshClientTypes {
             hostname: Swift.String? = nil,
             ipPreference: AppMeshClientTypes.IpPreference? = nil,
             responseType: AppMeshClientTypes.DnsResponseType? = nil
-        )
-        {
+        ) {
             self.hostname = hostname
             self.ipPreference = ipPreference
             self.responseType = responseType
@@ -3651,8 +3521,7 @@ extension AppMeshClientTypes {
             listeners: [AppMeshClientTypes.Listener]? = nil,
             logging: AppMeshClientTypes.Logging? = nil,
             serviceDiscovery: AppMeshClientTypes.ServiceDiscovery? = nil
-        )
-        {
+        ) {
             self.backendDefaults = backendDefaults
             self.backends = backends
             self.listeners = listeners
@@ -3687,8 +3556,7 @@ public struct CreateVirtualNodeInput: Swift.Sendable {
         spec: AppMeshClientTypes.VirtualNodeSpec? = nil,
         tags: [AppMeshClientTypes.TagRef]? = nil,
         virtualNodeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.meshName = meshName
         self.meshOwner = meshOwner
@@ -3740,8 +3608,7 @@ extension AppMeshClientTypes {
 
         public init(
             status: AppMeshClientTypes.VirtualNodeStatusCode? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -3773,8 +3640,7 @@ extension AppMeshClientTypes {
             spec: AppMeshClientTypes.VirtualNodeSpec? = nil,
             status: AppMeshClientTypes.VirtualNodeStatus? = nil,
             virtualNodeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.meshName = meshName
             self.metadata = metadata
             self.spec = spec
@@ -3792,8 +3658,7 @@ public struct CreateVirtualNodeOutput: Swift.Sendable {
 
     public init(
         virtualNode: AppMeshClientTypes.VirtualNodeData? = nil
-    )
-    {
+    ) {
         self.virtualNode = virtualNode
     }
 }
@@ -3813,8 +3678,7 @@ public struct DeleteVirtualNodeInput: Swift.Sendable {
         meshName: Swift.String? = nil,
         meshOwner: Swift.String? = nil,
         virtualNodeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.meshName = meshName
         self.meshOwner = meshOwner
         self.virtualNodeName = virtualNodeName
@@ -3829,8 +3693,7 @@ public struct DeleteVirtualNodeOutput: Swift.Sendable {
 
     public init(
         virtualNode: AppMeshClientTypes.VirtualNodeData? = nil
-    )
-    {
+    ) {
         self.virtualNode = virtualNode
     }
 }
@@ -3850,8 +3713,7 @@ public struct DescribeVirtualNodeInput: Swift.Sendable {
         meshName: Swift.String? = nil,
         meshOwner: Swift.String? = nil,
         virtualNodeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.meshName = meshName
         self.meshOwner = meshOwner
         self.virtualNodeName = virtualNodeName
@@ -3866,8 +3728,7 @@ public struct DescribeVirtualNodeOutput: Swift.Sendable {
 
     public init(
         virtualNode: AppMeshClientTypes.VirtualNodeData? = nil
-    )
-    {
+    ) {
         self.virtualNode = virtualNode
     }
 }
@@ -3889,8 +3750,7 @@ public struct ListVirtualNodesInput: Swift.Sendable {
         meshName: Swift.String? = nil,
         meshOwner: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.meshName = meshName
         self.meshOwner = meshOwner
@@ -3936,8 +3796,7 @@ extension AppMeshClientTypes {
             resourceOwner: Swift.String? = nil,
             version: Swift.Int? = nil,
             virtualNodeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.lastUpdatedAt = lastUpdatedAt
@@ -3961,8 +3820,7 @@ public struct ListVirtualNodesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         virtualNodes: [AppMeshClientTypes.VirtualNodeRef]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.virtualNodes = virtualNodes
     }
@@ -3990,8 +3848,7 @@ public struct UpdateVirtualNodeInput: Swift.Sendable {
         meshOwner: Swift.String? = nil,
         spec: AppMeshClientTypes.VirtualNodeSpec? = nil,
         virtualNodeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.meshName = meshName
         self.meshOwner = meshOwner
@@ -4008,8 +3865,7 @@ public struct UpdateVirtualNodeOutput: Swift.Sendable {
 
     public init(
         virtualNode: AppMeshClientTypes.VirtualNodeData? = nil
-    )
-    {
+    ) {
         self.virtualNode = virtualNode
     }
 }
@@ -4024,8 +3880,7 @@ extension AppMeshClientTypes {
 
         public init(
             portMapping: AppMeshClientTypes.PortMapping? = nil
-        )
-        {
+        ) {
             self.portMapping = portMapping
         }
     }
@@ -4040,8 +3895,7 @@ extension AppMeshClientTypes {
 
         public init(
             listeners: [AppMeshClientTypes.VirtualRouterListener]? = nil
-        )
-        {
+        ) {
             self.listeners = listeners
         }
     }
@@ -4072,8 +3926,7 @@ public struct CreateVirtualRouterInput: Swift.Sendable {
         spec: AppMeshClientTypes.VirtualRouterSpec? = nil,
         tags: [AppMeshClientTypes.TagRef]? = nil,
         virtualRouterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.meshName = meshName
         self.meshOwner = meshOwner
@@ -4125,8 +3978,7 @@ extension AppMeshClientTypes {
 
         public init(
             status: AppMeshClientTypes.VirtualRouterStatusCode? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -4158,8 +4010,7 @@ extension AppMeshClientTypes {
             spec: AppMeshClientTypes.VirtualRouterSpec? = nil,
             status: AppMeshClientTypes.VirtualRouterStatus? = nil,
             virtualRouterName: Swift.String? = nil
-        )
-        {
+        ) {
             self.meshName = meshName
             self.metadata = metadata
             self.spec = spec
@@ -4177,8 +4028,7 @@ public struct CreateVirtualRouterOutput: Swift.Sendable {
 
     public init(
         virtualRouter: AppMeshClientTypes.VirtualRouterData? = nil
-    )
-    {
+    ) {
         self.virtualRouter = virtualRouter
     }
 }
@@ -4198,8 +4048,7 @@ public struct DeleteVirtualRouterInput: Swift.Sendable {
         meshName: Swift.String? = nil,
         meshOwner: Swift.String? = nil,
         virtualRouterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.meshName = meshName
         self.meshOwner = meshOwner
         self.virtualRouterName = virtualRouterName
@@ -4214,8 +4063,7 @@ public struct DeleteVirtualRouterOutput: Swift.Sendable {
 
     public init(
         virtualRouter: AppMeshClientTypes.VirtualRouterData? = nil
-    )
-    {
+    ) {
         self.virtualRouter = virtualRouter
     }
 }
@@ -4235,8 +4083,7 @@ public struct DescribeVirtualRouterInput: Swift.Sendable {
         meshName: Swift.String? = nil,
         meshOwner: Swift.String? = nil,
         virtualRouterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.meshName = meshName
         self.meshOwner = meshOwner
         self.virtualRouterName = virtualRouterName
@@ -4251,8 +4098,7 @@ public struct DescribeVirtualRouterOutput: Swift.Sendable {
 
     public init(
         virtualRouter: AppMeshClientTypes.VirtualRouterData? = nil
-    )
-    {
+    ) {
         self.virtualRouter = virtualRouter
     }
 }
@@ -4274,8 +4120,7 @@ public struct ListVirtualRoutersInput: Swift.Sendable {
         meshName: Swift.String? = nil,
         meshOwner: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.meshName = meshName
         self.meshOwner = meshOwner
@@ -4321,8 +4166,7 @@ extension AppMeshClientTypes {
             resourceOwner: Swift.String? = nil,
             version: Swift.Int? = nil,
             virtualRouterName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.lastUpdatedAt = lastUpdatedAt
@@ -4346,8 +4190,7 @@ public struct ListVirtualRoutersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         virtualRouters: [AppMeshClientTypes.VirtualRouterRef]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.virtualRouters = virtualRouters
     }
@@ -4370,8 +4213,7 @@ extension AppMeshClientTypes {
             port: Swift.Int? = nil,
             virtualNode: Swift.String? = nil,
             weight: Swift.Int = 0
-        )
-        {
+        ) {
             self.port = port
             self.virtualNode = virtualNode
             self.weight = weight
@@ -4389,8 +4231,7 @@ extension AppMeshClientTypes {
 
         public init(
             weightedTargets: [AppMeshClientTypes.WeightedTarget]? = nil
-        )
-        {
+        ) {
             self.weightedTargets = weightedTargets
         }
     }
@@ -4430,8 +4271,7 @@ extension AppMeshClientTypes {
             invert: Swift.Bool? = nil,
             match: AppMeshClientTypes.GrpcRouteMetadataMatchMethod? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.invert = invert
             self.match = match
             self.name = name
@@ -4457,8 +4297,7 @@ extension AppMeshClientTypes {
             methodName: Swift.String? = nil,
             port: Swift.Int? = nil,
             serviceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.metadata = metadata
             self.methodName = methodName
             self.port = port
@@ -4562,8 +4401,7 @@ extension AppMeshClientTypes {
             maxRetries: Swift.Int? = nil,
             perRetryTimeout: AppMeshClientTypes.Duration? = nil,
             tcpRetryEvents: [AppMeshClientTypes.TcpRetryPolicyEvent]? = nil
-        )
-        {
+        ) {
             self.grpcRetryEvents = grpcRetryEvents
             self.httpRetryEvents = httpRetryEvents
             self.maxRetries = maxRetries
@@ -4593,8 +4431,7 @@ extension AppMeshClientTypes {
             match: AppMeshClientTypes.GrpcRouteMatch? = nil,
             retryPolicy: AppMeshClientTypes.GrpcRetryPolicy? = nil,
             timeout: AppMeshClientTypes.GrpcTimeout? = nil
-        )
-        {
+        ) {
             self.action = action
             self.match = match
             self.retryPolicy = retryPolicy
@@ -4613,8 +4450,7 @@ extension AppMeshClientTypes {
 
         public init(
             weightedTargets: [AppMeshClientTypes.WeightedTarget]? = nil
-        )
-        {
+        ) {
             self.weightedTargets = weightedTargets
         }
     }
@@ -4636,8 +4472,7 @@ extension AppMeshClientTypes {
             invert: Swift.Bool? = nil,
             match: AppMeshClientTypes.HeaderMatchMethod? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.invert = invert
             self.match = match
             self.name = name
@@ -4701,8 +4536,7 @@ extension AppMeshClientTypes {
             `prefix`: Swift.String? = nil,
             queryParameters: [AppMeshClientTypes.HttpQueryParameter]? = nil,
             scheme: AppMeshClientTypes.HttpScheme? = nil
-        )
-        {
+        ) {
             self.headers = headers
             self.method = method
             self.path = path
@@ -4742,8 +4576,7 @@ extension AppMeshClientTypes {
             maxRetries: Swift.Int? = nil,
             perRetryTimeout: AppMeshClientTypes.Duration? = nil,
             tcpRetryEvents: [AppMeshClientTypes.TcpRetryPolicyEvent]? = nil
-        )
-        {
+        ) {
             self.httpRetryEvents = httpRetryEvents
             self.maxRetries = maxRetries
             self.perRetryTimeout = perRetryTimeout
@@ -4772,8 +4605,7 @@ extension AppMeshClientTypes {
             match: AppMeshClientTypes.HttpRouteMatch? = nil,
             retryPolicy: AppMeshClientTypes.HttpRetryPolicy? = nil,
             timeout: AppMeshClientTypes.HttpTimeout? = nil
-        )
-        {
+        ) {
             self.action = action
             self.match = match
             self.retryPolicy = retryPolicy
@@ -4792,8 +4624,7 @@ extension AppMeshClientTypes {
 
         public init(
             weightedTargets: [AppMeshClientTypes.WeightedTarget]? = nil
-        )
-        {
+        ) {
             self.weightedTargets = weightedTargets
         }
     }
@@ -4808,8 +4639,7 @@ extension AppMeshClientTypes {
 
         public init(
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.port = port
         }
     }
@@ -4831,8 +4661,7 @@ extension AppMeshClientTypes {
             action: AppMeshClientTypes.TcpRouteAction? = nil,
             match: AppMeshClientTypes.TcpRouteMatch? = nil,
             timeout: AppMeshClientTypes.TcpTimeout? = nil
-        )
-        {
+        ) {
             self.action = action
             self.match = match
             self.timeout = timeout
@@ -4861,8 +4690,7 @@ extension AppMeshClientTypes {
             httpRoute: AppMeshClientTypes.HttpRoute? = nil,
             priority: Swift.Int? = nil,
             tcpRoute: AppMeshClientTypes.TcpRoute? = nil
-        )
-        {
+        ) {
             self.grpcRoute = grpcRoute
             self.http2Route = http2Route
             self.httpRoute = httpRoute
@@ -4901,8 +4729,7 @@ public struct CreateRouteInput: Swift.Sendable {
         spec: AppMeshClientTypes.RouteSpec? = nil,
         tags: [AppMeshClientTypes.TagRef]? = nil,
         virtualRouterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.meshName = meshName
         self.meshOwner = meshOwner
@@ -4955,8 +4782,7 @@ extension AppMeshClientTypes {
 
         public init(
             status: AppMeshClientTypes.RouteStatusCode? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -4992,8 +4818,7 @@ extension AppMeshClientTypes {
             spec: AppMeshClientTypes.RouteSpec? = nil,
             status: AppMeshClientTypes.RouteStatus? = nil,
             virtualRouterName: Swift.String? = nil
-        )
-        {
+        ) {
             self.meshName = meshName
             self.metadata = metadata
             self.routeName = routeName
@@ -5012,8 +4837,7 @@ public struct CreateRouteOutput: Swift.Sendable {
 
     public init(
         route: AppMeshClientTypes.RouteData? = nil
-    )
-    {
+    ) {
         self.route = route
     }
 }
@@ -5037,8 +4861,7 @@ public struct DeleteRouteInput: Swift.Sendable {
         meshOwner: Swift.String? = nil,
         routeName: Swift.String? = nil,
         virtualRouterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.meshName = meshName
         self.meshOwner = meshOwner
         self.routeName = routeName
@@ -5054,8 +4877,7 @@ public struct DeleteRouteOutput: Swift.Sendable {
 
     public init(
         route: AppMeshClientTypes.RouteData? = nil
-    )
-    {
+    ) {
         self.route = route
     }
 }
@@ -5079,8 +4901,7 @@ public struct DescribeRouteInput: Swift.Sendable {
         meshOwner: Swift.String? = nil,
         routeName: Swift.String? = nil,
         virtualRouterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.meshName = meshName
         self.meshOwner = meshOwner
         self.routeName = routeName
@@ -5096,8 +4917,7 @@ public struct DescribeRouteOutput: Swift.Sendable {
 
     public init(
         route: AppMeshClientTypes.RouteData? = nil
-    )
-    {
+    ) {
         self.route = route
     }
 }
@@ -5123,8 +4943,7 @@ public struct ListRoutesInput: Swift.Sendable {
         meshOwner: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         virtualRouterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.meshName = meshName
         self.meshOwner = meshOwner
@@ -5175,8 +4994,7 @@ extension AppMeshClientTypes {
             routeName: Swift.String? = nil,
             version: Swift.Int? = nil,
             virtualRouterName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.lastUpdatedAt = lastUpdatedAt
@@ -5201,8 +5019,7 @@ public struct ListRoutesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         routes: [AppMeshClientTypes.RouteRef]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.routes = routes
     }
@@ -5234,8 +5051,7 @@ public struct UpdateRouteInput: Swift.Sendable {
         routeName: Swift.String? = nil,
         spec: AppMeshClientTypes.RouteSpec? = nil,
         virtualRouterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.meshName = meshName
         self.meshOwner = meshOwner
@@ -5253,8 +5069,7 @@ public struct UpdateRouteOutput: Swift.Sendable {
 
     public init(
         route: AppMeshClientTypes.RouteData? = nil
-    )
-    {
+    ) {
         self.route = route
     }
 }
@@ -5281,8 +5096,7 @@ public struct UpdateVirtualRouterInput: Swift.Sendable {
         meshOwner: Swift.String? = nil,
         spec: AppMeshClientTypes.VirtualRouterSpec? = nil,
         virtualRouterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.meshName = meshName
         self.meshOwner = meshOwner
@@ -5299,8 +5113,7 @@ public struct UpdateVirtualRouterOutput: Swift.Sendable {
 
     public init(
         virtualRouter: AppMeshClientTypes.VirtualRouterData? = nil
-    )
-    {
+    ) {
         self.virtualRouter = virtualRouter
     }
 }
@@ -5315,8 +5128,7 @@ extension AppMeshClientTypes {
 
         public init(
             virtualNodeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.virtualNodeName = virtualNodeName
         }
     }
@@ -5332,8 +5144,7 @@ extension AppMeshClientTypes {
 
         public init(
             virtualRouterName: Swift.String? = nil
-        )
-        {
+        ) {
             self.virtualRouterName = virtualRouterName
         }
     }
@@ -5360,8 +5171,7 @@ extension AppMeshClientTypes {
 
         public init(
             provider: AppMeshClientTypes.VirtualServiceProvider? = nil
-        )
-        {
+        ) {
             self.provider = provider
         }
     }
@@ -5392,8 +5202,7 @@ public struct CreateVirtualServiceInput: Swift.Sendable {
         spec: AppMeshClientTypes.VirtualServiceSpec? = nil,
         tags: [AppMeshClientTypes.TagRef]? = nil,
         virtualServiceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.meshName = meshName
         self.meshOwner = meshOwner
@@ -5445,8 +5254,7 @@ extension AppMeshClientTypes {
 
         public init(
             status: AppMeshClientTypes.VirtualServiceStatusCode? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -5478,8 +5286,7 @@ extension AppMeshClientTypes {
             spec: AppMeshClientTypes.VirtualServiceSpec? = nil,
             status: AppMeshClientTypes.VirtualServiceStatus? = nil,
             virtualServiceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.meshName = meshName
             self.metadata = metadata
             self.spec = spec
@@ -5497,8 +5304,7 @@ public struct CreateVirtualServiceOutput: Swift.Sendable {
 
     public init(
         virtualService: AppMeshClientTypes.VirtualServiceData? = nil
-    )
-    {
+    ) {
         self.virtualService = virtualService
     }
 }
@@ -5518,8 +5324,7 @@ public struct DeleteVirtualServiceInput: Swift.Sendable {
         meshName: Swift.String? = nil,
         meshOwner: Swift.String? = nil,
         virtualServiceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.meshName = meshName
         self.meshOwner = meshOwner
         self.virtualServiceName = virtualServiceName
@@ -5534,8 +5339,7 @@ public struct DeleteVirtualServiceOutput: Swift.Sendable {
 
     public init(
         virtualService: AppMeshClientTypes.VirtualServiceData? = nil
-    )
-    {
+    ) {
         self.virtualService = virtualService
     }
 }
@@ -5555,8 +5359,7 @@ public struct DescribeVirtualServiceInput: Swift.Sendable {
         meshName: Swift.String? = nil,
         meshOwner: Swift.String? = nil,
         virtualServiceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.meshName = meshName
         self.meshOwner = meshOwner
         self.virtualServiceName = virtualServiceName
@@ -5571,8 +5374,7 @@ public struct DescribeVirtualServiceOutput: Swift.Sendable {
 
     public init(
         virtualService: AppMeshClientTypes.VirtualServiceData? = nil
-    )
-    {
+    ) {
         self.virtualService = virtualService
     }
 }
@@ -5594,8 +5396,7 @@ public struct ListVirtualServicesInput: Swift.Sendable {
         meshName: Swift.String? = nil,
         meshOwner: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.meshName = meshName
         self.meshOwner = meshOwner
@@ -5641,8 +5442,7 @@ extension AppMeshClientTypes {
             resourceOwner: Swift.String? = nil,
             version: Swift.Int? = nil,
             virtualServiceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.lastUpdatedAt = lastUpdatedAt
@@ -5666,8 +5466,7 @@ public struct ListVirtualServicesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         virtualServices: [AppMeshClientTypes.VirtualServiceRef]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.virtualServices = virtualServices
     }
@@ -5695,8 +5494,7 @@ public struct UpdateVirtualServiceInput: Swift.Sendable {
         meshOwner: Swift.String? = nil,
         spec: AppMeshClientTypes.VirtualServiceSpec? = nil,
         virtualServiceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.meshName = meshName
         self.meshOwner = meshOwner
@@ -5713,16 +5511,15 @@ public struct UpdateVirtualServiceOutput: Swift.Sendable {
 
     public init(
         virtualService: AppMeshClientTypes.VirtualServiceData? = nil
-    )
-    {
+    ) {
         self.virtualService = virtualService
     }
 }
 
 /// The request exceeds the maximum allowed number of tags allowed per resource. The current limit is 50 user tags per resource. You must reduce the number of tags in the request. None of the tags in this request were applied.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5737,8 +5534,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5755,8 +5551,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [AppMeshClientTypes.TagRef]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -5780,8 +5575,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

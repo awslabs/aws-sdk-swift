@@ -52,9 +52,9 @@ extension OpenSearchServerlessClientTypes {
 }
 
 /// When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -69,16 +69,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Thrown when an error internal to the service occurs while processing a request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -93,16 +92,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Thrown when you attempt to create more resources than the service allows based on service quotas.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Description of the error.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -132,8 +130,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -143,9 +140,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// Thrown when the HTTP request contains invalid input or is missing required input.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -160,8 +157,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -187,8 +183,7 @@ public struct CreateAccessPolicyInput: Swift.Sendable {
         name: Swift.String? = nil,
         policy: Swift.String? = nil,
         type: OpenSearchServerlessClientTypes.AccessPolicyType? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.name = name
@@ -224,8 +219,7 @@ extension OpenSearchServerlessClientTypes {
             policy: Smithy.Document? = nil,
             policyVersion: Swift.String? = nil,
             type: OpenSearchServerlessClientTypes.AccessPolicyType? = nil
-        )
-        {
+        ) {
             self.createdDate = createdDate
             self.description = description
             self.lastModifiedDate = lastModifiedDate
@@ -243,16 +237,15 @@ public struct CreateAccessPolicyOutput: Swift.Sendable {
 
     public init(
         accessPolicyDetail: OpenSearchServerlessClientTypes.AccessPolicyDetail? = nil
-    )
-    {
+    ) {
         self.accessPolicyDetail = accessPolicyDetail
     }
 }
 
 /// Thrown when accessing or deleting a resource that does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -267,8 +260,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -287,8 +279,7 @@ public struct DeleteAccessPolicyInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         name: Swift.String? = nil,
         type: OpenSearchServerlessClientTypes.AccessPolicyType? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.name = name
         self.type = type
@@ -311,8 +302,7 @@ public struct GetAccessPolicyInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         type: OpenSearchServerlessClientTypes.AccessPolicyType? = nil
-    )
-    {
+    ) {
         self.name = name
         self.type = type
     }
@@ -324,8 +314,7 @@ public struct GetAccessPolicyOutput: Swift.Sendable {
 
     public init(
         accessPolicyDetail: OpenSearchServerlessClientTypes.AccessPolicyDetail? = nil
-    )
-    {
+    ) {
         self.accessPolicyDetail = accessPolicyDetail
     }
 }
@@ -346,8 +335,7 @@ public struct ListAccessPoliciesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resource: [Swift.String]? = nil,
         type: OpenSearchServerlessClientTypes.AccessPolicyType? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resource = resource
@@ -379,8 +367,7 @@ extension OpenSearchServerlessClientTypes {
             name: Swift.String? = nil,
             policyVersion: Swift.String? = nil,
             type: OpenSearchServerlessClientTypes.AccessPolicyType? = nil
-        )
-        {
+        ) {
             self.createdDate = createdDate
             self.description = description
             self.lastModifiedDate = lastModifiedDate
@@ -400,8 +387,7 @@ public struct ListAccessPoliciesOutput: Swift.Sendable {
     public init(
         accessPolicySummaries: [OpenSearchServerlessClientTypes.AccessPolicySummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessPolicySummaries = accessPolicySummaries
         self.nextToken = nextToken
     }
@@ -431,8 +417,7 @@ public struct UpdateAccessPolicyInput: Swift.Sendable {
         policy: Swift.String? = nil,
         policyVersion: Swift.String? = nil,
         type: OpenSearchServerlessClientTypes.AccessPolicyType? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.name = name
@@ -448,8 +433,7 @@ public struct UpdateAccessPolicyOutput: Swift.Sendable {
 
     public init(
         accessPolicyDetail: OpenSearchServerlessClientTypes.AccessPolicyDetail? = nil
-    )
-    {
+    ) {
         self.accessPolicyDetail = accessPolicyDetail
     }
 }
@@ -463,8 +447,7 @@ extension OpenSearchServerlessClientTypes {
 
         public init(
             dataPolicyCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dataPolicyCount = dataPolicyCount
         }
     }
@@ -482,8 +465,7 @@ extension OpenSearchServerlessClientTypes {
         public init(
             maxIndexingCapacityInOCU: Swift.Int? = nil,
             maxSearchCapacityInOCU: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxIndexingCapacityInOCU = maxIndexingCapacityInOCU
             self.maxSearchCapacityInOCU = maxSearchCapacityInOCU
         }
@@ -499,8 +481,7 @@ extension OpenSearchServerlessClientTypes {
 
         public init(
             capacityLimits: OpenSearchServerlessClientTypes.CapacityLimits? = nil
-        )
-        {
+        ) {
             self.capacityLimits = capacityLimits
         }
     }
@@ -515,8 +496,7 @@ public struct BatchGetCollectionInput: Swift.Sendable {
     public init(
         ids: [Swift.String]? = nil,
         names: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.ids = ids
         self.names = names
     }
@@ -675,8 +655,7 @@ extension OpenSearchServerlessClientTypes {
             standbyReplicas: OpenSearchServerlessClientTypes.StandbyReplicas? = nil,
             status: OpenSearchServerlessClientTypes.CollectionStatus? = nil,
             type: OpenSearchServerlessClientTypes.CollectionType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.collectionEndpoint = collectionEndpoint
             self.createdDate = createdDate
@@ -713,8 +692,7 @@ extension OpenSearchServerlessClientTypes {
             errorMessage: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.id = id
@@ -732,8 +710,7 @@ public struct BatchGetCollectionOutput: Swift.Sendable {
     public init(
         collectionDetails: [OpenSearchServerlessClientTypes.CollectionDetail]? = nil,
         collectionErrorDetails: [OpenSearchServerlessClientTypes.CollectionErrorDetail]? = nil
-    )
-    {
+    ) {
         self.collectionDetails = collectionDetails
         self.collectionErrorDetails = collectionErrorDetails
     }
@@ -780,8 +757,7 @@ extension OpenSearchServerlessClientTypes {
         public init(
             resource: Swift.String? = nil,
             type: OpenSearchServerlessClientTypes.LifecyclePolicyType? = nil
-        )
-        {
+        ) {
             self.resource = resource
             self.type = type
         }
@@ -795,8 +771,7 @@ public struct BatchGetEffectiveLifecyclePolicyInput: Swift.Sendable {
 
     public init(
         resourceIdentifiers: [OpenSearchServerlessClientTypes.LifecyclePolicyResourceIdentifier]? = nil
-    )
-    {
+    ) {
         self.resourceIdentifiers = resourceIdentifiers
     }
 }
@@ -852,8 +827,7 @@ extension OpenSearchServerlessClientTypes {
             resourceType: OpenSearchServerlessClientTypes.ResourceType? = nil,
             retentionPeriod: Swift.String? = nil,
             type: OpenSearchServerlessClientTypes.LifecyclePolicyType? = nil
-        )
-        {
+        ) {
             self.noMinRetentionPeriod = noMinRetentionPeriod
             self.policyName = policyName
             self.resource = resource
@@ -882,8 +856,7 @@ extension OpenSearchServerlessClientTypes {
             errorMessage: Swift.String? = nil,
             resource: Swift.String? = nil,
             type: OpenSearchServerlessClientTypes.LifecyclePolicyType? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.resource = resource
@@ -901,8 +874,7 @@ public struct BatchGetEffectiveLifecyclePolicyOutput: Swift.Sendable {
     public init(
         effectiveLifecyclePolicyDetails: [OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyDetail]? = nil,
         effectiveLifecyclePolicyErrorDetails: [OpenSearchServerlessClientTypes.EffectiveLifecyclePolicyErrorDetail]? = nil
-    )
-    {
+    ) {
         self.effectiveLifecyclePolicyDetails = effectiveLifecyclePolicyDetails
         self.effectiveLifecyclePolicyErrorDetails = effectiveLifecyclePolicyErrorDetails
     }
@@ -922,8 +894,7 @@ extension OpenSearchServerlessClientTypes {
         public init(
             name: Swift.String? = nil,
             type: OpenSearchServerlessClientTypes.LifecyclePolicyType? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
         }
@@ -937,8 +908,7 @@ public struct BatchGetLifecyclePolicyInput: Swift.Sendable {
 
     public init(
         identifiers: [OpenSearchServerlessClientTypes.LifecyclePolicyIdentifier]? = nil
-    )
-    {
+    ) {
         self.identifiers = identifiers
     }
 }
@@ -970,8 +940,7 @@ extension OpenSearchServerlessClientTypes {
             policy: Smithy.Document? = nil,
             policyVersion: Swift.String? = nil,
             type: OpenSearchServerlessClientTypes.LifecyclePolicyType? = nil
-        )
-        {
+        ) {
             self.createdDate = createdDate
             self.description = description
             self.lastModifiedDate = lastModifiedDate
@@ -1001,8 +970,7 @@ extension OpenSearchServerlessClientTypes {
             errorMessage: Swift.String? = nil,
             name: Swift.String? = nil,
             type: OpenSearchServerlessClientTypes.LifecyclePolicyType? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.name = name
@@ -1020,8 +988,7 @@ public struct BatchGetLifecyclePolicyOutput: Swift.Sendable {
     public init(
         lifecyclePolicyDetails: [OpenSearchServerlessClientTypes.LifecyclePolicyDetail]? = nil,
         lifecyclePolicyErrorDetails: [OpenSearchServerlessClientTypes.LifecyclePolicyErrorDetail]? = nil
-    )
-    {
+    ) {
         self.lifecyclePolicyDetails = lifecyclePolicyDetails
         self.lifecyclePolicyErrorDetails = lifecyclePolicyErrorDetails
     }
@@ -1034,8 +1001,7 @@ public struct BatchGetVpcEndpointInput: Swift.Sendable {
 
     public init(
         ids: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.ids = ids
     }
 }
@@ -1112,8 +1078,7 @@ extension OpenSearchServerlessClientTypes {
             status: OpenSearchServerlessClientTypes.VpcEndpointStatus? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdDate = createdDate
             self.failureCode = failureCode
             self.failureMessage = failureMessage
@@ -1142,8 +1107,7 @@ extension OpenSearchServerlessClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.id = id
@@ -1160,17 +1124,16 @@ public struct BatchGetVpcEndpointOutput: Swift.Sendable {
     public init(
         vpcEndpointDetails: [OpenSearchServerlessClientTypes.VpcEndpointDetail]? = nil,
         vpcEndpointErrorDetails: [OpenSearchServerlessClientTypes.VpcEndpointErrorDetail]? = nil
-    )
-    {
+    ) {
         self.vpcEndpointDetails = vpcEndpointDetails
         self.vpcEndpointErrorDetails = vpcEndpointErrorDetails
     }
 }
 
 /// Thrown when the collection you're attempting to create results in a number of search or indexing OCUs that exceeds the account limit.
-public struct OcuLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OcuLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Description of the error.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -1187,8 +1150,7 @@ public struct OcuLimitExceededException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1207,8 +1169,7 @@ extension OpenSearchServerlessClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1237,8 +1198,7 @@ public struct CreateCollectionInput: Swift.Sendable {
         standbyReplicas: OpenSearchServerlessClientTypes.StandbyReplicas? = nil,
         tags: [OpenSearchServerlessClientTypes.Tag]? = nil,
         type: OpenSearchServerlessClientTypes.CollectionType? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.name = name
@@ -1284,8 +1244,7 @@ extension OpenSearchServerlessClientTypes {
             standbyReplicas: OpenSearchServerlessClientTypes.StandbyReplicas? = nil,
             status: OpenSearchServerlessClientTypes.CollectionStatus? = nil,
             type: OpenSearchServerlessClientTypes.CollectionType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdDate = createdDate
             self.description = description
@@ -1306,8 +1265,7 @@ public struct CreateCollectionOutput: Swift.Sendable {
 
     public init(
         createCollectionDetail: OpenSearchServerlessClientTypes.CreateCollectionDetail? = nil
-    )
-    {
+    ) {
         self.createCollectionDetail = createCollectionDetail
     }
 }
@@ -1322,8 +1280,7 @@ public struct DeleteCollectionInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.id = id
     }
@@ -1344,8 +1301,7 @@ extension OpenSearchServerlessClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             status: OpenSearchServerlessClientTypes.CollectionStatus? = nil
-        )
-        {
+        ) {
             self.id = id
             self.name = name
             self.status = status
@@ -1359,8 +1315,7 @@ public struct DeleteCollectionOutput: Swift.Sendable {
 
     public init(
         deleteCollectionDetail: OpenSearchServerlessClientTypes.DeleteCollectionDetail? = nil
-    )
-    {
+    ) {
         self.deleteCollectionDetail = deleteCollectionDetail
     }
 }
@@ -1377,8 +1332,7 @@ extension OpenSearchServerlessClientTypes {
         public init(
             name: Swift.String? = nil,
             status: OpenSearchServerlessClientTypes.CollectionStatus? = nil
-        )
-        {
+        ) {
             self.name = name
             self.status = status
         }
@@ -1397,8 +1351,7 @@ public struct ListCollectionsInput: Swift.Sendable {
         collectionFilters: OpenSearchServerlessClientTypes.CollectionFilters? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.collectionFilters = collectionFilters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1423,8 +1376,7 @@ extension OpenSearchServerlessClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             status: OpenSearchServerlessClientTypes.CollectionStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.name = name
@@ -1442,8 +1394,7 @@ public struct ListCollectionsOutput: Swift.Sendable {
     public init(
         collectionSummaries: [OpenSearchServerlessClientTypes.CollectionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.collectionSummaries = collectionSummaries
         self.nextToken = nextToken
     }
@@ -1462,8 +1413,7 @@ public struct UpdateCollectionInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.id = id
@@ -1500,8 +1450,7 @@ extension OpenSearchServerlessClientTypes {
             name: Swift.String? = nil,
             status: OpenSearchServerlessClientTypes.CollectionStatus? = nil,
             type: OpenSearchServerlessClientTypes.CollectionType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdDate = createdDate
             self.description = description
@@ -1520,8 +1469,7 @@ public struct UpdateCollectionOutput: Swift.Sendable {
 
     public init(
         updateCollectionDetail: OpenSearchServerlessClientTypes.UpdateCollectionDetail? = nil
-    )
-    {
+    ) {
         self.updateCollectionDetail = updateCollectionDetail
     }
 }
@@ -1608,8 +1556,7 @@ extension OpenSearchServerlessClientTypes {
             groupAttribute: OpenSearchServerlessClientTypes.IamIdentityCenterGroupAttribute? = nil,
             instanceArn: Swift.String? = nil,
             userAttribute: OpenSearchServerlessClientTypes.IamIdentityCenterUserAttribute? = nil
-        )
-        {
+        ) {
             self.groupAttribute = groupAttribute
             self.instanceArn = instanceArn
             self.userAttribute = userAttribute
@@ -1638,8 +1585,7 @@ public struct CreateLifecyclePolicyInput: Swift.Sendable {
         name: Swift.String? = nil,
         policy: Swift.String? = nil,
         type: OpenSearchServerlessClientTypes.LifecyclePolicyType? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.name = name
@@ -1654,8 +1600,7 @@ public struct CreateLifecyclePolicyOutput: Swift.Sendable {
 
     public init(
         lifecyclePolicyDetail: OpenSearchServerlessClientTypes.LifecyclePolicyDetail? = nil
-    )
-    {
+    ) {
         self.lifecyclePolicyDetail = lifecyclePolicyDetail
     }
 }
@@ -1679,8 +1624,7 @@ extension OpenSearchServerlessClientTypes {
             metadata: Swift.String? = nil,
             sessionTimeout: Swift.Int? = nil,
             userAttribute: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupAttribute = groupAttribute
             self.metadata = metadata
             self.sessionTimeout = sessionTimeout
@@ -1743,8 +1687,7 @@ public struct CreateSecurityConfigInput: Swift.Sendable {
         name: Swift.String? = nil,
         samlOptions: OpenSearchServerlessClientTypes.SamlConfigOptions? = nil,
         type: OpenSearchServerlessClientTypes.SecurityConfigType? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.iamIdentityCenterOptions = iamIdentityCenterOptions
@@ -1778,8 +1721,7 @@ extension OpenSearchServerlessClientTypes {
             groupAttribute: OpenSearchServerlessClientTypes.IamIdentityCenterGroupAttribute? = nil,
             instanceArn: Swift.String? = nil,
             userAttribute: OpenSearchServerlessClientTypes.IamIdentityCenterUserAttribute? = nil
-        )
-        {
+        ) {
             self.applicationArn = applicationArn
             self.applicationDescription = applicationDescription
             self.applicationName = applicationName
@@ -1820,8 +1762,7 @@ extension OpenSearchServerlessClientTypes {
             lastModifiedDate: Swift.Int? = nil,
             samlOptions: OpenSearchServerlessClientTypes.SamlConfigOptions? = nil,
             type: OpenSearchServerlessClientTypes.SecurityConfigType? = nil
-        )
-        {
+        ) {
             self.configVersion = configVersion
             self.createdDate = createdDate
             self.description = description
@@ -1840,8 +1781,7 @@ public struct CreateSecurityConfigOutput: Swift.Sendable {
 
     public init(
         securityConfigDetail: OpenSearchServerlessClientTypes.SecurityConfigDetail? = nil
-    )
-    {
+    ) {
         self.securityConfigDetail = securityConfigDetail
     }
 }
@@ -1898,8 +1838,7 @@ public struct CreateSecurityPolicyInput: Swift.Sendable {
         name: Swift.String? = nil,
         policy: Swift.String? = nil,
         type: OpenSearchServerlessClientTypes.SecurityPolicyType? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.name = name
@@ -1935,8 +1874,7 @@ extension OpenSearchServerlessClientTypes {
             policy: Smithy.Document? = nil,
             policyVersion: Swift.String? = nil,
             type: OpenSearchServerlessClientTypes.SecurityPolicyType? = nil
-        )
-        {
+        ) {
             self.createdDate = createdDate
             self.description = description
             self.lastModifiedDate = lastModifiedDate
@@ -1954,8 +1892,7 @@ public struct CreateSecurityPolicyOutput: Swift.Sendable {
 
     public init(
         securityPolicyDetail: OpenSearchServerlessClientTypes.SecurityPolicyDetail? = nil
-    )
-    {
+    ) {
         self.securityPolicyDetail = securityPolicyDetail
     }
 }
@@ -1981,8 +1918,7 @@ public struct CreateVpcEndpointInput: Swift.Sendable {
         securityGroupIds: [Swift.String]? = nil,
         subnetIds: [Swift.String]? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.name = name
         self.securityGroupIds = securityGroupIds
@@ -2006,8 +1942,7 @@ extension OpenSearchServerlessClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             status: OpenSearchServerlessClientTypes.VpcEndpointStatus? = nil
-        )
-        {
+        ) {
             self.id = id
             self.name = name
             self.status = status
@@ -2021,8 +1956,7 @@ public struct CreateVpcEndpointOutput: Swift.Sendable {
 
     public init(
         createVpcEndpointDetail: OpenSearchServerlessClientTypes.CreateVpcEndpointDetail? = nil
-    )
-    {
+    ) {
         self.createVpcEndpointDetail = createVpcEndpointDetail
     }
 }
@@ -2041,8 +1975,7 @@ public struct DeleteLifecyclePolicyInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         name: Swift.String? = nil,
         type: OpenSearchServerlessClientTypes.LifecyclePolicyType? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.name = name
         self.type = type
@@ -2064,8 +1997,7 @@ public struct DeleteSecurityConfigInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.id = id
     }
@@ -2090,8 +2022,7 @@ public struct DeleteSecurityPolicyInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         name: Swift.String? = nil,
         type: OpenSearchServerlessClientTypes.SecurityPolicyType? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.name = name
         self.type = type
@@ -2113,8 +2044,7 @@ public struct DeleteVpcEndpointInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.id = id
     }
@@ -2135,8 +2065,7 @@ extension OpenSearchServerlessClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             status: OpenSearchServerlessClientTypes.VpcEndpointStatus? = nil
-        )
-        {
+        ) {
             self.id = id
             self.name = name
             self.status = status
@@ -2150,8 +2079,7 @@ public struct DeleteVpcEndpointOutput: Swift.Sendable {
 
     public init(
         deleteVpcEndpointDetail: OpenSearchServerlessClientTypes.DeleteVpcEndpointDetail? = nil
-    )
-    {
+    ) {
         self.deleteVpcEndpointDetail = deleteVpcEndpointDetail
     }
 }
@@ -2167,8 +2095,7 @@ public struct GetAccountSettingsOutput: Swift.Sendable {
 
     public init(
         accountSettingsDetail: OpenSearchServerlessClientTypes.AccountSettingsDetail? = nil
-    )
-    {
+    ) {
         self.accountSettingsDetail = accountSettingsDetail
     }
 }
@@ -2187,8 +2114,7 @@ extension OpenSearchServerlessClientTypes {
 
         public init(
             retentionPolicyCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.retentionPolicyCount = retentionPolicyCount
         }
     }
@@ -2203,8 +2129,7 @@ extension OpenSearchServerlessClientTypes {
 
         public init(
             samlConfigCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.samlConfigCount = samlConfigCount
         }
     }
@@ -2222,8 +2147,7 @@ extension OpenSearchServerlessClientTypes {
         public init(
             encryptionPolicyCount: Swift.Int? = nil,
             networkPolicyCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.encryptionPolicyCount = encryptionPolicyCount
             self.networkPolicyCount = networkPolicyCount
         }
@@ -2248,8 +2172,7 @@ public struct GetPoliciesStatsOutput: Swift.Sendable {
         securityConfigStats: OpenSearchServerlessClientTypes.SecurityConfigStats? = nil,
         securityPolicyStats: OpenSearchServerlessClientTypes.SecurityPolicyStats? = nil,
         totalPolicyCount: Swift.Int? = nil
-    )
-    {
+    ) {
         self.accessPolicyStats = accessPolicyStats
         self.lifecyclePolicyStats = lifecyclePolicyStats
         self.securityConfigStats = securityConfigStats
@@ -2265,8 +2188,7 @@ public struct GetSecurityConfigInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2277,8 +2199,7 @@ public struct GetSecurityConfigOutput: Swift.Sendable {
 
     public init(
         securityConfigDetail: OpenSearchServerlessClientTypes.SecurityConfigDetail? = nil
-    )
-    {
+    ) {
         self.securityConfigDetail = securityConfigDetail
     }
 }
@@ -2294,8 +2215,7 @@ public struct GetSecurityPolicyInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         type: OpenSearchServerlessClientTypes.SecurityPolicyType? = nil
-    )
-    {
+    ) {
         self.name = name
         self.type = type
     }
@@ -2307,8 +2227,7 @@ public struct GetSecurityPolicyOutput: Swift.Sendable {
 
     public init(
         securityPolicyDetail: OpenSearchServerlessClientTypes.SecurityPolicyDetail? = nil
-    )
-    {
+    ) {
         self.securityPolicyDetail = securityPolicyDetail
     }
 }
@@ -2329,8 +2248,7 @@ public struct ListLifecyclePoliciesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resources: [Swift.String]? = nil,
         type: OpenSearchServerlessClientTypes.LifecyclePolicyType? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resources = resources
@@ -2362,8 +2280,7 @@ extension OpenSearchServerlessClientTypes {
             name: Swift.String? = nil,
             policyVersion: Swift.String? = nil,
             type: OpenSearchServerlessClientTypes.LifecyclePolicyType? = nil
-        )
-        {
+        ) {
             self.createdDate = createdDate
             self.description = description
             self.lastModifiedDate = lastModifiedDate
@@ -2383,8 +2300,7 @@ public struct ListLifecyclePoliciesOutput: Swift.Sendable {
     public init(
         lifecyclePolicySummaries: [OpenSearchServerlessClientTypes.LifecyclePolicySummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.lifecyclePolicySummaries = lifecyclePolicySummaries
         self.nextToken = nextToken
     }
@@ -2414,8 +2330,7 @@ public struct UpdateLifecyclePolicyInput: Swift.Sendable {
         policy: Swift.String? = nil,
         policyVersion: Swift.String? = nil,
         type: OpenSearchServerlessClientTypes.LifecyclePolicyType? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.name = name
@@ -2431,8 +2346,7 @@ public struct UpdateLifecyclePolicyOutput: Swift.Sendable {
 
     public init(
         lifecyclePolicyDetail: OpenSearchServerlessClientTypes.LifecyclePolicyDetail? = nil
-    )
-    {
+    ) {
         self.lifecyclePolicyDetail = lifecyclePolicyDetail
     }
 }
@@ -2450,8 +2364,7 @@ public struct ListSecurityConfigsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         type: OpenSearchServerlessClientTypes.SecurityConfigType? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.type = type
@@ -2482,8 +2395,7 @@ extension OpenSearchServerlessClientTypes {
             id: Swift.String? = nil,
             lastModifiedDate: Swift.Int? = nil,
             type: OpenSearchServerlessClientTypes.SecurityConfigType? = nil
-        )
-        {
+        ) {
             self.configVersion = configVersion
             self.createdDate = createdDate
             self.description = description
@@ -2503,8 +2415,7 @@ public struct ListSecurityConfigsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         securityConfigSummaries: [OpenSearchServerlessClientTypes.SecurityConfigSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.securityConfigSummaries = securityConfigSummaries
     }
@@ -2526,8 +2437,7 @@ public struct ListSecurityPoliciesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resource: [Swift.String]? = nil,
         type: OpenSearchServerlessClientTypes.SecurityPolicyType? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resource = resource
@@ -2559,8 +2469,7 @@ extension OpenSearchServerlessClientTypes {
             name: Swift.String? = nil,
             policyVersion: Swift.String? = nil,
             type: OpenSearchServerlessClientTypes.SecurityPolicyType? = nil
-        )
-        {
+        ) {
             self.createdDate = createdDate
             self.description = description
             self.lastModifiedDate = lastModifiedDate
@@ -2580,8 +2489,7 @@ public struct ListSecurityPoliciesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         securityPolicySummaries: [OpenSearchServerlessClientTypes.SecurityPolicySummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.securityPolicySummaries = securityPolicySummaries
     }
@@ -2594,8 +2502,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2606,8 +2513,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [OpenSearchServerlessClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2621,8 +2527,7 @@ extension OpenSearchServerlessClientTypes {
 
         public init(
             status: OpenSearchServerlessClientTypes.VpcEndpointStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -2640,8 +2545,7 @@ public struct ListVpcEndpointsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         vpcEndpointFilters: OpenSearchServerlessClientTypes.VpcEndpointFilters? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.vpcEndpointFilters = vpcEndpointFilters
@@ -2663,8 +2567,7 @@ extension OpenSearchServerlessClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             status: OpenSearchServerlessClientTypes.VpcEndpointStatus? = nil
-        )
-        {
+        ) {
             self.id = id
             self.name = name
             self.status = status
@@ -2681,8 +2584,7 @@ public struct ListVpcEndpointsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         vpcEndpointSummaries: [OpenSearchServerlessClientTypes.VpcEndpointSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.vpcEndpointSummaries = vpcEndpointSummaries
     }
@@ -2700,8 +2602,7 @@ extension OpenSearchServerlessClientTypes {
         public init(
             groupAttribute: OpenSearchServerlessClientTypes.IamIdentityCenterGroupAttribute? = nil,
             userAttribute: OpenSearchServerlessClientTypes.IamIdentityCenterUserAttribute? = nil
-        )
-        {
+        ) {
             self.groupAttribute = groupAttribute
             self.userAttribute = userAttribute
         }
@@ -2731,8 +2632,7 @@ public struct UpdateSecurityConfigInput: Swift.Sendable {
         iamIdentityCenterOptionsUpdates: OpenSearchServerlessClientTypes.UpdateIamIdentityCenterConfigOptions? = nil,
         id: Swift.String? = nil,
         samlOptions: OpenSearchServerlessClientTypes.SamlConfigOptions? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.configVersion = configVersion
         self.description = description
@@ -2748,8 +2648,7 @@ public struct UpdateSecurityConfigOutput: Swift.Sendable {
 
     public init(
         securityConfigDetail: OpenSearchServerlessClientTypes.SecurityConfigDetail? = nil
-    )
-    {
+    ) {
         self.securityConfigDetail = securityConfigDetail
     }
 }
@@ -2778,8 +2677,7 @@ public struct UpdateSecurityPolicyInput: Swift.Sendable {
         policy: Swift.String? = nil,
         policyVersion: Swift.String? = nil,
         type: OpenSearchServerlessClientTypes.SecurityPolicyType? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.name = name
@@ -2795,8 +2693,7 @@ public struct UpdateSecurityPolicyOutput: Swift.Sendable {
 
     public init(
         securityPolicyDetail: OpenSearchServerlessClientTypes.SecurityPolicyDetail? = nil
-    )
-    {
+    ) {
         self.securityPolicyDetail = securityPolicyDetail
     }
 }
@@ -2812,8 +2709,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [OpenSearchServerlessClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -2835,8 +2731,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -2853,8 +2748,7 @@ public struct UpdateAccountSettingsInput: Swift.Sendable {
 
     public init(
         capacityLimits: OpenSearchServerlessClientTypes.CapacityLimits? = nil
-    )
-    {
+    ) {
         self.capacityLimits = capacityLimits
     }
 }
@@ -2865,8 +2759,7 @@ public struct UpdateAccountSettingsOutput: Swift.Sendable {
 
     public init(
         accountSettingsDetail: OpenSearchServerlessClientTypes.AccountSettingsDetail? = nil
-    )
-    {
+    ) {
         self.accountSettingsDetail = accountSettingsDetail
     }
 }
@@ -2893,8 +2786,7 @@ public struct UpdateVpcEndpointInput: Swift.Sendable {
         id: Swift.String? = nil,
         removeSecurityGroupIds: [Swift.String]? = nil,
         removeSubnetIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.addSecurityGroupIds = addSecurityGroupIds
         self.addSubnetIds = addSubnetIds
         self.clientToken = clientToken
@@ -2928,8 +2820,7 @@ extension OpenSearchServerlessClientTypes {
             securityGroupIds: [Swift.String]? = nil,
             status: OpenSearchServerlessClientTypes.VpcEndpointStatus? = nil,
             subnetIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.id = id
             self.lastModifiedDate = lastModifiedDate
             self.name = name
@@ -2946,8 +2837,7 @@ public struct UpdateVpcEndpointOutput: Swift.Sendable {
 
     public init(
         updateVpcEndpointDetail: OpenSearchServerlessClientTypes.UpdateVpcEndpointDetail? = nil
-    )
-    {
+    ) {
         self.updateVpcEndpointDetail = updateVpcEndpointDetail
     }
 }

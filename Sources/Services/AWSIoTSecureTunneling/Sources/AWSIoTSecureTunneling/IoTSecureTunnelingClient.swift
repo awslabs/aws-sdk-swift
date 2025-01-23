@@ -16,12 +16,14 @@ import class ClientRuntime.HttpClientConfiguration
 import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
+import class Smithy.Context
 import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
+import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
@@ -40,8 +42,8 @@ import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
+@_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
-import struct AWSClientRuntime.EndpointResolverMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
@@ -64,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTSecureTunnelingClient: ClientRuntime.Client {
     public static let clientName = "IoTSecureTunnelingClient"
-    public static let version = "1.0.40"
+    public static let version = "1.2.1"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTSecureTunnelingClient.IoTSecureTunnelingClientConfiguration
     let serviceName = "IoTSecureTunneling"
@@ -86,58 +88,69 @@ public class IoTSecureTunnelingClient: ClientRuntime.Client {
 }
 
 extension IoTSecureTunnelingClient {
+
     public class IoTSecureTunnelingClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
         public var useFIPS: Swift.Bool?
-
         public var useDualStack: Swift.Bool?
-
         public var appID: Swift.String?
-
         public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
-
         public var awsRetryMode: AWSClientRuntime.AWSRetryMode
-
         public var maxAttempts: Swift.Int?
-
+        public var requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var ignoreConfiguredEndpointURLs: Swift.Bool?
         public var region: Swift.String?
-
         public var signingRegion: Swift.String?
-
         public var endpointResolver: EndpointResolver
-
         public var telemetryProvider: ClientRuntime.TelemetryProvider
-
         public var retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions
-
         public var clientLogMode: ClientRuntime.ClientLogMode
-
         public var endpoint: Swift.String?
-
         public var idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator
-
         public var httpClientEngine: SmithyHTTPAPI.HTTPClient
-
         public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
-
         public var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
-
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
-
         public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
-
         public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
-
         public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-
         internal let logger: Smithy.LogAgent
 
-        private init(_ useFIPS: Swift.Bool?, _ useDualStack: Swift.Bool?, _ appID: Swift.String?, _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver, _ awsRetryMode: AWSClientRuntime.AWSRetryMode, _ maxAttempts: Swift.Int?, _ region: Swift.String?, _ signingRegion: Swift.String?, _ endpointResolver: EndpointResolver, _ telemetryProvider: ClientRuntime.TelemetryProvider, _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions, _ clientLogMode: ClientRuntime.ClientLogMode, _ endpoint: Swift.String?, _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator, _ httpClientEngine: SmithyHTTPAPI.HTTPClient, _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration, _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?, _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver, _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver, _ interceptorProviders: [ClientRuntime.InterceptorProvider], _ httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]) {
+        private init(
+            _ useFIPS: Swift.Bool?,
+            _ useDualStack: Swift.Bool?,
+            _ appID: Swift.String?,
+            _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver,
+            _ awsRetryMode: AWSClientRuntime.AWSRetryMode,
+            _ maxAttempts: Swift.Int?,
+            _ requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode,
+            _ responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode,
+            _ ignoreConfiguredEndpointURLs: Swift.Bool?,
+            _ region: Swift.String?,
+            _ signingRegion: Swift.String?,
+            _ endpointResolver: EndpointResolver,
+            _ telemetryProvider: ClientRuntime.TelemetryProvider,
+            _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions,
+            _ clientLogMode: ClientRuntime.ClientLogMode,
+            _ endpoint: Swift.String?,
+            _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator,
+            _ httpClientEngine: SmithyHTTPAPI.HTTPClient,
+            _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration,
+            _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?,
+            _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver,
+            _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver,
+            _ interceptorProviders: [ClientRuntime.InterceptorProvider],
+            _ httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
+        ) {
             self.useFIPS = useFIPS
             self.useDualStack = useDualStack
             self.appID = appID
             self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
             self.awsRetryMode = awsRetryMode
             self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = requestChecksumCalculation
+            self.responseChecksumValidation = responseChecksumValidation
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
             self.region = region
             self.signingRegion = signingRegion
             self.endpointResolver = endpointResolver
@@ -156,25 +169,176 @@ extension IoTSecureTunnelingClient {
             self.logger = telemetryProvider.loggerProvider.getLogger(name: IoTSecureTunnelingClient.clientName)
         }
 
-        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, maxAttempts: Swift.Int? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil, interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil, httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil) throws {
-            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), maxAttempts, region, signingRegion, try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(), endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(), httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(), authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()], authSchemeResolver ?? DefaultIoTSecureTunnelingAuthSchemeResolver(), bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")), interceptorProviders ?? [], httpInterceptorProviders ?? [])
+        public convenience init(
+            useFIPS: Swift.Bool? = nil,
+            useDualStack: Swift.Bool? = nil,
+            appID: Swift.String? = nil,
+            awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
+            awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
+            maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            region: Swift.String? = nil,
+            signingRegion: Swift.String? = nil,
+            endpointResolver: EndpointResolver? = nil,
+            telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
+            retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
+            clientLogMode: ClientRuntime.ClientLogMode? = nil,
+            endpoint: Swift.String? = nil,
+            idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
+            httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
+            httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
+            authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
+        ) throws {
+            self.init(
+                useFIPS,
+                useDualStack,
+                try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
+                try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                maxAttempts,
+                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
+                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
+                ignoreConfiguredEndpointURLs,
+                region,
+                signingRegion,
+                try endpointResolver ?? DefaultEndpointResolver(),
+                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
+                try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
+                clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
+                endpoint,
+                idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemeResolver ?? DefaultIoTSecureTunnelingAuthSchemeResolver(),
+                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                interceptorProviders ?? [],
+                httpInterceptorProviders ?? []
+            )
         }
 
-        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, maxAttempts: Swift.Int? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil, interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil, httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil) async throws {
-            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), maxAttempts, try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(), endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(), httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(), authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()], authSchemeResolver ?? DefaultIoTSecureTunnelingAuthSchemeResolver(), bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")), interceptorProviders ?? [], httpInterceptorProviders ?? [])
+        public convenience init(
+            useFIPS: Swift.Bool? = nil,
+            useDualStack: Swift.Bool? = nil,
+            appID: Swift.String? = nil,
+            awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
+            awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
+            maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            region: Swift.String? = nil,
+            signingRegion: Swift.String? = nil,
+            endpointResolver: EndpointResolver? = nil,
+            telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
+            retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
+            clientLogMode: ClientRuntime.ClientLogMode? = nil,
+            endpoint: Swift.String? = nil,
+            idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
+            httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
+            httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
+            authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
+        ) async throws {
+            self.init(
+                useFIPS,
+                useDualStack,
+                try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
+                try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                maxAttempts,
+                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
+                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
+                ignoreConfiguredEndpointURLs,
+                try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
+                try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
+                try endpointResolver ?? DefaultEndpointResolver(),
+                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
+                try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
+                clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
+                endpoint,
+                idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemeResolver ?? DefaultIoTSecureTunnelingAuthSchemeResolver(),
+                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                interceptorProviders ?? [],
+                httpInterceptorProviders ?? []
+            )
         }
 
         public convenience required init() async throws {
-            try await self.init(useFIPS: nil, useDualStack: nil, appID: nil, awsCredentialIdentityResolver: nil, awsRetryMode: nil, maxAttempts: nil, region: nil, signingRegion: nil, endpointResolver: nil, telemetryProvider: nil, retryStrategyOptions: nil, clientLogMode: nil, endpoint: nil, idempotencyTokenGenerator: nil, httpClientEngine: nil, httpClientConfiguration: nil, authSchemes: nil, authSchemeResolver: nil, bearerTokenIdentityResolver: nil, interceptorProviders: nil, httpInterceptorProviders: nil)
+            try await self.init(
+                useFIPS: nil,
+                useDualStack: nil,
+                appID: nil,
+                awsCredentialIdentityResolver: nil,
+                awsRetryMode: nil,
+                maxAttempts: nil,
+                requestChecksumCalculation: nil,
+                responseChecksumValidation: nil,
+                ignoreConfiguredEndpointURLs: nil,
+                region: nil,
+                signingRegion: nil,
+                endpointResolver: nil,
+                telemetryProvider: nil,
+                retryStrategyOptions: nil,
+                clientLogMode: nil,
+                endpoint: nil,
+                idempotencyTokenGenerator: nil,
+                httpClientEngine: nil,
+                httpClientConfiguration: nil,
+                authSchemes: nil,
+                authSchemeResolver: nil,
+                bearerTokenIdentityResolver: nil,
+                interceptorProviders: nil,
+                httpInterceptorProviders: nil
+            )
         }
 
-        public convenience init(region: String) throws {
-            self.init(nil, nil, try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(), try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), nil, region, region, try DefaultEndpointResolver(), ClientRuntime.DefaultTelemetry.provider, try AWSClientConfigDefaultsProvider.retryStrategyOptions(), AWSClientConfigDefaultsProvider.clientLogMode(), nil, AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), AWSClientConfigDefaultsProvider.httpClientEngine(), AWSClientConfigDefaultsProvider.httpClientConfiguration(), [AWSSDKHTTPAuth.SigV4AuthScheme()], DefaultIoTSecureTunnelingAuthSchemeResolver(), SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")), [], [])
+        public convenience init(region: Swift.String) throws {
+            self.init(
+                nil,
+                nil,
+                try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(),
+                try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                nil,
+                try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
+                try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
+                nil,
+                region,
+                region,
+                try DefaultEndpointResolver(),
+                ClientRuntime.DefaultTelemetry.provider,
+                try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                AWSClientConfigDefaultsProvider.clientLogMode(),
+                nil,
+                AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                AWSClientConfigDefaultsProvider.httpClientEngine(),
+                AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                DefaultIoTSecureTunnelingAuthSchemeResolver(),
+                SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                [],
+                []
+            )
         }
 
         public var partitionID: String? {
             return "\(IoTSecureTunnelingClient.clientName) - \(region ?? "")"
         }
+
         public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
             self.interceptorProviders.append(provider)
         }
@@ -195,7 +359,7 @@ extension IoTSecureTunnelingClient {
 }
 
 extension IoTSecureTunnelingClient {
-    /// Performs the `CloseTunnel` operation on the `IoTSecuredTunneling` service.
+    /// Performs the `CloseTunnel` operation on the `IoTSecureTunneling` service.
     ///
     /// Closes a tunnel identified by the unique tunnel id. When a CloseTunnel request is received, we close the WebSocket connections between the client and proxy server so no data can be transmitted. Requires permission to access the [CloseTunnel](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -223,6 +387,8 @@ extension IoTSecureTunnelingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "IoTSecuredTunneling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -242,15 +408,18 @@ extension IoTSecureTunnelingClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CloseTunnelOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CloseTunnelOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CloseTunnelInput, CloseTunnelOutput>(serviceID: serviceName, version: IoTSecureTunnelingClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IoTSecureTunneling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CloseTunnelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CloseTunnelInput, CloseTunnelOutput>(xAmzTarget: "IoTSecuredTunneling.CloseTunnel"))
         builder.serialize(ClientRuntime.BodyMiddleware<CloseTunnelInput, CloseTunnelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CloseTunnelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CloseTunnelInput, CloseTunnelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CloseTunnelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CloseTunnelInput, CloseTunnelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CloseTunnelInput, CloseTunnelOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CloseTunnelInput, CloseTunnelOutput>(serviceID: serviceName, version: IoTSecureTunnelingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IoTSecureTunneling")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CloseTunnel")
@@ -266,7 +435,7 @@ extension IoTSecureTunnelingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTunnel` operation on the `IoTSecuredTunneling` service.
+    /// Performs the `DescribeTunnel` operation on the `IoTSecureTunneling` service.
     ///
     /// Gets information about a tunnel identified by the unique tunnel id. Requires permission to access the [DescribeTunnel](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -294,6 +463,8 @@ extension IoTSecureTunnelingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "IoTSecuredTunneling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -312,15 +483,18 @@ extension IoTSecureTunnelingClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTunnelOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeTunnelOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeTunnelInput, DescribeTunnelOutput>(serviceID: serviceName, version: IoTSecureTunnelingClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IoTSecureTunneling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTunnelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTunnelInput, DescribeTunnelOutput>(xAmzTarget: "IoTSecuredTunneling.DescribeTunnel"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeTunnelInput, DescribeTunnelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTunnelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTunnelInput, DescribeTunnelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTunnelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeTunnelInput, DescribeTunnelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeTunnelInput, DescribeTunnelOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeTunnelInput, DescribeTunnelOutput>(serviceID: serviceName, version: IoTSecureTunnelingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IoTSecureTunneling")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeTunnel")
@@ -336,7 +510,7 @@ extension IoTSecureTunnelingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `IoTSecuredTunneling` service.
+    /// Performs the `ListTagsForResource` operation on the `IoTSecureTunneling` service.
     ///
     /// Lists the tags for the specified resource.
     ///
@@ -364,6 +538,8 @@ extension IoTSecureTunnelingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "IoTSecuredTunneling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -383,15 +559,18 @@ extension IoTSecureTunnelingClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: IoTSecureTunnelingClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IoTSecureTunneling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "IoTSecuredTunneling.ListTagsForResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: IoTSecureTunnelingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IoTSecureTunneling")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForResource")
@@ -407,7 +586,7 @@ extension IoTSecureTunnelingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTunnels` operation on the `IoTSecuredTunneling` service.
+    /// Performs the `ListTunnels` operation on the `IoTSecureTunneling` service.
     ///
     /// List all tunnels for an Amazon Web Services account. Tunnels are listed by creation time in descending order, newer tunnels will be listed before older tunnels. Requires permission to access the [ListTunnels](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -430,6 +609,8 @@ extension IoTSecureTunnelingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "IoTSecuredTunneling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -449,15 +630,18 @@ extension IoTSecureTunnelingClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTunnelsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTunnelsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTunnelsInput, ListTunnelsOutput>(serviceID: serviceName, version: IoTSecureTunnelingClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IoTSecureTunneling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTunnelsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTunnelsInput, ListTunnelsOutput>(xAmzTarget: "IoTSecuredTunneling.ListTunnels"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTunnelsInput, ListTunnelsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTunnelsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTunnelsInput, ListTunnelsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTunnelsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTunnelsInput, ListTunnelsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTunnelsInput, ListTunnelsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTunnelsInput, ListTunnelsOutput>(serviceID: serviceName, version: IoTSecureTunnelingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IoTSecureTunneling")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTunnels")
@@ -473,7 +657,7 @@ extension IoTSecureTunnelingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `OpenTunnel` operation on the `IoTSecuredTunneling` service.
+    /// Performs the `OpenTunnel` operation on the `IoTSecureTunneling` service.
     ///
     /// Creates a new tunnel, and returns two client access tokens for clients to use to connect to the IoT Secure Tunneling proxy server. Requires permission to access the [OpenTunnel](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
@@ -501,6 +685,8 @@ extension IoTSecureTunnelingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "IoTSecuredTunneling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -519,15 +705,18 @@ extension IoTSecureTunnelingClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<OpenTunnelOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<OpenTunnelOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<OpenTunnelInput, OpenTunnelOutput>(serviceID: serviceName, version: IoTSecureTunnelingClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IoTSecureTunneling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<OpenTunnelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<OpenTunnelInput, OpenTunnelOutput>(xAmzTarget: "IoTSecuredTunneling.OpenTunnel"))
         builder.serialize(ClientRuntime.BodyMiddleware<OpenTunnelInput, OpenTunnelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: OpenTunnelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<OpenTunnelInput, OpenTunnelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<OpenTunnelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<OpenTunnelInput, OpenTunnelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<OpenTunnelInput, OpenTunnelOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<OpenTunnelInput, OpenTunnelOutput>(serviceID: serviceName, version: IoTSecureTunnelingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IoTSecureTunneling")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "OpenTunnel")
@@ -543,7 +732,7 @@ extension IoTSecureTunnelingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RotateTunnelAccessToken` operation on the `IoTSecuredTunneling` service.
+    /// Performs the `RotateTunnelAccessToken` operation on the `IoTSecureTunneling` service.
     ///
     /// Revokes the current client access token (CAT) and returns new CAT for clients to use when reconnecting to secure tunneling to access the same tunnel. Requires permission to access the [RotateTunnelAccessToken](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. Rotating the CAT doesn't extend the tunnel duration. For example, say the tunnel duration is 12 hours and the tunnel has already been open for 4 hours. When you rotate the access tokens, the new tokens that are generated can only be used for the remaining 8 hours.
     ///
@@ -571,6 +760,8 @@ extension IoTSecureTunnelingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "IoTSecuredTunneling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -589,15 +780,18 @@ extension IoTSecureTunnelingClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RotateTunnelAccessTokenOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<RotateTunnelAccessTokenOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RotateTunnelAccessTokenInput, RotateTunnelAccessTokenOutput>(serviceID: serviceName, version: IoTSecureTunnelingClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IoTSecureTunneling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RotateTunnelAccessTokenOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RotateTunnelAccessTokenInput, RotateTunnelAccessTokenOutput>(xAmzTarget: "IoTSecuredTunneling.RotateTunnelAccessToken"))
         builder.serialize(ClientRuntime.BodyMiddleware<RotateTunnelAccessTokenInput, RotateTunnelAccessTokenOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RotateTunnelAccessTokenInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RotateTunnelAccessTokenInput, RotateTunnelAccessTokenOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RotateTunnelAccessTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RotateTunnelAccessTokenInput, RotateTunnelAccessTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RotateTunnelAccessTokenInput, RotateTunnelAccessTokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RotateTunnelAccessTokenInput, RotateTunnelAccessTokenOutput>(serviceID: serviceName, version: IoTSecureTunnelingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IoTSecureTunneling")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RotateTunnelAccessToken")
@@ -613,7 +807,7 @@ extension IoTSecureTunnelingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `IoTSecuredTunneling` service.
+    /// Performs the `TagResource` operation on the `IoTSecureTunneling` service.
     ///
     /// A resource tag.
     ///
@@ -641,6 +835,8 @@ extension IoTSecureTunnelingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "IoTSecuredTunneling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -659,15 +855,18 @@ extension IoTSecureTunnelingClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<TagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: IoTSecureTunnelingClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IoTSecureTunneling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "IoTSecuredTunneling.TagResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: IoTSecureTunnelingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IoTSecureTunneling")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TagResource")
@@ -683,7 +882,7 @@ extension IoTSecureTunnelingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `IoTSecuredTunneling` service.
+    /// Performs the `UntagResource` operation on the `IoTSecureTunneling` service.
     ///
     /// Removes a tag from a resource.
     ///
@@ -711,6 +910,8 @@ extension IoTSecureTunnelingClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "IoTSecuredTunneling")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -729,15 +930,18 @@ extension IoTSecureTunnelingClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: IoTSecureTunnelingClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IoTSecureTunneling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "IoTSecuredTunneling.UntagResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: IoTSecureTunnelingClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IoTSecureTunneling")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")

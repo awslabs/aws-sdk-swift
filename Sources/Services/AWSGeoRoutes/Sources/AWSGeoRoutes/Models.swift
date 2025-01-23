@@ -29,9 +29,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// You don't have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -47,16 +47,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request processing has failed because of an unknown error, exception or failure.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -72,16 +71,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -97,8 +95,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -117,8 +114,7 @@ extension GeoRoutesClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -173,9 +169,9 @@ extension GeoRoutesClientTypes {
 }
 
 /// The input fails to satisfy the constraints specified by an AWS service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The field where the invalid entry was detected.
         /// This member is required.
         public internal(set) var fieldList: [GeoRoutesClientTypes.ValidationExceptionField]? = nil
@@ -199,8 +195,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [GeoRoutesClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: GeoRoutesClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -219,8 +214,7 @@ extension GeoRoutesClientTypes {
         public init(
             hot: Swift.Bool? = nil,
             hov: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.hot = hot
             self.hov = hov
         }
@@ -241,8 +235,7 @@ extension GeoRoutesClientTypes {
         public init(
             lineString: [[Swift.Double]]? = nil,
             radius: Swift.Int? = nil
-        )
-        {
+        ) {
             self.lineString = lineString
             self.radius = radius
         }
@@ -269,8 +262,7 @@ extension GeoRoutesClientTypes {
         public init(
             polyline: Swift.String? = nil,
             radius: Swift.Int? = nil
-        )
-        {
+        ) {
             self.polyline = polyline
             self.radius = radius
         }
@@ -304,8 +296,7 @@ extension GeoRoutesClientTypes {
             polygon: [[[Swift.Double]]]? = nil,
             polylineCorridor: GeoRoutesClientTypes.PolylineCorridor? = nil,
             polylinePolygon: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.boundingBox = boundingBox
             self.corridor = corridor
             self.polygon = polygon
@@ -333,8 +324,7 @@ extension GeoRoutesClientTypes {
         public init(
             except: [GeoRoutesClientTypes.IsolineAvoidanceAreaGeometry]? = nil,
             geometry: GeoRoutesClientTypes.IsolineAvoidanceAreaGeometry? = nil
-        )
-        {
+        ) {
             self.except = except
             self.geometry = geometry
         }
@@ -382,8 +372,7 @@ extension GeoRoutesClientTypes {
 
         public init(
             category: GeoRoutesClientTypes.IsolineZoneCategory? = nil
-        )
-        {
+        ) {
             self.category = category
         }
     }
@@ -431,8 +420,7 @@ extension GeoRoutesClientTypes {
             tunnels: Swift.Bool? = nil,
             uTurns: Swift.Bool? = nil,
             zoneCategories: [GeoRoutesClientTypes.IsolineAvoidanceZoneCategory]? = nil
-        )
-        {
+        ) {
             self.areas = areas
             self.carShuttleTrains = carShuttleTrains
             self.controlledAccessHighways = controlledAccessHighways
@@ -496,8 +484,7 @@ extension GeoRoutesClientTypes {
             onRoadThreshold: Swift.Int = 0,
             radius: Swift.Int = 0,
             strategy: GeoRoutesClientTypes.MatchingStrategy? = nil
-        )
-        {
+        ) {
             self.nameHint = nameHint
             self.onRoadThreshold = onRoadThreshold
             self.radius = radius
@@ -553,8 +540,7 @@ extension GeoRoutesClientTypes {
         public init(
             position: [Swift.Double]? = nil,
             useWith: GeoRoutesClientTypes.SideOfStreetMatchingStrategy? = nil
-        )
-        {
+        ) {
             self.position = position
             self.useWith = useWith
         }
@@ -584,8 +570,7 @@ extension GeoRoutesClientTypes {
             heading: Swift.Double = 0.0,
             matching: GeoRoutesClientTypes.IsolineMatchingOptions? = nil,
             sideOfStreet: GeoRoutesClientTypes.IsolineSideOfStreetOptions? = nil
-        )
-        {
+        ) {
             self.avoidActionsForDistance = avoidActionsForDistance
             self.heading = heading
             self.matching = matching
@@ -635,8 +620,7 @@ extension GeoRoutesClientTypes {
         public init(
             maxPoints: Swift.Int? = nil,
             maxResolution: Swift.Int = 0
-        )
-        {
+        ) {
             self.maxPoints = maxPoints
             self.maxResolution = maxResolution
         }
@@ -722,8 +706,7 @@ extension GeoRoutesClientTypes {
             heading: Swift.Double = 0.0,
             matching: GeoRoutesClientTypes.IsolineMatchingOptions? = nil,
             sideOfStreet: GeoRoutesClientTypes.IsolineSideOfStreetOptions? = nil
-        )
-        {
+        ) {
             self.avoidActionsForDistance = avoidActionsForDistance
             self.heading = heading
             self.matching = matching
@@ -744,8 +727,7 @@ extension GeoRoutesClientTypes {
         public init(
             distance: [Swift.Int]? = nil,
             time: [Swift.Int]? = nil
-        )
-        {
+        ) {
             self.distance = distance
             self.time = time
         }
@@ -793,8 +775,7 @@ extension GeoRoutesClientTypes {
         public init(
             flowEventThresholdOverride: Swift.Int = 0,
             usage: GeoRoutesClientTypes.TrafficUsage? = nil
-        )
-        {
+        ) {
             self.flowEventThresholdOverride = flowEventThresholdOverride
             self.usage = usage
         }
@@ -877,8 +858,7 @@ extension GeoRoutesClientTypes {
 
         public init(
             lastCharacter: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastCharacter = lastCharacter
         }
     }
@@ -902,8 +882,7 @@ extension GeoRoutesClientTypes {
             licensePlate: GeoRoutesClientTypes.IsolineVehicleLicensePlate? = nil,
             maxSpeed: Swift.Double? = 0.0,
             occupancy: Swift.Int? = nil
-        )
-        {
+        ) {
             self.engineType = engineType
             self.licensePlate = licensePlate
             self.maxSpeed = maxSpeed
@@ -930,8 +909,7 @@ extension GeoRoutesClientTypes {
             licensePlate: GeoRoutesClientTypes.IsolineVehicleLicensePlate? = nil,
             maxSpeed: Swift.Double? = 0.0,
             occupancy: Swift.Int? = nil
-        )
-        {
+        ) {
             self.engineType = engineType
             self.licensePlate = licensePlate
             self.maxSpeed = maxSpeed
@@ -1008,8 +986,7 @@ extension GeoRoutesClientTypes {
         public init(
             axleCount: Swift.Int? = nil,
             trailerCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.axleCount = axleCount
             self.trailerCount = trailerCount
         }
@@ -1069,8 +1046,7 @@ extension GeoRoutesClientTypes {
             single: Swift.Int = 0,
             tandem: Swift.Int = 0,
             triple: Swift.Int = 0
-        )
-        {
+        ) {
             self.quad = quad
             self.quint = quint
             self.single = single
@@ -1176,8 +1152,7 @@ extension GeoRoutesClientTypes {
             weightPerAxle: Swift.Int = 0,
             weightPerAxleGroup: GeoRoutesClientTypes.WeightPerAxleGroup? = nil,
             width: Swift.Int = 0
-        )
-        {
+        ) {
             self.axleCount = axleCount
             self.engineType = engineType
             self.grossWeight = grossWeight
@@ -1216,8 +1191,7 @@ extension GeoRoutesClientTypes {
             car: GeoRoutesClientTypes.IsolineCarOptions? = nil,
             scooter: GeoRoutesClientTypes.IsolineScooterOptions? = nil,
             truck: GeoRoutesClientTypes.IsolineTruckOptions? = nil
-        )
-        {
+        ) {
             self.car = car
             self.scooter = scooter
             self.truck = truck
@@ -1285,8 +1259,7 @@ public struct CalculateIsolinesInput: Swift.Sendable {
         traffic: GeoRoutesClientTypes.IsolineTrafficOptions? = nil,
         travelMode: GeoRoutesClientTypes.IsolineTravelMode? = nil,
         travelModeOptions: GeoRoutesClientTypes.IsolineTravelModeOptions? = nil
-    )
-    {
+    ) {
         self.allow = allow
         self.arrivalTime = arrivalTime
         self.avoid = avoid
@@ -1325,8 +1298,7 @@ extension GeoRoutesClientTypes {
         public init(
             lineString: [[Swift.Double]]? = nil,
             polyline: Swift.String? = nil
-        )
-        {
+        ) {
             self.lineString = lineString
             self.polyline = polyline
         }
@@ -1356,8 +1328,7 @@ extension GeoRoutesClientTypes {
             fromPolygonIndex: Swift.Int? = nil,
             geometry: GeoRoutesClientTypes.IsolineConnectionGeometry? = nil,
             toPolygonIndex: Swift.Int? = nil
-        )
-        {
+        ) {
             self.fromPolygonIndex = fromPolygonIndex
             self.geometry = geometry
             self.toPolygonIndex = toPolygonIndex
@@ -1377,8 +1348,7 @@ extension GeoRoutesClientTypes {
         public init(
             polygon: [[[Swift.Double]]]? = nil,
             polylinePolygon: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.polygon = polygon
             self.polylinePolygon = polylinePolygon
         }
@@ -1410,8 +1380,7 @@ extension GeoRoutesClientTypes {
             distanceThreshold: Swift.Int = 0,
             geometries: [GeoRoutesClientTypes.IsolineShapeGeometry]? = nil,
             timeThreshold: Swift.Int = 0
-        )
-        {
+        ) {
             self.connections = connections
             self.distanceThreshold = distanceThreshold
             self.geometries = geometries
@@ -1449,8 +1418,7 @@ public struct CalculateIsolinesOutput: Swift.Sendable {
         pricingBucket: Swift.String? = nil,
         snappedDestination: [Swift.Double]? = nil,
         snappedOrigin: [Swift.Double]? = nil
-    )
-    {
+    ) {
         self.arrivalTime = arrivalTime
         self.departureTime = departureTime
         self.isolineGeometryFormat = isolineGeometryFormat
@@ -1478,8 +1446,7 @@ extension GeoRoutesClientTypes {
         public init(
             hot: Swift.Bool? = nil,
             hov: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.hot = hot
             self.hov = hov
         }
@@ -1501,8 +1468,7 @@ extension GeoRoutesClientTypes {
             boundingBox: [Swift.Double]? = nil,
             polygon: [[[Swift.Double]]]? = nil,
             polylinePolygon: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.boundingBox = boundingBox
             self.polygon = polygon
             self.polylinePolygon = polylinePolygon
@@ -1525,8 +1491,7 @@ extension GeoRoutesClientTypes {
 
         public init(
             geometry: GeoRoutesClientTypes.RouteMatrixAvoidanceAreaGeometry? = nil
-        )
-        {
+        ) {
             self.geometry = geometry
         }
     }
@@ -1573,8 +1538,7 @@ extension GeoRoutesClientTypes {
 
         public init(
             category: GeoRoutesClientTypes.RouteMatrixZoneCategory? = nil
-        )
-        {
+        ) {
             self.category = category
         }
     }
@@ -1619,8 +1583,7 @@ extension GeoRoutesClientTypes {
             tunnels: Swift.Bool? = nil,
             uTurns: Swift.Bool? = nil,
             zoneCategories: [GeoRoutesClientTypes.RouteMatrixAvoidanceZoneCategory]? = nil
-        )
-        {
+        ) {
             self.areas = areas
             self.carShuttleTrains = carShuttleTrains
             self.controlledAccessHighways = controlledAccessHighways
@@ -1654,8 +1617,7 @@ extension GeoRoutesClientTypes {
             onRoadThreshold: Swift.Int = 0,
             radius: Swift.Int = 0,
             strategy: GeoRoutesClientTypes.MatchingStrategy? = nil
-        )
-        {
+        ) {
             self.nameHint = nameHint
             self.onRoadThreshold = onRoadThreshold
             self.radius = radius
@@ -1682,8 +1644,7 @@ extension GeoRoutesClientTypes {
         public init(
             position: [Swift.Double]? = nil,
             useWith: GeoRoutesClientTypes.SideOfStreetMatchingStrategy? = nil
-        )
-        {
+        ) {
             self.position = position
             self.useWith = useWith
         }
@@ -1713,8 +1674,7 @@ extension GeoRoutesClientTypes {
             heading: Swift.Double = 0.0,
             matching: GeoRoutesClientTypes.RouteMatrixMatchingOptions? = nil,
             sideOfStreet: GeoRoutesClientTypes.RouteMatrixSideOfStreetOptions? = nil
-        )
-        {
+        ) {
             self.avoidActionsForDistance = avoidActionsForDistance
             self.heading = heading
             self.matching = matching
@@ -1736,8 +1696,7 @@ extension GeoRoutesClientTypes {
         public init(
             options: GeoRoutesClientTypes.RouteMatrixDestinationOptions? = nil,
             position: [Swift.Double]? = nil
-        )
-        {
+        ) {
             self.options = options
             self.position = position
         }
@@ -1759,8 +1718,7 @@ extension GeoRoutesClientTypes {
 
         public init(
             countries: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.countries = countries
         }
     }
@@ -1784,8 +1742,7 @@ extension GeoRoutesClientTypes {
             heading: Swift.Double = 0.0,
             matching: GeoRoutesClientTypes.RouteMatrixMatchingOptions? = nil,
             sideOfStreet: GeoRoutesClientTypes.RouteMatrixSideOfStreetOptions? = nil
-        )
-        {
+        ) {
             self.avoidActionsForDistance = avoidActionsForDistance
             self.heading = heading
             self.matching = matching
@@ -1807,8 +1764,7 @@ extension GeoRoutesClientTypes {
         public init(
             options: GeoRoutesClientTypes.RouteMatrixOriginOptions? = nil,
             position: [Swift.Double]? = nil
-        )
-        {
+        ) {
             self.options = options
             self.position = position
         }
@@ -1832,8 +1788,7 @@ extension GeoRoutesClientTypes {
         public init(
             margin: Swift.Int = 0,
             maxRadius: Swift.Int = 0
-        )
-        {
+        ) {
             self.margin = margin
             self.maxRadius = maxRadius
         }
@@ -1854,8 +1809,7 @@ extension GeoRoutesClientTypes {
         public init(
             center: [Swift.Double]? = nil,
             radius: Swift.Double? = nil
-        )
-        {
+        ) {
             self.center = center
             self.radius = radius
         }
@@ -1886,8 +1840,7 @@ extension GeoRoutesClientTypes {
             boundingBox: [Swift.Double]? = nil,
             circle: GeoRoutesClientTypes.Circle? = nil,
             polygon: [[[Swift.Double]]]? = nil
-        )
-        {
+        ) {
             self.autoCircle = autoCircle
             self.boundingBox = boundingBox
             self.circle = circle
@@ -1913,8 +1866,7 @@ extension GeoRoutesClientTypes {
         public init(
             geometry: GeoRoutesClientTypes.RouteMatrixBoundaryGeometry? = nil,
             unbounded: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.geometry = geometry
             self.unbounded = unbounded
         }
@@ -1933,8 +1885,7 @@ extension GeoRoutesClientTypes {
         public init(
             flowEventThresholdOverride: Swift.Int = 0,
             usage: GeoRoutesClientTypes.TrafficUsage? = nil
-        )
-        {
+        ) {
             self.flowEventThresholdOverride = flowEventThresholdOverride
             self.usage = usage
         }
@@ -1985,8 +1936,7 @@ extension GeoRoutesClientTypes {
 
         public init(
             lastCharacter: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastCharacter = lastCharacter
         }
     }
@@ -2007,8 +1957,7 @@ extension GeoRoutesClientTypes {
             licensePlate: GeoRoutesClientTypes.RouteMatrixVehicleLicensePlate? = nil,
             maxSpeed: Swift.Double? = 0.0,
             occupancy: Swift.Int? = nil
-        )
-        {
+        ) {
             self.licensePlate = licensePlate
             self.maxSpeed = maxSpeed
             self.occupancy = occupancy
@@ -2031,8 +1980,7 @@ extension GeoRoutesClientTypes {
             licensePlate: GeoRoutesClientTypes.RouteMatrixVehicleLicensePlate? = nil,
             maxSpeed: Swift.Double? = 0.0,
             occupancy: Swift.Int? = nil
-        )
-        {
+        ) {
             self.licensePlate = licensePlate
             self.maxSpeed = maxSpeed
             self.occupancy = occupancy
@@ -2105,8 +2053,7 @@ extension GeoRoutesClientTypes {
 
         public init(
             trailerCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.trailerCount = trailerCount
         }
     }
@@ -2231,8 +2178,7 @@ extension GeoRoutesClientTypes {
             weightPerAxle: Swift.Int = 0,
             weightPerAxleGroup: GeoRoutesClientTypes.WeightPerAxleGroup? = nil,
             width: Swift.Int = 0
-        )
-        {
+        ) {
             self.axleCount = axleCount
             self.grossWeight = grossWeight
             self.hazardousCargos = hazardousCargos
@@ -2268,8 +2214,7 @@ extension GeoRoutesClientTypes {
             car: GeoRoutesClientTypes.RouteMatrixCarOptions? = nil,
             scooter: GeoRoutesClientTypes.RouteMatrixScooterOptions? = nil,
             truck: GeoRoutesClientTypes.RouteMatrixTruckOptions? = nil
-        )
-        {
+        ) {
             self.car = car
             self.scooter = scooter
             self.truck = truck
@@ -2323,8 +2268,7 @@ public struct CalculateRouteMatrixInput: Swift.Sendable {
         traffic: GeoRoutesClientTypes.RouteMatrixTrafficOptions? = nil,
         travelMode: GeoRoutesClientTypes.RouteMatrixTravelMode? = nil,
         travelModeOptions: GeoRoutesClientTypes.RouteMatrixTravelModeOptions? = nil
-    )
-    {
+    ) {
         self.allow = allow
         self.avoid = avoid
         self.departNow = departNow
@@ -2413,8 +2357,7 @@ extension GeoRoutesClientTypes {
             distance: Swift.Int = 0,
             duration: Swift.Int = 0,
             error: GeoRoutesClientTypes.RouteMatrixErrorCode? = nil
-        )
-        {
+        ) {
             self.distance = distance
             self.duration = duration
             self.error = error
@@ -2441,8 +2384,7 @@ public struct CalculateRouteMatrixOutput: Swift.Sendable {
         pricingBucket: Swift.String? = nil,
         routeMatrix: [[GeoRoutesClientTypes.RouteMatrixEntry]]? = nil,
         routingBoundary: GeoRoutesClientTypes.RouteMatrixBoundary? = nil
-    )
-    {
+    ) {
         self.errorCount = errorCount
         self.pricingBucket = pricingBucket
         self.routeMatrix = routeMatrix
@@ -2462,8 +2404,7 @@ extension GeoRoutesClientTypes {
         public init(
             hot: Swift.Bool? = nil,
             hov: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.hot = hot
             self.hov = hov
         }
@@ -2491,8 +2432,7 @@ extension GeoRoutesClientTypes {
             polygon: [[[Swift.Double]]]? = nil,
             polylineCorridor: GeoRoutesClientTypes.PolylineCorridor? = nil,
             polylinePolygon: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.boundingBox = boundingBox
             self.corridor = corridor
             self.polygon = polygon
@@ -2520,8 +2460,7 @@ extension GeoRoutesClientTypes {
         public init(
             except: [GeoRoutesClientTypes.RouteAvoidanceAreaGeometry]? = nil,
             geometry: GeoRoutesClientTypes.RouteAvoidanceAreaGeometry? = nil
-        )
-        {
+        ) {
             self.except = except
             self.geometry = geometry
         }
@@ -2570,8 +2509,7 @@ extension GeoRoutesClientTypes {
 
         public init(
             category: GeoRoutesClientTypes.RouteZoneCategory? = nil
-        )
-        {
+        ) {
             self.category = category
         }
     }
@@ -2619,8 +2557,7 @@ extension GeoRoutesClientTypes {
             tunnels: Swift.Bool? = nil,
             uTurns: Swift.Bool? = nil,
             zoneCategories: [GeoRoutesClientTypes.RouteAvoidanceZoneCategory]? = nil
-        )
-        {
+        ) {
             self.areas = areas
             self.carShuttleTrains = carShuttleTrains
             self.controlledAccessHighways = controlledAccessHighways
@@ -2655,8 +2592,7 @@ extension GeoRoutesClientTypes {
             onRoadThreshold: Swift.Int = 0,
             radius: Swift.Int = 0,
             strategy: GeoRoutesClientTypes.MatchingStrategy? = nil
-        )
-        {
+        ) {
             self.nameHint = nameHint
             self.onRoadThreshold = onRoadThreshold
             self.radius = radius
@@ -2683,8 +2619,7 @@ extension GeoRoutesClientTypes {
         public init(
             position: [Swift.Double]? = nil,
             useWith: GeoRoutesClientTypes.SideOfStreetMatchingStrategy? = nil
-        )
-        {
+        ) {
             self.position = position
             self.useWith = useWith
         }
@@ -2720,8 +2655,7 @@ extension GeoRoutesClientTypes {
             matching: GeoRoutesClientTypes.RouteMatchingOptions? = nil,
             sideOfStreet: GeoRoutesClientTypes.RouteSideOfStreetOptions? = nil,
             stopDuration: Swift.Int = 0
-        )
-        {
+        ) {
             self.avoidActionsForDistance = avoidActionsForDistance
             self.avoidUTurns = avoidUTurns
             self.heading = heading
@@ -2746,8 +2680,7 @@ extension GeoRoutesClientTypes {
         public init(
             driveDuration: Swift.Int = 0,
             restDuration: Swift.Int = 0
-        )
-        {
+        ) {
             self.driveDuration = driveDuration
             self.restDuration = restDuration
         }
@@ -2763,8 +2696,7 @@ extension GeoRoutesClientTypes {
 
         public init(
             schedule: [GeoRoutesClientTypes.RouteDriverScheduleInterval]? = nil
-        )
-        {
+        ) {
             self.schedule = schedule
         }
     }
@@ -2780,8 +2712,7 @@ extension GeoRoutesClientTypes {
 
         public init(
             countries: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.countries = countries
         }
     }
@@ -2887,8 +2818,7 @@ extension GeoRoutesClientTypes {
             heading: Swift.Double = 0.0,
             matching: GeoRoutesClientTypes.RouteMatchingOptions? = nil,
             sideOfStreet: GeoRoutesClientTypes.RouteSideOfStreetOptions? = nil
-        )
-        {
+        ) {
             self.avoidActionsForDistance = avoidActionsForDistance
             self.avoidUTurns = avoidUTurns
             self.heading = heading
@@ -3006,8 +2936,7 @@ extension GeoRoutesClientTypes {
         public init(
             co2EmissionClass: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.co2EmissionClass = co2EmissionClass
             self.type = type
         }
@@ -3061,8 +2990,7 @@ extension GeoRoutesClientTypes {
             currency: Swift.String? = nil,
             emissionType: GeoRoutesClientTypes.RouteEmissionType? = nil,
             vehicleCategory: GeoRoutesClientTypes.RouteTollVehicleCategory? = nil
-        )
-        {
+        ) {
             self.allTransponders = allTransponders
             self.allVignettes = allVignettes
             self.currency = currency
@@ -3084,8 +3012,7 @@ extension GeoRoutesClientTypes {
         public init(
             flowEventThresholdOverride: Swift.Int = 0,
             usage: GeoRoutesClientTypes.TrafficUsage? = nil
-        )
-        {
+        ) {
             self.flowEventThresholdOverride = flowEventThresholdOverride
             self.usage = usage
         }
@@ -3168,8 +3095,7 @@ extension GeoRoutesClientTypes {
 
         public init(
             lastCharacter: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastCharacter = lastCharacter
         }
     }
@@ -3193,8 +3119,7 @@ extension GeoRoutesClientTypes {
             licensePlate: GeoRoutesClientTypes.RouteVehicleLicensePlate? = nil,
             maxSpeed: Swift.Double? = 0.0,
             occupancy: Swift.Int? = nil
-        )
-        {
+        ) {
             self.engineType = engineType
             self.licensePlate = licensePlate
             self.maxSpeed = maxSpeed
@@ -3212,8 +3137,7 @@ extension GeoRoutesClientTypes {
 
         public init(
             speed: Swift.Double? = 0.0
-        )
-        {
+        ) {
             self.speed = speed
         }
     }
@@ -3237,8 +3161,7 @@ extension GeoRoutesClientTypes {
             licensePlate: GeoRoutesClientTypes.RouteVehicleLicensePlate? = nil,
             maxSpeed: Swift.Double? = 0.0,
             occupancy: Swift.Int? = nil
-        )
-        {
+        ) {
             self.engineType = engineType
             self.licensePlate = licensePlate
             self.maxSpeed = maxSpeed
@@ -3315,8 +3238,7 @@ extension GeoRoutesClientTypes {
         public init(
             axleCount: Swift.Int? = nil,
             trailerCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.axleCount = axleCount
             self.trailerCount = trailerCount
         }
@@ -3451,8 +3373,7 @@ extension GeoRoutesClientTypes {
             weightPerAxle: Swift.Int = 0,
             weightPerAxleGroup: GeoRoutesClientTypes.WeightPerAxleGroup? = nil,
             width: Swift.Int = 0
-        )
-        {
+        ) {
             self.axleCount = axleCount
             self.engineType = engineType
             self.grossWeight = grossWeight
@@ -3494,8 +3415,7 @@ extension GeoRoutesClientTypes {
             pedestrian: GeoRoutesClientTypes.RoutePedestrianOptions? = nil,
             scooter: GeoRoutesClientTypes.RouteScooterOptions? = nil,
             truck: GeoRoutesClientTypes.RouteTruckOptions? = nil
-        )
-        {
+        ) {
             self.car = car
             self.pedestrian = pedestrian
             self.scooter = scooter
@@ -3564,8 +3484,7 @@ extension GeoRoutesClientTypes {
             position: [Swift.Double]? = nil,
             sideOfStreet: GeoRoutesClientTypes.RouteSideOfStreetOptions? = nil,
             stopDuration: Swift.Int = 0
-        )
-        {
+        ) {
             self.avoidActionsForDistance = avoidActionsForDistance
             self.avoidUTurns = avoidUTurns
             self.heading = heading
@@ -3683,8 +3602,7 @@ public struct CalculateRoutesInput: Swift.Sendable {
         travelModeOptions: GeoRoutesClientTypes.RouteTravelModeOptions? = nil,
         travelStepType: GeoRoutesClientTypes.RouteTravelStepType? = nil,
         waypoints: [GeoRoutesClientTypes.RouteWaypoint]? = nil
-    )
-    {
+    ) {
         self.allow = allow
         self.arrivalTime = arrivalTime
         self.avoid = avoid
@@ -3792,8 +3710,7 @@ extension GeoRoutesClientTypes {
         public init(
             code: GeoRoutesClientTypes.RouteResponseNoticeCode? = nil,
             impact: GeoRoutesClientTypes.RouteNoticeImpact? = nil
-        )
-        {
+        ) {
             self.code = code
             self.impact = impact
         }
@@ -3843,8 +3760,7 @@ extension GeoRoutesClientTypes {
             duration: Swift.Int = 0,
             instruction: Swift.String? = nil,
             type: GeoRoutesClientTypes.RouteFerryAfterTravelStepType? = nil
-        )
-        {
+        ) {
             self.duration = duration
             self.instruction = instruction
             self.type = type
@@ -3871,8 +3787,7 @@ extension GeoRoutesClientTypes {
             originalPosition: [Swift.Double]? = nil,
             position: [Swift.Double]? = nil,
             waypointIndex: Swift.Int? = nil
-        )
-        {
+        ) {
             self.name = name
             self.originalPosition = originalPosition
             self.position = position
@@ -3899,8 +3814,7 @@ extension GeoRoutesClientTypes {
         public init(
             place: GeoRoutesClientTypes.RouteFerryPlace? = nil,
             time: Swift.String? = nil
-        )
-        {
+        ) {
             self.place = place
             self.time = time
         }
@@ -3950,8 +3864,7 @@ extension GeoRoutesClientTypes {
             duration: Swift.Int = 0,
             instruction: Swift.String? = nil,
             type: GeoRoutesClientTypes.RouteFerryBeforeTravelStepType? = nil
-        )
-        {
+        ) {
             self.duration = duration
             self.instruction = instruction
             self.type = type
@@ -3972,8 +3885,7 @@ extension GeoRoutesClientTypes {
         public init(
             place: GeoRoutesClientTypes.RouteFerryPlace? = nil,
             time: Swift.String? = nil
-        )
-        {
+        ) {
             self.place = place
             self.time = time
         }
@@ -4031,8 +3943,7 @@ extension GeoRoutesClientTypes {
         public init(
             code: GeoRoutesClientTypes.RouteFerryNoticeCode? = nil,
             impact: GeoRoutesClientTypes.RouteNoticeImpact? = nil
-        )
-        {
+        ) {
             self.code = code
             self.impact = impact
         }
@@ -4055,8 +3966,7 @@ extension GeoRoutesClientTypes {
             originalPosition: [Swift.Double]? = nil,
             position: [Swift.Double]? = nil,
             waypointIndex: Swift.Int? = nil
-        )
-        {
+        ) {
             self.originalPosition = originalPosition
             self.position = position
             self.waypointIndex = waypointIndex
@@ -4082,8 +3992,7 @@ extension GeoRoutesClientTypes {
         public init(
             geometryOffset: Swift.Int? = nil,
             place: GeoRoutesClientTypes.RoutePassThroughPlace? = nil
-        )
-        {
+        ) {
             self.geometryOffset = geometryOffset
             self.place = place
         }
@@ -4103,8 +4012,7 @@ extension GeoRoutesClientTypes {
         public init(
             language: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.language = language
             self.value = value
         }
@@ -4135,8 +4043,7 @@ extension GeoRoutesClientTypes {
             geometryOffset: Swift.Int? = nil,
             names: [GeoRoutesClientTypes.LocalizedString]? = nil,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.country = country
             self.distance = distance
             self.duration = duration
@@ -4161,8 +4068,7 @@ extension GeoRoutesClientTypes {
         public init(
             distance: Swift.Int = 0,
             duration: Swift.Int = 0
-        )
-        {
+        ) {
             self.distance = distance
             self.duration = duration
         }
@@ -4179,8 +4085,7 @@ extension GeoRoutesClientTypes {
 
         public init(
             duration: Swift.Int = 0
-        )
-        {
+        ) {
             self.duration = duration
         }
     }
@@ -4198,8 +4103,7 @@ extension GeoRoutesClientTypes {
         public init(
             overview: GeoRoutesClientTypes.RouteFerryOverviewSummary? = nil,
             travelOnly: GeoRoutesClientTypes.RouteFerryTravelOnlySummary? = nil
-        )
-        {
+        ) {
             self.overview = overview
             self.travelOnly = travelOnly
         }
@@ -4261,8 +4165,7 @@ extension GeoRoutesClientTypes {
             geometryOffset: Swift.Int? = nil,
             instruction: Swift.String? = nil,
             type: GeoRoutesClientTypes.RouteFerryTravelStepType? = nil
-        )
-        {
+        ) {
             self.distance = distance
             self.duration = duration
             self.geometryOffset = geometryOffset
@@ -4316,8 +4219,7 @@ extension GeoRoutesClientTypes {
             spans: [GeoRoutesClientTypes.RouteFerrySpan]? = nil,
             summary: GeoRoutesClientTypes.RouteFerrySummary? = nil,
             travelSteps: [GeoRoutesClientTypes.RouteFerryTravelStep]? = nil
-        )
-        {
+        ) {
             self.afterTravelSteps = afterTravelSteps
             self.arrival = arrival
             self.beforeTravelSteps = beforeTravelSteps
@@ -4344,8 +4246,7 @@ extension GeoRoutesClientTypes {
         public init(
             lineString: [[Swift.Double]]? = nil,
             polyline: Swift.String? = nil
-        )
-        {
+        ) {
             self.lineString = lineString
             self.polyline = polyline
         }
@@ -4408,8 +4309,7 @@ extension GeoRoutesClientTypes {
             position: [Swift.Double]? = nil,
             sideOfStreet: GeoRoutesClientTypes.RouteSideOfStreet? = nil,
             waypointIndex: Swift.Int? = nil
-        )
-        {
+        ) {
             self.name = name
             self.originalPosition = originalPosition
             self.position = position
@@ -4438,8 +4338,7 @@ extension GeoRoutesClientTypes {
         public init(
             place: GeoRoutesClientTypes.RoutePedestrianPlace? = nil,
             time: Swift.String? = nil
-        )
-        {
+        ) {
             self.place = place
             self.time = time
         }
@@ -4460,8 +4359,7 @@ extension GeoRoutesClientTypes {
         public init(
             place: GeoRoutesClientTypes.RoutePedestrianPlace? = nil,
             time: Swift.String? = nil
-        )
-        {
+        ) {
             self.place = place
             self.time = time
         }
@@ -4519,8 +4417,7 @@ extension GeoRoutesClientTypes {
         public init(
             code: GeoRoutesClientTypes.RoutePedestrianNoticeCode? = nil,
             impact: GeoRoutesClientTypes.RouteNoticeImpact? = nil
-        )
-        {
+        ) {
             self.code = code
             self.impact = impact
         }
@@ -4542,8 +4439,7 @@ extension GeoRoutesClientTypes {
             bestCaseSpeed: Swift.Double = 0.0,
             turnDuration: Swift.Int = 0,
             typicalSpeed: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.bestCaseSpeed = bestCaseSpeed
             self.turnDuration = turnDuration
             self.typicalSpeed = typicalSpeed
@@ -4702,8 +4598,7 @@ extension GeoRoutesClientTypes {
             direction: GeoRoutesClientTypes.RouteDirection? = nil,
             language: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.direction = direction
             self.language = language
             self.value = value
@@ -4723,8 +4618,7 @@ extension GeoRoutesClientTypes {
         public init(
             maxSpeed: Swift.Double = 0.0,
             unlimited: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.maxSpeed = maxSpeed
             self.unlimited = unlimited
         }
@@ -4782,8 +4676,7 @@ extension GeoRoutesClientTypes {
             routeNumbers: [GeoRoutesClientTypes.RouteNumber]? = nil,
             speedLimit: GeoRoutesClientTypes.RouteSpanSpeedLimitDetails? = nil,
             typicalDuration: Swift.Int = 0
-        )
-        {
+        ) {
             self.bestCaseDuration = bestCaseDuration
             self.country = country
             self.distance = distance
@@ -4817,8 +4710,7 @@ extension GeoRoutesClientTypes {
         public init(
             distance: Swift.Int = 0,
             duration: Swift.Int = 0
-        )
-        {
+        ) {
             self.distance = distance
             self.duration = duration
         }
@@ -4835,8 +4727,7 @@ extension GeoRoutesClientTypes {
 
         public init(
             duration: Swift.Int = 0
-        )
-        {
+        ) {
             self.duration = duration
         }
     }
@@ -4854,8 +4745,7 @@ extension GeoRoutesClientTypes {
         public init(
             overview: GeoRoutesClientTypes.RoutePedestrianOverviewSummary? = nil,
             travelOnly: GeoRoutesClientTypes.RoutePedestrianTravelOnlySummary? = nil
-        )
-        {
+        ) {
             self.overview = overview
             self.travelOnly = travelOnly
         }
@@ -4872,8 +4762,7 @@ extension GeoRoutesClientTypes {
 
         public init(
             intersection: [GeoRoutesClientTypes.LocalizedString]? = nil
-        )
-        {
+        ) {
             self.intersection = intersection
         }
     }
@@ -4932,8 +4821,7 @@ extension GeoRoutesClientTypes {
             routeNumber: [GeoRoutesClientTypes.RouteNumber]? = nil,
             towards: [GeoRoutesClientTypes.LocalizedString]? = nil,
             type: GeoRoutesClientTypes.RouteRoadType? = nil
-        )
-        {
+        ) {
             self.roadName = roadName
             self.routeNumber = routeNumber
             self.towards = towards
@@ -5025,8 +4913,7 @@ extension GeoRoutesClientTypes {
             steeringDirection: GeoRoutesClientTypes.RouteSteeringDirection? = nil,
             turnAngle: Swift.Double = 0.0,
             turnIntensity: GeoRoutesClientTypes.RouteTurnIntensity? = nil
-        )
-        {
+        ) {
             self.intersection = intersection
             self.steeringDirection = steeringDirection
             self.turnAngle = turnAngle
@@ -5054,8 +4941,7 @@ extension GeoRoutesClientTypes {
             steeringDirection: GeoRoutesClientTypes.RouteSteeringDirection? = nil,
             turnAngle: Swift.Double = 0.0,
             turnIntensity: GeoRoutesClientTypes.RouteTurnIntensity? = nil
-        )
-        {
+        ) {
             self.intersection = intersection
             self.steeringDirection = steeringDirection
             self.turnAngle = turnAngle
@@ -5083,8 +4969,7 @@ extension GeoRoutesClientTypes {
             relativeExit: Swift.Int? = nil,
             roundaboutAngle: Swift.Double = 0.0,
             steeringDirection: GeoRoutesClientTypes.RouteSteeringDirection? = nil
-        )
-        {
+        ) {
             self.intersection = intersection
             self.relativeExit = relativeExit
             self.roundaboutAngle = roundaboutAngle
@@ -5112,8 +4997,7 @@ extension GeoRoutesClientTypes {
             steeringDirection: GeoRoutesClientTypes.RouteSteeringDirection? = nil,
             turnAngle: Swift.Double = 0.0,
             turnIntensity: GeoRoutesClientTypes.RouteTurnIntensity? = nil
-        )
-        {
+        ) {
             self.intersection = intersection
             self.steeringDirection = steeringDirection
             self.turnAngle = turnAngle
@@ -5134,8 +5018,7 @@ extension GeoRoutesClientTypes {
         public init(
             routeNumber: GeoRoutesClientTypes.RouteNumber? = nil,
             text: GeoRoutesClientTypes.LocalizedString? = nil
-        )
-        {
+        ) {
             self.routeNumber = routeNumber
             self.text = text
         }
@@ -5152,8 +5035,7 @@ extension GeoRoutesClientTypes {
 
         public init(
             labels: [GeoRoutesClientTypes.RouteSignpostLabel]? = nil
-        )
-        {
+        ) {
             self.labels = labels
         }
     }
@@ -5178,8 +5060,7 @@ extension GeoRoutesClientTypes {
             steeringDirection: GeoRoutesClientTypes.RouteSteeringDirection? = nil,
             turnAngle: Swift.Double = 0.0,
             turnIntensity: GeoRoutesClientTypes.RouteTurnIntensity? = nil
-        )
-        {
+        ) {
             self.intersection = intersection
             self.steeringDirection = steeringDirection
             self.turnAngle = turnAngle
@@ -5297,8 +5178,7 @@ extension GeoRoutesClientTypes {
             signpost: GeoRoutesClientTypes.RouteSignpost? = nil,
             turnStepDetails: GeoRoutesClientTypes.RouteTurnStepDetails? = nil,
             type: GeoRoutesClientTypes.RoutePedestrianTravelStepType? = nil
-        )
-        {
+        ) {
             self.continueStepDetails = continueStepDetails
             self.currentRoad = currentRoad
             self.distance = distance
@@ -5351,8 +5231,7 @@ extension GeoRoutesClientTypes {
             spans: [GeoRoutesClientTypes.RoutePedestrianSpan]? = nil,
             summary: GeoRoutesClientTypes.RoutePedestrianSummary? = nil,
             travelSteps: [GeoRoutesClientTypes.RoutePedestrianTravelStep]? = nil
-        )
-        {
+        ) {
             self.arrival = arrival
             self.departure = departure
             self.notices = notices
@@ -5456,8 +5335,7 @@ extension GeoRoutesClientTypes {
             position: [Swift.Double]? = nil,
             sideOfStreet: GeoRoutesClientTypes.RouteSideOfStreet? = nil,
             waypointIndex: Swift.Int? = nil
-        )
-        {
+        ) {
             self.name = name
             self.originalPosition = originalPosition
             self.position = position
@@ -5485,8 +5363,7 @@ extension GeoRoutesClientTypes {
         public init(
             place: GeoRoutesClientTypes.RouteVehiclePlace? = nil,
             time: Swift.String? = nil
-        )
-        {
+        ) {
             self.place = place
             self.time = time
         }
@@ -5506,8 +5383,7 @@ extension GeoRoutesClientTypes {
         public init(
             place: GeoRoutesClientTypes.RouteVehiclePlace? = nil,
             time: Swift.String? = nil
-        )
-        {
+        ) {
             self.place = place
             self.time = time
         }
@@ -5626,8 +5502,7 @@ extension GeoRoutesClientTypes {
             severity: GeoRoutesClientTypes.RouteVehicleIncidentSeverity? = nil,
             startTime: Swift.String? = nil,
             type: GeoRoutesClientTypes.RouteVehicleIncidentType? = nil
-        )
-        {
+        ) {
             self.description = description
             self.endTime = endTime
             self.severity = severity
@@ -5753,8 +5628,7 @@ extension GeoRoutesClientTypes {
         public init(
             max: Swift.Int? = nil,
             min: Swift.Int? = nil
-        )
-        {
+        ) {
             self.max = max
             self.min = min
         }
@@ -5807,8 +5681,7 @@ extension GeoRoutesClientTypes {
         public init(
             type: GeoRoutesClientTypes.RouteWeightConstraintType? = nil,
             value: Swift.Int = 0
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -5912,8 +5785,7 @@ extension GeoRoutesClientTypes {
             truckRoadType: Swift.String? = nil,
             truckType: GeoRoutesClientTypes.RouteTruckType? = nil,
             tunnelRestrictionCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.allHazardsRestricted = allHazardsRestricted
             self.axleCount = axleCount
             self.hazardousCargos = hazardousCargos
@@ -5949,8 +5821,7 @@ extension GeoRoutesClientTypes {
         public init(
             title: Swift.String? = nil,
             violatedConstraints: GeoRoutesClientTypes.RouteViolatedConstraints? = nil
-        )
-        {
+        ) {
             self.title = title
             self.violatedConstraints = violatedConstraints
         }
@@ -5974,8 +5845,7 @@ extension GeoRoutesClientTypes {
             code: GeoRoutesClientTypes.RouteVehicleNoticeCode? = nil,
             details: [GeoRoutesClientTypes.RouteVehicleNoticeDetail]? = nil,
             impact: GeoRoutesClientTypes.RouteNoticeImpact? = nil
-        )
-        {
+        ) {
             self.code = code
             self.details = details
             self.impact = impact
@@ -6215,8 +6085,7 @@ extension GeoRoutesClientTypes {
             truckRoadTypes: [Swift.Int]? = nil,
             typicalDuration: Swift.Int = 0,
             zones: [Swift.Int]? = nil
-        )
-        {
+        ) {
             self.bestCaseDuration = bestCaseDuration
             self.carAccess = carAccess
             self.country = country
@@ -6264,8 +6133,7 @@ extension GeoRoutesClientTypes {
             distance: Swift.Int = 0,
             duration: Swift.Int = 0,
             typicalDuration: Swift.Int = 0
-        )
-        {
+        ) {
             self.bestCaseDuration = bestCaseDuration
             self.distance = distance
             self.duration = duration
@@ -6290,8 +6158,7 @@ extension GeoRoutesClientTypes {
             bestCaseDuration: Swift.Int = 0,
             duration: Swift.Int = 0,
             typicalDuration: Swift.Int = 0
-        )
-        {
+        ) {
             self.bestCaseDuration = bestCaseDuration
             self.duration = duration
             self.typicalDuration = typicalDuration
@@ -6311,8 +6178,7 @@ extension GeoRoutesClientTypes {
         public init(
             overview: GeoRoutesClientTypes.RouteVehicleOverviewSummary? = nil,
             travelOnly: GeoRoutesClientTypes.RouteVehicleTravelOnlySummary? = nil
-        )
-        {
+        ) {
             self.overview = overview
             self.travelOnly = travelOnly
         }
@@ -6332,8 +6198,7 @@ extension GeoRoutesClientTypes {
         public init(
             name: Swift.String? = nil,
             position: [Swift.Double]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.position = position
         }
@@ -6359,8 +6224,7 @@ extension GeoRoutesClientTypes {
         public init(
             max: Swift.Double? = nil,
             min: Swift.Double? = nil
-        )
-        {
+        ) {
             self.max = max
             self.min = min
         }
@@ -6395,8 +6259,7 @@ extension GeoRoutesClientTypes {
             range: Swift.Bool? = nil,
             rangeValue: GeoRoutesClientTypes.RouteTollPriceValueRange? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.currency = currency
             self.estimate = estimate
             self.perDuration = perDuration
@@ -6458,8 +6321,7 @@ extension GeoRoutesClientTypes {
         public init(
             period: GeoRoutesClientTypes.RouteTollPassValidityPeriodType? = nil,
             periodCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.period = period
             self.periodCount = periodCount
         }
@@ -6487,8 +6349,7 @@ extension GeoRoutesClientTypes {
             transferCount: Swift.Int? = nil,
             tripCount: Swift.Int? = nil,
             validityPeriod: GeoRoutesClientTypes.RouteTollPassValidityPeriod? = nil
-        )
-        {
+        ) {
             self.includesReturnTrip = includesReturnTrip
             self.seniorPass = seniorPass
             self.transferCount = transferCount
@@ -6554,8 +6415,7 @@ extension GeoRoutesClientTypes {
 
         public init(
             systemName: Swift.String? = nil
-        )
-        {
+        ) {
             self.systemName = systemName
         }
     }
@@ -6596,8 +6456,7 @@ extension GeoRoutesClientTypes {
             pass: GeoRoutesClientTypes.RouteTollPass? = nil,
             paymentMethods: [GeoRoutesClientTypes.RouteTollPaymentMethod]? = nil,
             transponders: [GeoRoutesClientTypes.RouteTransponder]? = nil
-        )
-        {
+        ) {
             self.applicableTimes = applicableTimes
             self.convertedPrice = convertedPrice
             self.id = id
@@ -6631,8 +6490,7 @@ extension GeoRoutesClientTypes {
             paymentSites: [GeoRoutesClientTypes.RouteTollPaymentSite]? = nil,
             rates: [GeoRoutesClientTypes.RouteTollRate]? = nil,
             systems: [Swift.Int]? = nil
-        )
-        {
+        ) {
             self.country = country
             self.paymentSites = paymentSites
             self.rates = rates
@@ -6650,8 +6508,7 @@ extension GeoRoutesClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -6676,8 +6533,7 @@ extension GeoRoutesClientTypes {
             steeringDirection: GeoRoutesClientTypes.RouteSteeringDirection? = nil,
             turnAngle: Swift.Double = 0.0,
             turnIntensity: GeoRoutesClientTypes.RouteTurnIntensity? = nil
-        )
-        {
+        ) {
             self.intersection = intersection
             self.steeringDirection = steeringDirection
             self.turnAngle = turnAngle
@@ -6705,8 +6561,7 @@ extension GeoRoutesClientTypes {
             steeringDirection: GeoRoutesClientTypes.RouteSteeringDirection? = nil,
             turnAngle: Swift.Double = 0.0,
             turnIntensity: GeoRoutesClientTypes.RouteTurnIntensity? = nil
-        )
-        {
+        ) {
             self.intersection = intersection
             self.steeringDirection = steeringDirection
             self.turnAngle = turnAngle
@@ -6737,8 +6592,7 @@ extension GeoRoutesClientTypes {
             steeringDirection: GeoRoutesClientTypes.RouteSteeringDirection? = nil,
             turnAngle: Swift.Double = 0.0,
             turnIntensity: GeoRoutesClientTypes.RouteTurnIntensity? = nil
-        )
-        {
+        ) {
             self.intersection = intersection
             self.relativeExit = relativeExit
             self.steeringDirection = steeringDirection
@@ -6767,8 +6621,7 @@ extension GeoRoutesClientTypes {
             steeringDirection: GeoRoutesClientTypes.RouteSteeringDirection? = nil,
             turnAngle: Swift.Double = 0.0,
             turnIntensity: GeoRoutesClientTypes.RouteTurnIntensity? = nil
-        )
-        {
+        ) {
             self.intersection = intersection
             self.steeringDirection = steeringDirection
             self.turnAngle = turnAngle
@@ -6858,8 +6711,7 @@ extension GeoRoutesClientTypes {
             steeringDirection: GeoRoutesClientTypes.RouteSteeringDirection? = nil,
             turnAngle: Swift.Double = 0.0,
             turnIntensity: GeoRoutesClientTypes.RouteTurnIntensity? = nil
-        )
-        {
+        ) {
             self.intersection = intersection
             self.steeringDirection = steeringDirection
             self.turnAngle = turnAngle
@@ -6936,8 +6788,7 @@ extension GeoRoutesClientTypes {
             turnStepDetails: GeoRoutesClientTypes.RouteTurnStepDetails? = nil,
             type: GeoRoutesClientTypes.RouteVehicleTravelStepType? = nil,
             uTurnStepDetails: GeoRoutesClientTypes.RouteUTurnStepDetails? = nil
-        )
-        {
+        ) {
             self.continueHighwayStepDetails = continueHighwayStepDetails
             self.continueStepDetails = continueStepDetails
             self.currentRoad = currentRoad
@@ -6974,8 +6825,7 @@ extension GeoRoutesClientTypes {
         public init(
             category: GeoRoutesClientTypes.RouteZoneCategory? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.category = category
             self.name = name
         }
@@ -7035,8 +6885,7 @@ extension GeoRoutesClientTypes {
             travelSteps: [GeoRoutesClientTypes.RouteVehicleTravelStep]? = nil,
             truckRoadTypes: [Swift.String]? = nil,
             zones: [GeoRoutesClientTypes.RouteZone]? = nil
-        )
-        {
+        ) {
             self.arrival = arrival
             self.departure = departure
             self.incidents = incidents
@@ -7083,8 +6932,7 @@ extension GeoRoutesClientTypes {
             travelMode: GeoRoutesClientTypes.RouteLegTravelMode? = nil,
             type: GeoRoutesClientTypes.RouteLegType? = nil,
             vehicleLegDetails: GeoRoutesClientTypes.RouteVehicleLegDetails? = nil
-        )
-        {
+        ) {
             self.ferryLegDetails = ferryLegDetails
             self.geometry = geometry
             self.language = language
@@ -7108,8 +6956,7 @@ extension GeoRoutesClientTypes {
         public init(
             roadName: GeoRoutesClientTypes.LocalizedString? = nil,
             routeNumber: GeoRoutesClientTypes.RouteNumber? = nil
-        )
-        {
+        ) {
             self.roadName = roadName
             self.routeNumber = routeNumber
         }
@@ -7141,8 +6988,7 @@ extension GeoRoutesClientTypes {
             range: Swift.Bool? = nil,
             rangeValue: GeoRoutesClientTypes.RouteTollPriceValueRange? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.currency = currency
             self.estimate = estimate
             self.range = range
@@ -7161,8 +7007,7 @@ extension GeoRoutesClientTypes {
 
         public init(
             total: GeoRoutesClientTypes.RouteTollPriceSummary? = nil
-        )
-        {
+        ) {
             self.total = total
         }
     }
@@ -7183,8 +7028,7 @@ extension GeoRoutesClientTypes {
             distance: Swift.Int = 0,
             duration: Swift.Int = 0,
             tolls: GeoRoutesClientTypes.RouteTollSummary? = nil
-        )
-        {
+        ) {
             self.distance = distance
             self.duration = duration
             self.tolls = tolls
@@ -7209,8 +7053,7 @@ extension GeoRoutesClientTypes {
             legs: [GeoRoutesClientTypes.RouteLeg]? = nil,
             majorRoadLabels: [GeoRoutesClientTypes.RouteMajorRoadLabel]? = nil,
             summary: GeoRoutesClientTypes.RouteSummary? = nil
-        )
-        {
+        ) {
             self.legs = legs
             self.majorRoadLabels = majorRoadLabels
             self.summary = summary
@@ -7237,8 +7080,7 @@ public struct CalculateRoutesOutput: Swift.Sendable {
         notices: [GeoRoutesClientTypes.RouteResponseNotice]? = nil,
         pricingBucket: Swift.String? = nil,
         routes: [GeoRoutesClientTypes.Route]? = nil
-    )
-    {
+    ) {
         self.legGeometryFormat = legGeometryFormat
         self.notices = notices
         self.pricingBucket = pricingBucket
@@ -7299,8 +7141,7 @@ extension GeoRoutesClientTypes {
 
         public init(
             boundingBox: [Swift.Double]? = nil
-        )
-        {
+        ) {
             self.boundingBox = boundingBox
         }
     }
@@ -7321,8 +7162,7 @@ extension GeoRoutesClientTypes {
 
         public init(
             geometry: GeoRoutesClientTypes.WaypointOptimizationAvoidanceAreaGeometry? = nil
-        )
-        {
+        ) {
             self.geometry = geometry
         }
     }
@@ -7358,8 +7198,7 @@ extension GeoRoutesClientTypes {
             tollRoads: Swift.Bool? = nil,
             tunnels: Swift.Bool? = nil,
             uTurns: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.areas = areas
             self.carShuttleTrains = carShuttleTrains
             self.controlledAccessHighways = controlledAccessHighways
@@ -7386,8 +7225,7 @@ extension GeoRoutesClientTypes {
         public init(
             dayOfWeek: GeoRoutesClientTypes.DayOfWeek? = nil,
             timeOfDay: Swift.String? = nil
-        )
-        {
+        ) {
             self.dayOfWeek = dayOfWeek
             self.timeOfDay = timeOfDay
         }
@@ -7408,8 +7246,7 @@ extension GeoRoutesClientTypes {
         public init(
             from: GeoRoutesClientTypes.WaypointOptimizationAccessHoursEntry? = nil,
             to: GeoRoutesClientTypes.WaypointOptimizationAccessHoursEntry? = nil
-        )
-        {
+        ) {
             self.from = from
             self.to = to
         }
@@ -7429,8 +7266,7 @@ extension GeoRoutesClientTypes {
         public init(
             position: [Swift.Double]? = nil,
             useWith: GeoRoutesClientTypes.SideOfStreetMatchingStrategy? = nil
-        )
-        {
+        ) {
             self.position = position
             self.useWith = useWith
         }
@@ -7466,8 +7302,7 @@ extension GeoRoutesClientTypes {
             id: Swift.String? = nil,
             serviceDuration: Swift.Int = 0,
             sideOfStreet: GeoRoutesClientTypes.WaypointOptimizationSideOfStreetOptions? = nil
-        )
-        {
+        ) {
             self.accessHours = accessHours
             self.appointmentTime = appointmentTime
             self.heading = heading
@@ -7492,8 +7327,7 @@ extension GeoRoutesClientTypes {
         public init(
             restDuration: Swift.Int = 0,
             workDuration: Swift.Int = 0
-        )
-        {
+        ) {
             self.restDuration = restDuration
             self.workDuration = workDuration
         }
@@ -7514,8 +7348,7 @@ extension GeoRoutesClientTypes {
         public init(
             longCycle: GeoRoutesClientTypes.WaypointOptimizationRestCycleDurations? = nil,
             shortCycle: GeoRoutesClientTypes.WaypointOptimizationRestCycleDurations? = nil
-        )
-        {
+        ) {
             self.longCycle = longCycle
             self.shortCycle = shortCycle
         }
@@ -7532,8 +7365,7 @@ extension GeoRoutesClientTypes {
 
         public init(
             profile: Swift.String? = nil
-        )
-        {
+        ) {
             self.profile = profile
         }
     }
@@ -7583,8 +7415,7 @@ extension GeoRoutesClientTypes {
             restCycles: GeoRoutesClientTypes.WaypointOptimizationRestCycles? = nil,
             restProfile: GeoRoutesClientTypes.WaypointOptimizationRestProfile? = nil,
             treatServiceTimeAs: GeoRoutesClientTypes.WaypointOptimizationServiceTimeTreatment? = nil
-        )
-        {
+        ) {
             self.restCycles = restCycles
             self.restProfile = restProfile
             self.treatServiceTimeAs = treatServiceTimeAs
@@ -7602,8 +7433,7 @@ extension GeoRoutesClientTypes {
 
         public init(
             countries: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.countries = countries
         }
     }
@@ -7647,8 +7477,7 @@ extension GeoRoutesClientTypes {
 
         public init(
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -7663,8 +7492,7 @@ extension GeoRoutesClientTypes {
 
         public init(
             usage: GeoRoutesClientTypes.TrafficUsage? = nil
-        )
-        {
+        ) {
             self.usage = usage
         }
     }
@@ -7714,8 +7542,7 @@ extension GeoRoutesClientTypes {
 
         public init(
             speed: Swift.Double? = 0.0
-        )
-        {
+        ) {
             self.speed = speed
         }
     }
@@ -7786,8 +7613,7 @@ extension GeoRoutesClientTypes {
 
         public init(
             trailerCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.trailerCount = trailerCount
         }
     }
@@ -7888,8 +7714,7 @@ extension GeoRoutesClientTypes {
             tunnelRestrictionCode: Swift.String? = nil,
             weightPerAxle: Swift.Int = 0,
             width: Swift.Int = 0
-        )
-        {
+        ) {
             self.grossWeight = grossWeight
             self.hazardousCargos = hazardousCargos
             self.height = height
@@ -7915,8 +7740,7 @@ extension GeoRoutesClientTypes {
         public init(
             pedestrian: GeoRoutesClientTypes.WaypointOptimizationPedestrianOptions? = nil,
             truck: GeoRoutesClientTypes.WaypointOptimizationTruckOptions? = nil
-        )
-        {
+        ) {
             self.pedestrian = pedestrian
             self.truck = truck
         }
@@ -7954,8 +7778,7 @@ extension GeoRoutesClientTypes {
             position: [Swift.Double]? = nil,
             serviceDuration: Swift.Int = 0,
             sideOfStreet: GeoRoutesClientTypes.WaypointOptimizationSideOfStreetOptions? = nil
-        )
-        {
+        ) {
             self.accessHours = accessHours
             self.appointmentTime = appointmentTime
             self.before = before
@@ -8020,8 +7843,7 @@ public struct OptimizeWaypointsInput: Swift.Sendable {
         travelMode: GeoRoutesClientTypes.WaypointOptimizationTravelMode? = nil,
         travelModeOptions: GeoRoutesClientTypes.WaypointOptimizationTravelModeOptions? = nil,
         waypoints: [GeoRoutesClientTypes.WaypointOptimizationWaypoint]? = nil
-    )
-    {
+    ) {
         self.avoid = avoid
         self.departureTime = departureTime
         self.destination = destination
@@ -8074,8 +7896,7 @@ extension GeoRoutesClientTypes {
             to: Swift.String? = nil,
             travelDuration: Swift.Int = 0,
             waitDuration: Swift.Int = 0
-        )
-        {
+        ) {
             self.distance = distance
             self.from = from
             self.restDuration = restDuration
@@ -8139,8 +7960,7 @@ extension GeoRoutesClientTypes {
         public init(
             constraint: GeoRoutesClientTypes.WaypointOptimizationConstraint? = nil,
             reason: Swift.String? = nil
-        )
-        {
+        ) {
             self.constraint = constraint
             self.reason = reason
         }
@@ -8165,8 +7985,7 @@ extension GeoRoutesClientTypes {
             failedConstraints: [GeoRoutesClientTypes.WaypointOptimizationFailedConstraint]? = nil,
             id: Swift.String? = nil,
             position: [Swift.Double]? = nil
-        )
-        {
+        ) {
             self.failedConstraints = failedConstraints
             self.id = id
             self.position = position
@@ -8202,8 +8021,7 @@ extension GeoRoutesClientTypes {
             departureTime: Swift.String? = nil,
             id: Swift.String? = nil,
             position: [Swift.Double]? = nil
-        )
-        {
+        ) {
             self.arrivalTime = arrivalTime
             self.departureTime = departureTime
             self.id = id
@@ -8239,8 +8057,7 @@ extension GeoRoutesClientTypes {
             serviceDuration: Swift.Int = 0,
             travelDuration: Swift.Int = 0,
             waitDuration: Swift.Int = 0
-        )
-        {
+        ) {
             self.restDuration = restDuration
             self.serviceDuration = serviceDuration
             self.travelDuration = travelDuration
@@ -8280,8 +8097,7 @@ public struct OptimizeWaypointsOutput: Swift.Sendable {
         optimizedWaypoints: [GeoRoutesClientTypes.WaypointOptimizationOptimizedWaypoint]? = nil,
         pricingBucket: Swift.String? = nil,
         timeBreakdown: GeoRoutesClientTypes.WaypointOptimizationTimeBreakdown? = nil
-    )
-    {
+    ) {
         self.connections = connections
         self.distance = distance
         self.duration = duration
@@ -8311,8 +8127,7 @@ extension GeoRoutesClientTypes {
             position: [Swift.Double]? = nil,
             speed: Swift.Double = 0.0,
             timestamp: Swift.String? = nil
-        )
-        {
+        ) {
             self.heading = heading
             self.position = position
             self.speed = speed
@@ -8426,8 +8241,7 @@ extension GeoRoutesClientTypes {
 
         public init(
             trailerCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.trailerCount = trailerCount
         }
     }
@@ -8493,8 +8307,7 @@ extension GeoRoutesClientTypes {
             trailer: GeoRoutesClientTypes.RoadSnapTrailerOptions? = nil,
             tunnelRestrictionCode: Swift.String? = nil,
             width: Swift.Int = 0
-        )
-        {
+        ) {
             self.grossWeight = grossWeight
             self.hazardousCargos = hazardousCargos
             self.height = height
@@ -8515,8 +8328,7 @@ extension GeoRoutesClientTypes {
 
         public init(
             truck: GeoRoutesClientTypes.RoadSnapTruckOptions? = nil
-        )
-        {
+        ) {
             self.truck = truck
         }
     }
@@ -8544,8 +8356,7 @@ public struct SnapToRoadsInput: Swift.Sendable {
         tracePoints: [GeoRoutesClientTypes.RoadSnapTracePoint]? = nil,
         travelMode: GeoRoutesClientTypes.RoadSnapTravelMode? = nil,
         travelModeOptions: GeoRoutesClientTypes.RoadSnapTravelModeOptions? = nil
-    )
-    {
+    ) {
         self.key = key
         self.snapRadius = snapRadius
         self.snappedGeometryFormat = snappedGeometryFormat
@@ -8622,8 +8433,7 @@ extension GeoRoutesClientTypes {
             code: GeoRoutesClientTypes.RoadSnapNoticeCode? = nil,
             title: Swift.String? = nil,
             tracePointIndexes: [Swift.Int]? = nil
-        )
-        {
+        ) {
             self.code = code
             self.title = title
             self.tracePointIndexes = tracePointIndexes
@@ -8643,8 +8453,7 @@ extension GeoRoutesClientTypes {
         public init(
             lineString: [[Swift.Double]]? = nil,
             polyline: Swift.String? = nil
-        )
-        {
+        ) {
             self.lineString = lineString
             self.polyline = polyline
         }
@@ -8674,8 +8483,7 @@ extension GeoRoutesClientTypes {
             confidence: Swift.Double? = nil,
             originalPosition: [Swift.Double]? = nil,
             snappedPosition: [Swift.Double]? = nil
-        )
-        {
+        ) {
             self.confidence = confidence
             self.originalPosition = originalPosition
             self.snappedPosition = snappedPosition
@@ -8710,8 +8518,7 @@ public struct SnapToRoadsOutput: Swift.Sendable {
         snappedGeometry: GeoRoutesClientTypes.RoadSnapSnappedGeometry? = nil,
         snappedGeometryFormat: GeoRoutesClientTypes.GeometryFormat? = nil,
         snappedTracePoints: [GeoRoutesClientTypes.RoadSnapSnappedTracePoint]? = nil
-    )
-    {
+    ) {
         self.notices = notices
         self.pricingBucket = pricingBucket
         self.snappedGeometry = snappedGeometry

@@ -17,12 +17,14 @@ import class ClientRuntime.HttpClientConfiguration
 import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
+import class Smithy.Context
 import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
+import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
@@ -41,8 +43,8 @@ import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
+@_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
-import struct AWSClientRuntime.EndpointResolverMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
@@ -64,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CostOptimizationHubClient: ClientRuntime.Client {
     public static let clientName = "CostOptimizationHubClient"
-    public static let version = "1.0.40"
+    public static let version = "1.2.1"
     let client: ClientRuntime.SdkHttpClient
     let config: CostOptimizationHubClient.CostOptimizationHubClientConfiguration
     let serviceName = "Cost Optimization Hub"
@@ -86,58 +88,69 @@ public class CostOptimizationHubClient: ClientRuntime.Client {
 }
 
 extension CostOptimizationHubClient {
+
     public class CostOptimizationHubClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
         public var useFIPS: Swift.Bool?
-
         public var useDualStack: Swift.Bool?
-
         public var appID: Swift.String?
-
         public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
-
         public var awsRetryMode: AWSClientRuntime.AWSRetryMode
-
         public var maxAttempts: Swift.Int?
-
+        public var requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var ignoreConfiguredEndpointURLs: Swift.Bool?
         public var region: Swift.String?
-
         public var signingRegion: Swift.String?
-
         public var endpointResolver: EndpointResolver
-
         public var telemetryProvider: ClientRuntime.TelemetryProvider
-
         public var retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions
-
         public var clientLogMode: ClientRuntime.ClientLogMode
-
         public var endpoint: Swift.String?
-
         public var idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator
-
         public var httpClientEngine: SmithyHTTPAPI.HTTPClient
-
         public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
-
         public var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
-
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
-
         public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
-
         public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
-
         public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-
         internal let logger: Smithy.LogAgent
 
-        private init(_ useFIPS: Swift.Bool?, _ useDualStack: Swift.Bool?, _ appID: Swift.String?, _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver, _ awsRetryMode: AWSClientRuntime.AWSRetryMode, _ maxAttempts: Swift.Int?, _ region: Swift.String?, _ signingRegion: Swift.String?, _ endpointResolver: EndpointResolver, _ telemetryProvider: ClientRuntime.TelemetryProvider, _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions, _ clientLogMode: ClientRuntime.ClientLogMode, _ endpoint: Swift.String?, _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator, _ httpClientEngine: SmithyHTTPAPI.HTTPClient, _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration, _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?, _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver, _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver, _ interceptorProviders: [ClientRuntime.InterceptorProvider], _ httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]) {
+        private init(
+            _ useFIPS: Swift.Bool?,
+            _ useDualStack: Swift.Bool?,
+            _ appID: Swift.String?,
+            _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver,
+            _ awsRetryMode: AWSClientRuntime.AWSRetryMode,
+            _ maxAttempts: Swift.Int?,
+            _ requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode,
+            _ responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode,
+            _ ignoreConfiguredEndpointURLs: Swift.Bool?,
+            _ region: Swift.String?,
+            _ signingRegion: Swift.String?,
+            _ endpointResolver: EndpointResolver,
+            _ telemetryProvider: ClientRuntime.TelemetryProvider,
+            _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions,
+            _ clientLogMode: ClientRuntime.ClientLogMode,
+            _ endpoint: Swift.String?,
+            _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator,
+            _ httpClientEngine: SmithyHTTPAPI.HTTPClient,
+            _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration,
+            _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?,
+            _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver,
+            _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver,
+            _ interceptorProviders: [ClientRuntime.InterceptorProvider],
+            _ httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
+        ) {
             self.useFIPS = useFIPS
             self.useDualStack = useDualStack
             self.appID = appID
             self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
             self.awsRetryMode = awsRetryMode
             self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = requestChecksumCalculation
+            self.responseChecksumValidation = responseChecksumValidation
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
             self.region = region
             self.signingRegion = signingRegion
             self.endpointResolver = endpointResolver
@@ -156,25 +169,176 @@ extension CostOptimizationHubClient {
             self.logger = telemetryProvider.loggerProvider.getLogger(name: CostOptimizationHubClient.clientName)
         }
 
-        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, maxAttempts: Swift.Int? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil, interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil, httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil) throws {
-            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), maxAttempts, region, signingRegion, try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(), endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(), httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(), authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()], authSchemeResolver ?? DefaultCostOptimizationHubAuthSchemeResolver(), bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")), interceptorProviders ?? [], httpInterceptorProviders ?? [])
+        public convenience init(
+            useFIPS: Swift.Bool? = nil,
+            useDualStack: Swift.Bool? = nil,
+            appID: Swift.String? = nil,
+            awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
+            awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
+            maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            region: Swift.String? = nil,
+            signingRegion: Swift.String? = nil,
+            endpointResolver: EndpointResolver? = nil,
+            telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
+            retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
+            clientLogMode: ClientRuntime.ClientLogMode? = nil,
+            endpoint: Swift.String? = nil,
+            idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
+            httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
+            httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
+            authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
+        ) throws {
+            self.init(
+                useFIPS,
+                useDualStack,
+                try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
+                try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                maxAttempts,
+                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
+                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
+                ignoreConfiguredEndpointURLs,
+                region,
+                signingRegion,
+                try endpointResolver ?? DefaultEndpointResolver(),
+                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
+                try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
+                clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
+                endpoint,
+                idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemeResolver ?? DefaultCostOptimizationHubAuthSchemeResolver(),
+                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                interceptorProviders ?? [],
+                httpInterceptorProviders ?? []
+            )
         }
 
-        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, maxAttempts: Swift.Int? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil, interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil, httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil) async throws {
-            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), maxAttempts, try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(), endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(), httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(), authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()], authSchemeResolver ?? DefaultCostOptimizationHubAuthSchemeResolver(), bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")), interceptorProviders ?? [], httpInterceptorProviders ?? [])
+        public convenience init(
+            useFIPS: Swift.Bool? = nil,
+            useDualStack: Swift.Bool? = nil,
+            appID: Swift.String? = nil,
+            awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
+            awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
+            maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            region: Swift.String? = nil,
+            signingRegion: Swift.String? = nil,
+            endpointResolver: EndpointResolver? = nil,
+            telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
+            retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
+            clientLogMode: ClientRuntime.ClientLogMode? = nil,
+            endpoint: Swift.String? = nil,
+            idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
+            httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
+            httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
+            authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
+        ) async throws {
+            self.init(
+                useFIPS,
+                useDualStack,
+                try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
+                try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                maxAttempts,
+                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
+                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
+                ignoreConfiguredEndpointURLs,
+                try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
+                try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
+                try endpointResolver ?? DefaultEndpointResolver(),
+                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
+                try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
+                clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
+                endpoint,
+                idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemeResolver ?? DefaultCostOptimizationHubAuthSchemeResolver(),
+                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                interceptorProviders ?? [],
+                httpInterceptorProviders ?? []
+            )
         }
 
         public convenience required init() async throws {
-            try await self.init(useFIPS: nil, useDualStack: nil, appID: nil, awsCredentialIdentityResolver: nil, awsRetryMode: nil, maxAttempts: nil, region: nil, signingRegion: nil, endpointResolver: nil, telemetryProvider: nil, retryStrategyOptions: nil, clientLogMode: nil, endpoint: nil, idempotencyTokenGenerator: nil, httpClientEngine: nil, httpClientConfiguration: nil, authSchemes: nil, authSchemeResolver: nil, bearerTokenIdentityResolver: nil, interceptorProviders: nil, httpInterceptorProviders: nil)
+            try await self.init(
+                useFIPS: nil,
+                useDualStack: nil,
+                appID: nil,
+                awsCredentialIdentityResolver: nil,
+                awsRetryMode: nil,
+                maxAttempts: nil,
+                requestChecksumCalculation: nil,
+                responseChecksumValidation: nil,
+                ignoreConfiguredEndpointURLs: nil,
+                region: nil,
+                signingRegion: nil,
+                endpointResolver: nil,
+                telemetryProvider: nil,
+                retryStrategyOptions: nil,
+                clientLogMode: nil,
+                endpoint: nil,
+                idempotencyTokenGenerator: nil,
+                httpClientEngine: nil,
+                httpClientConfiguration: nil,
+                authSchemes: nil,
+                authSchemeResolver: nil,
+                bearerTokenIdentityResolver: nil,
+                interceptorProviders: nil,
+                httpInterceptorProviders: nil
+            )
         }
 
-        public convenience init(region: String) throws {
-            self.init(nil, nil, try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(), try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), nil, region, region, try DefaultEndpointResolver(), ClientRuntime.DefaultTelemetry.provider, try AWSClientConfigDefaultsProvider.retryStrategyOptions(), AWSClientConfigDefaultsProvider.clientLogMode(), nil, AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), AWSClientConfigDefaultsProvider.httpClientEngine(), AWSClientConfigDefaultsProvider.httpClientConfiguration(), [AWSSDKHTTPAuth.SigV4AuthScheme()], DefaultCostOptimizationHubAuthSchemeResolver(), SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")), [], [])
+        public convenience init(region: Swift.String) throws {
+            self.init(
+                nil,
+                nil,
+                try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(),
+                try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                nil,
+                try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
+                try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
+                nil,
+                region,
+                region,
+                try DefaultEndpointResolver(),
+                ClientRuntime.DefaultTelemetry.provider,
+                try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                AWSClientConfigDefaultsProvider.clientLogMode(),
+                nil,
+                AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                AWSClientConfigDefaultsProvider.httpClientEngine(),
+                AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                DefaultCostOptimizationHubAuthSchemeResolver(),
+                SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                [],
+                []
+            )
         }
 
         public var partitionID: String? {
             return "\(CostOptimizationHubClient.clientName) - \(region ?? "")"
         }
+
         public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
             self.interceptorProviders.append(provider)
         }
@@ -195,7 +359,7 @@ extension CostOptimizationHubClient {
 }
 
 extension CostOptimizationHubClient {
-    /// Performs the `GetPreferences` operation on the `CostOptimizationHubService` service.
+    /// Performs the `GetPreferences` operation on the `CostOptimizationHub` service.
     ///
     /// Returns a set of preferences for an account in order to add account-specific preferences into the service. These preferences impact how the savings associated with recommendations are presented—estimated savings after discounts or estimated savings before discounts, for example.
     ///
@@ -226,6 +390,8 @@ extension CostOptimizationHubClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cost-optimization-hub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -244,15 +410,18 @@ extension CostOptimizationHubClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPreferencesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetPreferencesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPreferencesInput, GetPreferencesOutput>(serviceID: serviceName, version: CostOptimizationHubClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cost Optimization Hub", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetPreferencesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetPreferencesInput, GetPreferencesOutput>(xAmzTarget: "CostOptimizationHubService.GetPreferences"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetPreferencesInput, GetPreferencesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetPreferencesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPreferencesInput, GetPreferencesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPreferencesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPreferencesInput, GetPreferencesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetPreferencesInput, GetPreferencesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPreferencesInput, GetPreferencesOutput>(serviceID: serviceName, version: CostOptimizationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CostOptimizationHub")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetPreferences")
@@ -268,7 +437,7 @@ extension CostOptimizationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetRecommendation` operation on the `CostOptimizationHubService` service.
+    /// Performs the `GetRecommendation` operation on the `CostOptimizationHub` service.
     ///
     /// Returns both the current and recommended resource configuration and the estimated cost impact for a recommendation. The recommendationId is only valid for up to a maximum of 24 hours as recommendations are refreshed daily. To retrieve the recommendationId, use the ListRecommendations API.
     ///
@@ -300,6 +469,8 @@ extension CostOptimizationHubClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cost-optimization-hub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -318,15 +489,18 @@ extension CostOptimizationHubClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRecommendationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetRecommendationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRecommendationInput, GetRecommendationOutput>(serviceID: serviceName, version: CostOptimizationHubClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cost Optimization Hub", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRecommendationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetRecommendationInput, GetRecommendationOutput>(xAmzTarget: "CostOptimizationHubService.GetRecommendation"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetRecommendationInput, GetRecommendationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetRecommendationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRecommendationInput, GetRecommendationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRecommendationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRecommendationInput, GetRecommendationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRecommendationInput, GetRecommendationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRecommendationInput, GetRecommendationOutput>(serviceID: serviceName, version: CostOptimizationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CostOptimizationHub")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRecommendation")
@@ -342,7 +516,7 @@ extension CostOptimizationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListEnrollmentStatuses` operation on the `CostOptimizationHubService` service.
+    /// Performs the `ListEnrollmentStatuses` operation on the `CostOptimizationHub` service.
     ///
     /// Retrieves the enrollment status for an account. It can also return the list of accounts that are enrolled under the organization.
     ///
@@ -373,6 +547,8 @@ extension CostOptimizationHubClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cost-optimization-hub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -391,15 +567,18 @@ extension CostOptimizationHubClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEnrollmentStatusesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListEnrollmentStatusesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListEnrollmentStatusesInput, ListEnrollmentStatusesOutput>(serviceID: serviceName, version: CostOptimizationHubClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cost Optimization Hub", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEnrollmentStatusesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListEnrollmentStatusesInput, ListEnrollmentStatusesOutput>(xAmzTarget: "CostOptimizationHubService.ListEnrollmentStatuses"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListEnrollmentStatusesInput, ListEnrollmentStatusesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEnrollmentStatusesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEnrollmentStatusesInput, ListEnrollmentStatusesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEnrollmentStatusesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEnrollmentStatusesInput, ListEnrollmentStatusesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListEnrollmentStatusesInput, ListEnrollmentStatusesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListEnrollmentStatusesInput, ListEnrollmentStatusesOutput>(serviceID: serviceName, version: CostOptimizationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CostOptimizationHub")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListEnrollmentStatuses")
@@ -415,7 +594,7 @@ extension CostOptimizationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRecommendationSummaries` operation on the `CostOptimizationHubService` service.
+    /// Performs the `ListRecommendationSummaries` operation on the `CostOptimizationHub` service.
     ///
     /// Returns a concise representation of savings estimates for resources. Also returns de-duped savings across different types of recommendations. The following filters are not supported for this API: recommendationIds, resourceArns, and resourceIds.
     ///
@@ -446,6 +625,8 @@ extension CostOptimizationHubClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cost-optimization-hub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -464,15 +645,18 @@ extension CostOptimizationHubClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRecommendationSummariesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListRecommendationSummariesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRecommendationSummariesInput, ListRecommendationSummariesOutput>(serviceID: serviceName, version: CostOptimizationHubClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cost Optimization Hub", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRecommendationSummariesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListRecommendationSummariesInput, ListRecommendationSummariesOutput>(xAmzTarget: "CostOptimizationHubService.ListRecommendationSummaries"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListRecommendationSummariesInput, ListRecommendationSummariesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRecommendationSummariesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRecommendationSummariesInput, ListRecommendationSummariesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRecommendationSummariesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRecommendationSummariesInput, ListRecommendationSummariesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRecommendationSummariesInput, ListRecommendationSummariesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRecommendationSummariesInput, ListRecommendationSummariesOutput>(serviceID: serviceName, version: CostOptimizationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CostOptimizationHub")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListRecommendationSummaries")
@@ -488,7 +672,7 @@ extension CostOptimizationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListRecommendations` operation on the `CostOptimizationHubService` service.
+    /// Performs the `ListRecommendations` operation on the `CostOptimizationHub` service.
     ///
     /// Returns a list of recommendations.
     ///
@@ -519,6 +703,8 @@ extension CostOptimizationHubClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cost-optimization-hub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -537,15 +723,18 @@ extension CostOptimizationHubClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRecommendationsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListRecommendationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRecommendationsInput, ListRecommendationsOutput>(serviceID: serviceName, version: CostOptimizationHubClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cost Optimization Hub", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRecommendationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListRecommendationsInput, ListRecommendationsOutput>(xAmzTarget: "CostOptimizationHubService.ListRecommendations"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListRecommendationsInput, ListRecommendationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRecommendationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRecommendationsInput, ListRecommendationsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRecommendationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRecommendationsInput, ListRecommendationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRecommendationsInput, ListRecommendationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRecommendationsInput, ListRecommendationsOutput>(serviceID: serviceName, version: CostOptimizationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CostOptimizationHub")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListRecommendations")
@@ -561,7 +750,7 @@ extension CostOptimizationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateEnrollmentStatus` operation on the `CostOptimizationHubService` service.
+    /// Performs the `UpdateEnrollmentStatus` operation on the `CostOptimizationHub` service.
     ///
     /// Updates the enrollment (opt in and opt out) status of an account to the Cost Optimization Hub service. If the account is a management account or delegated administrator of an organization, this action can also be used to enroll member accounts of the organization. You must have the appropriate permissions to opt in to Cost Optimization Hub and to view its recommendations. When you opt in, Cost Optimization Hub automatically creates a service-linked role in your account to access its data.
     ///
@@ -592,6 +781,8 @@ extension CostOptimizationHubClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cost-optimization-hub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -610,15 +801,18 @@ extension CostOptimizationHubClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEnrollmentStatusOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateEnrollmentStatusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput>(serviceID: serviceName, version: CostOptimizationHubClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cost Optimization Hub", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateEnrollmentStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput>(xAmzTarget: "CostOptimizationHubService.UpdateEnrollmentStatus"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateEnrollmentStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateEnrollmentStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput>(serviceID: serviceName, version: CostOptimizationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CostOptimizationHub")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateEnrollmentStatus")
@@ -634,7 +828,7 @@ extension CostOptimizationHubClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdatePreferences` operation on the `CostOptimizationHubService` service.
+    /// Performs the `UpdatePreferences` operation on the `CostOptimizationHub` service.
     ///
     /// Updates a set of preferences for an account in order to add account-specific preferences into the service. These preferences impact how the savings associated with recommendations are presented.
     ///
@@ -665,6 +859,8 @@ extension CostOptimizationHubClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "cost-optimization-hub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -683,15 +879,18 @@ extension CostOptimizationHubClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePreferencesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdatePreferencesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>(serviceID: serviceName, version: CostOptimizationHubClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cost Optimization Hub", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdatePreferencesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>(xAmzTarget: "CostOptimizationHubService.UpdatePreferences"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePreferencesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePreferencesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>(serviceID: serviceName, version: CostOptimizationHubClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CostOptimizationHub")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdatePreferences")

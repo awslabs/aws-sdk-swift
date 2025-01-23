@@ -5,6 +5,7 @@
 
 package software.amazon.smithy.aws.swift.codegen
 
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.traits.HttpBearerAuthTrait
@@ -22,6 +23,7 @@ import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAuthAPITypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyIdentityTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyRetriesAPITypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SwiftTypes
 import software.amazon.smithy.swift.codegen.utils.AuthUtils
 import software.amazon.smithy.swift.codegen.utils.toUpperCamelCase
 
@@ -31,20 +33,20 @@ class AWSHttpProtocolServiceClient(
     private val serviceConfig: ServiceConfig
 ) : HttpProtocolServiceClient(ctx, writer, serviceConfig) {
     override fun renderConvenienceInitFunctions(serviceSymbol: Symbol) {
-        writer.openBlock("public convenience init(region: Swift.String) throws {", "}") {
-            writer.write("let config = try ${serviceConfig.typeName}(region: region)")
+        writer.openBlock("public convenience init(region: \$N) throws {", "}", SwiftTypes.String) {
+            writer.write("let config = try \$L(region: region)", serviceConfig.typeName)
             writer.write("self.init(config: config)")
         }
         writer.write("")
         writer.openBlock("public convenience required init() async throws {", "}") {
-            writer.write("let config = try await ${serviceConfig.typeName}()")
+            writer.write("let config = try await \$L()", serviceConfig.typeName)
             writer.write("self.init(config: config)")
         }
     }
 
     override fun overrideConfigProperties(properties: List<ConfigProperty>): List<ConfigProperty> {
-        return properties.map {
-            when (it.name) {
+        return properties.mapNotNull { property ->
+            when (property.name) {
                 "authSchemeResolver" -> {
                     ConfigProperty("authSchemeResolver", SmithyHTTPAuthAPITypes.AuthSchemeResolver, authSchemeResolverDefaultProvider)
                 }
@@ -60,7 +62,7 @@ class AWSHttpProtocolServiceClient(
                             true
                         )
                     } else {
-                        it
+                        property
                     }
                 }
                 "retryStrategyOptions" -> {
@@ -99,7 +101,21 @@ class AWSHttpProtocolServiceClient(
                         { it.format("AWSClientConfigDefaultsProvider.httpClientConfiguration()") },
                     )
                 }
-                else -> it
+                "accountId" -> null // do not expose accountId as a client config property
+                "accountIdEndpointMode" -> { // expose accountIdEndpointMode as a Swift string-backed enum
+                    ConfigProperty(
+                        "accountIdEndpointMode",
+                        AWSClientRuntimeTypes.Core.AccountIDEndpointMode.toOptional(),
+                        { writer ->
+                            writer.format(
+                                "\$N.accountIDEndpointMode()",
+                                AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider,
+                            )
+                        },
+                        true
+                    )
+                }
+                else -> property
             }
         }
     }
@@ -112,45 +128,53 @@ class AWSHttpProtocolServiceClient(
      *  AWS Amplify requires a synchronous initializer with region parameter.
      */
     private fun renderRegionConfigInitializer(properties: List<ConfigProperty>) {
-        writer.openBlock("public convenience init(region: String) throws {", "}") {
-            writer.write(
-                "self.init(\$L)",
-                properties.joinToString(", ") {
-                    when (it.name) {
+        writer.openBlock(
+            "public convenience init(region: \$N) throws {",
+            "}",
+            SwiftTypes.String,
+        ) {
+            writer.openBlock("self.init(", ")") {
+                properties.forEach { property ->
+                    when (property.name) {
                         "region", "signingRegion" -> {
-                            "region"
+                            writer.write("region,")
                         }
                         "awsCredentialIdentityResolver" -> {
-                            "try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()"
+                            writer.write("try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(),")
                         }
                         "retryStrategyOptions" -> {
-                            "try AWSClientConfigDefaultsProvider.retryStrategyOptions()"
+                            writer.write("try AWSClientConfigDefaultsProvider.retryStrategyOptions(),")
+                        }
+                        "requestChecksumCalculation" -> {
+                            writer.write("try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),")
+                        }
+                        "responseChecksumValidation" -> {
+                            writer.write("try AWSClientConfigDefaultsProvider.responseChecksumValidation(),")
                         }
                         else -> {
-                            it.default?.render(writer) ?: "nil"
+                            writer.write("\$L,", property.default?.render(writer) ?: "nil")
                         }
                     }
                 }
-            )
-        }
-        writer.write("")
-    }
-
-    private fun renderEmptyAsynchronousConfigInitializer(properties: List<ConfigProperty>) {
-        writer.openBlock("public convenience required init() async throws {", "}") {
-            writer.write("try await self.init(\$L)", properties.joinToString(", ") { "${it.name}: nil" })
+                writer.unwrite(",\n")
+                writer.write("")
+            }
         }
         writer.write("")
     }
 
     override fun renderPartitionID() {
         writer.openBlock("public var partitionID: String? {", "}") {
-            writer.write("return \"\\(\$L.clientName) - \\(region ?? \"\")\"", serviceConfig.clientName.toUpperCamelCase())
+            writer.write(
+                "return \"\\(\$L.clientName) - \\(region ?? \"\")\"",
+                serviceConfig.clientName.toUpperCamelCase(),
+            )
         }
+        writer.write("")
     }
 
     private val authSchemeResolverDefaultProvider = DefaultProvider(
-        { "Default${AuthSchemeResolverGenerator.getSdkId(ctx)}AuthSchemeResolver()" },
+        { writer.format("Default\$LAuthSchemeResolver()", AuthSchemeResolverGenerator.getSdkId(ctx)) },
         false,
         false
     )

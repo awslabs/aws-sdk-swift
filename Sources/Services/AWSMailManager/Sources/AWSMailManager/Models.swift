@@ -58,9 +58,9 @@ extension MailManagerClientTypes {
 }
 
 /// Occurs when a user is denied access to a specific resource or action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -75,8 +75,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -124,8 +123,7 @@ extension MailManagerClientTypes {
         public init(
             headerName: Swift.String? = nil,
             headerValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.headerName = headerName
             self.headerValue = headerValue
         }
@@ -153,8 +151,7 @@ extension MailManagerClientTypes {
             addonName: Swift.String? = nil,
             addonSubscriptionId: Swift.String? = nil,
             createdTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.addonInstanceArn = addonInstanceArn
             self.addonInstanceId = addonInstanceId
             self.addonName = addonName
@@ -165,9 +162,9 @@ extension MailManagerClientTypes {
 }
 
 /// The request configuration has conflicts. For details, see the accompanying error message.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -182,16 +179,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Occurs when a requested resource is not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -206,16 +202,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Occurs when an operation exceeds a predefined service quota or limit.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -230,16 +225,15 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request validation has failed. For details, see the accompanying error message.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -254,8 +248,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -274,8 +267,7 @@ extension MailManagerClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -300,8 +292,7 @@ public struct CreateAddonInstanceInput: Swift.Sendable {
         addonSubscriptionId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         tags: [MailManagerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.addonSubscriptionId = addonSubscriptionId
         self.clientToken = clientToken
         self.tags = tags
@@ -315,8 +306,7 @@ public struct CreateAddonInstanceOutput: Swift.Sendable {
 
     public init(
         addonInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.addonInstanceId = addonInstanceId
     }
 }
@@ -328,8 +318,7 @@ public struct DeleteAddonInstanceInput: Swift.Sendable {
 
     public init(
         addonInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.addonInstanceId = addonInstanceId
     }
 }
@@ -346,8 +335,7 @@ public struct GetAddonInstanceInput: Swift.Sendable {
 
     public init(
         addonInstanceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.addonInstanceId = addonInstanceId
     }
 }
@@ -367,8 +355,7 @@ public struct GetAddonInstanceOutput: Swift.Sendable {
         addonName: Swift.String? = nil,
         addonSubscriptionId: Swift.String? = nil,
         createdTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.addonInstanceArn = addonInstanceArn
         self.addonName = addonName
         self.addonSubscriptionId = addonSubscriptionId
@@ -385,8 +372,7 @@ public struct ListAddonInstancesInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageSize = pageSize
     }
@@ -401,8 +387,7 @@ public struct ListAddonInstancesOutput: Swift.Sendable {
     public init(
         addonInstances: [MailManagerClientTypes.AddonInstance]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.addonInstances = addonInstances
         self.nextToken = nextToken
     }
@@ -426,8 +411,7 @@ extension MailManagerClientTypes {
             addonSubscriptionArn: Swift.String? = nil,
             addonSubscriptionId: Swift.String? = nil,
             createdTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.addonName = addonName
             self.addonSubscriptionArn = addonSubscriptionArn
             self.addonSubscriptionId = addonSubscriptionId
@@ -449,8 +433,7 @@ public struct CreateAddonSubscriptionInput: Swift.Sendable {
         addonName: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         tags: [MailManagerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.addonName = addonName
         self.clientToken = clientToken
         self.tags = tags
@@ -464,8 +447,7 @@ public struct CreateAddonSubscriptionOutput: Swift.Sendable {
 
     public init(
         addonSubscriptionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.addonSubscriptionId = addonSubscriptionId
     }
 }
@@ -477,8 +459,7 @@ public struct DeleteAddonSubscriptionInput: Swift.Sendable {
 
     public init(
         addonSubscriptionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.addonSubscriptionId = addonSubscriptionId
     }
 }
@@ -495,8 +476,7 @@ public struct GetAddonSubscriptionInput: Swift.Sendable {
 
     public init(
         addonSubscriptionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.addonSubscriptionId = addonSubscriptionId
     }
 }
@@ -513,8 +493,7 @@ public struct GetAddonSubscriptionOutput: Swift.Sendable {
         addonName: Swift.String? = nil,
         addonSubscriptionArn: Swift.String? = nil,
         createdTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.addonName = addonName
         self.addonSubscriptionArn = addonSubscriptionArn
         self.createdTimestamp = createdTimestamp
@@ -530,8 +509,7 @@ public struct ListAddonSubscriptionsInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageSize = pageSize
     }
@@ -546,8 +524,7 @@ public struct ListAddonSubscriptionsOutput: Swift.Sendable {
     public init(
         addonSubscriptions: [MailManagerClientTypes.AddonSubscription]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.addonSubscriptions = addonSubscriptions
         self.nextToken = nextToken
     }
@@ -567,8 +544,7 @@ extension MailManagerClientTypes {
         public init(
             analyzer: Swift.String? = nil,
             resultField: Swift.String? = nil
-        )
-        {
+        ) {
             self.analyzer = analyzer
             self.resultField = resultField
         }
@@ -627,8 +603,7 @@ extension MailManagerClientTypes {
             archiveName: Swift.String? = nil,
             archiveState: MailManagerClientTypes.ArchiveState? = nil,
             lastUpdatedTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.archiveId = archiveId
             self.archiveName = archiveName
             self.archiveState = archiveState
@@ -650,8 +625,7 @@ extension MailManagerClientTypes {
         public init(
             actionFailurePolicy: MailManagerClientTypes.ActionFailurePolicy? = nil,
             targetArchive: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionFailurePolicy = actionFailurePolicy
             self.targetArchive = targetArchive
         }
@@ -737,8 +711,7 @@ extension MailManagerClientTypes {
         public init(
             evaluate: MailManagerClientTypes.ArchiveBooleanToEvaluate? = nil,
             `operator`: MailManagerClientTypes.ArchiveBooleanOperator? = nil
-        )
-        {
+        ) {
             self.evaluate = evaluate
             self.`operator` = `operator`
         }
@@ -840,8 +813,7 @@ extension MailManagerClientTypes {
             evaluate: MailManagerClientTypes.ArchiveStringToEvaluate? = nil,
             `operator`: MailManagerClientTypes.ArchiveStringOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.evaluate = evaluate
             self.`operator` = `operator`
             self.values = values
@@ -873,8 +845,7 @@ extension MailManagerClientTypes {
         public init(
             include: [MailManagerClientTypes.ArchiveFilterCondition]? = nil,
             unless: [MailManagerClientTypes.ArchiveFilterCondition]? = nil
-        )
-        {
+        ) {
             self.include = include
             self.unless = unless
         }
@@ -963,9 +934,9 @@ extension MailManagerClientTypes {
 }
 
 /// Occurs when a service's request rate limit is exceeded, resulting in throttling of further requests.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -980,8 +951,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1006,8 +976,7 @@ public struct CreateArchiveInput: Swift.Sendable {
         kmsKeyArn: Swift.String? = nil,
         retention: MailManagerClientTypes.ArchiveRetention? = nil,
         tags: [MailManagerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.archiveName = archiveName
         self.clientToken = clientToken
         self.kmsKeyArn = kmsKeyArn
@@ -1024,8 +993,7 @@ public struct CreateArchiveOutput: Swift.Sendable {
 
     public init(
         archiveId: Swift.String? = nil
-    )
-    {
+    ) {
         self.archiveId = archiveId
     }
 }
@@ -1038,8 +1006,7 @@ public struct DeleteArchiveInput: Swift.Sendable {
 
     public init(
         archiveId: Swift.String? = nil
-    )
-    {
+    ) {
         self.archiveId = archiveId
     }
 }
@@ -1058,8 +1025,7 @@ public struct GetArchiveInput: Swift.Sendable {
 
     public init(
         archiveId: Swift.String? = nil
-    )
-    {
+    ) {
         self.archiveId = archiveId
     }
 }
@@ -1101,8 +1067,7 @@ public struct GetArchiveOutput: Swift.Sendable {
         kmsKeyArn: Swift.String? = nil,
         lastUpdatedTimestamp: Foundation.Date? = nil,
         retention: MailManagerClientTypes.ArchiveRetention? = nil
-    )
-    {
+    ) {
         self.archiveArn = archiveArn
         self.archiveId = archiveId
         self.archiveName = archiveName
@@ -1124,8 +1089,7 @@ public struct ListArchivesInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageSize = pageSize
     }
@@ -1142,8 +1106,7 @@ public struct ListArchivesOutput: Swift.Sendable {
     public init(
         archives: [MailManagerClientTypes.Archive]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.archives = archives
         self.nextToken = nextToken
     }
@@ -1163,8 +1126,7 @@ public struct UpdateArchiveInput: Swift.Sendable {
         archiveId: Swift.String? = nil,
         archiveName: Swift.String? = nil,
         retention: MailManagerClientTypes.ArchiveRetention? = nil
-    )
-    {
+    ) {
         self.archiveId = archiveId
         self.archiveName = archiveName
         self.retention = retention
@@ -1246,8 +1208,7 @@ public struct CreateIngressPointInput: Swift.Sendable {
         tags: [MailManagerClientTypes.Tag]? = nil,
         trafficPolicyId: Swift.String? = nil,
         type: MailManagerClientTypes.IngressPointType? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.ingressPointConfiguration = ingressPointConfiguration
         self.ingressPointName = ingressPointName
@@ -1265,8 +1226,7 @@ public struct CreateIngressPointOutput: Swift.Sendable {
 
     public init(
         ingressPointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ingressPointId = ingressPointId
     }
 }
@@ -1317,8 +1277,7 @@ public struct CreateRelayInput: Swift.Sendable {
         serverName: Swift.String? = nil,
         serverPort: Swift.Int? = nil,
         tags: [MailManagerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.authentication = authentication
         self.clientToken = clientToken
         self.relayName = relayName
@@ -1335,8 +1294,7 @@ public struct CreateRelayOutput: Swift.Sendable {
 
     public init(
         relayId: Swift.String? = nil
-    )
-    {
+    ) {
         self.relayId = relayId
     }
 }
@@ -1358,10 +1316,39 @@ extension MailManagerClientTypes {
             actionFailurePolicy: MailManagerClientTypes.ActionFailurePolicy? = nil,
             mailboxArn: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionFailurePolicy = actionFailurePolicy
             self.mailboxArn = mailboxArn
+            self.roleArn = roleArn
+        }
+    }
+}
+
+extension MailManagerClientTypes {
+
+    /// The action to deliver incoming emails to an Amazon Q Business application for indexing.
+    public struct DeliverToQBusinessAction: Swift.Sendable {
+        /// A policy that states what to do in the case of failure. The action will fail if there are configuration errors. For example, the specified application has been deleted or the role lacks necessary permissions to call the qbusiness:BatchPutDocument API.
+        public var actionFailurePolicy: MailManagerClientTypes.ActionFailurePolicy?
+        /// The unique identifier of the Amazon Q Business application instance where the email content will be delivered.
+        /// This member is required.
+        public var applicationId: Swift.String?
+        /// The identifier of the knowledge base index within the Amazon Q Business application where the email content will be stored and indexed.
+        /// This member is required.
+        public var indexId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the IAM Role to use while delivering to Amazon Q Business. This role must have access to the qbusiness:BatchPutDocument API for the given application and index.
+        /// This member is required.
+        public var roleArn: Swift.String?
+
+        public init(
+            actionFailurePolicy: MailManagerClientTypes.ActionFailurePolicy? = nil,
+            applicationId: Swift.String? = nil,
+            indexId: Swift.String? = nil,
+            roleArn: Swift.String? = nil
+        ) {
+            self.actionFailurePolicy = actionFailurePolicy
+            self.applicationId = applicationId
+            self.indexId = indexId
             self.roleArn = roleArn
         }
     }
@@ -1421,8 +1408,7 @@ extension MailManagerClientTypes {
             actionFailurePolicy: MailManagerClientTypes.ActionFailurePolicy? = nil,
             mailFrom: MailManagerClientTypes.MailFrom? = nil,
             relay: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionFailurePolicy = actionFailurePolicy
             self.mailFrom = mailFrom
             self.relay = relay
@@ -1439,8 +1425,7 @@ extension MailManagerClientTypes {
 
         public init(
             replaceWith: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.replaceWith = replaceWith
         }
     }
@@ -1464,8 +1449,7 @@ extension MailManagerClientTypes {
         public init(
             actionFailurePolicy: MailManagerClientTypes.ActionFailurePolicy? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionFailurePolicy = actionFailurePolicy
             self.roleArn = roleArn
         }
@@ -1495,8 +1479,7 @@ extension MailManagerClientTypes {
             s3Bucket: Swift.String? = nil,
             s3Prefix: Swift.String? = nil,
             s3SseKmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionFailurePolicy = actionFailurePolicy
             self.roleArn = roleArn
             self.s3Bucket = s3Bucket
@@ -1526,6 +1509,8 @@ extension MailManagerClientTypes {
         case replacerecipient(MailManagerClientTypes.ReplaceRecipientAction)
         /// This action delivers an email to a WorkMail mailbox.
         case delivertomailbox(MailManagerClientTypes.DeliverToMailboxAction)
+        /// This action delivers an email to an Amazon Q Business application for ingestion into its knowledge base.
+        case delivertoqbusiness(MailManagerClientTypes.DeliverToQBusinessAction)
         case sdkUnknown(Swift.String)
     }
 }
@@ -1615,8 +1600,7 @@ extension MailManagerClientTypes {
         public init(
             evaluate: MailManagerClientTypes.RuleBooleanToEvaluate? = nil,
             `operator`: MailManagerClientTypes.RuleBooleanOperator? = nil
-        )
-        {
+        ) {
             self.evaluate = evaluate
             self.`operator` = `operator`
         }
@@ -1698,8 +1682,7 @@ extension MailManagerClientTypes {
         public init(
             `operator`: MailManagerClientTypes.RuleDmarcOperator? = nil,
             values: [MailManagerClientTypes.RuleDmarcPolicy]? = nil
-        )
-        {
+        ) {
             self.`operator` = `operator`
             self.values = values
         }
@@ -1789,8 +1772,7 @@ extension MailManagerClientTypes {
             evaluate: MailManagerClientTypes.RuleIpToEvaluate? = nil,
             `operator`: MailManagerClientTypes.RuleIpOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.evaluate = evaluate
             self.`operator` = `operator`
             self.values = values
@@ -1893,8 +1875,7 @@ extension MailManagerClientTypes {
             evaluate: MailManagerClientTypes.RuleNumberToEvaluate? = nil,
             `operator`: MailManagerClientTypes.RuleNumberOperator? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.evaluate = evaluate
             self.`operator` = `operator`
             self.value = value
@@ -2017,8 +1998,7 @@ extension MailManagerClientTypes {
             evaluate: MailManagerClientTypes.RuleStringToEvaluate? = nil,
             `operator`: MailManagerClientTypes.RuleStringOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.evaluate = evaluate
             self.`operator` = `operator`
             self.values = values
@@ -2149,8 +2129,7 @@ extension MailManagerClientTypes {
             evaluate: MailManagerClientTypes.RuleVerdictToEvaluate? = nil,
             `operator`: MailManagerClientTypes.RuleVerdictOperator? = nil,
             values: [MailManagerClientTypes.RuleVerdict]? = nil
-        )
-        {
+        ) {
             self.evaluate = evaluate
             self.`operator` = `operator`
             self.values = values
@@ -2197,8 +2176,7 @@ extension MailManagerClientTypes {
             conditions: [MailManagerClientTypes.RuleCondition]? = nil,
             name: Swift.String? = nil,
             unless: [MailManagerClientTypes.RuleCondition]? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.conditions = conditions
             self.name = name
@@ -2224,8 +2202,7 @@ public struct CreateRuleSetInput: Swift.Sendable {
         ruleSetName: Swift.String? = nil,
         rules: [MailManagerClientTypes.Rule]? = nil,
         tags: [MailManagerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.ruleSetName = ruleSetName
         self.rules = rules
@@ -2240,8 +2217,7 @@ public struct CreateRuleSetOutput: Swift.Sendable {
 
     public init(
         ruleSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleSetId = ruleSetId
     }
 }
@@ -2260,8 +2236,7 @@ extension MailManagerClientTypes {
         public init(
             analyzer: Swift.String? = nil,
             resultField: Swift.String? = nil
-        )
-        {
+        ) {
             self.analyzer = analyzer
             self.resultField = resultField
         }
@@ -2321,8 +2296,7 @@ extension MailManagerClientTypes {
         public init(
             evaluate: MailManagerClientTypes.IngressBooleanToEvaluate? = nil,
             `operator`: MailManagerClientTypes.IngressBooleanOperator? = nil
-        )
-        {
+        ) {
             self.evaluate = evaluate
             self.`operator` = `operator`
         }
@@ -2412,8 +2386,7 @@ extension MailManagerClientTypes {
             evaluate: MailManagerClientTypes.IngressIpToEvaluate? = nil,
             `operator`: MailManagerClientTypes.IngressIpOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.evaluate = evaluate
             self.`operator` = `operator`
             self.values = values
@@ -2513,8 +2486,7 @@ extension MailManagerClientTypes {
             evaluate: MailManagerClientTypes.IngressStringToEvaluate? = nil,
             `operator`: MailManagerClientTypes.IngressStringOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.evaluate = evaluate
             self.`operator` = `operator`
             self.values = values
@@ -2634,8 +2606,7 @@ extension MailManagerClientTypes {
             evaluate: MailManagerClientTypes.IngressTlsProtocolToEvaluate? = nil,
             `operator`: MailManagerClientTypes.IngressTlsProtocolOperator? = nil,
             value: MailManagerClientTypes.IngressTlsProtocolAttribute? = nil
-        )
-        {
+        ) {
             self.evaluate = evaluate
             self.`operator` = `operator`
             self.value = value
@@ -2673,8 +2644,7 @@ extension MailManagerClientTypes {
         public init(
             action: MailManagerClientTypes.AcceptAction? = nil,
             conditions: [MailManagerClientTypes.PolicyCondition]? = nil
-        )
-        {
+        ) {
             self.action = action
             self.conditions = conditions
         }
@@ -2705,8 +2675,7 @@ public struct CreateTrafficPolicyInput: Swift.Sendable {
         policyStatements: [MailManagerClientTypes.PolicyStatement]? = nil,
         tags: [MailManagerClientTypes.Tag]? = nil,
         trafficPolicyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.defaultAction = defaultAction
         self.maxMessageSizeBytes = maxMessageSizeBytes
@@ -2723,8 +2692,7 @@ public struct CreateTrafficPolicyOutput: Swift.Sendable {
 
     public init(
         trafficPolicyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.trafficPolicyId = trafficPolicyId
     }
 }
@@ -2736,8 +2704,7 @@ public struct DeleteIngressPointInput: Swift.Sendable {
 
     public init(
         ingressPointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ingressPointId = ingressPointId
     }
 }
@@ -2754,8 +2721,7 @@ public struct DeleteRelayInput: Swift.Sendable {
 
     public init(
         relayId: Swift.String? = nil
-    )
-    {
+    ) {
         self.relayId = relayId
     }
 }
@@ -2772,8 +2738,7 @@ public struct DeleteRuleSetInput: Swift.Sendable {
 
     public init(
         ruleSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleSetId = ruleSetId
     }
 }
@@ -2790,8 +2755,7 @@ public struct DeleteTrafficPolicyInput: Swift.Sendable {
 
     public init(
         trafficPolicyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.trafficPolicyId = trafficPolicyId
     }
 }
@@ -2816,8 +2780,7 @@ extension MailManagerClientTypes {
             from: Swift.String? = nil,
             helo: Swift.String? = nil,
             to: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.from = from
             self.helo = helo
             self.to = to
@@ -2834,8 +2797,7 @@ extension MailManagerClientTypes {
 
         public init(
             s3Location: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Location = s3Location
         }
     }
@@ -2910,8 +2872,7 @@ extension MailManagerClientTypes {
             errorMessage: Swift.String? = nil,
             state: MailManagerClientTypes.ExportState? = nil,
             submissionTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.completionTimestamp = completionTimestamp
             self.errorMessage = errorMessage
             self.state = state
@@ -2932,8 +2893,7 @@ extension MailManagerClientTypes {
         public init(
             exportId: Swift.String? = nil,
             status: MailManagerClientTypes.ExportStatus? = nil
-        )
-        {
+        ) {
             self.exportId = exportId
             self.status = status
         }
@@ -2948,8 +2908,7 @@ public struct GetArchiveExportInput: Swift.Sendable {
 
     public init(
         exportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportId = exportId
     }
 }
@@ -2979,8 +2938,7 @@ public struct GetArchiveExportOutput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         status: MailManagerClientTypes.ExportStatus? = nil,
         toTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.archiveId = archiveId
         self.exportDestinationConfiguration = exportDestinationConfiguration
         self.filters = filters
@@ -2999,8 +2957,7 @@ public struct GetArchiveMessageInput: Swift.Sendable {
 
     public init(
         archivedMessageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.archivedMessageId = archivedMessageId
     }
 }
@@ -3035,8 +2992,7 @@ extension MailManagerClientTypes {
             tlsCipherSuite: Swift.String? = nil,
             tlsProtocol: Swift.String? = nil,
             trafficPolicyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.ingressPointId = ingressPointId
             self.ruleSetId = ruleSetId
             self.senderHostname = senderHostname
@@ -3067,8 +3023,7 @@ public struct GetArchiveMessageOutput: Swift.Sendable {
         envelope: MailManagerClientTypes.Envelope? = nil,
         messageDownloadLink: Swift.String? = nil,
         metadata: MailManagerClientTypes.Metadata? = nil
-    )
-    {
+    ) {
         self.envelope = envelope
         self.messageDownloadLink = messageDownloadLink
         self.metadata = metadata
@@ -3083,8 +3038,7 @@ public struct GetArchiveMessageContentInput: Swift.Sendable {
 
     public init(
         archivedMessageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.archivedMessageId = archivedMessageId
     }
 }
@@ -3104,8 +3058,7 @@ extension MailManagerClientTypes {
             html: Swift.String? = nil,
             messageMalformed: Swift.Bool? = nil,
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.html = html
             self.messageMalformed = messageMalformed
             self.text = text
@@ -3120,8 +3073,7 @@ public struct GetArchiveMessageContentOutput: Swift.Sendable {
 
     public init(
         body: MailManagerClientTypes.MessageBody? = nil
-    )
-    {
+    ) {
         self.body = body
     }
 }
@@ -3134,8 +3086,7 @@ public struct GetArchiveSearchInput: Swift.Sendable {
 
     public init(
         searchId: Swift.String? = nil
-    )
-    {
+    ) {
         self.searchId = searchId
     }
 }
@@ -3196,8 +3147,7 @@ extension MailManagerClientTypes {
             errorMessage: Swift.String? = nil,
             state: MailManagerClientTypes.SearchState? = nil,
             submissionTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.completionTimestamp = completionTimestamp
             self.errorMessage = errorMessage
             self.state = state
@@ -3228,8 +3178,7 @@ public struct GetArchiveSearchOutput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         status: MailManagerClientTypes.SearchStatus? = nil,
         toTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.archiveId = archiveId
         self.filters = filters
         self.fromTimestamp = fromTimestamp
@@ -3247,8 +3196,7 @@ public struct GetArchiveSearchResultsInput: Swift.Sendable {
 
     public init(
         searchId: Swift.String? = nil
-    )
-    {
+    ) {
         self.searchId = searchId
     }
 }
@@ -3313,8 +3261,7 @@ extension MailManagerClientTypes {
             xMailer: Swift.String? = nil,
             xOriginalMailer: Swift.String? = nil,
             xPriority: Swift.String? = nil
-        )
-        {
+        ) {
             self.archivedMessageId = archivedMessageId
             self.cc = cc
             self.date = date
@@ -3349,8 +3296,7 @@ public struct GetArchiveSearchResultsOutput: Swift.Sendable {
 
     public init(
         rows: [MailManagerClientTypes.Row]? = nil
-    )
-    {
+    ) {
         self.rows = rows
     }
 }
@@ -3362,8 +3308,7 @@ public struct GetIngressPointInput: Swift.Sendable {
 
     public init(
         ingressPointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ingressPointId = ingressPointId
     }
 }
@@ -3383,8 +3328,7 @@ extension MailManagerClientTypes {
             previousSmtpPasswordExpiryTimestamp: Foundation.Date? = nil,
             previousSmtpPasswordVersion: Swift.String? = nil,
             smtpPasswordVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.previousSmtpPasswordExpiryTimestamp = previousSmtpPasswordExpiryTimestamp
             self.previousSmtpPasswordVersion = previousSmtpPasswordVersion
             self.smtpPasswordVersion = smtpPasswordVersion
@@ -3404,8 +3348,7 @@ extension MailManagerClientTypes {
         public init(
             ingressPointPasswordConfiguration: MailManagerClientTypes.IngressPointPasswordConfiguration? = nil,
             secretArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.ingressPointPasswordConfiguration = ingressPointPasswordConfiguration
             self.secretArn = secretArn
         }
@@ -3491,8 +3434,7 @@ public struct GetIngressPointOutput: Swift.Sendable {
         status: MailManagerClientTypes.IngressPointStatus? = nil,
         trafficPolicyId: Swift.String? = nil,
         type: MailManagerClientTypes.IngressPointType? = nil
-    )
-    {
+    ) {
         self.aRecord = aRecord
         self.createdTimestamp = createdTimestamp
         self.ingressPointArn = ingressPointArn
@@ -3514,8 +3456,7 @@ public struct GetRelayInput: Swift.Sendable {
 
     public init(
         relayId: Swift.String? = nil
-    )
-    {
+    ) {
         self.relayId = relayId
     }
 }
@@ -3548,8 +3489,7 @@ public struct GetRelayOutput: Swift.Sendable {
         relayName: Swift.String? = nil,
         serverName: Swift.String? = nil,
         serverPort: Swift.Int? = nil
-    )
-    {
+    ) {
         self.authentication = authentication
         self.createdTimestamp = createdTimestamp
         self.lastModifiedTimestamp = lastModifiedTimestamp
@@ -3568,8 +3508,7 @@ public struct GetRuleSetInput: Swift.Sendable {
 
     public init(
         ruleSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleSetId = ruleSetId
     }
 }
@@ -3601,8 +3540,7 @@ public struct GetRuleSetOutput: Swift.Sendable {
         ruleSetId: Swift.String? = nil,
         ruleSetName: Swift.String? = nil,
         rules: [MailManagerClientTypes.Rule]? = nil
-    )
-    {
+    ) {
         self.createdDate = createdDate
         self.lastModificationDate = lastModificationDate
         self.ruleSetArn = ruleSetArn
@@ -3619,8 +3557,7 @@ public struct GetTrafficPolicyInput: Swift.Sendable {
 
     public init(
         trafficPolicyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.trafficPolicyId = trafficPolicyId
     }
 }
@@ -3654,8 +3591,7 @@ public struct GetTrafficPolicyOutput: Swift.Sendable {
         trafficPolicyArn: Swift.String? = nil,
         trafficPolicyId: Swift.String? = nil,
         trafficPolicyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdTimestamp = createdTimestamp
         self.defaultAction = defaultAction
         self.lastUpdatedTimestamp = lastUpdatedTimestamp
@@ -3692,8 +3628,7 @@ extension MailManagerClientTypes {
             ingressPointName: Swift.String? = nil,
             status: MailManagerClientTypes.IngressPointStatus? = nil,
             type: MailManagerClientTypes.IngressPointType? = nil
-        )
-        {
+        ) {
             self.aRecord = aRecord
             self.ingressPointId = ingressPointId
             self.ingressPointName = ingressPointName
@@ -3712,8 +3647,7 @@ public struct ListIngressPointsInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageSize = pageSize
     }
@@ -3728,8 +3662,7 @@ public struct ListIngressPointsOutput: Swift.Sendable {
     public init(
         ingressPoints: [MailManagerClientTypes.IngressPoint]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.ingressPoints = ingressPoints
         self.nextToken = nextToken
     }
@@ -3786,8 +3719,7 @@ public struct UpdateIngressPointInput: Swift.Sendable {
         ruleSetId: Swift.String? = nil,
         statusToUpdate: MailManagerClientTypes.IngressPointStatusToUpdate? = nil,
         trafficPolicyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ingressPointConfiguration = ingressPointConfiguration
         self.ingressPointId = ingressPointId
         self.ingressPointName = ingressPointName
@@ -3816,8 +3748,7 @@ public struct ListArchiveExportsInput: Swift.Sendable {
         archiveId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.archiveId = archiveId
         self.nextToken = nextToken
         self.pageSize = pageSize
@@ -3834,8 +3765,7 @@ public struct ListArchiveExportsOutput: Swift.Sendable {
     public init(
         exports: [MailManagerClientTypes.ExportSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.exports = exports
         self.nextToken = nextToken
     }
@@ -3855,8 +3785,7 @@ public struct ListArchiveSearchesInput: Swift.Sendable {
         archiveId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.archiveId = archiveId
         self.nextToken = nextToken
         self.pageSize = pageSize
@@ -3875,8 +3804,7 @@ extension MailManagerClientTypes {
         public init(
             searchId: Swift.String? = nil,
             status: MailManagerClientTypes.SearchStatus? = nil
-        )
-        {
+        ) {
             self.searchId = searchId
             self.status = status
         }
@@ -3893,8 +3821,7 @@ public struct ListArchiveSearchesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         searches: [MailManagerClientTypes.SearchSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.searches = searches
     }
@@ -3909,8 +3836,7 @@ public struct ListRelaysInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageSize = pageSize
     }
@@ -3931,8 +3857,7 @@ extension MailManagerClientTypes {
             lastModifiedTimestamp: Foundation.Date? = nil,
             relayId: Swift.String? = nil,
             relayName: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastModifiedTimestamp = lastModifiedTimestamp
             self.relayId = relayId
             self.relayName = relayName
@@ -3950,8 +3875,7 @@ public struct ListRelaysOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         relays: [MailManagerClientTypes.Relay]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.relays = relays
     }
@@ -3966,8 +3890,7 @@ public struct ListRuleSetsInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageSize = pageSize
     }
@@ -3988,8 +3911,7 @@ extension MailManagerClientTypes {
             lastModificationDate: Foundation.Date? = nil,
             ruleSetId: Swift.String? = nil,
             ruleSetName: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastModificationDate = lastModificationDate
             self.ruleSetId = ruleSetId
             self.ruleSetName = ruleSetName
@@ -4007,8 +3929,7 @@ public struct ListRuleSetsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         ruleSets: [MailManagerClientTypes.RuleSet]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.ruleSets = ruleSets
     }
@@ -4021,8 +3942,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -4034,8 +3954,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [MailManagerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -4049,8 +3968,7 @@ public struct ListTrafficPoliciesInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageSize = pageSize
     }
@@ -4074,8 +3992,7 @@ extension MailManagerClientTypes {
             defaultAction: MailManagerClientTypes.AcceptAction? = nil,
             trafficPolicyId: Swift.String? = nil,
             trafficPolicyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultAction = defaultAction
             self.trafficPolicyId = trafficPolicyId
             self.trafficPolicyName = trafficPolicyName
@@ -4092,8 +4009,7 @@ public struct ListTrafficPoliciesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         trafficPolicies: [MailManagerClientTypes.TrafficPolicy]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.trafficPolicies = trafficPolicies
     }
@@ -4118,8 +4034,7 @@ public struct UpdateRelayInput: Swift.Sendable {
         relayName: Swift.String? = nil,
         serverName: Swift.String? = nil,
         serverPort: Swift.Int? = nil
-    )
-    {
+    ) {
         self.authentication = authentication
         self.relayId = relayId
         self.relayName = relayName
@@ -4146,8 +4061,7 @@ public struct UpdateRuleSetInput: Swift.Sendable {
         ruleSetId: Swift.String? = nil,
         ruleSetName: Swift.String? = nil,
         rules: [MailManagerClientTypes.Rule]? = nil
-    )
-    {
+    ) {
         self.ruleSetId = ruleSetId
         self.ruleSetName = ruleSetName
         self.rules = rules
@@ -4188,8 +4102,7 @@ public struct StartArchiveExportInput: Swift.Sendable {
         includeMetadata: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         toTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.archiveId = archiveId
         self.exportDestinationConfiguration = exportDestinationConfiguration
         self.filters = filters
@@ -4207,8 +4120,7 @@ public struct StartArchiveExportOutput: Swift.Sendable {
 
     public init(
         exportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportId = exportId
     }
 }
@@ -4236,8 +4148,7 @@ public struct StartArchiveSearchInput: Swift.Sendable {
         fromTimestamp: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         toTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.archiveId = archiveId
         self.filters = filters
         self.fromTimestamp = fromTimestamp
@@ -4253,8 +4164,7 @@ public struct StartArchiveSearchOutput: Swift.Sendable {
 
     public init(
         searchId: Swift.String? = nil
-    )
-    {
+    ) {
         self.searchId = searchId
     }
 }
@@ -4267,8 +4177,7 @@ public struct StopArchiveExportInput: Swift.Sendable {
 
     public init(
         exportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportId = exportId
     }
 }
@@ -4287,8 +4196,7 @@ public struct StopArchiveSearchInput: Swift.Sendable {
 
     public init(
         searchId: Swift.String? = nil
-    )
-    {
+    ) {
         self.searchId = searchId
     }
 }
@@ -4310,8 +4218,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [MailManagerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -4341,8 +4248,7 @@ public struct UpdateTrafficPolicyInput: Swift.Sendable {
         policyStatements: [MailManagerClientTypes.PolicyStatement]? = nil,
         trafficPolicyId: Swift.String? = nil,
         trafficPolicyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultAction = defaultAction
         self.maxMessageSizeBytes = maxMessageSizeBytes
         self.policyStatements = policyStatements
@@ -4367,8 +4273,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -6910,6 +6815,8 @@ extension MailManagerClientTypes.RuleAction {
                 try writer["Archive"].write(archive, with: MailManagerClientTypes.ArchiveAction.write(value:to:))
             case let .delivertomailbox(delivertomailbox):
                 try writer["DeliverToMailbox"].write(delivertomailbox, with: MailManagerClientTypes.DeliverToMailboxAction.write(value:to:))
+            case let .delivertoqbusiness(delivertoqbusiness):
+                try writer["DeliverToQBusiness"].write(delivertoqbusiness, with: MailManagerClientTypes.DeliverToQBusinessAction.write(value:to:))
             case let .drop(drop):
                 try writer["Drop"].write(drop, with: MailManagerClientTypes.DropAction.write(value:to:))
             case let .relay(relay):
@@ -6945,9 +6852,32 @@ extension MailManagerClientTypes.RuleAction {
                 return .replacerecipient(try reader["ReplaceRecipient"].read(with: MailManagerClientTypes.ReplaceRecipientAction.read(from:)))
             case "DeliverToMailbox":
                 return .delivertomailbox(try reader["DeliverToMailbox"].read(with: MailManagerClientTypes.DeliverToMailboxAction.read(from:)))
+            case "DeliverToQBusiness":
+                return .delivertoqbusiness(try reader["DeliverToQBusiness"].read(with: MailManagerClientTypes.DeliverToQBusinessAction.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension MailManagerClientTypes.DeliverToQBusinessAction {
+
+    static func write(value: MailManagerClientTypes.DeliverToQBusinessAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActionFailurePolicy"].write(value.actionFailurePolicy)
+        try writer["ApplicationId"].write(value.applicationId)
+        try writer["IndexId"].write(value.indexId)
+        try writer["RoleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.DeliverToQBusinessAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.DeliverToQBusinessAction()
+        value.actionFailurePolicy = try reader["ActionFailurePolicy"].readIfPresent()
+        value.applicationId = try reader["ApplicationId"].readIfPresent() ?? ""
+        value.indexId = try reader["IndexId"].readIfPresent() ?? ""
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        return value
     }
 }
 

@@ -25,9 +25,9 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 
 /// General authentication failure. The request was not signed correctly.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -43,8 +43,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -89,8 +88,7 @@ extension ElasticTranscoderClientTypes {
             key: Swift.String? = nil,
             keyMd5: Swift.String? = nil,
             mode: Swift.String? = nil
-        )
-        {
+        ) {
             self.initializationVector = initializationVector
             self.key = key
             self.keyMd5 = keyMd5
@@ -138,8 +136,7 @@ extension ElasticTranscoderClientTypes {
             maxWidth: Swift.String? = nil,
             paddingPolicy: Swift.String? = nil,
             sizingPolicy: Swift.String? = nil
-        )
-        {
+        ) {
             self.albumArtFormat = albumArtFormat
             self.encryption = encryption
             self.inputKey = inputKey
@@ -180,8 +177,7 @@ extension ElasticTranscoderClientTypes {
             bitOrder: Swift.String? = nil,
             profile: Swift.String? = nil,
             signed: Swift.String? = nil
-        )
-        {
+        ) {
             self.bitDepth = bitDepth
             self.bitOrder = bitOrder
             self.profile = profile
@@ -285,8 +281,7 @@ extension ElasticTranscoderClientTypes {
             codec: Swift.String? = nil,
             codecOptions: ElasticTranscoderClientTypes.AudioCodecOptions? = nil,
             sampleRate: Swift.String? = nil
-        )
-        {
+        ) {
             self.audioPackingMode = audioPackingMode
             self.bitRate = bitRate
             self.channels = channels
@@ -297,9 +292,9 @@ extension ElasticTranscoderClientTypes {
     }
 }
 
-public struct IncompatibleVersionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IncompatibleVersionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -315,16 +310,15 @@ public struct IncompatibleVersionException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Elastic Transcoder encountered an unexpected exception while trying to fulfill the request.
-public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -340,16 +334,15 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The resource you are attempting to change is in use. For example, you are attempting to delete a pipeline that is currently in use.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -365,16 +358,15 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The requested resource does not exist or is not available. For example, the pipeline to which you're trying to add a job doesn't exist or is still being created.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -390,16 +382,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// One or more required parameter values were not provided in the request.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -415,8 +406,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -429,8 +419,7 @@ public struct CancelJobInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -489,8 +478,7 @@ extension ElasticTranscoderClientTypes {
             encryption: ElasticTranscoderClientTypes.Encryption? = nil,
             format: Swift.String? = nil,
             pattern: Swift.String? = nil
-        )
-        {
+        ) {
             self.encryption = encryption
             self.format = format
             self.pattern = pattern
@@ -526,8 +514,7 @@ extension ElasticTranscoderClientTypes {
             label: Swift.String? = nil,
             language: Swift.String? = nil,
             timeOffset: Swift.String? = nil
-        )
-        {
+        ) {
             self.encryption = encryption
             self.key = key
             self.label = label
@@ -563,8 +550,7 @@ extension ElasticTranscoderClientTypes {
             captionFormats: [ElasticTranscoderClientTypes.CaptionFormat]? = nil,
             captionSources: [ElasticTranscoderClientTypes.CaptionSource]? = nil,
             mergePolicy: Swift.String? = nil
-        )
-        {
+        ) {
             self.captionFormats = captionFormats
             self.captionSources = captionSources
             self.mergePolicy = mergePolicy
@@ -584,8 +570,7 @@ extension ElasticTranscoderClientTypes {
         public init(
             duration: Swift.String? = nil,
             startTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.duration = duration
             self.startTime = startTime
         }
@@ -602,17 +587,16 @@ extension ElasticTranscoderClientTypes {
 
         public init(
             timeSpan: ElasticTranscoderClientTypes.TimeSpan? = nil
-        )
-        {
+        ) {
             self.timeSpan = timeSpan
         }
     }
 }
 
 /// Too many operations for a given AWS account. For example, the number of pipelines exceeds the maximum allowed.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -628,8 +612,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -655,8 +638,7 @@ extension ElasticTranscoderClientTypes {
             frameRate: Swift.String? = nil,
             height: Swift.Int? = nil,
             width: Swift.Int? = nil
-        )
-        {
+        ) {
             self.durationMillis = durationMillis
             self.fileSize = fileSize
             self.frameRate = frameRate
@@ -687,8 +669,7 @@ extension ElasticTranscoderClientTypes {
         public init(
             captionSources: [ElasticTranscoderClientTypes.CaptionSource]? = nil,
             mergePolicy: Swift.String? = nil
-        )
-        {
+        ) {
             self.captionSources = captionSources
             self.mergePolicy = mergePolicy
         }
@@ -738,8 +719,7 @@ extension ElasticTranscoderClientTypes {
             key: Swift.String? = nil,
             resolution: Swift.String? = nil,
             timeSpan: ElasticTranscoderClientTypes.TimeSpan? = nil
-        )
-        {
+        ) {
             self.aspectRatio = aspectRatio
             self.container = container
             self.detectedProperties = detectedProperties
@@ -774,8 +754,7 @@ extension ElasticTranscoderClientTypes {
         public init(
             artwork: [ElasticTranscoderClientTypes.Artwork]? = nil,
             mergePolicy: Swift.String? = nil
-        )
-        {
+        ) {
             self.artwork = artwork
             self.mergePolicy = mergePolicy
         }
@@ -797,8 +776,7 @@ extension ElasticTranscoderClientTypes {
             encryption: ElasticTranscoderClientTypes.Encryption? = nil,
             inputKey: Swift.String? = nil,
             presetWatermarkId: Swift.String? = nil
-        )
-        {
+        ) {
             self.encryption = encryption
             self.inputKey = inputKey
             self.presetWatermarkId = presetWatermarkId
@@ -862,8 +840,7 @@ extension ElasticTranscoderClientTypes {
             thumbnailEncryption: ElasticTranscoderClientTypes.Encryption? = nil,
             thumbnailPattern: Swift.String? = nil,
             watermarks: [ElasticTranscoderClientTypes.JobWatermark]? = nil
-        )
-        {
+        ) {
             self.albumArt = albumArt
             self.captions = captions
             self.composition = composition
@@ -903,8 +880,7 @@ extension ElasticTranscoderClientTypes {
             keyStoragePolicy: Swift.String? = nil,
             licenseAcquisitionUrl: Swift.String? = nil,
             method: Swift.String? = nil
-        )
-        {
+        ) {
             self.initializationVector = initializationVector
             self.key = key
             self.keyMd5 = keyMd5
@@ -939,8 +915,7 @@ extension ElasticTranscoderClientTypes {
             keyId: Swift.String? = nil,
             keyMd5: Swift.String? = nil,
             licenseAcquisitionUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.format = format
             self.initializationVector = initializationVector
             self.key = key
@@ -981,8 +956,7 @@ extension ElasticTranscoderClientTypes {
             name: Swift.String? = nil,
             outputKeys: [Swift.String]? = nil,
             playReadyDrm: ElasticTranscoderClientTypes.PlayReadyDrm? = nil
-        )
-        {
+        ) {
             self.format = format
             self.hlsContentProtection = hlsContentProtection
             self.name = name
@@ -1021,8 +995,7 @@ public struct CreateJobInput: Swift.Sendable {
         pipelineId: Swift.String? = nil,
         playlists: [ElasticTranscoderClientTypes.CreateJobPlaylist]? = nil,
         userMetadata: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.input = input
         self.inputs = inputs
         self.output = output
@@ -1131,8 +1104,7 @@ extension ElasticTranscoderClientTypes {
             thumbnailPattern: Swift.String? = nil,
             watermarks: [ElasticTranscoderClientTypes.JobWatermark]? = nil,
             width: Swift.Int? = nil
-        )
-        {
+        ) {
             self.albumArt = albumArt
             self.appliedColorSpaceConversion = appliedColorSpaceConversion
             self.captions = captions
@@ -1197,8 +1169,7 @@ extension ElasticTranscoderClientTypes {
             playReadyDrm: ElasticTranscoderClientTypes.PlayReadyDrm? = nil,
             status: Swift.String? = nil,
             statusDetail: Swift.String? = nil
-        )
-        {
+        ) {
             self.format = format
             self.hlsContentProtection = hlsContentProtection
             self.name = name
@@ -1225,8 +1196,7 @@ extension ElasticTranscoderClientTypes {
             finishTimeMillis: Swift.Int? = nil,
             startTimeMillis: Swift.Int? = nil,
             submitTimeMillis: Swift.Int? = nil
-        )
-        {
+        ) {
             self.finishTimeMillis = finishTimeMillis
             self.startTimeMillis = startTimeMillis
             self.submitTimeMillis = submitTimeMillis
@@ -1284,8 +1254,7 @@ extension ElasticTranscoderClientTypes {
             status: Swift.String? = nil,
             timing: ElasticTranscoderClientTypes.Timing? = nil,
             userMetadata: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.input = input
@@ -1309,8 +1278,7 @@ public struct CreateJobOutput: Swift.Sendable {
 
     public init(
         job: ElasticTranscoderClientTypes.Job? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -1344,8 +1312,7 @@ extension ElasticTranscoderClientTypes {
             access: [Swift.String]? = nil,
             grantee: Swift.String? = nil,
             granteeType: Swift.String? = nil
-        )
-        {
+        ) {
             self.access = access
             self.grantee = grantee
             self.granteeType = granteeType
@@ -1379,8 +1346,7 @@ extension ElasticTranscoderClientTypes {
             bucket: Swift.String? = nil,
             permissions: [ElasticTranscoderClientTypes.Permission]? = nil,
             storageClass: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.permissions = permissions
             self.storageClass = storageClass
@@ -1406,8 +1372,7 @@ extension ElasticTranscoderClientTypes {
             error: Swift.String? = nil,
             progressing: Swift.String? = nil,
             warning: Swift.String? = nil
-        )
-        {
+        ) {
             self.completed = completed
             self.error = error
             self.progressing = progressing
@@ -1530,8 +1495,7 @@ public struct CreatePipelineInput: Swift.Sendable {
         outputBucket: Swift.String? = nil,
         role: Swift.String? = nil,
         thumbnailConfig: ElasticTranscoderClientTypes.PipelineOutputConfig? = nil
-    )
-    {
+    ) {
         self.awsKmsKeyArn = awsKmsKeyArn
         self.contentConfig = contentConfig
         self.inputBucket = inputBucket
@@ -1664,8 +1628,7 @@ extension ElasticTranscoderClientTypes {
             role: Swift.String? = nil,
             status: Swift.String? = nil,
             thumbnailConfig: ElasticTranscoderClientTypes.PipelineOutputConfig? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.awsKmsKeyArn = awsKmsKeyArn
             self.contentConfig = contentConfig
@@ -1693,8 +1656,7 @@ extension ElasticTranscoderClientTypes {
         public init(
             code: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -1711,8 +1673,7 @@ public struct CreatePipelineOutput: Swift.Sendable {
     public init(
         pipeline: ElasticTranscoderClientTypes.Pipeline? = nil,
         warnings: [ElasticTranscoderClientTypes.Warning]? = nil
-    )
-    {
+    ) {
         self.pipeline = pipeline
         self.warnings = warnings
     }
@@ -1760,8 +1721,7 @@ extension ElasticTranscoderClientTypes {
             paddingPolicy: Swift.String? = nil,
             resolution: Swift.String? = nil,
             sizingPolicy: Swift.String? = nil
-        )
-        {
+        ) {
             self.aspectRatio = aspectRatio
             self.format = format
             self.interval = interval
@@ -1857,8 +1817,7 @@ extension ElasticTranscoderClientTypes {
             target: Swift.String? = nil,
             verticalAlign: Swift.String? = nil,
             verticalOffset: Swift.String? = nil
-        )
-        {
+        ) {
             self.horizontalAlign = horizontalAlign
             self.horizontalOffset = horizontalOffset
             self.id = id
@@ -2090,8 +2049,7 @@ extension ElasticTranscoderClientTypes {
             resolution: Swift.String? = nil,
             sizingPolicy: Swift.String? = nil,
             watermarks: [ElasticTranscoderClientTypes.PresetWatermark]? = nil
-        )
-        {
+        ) {
             self.aspectRatio = aspectRatio
             self.bitRate = bitRate
             self.codec = codec
@@ -2135,8 +2093,7 @@ public struct CreatePresetInput: Swift.Sendable {
         name: Swift.String? = nil,
         thumbnails: ElasticTranscoderClientTypes.Thumbnails? = nil,
         video: ElasticTranscoderClientTypes.VideoParameters? = nil
-    )
-    {
+    ) {
         self.audio = audio
         self.container = container
         self.description = description
@@ -2179,8 +2136,7 @@ extension ElasticTranscoderClientTypes {
             thumbnails: ElasticTranscoderClientTypes.Thumbnails? = nil,
             type: Swift.String? = nil,
             video: ElasticTranscoderClientTypes.VideoParameters? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.audio = audio
             self.container = container
@@ -2204,8 +2160,7 @@ public struct CreatePresetOutput: Swift.Sendable {
     public init(
         preset: ElasticTranscoderClientTypes.Preset? = nil,
         warning: Swift.String? = nil
-    )
-    {
+    ) {
         self.preset = preset
         self.warning = warning
     }
@@ -2219,8 +2174,7 @@ public struct DeletePipelineInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2239,8 +2193,7 @@ public struct DeletePresetInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2265,8 +2218,7 @@ public struct ListJobsByPipelineInput: Swift.Sendable {
         ascending: Swift.String? = nil,
         pageToken: Swift.String? = nil,
         pipelineId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ascending = ascending
         self.pageToken = pageToken
         self.pipelineId = pipelineId
@@ -2283,8 +2235,7 @@ public struct ListJobsByPipelineOutput: Swift.Sendable {
     public init(
         jobs: [ElasticTranscoderClientTypes.Job]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobs = jobs
         self.nextPageToken = nextPageToken
     }
@@ -2304,8 +2255,7 @@ public struct ListJobsByStatusInput: Swift.Sendable {
         ascending: Swift.String? = nil,
         pageToken: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.ascending = ascending
         self.pageToken = pageToken
         self.status = status
@@ -2322,8 +2272,7 @@ public struct ListJobsByStatusOutput: Swift.Sendable {
     public init(
         jobs: [ElasticTranscoderClientTypes.Job]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobs = jobs
         self.nextPageToken = nextPageToken
     }
@@ -2339,8 +2288,7 @@ public struct ListPipelinesInput: Swift.Sendable {
     public init(
         ascending: Swift.String? = nil,
         pageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.ascending = ascending
         self.pageToken = pageToken
     }
@@ -2356,8 +2304,7 @@ public struct ListPipelinesOutput: Swift.Sendable {
     public init(
         nextPageToken: Swift.String? = nil,
         pipelines: [ElasticTranscoderClientTypes.Pipeline]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.pipelines = pipelines
     }
@@ -2373,8 +2320,7 @@ public struct ListPresetsInput: Swift.Sendable {
     public init(
         ascending: Swift.String? = nil,
         pageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.ascending = ascending
         self.pageToken = pageToken
     }
@@ -2390,8 +2336,7 @@ public struct ListPresetsOutput: Swift.Sendable {
     public init(
         nextPageToken: Swift.String? = nil,
         presets: [ElasticTranscoderClientTypes.Preset]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.presets = presets
     }
@@ -2405,8 +2350,7 @@ public struct ReadJobInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2418,8 +2362,7 @@ public struct ReadJobOutput: Swift.Sendable {
 
     public init(
         job: ElasticTranscoderClientTypes.Job? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -2432,8 +2375,7 @@ public struct ReadPipelineInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2448,8 +2390,7 @@ public struct ReadPipelineOutput: Swift.Sendable {
     public init(
         pipeline: ElasticTranscoderClientTypes.Pipeline? = nil,
         warnings: [ElasticTranscoderClientTypes.Warning]? = nil
-    )
-    {
+    ) {
         self.pipeline = pipeline
         self.warnings = warnings
     }
@@ -2463,8 +2404,7 @@ public struct ReadPresetInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2476,8 +2416,7 @@ public struct ReadPresetOutput: Swift.Sendable {
 
     public init(
         preset: ElasticTranscoderClientTypes.Preset? = nil
-    )
-    {
+    ) {
         self.preset = preset
     }
 }
@@ -2503,8 +2442,7 @@ public struct TestRoleInput: Swift.Sendable {
         outputBucket: Swift.String? = nil,
         role: Swift.String? = nil,
         topics: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.inputBucket = inputBucket
         self.outputBucket = outputBucket
         self.role = role
@@ -2523,8 +2461,7 @@ public struct TestRoleOutput: Swift.Sendable {
     public init(
         messages: [Swift.String]? = nil,
         success: Swift.String? = nil
-    )
-    {
+    ) {
         self.messages = messages
         self.success = success
     }
@@ -2631,8 +2568,7 @@ public struct UpdatePipelineInput: Swift.Sendable {
         notifications: ElasticTranscoderClientTypes.Notifications? = nil,
         role: Swift.String? = nil,
         thumbnailConfig: ElasticTranscoderClientTypes.PipelineOutputConfig? = nil
-    )
-    {
+    ) {
         self.awsKmsKeyArn = awsKmsKeyArn
         self.contentConfig = contentConfig
         self.id = id
@@ -2654,8 +2590,7 @@ public struct UpdatePipelineOutput: Swift.Sendable {
     public init(
         pipeline: ElasticTranscoderClientTypes.Pipeline? = nil,
         warnings: [ElasticTranscoderClientTypes.Warning]? = nil
-    )
-    {
+    ) {
         self.pipeline = pipeline
         self.warnings = warnings
     }
@@ -2681,8 +2616,7 @@ public struct UpdatePipelineNotificationsInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         notifications: ElasticTranscoderClientTypes.Notifications? = nil
-    )
-    {
+    ) {
         self.id = id
         self.notifications = notifications
     }
@@ -2695,8 +2629,7 @@ public struct UpdatePipelineNotificationsOutput: Swift.Sendable {
 
     public init(
         pipeline: ElasticTranscoderClientTypes.Pipeline? = nil
-    )
-    {
+    ) {
         self.pipeline = pipeline
     }
 }
@@ -2717,8 +2650,7 @@ public struct UpdatePipelineStatusInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.status = status
     }
@@ -2731,8 +2663,7 @@ public struct UpdatePipelineStatusOutput: Swift.Sendable {
 
     public init(
         pipeline: ElasticTranscoderClientTypes.Pipeline? = nil
-    )
-    {
+    ) {
         self.pipeline = pipeline
     }
 }

@@ -38,8 +38,7 @@ extension DeviceFarmClientTypes {
         public init(
             remaining: Swift.Double? = nil,
             total: Swift.Double? = nil
-        )
-        {
+        ) {
             self.remaining = remaining
             self.total = total
         }
@@ -105,8 +104,7 @@ extension DeviceFarmClientTypes {
             trialMinutes: DeviceFarmClientTypes.TrialMinutes? = nil,
             unmeteredDevices: [Swift.String: Swift.Int]? = nil,
             unmeteredRemoteAccessDevices: [Swift.String: Swift.Int]? = nil
-        )
-        {
+        ) {
             self.awsAccountNumber = awsAccountNumber
             self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
             self.maxJobTimeoutMinutes = maxJobTimeoutMinutes
@@ -120,9 +118,9 @@ extension DeviceFarmClientTypes {
 }
 
 /// An invalid argument was specified.
-public struct ArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any additional information about the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -138,8 +136,7 @@ public struct ArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -314,8 +311,7 @@ extension DeviceFarmClientTypes {
             name: Swift.String? = nil,
             type: DeviceFarmClientTypes.ArtifactType? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.`extension` = `extension`
             self.name = name
@@ -387,9 +383,9 @@ extension DeviceFarmClientTypes {
 }
 
 /// The requested object could not be deleted.
-public struct CannotDeleteException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CannotDeleteException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -404,8 +400,7 @@ public struct CannotDeleteException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -437,8 +432,7 @@ extension DeviceFarmClientTypes {
             stopped: Swift.Int? = nil,
             total: Swift.Int? = nil,
             warned: Swift.Int? = nil
-        )
-        {
+        ) {
             self.errored = errored
             self.failed = failed
             self.passed = passed
@@ -465,8 +459,7 @@ extension DeviceFarmClientTypes {
             architecture: Swift.String? = nil,
             clock: Swift.Double? = nil,
             frequency: Swift.String? = nil
-        )
-        {
+        ) {
             self.architecture = architecture
             self.clock = clock
             self.frequency = frequency
@@ -475,9 +468,9 @@ extension DeviceFarmClientTypes {
 }
 
 /// A limit was exceeded.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any additional information about the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -493,16 +486,15 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified entity was not found.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any additional information about the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -518,16 +510,15 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// There was a problem with the service account.
-public struct ServiceAccountException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceAccountException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any additional information about the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -543,8 +534,7 @@ public struct ServiceAccountException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -673,8 +663,7 @@ extension DeviceFarmClientTypes {
             attribute: DeviceFarmClientTypes.DeviceAttribute? = nil,
             `operator`: DeviceFarmClientTypes.RuleOperator? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.attribute = attribute
             self.`operator` = `operator`
             self.value = value
@@ -704,8 +693,7 @@ public struct CreateDevicePoolInput: Swift.Sendable {
         name: Swift.String? = nil,
         projectArn: Swift.String? = nil,
         rules: [DeviceFarmClientTypes.Rule]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.maxDevices = maxDevices
         self.name = name
@@ -771,8 +759,7 @@ extension DeviceFarmClientTypes {
             name: Swift.String? = nil,
             rules: [DeviceFarmClientTypes.Rule]? = nil,
             type: DeviceFarmClientTypes.DevicePoolType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.maxDevices = maxDevices
@@ -790,8 +777,7 @@ public struct CreateDevicePoolOutput: Swift.Sendable {
 
     public init(
         devicePool: DeviceFarmClientTypes.DevicePool? = nil
-    )
-    {
+    ) {
         self.devicePool = devicePool
     }
 }
@@ -815,8 +801,7 @@ public struct CreateInstanceProfileInput: Swift.Sendable {
         name: Swift.String? = nil,
         packageCleanup: Swift.Bool? = nil,
         rebootAfterUse: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.description = description
         self.excludeAppPackagesFromCleanup = excludeAppPackagesFromCleanup
         self.name = name
@@ -849,8 +834,7 @@ extension DeviceFarmClientTypes {
             name: Swift.String? = nil,
             packageCleanup: Swift.Bool? = nil,
             rebootAfterUse: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.excludeAppPackagesFromCleanup = excludeAppPackagesFromCleanup
@@ -867,8 +851,7 @@ public struct CreateInstanceProfileOutput: Swift.Sendable {
 
     public init(
         instanceProfile: DeviceFarmClientTypes.InstanceProfile? = nil
-    )
-    {
+    ) {
         self.instanceProfile = instanceProfile
     }
 }
@@ -943,8 +926,7 @@ public struct CreateNetworkProfileInput: Swift.Sendable {
         uplinkDelayMs: Swift.Int? = nil,
         uplinkJitterMs: Swift.Int? = nil,
         uplinkLossPercent: Swift.Int? = 0
-    )
-    {
+    ) {
         self.description = description
         self.downlinkBandwidthBits = downlinkBandwidthBits
         self.downlinkDelayMs = downlinkDelayMs
@@ -1002,8 +984,7 @@ extension DeviceFarmClientTypes {
             uplinkDelayMs: Swift.Int? = nil,
             uplinkJitterMs: Swift.Int? = nil,
             uplinkLossPercent: Swift.Int = 0
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.downlinkBandwidthBits = downlinkBandwidthBits
@@ -1026,16 +1007,15 @@ public struct CreateNetworkProfileOutput: Swift.Sendable {
 
     public init(
         networkProfile: DeviceFarmClientTypes.NetworkProfile? = nil
-    )
-    {
+    ) {
         self.networkProfile = networkProfile
     }
 }
 
 /// The operation was not successful. Try again.
-public struct TagOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TagOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var resourceName: Swift.String? = nil
     }
@@ -1052,8 +1032,7 @@ public struct TagOperationException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
@@ -1077,8 +1056,7 @@ extension DeviceFarmClientTypes {
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
             self.vpcId = vpcId
@@ -1100,8 +1078,7 @@ public struct CreateProjectInput: Swift.Sendable {
         defaultJobTimeoutMinutes: Swift.Int? = nil,
         name: Swift.String? = nil,
         vpcConfig: DeviceFarmClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
         self.name = name
         self.vpcConfig = vpcConfig
@@ -1129,8 +1106,7 @@ extension DeviceFarmClientTypes {
             defaultJobTimeoutMinutes: Swift.Int? = nil,
             name: Swift.String? = nil,
             vpcConfig: DeviceFarmClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.created = created
             self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
@@ -1147,8 +1123,7 @@ public struct CreateProjectOutput: Swift.Sendable {
 
     public init(
         project: DeviceFarmClientTypes.Project? = nil
-    )
-    {
+    ) {
         self.project = project
     }
 }
@@ -1165,8 +1140,7 @@ extension DeviceFarmClientTypes {
         public init(
             billingMethod: DeviceFarmClientTypes.BillingMethod? = nil,
             vpceConfigurationArns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.billingMethod = billingMethod
             self.vpceConfigurationArns = vpceConfigurationArns
         }
@@ -1253,8 +1227,7 @@ public struct CreateRemoteAccessSessionInput: Swift.Sendable {
         remoteRecordEnabled: Swift.Bool? = nil,
         skipAppResign: Swift.Bool? = nil,
         sshPublicKey: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientId = clientId
         self.configuration = configuration
         self.deviceArn = deviceArn
@@ -1393,8 +1366,7 @@ extension DeviceFarmClientTypes {
             labels: [Swift.String]? = nil,
             status: DeviceFarmClientTypes.InstanceStatus? = nil,
             udid: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.deviceArn = deviceArn
             self.instanceProfile = instanceProfile
@@ -1417,8 +1389,7 @@ extension DeviceFarmClientTypes {
         public init(
             height: Swift.Int? = nil,
             width: Swift.Int? = nil
-        )
-        {
+        ) {
             self.height = height
             self.width = width
         }
@@ -1502,8 +1473,7 @@ extension DeviceFarmClientTypes {
             remoteAccessEnabled: Swift.Bool? = nil,
             remoteDebugEnabled: Swift.Bool? = nil,
             resolution: DeviceFarmClientTypes.Resolution? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.availability = availability
             self.carrier = carrier
@@ -1544,8 +1514,7 @@ extension DeviceFarmClientTypes {
             metered: Swift.Double? = nil,
             total: Swift.Double? = nil,
             unmetered: Swift.Double? = nil
-        )
-        {
+        ) {
             self.metered = metered
             self.total = total
             self.unmetered = unmetered
@@ -1757,8 +1726,7 @@ extension DeviceFarmClientTypes {
             status: DeviceFarmClientTypes.ExecutionStatus? = nil,
             stopped: Foundation.Date? = nil,
             vpcConfig: DeviceFarmClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.billingMethod = billingMethod
             self.clientId = clientId
@@ -1792,16 +1760,15 @@ public struct CreateRemoteAccessSessionOutput: Swift.Sendable {
 
     public init(
         remoteAccessSession: DeviceFarmClientTypes.RemoteAccessSession? = nil
-    )
-    {
+    ) {
         self.remoteAccessSession = remoteAccessSession
     }
 }
 
 /// An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
-public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1816,8 +1783,7 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1840,8 +1806,7 @@ extension DeviceFarmClientTypes {
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
             self.vpcId = vpcId
@@ -1862,8 +1827,7 @@ public struct CreateTestGridProjectInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         vpcConfig: DeviceFarmClientTypes.TestGridVpcConfig? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.vpcConfig = vpcConfig
@@ -1891,8 +1855,7 @@ extension DeviceFarmClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             vpcConfig: DeviceFarmClientTypes.TestGridVpcConfig? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.created = created
             self.description = description
@@ -1908,8 +1871,7 @@ public struct CreateTestGridProjectOutput: Swift.Sendable {
 
     public init(
         testGridProject: DeviceFarmClientTypes.TestGridProject? = nil
-    )
-    {
+    ) {
         self.testGridProject = testGridProject
     }
 }
@@ -1925,8 +1887,7 @@ public struct CreateTestGridUrlInput: Swift.Sendable {
     public init(
         expiresInSeconds: Swift.Int? = nil,
         projectArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.expiresInSeconds = expiresInSeconds
         self.projectArn = projectArn
     }
@@ -1941,8 +1902,7 @@ public struct CreateTestGridUrlOutput: Swift.Sendable {
     public init(
         expires: Foundation.Date? = nil,
         url: Swift.String? = nil
-    )
-    {
+    ) {
         self.expires = expires
         self.url = url
     }
@@ -2152,8 +2112,7 @@ public struct CreateUploadInput: Swift.Sendable {
         name: Swift.String? = nil,
         projectArn: Swift.String? = nil,
         type: DeviceFarmClientTypes.UploadType? = nil
-    )
-    {
+    ) {
         self.contentType = contentType
         self.name = name
         self.projectArn = projectArn
@@ -2331,8 +2290,7 @@ extension DeviceFarmClientTypes {
             status: DeviceFarmClientTypes.UploadStatus? = nil,
             type: DeviceFarmClientTypes.UploadType? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.category = category
             self.contentType = contentType
@@ -2359,8 +2317,7 @@ public struct CreateUploadOutput: Swift.Sendable {
 
     public init(
         upload: DeviceFarmClientTypes.Upload? = nil
-    )
-    {
+    ) {
         self.upload = upload
     }
 }
@@ -2383,8 +2340,7 @@ public struct CreateVPCEConfigurationInput: Swift.Sendable {
         vpceConfigurationDescription: Swift.String? = nil,
         vpceConfigurationName: Swift.String? = nil,
         vpceServiceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceDnsName = serviceDnsName
         self.vpceConfigurationDescription = vpceConfigurationDescription
         self.vpceConfigurationName = vpceConfigurationName
@@ -2413,8 +2369,7 @@ extension DeviceFarmClientTypes {
             vpceConfigurationDescription: Swift.String? = nil,
             vpceConfigurationName: Swift.String? = nil,
             vpceServiceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.serviceDnsName = serviceDnsName
             self.vpceConfigurationDescription = vpceConfigurationDescription
@@ -2430,8 +2385,7 @@ public struct CreateVPCEConfigurationOutput: Swift.Sendable {
 
     public init(
         vpceConfiguration: DeviceFarmClientTypes.VPCEConfiguration? = nil
-    )
-    {
+    ) {
         self.vpceConfiguration = vpceConfiguration
     }
 }
@@ -2477,8 +2431,7 @@ extension DeviceFarmClientTypes {
             androidPaths: [Swift.String]? = nil,
             deviceHostPaths: [Swift.String]? = nil,
             iosPaths: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.androidPaths = androidPaths
             self.deviceHostPaths = deviceHostPaths
             self.iosPaths = iosPaths
@@ -2494,8 +2447,7 @@ public struct DeleteDevicePoolInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -2513,8 +2465,7 @@ public struct DeleteInstanceProfileInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -2531,8 +2482,7 @@ public struct DeleteNetworkProfileInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -2550,8 +2500,7 @@ public struct DeleteProjectInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -2570,8 +2519,7 @@ public struct DeleteRemoteAccessSessionInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -2590,8 +2538,7 @@ public struct DeleteRunInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -2609,8 +2556,7 @@ public struct DeleteTestGridProjectInput: Swift.Sendable {
 
     public init(
         projectArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.projectArn = projectArn
     }
 }
@@ -2628,8 +2574,7 @@ public struct DeleteUploadInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -2641,9 +2586,9 @@ public struct DeleteUploadOutput: Swift.Sendable {
 }
 
 /// There was an error with the update request, or you do not have sufficient permissions to update this VPC endpoint configuration.
-public struct InvalidOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2658,8 +2603,7 @@ public struct InvalidOperationException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2671,8 +2615,7 @@ public struct DeleteVPCEConfigurationInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -2695,8 +2638,7 @@ public struct GetAccountSettingsOutput: Swift.Sendable {
 
     public init(
         accountSettings: DeviceFarmClientTypes.AccountSettings? = nil
-    )
-    {
+    ) {
         self.accountSettings = accountSettings
     }
 }
@@ -2709,8 +2651,7 @@ public struct GetDeviceInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -2722,8 +2663,7 @@ public struct GetDeviceOutput: Swift.Sendable {
 
     public init(
         device: DeviceFarmClientTypes.Device? = nil
-    )
-    {
+    ) {
         self.device = device
     }
 }
@@ -2735,8 +2675,7 @@ public struct GetDeviceInstanceInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -2747,8 +2686,7 @@ public struct GetDeviceInstanceOutput: Swift.Sendable {
 
     public init(
         deviceInstance: DeviceFarmClientTypes.DeviceInstance? = nil
-    )
-    {
+    ) {
         self.deviceInstance = deviceInstance
     }
 }
@@ -2761,8 +2699,7 @@ public struct GetDevicePoolInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -2774,8 +2711,7 @@ public struct GetDevicePoolOutput: Swift.Sendable {
 
     public init(
         devicePool: DeviceFarmClientTypes.DevicePool? = nil
-    )
-    {
+    ) {
         self.devicePool = devicePool
     }
 }
@@ -2794,8 +2730,7 @@ extension DeviceFarmClientTypes {
         public init(
             latitude: Swift.Double? = nil,
             longitude: Swift.Double? = nil
-        )
-        {
+        ) {
             self.latitude = latitude
             self.longitude = longitude
         }
@@ -2820,8 +2755,7 @@ extension DeviceFarmClientTypes {
             gps: Swift.Bool? = nil,
             nfc: Swift.Bool? = nil,
             wifi: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.bluetooth = bluetooth
             self.gps = gps
             self.nfc = nfc
@@ -2863,8 +2797,7 @@ extension DeviceFarmClientTypes {
             networkProfileArn: Swift.String? = nil,
             radios: DeviceFarmClientTypes.Radios? = nil,
             vpceConfigurationArns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.auxiliaryApps = auxiliaryApps
             self.billingMethod = billingMethod
             self.customerArtifactPaths = customerArtifactPaths
@@ -3045,8 +2978,7 @@ extension DeviceFarmClientTypes {
             testPackageArn: Swift.String? = nil,
             testSpecArn: Swift.String? = nil,
             type: DeviceFarmClientTypes.TestType? = nil
-        )
-        {
+        ) {
             self.filter = filter
             self.parameters = parameters
             self.testPackageArn = testPackageArn
@@ -3104,8 +3036,7 @@ public struct GetDevicePoolCompatibilityInput: Swift.Sendable {
         devicePoolArn: Swift.String? = nil,
         test: DeviceFarmClientTypes.ScheduleRunTest? = nil,
         testType: DeviceFarmClientTypes.TestType? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.configuration = configuration
         self.devicePoolArn = devicePoolArn
@@ -3138,8 +3069,7 @@ extension DeviceFarmClientTypes {
         public init(
             message: Swift.String? = nil,
             type: DeviceFarmClientTypes.DeviceAttribute? = nil
-        )
-        {
+        ) {
             self.message = message
             self.type = type
         }
@@ -3161,8 +3091,7 @@ extension DeviceFarmClientTypes {
             compatible: Swift.Bool? = nil,
             device: DeviceFarmClientTypes.Device? = nil,
             incompatibilityMessages: [DeviceFarmClientTypes.IncompatibilityMessage]? = nil
-        )
-        {
+        ) {
             self.compatible = compatible
             self.device = device
             self.incompatibilityMessages = incompatibilityMessages
@@ -3180,8 +3109,7 @@ public struct GetDevicePoolCompatibilityOutput: Swift.Sendable {
     public init(
         compatibleDevices: [DeviceFarmClientTypes.DevicePoolCompatibilityResult]? = nil,
         incompatibleDevices: [DeviceFarmClientTypes.DevicePoolCompatibilityResult]? = nil
-    )
-    {
+    ) {
         self.compatibleDevices = compatibleDevices
         self.incompatibleDevices = incompatibleDevices
     }
@@ -3194,8 +3122,7 @@ public struct GetInstanceProfileInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -3206,8 +3133,7 @@ public struct GetInstanceProfileOutput: Swift.Sendable {
 
     public init(
         instanceProfile: DeviceFarmClientTypes.InstanceProfile? = nil
-    )
-    {
+    ) {
         self.instanceProfile = instanceProfile
     }
 }
@@ -3220,8 +3146,7 @@ public struct GetJobInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -3337,8 +3262,7 @@ extension DeviceFarmClientTypes {
             type: DeviceFarmClientTypes.TestType? = nil,
             videoCapture: Swift.Bool? = nil,
             videoEndpoint: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.counters = counters
             self.created = created
@@ -3365,8 +3289,7 @@ public struct GetJobOutput: Swift.Sendable {
 
     public init(
         job: DeviceFarmClientTypes.Job? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -3378,8 +3301,7 @@ public struct GetNetworkProfileInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -3390,16 +3312,15 @@ public struct GetNetworkProfileOutput: Swift.Sendable {
 
     public init(
         networkProfile: DeviceFarmClientTypes.NetworkProfile? = nil
-    )
-    {
+    ) {
         self.networkProfile = networkProfile
     }
 }
 
 /// Exception gets thrown when a user is not eligible to perform the specified transaction.
-public struct NotEligibleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotEligibleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP response code of a Not Eligible exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3415,8 +3336,7 @@ public struct NotEligibleException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3428,8 +3348,7 @@ public struct GetOfferingStatusInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -3446,8 +3365,7 @@ extension DeviceFarmClientTypes {
         public init(
             amount: Swift.Double? = nil,
             currencyCode: DeviceFarmClientTypes.CurrencyCode? = nil
-        )
-        {
+        ) {
             self.amount = amount
             self.currencyCode = currencyCode
         }
@@ -3492,8 +3410,7 @@ extension DeviceFarmClientTypes {
         public init(
             cost: DeviceFarmClientTypes.MonetaryAmount? = nil,
             frequency: DeviceFarmClientTypes.RecurringChargeFrequency? = nil
-        )
-        {
+        ) {
             self.cost = cost
             self.frequency = frequency
         }
@@ -3547,8 +3464,7 @@ extension DeviceFarmClientTypes {
             platform: DeviceFarmClientTypes.DevicePlatform? = nil,
             recurringCharges: [DeviceFarmClientTypes.RecurringCharge]? = nil,
             type: DeviceFarmClientTypes.OfferingType? = nil
-        )
-        {
+        ) {
             self.description = description
             self.id = id
             self.platform = platform
@@ -3608,8 +3524,7 @@ extension DeviceFarmClientTypes {
             offering: DeviceFarmClientTypes.Offering? = nil,
             quantity: Swift.Int? = nil,
             type: DeviceFarmClientTypes.OfferingTransactionType? = nil
-        )
-        {
+        ) {
             self.effectiveOn = effectiveOn
             self.offering = offering
             self.quantity = quantity
@@ -3631,8 +3546,7 @@ public struct GetOfferingStatusOutput: Swift.Sendable {
         current: [Swift.String: DeviceFarmClientTypes.OfferingStatus]? = nil,
         nextPeriod: [Swift.String: DeviceFarmClientTypes.OfferingStatus]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.current = current
         self.nextPeriod = nextPeriod
         self.nextToken = nextToken
@@ -3647,8 +3561,7 @@ public struct GetProjectInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -3660,8 +3573,7 @@ public struct GetProjectOutput: Swift.Sendable {
 
     public init(
         project: DeviceFarmClientTypes.Project? = nil
-    )
-    {
+    ) {
         self.project = project
     }
 }
@@ -3674,8 +3586,7 @@ public struct GetRemoteAccessSessionInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -3687,8 +3598,7 @@ public struct GetRemoteAccessSessionOutput: Swift.Sendable {
 
     public init(
         remoteAccessSession: DeviceFarmClientTypes.RemoteAccessSession? = nil
-    )
-    {
+    ) {
         self.remoteAccessSession = remoteAccessSession
     }
 }
@@ -3701,8 +3611,7 @@ public struct GetRunInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -3799,8 +3708,7 @@ extension DeviceFarmClientTypes {
             attribute: DeviceFarmClientTypes.DeviceFilterAttribute? = nil,
             `operator`: DeviceFarmClientTypes.RuleOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.attribute = attribute
             self.`operator` = `operator`
             self.values = values
@@ -3823,8 +3731,7 @@ extension DeviceFarmClientTypes {
             filters: [DeviceFarmClientTypes.DeviceFilter]? = nil,
             matchedDevicesCount: Swift.Int? = nil,
             maxDevices: Swift.Int? = nil
-        )
-        {
+        ) {
             self.filters = filters
             self.matchedDevicesCount = matchedDevicesCount
             self.maxDevices = maxDevices
@@ -4027,8 +3934,7 @@ extension DeviceFarmClientTypes {
             type: DeviceFarmClientTypes.TestType? = nil,
             vpcConfig: DeviceFarmClientTypes.VpcConfig? = nil,
             webUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.appUpload = appUpload
             self.arn = arn
             self.billingMethod = billingMethod
@@ -4072,8 +3978,7 @@ public struct GetRunOutput: Swift.Sendable {
 
     public init(
         run: DeviceFarmClientTypes.Run? = nil
-    )
-    {
+    ) {
         self.run = run
     }
 }
@@ -4086,8 +3991,7 @@ public struct GetSuiteInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -4191,8 +4095,7 @@ extension DeviceFarmClientTypes {
             status: DeviceFarmClientTypes.ExecutionStatus? = nil,
             stopped: Foundation.Date? = nil,
             type: DeviceFarmClientTypes.TestType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.counters = counters
             self.created = created
@@ -4215,8 +4118,7 @@ public struct GetSuiteOutput: Swift.Sendable {
 
     public init(
         suite: DeviceFarmClientTypes.Suite? = nil
-    )
-    {
+    ) {
         self.suite = suite
     }
 }
@@ -4229,8 +4131,7 @@ public struct GetTestInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -4334,8 +4235,7 @@ extension DeviceFarmClientTypes {
             status: DeviceFarmClientTypes.ExecutionStatus? = nil,
             stopped: Foundation.Date? = nil,
             type: DeviceFarmClientTypes.TestType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.counters = counters
             self.created = created
@@ -4358,8 +4258,7 @@ public struct GetTestOutput: Swift.Sendable {
 
     public init(
         test: DeviceFarmClientTypes.Test? = nil
-    )
-    {
+    ) {
         self.test = test
     }
 }
@@ -4371,8 +4270,7 @@ public struct GetTestGridProjectInput: Swift.Sendable {
 
     public init(
         projectArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.projectArn = projectArn
     }
 }
@@ -4383,8 +4281,7 @@ public struct GetTestGridProjectOutput: Swift.Sendable {
 
     public init(
         testGridProject: DeviceFarmClientTypes.TestGridProject? = nil
-    )
-    {
+    ) {
         self.testGridProject = testGridProject
     }
 }
@@ -4401,8 +4298,7 @@ public struct GetTestGridSessionInput: Swift.Sendable {
         projectArn: Swift.String? = nil,
         sessionArn: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.projectArn = projectArn
         self.sessionArn = sessionArn
         self.sessionId = sessionId
@@ -4465,8 +4361,7 @@ extension DeviceFarmClientTypes {
             ended: Foundation.Date? = nil,
             seleniumProperties: Swift.String? = nil,
             status: DeviceFarmClientTypes.TestGridSessionStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.billingMinutes = billingMinutes
             self.created = created
@@ -4483,8 +4378,7 @@ public struct GetTestGridSessionOutput: Swift.Sendable {
 
     public init(
         testGridSession: DeviceFarmClientTypes.TestGridSession? = nil
-    )
-    {
+    ) {
         self.testGridSession = testGridSession
     }
 }
@@ -4497,8 +4391,7 @@ public struct GetUploadInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -4510,8 +4403,7 @@ public struct GetUploadOutput: Swift.Sendable {
 
     public init(
         upload: DeviceFarmClientTypes.Upload? = nil
-    )
-    {
+    ) {
         self.upload = upload
     }
 }
@@ -4523,8 +4415,7 @@ public struct GetVPCEConfigurationInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -4535,8 +4426,7 @@ public struct GetVPCEConfigurationOutput: Swift.Sendable {
 
     public init(
         vpceConfiguration: DeviceFarmClientTypes.VPCEConfiguration? = nil
-    )
-    {
+    ) {
         self.vpceConfiguration = vpceConfiguration
     }
 }
@@ -4553,8 +4443,7 @@ public struct InstallToRemoteAccessSessionInput: Swift.Sendable {
     public init(
         appArn: Swift.String? = nil,
         remoteAccessSessionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.remoteAccessSessionArn = remoteAccessSessionArn
     }
@@ -4567,8 +4456,7 @@ public struct InstallToRemoteAccessSessionOutput: Swift.Sendable {
 
     public init(
         appUpload: DeviceFarmClientTypes.Upload? = nil
-    )
-    {
+    ) {
         self.appUpload = appUpload
     }
 }
@@ -4594,8 +4482,7 @@ public struct ListArtifactsInput: Swift.Sendable {
         arn: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         type: DeviceFarmClientTypes.ArtifactCategory? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.nextToken = nextToken
         self.type = type
@@ -4612,8 +4499,7 @@ public struct ListArtifactsOutput: Swift.Sendable {
     public init(
         artifacts: [DeviceFarmClientTypes.Artifact]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.artifacts = artifacts
         self.nextToken = nextToken
     }
@@ -4628,8 +4514,7 @@ public struct ListDeviceInstancesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4644,8 +4529,7 @@ public struct ListDeviceInstancesOutput: Swift.Sendable {
     public init(
         deviceInstances: [DeviceFarmClientTypes.DeviceInstance]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceInstances = deviceInstances
         self.nextToken = nextToken
     }
@@ -4669,8 +4553,7 @@ public struct ListDevicePoolsInput: Swift.Sendable {
         arn: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         type: DeviceFarmClientTypes.DevicePoolType? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.nextToken = nextToken
         self.type = type
@@ -4687,8 +4570,7 @@ public struct ListDevicePoolsOutput: Swift.Sendable {
     public init(
         devicePools: [DeviceFarmClientTypes.DevicePool]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.devicePools = devicePools
         self.nextToken = nextToken
     }
@@ -4757,8 +4639,7 @@ public struct ListDevicesInput: Swift.Sendable {
         arn: Swift.String? = nil,
         filters: [DeviceFarmClientTypes.DeviceFilter]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.filters = filters
         self.nextToken = nextToken
@@ -4775,8 +4656,7 @@ public struct ListDevicesOutput: Swift.Sendable {
     public init(
         devices: [DeviceFarmClientTypes.Device]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.devices = devices
         self.nextToken = nextToken
     }
@@ -4791,8 +4671,7 @@ public struct ListInstanceProfilesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4807,8 +4686,7 @@ public struct ListInstanceProfilesOutput: Swift.Sendable {
     public init(
         instanceProfiles: [DeviceFarmClientTypes.InstanceProfile]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceProfiles = instanceProfiles
         self.nextToken = nextToken
     }
@@ -4825,8 +4703,7 @@ public struct ListJobsInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.nextToken = nextToken
     }
@@ -4842,8 +4719,7 @@ public struct ListJobsOutput: Swift.Sendable {
     public init(
         jobs: [DeviceFarmClientTypes.Job]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobs = jobs
         self.nextToken = nextToken
     }
@@ -4862,8 +4738,7 @@ public struct ListNetworkProfilesInput: Swift.Sendable {
         arn: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         type: DeviceFarmClientTypes.NetworkProfileType? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.nextToken = nextToken
         self.type = type
@@ -4879,8 +4754,7 @@ public struct ListNetworkProfilesOutput: Swift.Sendable {
     public init(
         networkProfiles: [DeviceFarmClientTypes.NetworkProfile]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.networkProfiles = networkProfiles
         self.nextToken = nextToken
     }
@@ -4892,8 +4766,7 @@ public struct ListOfferingPromotionsInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -4910,8 +4783,7 @@ extension DeviceFarmClientTypes {
         public init(
             description: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.id = id
         }
@@ -4927,8 +4799,7 @@ public struct ListOfferingPromotionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         offeringPromotions: [DeviceFarmClientTypes.OfferingPromotion]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.offeringPromotions = offeringPromotions
     }
@@ -4941,8 +4812,7 @@ public struct ListOfferingsInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -4957,8 +4827,7 @@ public struct ListOfferingsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         offerings: [DeviceFarmClientTypes.Offering]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.offerings = offerings
     }
@@ -4971,8 +4840,7 @@ public struct ListOfferingTransactionsInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -4998,8 +4866,7 @@ extension DeviceFarmClientTypes {
             offeringPromotionId: Swift.String? = nil,
             offeringStatus: DeviceFarmClientTypes.OfferingStatus? = nil,
             transactionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.cost = cost
             self.createdOn = createdOn
             self.offeringPromotionId = offeringPromotionId
@@ -5019,8 +4886,7 @@ public struct ListOfferingTransactionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         offeringTransactions: [DeviceFarmClientTypes.OfferingTransaction]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.offeringTransactions = offeringTransactions
     }
@@ -5036,8 +4902,7 @@ public struct ListProjectsInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.nextToken = nextToken
     }
@@ -5053,8 +4918,7 @@ public struct ListProjectsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         projects: [DeviceFarmClientTypes.Project]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.projects = projects
     }
@@ -5071,8 +4935,7 @@ public struct ListRemoteAccessSessionsInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.nextToken = nextToken
     }
@@ -5088,8 +4951,7 @@ public struct ListRemoteAccessSessionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         remoteAccessSessions: [DeviceFarmClientTypes.RemoteAccessSession]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.remoteAccessSessions = remoteAccessSessions
     }
@@ -5106,8 +4968,7 @@ public struct ListRunsInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.nextToken = nextToken
     }
@@ -5123,8 +4984,7 @@ public struct ListRunsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         runs: [DeviceFarmClientTypes.Run]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.runs = runs
     }
@@ -5141,8 +5001,7 @@ public struct ListSamplesInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.nextToken = nextToken
     }
@@ -5271,8 +5130,7 @@ extension DeviceFarmClientTypes {
             arn: Swift.String? = nil,
             type: DeviceFarmClientTypes.SampleType? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.type = type
             self.url = url
@@ -5290,8 +5148,7 @@ public struct ListSamplesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         samples: [DeviceFarmClientTypes.Sample]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.samples = samples
     }
@@ -5308,8 +5165,7 @@ public struct ListSuitesInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.nextToken = nextToken
     }
@@ -5325,8 +5181,7 @@ public struct ListSuitesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         suites: [DeviceFarmClientTypes.Suite]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.suites = suites
     }
@@ -5339,8 +5194,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -5359,8 +5213,7 @@ extension DeviceFarmClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -5373,8 +5226,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [DeviceFarmClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -5388,8 +5240,7 @@ public struct ListTestGridProjectsInput: Swift.Sendable {
     public init(
         maxResult: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResult = maxResult
         self.nextToken = nextToken
     }
@@ -5404,8 +5255,7 @@ public struct ListTestGridProjectsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         testGridProjects: [DeviceFarmClientTypes.TestGridProject]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.testGridProjects = testGridProjects
     }
@@ -5424,8 +5274,7 @@ public struct ListTestGridSessionActionsInput: Swift.Sendable {
         maxResult: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sessionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResult = maxResult
         self.nextToken = nextToken
         self.sessionArn = sessionArn
@@ -5453,8 +5302,7 @@ extension DeviceFarmClientTypes {
             requestMethod: Swift.String? = nil,
             started: Foundation.Date? = nil,
             statusCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.duration = duration
             self.requestMethod = requestMethod
@@ -5473,8 +5321,7 @@ public struct ListTestGridSessionActionsOutput: Swift.Sendable {
     public init(
         actions: [DeviceFarmClientTypes.TestGridSessionAction]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.nextToken = nextToken
     }
@@ -5525,8 +5372,7 @@ public struct ListTestGridSessionArtifactsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sessionArn: Swift.String? = nil,
         type: DeviceFarmClientTypes.TestGridSessionArtifactCategory? = nil
-    )
-    {
+    ) {
         self.maxResult = maxResult
         self.nextToken = nextToken
         self.sessionArn = sessionArn
@@ -5581,8 +5427,7 @@ extension DeviceFarmClientTypes {
             filename: Swift.String? = nil,
             type: DeviceFarmClientTypes.TestGridSessionArtifactType? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.filename = filename
             self.type = type
             self.url = url
@@ -5604,8 +5449,7 @@ public struct ListTestGridSessionArtifactsOutput: Swift.Sendable {
     public init(
         artifacts: [DeviceFarmClientTypes.TestGridSessionArtifact]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.artifacts = artifacts
         self.nextToken = nextToken
     }
@@ -5639,8 +5483,7 @@ public struct ListTestGridSessionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         projectArn: Swift.String? = nil,
         status: DeviceFarmClientTypes.TestGridSessionStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.endTimeAfter = endTimeAfter
@@ -5661,8 +5504,7 @@ public struct ListTestGridSessionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         testGridSessions: [DeviceFarmClientTypes.TestGridSession]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.testGridSessions = testGridSessions
     }
@@ -5679,8 +5521,7 @@ public struct ListTestsInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.nextToken = nextToken
     }
@@ -5696,8 +5537,7 @@ public struct ListTestsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tests: [DeviceFarmClientTypes.Test]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tests = tests
     }
@@ -5714,8 +5554,7 @@ public struct ListUniqueProblemsInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.nextToken = nextToken
     }
@@ -5733,8 +5572,7 @@ extension DeviceFarmClientTypes {
         public init(
             arn: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
         }
@@ -5782,8 +5620,7 @@ extension DeviceFarmClientTypes {
             run: DeviceFarmClientTypes.ProblemDetail? = nil,
             suite: DeviceFarmClientTypes.ProblemDetail? = nil,
             test: DeviceFarmClientTypes.ProblemDetail? = nil
-        )
-        {
+        ) {
             self.device = device
             self.job = job
             self.message = message
@@ -5807,8 +5644,7 @@ extension DeviceFarmClientTypes {
         public init(
             message: Swift.String? = nil,
             problems: [DeviceFarmClientTypes.Problem]? = nil
-        )
-        {
+        ) {
             self.message = message
             self.problems = problems
         }
@@ -5839,8 +5675,7 @@ public struct ListUniqueProblemsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         uniqueProblems: [Swift.String: [DeviceFarmClientTypes.UniqueProblem]]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.uniqueProblems = uniqueProblems
     }
@@ -5918,8 +5753,7 @@ public struct ListUploadsInput: Swift.Sendable {
         arn: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         type: DeviceFarmClientTypes.UploadType? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.nextToken = nextToken
         self.type = type
@@ -5936,8 +5770,7 @@ public struct ListUploadsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         uploads: [DeviceFarmClientTypes.Upload]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.uploads = uploads
     }
@@ -5952,8 +5785,7 @@ public struct ListVPCEConfigurationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -5968,8 +5800,7 @@ public struct ListVPCEConfigurationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         vpceConfigurations: [DeviceFarmClientTypes.VPCEConfiguration]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.vpceConfigurations = vpceConfigurations
     }
@@ -5990,8 +5821,7 @@ public struct PurchaseOfferingInput: Swift.Sendable {
         offeringId: Swift.String? = nil,
         offeringPromotionId: Swift.String? = nil,
         quantity: Swift.Int? = nil
-    )
-    {
+    ) {
         self.offeringId = offeringId
         self.offeringPromotionId = offeringPromotionId
         self.quantity = quantity
@@ -6005,8 +5835,7 @@ public struct PurchaseOfferingOutput: Swift.Sendable {
 
     public init(
         offeringTransaction: DeviceFarmClientTypes.OfferingTransaction? = nil
-    )
-    {
+    ) {
         self.offeringTransaction = offeringTransaction
     }
 }
@@ -6023,8 +5852,7 @@ public struct RenewOfferingInput: Swift.Sendable {
     public init(
         offeringId: Swift.String? = nil,
         quantity: Swift.Int? = nil
-    )
-    {
+    ) {
         self.offeringId = offeringId
         self.quantity = quantity
     }
@@ -6037,16 +5865,15 @@ public struct RenewOfferingOutput: Swift.Sendable {
 
     public init(
         offeringTransaction: DeviceFarmClientTypes.OfferingTransaction? = nil
-    )
-    {
+    ) {
         self.offeringTransaction = offeringTransaction
     }
 }
 
 /// An entity with the same name already exists.
-public struct IdempotencyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IdempotencyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any additional information about the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6062,8 +5889,7 @@ public struct IdempotencyException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6141,8 +5967,7 @@ extension DeviceFarmClientTypes {
         public init(
             filters: [DeviceFarmClientTypes.DeviceFilter]? = nil,
             maxDevices: Swift.Int? = nil
-        )
-        {
+        ) {
             self.filters = filters
             self.maxDevices = maxDevices
         }
@@ -6170,8 +5995,7 @@ extension DeviceFarmClientTypes {
             jobTimeoutMinutes: Swift.Int? = nil,
             skipAppResign: Swift.Bool? = nil,
             videoCapture: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.accountsCleanup = accountsCleanup
             self.appPackagesCleanup = appPackagesCleanup
             self.jobTimeoutMinutes = jobTimeoutMinutes
@@ -6211,8 +6035,7 @@ public struct ScheduleRunInput: Swift.Sendable {
         name: Swift.String? = nil,
         projectArn: Swift.String? = nil,
         test: DeviceFarmClientTypes.ScheduleRunTest? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.configuration = configuration
         self.devicePoolArn = devicePoolArn
@@ -6231,8 +6054,7 @@ public struct ScheduleRunOutput: Swift.Sendable {
 
     public init(
         run: DeviceFarmClientTypes.Run? = nil
-    )
-    {
+    ) {
         self.run = run
     }
 }
@@ -6244,8 +6066,7 @@ public struct StopJobInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -6256,8 +6077,7 @@ public struct StopJobOutput: Swift.Sendable {
 
     public init(
         job: DeviceFarmClientTypes.Job? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -6270,8 +6090,7 @@ public struct StopRemoteAccessSessionInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -6283,8 +6102,7 @@ public struct StopRemoteAccessSessionOutput: Swift.Sendable {
 
     public init(
         remoteAccessSession: DeviceFarmClientTypes.RemoteAccessSession? = nil
-    )
-    {
+    ) {
         self.remoteAccessSession = remoteAccessSession
     }
 }
@@ -6297,8 +6115,7 @@ public struct StopRunInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -6310,16 +6127,15 @@ public struct StopRunOutput: Swift.Sendable {
 
     public init(
         run: DeviceFarmClientTypes.Run? = nil
-    )
-    {
+    ) {
         self.run = run
     }
 }
 
 /// The request doesn't comply with the AWS Identity and Access Management (IAM) tag policy. Correct your request and then retry it.
-public struct TagPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TagPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var resourceName: Swift.String? = nil
     }
@@ -6336,17 +6152,16 @@ public struct TagPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.A
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
 }
 
 /// The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var resourceName: Swift.String? = nil
     }
@@ -6363,8 +6178,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
@@ -6381,8 +6195,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [DeviceFarmClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -6404,8 +6217,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -6429,8 +6241,7 @@ public struct UpdateDeviceInstanceInput: Swift.Sendable {
         arn: Swift.String? = nil,
         labels: [Swift.String]? = nil,
         profileArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.labels = labels
         self.profileArn = profileArn
@@ -6443,8 +6254,7 @@ public struct UpdateDeviceInstanceOutput: Swift.Sendable {
 
     public init(
         deviceInstance: DeviceFarmClientTypes.DeviceInstance? = nil
-    )
-    {
+    ) {
         self.deviceInstance = deviceInstance
     }
 }
@@ -6472,8 +6282,7 @@ public struct UpdateDevicePoolInput: Swift.Sendable {
         maxDevices: Swift.Int? = nil,
         name: Swift.String? = nil,
         rules: [DeviceFarmClientTypes.Rule]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.clearMaxDevices = clearMaxDevices
         self.description = description
@@ -6490,8 +6299,7 @@ public struct UpdateDevicePoolOutput: Swift.Sendable {
 
     public init(
         devicePool: DeviceFarmClientTypes.DevicePool? = nil
-    )
-    {
+    ) {
         self.devicePool = devicePool
     }
 }
@@ -6518,8 +6326,7 @@ public struct UpdateInstanceProfileInput: Swift.Sendable {
         name: Swift.String? = nil,
         packageCleanup: Swift.Bool? = nil,
         rebootAfterUse: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.description = description
         self.excludeAppPackagesFromCleanup = excludeAppPackagesFromCleanup
@@ -6535,8 +6342,7 @@ public struct UpdateInstanceProfileOutput: Swift.Sendable {
 
     public init(
         instanceProfile: DeviceFarmClientTypes.InstanceProfile? = nil
-    )
-    {
+    ) {
         self.instanceProfile = instanceProfile
     }
 }
@@ -6581,8 +6387,7 @@ public struct UpdateNetworkProfileInput: Swift.Sendable {
         uplinkDelayMs: Swift.Int? = nil,
         uplinkJitterMs: Swift.Int? = nil,
         uplinkLossPercent: Swift.Int? = 0
-    )
-    {
+    ) {
         self.arn = arn
         self.description = description
         self.downlinkBandwidthBits = downlinkBandwidthBits
@@ -6604,8 +6409,7 @@ public struct UpdateNetworkProfileOutput: Swift.Sendable {
 
     public init(
         networkProfile: DeviceFarmClientTypes.NetworkProfile? = nil
-    )
-    {
+    ) {
         self.networkProfile = networkProfile
     }
 }
@@ -6627,8 +6431,7 @@ public struct UpdateProjectInput: Swift.Sendable {
         defaultJobTimeoutMinutes: Swift.Int? = nil,
         name: Swift.String? = nil,
         vpcConfig: DeviceFarmClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
         self.name = name
@@ -6643,8 +6446,7 @@ public struct UpdateProjectOutput: Swift.Sendable {
 
     public init(
         project: DeviceFarmClientTypes.Project? = nil
-    )
-    {
+    ) {
         self.project = project
     }
 }
@@ -6665,8 +6467,7 @@ public struct UpdateTestGridProjectInput: Swift.Sendable {
         name: Swift.String? = nil,
         projectArn: Swift.String? = nil,
         vpcConfig: DeviceFarmClientTypes.TestGridVpcConfig? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.projectArn = projectArn
@@ -6680,8 +6481,7 @@ public struct UpdateTestGridProjectOutput: Swift.Sendable {
 
     public init(
         testGridProject: DeviceFarmClientTypes.TestGridProject? = nil
-    )
-    {
+    ) {
         self.testGridProject = testGridProject
     }
 }
@@ -6702,8 +6502,7 @@ public struct UpdateUploadInput: Swift.Sendable {
         contentType: Swift.String? = nil,
         editContent: Swift.Bool? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.contentType = contentType
         self.editContent = editContent
@@ -6717,8 +6516,7 @@ public struct UpdateUploadOutput: Swift.Sendable {
 
     public init(
         upload: DeviceFarmClientTypes.Upload? = nil
-    )
-    {
+    ) {
         self.upload = upload
     }
 }
@@ -6742,8 +6540,7 @@ public struct UpdateVPCEConfigurationInput: Swift.Sendable {
         vpceConfigurationDescription: Swift.String? = nil,
         vpceConfigurationName: Swift.String? = nil,
         vpceServiceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.serviceDnsName = serviceDnsName
         self.vpceConfigurationDescription = vpceConfigurationDescription
@@ -6758,8 +6555,7 @@ public struct UpdateVPCEConfigurationOutput: Swift.Sendable {
 
     public init(
         vpceConfiguration: DeviceFarmClientTypes.VPCEConfiguration? = nil
-    )
-    {
+    ) {
         self.vpceConfiguration = vpceConfiguration
     }
 }

@@ -40,9 +40,9 @@ public struct DeleteRoomOutput: Swift.Sendable {
 }
 
 ///
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -58,16 +58,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct PendingVerification: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PendingVerification: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -83,8 +82,7 @@ public struct PendingVerification: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -116,9 +114,9 @@ extension IvschatClientTypes {
 }
 
 ///
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         ///
@@ -142,8 +140,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: IvschatClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -164,8 +161,7 @@ extension IvschatClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -205,9 +201,9 @@ extension IvschatClientTypes {
 }
 
 ///
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var fieldList: [IvschatClientTypes.ValidationExceptionField]? = nil
         /// This member is required.
@@ -230,8 +226,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [IvschatClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: IvschatClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -290,8 +285,7 @@ public struct CreateChatTokenInput: Swift.Sendable {
         roomIdentifier: Swift.String? = nil,
         sessionDurationInMinutes: Swift.Int? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.capabilities = capabilities
         self.roomIdentifier = roomIdentifier
@@ -317,8 +311,7 @@ public struct CreateChatTokenOutput: Swift.Sendable {
         sessionExpirationTime: Foundation.Date? = nil,
         token: Swift.String? = nil,
         tokenExpirationTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.sessionExpirationTime = sessionExpirationTime
         self.token = token
         self.tokenExpirationTime = tokenExpirationTime
@@ -331,9 +324,9 @@ extension CreateChatTokenOutput: Swift.CustomDebugStringConvertible {
 }
 
 ///
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         ///
@@ -357,8 +350,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: IvschatClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -366,9 +358,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 ///
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         /// This member is required.
         public internal(set) var limit: Swift.Int = 0
@@ -396,8 +388,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: IvschatClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.properties.limit = limit
         self.properties.message = message
         self.properties.resourceId = resourceId
@@ -415,8 +406,7 @@ extension IvschatClientTypes {
 
         public init(
             logGroupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.logGroupName = logGroupName
         }
     }
@@ -432,8 +422,7 @@ extension IvschatClientTypes {
 
         public init(
             deliveryStreamName: Swift.String? = nil
-        )
-        {
+        ) {
             self.deliveryStreamName = deliveryStreamName
         }
     }
@@ -449,8 +438,7 @@ extension IvschatClientTypes {
 
         public init(
             bucketName: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
         }
     }
@@ -483,8 +471,7 @@ public struct CreateLoggingConfigurationInput: Swift.Sendable {
         destinationConfiguration: IvschatClientTypes.DestinationConfiguration? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.destinationConfiguration = destinationConfiguration
         self.name = name
         self.tags = tags
@@ -544,8 +531,7 @@ public struct CreateLoggingConfigurationOutput: Swift.Sendable {
         state: IvschatClientTypes.CreateLoggingConfigurationState? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createTime = createTime
         self.destinationConfiguration = destinationConfiguration
@@ -598,8 +584,7 @@ extension IvschatClientTypes {
         public init(
             fallbackResult: IvschatClientTypes.FallbackResult? = nil,
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.fallbackResult = fallbackResult
             self.uri = uri
         }
@@ -627,8 +612,7 @@ public struct CreateRoomInput: Swift.Sendable {
         messageReviewHandler: IvschatClientTypes.MessageReviewHandler? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.loggingConfigurationIdentifiers = loggingConfigurationIdentifiers
         self.maximumMessageLength = maximumMessageLength
         self.maximumMessageRatePerSecond = maximumMessageRatePerSecond
@@ -671,8 +655,7 @@ public struct CreateRoomOutput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createTime = createTime
         self.id = id
@@ -693,16 +676,15 @@ public struct DeleteLoggingConfigurationInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
 
 ///
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         /// This member is required.
         public internal(set) var limit: Swift.Int = 0
@@ -730,8 +712,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: IvschatClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.properties.limit = limit
         self.properties.message = message
         self.properties.resourceId = resourceId
@@ -753,8 +734,7 @@ public struct DeleteMessageInput: Swift.Sendable {
         id: Swift.String? = nil,
         reason: Swift.String? = nil,
         roomIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.reason = reason
         self.roomIdentifier = roomIdentifier
@@ -767,8 +747,7 @@ public struct DeleteMessageOutput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -780,8 +759,7 @@ public struct DeleteRoomInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -800,8 +778,7 @@ public struct DisconnectUserInput: Swift.Sendable {
         reason: Swift.String? = nil,
         roomIdentifier: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.reason = reason
         self.roomIdentifier = roomIdentifier
         self.userId = userId
@@ -825,8 +802,7 @@ public struct GetLoggingConfigurationInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -902,8 +878,7 @@ public struct GetLoggingConfigurationOutput: Swift.Sendable {
         state: IvschatClientTypes.LoggingConfigurationState? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createTime = createTime
         self.destinationConfiguration = destinationConfiguration
@@ -922,8 +897,7 @@ public struct GetRoomInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -961,8 +935,7 @@ public struct GetRoomOutput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createTime = createTime
         self.id = id
@@ -985,8 +958,7 @@ public struct ListLoggingConfigurationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1022,8 +994,7 @@ extension IvschatClientTypes {
             state: IvschatClientTypes.LoggingConfigurationState? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createTime = createTime
             self.destinationConfiguration = destinationConfiguration
@@ -1046,8 +1017,7 @@ public struct ListLoggingConfigurationsOutput: Swift.Sendable {
     public init(
         loggingConfigurations: [IvschatClientTypes.LoggingConfigurationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.loggingConfigurations = loggingConfigurations
         self.nextToken = nextToken
     }
@@ -1071,8 +1041,7 @@ public struct ListRoomsInput: Swift.Sendable {
         messageReviewHandlerUri: Swift.String? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.loggingConfigurationIdentifier = loggingConfigurationIdentifier
         self.maxResults = maxResults
         self.messageReviewHandlerUri = messageReviewHandlerUri
@@ -1111,8 +1080,7 @@ extension IvschatClientTypes {
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createTime = createTime
             self.id = id
@@ -1135,17 +1103,16 @@ public struct ListRoomsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         rooms: [IvschatClientTypes.RoomSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.rooms = rooms
     }
 }
 
 ///
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1161,8 +1128,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1174,8 +1140,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1187,8 +1152,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1207,8 +1171,7 @@ public struct SendEventInput: Swift.Sendable {
         attributes: [Swift.String: Swift.String]? = nil,
         eventName: Swift.String? = nil,
         roomIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.eventName = eventName
         self.roomIdentifier = roomIdentifier
@@ -1221,8 +1184,7 @@ public struct SendEventOutput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1238,8 +1200,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1261,8 +1222,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1286,8 +1246,7 @@ public struct UpdateLoggingConfigurationInput: Swift.Sendable {
         destinationConfiguration: IvschatClientTypes.DestinationConfiguration? = nil,
         identifier: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationConfiguration = destinationConfiguration
         self.identifier = identifier
         self.name = name
@@ -1347,8 +1306,7 @@ public struct UpdateLoggingConfigurationOutput: Swift.Sendable {
         state: IvschatClientTypes.UpdateLoggingConfigurationState? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createTime = createTime
         self.destinationConfiguration = destinationConfiguration
@@ -1382,8 +1340,7 @@ public struct UpdateRoomInput: Swift.Sendable {
         maximumMessageRatePerSecond: Swift.Int? = nil,
         messageReviewHandler: IvschatClientTypes.MessageReviewHandler? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
         self.loggingConfigurationIdentifiers = loggingConfigurationIdentifiers
         self.maximumMessageLength = maximumMessageLength
@@ -1426,8 +1383,7 @@ public struct UpdateRoomOutput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createTime = createTime
         self.id = id

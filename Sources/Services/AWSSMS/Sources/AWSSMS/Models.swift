@@ -237,8 +237,7 @@ extension SMSClientTypes {
             latestLaunchTime: Foundation.Date? = nil,
             stackId: Swift.String? = nil,
             stackName: Swift.String? = nil
-        )
-        {
+        ) {
             self.latestLaunchTime = latestLaunchTime
             self.stackId = stackId
             self.stackName = stackName
@@ -350,8 +349,7 @@ extension SMSClientTypes {
             statusMessage: Swift.String? = nil,
             totalServerGroups: Swift.Int? = nil,
             totalServers: Swift.Int? = nil
-        )
-        {
+        ) {
             self.appId = appId
             self.creationTime = creationTime
             self.description = description
@@ -442,8 +440,7 @@ extension SMSClientTypes {
         public init(
             bucket: Swift.String? = nil,
             key: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.key = key
         }
@@ -459,8 +456,7 @@ extension SMSClientTypes {
 
         public init(
             s3Location: SMSClientTypes.S3Location? = nil
-        )
-        {
+        ) {
             self.s3Location = s3Location
         }
     }
@@ -490,8 +486,7 @@ extension SMSClientTypes {
             outputS3BucketName: Swift.String? = nil,
             scriptType: SMSClientTypes.ScriptType? = nil,
             source: SMSClientTypes.Source? = nil
-        )
-        {
+        ) {
             self.command = command
             self.executionTimeoutSeconds = executionTimeoutSeconds
             self.instanceId = instanceId
@@ -520,8 +515,7 @@ extension SMSClientTypes {
             name: Swift.String? = nil,
             ssmValidationParameters: SMSClientTypes.SSMValidationParameters? = nil,
             validationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.appValidationStrategy = appValidationStrategy
             self.name = name
             self.ssmValidationParameters = ssmValidationParameters
@@ -539,8 +533,7 @@ extension SMSClientTypes {
 
         public init(
             s3Location: SMSClientTypes.S3Location? = nil
-        )
-        {
+        ) {
             self.s3Location = s3Location
         }
     }
@@ -555,17 +548,16 @@ extension SMSClientTypes {
 
         public init(
             ssmOutput: SMSClientTypes.SSMOutput? = nil
-        )
-        {
+        ) {
             self.ssmOutput = ssmOutput
         }
     }
 }
 
 /// An internal error occurred.
-public struct InternalError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -580,16 +572,15 @@ public struct InternalError: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A specified parameter is not valid.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -604,16 +595,15 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A required parameter is missing.
-public struct MissingRequiredParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MissingRequiredParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -628,16 +618,15 @@ public struct MissingRequiredParameterException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This operation is not allowed.
-public struct OperationNotPermittedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OperationNotPermittedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -652,16 +641,15 @@ public struct OperationNotPermittedException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
-public struct UnauthorizedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnauthorizedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -676,8 +664,7 @@ public struct UnauthorizedOperationException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -752,8 +739,7 @@ extension SMSClientTypes {
         public init(
             vmId: Swift.String? = nil,
             vmManagerId: Swift.String? = nil
-        )
-        {
+        ) {
             self.vmId = vmId
             self.vmManagerId = vmManagerId
         }
@@ -781,8 +767,7 @@ extension SMSClientTypes {
             vmName: Swift.String? = nil,
             vmPath: Swift.String? = nil,
             vmServerAddress: SMSClientTypes.VmServerAddress? = nil
-        )
-        {
+        ) {
             self.vmManagerName = vmManagerName
             self.vmManagerType = vmManagerType
             self.vmName = vmName
@@ -813,8 +798,7 @@ extension SMSClientTypes {
             serverId: Swift.String? = nil,
             serverType: SMSClientTypes.ServerType? = nil,
             vmServer: SMSClientTypes.VmServer? = nil
-        )
-        {
+        ) {
             self.replicationJobId = replicationJobId
             self.replicationJobTerminated = replicationJobTerminated
             self.serverId = serverId
@@ -839,8 +823,7 @@ extension SMSClientTypes {
             name: Swift.String? = nil,
             serverGroupId: Swift.String? = nil,
             serverList: [SMSClientTypes.Server]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.serverGroupId = serverGroupId
             self.serverList = serverList
@@ -860,8 +843,7 @@ extension SMSClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -889,8 +871,7 @@ public struct CreateAppInput: Swift.Sendable {
         roleName: Swift.String? = nil,
         serverGroups: [SMSClientTypes.ServerGroup]? = nil,
         tags: [SMSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.name = name
@@ -912,8 +893,7 @@ public struct CreateAppOutput: Swift.Sendable {
         appSummary: SMSClientTypes.AppSummary? = nil,
         serverGroups: [SMSClientTypes.ServerGroup]? = nil,
         tags: [SMSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.appSummary = appSummary
         self.serverGroups = serverGroups
         self.tags = tags
@@ -921,9 +901,9 @@ public struct CreateAppOutput: Swift.Sendable {
 }
 
 /// There are no connectors available.
-public struct NoConnectorsAvailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoConnectorsAvailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -938,16 +918,15 @@ public struct NoConnectorsAvailableException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified replication job already exists.
-public struct ReplicationJobAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReplicationJobAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -962,16 +941,15 @@ public struct ReplicationJobAlreadyExistsException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified server cannot be replicated.
-public struct ServerCannotBeReplicatedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServerCannotBeReplicatedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -986,14 +964,13 @@ public struct ServerCannotBeReplicatedException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The service is temporarily unavailable.
-public struct TemporarilyUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TemporarilyUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "TemporarilyUnavailable" }
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
@@ -1080,8 +1057,7 @@ public struct CreateReplicationJobInput: Swift.Sendable {
         runOnce: Swift.Bool? = nil,
         seedReplicationTime: Foundation.Date? = nil,
         serverId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.encrypted = encrypted
         self.frequency = frequency
@@ -1101,8 +1077,7 @@ public struct CreateReplicationJobOutput: Swift.Sendable {
 
     public init(
         replicationJobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.replicationJobId = replicationJobId
     }
 }
@@ -1119,8 +1094,7 @@ public struct DeleteAppInput: Swift.Sendable {
         appId: Swift.String? = nil,
         forceStopAppReplication: Swift.Bool? = nil,
         forceTerminateApp: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.forceStopAppReplication = forceStopAppReplication
         self.forceTerminateApp = forceTerminateApp
@@ -1138,8 +1112,7 @@ public struct DeleteAppLaunchConfigurationInput: Swift.Sendable {
 
     public init(
         appId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
     }
 }
@@ -1155,8 +1128,7 @@ public struct DeleteAppReplicationConfigurationInput: Swift.Sendable {
 
     public init(
         appId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
     }
 }
@@ -1173,8 +1145,7 @@ public struct DeleteAppValidationConfigurationInput: Swift.Sendable {
 
     public init(
         appId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
     }
 }
@@ -1185,9 +1156,9 @@ public struct DeleteAppValidationConfigurationOutput: Swift.Sendable {
 }
 
 /// The specified replication job does not exist.
-public struct ReplicationJobNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReplicationJobNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1202,8 +1173,7 @@ public struct ReplicationJobNotFoundException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1215,8 +1185,7 @@ public struct DeleteReplicationJobInput: Swift.Sendable {
 
     public init(
         replicationJobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.replicationJobId = replicationJobId
     }
 }
@@ -1243,8 +1212,7 @@ public struct DisassociateConnectorInput: Swift.Sendable {
 
     public init(
         connectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorId = connectorId
     }
 }
@@ -1292,8 +1260,7 @@ public struct GenerateChangeSetInput: Swift.Sendable {
     public init(
         appId: Swift.String? = nil,
         changesetFormat: SMSClientTypes.OutputFormat? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.changesetFormat = changesetFormat
     }
@@ -1305,8 +1272,7 @@ public struct GenerateChangeSetOutput: Swift.Sendable {
 
     public init(
         s3Location: SMSClientTypes.S3Location? = nil
-    )
-    {
+    ) {
         self.s3Location = s3Location
     }
 }
@@ -1320,8 +1286,7 @@ public struct GenerateTemplateInput: Swift.Sendable {
     public init(
         appId: Swift.String? = nil,
         templateFormat: SMSClientTypes.OutputFormat? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.templateFormat = templateFormat
     }
@@ -1333,8 +1298,7 @@ public struct GenerateTemplateOutput: Swift.Sendable {
 
     public init(
         s3Location: SMSClientTypes.S3Location? = nil
-    )
-    {
+    ) {
         self.s3Location = s3Location
     }
 }
@@ -1345,8 +1309,7 @@ public struct GetAppInput: Swift.Sendable {
 
     public init(
         appId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
     }
 }
@@ -1363,8 +1326,7 @@ public struct GetAppOutput: Swift.Sendable {
         appSummary: SMSClientTypes.AppSummary? = nil,
         serverGroups: [SMSClientTypes.ServerGroup]? = nil,
         tags: [SMSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.appSummary = appSummary
         self.serverGroups = serverGroups
         self.tags = tags
@@ -1377,8 +1339,7 @@ public struct GetAppLaunchConfigurationInput: Swift.Sendable {
 
     public init(
         appId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
     }
 }
@@ -1392,8 +1353,7 @@ extension SMSClientTypes {
 
         public init(
             s3Location: SMSClientTypes.S3Location? = nil
-        )
-        {
+        ) {
             self.s3Location = s3Location
         }
     }
@@ -1441,8 +1401,7 @@ extension SMSClientTypes {
             subnet: Swift.String? = nil,
             userData: SMSClientTypes.UserData? = nil,
             vpc: Swift.String? = nil
-        )
-        {
+        ) {
             self.associatePublicIpAddress = associatePublicIpAddress
             self.configureScript = configureScript
             self.configureScriptType = configureScriptType
@@ -1474,8 +1433,7 @@ extension SMSClientTypes {
             launchOrder: Swift.Int? = nil,
             serverGroupId: Swift.String? = nil,
             serverLaunchConfigurations: [SMSClientTypes.ServerLaunchConfiguration]? = nil
-        )
-        {
+        ) {
             self.launchOrder = launchOrder
             self.serverGroupId = serverGroupId
             self.serverLaunchConfigurations = serverLaunchConfigurations
@@ -1498,8 +1456,7 @@ public struct GetAppLaunchConfigurationOutput: Swift.Sendable {
         autoLaunch: Swift.Bool? = nil,
         roleName: Swift.String? = nil,
         serverGroupLaunchConfigurations: [SMSClientTypes.ServerGroupLaunchConfiguration]? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.autoLaunch = autoLaunch
         self.roleName = roleName
@@ -1513,8 +1470,7 @@ public struct GetAppReplicationConfigurationInput: Swift.Sendable {
 
     public init(
         appId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
     }
 }
@@ -1557,8 +1513,7 @@ extension SMSClientTypes {
             numberOfRecentAmisToKeep: Swift.Int? = nil,
             runOnce: Swift.Bool? = nil,
             seedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.encrypted = encrypted
             self.frequency = frequency
             self.kmsKeyId = kmsKeyId
@@ -1582,8 +1537,7 @@ extension SMSClientTypes {
         public init(
             server: SMSClientTypes.Server? = nil,
             serverReplicationParameters: SMSClientTypes.ServerReplicationParameters? = nil
-        )
-        {
+        ) {
             self.server = server
             self.serverReplicationParameters = serverReplicationParameters
         }
@@ -1602,8 +1556,7 @@ extension SMSClientTypes {
         public init(
             serverGroupId: Swift.String? = nil,
             serverReplicationConfigurations: [SMSClientTypes.ServerReplicationConfiguration]? = nil
-        )
-        {
+        ) {
             self.serverGroupId = serverGroupId
             self.serverReplicationConfigurations = serverReplicationConfigurations
         }
@@ -1616,8 +1569,7 @@ public struct GetAppReplicationConfigurationOutput: Swift.Sendable {
 
     public init(
         serverGroupReplicationConfigurations: [SMSClientTypes.ServerGroupReplicationConfiguration]? = nil
-    )
-    {
+    ) {
         self.serverGroupReplicationConfigurations = serverGroupReplicationConfigurations
     }
 }
@@ -1629,8 +1581,7 @@ public struct GetAppValidationConfigurationInput: Swift.Sendable {
 
     public init(
         appId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
     }
 }
@@ -1673,8 +1624,7 @@ extension SMSClientTypes {
         public init(
             scriptType: SMSClientTypes.ScriptType? = nil,
             source: SMSClientTypes.Source? = nil
-        )
-        {
+        ) {
             self.scriptType = scriptType
             self.source = source
         }
@@ -1702,8 +1652,7 @@ extension SMSClientTypes {
             serverValidationStrategy: SMSClientTypes.ServerValidationStrategy? = nil,
             userDataValidationParameters: SMSClientTypes.UserDataValidationParameters? = nil,
             validationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.server = server
             self.serverValidationStrategy = serverValidationStrategy
@@ -1725,8 +1674,7 @@ extension SMSClientTypes {
         public init(
             serverGroupId: Swift.String? = nil,
             serverValidationConfigurations: [SMSClientTypes.ServerValidationConfiguration]? = nil
-        )
-        {
+        ) {
             self.serverGroupId = serverGroupId
             self.serverValidationConfigurations = serverValidationConfigurations
         }
@@ -1742,8 +1690,7 @@ public struct GetAppValidationConfigurationOutput: Swift.Sendable {
     public init(
         appValidationConfigurations: [SMSClientTypes.AppValidationConfiguration]? = nil,
         serverGroupValidationConfigurations: [SMSClientTypes.ServerGroupValidationConfiguration]? = nil
-    )
-    {
+    ) {
         self.appValidationConfigurations = appValidationConfigurations
         self.serverGroupValidationConfigurations = serverGroupValidationConfigurations
     }
@@ -1756,8 +1703,7 @@ public struct GetAppValidationOutputInput: Swift.Sendable {
 
     public init(
         appId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
     }
 }
@@ -1771,8 +1717,7 @@ extension SMSClientTypes {
 
         public init(
             server: SMSClientTypes.Server? = nil
-        )
-        {
+        ) {
             self.server = server
         }
     }
@@ -1843,8 +1788,7 @@ extension SMSClientTypes {
             status: SMSClientTypes.ValidationStatus? = nil,
             statusMessage: Swift.String? = nil,
             validationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.appValidationOutput = appValidationOutput
             self.latestValidationTime = latestValidationTime
             self.name = name
@@ -1862,8 +1806,7 @@ public struct GetAppValidationOutputOutput: Swift.Sendable {
 
     public init(
         validationOutputList: [SMSClientTypes.ValidationOutput]? = nil
-    )
-    {
+    ) {
         self.validationOutputList = validationOutputList
     }
 }
@@ -1877,8 +1820,7 @@ public struct GetConnectorsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1987,8 +1929,7 @@ extension SMSClientTypes {
             vmManagerId: Swift.String? = nil,
             vmManagerName: Swift.String? = nil,
             vmManagerType: SMSClientTypes.VmManagerType? = nil
-        )
-        {
+        ) {
             self.associatedOn = associatedOn
             self.capabilityList = capabilityList
             self.connectorId = connectorId
@@ -2012,8 +1953,7 @@ public struct GetConnectorsOutput: Swift.Sendable {
     public init(
         connectorList: [SMSClientTypes.Connector]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectorList = connectorList
         self.nextToken = nextToken
     }
@@ -2031,8 +1971,7 @@ public struct GetReplicationJobsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         replicationJobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.replicationJobId = replicationJobId
@@ -2051,8 +1990,7 @@ extension SMSClientTypes {
         public init(
             stage: Swift.String? = nil,
             stageProgress: Swift.String? = nil
-        )
-        {
+        ) {
             self.stage = stage
             self.stageProgress = stageProgress
         }
@@ -2182,8 +2120,7 @@ extension SMSClientTypes {
             state: SMSClientTypes.ReplicationRunState? = nil,
             statusMessage: Swift.String? = nil,
             type: SMSClientTypes.ReplicationRunType? = nil
-        )
-        {
+        ) {
             self.amiId = amiId
             self.completedTime = completedTime
             self.description = description
@@ -2317,8 +2254,7 @@ extension SMSClientTypes {
             state: SMSClientTypes.ReplicationJobState? = nil,
             statusMessage: Swift.String? = nil,
             vmServer: SMSClientTypes.VmServer? = nil
-        )
-        {
+        ) {
             self.description = description
             self.encrypted = encrypted
             self.frequency = frequency
@@ -2350,8 +2286,7 @@ public struct GetReplicationJobsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         replicationJobList: [SMSClientTypes.ReplicationJob]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.replicationJobList = replicationJobList
     }
@@ -2370,8 +2305,7 @@ public struct GetReplicationRunsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         replicationJobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.replicationJobId = replicationJobId
@@ -2390,8 +2324,7 @@ public struct GetReplicationRunsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         replicationJob: SMSClientTypes.ReplicationJob? = nil,
         replicationRunList: [SMSClientTypes.ReplicationRun]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.replicationJob = replicationJob
         self.replicationRunList = replicationRunList
@@ -2410,8 +2343,7 @@ public struct GetServersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         vmServerAddressList: [SMSClientTypes.VmServerAddress]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.vmServerAddressList = vmServerAddressList
@@ -2471,8 +2403,7 @@ public struct GetServersOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         serverCatalogStatus: SMSClientTypes.ServerCatalogStatus? = nil,
         serverList: [SMSClientTypes.Server]? = nil
-    )
-    {
+    ) {
         self.lastModifiedOn = lastModifiedOn
         self.nextToken = nextToken
         self.serverCatalogStatus = serverCatalogStatus
@@ -2486,8 +2417,7 @@ public struct ImportAppCatalogInput: Swift.Sendable {
 
     public init(
         roleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.roleName = roleName
     }
 }
@@ -2513,8 +2443,7 @@ public struct LaunchAppInput: Swift.Sendable {
 
     public init(
         appId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
     }
 }
@@ -2536,8 +2465,7 @@ public struct ListAppsInput: Swift.Sendable {
         appIds: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appIds = appIds
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2553,8 +2481,7 @@ public struct ListAppsOutput: Swift.Sendable {
     public init(
         apps: [SMSClientTypes.AppSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.apps = apps
         self.nextToken = nextToken
     }
@@ -2575,8 +2502,7 @@ extension SMSClientTypes {
             status: SMSClientTypes.ValidationStatus? = nil,
             statusMessage: Swift.String? = nil,
             validationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
             self.statusMessage = statusMessage
             self.validationId = validationId
@@ -2594,8 +2520,7 @@ public struct NotifyAppValidationOutputInput: Swift.Sendable {
     public init(
         appId: Swift.String? = nil,
         notificationContext: SMSClientTypes.NotificationContext? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.notificationContext = notificationContext
     }
@@ -2621,8 +2546,7 @@ public struct PutAppLaunchConfigurationInput: Swift.Sendable {
         autoLaunch: Swift.Bool? = nil,
         roleName: Swift.String? = nil,
         serverGroupLaunchConfigurations: [SMSClientTypes.ServerGroupLaunchConfiguration]? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.autoLaunch = autoLaunch
         self.roleName = roleName
@@ -2644,8 +2568,7 @@ public struct PutAppReplicationConfigurationInput: Swift.Sendable {
     public init(
         appId: Swift.String? = nil,
         serverGroupReplicationConfigurations: [SMSClientTypes.ServerGroupReplicationConfiguration]? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.serverGroupReplicationConfigurations = serverGroupReplicationConfigurations
     }
@@ -2669,8 +2592,7 @@ public struct PutAppValidationConfigurationInput: Swift.Sendable {
         appId: Swift.String? = nil,
         appValidationConfigurations: [SMSClientTypes.AppValidationConfiguration]? = nil,
         serverGroupValidationConfigurations: [SMSClientTypes.ServerGroupValidationConfiguration]? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.appValidationConfigurations = appValidationConfigurations
         self.serverGroupValidationConfigurations = serverGroupValidationConfigurations
@@ -2688,8 +2610,7 @@ public struct StartAppReplicationInput: Swift.Sendable {
 
     public init(
         appId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
     }
 }
@@ -2709,8 +2630,7 @@ public struct StartOnDemandAppReplicationInput: Swift.Sendable {
     public init(
         appId: Swift.String? = nil,
         description: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.description = description
     }
@@ -2722,9 +2642,9 @@ public struct StartOnDemandAppReplicationOutput: Swift.Sendable {
 }
 
 /// The user has the required permissions, so the request would have succeeded, but a dry run was performed.
-public struct DryRunOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DryRunOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2739,16 +2659,15 @@ public struct DryRunOperationException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You have exceeded the number of on-demand replication runs you can request in a 24-hour period.
-public struct ReplicationRunLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReplicationRunLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2763,8 +2682,7 @@ public struct ReplicationRunLimitExceededException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2779,8 +2697,7 @@ public struct StartOnDemandReplicationRunInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         replicationJobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.replicationJobId = replicationJobId
     }
@@ -2792,8 +2709,7 @@ public struct StartOnDemandReplicationRunOutput: Swift.Sendable {
 
     public init(
         replicationRunId: Swift.String? = nil
-    )
-    {
+    ) {
         self.replicationRunId = replicationRunId
     }
 }
@@ -2804,8 +2720,7 @@ public struct StopAppReplicationInput: Swift.Sendable {
 
     public init(
         appId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
     }
 }
@@ -2821,8 +2736,7 @@ public struct TerminateAppInput: Swift.Sendable {
 
     public init(
         appId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
     }
 }
@@ -2853,8 +2767,7 @@ public struct UpdateAppInput: Swift.Sendable {
         roleName: Swift.String? = nil,
         serverGroups: [SMSClientTypes.ServerGroup]? = nil,
         tags: [SMSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.description = description
         self.name = name
@@ -2876,8 +2789,7 @@ public struct UpdateAppOutput: Swift.Sendable {
         appSummary: SMSClientTypes.AppSummary? = nil,
         serverGroups: [SMSClientTypes.ServerGroup]? = nil,
         tags: [SMSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.appSummary = appSummary
         self.serverGroups = serverGroups
         self.tags = tags
@@ -2926,8 +2838,7 @@ public struct UpdateReplicationJobInput: Swift.Sendable {
         numberOfRecentAmisToKeep: Swift.Int? = nil,
         replicationJobId: Swift.String? = nil,
         roleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.encrypted = encrypted
         self.frequency = frequency

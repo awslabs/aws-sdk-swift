@@ -24,9 +24,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -41,16 +41,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Exception raised to indicate that authorization of an action was successful, when the DryRun flag is set to true.
-public struct DryRunOperation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DryRunOperation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -65,16 +64,15 @@ public struct DryRunOperation: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Exception raised when an internal, configuration, or dependency error is encountered.
-public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -89,16 +87,15 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
-public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -113,16 +110,15 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Exception raised when a request fails due to temporary unavailability of the service.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -137,16 +133,15 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The number of seconds the caller should wait before retrying.
@@ -165,8 +160,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int = 0
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -211,8 +205,7 @@ extension MigrationHubConfigClientTypes {
         public init(
             id: Swift.String? = nil,
             type: MigrationHubConfigClientTypes.TargetType? = nil
-        )
-        {
+        ) {
             self.id = id
             self.type = type
         }
@@ -233,8 +226,7 @@ public struct CreateHomeRegionControlInput: Swift.Sendable {
         dryRun: Swift.Bool? = false,
         homeRegion: Swift.String? = nil,
         target: MigrationHubConfigClientTypes.Target? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.homeRegion = homeRegion
         self.target = target
@@ -259,8 +251,7 @@ extension MigrationHubConfigClientTypes {
             homeRegion: Swift.String? = nil,
             requestedTime: Foundation.Date? = nil,
             target: MigrationHubConfigClientTypes.Target? = nil
-        )
-        {
+        ) {
             self.controlId = controlId
             self.homeRegion = homeRegion
             self.requestedTime = requestedTime
@@ -275,8 +266,7 @@ public struct CreateHomeRegionControlOutput: Swift.Sendable {
 
     public init(
         homeRegionControl: MigrationHubConfigClientTypes.HomeRegionControl? = nil
-    )
-    {
+    ) {
         self.homeRegionControl = homeRegionControl
     }
 }
@@ -288,8 +278,7 @@ public struct DeleteHomeRegionControlInput: Swift.Sendable {
 
     public init(
         controlId: Swift.String? = nil
-    )
-    {
+    ) {
         self.controlId = controlId
     }
 }
@@ -317,8 +306,7 @@ public struct DescribeHomeRegionControlsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         target: MigrationHubConfigClientTypes.Target? = nil
-    )
-    {
+    ) {
         self.controlId = controlId
         self.homeRegion = homeRegion
         self.maxResults = maxResults
@@ -336,8 +324,7 @@ public struct DescribeHomeRegionControlsOutput: Swift.Sendable {
     public init(
         homeRegionControls: [MigrationHubConfigClientTypes.HomeRegionControl]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.homeRegionControls = homeRegionControls
         self.nextToken = nextToken
     }
@@ -354,8 +341,7 @@ public struct GetHomeRegionOutput: Swift.Sendable {
 
     public init(
         homeRegion: Swift.String? = nil
-    )
-    {
+    ) {
         self.homeRegion = homeRegion
     }
 }

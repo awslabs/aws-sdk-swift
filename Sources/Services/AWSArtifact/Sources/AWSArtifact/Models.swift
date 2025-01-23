@@ -15,6 +15,7 @@ import class SmithyHTTPAPI.HTTPResponse
 import enum ClientRuntime.ErrorFault
 import enum Smithy.ClientError
 import enum SmithyReadWrite.ReaderError
+@_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
 import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
@@ -30,7 +31,7 @@ extension ArtifactClientTypes {
     public enum AcceptanceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         /// Require explicit click-through acceptance of the Term associated with this Report.
         case explicit
-        /// Do not require explicit click-through acceptance of the Term associated with this Report.
+        /// Do not require explicit click-through acceptance of the Term associated with this Report
         case passthrough
         case sdkUnknown(Swift.String)
 
@@ -57,9 +58,9 @@ extension ArtifactClientTypes {
 }
 
 /// User does not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -75,8 +76,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -84,9 +84,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 extension ArtifactClientTypes {
 
     public enum NotificationSubscriptionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        /// The account is not subscribed for notification.
         case notSubscribed
-        /// The account is subscribed for notification.
         case subscribed
         case sdkUnknown(Swift.String)
 
@@ -121,17 +119,16 @@ extension ArtifactClientTypes {
 
         public init(
             notificationSubscriptionStatus: ArtifactClientTypes.NotificationSubscriptionStatus? = nil
-        )
-        {
+        ) {
             self.notificationSubscriptionStatus = notificationSubscriptionStatus
         }
     }
 }
 
 /// Request to create/modify content would result in a conflict.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Identifier of the affected resource.
@@ -155,8 +152,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -164,9 +160,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// An unknown server exception has occurred.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Number of seconds in which the caller can retry the request.
@@ -185,17 +181,16 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
 }
 
 /// Request references a resource which does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Identifier of the affected resource.
@@ -219,8 +214,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -228,9 +222,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Request would cause a service quota to be exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Code for the affected quota.
@@ -262,8 +256,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -273,9 +266,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// Request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Code for the affected quota.
@@ -300,8 +293,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -323,8 +315,7 @@ extension ArtifactClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -370,9 +361,9 @@ extension ArtifactClientTypes {
 }
 
 /// Request fails to satisfy the constraints specified by an AWS service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The field that caused the error, if applicable.
         public internal(set) var fieldList: [ArtifactClientTypes.ValidationExceptionField]? = nil
         /// This member is required.
@@ -395,8 +386,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [ArtifactClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: ArtifactClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -414,8 +404,7 @@ public struct GetAccountSettingsOutput: Swift.Sendable {
 
     public init(
         accountSettings: ArtifactClientTypes.AccountSettings? = nil
-    )
-    {
+    ) {
         self.accountSettings = accountSettings
     }
 }
@@ -426,8 +415,7 @@ public struct PutAccountSettingsInput: Swift.Sendable {
 
     public init(
         notificationSubscriptionStatus: ArtifactClientTypes.NotificationSubscriptionStatus? = nil
-    )
-    {
+    ) {
         self.notificationSubscriptionStatus = notificationSubscriptionStatus
     }
 }
@@ -438,9 +426,166 @@ public struct PutAccountSettingsOutput: Swift.Sendable {
 
     public init(
         accountSettings: ArtifactClientTypes.AccountSettings? = nil
-    )
-    {
+    ) {
         self.accountSettings = accountSettings
+    }
+}
+
+extension ArtifactClientTypes {
+
+    public enum AgreementType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case custom
+        case `default`
+        case modified
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AgreementType] {
+            return [
+                .custom,
+                .default,
+                .modified
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .custom: return "CUSTOM"
+            case .default: return "DEFAULT"
+            case .modified: return "MODIFIED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListCustomerAgreementsInput: Swift.Sendable {
+    /// Maximum number of resources to return in the paginated response.
+    public var maxResults: Swift.Int?
+    /// Pagination token to request the next page of resources.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ArtifactClientTypes {
+
+    public enum CustomerAgreementState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case awsTerminated
+        case customerTerminated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CustomerAgreementState] {
+            return [
+                .active,
+                .awsTerminated,
+                .customerTerminated
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .awsTerminated: return "AWS_TERMINATED"
+            case .customerTerminated: return "CUSTOMER_TERMINATED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ArtifactClientTypes {
+
+    /// Summary for customer-agreement resource.
+    public struct CustomerAgreementSummary: Swift.Sendable {
+        /// Terms required to accept the agreement resource.
+        public var acceptanceTerms: [Swift.String]?
+        /// ARN of the agreement resource the customer-agreement resource represents.
+        public var agreementArn: Swift.String?
+        /// ARN of the customer-agreement resource.
+        public var arn: Swift.String?
+        /// AWS account Id that owns the resource.
+        public var awsAccountId: Swift.String?
+        /// Description of the resource.
+        public var description: Swift.String?
+        /// Timestamp indicating when the agreement was terminated.
+        public var effectiveEnd: Foundation.Date?
+        /// Timestamp indicating when the agreement became effective.
+        public var effectiveStart: Foundation.Date?
+        /// Identifier of the customer-agreement resource.
+        public var id: Swift.String?
+        /// Name of the customer-agreement resource.
+        public var name: Swift.String?
+        /// ARN of the organization that owns the resource.
+        public var organizationArn: Swift.String?
+        /// State of the resource.
+        public var state: ArtifactClientTypes.CustomerAgreementState?
+        /// Terms required to terminate the customer-agreement resource.
+        public var terminateTerms: [Swift.String]?
+        /// Type of the customer-agreement resource.
+        public var type: ArtifactClientTypes.AgreementType?
+
+        public init(
+            acceptanceTerms: [Swift.String]? = nil,
+            agreementArn: Swift.String? = nil,
+            arn: Swift.String? = nil,
+            awsAccountId: Swift.String? = nil,
+            description: Swift.String? = nil,
+            effectiveEnd: Foundation.Date? = nil,
+            effectiveStart: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            organizationArn: Swift.String? = nil,
+            state: ArtifactClientTypes.CustomerAgreementState? = nil,
+            terminateTerms: [Swift.String]? = nil,
+            type: ArtifactClientTypes.AgreementType? = nil
+        ) {
+            self.acceptanceTerms = acceptanceTerms
+            self.agreementArn = agreementArn
+            self.arn = arn
+            self.awsAccountId = awsAccountId
+            self.description = description
+            self.effectiveEnd = effectiveEnd
+            self.effectiveStart = effectiveStart
+            self.id = id
+            self.name = name
+            self.organizationArn = organizationArn
+            self.state = state
+            self.terminateTerms = terminateTerms
+            self.type = type
+        }
+    }
+}
+
+public struct ListCustomerAgreementsOutput: Swift.Sendable {
+    /// List of customer-agreement resources.
+    /// This member is required.
+    public var customerAgreements: [ArtifactClientTypes.CustomerAgreementSummary]?
+    /// Pagination token to request the next page of resources.
+    public var nextToken: Swift.String?
+
+    public init(
+        customerAgreements: [ArtifactClientTypes.CustomerAgreementSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.customerAgreements = customerAgreements
+        self.nextToken = nextToken
     }
 }
 
@@ -458,8 +603,7 @@ public struct GetReportInput: Swift.Sendable {
         reportId: Swift.String? = nil,
         reportVersion: Swift.Int? = nil,
         termToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.reportId = reportId
         self.reportVersion = reportVersion
         self.termToken = termToken
@@ -472,8 +616,7 @@ public struct GetReportOutput: Swift.Sendable {
 
     public init(
         documentPresignedUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.documentPresignedUrl = documentPresignedUrl
     }
 }
@@ -488,8 +631,7 @@ public struct GetReportMetadataInput: Swift.Sendable {
     public init(
         reportId: Swift.String? = nil,
         reportVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.reportId = reportId
         self.reportVersion = reportVersion
     }
@@ -498,9 +640,7 @@ public struct GetReportMetadataInput: Swift.Sendable {
 extension ArtifactClientTypes {
 
     public enum PublishedState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        /// The resource is published for consumption.
         case published
-        /// The resource is not published for consumption.
         case unpublished
         case sdkUnknown(Swift.String)
 
@@ -627,8 +767,7 @@ extension ArtifactClientTypes {
             termArn: Swift.String? = nil,
             uploadState: ArtifactClientTypes.UploadState? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.acceptanceType = acceptanceType
             self.arn = arn
             self.category = category
@@ -659,8 +798,7 @@ public struct GetReportMetadataOutput: Swift.Sendable {
 
     public init(
         reportDetails: ArtifactClientTypes.ReportDetail? = nil
-    )
-    {
+    ) {
         self.reportDetails = reportDetails
     }
 }
@@ -675,8 +813,7 @@ public struct GetTermForReportInput: Swift.Sendable {
     public init(
         reportId: Swift.String? = nil,
         reportVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.reportId = reportId
         self.reportVersion = reportVersion
     }
@@ -691,8 +828,7 @@ public struct GetTermForReportOutput: Swift.Sendable {
     public init(
         documentPresignedUrl: Swift.String? = nil,
         termToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.documentPresignedUrl = documentPresignedUrl
         self.termToken = termToken
     }
@@ -707,8 +843,7 @@ public struct ListReportsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -765,8 +900,7 @@ extension ArtifactClientTypes {
             statusMessage: Swift.String? = nil,
             uploadState: ArtifactClientTypes.UploadState? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.acceptanceType = acceptanceType
             self.arn = arn
             self.category = category
@@ -795,8 +929,7 @@ public struct ListReportsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         reports: [ArtifactClientTypes.ReportSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.reports = reports
     }
@@ -890,6 +1023,29 @@ extension GetTermForReportInput {
     }
 }
 
+extension ListCustomerAgreementsInput {
+
+    static func urlPathProvider(_ value: ListCustomerAgreementsInput) -> Swift.String? {
+        return "/v1/customer-agreement/list"
+    }
+}
+
+extension ListCustomerAgreementsInput {
+
+    static func queryItemProvider(_ value: ListCustomerAgreementsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListReportsInput {
 
     static func urlPathProvider(_ value: ListReportsInput) -> Swift.String? {
@@ -973,6 +1129,19 @@ extension GetTermForReportOutput {
         var value = GetTermForReportOutput()
         value.documentPresignedUrl = try reader["documentPresignedUrl"].readIfPresent()
         value.termToken = try reader["termToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListCustomerAgreementsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCustomerAgreementsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCustomerAgreementsOutput()
+        value.customerAgreements = try reader["customerAgreements"].readListIfPresent(memberReadingClosure: ArtifactClientTypes.CustomerAgreementSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -1074,6 +1243,23 @@ enum GetTermForReportOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListCustomerAgreementsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -1266,6 +1452,28 @@ extension ArtifactClientTypes.ReportDetail {
         value.sequenceNumber = try reader["sequenceNumber"].readIfPresent()
         value.uploadState = try reader["uploadState"].readIfPresent()
         value.statusMessage = try reader["statusMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension ArtifactClientTypes.CustomerAgreementSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ArtifactClientTypes.CustomerAgreementSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ArtifactClientTypes.CustomerAgreementSummary()
+        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.agreementArn = try reader["agreementArn"].readIfPresent()
+        value.awsAccountId = try reader["awsAccountId"].readIfPresent()
+        value.organizationArn = try reader["organizationArn"].readIfPresent()
+        value.effectiveStart = try reader["effectiveStart"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.effectiveEnd = try reader["effectiveEnd"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.state = try reader["state"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.acceptanceTerms = try reader["acceptanceTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.terminateTerms = try reader["terminateTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.type = try reader["type"].readIfPresent()
         return value
     }
 }

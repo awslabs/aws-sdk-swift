@@ -28,9 +28,9 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 
 /// You don't have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -45,8 +45,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -177,8 +176,7 @@ extension ManagedBlockchainClientTypes {
             status: ManagedBlockchainClientTypes.AccessorStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             type: ManagedBlockchainClientTypes.AccessorType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.billingToken = billingToken
             self.creationDate = creationDate
@@ -215,8 +213,7 @@ extension ManagedBlockchainClientTypes {
             networkType: ManagedBlockchainClientTypes.AccessorNetworkType? = nil,
             status: ManagedBlockchainClientTypes.AccessorStatus? = nil,
             type: ManagedBlockchainClientTypes.AccessorType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationDate = creationDate
             self.id = id
@@ -271,8 +268,7 @@ extension ManagedBlockchainClientTypes {
             proposalDurationInHours: Swift.Int? = nil,
             thresholdComparator: ManagedBlockchainClientTypes.ThresholdComparator? = nil,
             thresholdPercentage: Swift.Int? = nil
-        )
-        {
+        ) {
             self.proposalDurationInHours = proposalDurationInHours
             self.thresholdComparator = thresholdComparator
             self.thresholdPercentage = thresholdPercentage
@@ -281,7 +277,7 @@ extension ManagedBlockchainClientTypes {
 }
 
 /// The request processing has failed because of an unknown error, exception or failure.
-public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "InternalServiceErrorException" }
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
@@ -294,9 +290,9 @@ public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The action or operation requested is invalid. Verify that the action is typed correctly.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -311,16 +307,15 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A resource request is issued for a resource that already exists.
-public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -335,16 +330,15 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The maximum number of resources of that type already exist. Ensure the resources requested are within the boundaries of the service edition and your account limits.
-public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -359,14 +353,13 @@ public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is creating resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources if possible.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "ThrottlingException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -379,9 +372,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 ///
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         ///
         public internal(set) var resourceName: Swift.String? = nil
@@ -399,8 +392,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
@@ -436,8 +428,7 @@ public struct CreateAccessorInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         networkType: ManagedBlockchainClientTypes.AccessorNetworkType? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.accessorType = accessorType
         self.clientRequestToken = clientRequestToken
         self.networkType = networkType
@@ -457,8 +448,7 @@ public struct CreateAccessorOutput: Swift.Sendable {
         accessorId: Swift.String? = nil,
         billingToken: Swift.String? = nil,
         networkType: ManagedBlockchainClientTypes.AccessorNetworkType? = nil
-    )
-    {
+    ) {
         self.accessorId = accessorId
         self.billingToken = billingToken
         self.networkType = networkType
@@ -466,9 +456,9 @@ public struct CreateAccessorOutput: Swift.Sendable {
 }
 
 /// A requested resource doesn't exist. It may have been deleted or referenced incorrectly.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// A requested resource doesn't exist. It may have been deleted or referenced inaccurately.
         public internal(set) var resourceName: Swift.String? = nil
@@ -486,17 +476,16 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
 }
 
 /// The requested resource exists but isn't in a status that can complete the operation.
-public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -511,8 +500,7 @@ public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -531,8 +519,7 @@ extension ManagedBlockchainClientTypes {
         public init(
             adminPassword: Swift.String? = nil,
             adminUsername: Swift.String? = nil
-        )
-        {
+        ) {
             self.adminPassword = adminPassword
             self.adminUsername = adminUsername
         }
@@ -553,8 +540,7 @@ extension ManagedBlockchainClientTypes {
 
         public init(
             fabric: ManagedBlockchainClientTypes.MemberFabricConfiguration? = nil
-        )
-        {
+        ) {
             self.fabric = fabric
         }
     }
@@ -569,8 +555,7 @@ extension ManagedBlockchainClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -585,8 +570,7 @@ extension ManagedBlockchainClientTypes {
 
         public init(
             cloudwatch: ManagedBlockchainClientTypes.LogConfiguration? = nil
-        )
-        {
+        ) {
             self.cloudwatch = cloudwatch
         }
     }
@@ -601,8 +585,7 @@ extension ManagedBlockchainClientTypes {
 
         public init(
             caLogs: ManagedBlockchainClientTypes.LogConfigurations? = nil
-        )
-        {
+        ) {
             self.caLogs = caLogs
         }
     }
@@ -617,8 +600,7 @@ extension ManagedBlockchainClientTypes {
 
         public init(
             fabric: ManagedBlockchainClientTypes.MemberFabricLogPublishingConfiguration? = nil
-        )
-        {
+        ) {
             self.fabric = fabric
         }
     }
@@ -654,8 +636,7 @@ extension ManagedBlockchainClientTypes {
             logPublishingConfiguration: ManagedBlockchainClientTypes.MemberLogPublishingConfiguration? = nil,
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.description = description
             self.frameworkConfiguration = frameworkConfiguration
             self.kmsKeyArn = kmsKeyArn
@@ -685,8 +666,7 @@ public struct CreateMemberInput: Swift.Sendable {
         invitationId: Swift.String? = nil,
         memberConfiguration: ManagedBlockchainClientTypes.MemberConfiguration? = nil,
         networkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.invitationId = invitationId
         self.memberConfiguration = memberConfiguration
@@ -700,8 +680,7 @@ public struct CreateMemberOutput: Swift.Sendable {
 
     public init(
         memberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.memberId = memberId
     }
 }
@@ -774,8 +753,7 @@ extension ManagedBlockchainClientTypes {
 
         public init(
             edition: ManagedBlockchainClientTypes.Edition? = nil
-        )
-        {
+        ) {
             self.edition = edition
         }
     }
@@ -790,8 +768,7 @@ extension ManagedBlockchainClientTypes {
 
         public init(
             fabric: ManagedBlockchainClientTypes.NetworkFabricConfiguration? = nil
-        )
-        {
+        ) {
             self.fabric = fabric
         }
     }
@@ -806,8 +783,7 @@ extension ManagedBlockchainClientTypes {
 
         public init(
             approvalThresholdPolicy: ManagedBlockchainClientTypes.ApprovalThresholdPolicy? = nil
-        )
-        {
+        ) {
             self.approvalThresholdPolicy = approvalThresholdPolicy
         }
     }
@@ -849,8 +825,7 @@ public struct CreateNetworkInput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         votingPolicy: ManagedBlockchainClientTypes.VotingPolicy? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.description = description
         self.framework = framework
@@ -872,8 +847,7 @@ public struct CreateNetworkOutput: Swift.Sendable {
     public init(
         memberId: Swift.String? = nil,
         networkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.memberId = memberId
         self.networkId = networkId
     }
@@ -891,8 +865,7 @@ extension ManagedBlockchainClientTypes {
         public init(
             chaincodeLogs: ManagedBlockchainClientTypes.LogConfigurations? = nil,
             peerLogs: ManagedBlockchainClientTypes.LogConfigurations? = nil
-        )
-        {
+        ) {
             self.chaincodeLogs = chaincodeLogs
             self.peerLogs = peerLogs
         }
@@ -908,8 +881,7 @@ extension ManagedBlockchainClientTypes {
 
         public init(
             fabric: ManagedBlockchainClientTypes.NodeFabricLogPublishingConfiguration? = nil
-        )
-        {
+        ) {
             self.fabric = fabric
         }
     }
@@ -963,8 +935,7 @@ extension ManagedBlockchainClientTypes {
             instanceType: Swift.String? = nil,
             logPublishingConfiguration: ManagedBlockchainClientTypes.NodeLogPublishingConfiguration? = nil,
             stateDB: ManagedBlockchainClientTypes.StateDBType? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.instanceType = instanceType
             self.logPublishingConfiguration = logPublishingConfiguration
@@ -996,8 +967,7 @@ public struct CreateNodeInput: Swift.Sendable {
         networkId: Swift.String? = nil,
         nodeConfiguration: ManagedBlockchainClientTypes.NodeConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.memberId = memberId
         self.networkId = networkId
@@ -1012,8 +982,7 @@ public struct CreateNodeOutput: Swift.Sendable {
 
     public init(
         nodeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.nodeId = nodeId
     }
 }
@@ -1028,8 +997,7 @@ extension ManagedBlockchainClientTypes {
 
         public init(
             principal: Swift.String? = nil
-        )
-        {
+        ) {
             self.principal = principal
         }
     }
@@ -1045,8 +1013,7 @@ extension ManagedBlockchainClientTypes {
 
         public init(
             memberId: Swift.String? = nil
-        )
-        {
+        ) {
             self.memberId = memberId
         }
     }
@@ -1064,8 +1031,7 @@ extension ManagedBlockchainClientTypes {
         public init(
             invitations: [ManagedBlockchainClientTypes.InviteAction]? = nil,
             removals: [ManagedBlockchainClientTypes.RemoveAction]? = nil
-        )
-        {
+        ) {
             self.invitations = invitations
             self.removals = removals
         }
@@ -1097,8 +1063,7 @@ public struct CreateProposalInput: Swift.Sendable {
         memberId: Swift.String? = nil,
         networkId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.clientRequestToken = clientRequestToken
         self.description = description
@@ -1114,8 +1079,7 @@ public struct CreateProposalOutput: Swift.Sendable {
 
     public init(
         proposalId: Swift.String? = nil
-    )
-    {
+    ) {
         self.proposalId = proposalId
     }
 }
@@ -1127,8 +1091,7 @@ public struct DeleteAccessorInput: Swift.Sendable {
 
     public init(
         accessorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessorId = accessorId
     }
 }
@@ -1149,8 +1112,7 @@ public struct DeleteMemberInput: Swift.Sendable {
     public init(
         memberId: Swift.String? = nil,
         networkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.memberId = memberId
         self.networkId = networkId
     }
@@ -1177,8 +1139,7 @@ public struct DeleteNodeInput: Swift.Sendable {
         memberId: Swift.String? = nil,
         networkId: Swift.String? = nil,
         nodeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.memberId = memberId
         self.networkId = networkId
         self.nodeId = nodeId
@@ -1197,8 +1158,7 @@ public struct GetAccessorInput: Swift.Sendable {
 
     public init(
         accessorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessorId = accessorId
     }
 }
@@ -1209,8 +1169,7 @@ public struct GetAccessorOutput: Swift.Sendable {
 
     public init(
         accessor: ManagedBlockchainClientTypes.Accessor? = nil
-    )
-    {
+    ) {
         self.accessor = accessor
     }
 }
@@ -1226,8 +1185,7 @@ public struct GetMemberInput: Swift.Sendable {
     public init(
         memberId: Swift.String? = nil,
         networkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.memberId = memberId
         self.networkId = networkId
     }
@@ -1245,8 +1203,7 @@ extension ManagedBlockchainClientTypes {
         public init(
             adminUsername: Swift.String? = nil,
             caEndpoint: Swift.String? = nil
-        )
-        {
+        ) {
             self.adminUsername = adminUsername
             self.caEndpoint = caEndpoint
         }
@@ -1262,8 +1219,7 @@ extension ManagedBlockchainClientTypes {
 
         public init(
             fabric: ManagedBlockchainClientTypes.MemberFabricAttributes? = nil
-        )
-        {
+        ) {
             self.fabric = fabric
         }
     }
@@ -1366,8 +1322,7 @@ extension ManagedBlockchainClientTypes {
             networkId: Swift.String? = nil,
             status: ManagedBlockchainClientTypes.MemberStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationDate = creationDate
             self.description = description
@@ -1389,8 +1344,7 @@ public struct GetMemberOutput: Swift.Sendable {
 
     public init(
         member: ManagedBlockchainClientTypes.Member? = nil
-    )
-    {
+    ) {
         self.member = member
     }
 }
@@ -1402,8 +1356,7 @@ public struct GetNetworkInput: Swift.Sendable {
 
     public init(
         networkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.networkId = networkId
     }
 }
@@ -1419,8 +1372,7 @@ extension ManagedBlockchainClientTypes {
 
         public init(
             chainId: Swift.String? = nil
-        )
-        {
+        ) {
             self.chainId = chainId
         }
     }
@@ -1438,8 +1390,7 @@ extension ManagedBlockchainClientTypes {
         public init(
             edition: ManagedBlockchainClientTypes.Edition? = nil,
             orderingServiceEndpoint: Swift.String? = nil
-        )
-        {
+        ) {
             self.edition = edition
             self.orderingServiceEndpoint = orderingServiceEndpoint
         }
@@ -1458,8 +1409,7 @@ extension ManagedBlockchainClientTypes {
         public init(
             ethereum: ManagedBlockchainClientTypes.NetworkEthereumAttributes? = nil,
             fabric: ManagedBlockchainClientTypes.NetworkFabricAttributes? = nil
-        )
-        {
+        ) {
             self.ethereum = ethereum
             self.fabric = fabric
         }
@@ -1546,8 +1496,7 @@ extension ManagedBlockchainClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             votingPolicy: ManagedBlockchainClientTypes.VotingPolicy? = nil,
             vpcEndpointServiceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationDate = creationDate
             self.description = description
@@ -1570,8 +1519,7 @@ public struct GetNetworkOutput: Swift.Sendable {
 
     public init(
         network: ManagedBlockchainClientTypes.Network? = nil
-    )
-    {
+    ) {
         self.network = network
     }
 }
@@ -1590,8 +1538,7 @@ public struct GetNodeInput: Swift.Sendable {
         memberId: Swift.String? = nil,
         networkId: Swift.String? = nil,
         nodeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.memberId = memberId
         self.networkId = networkId
         self.nodeId = nodeId
@@ -1610,8 +1557,7 @@ extension ManagedBlockchainClientTypes {
         public init(
             httpEndpoint: Swift.String? = nil,
             webSocketEndpoint: Swift.String? = nil
-        )
-        {
+        ) {
             self.httpEndpoint = httpEndpoint
             self.webSocketEndpoint = webSocketEndpoint
         }
@@ -1630,8 +1576,7 @@ extension ManagedBlockchainClientTypes {
         public init(
             peerEndpoint: Swift.String? = nil,
             peerEventEndpoint: Swift.String? = nil
-        )
-        {
+        ) {
             self.peerEndpoint = peerEndpoint
             self.peerEventEndpoint = peerEventEndpoint
         }
@@ -1650,8 +1595,7 @@ extension ManagedBlockchainClientTypes {
         public init(
             ethereum: ManagedBlockchainClientTypes.NodeEthereumAttributes? = nil,
             fabric: ManagedBlockchainClientTypes.NodeFabricAttributes? = nil
-        )
-        {
+        ) {
             self.ethereum = ethereum
             self.fabric = fabric
         }
@@ -1771,8 +1715,7 @@ extension ManagedBlockchainClientTypes {
             stateDB: ManagedBlockchainClientTypes.StateDBType? = nil,
             status: ManagedBlockchainClientTypes.NodeStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.availabilityZone = availabilityZone
             self.creationDate = creationDate
@@ -1796,8 +1739,7 @@ public struct GetNodeOutput: Swift.Sendable {
 
     public init(
         node: ManagedBlockchainClientTypes.Node? = nil
-    )
-    {
+    ) {
         self.node = node
     }
 }
@@ -1813,8 +1755,7 @@ public struct GetProposalInput: Swift.Sendable {
     public init(
         networkId: Swift.String? = nil,
         proposalId: Swift.String? = nil
-    )
-    {
+    ) {
         self.networkId = networkId
         self.proposalId = proposalId
     }
@@ -1916,8 +1857,7 @@ extension ManagedBlockchainClientTypes {
             status: ManagedBlockchainClientTypes.ProposalStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             yesVoteCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.arn = arn
             self.creationDate = creationDate
@@ -1942,16 +1882,15 @@ public struct GetProposalOutput: Swift.Sendable {
 
     public init(
         proposal: ManagedBlockchainClientTypes.Proposal? = nil
-    )
-    {
+    ) {
         self.proposal = proposal
     }
 }
 
 ///
-public struct IllegalActionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IllegalActionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1966,8 +1905,7 @@ public struct IllegalActionException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2002,8 +1940,7 @@ extension ManagedBlockchainClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             status: ManagedBlockchainClientTypes.NetworkStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationDate = creationDate
             self.description = description
@@ -2088,8 +2025,7 @@ extension ManagedBlockchainClientTypes {
             invitationId: Swift.String? = nil,
             networkSummary: ManagedBlockchainClientTypes.NetworkSummary? = nil,
             status: ManagedBlockchainClientTypes.InvitationStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationDate = creationDate
             self.expirationDate = expirationDate
@@ -2112,8 +2048,7 @@ public struct ListAccessorsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         networkType: ManagedBlockchainClientTypes.AccessorNetworkType? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.networkType = networkType
         self.nextToken = nextToken
@@ -2129,8 +2064,7 @@ public struct ListAccessorsOutput: Swift.Sendable {
     public init(
         accessors: [ManagedBlockchainClientTypes.AccessorSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessors = accessors
         self.nextToken = nextToken
     }
@@ -2145,8 +2079,7 @@ public struct ListInvitationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2161,8 +2094,7 @@ public struct ListInvitationsOutput: Swift.Sendable {
     public init(
         invitations: [ManagedBlockchainClientTypes.Invitation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.invitations = invitations
         self.nextToken = nextToken
     }
@@ -2190,8 +2122,7 @@ public struct ListMembersInput: Swift.Sendable {
         networkId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         status: ManagedBlockchainClientTypes.MemberStatus? = nil
-    )
-    {
+    ) {
         self.isOwned = isOwned
         self.maxResults = maxResults
         self.name = name
@@ -2242,8 +2173,7 @@ extension ManagedBlockchainClientTypes {
             isOwned: Swift.Bool? = nil,
             name: Swift.String? = nil,
             status: ManagedBlockchainClientTypes.MemberStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationDate = creationDate
             self.description = description
@@ -2264,8 +2194,7 @@ public struct ListMembersOutput: Swift.Sendable {
     public init(
         members: [ManagedBlockchainClientTypes.MemberSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.members = members
         self.nextToken = nextToken
     }
@@ -2289,8 +2218,7 @@ public struct ListNetworksInput: Swift.Sendable {
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         status: ManagedBlockchainClientTypes.NetworkStatus? = nil
-    )
-    {
+    ) {
         self.framework = framework
         self.maxResults = maxResults
         self.name = name
@@ -2308,8 +2236,7 @@ public struct ListNetworksOutput: Swift.Sendable {
     public init(
         networks: [ManagedBlockchainClientTypes.NetworkSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.networks = networks
         self.nextToken = nextToken
     }
@@ -2334,8 +2261,7 @@ public struct ListNodesInput: Swift.Sendable {
         networkId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         status: ManagedBlockchainClientTypes.NodeStatus? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.memberId = memberId
         self.networkId = networkId
@@ -2368,8 +2294,7 @@ extension ManagedBlockchainClientTypes {
             id: Swift.String? = nil,
             instanceType: Swift.String? = nil,
             status: ManagedBlockchainClientTypes.NodeStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.availabilityZone = availabilityZone
             self.creationDate = creationDate
@@ -2389,8 +2314,7 @@ public struct ListNodesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         nodes: [ManagedBlockchainClientTypes.NodeSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.nodes = nodes
     }
@@ -2409,8 +2333,7 @@ public struct ListProposalsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         networkId: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.networkId = networkId
         self.nextToken = nextToken
@@ -2457,8 +2380,7 @@ extension ManagedBlockchainClientTypes {
             proposedByMemberId: Swift.String? = nil,
             proposedByMemberName: Swift.String? = nil,
             status: ManagedBlockchainClientTypes.ProposalStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationDate = creationDate
             self.description = description
@@ -2480,8 +2402,7 @@ public struct ListProposalsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         proposals: [ManagedBlockchainClientTypes.ProposalSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.proposals = proposals
     }
@@ -2504,8 +2425,7 @@ public struct ListProposalVotesInput: Swift.Sendable {
         networkId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         proposalId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.networkId = networkId
         self.nextToken = nextToken
@@ -2557,8 +2477,7 @@ extension ManagedBlockchainClientTypes {
             memberId: Swift.String? = nil,
             memberName: Swift.String? = nil,
             vote: ManagedBlockchainClientTypes.VoteValue? = nil
-        )
-        {
+        ) {
             self.memberId = memberId
             self.memberName = memberName
             self.vote = vote
@@ -2575,8 +2494,7 @@ public struct ListProposalVotesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         proposalVotes: [ManagedBlockchainClientTypes.VoteSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.proposalVotes = proposalVotes
     }
@@ -2589,8 +2507,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2601,8 +2518,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2614,8 +2530,7 @@ public struct RejectInvitationInput: Swift.Sendable {
 
     public init(
         invitationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.invitationId = invitationId
     }
 }
@@ -2636,8 +2551,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -2659,8 +2573,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -2685,8 +2598,7 @@ public struct UpdateMemberInput: Swift.Sendable {
         logPublishingConfiguration: ManagedBlockchainClientTypes.MemberLogPublishingConfiguration? = nil,
         memberId: Swift.String? = nil,
         networkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.logPublishingConfiguration = logPublishingConfiguration
         self.memberId = memberId
         self.networkId = networkId
@@ -2715,8 +2627,7 @@ public struct UpdateNodeInput: Swift.Sendable {
         memberId: Swift.String? = nil,
         networkId: Swift.String? = nil,
         nodeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.logPublishingConfiguration = logPublishingConfiguration
         self.memberId = memberId
         self.networkId = networkId
@@ -2748,8 +2659,7 @@ public struct VoteOnProposalInput: Swift.Sendable {
         proposalId: Swift.String? = nil,
         vote: ManagedBlockchainClientTypes.VoteValue? = nil,
         voterMemberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.networkId = networkId
         self.proposalId = proposalId
         self.vote = vote

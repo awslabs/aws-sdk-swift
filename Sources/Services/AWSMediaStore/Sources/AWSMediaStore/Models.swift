@@ -118,8 +118,7 @@ extension MediaStoreClientTypes {
             endpoint: Swift.String? = nil,
             name: Swift.String? = nil,
             status: MediaStoreClientTypes.ContainerStatus? = nil
-        )
-        {
+        ) {
             self.accessLoggingEnabled = accessLoggingEnabled
             self.arn = arn
             self.creationTime = creationTime
@@ -131,9 +130,9 @@ extension MediaStoreClientTypes {
 }
 
 /// The container that you specified in the request already exists or is being updated.
-public struct ContainerInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ContainerInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -148,8 +147,7 @@ public struct ContainerInUseException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -184,9 +182,9 @@ extension MediaStoreClientTypes {
 }
 
 /// The container that you specified in the request does not exist.
-public struct ContainerNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ContainerNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -201,8 +199,7 @@ public struct ContainerNotFoundException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -230,8 +227,7 @@ extension MediaStoreClientTypes {
             allowedOrigins: [Swift.String]? = nil,
             exposeHeaders: [Swift.String]? = nil,
             maxAgeSeconds: Swift.Int = 0
-        )
-        {
+        ) {
             self.allowedHeaders = allowedHeaders
             self.allowedMethods = allowedMethods
             self.allowedOrigins = allowedOrigins
@@ -242,9 +238,9 @@ extension MediaStoreClientTypes {
 }
 
 /// The CORS policy that you specified in the request does not exist.
-public struct CorsPolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CorsPolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -259,16 +255,15 @@ public struct CorsPolicyNotFoundException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The service is temporarily unavailable.
-public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -283,16 +278,15 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A service limit has been exceeded.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -307,8 +301,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -326,8 +319,7 @@ extension MediaStoreClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -344,8 +336,7 @@ public struct CreateContainerInput: Swift.Sendable {
     public init(
         containerName: Swift.String? = nil,
         tags: [MediaStoreClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.containerName = containerName
         self.tags = tags
     }
@@ -358,8 +349,7 @@ public struct CreateContainerOutput: Swift.Sendable {
 
     public init(
         container: MediaStoreClientTypes.Container? = nil
-    )
-    {
+    ) {
         self.container = container
     }
 }
@@ -371,8 +361,7 @@ public struct DeleteContainerInput: Swift.Sendable {
 
     public init(
         containerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerName = containerName
     }
 }
@@ -383,9 +372,9 @@ public struct DeleteContainerOutput: Swift.Sendable {
 }
 
 /// The policy that you specified in the request does not exist.
-public struct PolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -400,8 +389,7 @@ public struct PolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -413,8 +401,7 @@ public struct DeleteContainerPolicyInput: Swift.Sendable {
 
     public init(
         containerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerName = containerName
     }
 }
@@ -431,8 +418,7 @@ public struct DeleteCorsPolicyInput: Swift.Sendable {
 
     public init(
         containerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerName = containerName
     }
 }
@@ -449,8 +435,7 @@ public struct DeleteLifecyclePolicyInput: Swift.Sendable {
 
     public init(
         containerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerName = containerName
     }
 }
@@ -467,8 +452,7 @@ public struct DeleteMetricPolicyInput: Swift.Sendable {
 
     public init(
         containerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerName = containerName
     }
 }
@@ -484,8 +468,7 @@ public struct DescribeContainerInput: Swift.Sendable {
 
     public init(
         containerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerName = containerName
     }
 }
@@ -496,8 +479,7 @@ public struct DescribeContainerOutput: Swift.Sendable {
 
     public init(
         container: MediaStoreClientTypes.Container? = nil
-    )
-    {
+    ) {
         self.container = container
     }
 }
@@ -509,8 +491,7 @@ public struct GetContainerPolicyInput: Swift.Sendable {
 
     public init(
         containerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerName = containerName
     }
 }
@@ -522,8 +503,7 @@ public struct GetContainerPolicyOutput: Swift.Sendable {
 
     public init(
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -535,8 +515,7 @@ public struct GetCorsPolicyInput: Swift.Sendable {
 
     public init(
         containerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerName = containerName
     }
 }
@@ -548,8 +527,7 @@ public struct GetCorsPolicyOutput: Swift.Sendable {
 
     public init(
         corsPolicy: [MediaStoreClientTypes.CorsRule]? = nil
-    )
-    {
+    ) {
         self.corsPolicy = corsPolicy
     }
 }
@@ -561,8 +539,7 @@ public struct GetLifecyclePolicyInput: Swift.Sendable {
 
     public init(
         containerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerName = containerName
     }
 }
@@ -574,8 +551,7 @@ public struct GetLifecyclePolicyOutput: Swift.Sendable {
 
     public init(
         lifecyclePolicy: Swift.String? = nil
-    )
-    {
+    ) {
         self.lifecyclePolicy = lifecyclePolicy
     }
 }
@@ -587,8 +563,7 @@ public struct GetMetricPolicyInput: Swift.Sendable {
 
     public init(
         containerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerName = containerName
     }
 }
@@ -607,8 +582,7 @@ extension MediaStoreClientTypes {
         public init(
             objectGroup: Swift.String? = nil,
             objectGroupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.objectGroup = objectGroup
             self.objectGroupName = objectGroupName
         }
@@ -628,8 +602,7 @@ extension MediaStoreClientTypes {
         public init(
             containerLevelMetrics: MediaStoreClientTypes.ContainerLevelMetrics? = nil,
             metricPolicyRules: [MediaStoreClientTypes.MetricPolicyRule]? = nil
-        )
-        {
+        ) {
             self.containerLevelMetrics = containerLevelMetrics
             self.metricPolicyRules = metricPolicyRules
         }
@@ -643,8 +616,7 @@ public struct GetMetricPolicyOutput: Swift.Sendable {
 
     public init(
         metricPolicy: MediaStoreClientTypes.MetricPolicy? = nil
-    )
-    {
+    ) {
         self.metricPolicy = metricPolicy
     }
 }
@@ -658,8 +630,7 @@ public struct ListContainersInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -675,8 +646,7 @@ public struct ListContainersOutput: Swift.Sendable {
     public init(
         containers: [MediaStoreClientTypes.Container]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.containers = containers
         self.nextToken = nextToken
     }
@@ -689,8 +659,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resource: Swift.String? = nil
-    )
-    {
+    ) {
         self.resource = resource
     }
 }
@@ -701,8 +670,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [MediaStoreClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -722,8 +690,7 @@ public struct PutContainerPolicyInput: Swift.Sendable {
     public init(
         containerName: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerName = containerName
         self.policy = policy
     }
@@ -745,8 +712,7 @@ public struct PutCorsPolicyInput: Swift.Sendable {
     public init(
         containerName: Swift.String? = nil,
         corsPolicy: [MediaStoreClientTypes.CorsRule]? = nil
-    )
-    {
+    ) {
         self.containerName = containerName
         self.corsPolicy = corsPolicy
     }
@@ -768,8 +734,7 @@ public struct PutLifecyclePolicyInput: Swift.Sendable {
     public init(
         containerName: Swift.String? = nil,
         lifecyclePolicy: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerName = containerName
         self.lifecyclePolicy = lifecyclePolicy
     }
@@ -795,8 +760,7 @@ public struct PutMetricPolicyInput: Swift.Sendable {
     public init(
         containerName: Swift.String? = nil,
         metricPolicy: MediaStoreClientTypes.MetricPolicy? = nil
-    )
-    {
+    ) {
         self.containerName = containerName
         self.metricPolicy = metricPolicy
     }
@@ -814,8 +778,7 @@ public struct StartAccessLoggingInput: Swift.Sendable {
 
     public init(
         containerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerName = containerName
     }
 }
@@ -832,8 +795,7 @@ public struct StopAccessLoggingInput: Swift.Sendable {
 
     public init(
         containerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.containerName = containerName
     }
 }
@@ -854,8 +816,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resource: Swift.String? = nil,
         tags: [MediaStoreClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resource = resource
         self.tags = tags
     }
@@ -877,8 +838,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resource: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resource = resource
         self.tagKeys = tagKeys
     }

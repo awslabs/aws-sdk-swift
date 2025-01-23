@@ -30,9 +30,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You don't have sufficient permissions to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -47,16 +47,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was throttled because of quota limits.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -72,16 +71,15 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The resource is not valid.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -96,8 +94,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -113,8 +110,7 @@ public struct BatchGetServiceLevelObjectiveBudgetReportInput: Swift.Sendable {
     public init(
         sloIds: [Swift.String]? = nil,
         timestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.sloIds = sloIds
         self.timestamp = timestamp
     }
@@ -142,8 +138,7 @@ extension ApplicationSignalsClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -269,8 +264,7 @@ extension ApplicationSignalsClientTypes {
             duration: Swift.Int? = nil,
             durationUnit: ApplicationSignalsClientTypes.DurationUnit? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.duration = duration
             self.durationUnit = durationUnit
             self.startTime = startTime
@@ -292,8 +286,7 @@ extension ApplicationSignalsClientTypes {
         public init(
             duration: Swift.Int? = nil,
             durationUnit: ApplicationSignalsClientTypes.DurationUnit? = nil
-        )
-        {
+        ) {
             self.duration = duration
             self.durationUnit = durationUnit
         }
@@ -327,8 +320,7 @@ extension ApplicationSignalsClientTypes {
             attainmentGoal: Swift.Double? = nil,
             interval: ApplicationSignalsClientTypes.Interval? = nil,
             warningThreshold: Swift.Double? = nil
-        )
-        {
+        ) {
             self.attainmentGoal = attainmentGoal
             self.interval = interval
             self.warningThreshold = warningThreshold
@@ -414,8 +406,7 @@ extension ApplicationSignalsClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -437,8 +428,7 @@ extension ApplicationSignalsClientTypes {
             dimensions: [ApplicationSignalsClientTypes.Dimension]? = nil,
             metricName: Swift.String? = nil,
             namespace: Swift.String? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.metricName = metricName
             self.namespace = namespace
@@ -571,8 +561,7 @@ extension ApplicationSignalsClientTypes {
             period: Swift.Int? = nil,
             stat: Swift.String? = nil,
             unit: ApplicationSignalsClientTypes.StandardUnit? = nil
-        )
-        {
+        ) {
             self.metric = metric
             self.period = period
             self.stat = stat
@@ -615,8 +604,7 @@ extension ApplicationSignalsClientTypes {
             metricStat: ApplicationSignalsClientTypes.MetricStat? = nil,
             period: Swift.Int? = nil,
             returnData: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.expression = expression
             self.id = id
@@ -673,8 +661,7 @@ extension ApplicationSignalsClientTypes {
             monitoredRequestCountMetric: ApplicationSignalsClientTypes.MonitoredRequestCountMetricDataQueries? = nil,
             operationName: Swift.String? = nil,
             totalRequestCountMetric: [ApplicationSignalsClientTypes.MetricDataQuery]? = nil
-        )
-        {
+        ) {
             self.keyAttributes = keyAttributes
             self.metricType = metricType
             self.monitoredRequestCountMetric = monitoredRequestCountMetric
@@ -700,8 +687,7 @@ extension ApplicationSignalsClientTypes {
             comparisonOperator: ApplicationSignalsClientTypes.ServiceLevelIndicatorComparisonOperator? = nil,
             metricThreshold: Swift.Double? = nil,
             requestBasedSliMetric: ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorMetric? = nil
-        )
-        {
+        ) {
             self.comparisonOperator = comparisonOperator
             self.metricThreshold = metricThreshold
             self.requestBasedSliMetric = requestBasedSliMetric
@@ -738,8 +724,7 @@ extension ApplicationSignalsClientTypes {
             metricDataQueries: [ApplicationSignalsClientTypes.MetricDataQuery]? = nil,
             metricType: ApplicationSignalsClientTypes.ServiceLevelIndicatorMetricType? = nil,
             operationName: Swift.String? = nil
-        )
-        {
+        ) {
             self.keyAttributes = keyAttributes
             self.metricDataQueries = metricDataQueries
             self.metricType = metricType
@@ -766,8 +751,7 @@ extension ApplicationSignalsClientTypes {
             comparisonOperator: ApplicationSignalsClientTypes.ServiceLevelIndicatorComparisonOperator? = nil,
             metricThreshold: Swift.Double? = nil,
             sliMetric: ApplicationSignalsClientTypes.ServiceLevelIndicatorMetric? = nil
-        )
-        {
+        ) {
             self.comparisonOperator = comparisonOperator
             self.metricThreshold = metricThreshold
             self.sliMetric = sliMetric
@@ -828,8 +812,7 @@ extension ApplicationSignalsClientTypes {
             sli: ApplicationSignalsClientTypes.ServiceLevelIndicator? = nil,
             totalBudgetRequests: Swift.Int? = nil,
             totalBudgetSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.attainment = attainment
             self.budgetRequestsRemaining = budgetRequestsRemaining
@@ -861,8 +844,7 @@ public struct BatchGetServiceLevelObjectiveBudgetReportOutput: Swift.Sendable {
         errors: [ApplicationSignalsClientTypes.ServiceLevelObjectiveBudgetReportError]? = nil,
         reports: [ApplicationSignalsClientTypes.ServiceLevelObjectiveBudgetReport]? = nil,
         timestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.reports = reports
         self.timestamp = timestamp
@@ -894,8 +876,7 @@ public struct GetServiceInput: Swift.Sendable {
         endTime: Foundation.Date? = nil,
         keyAttributes: [Swift.String: Swift.String]? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.keyAttributes = keyAttributes
         self.startTime = startTime
@@ -923,8 +904,7 @@ extension ApplicationSignalsClientTypes {
             metricName: Swift.String? = nil,
             metricType: Swift.String? = nil,
             namespace: Swift.String? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.metricName = metricName
             self.metricType = metricType
@@ -1005,8 +985,7 @@ extension ApplicationSignalsClientTypes {
             keyAttributes: [Swift.String: Swift.String]? = nil,
             logGroupReferences: [[Swift.String: Swift.String]]? = nil,
             metricReferences: [ApplicationSignalsClientTypes.MetricReference]? = nil
-        )
-        {
+        ) {
             self.attributeMaps = attributeMaps
             self.keyAttributes = keyAttributes
             self.logGroupReferences = logGroupReferences
@@ -1039,8 +1018,7 @@ public struct GetServiceOutput: Swift.Sendable {
         logGroupReferences: [[Swift.String: Swift.String]]? = nil,
         service: ApplicationSignalsClientTypes.Service? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.logGroupReferences = logGroupReferences
         self.service = service
@@ -1079,8 +1057,7 @@ public struct ListServiceDependenciesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.keyAttributes = keyAttributes
         self.maxResults = maxResults
@@ -1121,8 +1098,7 @@ extension ApplicationSignalsClientTypes {
             dependencyOperationName: Swift.String? = nil,
             metricReferences: [ApplicationSignalsClientTypes.MetricReference]? = nil,
             operationName: Swift.String? = nil
-        )
-        {
+        ) {
             self.dependencyKeyAttributes = dependencyKeyAttributes
             self.dependencyOperationName = dependencyOperationName
             self.metricReferences = metricReferences
@@ -1149,8 +1125,7 @@ public struct ListServiceDependenciesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         serviceDependencies: [ApplicationSignalsClientTypes.ServiceDependency]? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.nextToken = nextToken
         self.serviceDependencies = serviceDependencies
@@ -1189,8 +1164,7 @@ public struct ListServiceDependentsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.keyAttributes = keyAttributes
         self.maxResults = maxResults
@@ -1229,8 +1203,7 @@ extension ApplicationSignalsClientTypes {
             dependentOperationName: Swift.String? = nil,
             metricReferences: [ApplicationSignalsClientTypes.MetricReference]? = nil,
             operationName: Swift.String? = nil
-        )
-        {
+        ) {
             self.dependentKeyAttributes = dependentKeyAttributes
             self.dependentOperationName = dependentOperationName
             self.metricReferences = metricReferences
@@ -1257,8 +1230,7 @@ public struct ListServiceDependentsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         serviceDependents: [ApplicationSignalsClientTypes.ServiceDependent]? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.nextToken = nextToken
         self.serviceDependents = serviceDependents
@@ -1297,8 +1269,7 @@ public struct ListServiceOperationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.keyAttributes = keyAttributes
         self.maxResults = maxResults
@@ -1321,8 +1292,7 @@ extension ApplicationSignalsClientTypes {
         public init(
             metricReferences: [ApplicationSignalsClientTypes.MetricReference]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.metricReferences = metricReferences
             self.name = name
         }
@@ -1347,8 +1317,7 @@ public struct ListServiceOperationsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         serviceOperations: [ApplicationSignalsClientTypes.ServiceOperation]? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.nextToken = nextToken
         self.serviceOperations = serviceOperations
@@ -1373,8 +1342,7 @@ public struct ListServicesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1445,8 +1413,7 @@ extension ApplicationSignalsClientTypes {
             attributeMaps: [[Swift.String: Swift.String]]? = nil,
             keyAttributes: [Swift.String: Swift.String]? = nil,
             metricReferences: [ApplicationSignalsClientTypes.MetricReference]? = nil
-        )
-        {
+        ) {
             self.attributeMaps = attributeMaps
             self.keyAttributes = keyAttributes
             self.metricReferences = metricReferences
@@ -1472,8 +1439,7 @@ public struct ListServicesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         serviceSummaries: [ApplicationSignalsClientTypes.ServiceSummary]? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.nextToken = nextToken
         self.serviceSummaries = serviceSummaries
@@ -1482,9 +1448,9 @@ public struct ListServicesOutput: Swift.Sendable {
 }
 
 /// Resource not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Can't find the resource id.
@@ -1508,8 +1474,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -1523,8 +1488,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1543,8 +1507,7 @@ extension ApplicationSignalsClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1557,16 +1520,15 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [ApplicationSignalsClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
 
 /// This operation attempted to create a resource that already exists.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1582,16 +1544,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This request exceeds a service quota.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1607,8 +1568,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1623,8 +1583,7 @@ extension ApplicationSignalsClientTypes {
 
         public init(
             lookBackWindowMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.lookBackWindowMinutes = lookBackWindowMinutes
         }
     }
@@ -1661,8 +1620,7 @@ extension ApplicationSignalsClientTypes {
             monitoredRequestCountMetric: ApplicationSignalsClientTypes.MonitoredRequestCountMetricDataQueries? = nil,
             operationName: Swift.String? = nil,
             totalRequestCountMetric: [ApplicationSignalsClientTypes.MetricDataQuery]? = nil
-        )
-        {
+        ) {
             self.keyAttributes = keyAttributes
             self.metricType = metricType
             self.monitoredRequestCountMetric = monitoredRequestCountMetric
@@ -1688,8 +1646,7 @@ extension ApplicationSignalsClientTypes {
             comparisonOperator: ApplicationSignalsClientTypes.ServiceLevelIndicatorComparisonOperator? = nil,
             metricThreshold: Swift.Double? = nil,
             requestBasedSliMetricConfig: ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorMetricConfig? = nil
-        )
-        {
+        ) {
             self.comparisonOperator = comparisonOperator
             self.metricThreshold = metricThreshold
             self.requestBasedSliMetricConfig = requestBasedSliMetricConfig
@@ -1731,8 +1688,7 @@ extension ApplicationSignalsClientTypes {
             operationName: Swift.String? = nil,
             periodSeconds: Swift.Int? = nil,
             statistic: Swift.String? = nil
-        )
-        {
+        ) {
             self.keyAttributes = keyAttributes
             self.metricDataQueries = metricDataQueries
             self.metricType = metricType
@@ -1761,8 +1717,7 @@ extension ApplicationSignalsClientTypes {
             comparisonOperator: ApplicationSignalsClientTypes.ServiceLevelIndicatorComparisonOperator? = nil,
             metricThreshold: Swift.Double? = nil,
             sliMetricConfig: ApplicationSignalsClientTypes.ServiceLevelIndicatorMetricConfig? = nil
-        )
-        {
+        ) {
             self.comparisonOperator = comparisonOperator
             self.metricThreshold = metricThreshold
             self.sliMetricConfig = sliMetricConfig
@@ -1795,8 +1750,7 @@ public struct CreateServiceLevelObjectiveInput: Swift.Sendable {
         requestBasedSliConfig: ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorConfig? = nil,
         sliConfig: ApplicationSignalsClientTypes.ServiceLevelIndicatorConfig? = nil,
         tags: [ApplicationSignalsClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.burnRateConfigurations = burnRateConfigurations
         self.description = description
         self.goal = goal
@@ -1848,8 +1802,7 @@ extension ApplicationSignalsClientTypes {
             name: Swift.String? = nil,
             requestBasedSli: ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicator? = nil,
             sli: ApplicationSignalsClientTypes.ServiceLevelIndicator? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.burnRateConfigurations = burnRateConfigurations
             self.createdTime = createdTime
@@ -1871,8 +1824,7 @@ public struct CreateServiceLevelObjectiveOutput: Swift.Sendable {
 
     public init(
         slo: ApplicationSignalsClientTypes.ServiceLevelObjective? = nil
-    )
-    {
+    ) {
         self.slo = slo
     }
 }
@@ -1884,8 +1836,7 @@ public struct DeleteServiceLevelObjectiveInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1902,8 +1853,7 @@ public struct GetServiceLevelObjectiveInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -1915,8 +1865,7 @@ public struct GetServiceLevelObjectiveOutput: Swift.Sendable {
 
     public init(
         slo: ApplicationSignalsClientTypes.ServiceLevelObjective? = nil
-    )
-    {
+    ) {
         self.slo = slo
     }
 }
@@ -1946,8 +1895,7 @@ public struct ListServiceLevelObjectivesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         operationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyAttributes = keyAttributes
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1988,8 +1936,7 @@ extension ApplicationSignalsClientTypes {
             keyAttributes: [Swift.String: Swift.String]? = nil,
             name: Swift.String? = nil,
             operationName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.keyAttributes = keyAttributes
@@ -2008,8 +1955,7 @@ public struct ListServiceLevelObjectivesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sloSummaries: [ApplicationSignalsClientTypes.ServiceLevelObjectiveSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sloSummaries = sloSummaries
     }
@@ -2037,8 +1983,7 @@ public struct UpdateServiceLevelObjectiveInput: Swift.Sendable {
         id: Swift.String? = nil,
         requestBasedSliConfig: ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorConfig? = nil,
         sliConfig: ApplicationSignalsClientTypes.ServiceLevelIndicatorConfig? = nil
-    )
-    {
+    ) {
         self.burnRateConfigurations = burnRateConfigurations
         self.description = description
         self.goal = goal
@@ -2055,8 +2000,7 @@ public struct UpdateServiceLevelObjectiveOutput: Swift.Sendable {
 
     public init(
         slo: ApplicationSignalsClientTypes.ServiceLevelObjective? = nil
-    )
-    {
+    ) {
         self.slo = slo
     }
 }
@@ -2082,8 +2026,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [ApplicationSignalsClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -2105,8 +2048,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

@@ -29,9 +29,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -47,16 +47,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when you start a new import and a previous import is still in progress.
-public struct AccountHasOngoingImportException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccountHasOngoingImportException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -72,16 +71,15 @@ public struct AccountHasOngoingImportException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the specified account is not found or not part of an organization.
-public struct AccountNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccountNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -97,16 +95,15 @@ public struct AccountNotFoundException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the specified account is not registered as the CloudTrail delegated administrator.
-public struct AccountNotRegisteredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccountNotRegisteredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -122,16 +119,15 @@ public struct AccountNotRegisteredException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the account is already registered as the CloudTrail delegated administrator.
-public struct AccountRegisteredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccountRegisteredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -147,16 +143,15 @@ public struct AccountRegisteredException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the specified value of ChannelARN is not valid.
-public struct ChannelARNInvalidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ChannelARNInvalidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -172,16 +167,15 @@ public struct ChannelARNInvalidException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when CloudTrail cannot find the specified channel.
-public struct ChannelNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ChannelNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -197,16 +191,15 @@ public struct ChannelNotFoundException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
-/// This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
-public struct CloudTrailARNInvalidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+/// This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a dashboard ARN: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+public struct CloudTrailARNInvalidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -222,16 +215,15 @@ public struct CloudTrailARNInvalidException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the specified resource is not ready for an operation. This can occur when you try to run an operation on a resource before CloudTrail has time to fully load the resource, or because another operation is modifying the resource. If this exception occurs, wait a few minutes, and then try the operation again.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -247,16 +239,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified event data store ARN is not valid or does not map to an event data store in your account.
-public struct EventDataStoreARNInvalidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EventDataStoreARNInvalidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -272,16 +263,15 @@ public struct EventDataStoreARNInvalidException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified event data store was not found.
-public struct EventDataStoreNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EventDataStoreNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -297,16 +287,15 @@ public struct EventDataStoreNotFoundException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The event data store is inactive.
-public struct InactiveEventDataStoreException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InactiveEventDataStoreException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -322,16 +311,15 @@ public struct InactiveEventDataStoreException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the specified tag key or values are not valid. It can also occur if there are duplicate tags or too many tags on the resource.
-public struct InvalidTagParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTagParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -347,8 +335,7 @@ public struct InvalidTagParameterException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -364,9 +351,9 @@ public struct InvalidTagParameterException: ClientRuntime.ModeledError, AWSClien
 /// * Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid.
 ///
 /// * Not be in IP address format (for example, 192.168.5.4)
-public struct InvalidTrailNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTrailNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -382,16 +369,15 @@ public struct InvalidTrailNameException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the management account does not have a service-linked role.
-public struct NoManagementAccountSLRExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoManagementAccountSLRExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -407,16 +393,15 @@ public struct NoManagementAccountSLRExistsException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the Amazon Web Services account making the request to create or update an organization trail or event data store is not the management account for an organization in Organizations. For more information, see [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html) or [Organization event data stores](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-organizations.html).
-public struct NotOrganizationMasterAccountException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotOrganizationMasterAccountException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -432,16 +417,15 @@ public struct NotOrganizationMasterAccountException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the requested operation is not permitted.
-public struct OperationNotPermittedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OperationNotPermittedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -457,16 +441,15 @@ public struct OperationNotPermittedException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the specified resource is not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -482,16 +465,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the specified resource type is not supported by CloudTrail.
-public struct ResourceTypeNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceTypeNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -507,16 +489,15 @@ public struct ResourceTypeNotSupportedException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
-/// The number of tags per trail, event data store, or channel has exceeded the permitted amount. Currently, the limit is 50.
-public struct TagsLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+/// The number of tags per trail, event data store, dashboard, or channel has exceeded the permitted amount. Currently, the limit is 50.
+public struct TagsLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -532,16 +513,15 @@ public struct TagsLimitExceededException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the requested operation is not supported.
-public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -557,15 +537,14 @@ public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 extension CloudTrailClientTypes {
 
-    /// A custom key-value pair associated with a resource such as a CloudTrail trail, event data store, or channel.
+    /// A custom key-value pair associated with a resource such as a CloudTrail trail, event data store, dashboard, or channel.
     public struct Tag: Swift.Sendable {
         /// The key in a key-value pair. The key must be must be no longer than 128 Unicode characters. The key must be unique for the resource to which it applies.
         /// This member is required.
@@ -576,17 +555,16 @@ extension CloudTrailClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
     }
 }
 
-/// Specifies the tags to add to a trail, event data store, or channel.
+/// Specifies the tags to add to a trail, event data store, dashboard, or channel.
 public struct AddTagsInput: Swift.Sendable {
-    /// Specifies the ARN of the trail, event data store, or channel to which one or more tags will be added. The format of a trail ARN is: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The format of an event data store ARN is: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The format of a channel ARN is: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    /// Specifies the ARN of the trail, event data store, dashboard, or channel to which one or more tags will be added. The format of a trail ARN is: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The format of an event data store ARN is: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The format of a dashboard ARN is: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash The format of a channel ARN is: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// This member is required.
     public var resourceId: Swift.String?
     /// Contains a list of tags, up to a limit of 50
@@ -596,8 +574,7 @@ public struct AddTagsInput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         tagsList: [CloudTrailClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.tagsList = tagsList
     }
@@ -617,60 +594,7 @@ extension CloudTrailClientTypes {
         public var endsWith: [Swift.String]?
         /// An operator that includes events that match the exact value of the event record field specified as the value of Field. This is the only valid operator that you can use with the readOnly, eventCategory, and resources.type fields.
         public var equals: [Swift.String]?
-        /// A field in a CloudTrail event record on which to filter events to be logged. For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or events outside of Amazon Web Services, the field is used only for selecting events as filtering is not supported. For CloudTrail management events, supported fields include eventCategory (required), eventSource, and readOnly. The following additional fields are available for event data stores: eventName, eventType, sessionCredentialFromConsole, and userIdentity.arn. For CloudTrail data events, supported fields include eventCategory (required), resources.type (required), eventName, readOnly, and resources.ARN. The following additional fields are available for event data stores: eventSource, eventType, sessionCredentialFromConsole, and userIdentity.arn. For CloudTrail network activity events, supported fields include eventCategory (required), eventSource (required), eventName, errorCode, and vpcEndpointId. For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or events outside of Amazon Web Services, the only supported field is eventCategory.
-        ///
-        /// * readOnly - This is an optional field that is only used for management events and data events. This field can be set to Equals with a value of true or false. If you do not add this field, CloudTrail logs both read and write events. A value of true logs only read events. A value of false logs only write events.
-        ///
-        /// * eventSource - This field is only used for management events, data events (for event data stores only), and network activity events. For management events for trails, this is an optional field that can be set to NotEqualskms.amazonaws.com to exclude KMS management events, or NotEqualsrdsdata.amazonaws.com to exclude RDS management events. For management and data events for event data stores, you can use it to include or exclude any event source and can use any operator. For network activity events, this is a required field that only uses the Equals operator. Set this field to the event source for which you want to log network activity events. If you want to log network activity events for multiple event sources, you must create a separate field selector for each event source. The following are valid values for network activity events:
-        ///
-        /// * cloudtrail.amazonaws.com
-        ///
-        /// * ec2.amazonaws.com
-        ///
-        /// * kms.amazonaws.com
-        ///
-        /// * secretsmanager.amazonaws.com
-        ///
-        ///
-        ///
-        ///
-        /// * eventName - This is an optional field that is only used for data events, management events (for event data stores only), and network activity events. You can use any operator with eventName. You can use it to ﬁlter in or ﬁlter out specific events. You can have multiple values for this ﬁeld, separated by commas.
-        ///
-        /// * eventCategory - This field is required and must be set to Equals.
-        ///
-        /// * For CloudTrail management events, the value must be Management.
-        ///
-        /// * For CloudTrail data events, the value must be Data.
-        ///
-        /// * For CloudTrail network activity events, the value must be NetworkActivity.
-        ///
-        ///
-        /// The following are used only for event data stores:
-        ///
-        /// * For CloudTrail Insights events, the value must be Insight.
-        ///
-        /// * For Config configuration items, the value must be ConfigurationItem.
-        ///
-        /// * For Audit Manager evidence, the value must be Evidence.
-        ///
-        /// * For events outside of Amazon Web Services, the value must be ActivityAuditLog.
-        ///
-        ///
-        ///
-        ///
-        /// * eventType - This is an optional field available only for event data stores, which is used to filter management and data events on the event type. For information about available event types, see [CloudTrail record contents](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-record-contents.html#ct-event-type) in the CloudTrail user guide.
-        ///
-        /// * errorCode - This ﬁeld is only used to filter CloudTrail network activity events and is optional. This is the error code to filter on. Currently, the only valid errorCode is VpceAccessDenied. errorCode can only use the Equals operator.
-        ///
-        /// * sessionCredentialFromConsole - This is an optional field available only for event data stores, which is used to filter management and data events based on whether the events originated from an Amazon Web Services Management Console session. sessionCredentialFromConsole can only use the Equals and NotEquals operators.
-        ///
-        /// * resources.type - This ﬁeld is required for CloudTrail data events. resources.type can only use the Equals operator. For a list of available resource types for data events, see [Data events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html#logging-data-events) in the CloudTrail User Guide. You can have only one resources.type ﬁeld per selector. To log events on more than one resource type, add another selector.
-        ///
-        /// * resources.ARN - The resources.ARN is an optional field for data events. You can use any operator with resources.ARN, but if you use Equals or NotEquals, the value must exactly match the ARN of a valid resource of the type you've speciﬁed in the template as the value of resources.type. To log all data events for all objects in a specific S3 bucket, use the StartsWith operator, and include only the bucket ARN as the matching value. For information about filtering data events on the resources.ARN field, see [Filtering data events by resources.ARN](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/filtering-data-events.html#filtering-data-events-resourcearn) in the CloudTrail User Guide. You can't use the resources.ARN field to filter resource types that do not have ARNs.
-        ///
-        /// * userIdentity.arn - This is an optional field available only for event data stores, which is used to filter management and data events on the userIdentity ARN. You can use any operator with userIdentity.arn. For more information on the userIdentity element, see [CloudTrail userIdentity element](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-user-identity.html) in the CloudTrail User Guide.
-        ///
-        /// * vpcEndpointId - This ﬁeld is only used to filter CloudTrail network activity events and is optional. This field identifies the VPC endpoint that the request passed through. You can use any operator with vpcEndpointId.
+        /// A field in a CloudTrail event record on which to filter events to be logged. For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or events outside of Amazon Web Services, the field is used only for selecting events as filtering is not supported. For more information, see [AdvancedFieldSelector](https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_AdvancedFieldSelector.html) in the CloudTrailUser Guide.
         /// This member is required.
         public var field: Swift.String?
         /// An operator that excludes events that match the last few characters of the event record field specified as the value of Field.
@@ -690,8 +614,7 @@ extension CloudTrailClientTypes {
             notEquals: [Swift.String]? = nil,
             notStartsWith: [Swift.String]? = nil,
             startsWith: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.endsWith = endsWith
             self.equals = equals
             self.field = field
@@ -705,64 +628,7 @@ extension CloudTrailClientTypes {
 
 extension CloudTrailClientTypes {
 
-    /// Advanced event selectors let you create fine-grained selectors for CloudTrail management, data, and network activity events. They help you control costs by logging only those events that are important to you. For more information about configuring advanced event selectors, see the [Logging data events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html), [Logging network activity events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-network-events-with-cloudtrail.html), and [Logging management events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-management-events-with-cloudtrail.html) topics in the CloudTrail User Guide. You cannot apply both event selectors and advanced event selectors to a trail. Supported CloudTrail event record fields for management events
-    ///
-    /// * eventCategory (required)
-    ///
-    /// * eventSource
-    ///
-    /// * readOnly
-    ///
-    ///
-    /// The following additional fields are available for event data stores:
-    ///
-    /// * eventName
-    ///
-    /// * eventType
-    ///
-    /// * sessionCredentialFromConsole
-    ///
-    /// * userIdentity.arn
-    ///
-    ///
-    /// Supported CloudTrail event record fields for data events
-    ///
-    /// * eventCategory (required)
-    ///
-    /// * resources.type (required)
-    ///
-    /// * readOnly
-    ///
-    /// * eventName
-    ///
-    /// * resources.ARN
-    ///
-    ///
-    /// The following additional fields are available for event data stores:
-    ///
-    /// * eventSource
-    ///
-    /// * eventType
-    ///
-    /// * sessionCredentialFromConsole
-    ///
-    /// * userIdentity.arn
-    ///
-    ///
-    /// Supported CloudTrail event record fields for network activity events Network activity events is in preview release for CloudTrail and is subject to change.
-    ///
-    /// * eventCategory (required)
-    ///
-    /// * eventSource (required)
-    ///
-    /// * eventName
-    ///
-    /// * errorCode - The only valid value for errorCode is VpceAccessDenied.
-    ///
-    /// * vpcEndpointId
-    ///
-    ///
-    /// For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or events outside of Amazon Web Services, the only supported field is eventCategory.
+    /// Advanced event selectors let you create fine-grained selectors for CloudTrail management, data, and network activity events. They help you control costs by logging only those events that are important to you. For more information about configuring advanced event selectors, see the [Logging data events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html), [Logging network activity events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-network-events-with-cloudtrail.html), and [Logging management events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-management-events-with-cloudtrail.html) topics in the CloudTrail User Guide. You cannot apply both event selectors and advanced event selectors to a trail. For information about configurable advanced event selector fields, see [AdvancedEventSelector](https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_AdvancedEventSelector.html) in the CloudTrailUser Guide.
     public struct AdvancedEventSelector: Swift.Sendable {
         /// Contains all selector statements in an advanced event selector.
         /// This member is required.
@@ -773,8 +639,7 @@ extension CloudTrailClientTypes {
         public init(
             fieldSelectors: [CloudTrailClientTypes.AdvancedFieldSelector]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.fieldSelectors = fieldSelectors
             self.name = name
         }
@@ -811,9 +676,9 @@ extension CloudTrailClientTypes {
 }
 
 /// The specified query cannot be canceled because it is in the FINISHED, FAILED, TIMED_OUT, or CANCELLED state.
-public struct InactiveQueryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InactiveQueryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -829,16 +694,15 @@ public struct InactiveQueryException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request includes a parameter that is not valid.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -854,16 +718,15 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The query ID does not exist or does not map to a query.
-public struct QueryIdNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct QueryIdNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -879,8 +742,7 @@ public struct QueryIdNotFoundException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -889,16 +751,19 @@ public struct CancelQueryInput: Swift.Sendable {
     /// The ARN (or the ID suffix of the ARN) of an event data store on which the specified query is running.
     @available(*, deprecated, message: "EventDataStore is no longer required by CancelQueryRequest")
     public var eventDataStore: Swift.String?
+    /// The account ID of the event data store owner.
+    public var eventDataStoreOwnerAccountId: Swift.String?
     /// The ID of the query that you want to cancel. The QueryId comes from the response of a StartQuery operation.
     /// This member is required.
     public var queryId: Swift.String?
 
     public init(
         eventDataStore: Swift.String? = nil,
+        eventDataStoreOwnerAccountId: Swift.String? = nil,
         queryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventDataStore = eventDataStore
+        self.eventDataStoreOwnerAccountId = eventDataStoreOwnerAccountId
         self.queryId = queryId
     }
 }
@@ -945,6 +810,8 @@ extension CloudTrailClientTypes {
 }
 
 public struct CancelQueryOutput: Swift.Sendable {
+    /// The account ID of the event data store owner.
+    public var eventDataStoreOwnerAccountId: Swift.String?
     /// The ID of the canceled query.
     /// This member is required.
     public var queryId: Swift.String?
@@ -953,19 +820,20 @@ public struct CancelQueryOutput: Swift.Sendable {
     public var queryStatus: CloudTrailClientTypes.QueryStatus?
 
     public init(
+        eventDataStoreOwnerAccountId: Swift.String? = nil,
         queryId: Swift.String? = nil,
         queryStatus: CloudTrailClientTypes.QueryStatus? = nil
-    )
-    {
+    ) {
+        self.eventDataStoreOwnerAccountId = eventDataStoreOwnerAccountId
         self.queryId = queryId
         self.queryStatus = queryStatus
     }
 }
 
 /// This exception is thrown when the management account of an organization is registered as the CloudTrail delegated administrator.
-public struct CannotDelegateManagementAccountException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CannotDelegateManagementAccountException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -981,8 +849,7 @@ public struct CannotDelegateManagementAccountException: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -999,8 +866,7 @@ extension CloudTrailClientTypes {
         public init(
             channelArn: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.channelArn = channelArn
             self.name = name
         }
@@ -1008,9 +874,9 @@ extension CloudTrailClientTypes {
 }
 
 /// This exception is thrown when the provided channel already exists.
-public struct ChannelAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ChannelAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1026,16 +892,15 @@ public struct ChannelAlreadyExistsException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the specified event data store cannot yet be deleted because it is in use by a channel.
-public struct ChannelExistsForEDSException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ChannelExistsForEDSException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1051,16 +916,15 @@ public struct ChannelExistsForEDSException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the maximum number of channels limit is exceeded.
-public struct ChannelMaxLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ChannelMaxLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1076,16 +940,15 @@ public struct ChannelMaxLimitExceededException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when event categories of specified event data stores are not valid.
-public struct InvalidEventDataStoreCategoryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidEventDataStoreCategoryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1101,16 +964,15 @@ public struct InvalidEventDataStoreCategoryException: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the specified value of Source is not valid.
-public struct InvalidSourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1126,8 +988,7 @@ public struct InvalidSourceException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1175,8 +1036,7 @@ extension CloudTrailClientTypes {
         public init(
             location: Swift.String? = nil,
             type: CloudTrailClientTypes.DestinationType? = nil
-        )
-        {
+        ) {
             self.location = location
             self.type = type
         }
@@ -1201,8 +1061,7 @@ public struct CreateChannelInput: Swift.Sendable {
         name: Swift.String? = nil,
         source: Swift.String? = nil,
         tags: [CloudTrailClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.destinations = destinations
         self.name = name
         self.source = source
@@ -1228,8 +1087,7 @@ public struct CreateChannelOutput: Swift.Sendable {
         name: Swift.String? = nil,
         source: Swift.String? = nil,
         tags: [CloudTrailClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.destinations = destinations
         self.name = name
@@ -1238,110 +1096,10 @@ public struct CreateChannelOutput: Swift.Sendable {
     }
 }
 
-/// This exception is thrown when trusted access has not been enabled between CloudTrail and Organizations. For more information, see [How to enable or disable trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html#orgs_how-to-enable-disable-trusted-access) in the Organizations User Guide and [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html) in the CloudTrail User Guide.
-public struct CloudTrailAccessNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+/// For the CreateTrailPutInsightSelectors, UpdateTrail, StartQuery, and StartImport operations, this exception is thrown when the policy on the S3 bucket or KMS key does not have sufficient permissions for the operation. For all other operations, this exception is thrown when the policy for the KMS key does not have sufficient permissions for the operation.
+public struct InsufficientEncryptionPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
-        /// Brief description of the exception returned by the request.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "CloudTrailAccessNotEnabled" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
-/// An event data store with that name already exists.
-public struct EventDataStoreAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// Brief description of the exception returned by the request.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "EventDataStoreAlreadyExists" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
-/// Your account has used the maximum number of event data stores.
-public struct EventDataStoreMaxLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// Brief description of the exception returned by the request.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "EventDataStoreMaxLimitExceeded" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
-/// This exception is thrown when the IAM identity that is used to create the organization resource lacks one or more required permissions for creating an organization resource in a required service.
-public struct InsufficientDependencyServiceAccessPermissionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// Brief description of the exception returned by the request.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InsufficientDependencyServiceAccessPermission" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
-/// This exception is thrown when the policy on the S3 bucket or KMS key does not have sufficient permissions for the operation.
-public struct InsufficientEncryptionPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1357,8 +1115,395 @@ public struct InsufficientEncryptionPolicyException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The query that was submitted has validation errors, or uses incorrect syntax or unsupported keywords. For more information about writing a query, see [Create or edit a query](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-create-edit-query.html) in the CloudTrail User Guide.
+public struct InvalidQueryStatementException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidQueryStatement" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// This exception is thrown when the quota is exceeded. For information about CloudTrail quotas, see [Service quotas](https://docs.aws.amazon.com/general/latest/gr/ct.html#limits_cloudtrail) in the Amazon Web Services General Reference.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceeded" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension CloudTrailClientTypes {
+
+    public enum RefreshScheduleFrequencyUnit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case days
+        case hours
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RefreshScheduleFrequencyUnit] {
+            return [
+                .days,
+                .hours
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .days: return "DAYS"
+            case .hours: return "HOURS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudTrailClientTypes {
+
+    /// Specifies the frequency for a dashboard refresh schedule. For a custom dashboard, you can schedule a refresh for every 1, 6, 12, or 24 hours, or every day.
+    public struct RefreshScheduleFrequency: Swift.Sendable {
+        /// The unit to use for the refresh. For custom dashboards, the unit can be HOURS or DAYS. For the Highlights dashboard, the Unit must be HOURS.
+        public var unit: CloudTrailClientTypes.RefreshScheduleFrequencyUnit?
+        /// The value for the refresh schedule. For custom dashboards, the following values are valid when the unit is HOURS: 1, 6, 12, 24 For custom dashboards, the only valid value when the unit is DAYS is 1. For the Highlights dashboard, the Value must be 6.
+        public var value: Swift.Int?
+
+        public init(
+            unit: CloudTrailClientTypes.RefreshScheduleFrequencyUnit? = nil,
+            value: Swift.Int? = nil
+        ) {
+            self.unit = unit
+            self.value = value
+        }
+    }
+}
+
+extension CloudTrailClientTypes {
+
+    public enum RefreshScheduleStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RefreshScheduleStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudTrailClientTypes {
+
+    /// The schedule for a dashboard refresh.
+    public struct RefreshSchedule: Swift.Sendable {
+        /// The frequency at which you want the dashboard refreshed.
+        public var frequency: CloudTrailClientTypes.RefreshScheduleFrequency?
+        /// Specifies whether the refresh schedule is enabled. Set the value to ENABLED to enable the refresh schedule, or to DISABLED to turn off the refresh schedule.
+        public var status: CloudTrailClientTypes.RefreshScheduleStatus?
+        /// The time of day in UTC to run the schedule; for hourly only refer to minutes; default is 00:00.
+        public var timeOfDay: Swift.String?
+
+        public init(
+            frequency: CloudTrailClientTypes.RefreshScheduleFrequency? = nil,
+            status: CloudTrailClientTypes.RefreshScheduleStatus? = nil,
+            timeOfDay: Swift.String? = nil
+        ) {
+            self.frequency = frequency
+            self.status = status
+            self.timeOfDay = timeOfDay
+        }
+    }
+}
+
+extension CloudTrailClientTypes {
+
+    /// Contains information about a widget on a CloudTrail Lake dashboard.
+    public struct RequestWidget: Swift.Sendable {
+        /// The optional query parameters. The following query parameters are valid: $StartTime$, $EndTime$, and $Period$.
+        public var queryParameters: [Swift.String]?
+        /// The query statement for the widget. For custom dashboard widgets, you can query across multiple event data stores as long as all event data stores exist in your account. When a query uses ? with eventTime, ? must be surrounded by single quotes as follows: '?'.
+        /// This member is required.
+        public var queryStatement: Swift.String?
+        /// The view properties for the widget. For more information about view properties, see [ View properties for widgets ](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/lake-widget-properties.html) in the CloudTrail User Guide.
+        /// This member is required.
+        public var viewProperties: [Swift.String: Swift.String]?
+
+        public init(
+            queryParameters: [Swift.String]? = nil,
+            queryStatement: Swift.String? = nil,
+            viewProperties: [Swift.String: Swift.String]? = nil
+        ) {
+            self.queryParameters = queryParameters
+            self.queryStatement = queryStatement
+            self.viewProperties = viewProperties
+        }
+    }
+}
+
+public struct CreateDashboardInput: Swift.Sendable {
+    /// The name of the dashboard. The name must be unique to your account. To create the Highlights dashboard, the name must be AWSCloudTrail-Highlights.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The refresh schedule configuration for the dashboard. To create the Highlights dashboard, you must set a refresh schedule and set the Status to ENABLED. The Unit for the refresh schedule must be HOURS and the Value must be 6.
+    public var refreshSchedule: CloudTrailClientTypes.RefreshSchedule?
+    /// A list of tags.
+    public var tagsList: [CloudTrailClientTypes.Tag]?
+    /// Specifies whether termination protection is enabled for the dashboard. If termination protection is enabled, you cannot delete the dashboard until termination protection is disabled.
+    public var terminationProtectionEnabled: Swift.Bool?
+    /// An array of widgets for a custom dashboard. A custom dashboard can have a maximum of ten widgets. You do not need to specify widgets for the Highlights dashboard.
+    public var widgets: [CloudTrailClientTypes.RequestWidget]?
+
+    public init(
+        name: Swift.String? = nil,
+        refreshSchedule: CloudTrailClientTypes.RefreshSchedule? = nil,
+        tagsList: [CloudTrailClientTypes.Tag]? = nil,
+        terminationProtectionEnabled: Swift.Bool? = nil,
+        widgets: [CloudTrailClientTypes.RequestWidget]? = nil
+    ) {
+        self.name = name
+        self.refreshSchedule = refreshSchedule
+        self.tagsList = tagsList
+        self.terminationProtectionEnabled = terminationProtectionEnabled
+        self.widgets = widgets
+    }
+}
+
+extension CloudTrailClientTypes {
+
+    public enum DashboardType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case custom
+        case managed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DashboardType] {
+            return [
+                .custom,
+                .managed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .custom: return "CUSTOM"
+            case .managed: return "MANAGED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudTrailClientTypes {
+
+    /// A widget on a CloudTrail Lake dashboard.
+    public struct Widget: Swift.Sendable {
+        /// The query alias used to identify the query for the widget.
+        public var queryAlias: Swift.String?
+        /// The query parameters for the widget.
+        public var queryParameters: [Swift.String]?
+        /// The SQL query statement for the widget.
+        public var queryStatement: Swift.String?
+        /// The view properties for the widget. For more information about view properties, see [ View properties for widgets ](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/lake-widget-properties.html) in the CloudTrail User Guide..
+        public var viewProperties: [Swift.String: Swift.String]?
+
+        public init(
+            queryAlias: Swift.String? = nil,
+            queryParameters: [Swift.String]? = nil,
+            queryStatement: Swift.String? = nil,
+            viewProperties: [Swift.String: Swift.String]? = nil
+        ) {
+            self.queryAlias = queryAlias
+            self.queryParameters = queryParameters
+            self.queryStatement = queryStatement
+            self.viewProperties = viewProperties
+        }
+    }
+}
+
+public struct CreateDashboardOutput: Swift.Sendable {
+    /// The ARN for the dashboard.
+    public var dashboardArn: Swift.String?
+    /// The name of the dashboard.
+    public var name: Swift.String?
+    /// The refresh schedule for the dashboard, if configured.
+    public var refreshSchedule: CloudTrailClientTypes.RefreshSchedule?
+    /// A list of tags.
+    public var tagsList: [CloudTrailClientTypes.Tag]?
+    /// Indicates whether termination protection is enabled for the dashboard.
+    public var terminationProtectionEnabled: Swift.Bool?
+    /// The dashboard type.
+    public var type: CloudTrailClientTypes.DashboardType?
+    /// An array of widgets for the dashboard.
+    public var widgets: [CloudTrailClientTypes.Widget]?
+
+    public init(
+        dashboardArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        refreshSchedule: CloudTrailClientTypes.RefreshSchedule? = nil,
+        tagsList: [CloudTrailClientTypes.Tag]? = nil,
+        terminationProtectionEnabled: Swift.Bool? = nil,
+        type: CloudTrailClientTypes.DashboardType? = nil,
+        widgets: [CloudTrailClientTypes.Widget]? = nil
+    ) {
+        self.dashboardArn = dashboardArn
+        self.name = name
+        self.refreshSchedule = refreshSchedule
+        self.tagsList = tagsList
+        self.terminationProtectionEnabled = terminationProtectionEnabled
+        self.type = type
+        self.widgets = widgets
+    }
+}
+
+/// This exception is thrown when trusted access has not been enabled between CloudTrail and Organizations. For more information, see [How to enable or disable trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html#orgs_how-to-enable-disable-trusted-access) in the Organizations User Guide and [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html) in the CloudTrail User Guide.
+public struct CloudTrailAccessNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CloudTrailAccessNotEnabled" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// An event data store with that name already exists.
+public struct EventDataStoreAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "EventDataStoreAlreadyExists" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// Your account has used the maximum number of event data stores.
+public struct EventDataStoreMaxLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "EventDataStoreMaxLimitExceeded" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// This exception is thrown when the IAM identity that is used to create the organization resource lacks one or more required permissions for creating an organization resource in a required service.
+public struct InsufficientDependencyServiceAccessPermissionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InsufficientDependencyServiceAccessPermission" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
         self.properties.message = message
     }
 }
@@ -1372,9 +1517,9 @@ public struct InsufficientEncryptionPolicyException: ClientRuntime.ModeledError,
 /// * Specify up to 500 values for all conditions in all advanced event selectors for a trail.
 ///
 /// * Specify a valid value for a parameter. For example, specifying the ReadWriteType parameter with a value of read-only is not valid.
-public struct InvalidEventSelectorsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidEventSelectorsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1390,16 +1535,15 @@ public struct InvalidEventSelectorsException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the KMS key ARN is not valid.
-public struct InvalidKmsKeyIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidKmsKeyIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1415,16 +1559,15 @@ public struct InvalidKmsKeyIdException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when there is an issue with the specified KMS key and the trail or event data store can't be updated.
-public struct KmsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KmsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1440,16 +1583,15 @@ public struct KmsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the KMS key does not exist, when the S3 bucket and the KMS key are not in the same Region, or when the KMS key associated with the Amazon SNS topic either does not exist or is not in the same Region.
-public struct KmsKeyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KmsKeyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1465,16 +1607,15 @@ public struct KmsKeyNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when Organizations is not configured to support all features. All features must be enabled in Organizations to support creating an organization trail or event data store.
-public struct OrganizationNotInAllFeaturesModeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OrganizationNotInAllFeaturesModeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1490,16 +1631,15 @@ public struct OrganizationNotInAllFeaturesModeException: ClientRuntime.ModeledEr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the request is made from an Amazon Web Services account that is not a member of an organization. To make this request, sign in using the credentials of an account that belongs to an organization.
-public struct OrganizationsNotInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OrganizationsNotInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1515,8 +1655,7 @@ public struct OrganizationsNotInUseException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1570,8 +1709,7 @@ public struct CreateEventDataStoreInput: Swift.Sendable {
         startIngestion: Swift.Bool? = nil,
         tagsList: [CloudTrailClientTypes.Tag]? = nil,
         terminationProtectionEnabled: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.advancedEventSelectors = advancedEventSelectors
         self.billingMode = billingMode
         self.kmsKeyId = kmsKeyId
@@ -1668,8 +1806,7 @@ public struct CreateEventDataStoreOutput: Swift.Sendable {
         tagsList: [CloudTrailClientTypes.Tag]? = nil,
         terminationProtectionEnabled: Swift.Bool? = nil,
         updatedTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.advancedEventSelectors = advancedEventSelectors
         self.billingMode = billingMode
         self.createdTimestamp = createdTimestamp
@@ -1687,9 +1824,9 @@ public struct CreateEventDataStoreOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when a call results in the InvalidClientTokenId error code. This can occur when you are creating or updating a trail to send notifications to an Amazon SNS topic that is in a suspended Amazon Web Services account.
-public struct CloudTrailInvalidClientTokenIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CloudTrailInvalidClientTokenIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1705,16 +1842,15 @@ public struct CloudTrailInvalidClientTokenIdException: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Cannot set a CloudWatch Logs delivery for this Region.
-public struct CloudWatchLogsDeliveryUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CloudWatchLogsDeliveryUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1730,16 +1866,15 @@ public struct CloudWatchLogsDeliveryUnavailableException: ClientRuntime.ModeledE
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the policy on the S3 bucket is not sufficient.
-public struct InsufficientS3BucketPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientS3BucketPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1755,16 +1890,15 @@ public struct InsufficientS3BucketPolicyException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the policy on the Amazon SNS topic is not sufficient.
-public struct InsufficientSnsTopicPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientSnsTopicPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1780,16 +1914,15 @@ public struct InsufficientSnsTopicPolicyException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the provided CloudWatch Logs log group is not valid.
-public struct InvalidCloudWatchLogsLogGroupArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidCloudWatchLogsLogGroupArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1805,16 +1938,15 @@ public struct InvalidCloudWatchLogsLogGroupArnException: ClientRuntime.ModeledEr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the provided role is not valid.
-public struct InvalidCloudWatchLogsRoleArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidCloudWatchLogsRoleArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1830,16 +1962,15 @@ public struct InvalidCloudWatchLogsRoleArnException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the combination of parameters provided is not valid.
-public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1855,16 +1986,15 @@ public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the provided S3 bucket name is not valid.
-public struct InvalidS3BucketNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidS3BucketNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1880,16 +2010,15 @@ public struct InvalidS3BucketNameException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the provided S3 prefix is not valid.
-public struct InvalidS3PrefixException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidS3PrefixException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1905,16 +2034,15 @@ public struct InvalidS3PrefixException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the provided SNS topic name is not valid.
-public struct InvalidSnsTopicNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSnsTopicNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1930,17 +2058,16 @@ public struct InvalidSnsTopicNameException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is no longer in use.
 @available(*, deprecated)
-public struct KmsKeyDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KmsKeyDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1956,16 +2083,15 @@ public struct KmsKeyDisabledException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the maximum number of trails is reached.
-public struct MaximumNumberOfTrailsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MaximumNumberOfTrailsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1981,16 +2107,15 @@ public struct MaximumNumberOfTrailsExceededException: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the specified S3 bucket does not exist.
-public struct S3BucketDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct S3BucketDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2006,16 +2131,15 @@ public struct S3BucketDoesNotExistException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the request rate exceeds the limit.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2031,16 +2155,15 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the specified trail already exists.
-public struct TrailAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TrailAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2056,16 +2179,15 @@ public struct TrailAlreadyExistsException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is no longer in use.
-public struct TrailNotProvidedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TrailNotProvidedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2081,8 +2203,7 @@ public struct TrailNotProvidedException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2147,8 +2268,7 @@ public struct CreateTrailInput: Swift.Sendable {
         s3KeyPrefix: Swift.String? = nil,
         snsTopicName: Swift.String? = nil,
         tagsList: [CloudTrailClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
         self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
         self.enableLogFileValidation = enableLogFileValidation
@@ -2208,8 +2328,7 @@ public struct CreateTrailOutput: Swift.Sendable {
         snsTopicARN: Swift.String? = nil,
         snsTopicName: Swift.String? = nil,
         trailARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
         self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
         self.includeGlobalServiceEvents = includeGlobalServiceEvents
@@ -2233,8 +2352,7 @@ public struct DeleteChannelInput: Swift.Sendable {
 
     public init(
         channel: Swift.String? = nil
-    )
-    {
+    ) {
         self.channel = channel
     }
 }
@@ -2244,10 +2362,27 @@ public struct DeleteChannelOutput: Swift.Sendable {
     public init() { }
 }
 
-/// You cannot delete the event data store because Lake query federation is enabled. To delete the event data store, run the DisableFederation operation to disable Lake query federation on the event data store.
-public struct EventDataStoreFederationEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DeleteDashboardInput: Swift.Sendable {
+    /// The name or ARN for the dashboard.
+    /// This member is required.
+    public var dashboardId: Swift.String?
 
-    public struct Properties {
+    public init(
+        dashboardId: Swift.String? = nil
+    ) {
+        self.dashboardId = dashboardId
+    }
+}
+
+public struct DeleteDashboardOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// You cannot delete the event data store because Lake query federation is enabled. To delete the event data store, run the DisableFederation operation to disable Lake query federation on the event data store.
+public struct EventDataStoreFederationEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2263,16 +2398,15 @@ public struct EventDataStoreFederationEnabledException: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when you try to update or delete an event data store that currently has an import in progress.
-public struct EventDataStoreHasOngoingImportException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EventDataStoreHasOngoingImportException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2288,16 +2422,15 @@ public struct EventDataStoreHasOngoingImportException: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The event data store cannot be deleted because termination protection is enabled for it.
-public struct EventDataStoreTerminationProtectedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EventDataStoreTerminationProtectedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2313,8 +2446,7 @@ public struct EventDataStoreTerminationProtectedException: ClientRuntime.Modeled
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2326,8 +2458,7 @@ public struct DeleteEventDataStoreInput: Swift.Sendable {
 
     public init(
         eventDataStore: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventDataStore = eventDataStore
     }
 }
@@ -2337,10 +2468,10 @@ public struct DeleteEventDataStoreOutput: Swift.Sendable {
     public init() { }
 }
 
-/// This exception is thrown when the provided resource does not exist, or the ARN format of the resource is not valid. The following is the valid format for a resource ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
-public struct ResourceARNNotValidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+/// This exception is thrown when the provided resource does not exist, or the ARN format of the resource is not valid. The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a dashboard ARN: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+public struct ResourceARNNotValidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2356,16 +2487,15 @@ public struct ResourceARNNotValidException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the specified resource policy is not found.
-public struct ResourcePolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourcePolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2381,21 +2511,19 @@ public struct ResourcePolicyNotFoundException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 public struct DeleteResourcePolicyInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the CloudTrail channel you're deleting the resource-based policy from. The following is the format of a resource ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
+    /// The Amazon Resource Name (ARN) of the CloudTrail event data store, dashboard, or channel you're deleting the resource-based policy from. Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE Example dashboard ARN format: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// This member is required.
     public var resourceArn: Swift.String?
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2406,9 +2534,9 @@ public struct DeleteResourcePolicyOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when an operation is called on a trail from a Region other than the Region in which the trail was created.
-public struct InvalidHomeRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidHomeRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2424,16 +2552,15 @@ public struct InvalidHomeRegionException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This exception is thrown when the trail with the given name is not found.
-public struct TrailNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TrailNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2449,8 +2576,7 @@ public struct TrailNotFoundException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2463,8 +2589,7 @@ public struct DeleteTrailInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2476,9 +2601,9 @@ public struct DeleteTrailOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when the account making the request is not the organization's management account.
-public struct NotOrganizationManagementAccountException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotOrganizationManagementAccountException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2494,8 +2619,7 @@ public struct NotOrganizationManagementAccountException: ClientRuntime.ModeledEr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2508,8 +2632,7 @@ public struct DeregisterOrganizationDelegatedAdminInput: Swift.Sendable {
 
     public init(
         delegatedAdminAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.delegatedAdminAccountId = delegatedAdminAccountId
     }
 }
@@ -2524,20 +2647,27 @@ public struct DescribeQueryInput: Swift.Sendable {
     /// The ARN (or the ID suffix of the ARN) of an event data store on which the specified query was run.
     @available(*, deprecated, message: "EventDataStore is no longer required by DescribeQueryRequest")
     public var eventDataStore: Swift.String?
+    /// The account ID of the event data store owner.
+    public var eventDataStoreOwnerAccountId: Swift.String?
     /// The alias that identifies a query template.
     public var queryAlias: Swift.String?
     /// The query ID.
     public var queryId: Swift.String?
+    /// The ID of the dashboard refresh.
+    public var refreshId: Swift.String?
 
     public init(
         eventDataStore: Swift.String? = nil,
+        eventDataStoreOwnerAccountId: Swift.String? = nil,
         queryAlias: Swift.String? = nil,
-        queryId: Swift.String? = nil
-    )
-    {
+        queryId: Swift.String? = nil,
+        refreshId: Swift.String? = nil
+    ) {
         self.eventDataStore = eventDataStore
+        self.eventDataStoreOwnerAccountId = eventDataStoreOwnerAccountId
         self.queryAlias = queryAlias
         self.queryId = queryId
+        self.refreshId = refreshId
     }
 }
 
@@ -2612,8 +2742,7 @@ extension CloudTrailClientTypes {
             eventsMatched: Swift.Int? = nil,
             eventsScanned: Swift.Int? = nil,
             executionTimeInMillis: Swift.Int? = nil
-        )
-        {
+        ) {
             self.bytesScanned = bytesScanned
             self.creationTime = creationTime
             self.eventsMatched = eventsMatched
@@ -2630,6 +2759,8 @@ public struct DescribeQueryOutput: Swift.Sendable {
     public var deliveryStatus: CloudTrailClientTypes.DeliveryStatus?
     /// The error message returned if a query failed.
     public var errorMessage: Swift.String?
+    /// The account ID of the event data store owner.
+    public var eventDataStoreOwnerAccountId: Swift.String?
     /// The prompt used for a generated query. For information about generated queries, see [Create CloudTrail Lake queries from natural language prompts](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/lake-query-generator.html) in the CloudTrail user guide.
     public var prompt: Swift.String?
     /// The ID of the query.
@@ -2645,16 +2776,17 @@ public struct DescribeQueryOutput: Swift.Sendable {
         deliveryS3Uri: Swift.String? = nil,
         deliveryStatus: CloudTrailClientTypes.DeliveryStatus? = nil,
         errorMessage: Swift.String? = nil,
+        eventDataStoreOwnerAccountId: Swift.String? = nil,
         prompt: Swift.String? = nil,
         queryId: Swift.String? = nil,
         queryStatistics: CloudTrailClientTypes.QueryStatisticsForDescribeQuery? = nil,
         queryStatus: CloudTrailClientTypes.QueryStatus? = nil,
         queryString: Swift.String? = nil
-    )
-    {
+    ) {
         self.deliveryS3Uri = deliveryS3Uri
         self.deliveryStatus = deliveryStatus
         self.errorMessage = errorMessage
+        self.eventDataStoreOwnerAccountId = eventDataStoreOwnerAccountId
         self.prompt = prompt
         self.queryId = queryId
         self.queryStatistics = queryStatistics
@@ -2680,8 +2812,7 @@ public struct DescribeTrailsInput: Swift.Sendable {
     public init(
         includeShadowTrails: Swift.Bool? = nil,
         trailNameList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.includeShadowTrails = includeShadowTrails
         self.trailNameList = trailNameList
     }
@@ -2742,8 +2873,7 @@ extension CloudTrailClientTypes {
             snsTopicARN: Swift.String? = nil,
             snsTopicName: Swift.String? = nil,
             trailARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
             self.hasCustomEventSelectors = hasCustomEventSelectors
@@ -2771,16 +2901,15 @@ public struct DescribeTrailsOutput: Swift.Sendable {
 
     public init(
         trailList: [CloudTrailClientTypes.Trail]? = nil
-    )
-    {
+    ) {
         self.trailList = trailList
     }
 }
 
 /// You are trying to update a resource when another request is in progress. Allow sufficient wait time for the previous request to complete, then retry your request.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2796,8 +2925,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2809,8 +2937,7 @@ public struct DisableFederationInput: Swift.Sendable {
 
     public init(
         eventDataStore: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventDataStore = eventDataStore
     }
 }
@@ -2859,8 +2986,7 @@ public struct DisableFederationOutput: Swift.Sendable {
     public init(
         eventDataStoreArn: Swift.String? = nil,
         federationStatus: CloudTrailClientTypes.FederationStatus? = nil
-    )
-    {
+    ) {
         self.eventDataStoreArn = eventDataStoreArn
         self.federationStatus = federationStatus
     }
@@ -2877,8 +3003,7 @@ public struct EnableFederationInput: Swift.Sendable {
     public init(
         eventDataStore: Swift.String? = nil,
         federationRoleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventDataStore = eventDataStore
         self.federationRoleArn = federationRoleArn
     }
@@ -2896,8 +3021,7 @@ public struct EnableFederationOutput: Swift.Sendable {
         eventDataStoreArn: Swift.String? = nil,
         federationRoleArn: Swift.String? = nil,
         federationStatus: CloudTrailClientTypes.FederationStatus? = nil
-    )
-    {
+    ) {
         self.eventDataStoreArn = eventDataStoreArn
         self.federationRoleArn = federationRoleArn
         self.federationStatus = federationStatus
@@ -2905,9 +3029,9 @@ public struct EnableFederationOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when a valid query could not be generated for the provided prompt.
-public struct GenerateResponseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GenerateResponseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2923,8 +3047,7 @@ public struct GenerateResponseException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2940,24 +3063,26 @@ public struct GenerateQueryInput: Swift.Sendable {
     public init(
         eventDataStores: [Swift.String]? = nil,
         prompt: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventDataStores = eventDataStores
         self.prompt = prompt
     }
 }
 
 public struct GenerateQueryOutput: Swift.Sendable {
+    /// The account ID of the event data store owner.
+    public var eventDataStoreOwnerAccountId: Swift.String?
     /// An alias that identifies the prompt. When you run the StartQuery operation, you can pass in either the QueryAlias or QueryStatement parameter.
     public var queryAlias: Swift.String?
     /// The SQL query statement generated from the prompt.
     public var queryStatement: Swift.String?
 
     public init(
+        eventDataStoreOwnerAccountId: Swift.String? = nil,
         queryAlias: Swift.String? = nil,
         queryStatement: Swift.String? = nil
-    )
-    {
+    ) {
+        self.eventDataStoreOwnerAccountId = eventDataStoreOwnerAccountId
         self.queryAlias = queryAlias
         self.queryStatement = queryStatement
     }
@@ -2970,8 +3095,7 @@ public struct GetChannelInput: Swift.Sendable {
 
     public init(
         channel: Swift.String? = nil
-    )
-    {
+    ) {
         self.channel = channel
     }
 }
@@ -2997,8 +3121,7 @@ extension CloudTrailClientTypes {
             latestIngestionErrorCode: Swift.String? = nil,
             latestIngestionSuccessEventID: Swift.String? = nil,
             latestIngestionSuccessTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.latestIngestionAttemptEventID = latestIngestionAttemptEventID
             self.latestIngestionAttemptTime = latestIngestionAttemptTime
             self.latestIngestionErrorCode = latestIngestionErrorCode
@@ -3020,8 +3143,7 @@ extension CloudTrailClientTypes {
         public init(
             advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]? = nil,
             applyToAllRegions: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.advancedEventSelectors = advancedEventSelectors
             self.applyToAllRegions = applyToAllRegions
         }
@@ -3049,14 +3171,110 @@ public struct GetChannelOutput: Swift.Sendable {
         name: Swift.String? = nil,
         source: Swift.String? = nil,
         sourceConfig: CloudTrailClientTypes.SourceConfig? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.destinations = destinations
         self.ingestionStatus = ingestionStatus
         self.name = name
         self.source = source
         self.sourceConfig = sourceConfig
+    }
+}
+
+public struct GetDashboardInput: Swift.Sendable {
+    /// The name or ARN for the dashboard.
+    /// This member is required.
+    public var dashboardId: Swift.String?
+
+    public init(
+        dashboardId: Swift.String? = nil
+    ) {
+        self.dashboardId = dashboardId
+    }
+}
+
+extension CloudTrailClientTypes {
+
+    public enum DashboardStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case created
+        case creating
+        case deleting
+        case updated
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DashboardStatus] {
+            return [
+                .created,
+                .creating,
+                .deleting,
+                .updated,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .created: return "CREATED"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .updated: return "UPDATED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetDashboardOutput: Swift.Sendable {
+    /// The timestamp that shows when the dashboard was created.
+    public var createdTimestamp: Foundation.Date?
+    /// The ARN for the dashboard.
+    public var dashboardArn: Swift.String?
+    /// Provides information about failures for the last scheduled refresh.
+    public var lastRefreshFailureReason: Swift.String?
+    /// The ID of the last dashboard refresh.
+    public var lastRefreshId: Swift.String?
+    /// The refresh schedule for the dashboard, if configured.
+    public var refreshSchedule: CloudTrailClientTypes.RefreshSchedule?
+    /// The status of the dashboard.
+    public var status: CloudTrailClientTypes.DashboardStatus?
+    /// Indicates whether termination protection is enabled for the dashboard.
+    public var terminationProtectionEnabled: Swift.Bool?
+    /// The type of dashboard.
+    public var type: CloudTrailClientTypes.DashboardType?
+    /// The timestamp that shows when the dashboard was last updated.
+    public var updatedTimestamp: Foundation.Date?
+    /// An array of widgets for the dashboard.
+    public var widgets: [CloudTrailClientTypes.Widget]?
+
+    public init(
+        createdTimestamp: Foundation.Date? = nil,
+        dashboardArn: Swift.String? = nil,
+        lastRefreshFailureReason: Swift.String? = nil,
+        lastRefreshId: Swift.String? = nil,
+        refreshSchedule: CloudTrailClientTypes.RefreshSchedule? = nil,
+        status: CloudTrailClientTypes.DashboardStatus? = nil,
+        terminationProtectionEnabled: Swift.Bool? = nil,
+        type: CloudTrailClientTypes.DashboardType? = nil,
+        updatedTimestamp: Foundation.Date? = nil,
+        widgets: [CloudTrailClientTypes.Widget]? = nil
+    ) {
+        self.createdTimestamp = createdTimestamp
+        self.dashboardArn = dashboardArn
+        self.lastRefreshFailureReason = lastRefreshFailureReason
+        self.lastRefreshId = lastRefreshId
+        self.refreshSchedule = refreshSchedule
+        self.status = status
+        self.terminationProtectionEnabled = terminationProtectionEnabled
+        self.type = type
+        self.updatedTimestamp = updatedTimestamp
+        self.widgets = widgets
     }
 }
 
@@ -3067,8 +3285,7 @@ public struct GetEventDataStoreInput: Swift.Sendable {
 
     public init(
         eventDataStore: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventDataStore = eventDataStore
     }
 }
@@ -3087,8 +3304,7 @@ extension CloudTrailClientTypes {
         public init(
             name: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
         }
@@ -3143,8 +3359,7 @@ public struct GetEventDataStoreOutput: Swift.Sendable {
         status: CloudTrailClientTypes.EventDataStoreStatus? = nil,
         terminationProtectionEnabled: Swift.Bool? = nil,
         updatedTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.advancedEventSelectors = advancedEventSelectors
         self.billingMode = billingMode
         self.createdTimestamp = createdTimestamp
@@ -3183,8 +3398,7 @@ public struct GetEventSelectorsInput: Swift.Sendable {
 
     public init(
         trailName: Swift.String? = nil
-    )
-    {
+    ) {
         self.trailName = trailName
     }
 }
@@ -3248,8 +3462,7 @@ extension CloudTrailClientTypes {
         public init(
             type: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.type = type
             self.values = values
         }
@@ -3306,8 +3519,7 @@ extension CloudTrailClientTypes {
             excludeManagementEventSources: [Swift.String]? = nil,
             includeManagementEvents: Swift.Bool? = nil,
             readWriteType: CloudTrailClientTypes.ReadWriteType? = nil
-        )
-        {
+        ) {
             self.dataResources = dataResources
             self.excludeManagementEventSources = excludeManagementEventSources
             self.includeManagementEvents = includeManagementEvents
@@ -3328,8 +3540,7 @@ public struct GetEventSelectorsOutput: Swift.Sendable {
         advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]? = nil,
         eventSelectors: [CloudTrailClientTypes.EventSelector]? = nil,
         trailARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.advancedEventSelectors = advancedEventSelectors
         self.eventSelectors = eventSelectors
         self.trailARN = trailARN
@@ -3337,9 +3548,9 @@ public struct GetEventSelectorsOutput: Swift.Sendable {
 }
 
 /// The specified import was not found.
-public struct ImportNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ImportNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3355,8 +3566,7 @@ public struct ImportNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3368,8 +3578,7 @@ public struct GetImportInput: Swift.Sendable {
 
     public init(
         importId: Swift.String? = nil
-    )
-    {
+    ) {
         self.importId = importId
     }
 }
@@ -3392,8 +3601,7 @@ extension CloudTrailClientTypes {
             s3BucketAccessRoleArn: Swift.String? = nil,
             s3BucketRegion: Swift.String? = nil,
             s3LocationUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3BucketAccessRoleArn = s3BucketAccessRoleArn
             self.s3BucketRegion = s3BucketRegion
             self.s3LocationUri = s3LocationUri
@@ -3411,8 +3619,7 @@ extension CloudTrailClientTypes {
 
         public init(
             s3: CloudTrailClientTypes.S3ImportSource? = nil
-        )
-        {
+        ) {
             self.s3 = s3
         }
     }
@@ -3439,8 +3646,7 @@ extension CloudTrailClientTypes {
             filesCompleted: Swift.Int? = nil,
             prefixesCompleted: Swift.Int? = nil,
             prefixesFound: Swift.Int? = nil
-        )
-        {
+        ) {
             self.eventsCompleted = eventsCompleted
             self.failedEntries = failedEntries
             self.filesCompleted = filesCompleted
@@ -3518,8 +3724,7 @@ public struct GetImportOutput: Swift.Sendable {
         importStatus: CloudTrailClientTypes.ImportStatus? = nil,
         startEventTime: Foundation.Date? = nil,
         updatedTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createdTimestamp = createdTimestamp
         self.destinations = destinations
         self.endEventTime = endEventTime
@@ -3533,9 +3738,9 @@ public struct GetImportOutput: Swift.Sendable {
 }
 
 /// If you run GetInsightSelectors on a trail or event data store that does not have Insights events enabled, the operation throws the exception InsightNotEnabledException.
-public struct InsightNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsightNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3551,8 +3756,7 @@ public struct InsightNotEnabledException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3579,8 +3783,7 @@ public struct GetInsightSelectorsInput: Swift.Sendable {
     public init(
         eventDataStore: Swift.String? = nil,
         trailName: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventDataStore = eventDataStore
         self.trailName = trailName
     }
@@ -3624,8 +3827,7 @@ extension CloudTrailClientTypes {
 
         public init(
             insightType: CloudTrailClientTypes.InsightType? = nil
-        )
-        {
+        ) {
             self.insightType = insightType
         }
     }
@@ -3646,8 +3848,7 @@ public struct GetInsightSelectorsOutput: Swift.Sendable {
         insightSelectors: [CloudTrailClientTypes.InsightSelector]? = nil,
         insightsDestination: Swift.String? = nil,
         trailARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventDataStoreArn = eventDataStoreArn
         self.insightSelectors = insightSelectors
         self.insightsDestination = insightsDestination
@@ -3656,9 +3857,9 @@ public struct GetInsightSelectorsOutput: Swift.Sendable {
 }
 
 /// This exception is thrown if the limit specified is not valid.
-public struct InvalidMaxResultsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidMaxResultsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3674,16 +3875,15 @@ public struct InvalidMaxResultsException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A token that is not valid, or a token that was previously used in a request with different parameters. This exception is thrown if the token is not valid.
-public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3699,8 +3899,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3709,6 +3908,8 @@ public struct GetQueryResultsInput: Swift.Sendable {
     /// The ARN (or ID suffix of the ARN) of the event data store against which the query was run.
     @available(*, deprecated, message: "EventDataStore is no longer required by GetQueryResultsRequest")
     public var eventDataStore: Swift.String?
+    /// The account ID of the event data store owner.
+    public var eventDataStoreOwnerAccountId: Swift.String?
     /// The maximum number of query results to display on a single page.
     public var maxQueryResults: Swift.Int?
     /// A token you can use to get the next page of query results.
@@ -3719,12 +3920,13 @@ public struct GetQueryResultsInput: Swift.Sendable {
 
     public init(
         eventDataStore: Swift.String? = nil,
+        eventDataStoreOwnerAccountId: Swift.String? = nil,
         maxQueryResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         queryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventDataStore = eventDataStore
+        self.eventDataStoreOwnerAccountId = eventDataStoreOwnerAccountId
         self.maxQueryResults = maxQueryResults
         self.nextToken = nextToken
         self.queryId = queryId
@@ -3746,8 +3948,7 @@ extension CloudTrailClientTypes {
             bytesScanned: Swift.Int? = nil,
             resultsCount: Swift.Int? = nil,
             totalResultsCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.bytesScanned = bytesScanned
             self.resultsCount = resultsCount
             self.totalResultsCount = totalResultsCount
@@ -3773,8 +3974,7 @@ public struct GetQueryResultsOutput: Swift.Sendable {
         queryResultRows: [[[Swift.String: Swift.String]]]? = nil,
         queryStatistics: CloudTrailClientTypes.QueryStatistics? = nil,
         queryStatus: CloudTrailClientTypes.QueryStatus? = nil
-    )
-    {
+    ) {
         self.errorMessage = errorMessage
         self.nextToken = nextToken
         self.queryResultRows = queryResultRows
@@ -3784,29 +3984,31 @@ public struct GetQueryResultsOutput: Swift.Sendable {
 }
 
 public struct GetResourcePolicyInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the CloudTrail channel attached to the resource-based policy. The following is the format of a resource ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
+    /// The Amazon Resource Name (ARN) of the CloudTrail event data store, dashboard, or channel attached to the resource-based policy. Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE Example dashboard ARN format: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// This member is required.
     public var resourceArn: Swift.String?
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
 
 public struct GetResourcePolicyOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the CloudTrail channel attached to resource-based policy.
+    /// The default resource-based policy that is automatically generated for the delegated administrator of an Organizations organization. This policy will be evaluated in tandem with any policy you submit for the resource. For more information about this policy, see [Default resource policy for delegated administrators](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-organizations.html#cloudtrail-lake-organizations-eds-rbp).
+    public var delegatedAdminResourcePolicy: Swift.String?
+    /// The Amazon Resource Name (ARN) of the CloudTrail event data store, dashboard, or channel attached to resource-based policy. Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE Example dashboard ARN format: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     public var resourceArn: Swift.String?
-    /// A JSON-formatted string that contains the resource-based policy attached to the CloudTrail channel.
+    /// A JSON-formatted string that contains the resource-based policy attached to the CloudTrail event data store, dashboard, or channel.
     public var resourcePolicy: Swift.String?
 
     public init(
+        delegatedAdminResourcePolicy: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         resourcePolicy: Swift.String? = nil
-    )
-    {
+    ) {
+        self.delegatedAdminResourcePolicy = delegatedAdminResourcePolicy
         self.resourceArn = resourceArn
         self.resourcePolicy = resourcePolicy
     }
@@ -3819,8 +4021,7 @@ public struct GetTrailInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -3831,22 +4032,20 @@ public struct GetTrailOutput: Swift.Sendable {
 
     public init(
         trail: CloudTrailClientTypes.Trail? = nil
-    )
-    {
+    ) {
         self.trail = trail
     }
 }
 
 /// The name of a trail about which you want the current status.
 public struct GetTrailStatusInput: Swift.Sendable {
-    /// Specifies the name or the CloudTrail ARN of the trail for which you are requesting status. To get the status of a shadow trail (a replication of the trail in another Region), you must specify its ARN. The following is the format of a trail ARN. arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
+    /// Specifies the name or the CloudTrail ARN of the trail for which you are requesting status. To get the status of a shadow trail (a replication of the trail in another Region), you must specify its ARN. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail If the trail is an organization trail and you are a member account in the organization in Organizations, you must provide the full ARN of that trail, and not just the name.
     /// This member is required.
     public var name: Swift.String?
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -3906,8 +4105,7 @@ public struct GetTrailStatusOutput: Swift.Sendable {
         stopLoggingTime: Foundation.Date? = nil,
         timeLoggingStarted: Swift.String? = nil,
         timeLoggingStopped: Swift.String? = nil
-    )
-    {
+    ) {
         self.isLogging = isLogging
         self.latestCloudWatchLogsDeliveryError = latestCloudWatchLogsDeliveryError
         self.latestCloudWatchLogsDeliveryTime = latestCloudWatchLogsDeliveryTime
@@ -3937,8 +4135,7 @@ public struct ListChannelsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3953,9 +4150,65 @@ public struct ListChannelsOutput: Swift.Sendable {
     public init(
         channels: [CloudTrailClientTypes.Channel]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channels = channels
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListDashboardsInput: Swift.Sendable {
+    /// The maximum number of dashboards to display on a single page.
+    public var maxResults: Swift.Int?
+    /// Specify a name prefix to filter on.
+    public var namePrefix: Swift.String?
+    /// A token you can use to get the next page of dashboard results.
+    public var nextToken: Swift.String?
+    /// Specify a dashboard type to filter on: CUSTOM or MANAGED.
+    public var type: CloudTrailClientTypes.DashboardType?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        namePrefix: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        type: CloudTrailClientTypes.DashboardType? = nil
+    ) {
+        self.maxResults = maxResults
+        self.namePrefix = namePrefix
+        self.nextToken = nextToken
+        self.type = type
+    }
+}
+
+extension CloudTrailClientTypes {
+
+    /// Provides information about a CloudTrail Lake dashboard.
+    public struct DashboardDetail: Swift.Sendable {
+        /// The ARN for the dashboard.
+        public var dashboardArn: Swift.String?
+        /// The type of dashboard.
+        public var type: CloudTrailClientTypes.DashboardType?
+
+        public init(
+            dashboardArn: Swift.String? = nil,
+            type: CloudTrailClientTypes.DashboardType? = nil
+        ) {
+            self.dashboardArn = dashboardArn
+            self.type = type
+        }
+    }
+}
+
+public struct ListDashboardsOutput: Swift.Sendable {
+    /// Contains information about dashboards in the account, in the current Region that match the applied filters.
+    public var dashboards: [CloudTrailClientTypes.DashboardDetail]?
+    /// A token you can use to get the next page of dashboard results.
+    public var nextToken: Swift.String?
+
+    public init(
+        dashboards: [CloudTrailClientTypes.DashboardDetail]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.dashboards = dashboards
         self.nextToken = nextToken
     }
 }
@@ -3969,8 +4222,7 @@ public struct ListEventDataStoresInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4020,8 +4272,7 @@ extension CloudTrailClientTypes {
             status: CloudTrailClientTypes.EventDataStoreStatus? = nil,
             terminationProtectionEnabled: Swift.Bool? = nil,
             updatedTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.advancedEventSelectors = advancedEventSelectors
             self.createdTimestamp = createdTimestamp
             self.eventDataStoreArn = eventDataStoreArn
@@ -4045,8 +4296,7 @@ public struct ListEventDataStoresOutput: Swift.Sendable {
     public init(
         eventDataStores: [CloudTrailClientTypes.EventDataStore]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventDataStores = eventDataStores
         self.nextToken = nextToken
     }
@@ -4065,8 +4315,7 @@ public struct ListImportFailuresInput: Swift.Sendable {
         importId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.importId = importId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4126,8 +4375,7 @@ extension CloudTrailClientTypes {
             lastUpdatedTime: Foundation.Date? = nil,
             location: Swift.String? = nil,
             status: CloudTrailClientTypes.ImportFailureStatus? = nil
-        )
-        {
+        ) {
             self.errorMessage = errorMessage
             self.errorType = errorType
             self.lastUpdatedTime = lastUpdatedTime
@@ -4146,8 +4394,7 @@ public struct ListImportFailuresOutput: Swift.Sendable {
     public init(
         failures: [CloudTrailClientTypes.ImportFailureListItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.failures = failures
         self.nextToken = nextToken
     }
@@ -4168,8 +4415,7 @@ public struct ListImportsInput: Swift.Sendable {
         importStatus: CloudTrailClientTypes.ImportStatus? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.destination = destination
         self.importStatus = importStatus
         self.maxResults = maxResults
@@ -4198,8 +4444,7 @@ extension CloudTrailClientTypes {
             importId: Swift.String? = nil,
             importStatus: CloudTrailClientTypes.ImportStatus? = nil,
             updatedTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdTimestamp = createdTimestamp
             self.destinations = destinations
             self.importId = importId
@@ -4218,8 +4463,7 @@ public struct ListImportsOutput: Swift.Sendable {
     public init(
         imports: [CloudTrailClientTypes.ImportsListItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.imports = imports
         self.nextToken = nextToken
     }
@@ -4255,7 +4499,7 @@ extension CloudTrailClientTypes {
 }
 
 public struct ListInsightsMetricDataInput: Swift.Sendable {
-    /// Type of datapoints to return. Valid values are NonZeroData and FillWithZeros. The default is NonZeroData.
+    /// Type of data points to return. Valid values are NonZeroData and FillWithZeros. The default is NonZeroData.
     public var dataType: CloudTrailClientTypes.InsightsMetricDataType?
     /// Specifies, in UTC, the end time for time-series data. The value specified is exclusive; results include data points up to the specified time stamp. The default is the time of request.
     public var endTime: Foundation.Date?
@@ -4270,7 +4514,7 @@ public struct ListInsightsMetricDataInput: Swift.Sendable {
     /// The type of CloudTrail Insights event, which is either ApiCallRateInsight or ApiErrorRateInsight. The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management API calls that result in error codes.
     /// This member is required.
     public var insightType: CloudTrailClientTypes.InsightType?
-    /// The maximum number of datapoints to return. Valid values are integers from 1 to 21600. The default value is 21600.
+    /// The maximum number of data points to return. Valid values are integers from 1 to 21600. The default value is 21600.
     public var maxResults: Swift.Int?
     /// Returned if all datapoints can't be returned in a single call. For example, due to reaching MaxResults. Add this parameter to the request to continue retrieving results starting from the last evaluated point.
     public var nextToken: Swift.String?
@@ -4290,8 +4534,7 @@ public struct ListInsightsMetricDataInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         period: Swift.Int? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.dataType = dataType
         self.endTime = endTime
         self.errorCode = errorCode
@@ -4329,8 +4572,7 @@ public struct ListInsightsMetricDataOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         timestamps: [Foundation.Date]? = nil,
         values: [Swift.Double]? = nil
-    )
-    {
+    ) {
         self.errorCode = errorCode
         self.eventName = eventName
         self.eventSource = eventSource
@@ -4342,9 +4584,9 @@ public struct ListInsightsMetricDataOutput: Swift.Sendable {
 }
 
 /// Occurs if the timestamp values are not valid. Either the start time occurs after the end time, or the time range is outside the range of possible values.
-public struct InvalidTimeRangeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTimeRangeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4360,16 +4602,15 @@ public struct InvalidTimeRangeException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Reserved for future use.
-public struct InvalidTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4385,8 +4626,7 @@ public struct InvalidTokenException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4404,8 +4644,7 @@ public struct ListPublicKeysInput: Swift.Sendable {
         endTime: Foundation.Date? = nil,
         nextToken: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.nextToken = nextToken
         self.startTime = startTime
@@ -4430,8 +4669,7 @@ extension CloudTrailClientTypes {
             validityEndTime: Foundation.Date? = nil,
             validityStartTime: Foundation.Date? = nil,
             value: Foundation.Data? = nil
-        )
-        {
+        ) {
             self.fingerprint = fingerprint
             self.validityEndTime = validityEndTime
             self.validityStartTime = validityStartTime
@@ -4450,17 +4688,16 @@ public struct ListPublicKeysOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         publicKeyList: [CloudTrailClientTypes.PublicKey]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.publicKeyList = publicKeyList
     }
 }
 
 /// A date range for the query was specified that is not valid. Be sure that the start time is chronologically before the end time. For more information about writing a query, see [Create or edit a query](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-create-edit-query.html) in the CloudTrail User Guide.
-public struct InvalidDateRangeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDateRangeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4476,16 +4713,15 @@ public struct InvalidDateRangeException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The query status is not valid for the operation.
-public struct InvalidQueryStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidQueryStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4501,8 +4737,7 @@ public struct InvalidQueryStatusException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4529,8 +4764,7 @@ public struct ListQueriesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         queryStatus: CloudTrailClientTypes.QueryStatus? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.eventDataStore = eventDataStore
         self.maxResults = maxResults
@@ -4555,8 +4789,7 @@ extension CloudTrailClientTypes {
             creationTime: Foundation.Date? = nil,
             queryId: Swift.String? = nil,
             queryStatus: CloudTrailClientTypes.QueryStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.queryId = queryId
             self.queryStatus = queryStatus
@@ -4573,8 +4806,7 @@ public struct ListQueriesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         queries: [CloudTrailClientTypes.Query]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.queries = queries
     }
@@ -4584,15 +4816,14 @@ public struct ListQueriesOutput: Swift.Sendable {
 public struct ListTagsInput: Swift.Sendable {
     /// Reserved for future use.
     public var nextToken: Swift.String?
-    /// Specifies a list of trail, event data store, or channel ARNs whose tags will be listed. The list has a limit of 20 ARNs. Example trail ARN format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    /// Specifies a list of trail, event data store, dashboard, or channel ARNs whose tags will be listed. The list has a limit of 20 ARNs. Example trail ARN format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE Example dashboard ARN format: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// This member is required.
     public var resourceIdList: [Swift.String]?
 
     public init(
         nextToken: Swift.String? = nil,
         resourceIdList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceIdList = resourceIdList
     }
@@ -4610,8 +4841,7 @@ extension CloudTrailClientTypes {
         public init(
             resourceId: Swift.String? = nil,
             tagsList: [CloudTrailClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.resourceId = resourceId
             self.tagsList = tagsList
         }
@@ -4628,8 +4858,7 @@ public struct ListTagsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceTagList: [CloudTrailClientTypes.ResourceTag]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceTagList = resourceTagList
     }
@@ -4641,8 +4870,7 @@ public struct ListTrailsInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -4662,8 +4890,7 @@ extension CloudTrailClientTypes {
             homeRegion: Swift.String? = nil,
             name: Swift.String? = nil,
             trailARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.homeRegion = homeRegion
             self.name = name
             self.trailARN = trailARN
@@ -4680,17 +4907,16 @@ public struct ListTrailsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         trails: [CloudTrailClientTypes.TrailInfo]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.trails = trails
     }
 }
 
 /// Occurs if an event category that is not valid is specified as a value of EventCategory.
-public struct InvalidEventCategoryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidEventCategoryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4706,16 +4932,15 @@ public struct InvalidEventCategoryException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Occurs when a lookup attribute is specified that is not valid.
-public struct InvalidLookupAttributesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidLookupAttributesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4731,8 +4956,7 @@ public struct InvalidLookupAttributesException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4824,8 +5048,7 @@ extension CloudTrailClientTypes {
         public init(
             attributeKey: CloudTrailClientTypes.LookupAttributeKey? = nil,
             attributeValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributeKey = attributeKey
             self.attributeValue = attributeValue
         }
@@ -4854,8 +5077,7 @@ public struct LookupEventsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.eventCategory = eventCategory
         self.lookupAttributes = lookupAttributes
@@ -4877,8 +5099,7 @@ extension CloudTrailClientTypes {
         public init(
             resourceName: Swift.String? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceName = resourceName
             self.resourceType = resourceType
         }
@@ -4918,8 +5139,7 @@ extension CloudTrailClientTypes {
             readOnly: Swift.String? = nil,
             resources: [CloudTrailClientTypes.Resource]? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessKeyId = accessKeyId
             self.cloudTrailEvent = cloudTrailEvent
             self.eventId = eventId
@@ -4943,8 +5163,7 @@ public struct LookupEventsOutput: Swift.Sendable {
     public init(
         events: [CloudTrailClientTypes.Event]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.events = events
         self.nextToken = nextToken
     }
@@ -4985,8 +5204,7 @@ public struct PutEventSelectorsInput: Swift.Sendable {
         advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]? = nil,
         eventSelectors: [CloudTrailClientTypes.EventSelector]? = nil,
         trailName: Swift.String? = nil
-    )
-    {
+    ) {
         self.advancedEventSelectors = advancedEventSelectors
         self.eventSelectors = eventSelectors
         self.trailName = trailName
@@ -5005,8 +5223,7 @@ public struct PutEventSelectorsOutput: Swift.Sendable {
         advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]? = nil,
         eventSelectors: [CloudTrailClientTypes.EventSelector]? = nil,
         trailARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.advancedEventSelectors = advancedEventSelectors
         self.eventSelectors = eventSelectors
         self.trailARN = trailARN
@@ -5014,9 +5231,9 @@ public struct PutEventSelectorsOutput: Swift.Sendable {
 }
 
 /// For PutInsightSelectors, this exception is thrown when the formatting or syntax of the InsightSelectors JSON statement is not valid, or the specified InsightType in the InsightSelectors statement is not valid. Valid values for InsightType are ApiCallRateInsight and ApiErrorRateInsight. To enable Insights on an event data store, the destination event data store specified by the InsightsDestination parameter must log Insights events and the source event data store specified by the EventDataStore parameter must log management events. For UpdateEventDataStore, this exception is thrown if Insights are enabled on the event data store and the updated advanced event selectors are not compatible with the configured InsightSelectors. If the InsightSelectors includes an InsightType of ApiCallRateInsight, the source event data store must log write management events. If the InsightSelectors includes an InsightType of ApiErrorRateInsight, the source event data store must log management events.
-public struct InvalidInsightSelectorsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidInsightSelectorsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5032,8 +5249,7 @@ public struct InvalidInsightSelectorsException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5054,8 +5270,7 @@ public struct PutInsightSelectorsInput: Swift.Sendable {
         insightSelectors: [CloudTrailClientTypes.InsightSelector]? = nil,
         insightsDestination: Swift.String? = nil,
         trailName: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventDataStore = eventDataStore
         self.insightSelectors = insightSelectors
         self.insightsDestination = insightsDestination
@@ -5078,8 +5293,7 @@ public struct PutInsightSelectorsOutput: Swift.Sendable {
         insightSelectors: [CloudTrailClientTypes.InsightSelector]? = nil,
         insightsDestination: Swift.String? = nil,
         trailARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventDataStoreArn = eventDataStoreArn
         self.insightSelectors = insightSelectors
         self.insightsDestination = insightsDestination
@@ -5087,16 +5301,10 @@ public struct PutInsightSelectorsOutput: Swift.Sendable {
     }
 }
 
-/// This exception is thrown when the resouce-based policy has syntax errors, or contains a principal that is not valid. The following are requirements for the resource policy:
-///
-/// * Contains only one action: cloudtrail-data:PutAuditEvents
-///
-/// * Contains at least one statement. The policy can have a maximum of 20 statements.
-///
-/// * Each statement contains at least one principal. A statement can have a maximum of 50 principals.
-public struct ResourcePolicyNotValidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+/// This exception is thrown when the resouce-based policy has syntax errors, or contains a principal that is not valid.
+public struct ResourcePolicyNotValidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5112,56 +5320,51 @@ public struct ResourcePolicyNotValidException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 public struct PutResourcePolicyInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the CloudTrail channel attached to the resource-based policy. The following is the format of a resource ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
+    /// The Amazon Resource Name (ARN) of the CloudTrail event data store, dashboard, or channel attached to the resource-based policy. Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE Example dashboard ARN format: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// A JSON-formatted string for an Amazon Web Services resource-based policy. The following are requirements for the resource policy:
-    ///
-    /// * Contains only one action: cloudtrail-data:PutAuditEvents
-    ///
-    /// * Contains at least one statement. The policy can have a maximum of 20 statements.
-    ///
-    /// * Each statement contains at least one principal. A statement can have a maximum of 50 principals.
+    /// A JSON-formatted string for an Amazon Web Services resource-based policy. For example resource-based policies, see [CloudTrail resource-based policy examples](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html) in the CloudTrail User Guide.
     /// This member is required.
     public var resourcePolicy: Swift.String?
 
     public init(
         resourceArn: Swift.String? = nil,
         resourcePolicy: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.resourcePolicy = resourcePolicy
     }
 }
 
 public struct PutResourcePolicyOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the CloudTrail channel attached to the resource-based policy.
+    /// The default resource-based policy that is automatically generated for the delegated administrator of an Organizations organization. This policy will be evaluated in tandem with any policy you submit for the resource. For more information about this policy, see [Default resource policy for delegated administrators](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-organizations.html#cloudtrail-lake-organizations-eds-rbp).
+    public var delegatedAdminResourcePolicy: Swift.String?
+    /// The Amazon Resource Name (ARN) of the CloudTrail event data store, dashboard, or channel attached to the resource-based policy. Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE Example dashboard ARN format: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     public var resourceArn: Swift.String?
-    /// The JSON-formatted string of the Amazon Web Services resource-based policy attached to the CloudTrail channel.
+    /// The JSON-formatted string of the Amazon Web Services resource-based policy attached to the CloudTrail event data store, dashboard, or channel.
     public var resourcePolicy: Swift.String?
 
     public init(
+        delegatedAdminResourcePolicy: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         resourcePolicy: Swift.String? = nil
-    )
-    {
+    ) {
+        self.delegatedAdminResourcePolicy = delegatedAdminResourcePolicy
         self.resourceArn = resourceArn
         self.resourcePolicy = resourcePolicy
     }
 }
 
 /// This exception is thrown when the maximum number of CloudTrail delegated administrators is reached.
-public struct DelegatedAdminAccountLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DelegatedAdminAccountLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5177,8 +5380,7 @@ public struct DelegatedAdminAccountLimitExceededException: ClientRuntime.Modeled
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5191,8 +5393,7 @@ public struct RegisterOrganizationDelegatedAdminInput: Swift.Sendable {
 
     public init(
         memberAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.memberAccountId = memberAccountId
     }
 }
@@ -5203,9 +5404,9 @@ public struct RegisterOrganizationDelegatedAdminOutput: Swift.Sendable {
     public init() { }
 }
 
-/// Specifies the tags to remove from a trail, event data store, or channel.
+/// Specifies the tags to remove from a trail, event data store, dashboard, or channel.
 public struct RemoveTagsInput: Swift.Sendable {
-    /// Specifies the ARN of the trail, event data store, or channel from which tags should be removed. Example trail ARN format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    /// Specifies the ARN of the trail, event data store, dashboard, or channel from which tags should be removed. Example trail ARN format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE Example dashboard ARN format: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// This member is required.
     public var resourceId: Swift.String?
     /// Specifies a list of tags to be removed.
@@ -5215,8 +5416,7 @@ public struct RemoveTagsInput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         tagsList: [CloudTrailClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.tagsList = tagsList
     }
@@ -5229,9 +5429,9 @@ public struct RemoveTagsOutput: Swift.Sendable {
 }
 
 /// The event data store is not in a status that supports the operation.
-public struct InvalidEventDataStoreStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidEventDataStoreStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5247,8 +5447,7 @@ public struct InvalidEventDataStoreStatusException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5260,8 +5459,7 @@ public struct RestoreEventDataStoreInput: Swift.Sendable {
 
     public init(
         eventDataStore: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventDataStore = eventDataStore
     }
 }
@@ -5305,8 +5503,7 @@ public struct RestoreEventDataStoreOutput: Swift.Sendable {
         status: CloudTrailClientTypes.EventDataStoreStatus? = nil,
         terminationProtectionEnabled: Swift.Bool? = nil,
         updatedTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.advancedEventSelectors = advancedEventSelectors
         self.billingMode = billingMode
         self.createdTimestamp = createdTimestamp
@@ -5322,6 +5519,33 @@ public struct RestoreEventDataStoreOutput: Swift.Sendable {
     }
 }
 
+public struct StartDashboardRefreshInput: Swift.Sendable {
+    /// The name or ARN of the dashboard.
+    /// This member is required.
+    public var dashboardId: Swift.String?
+    /// The query parameter values for the dashboard For custom dashboards, the following query parameters are valid: $StartTime$, $EndTime$, and $Period$. For managed dashboards, the following query parameters are valid: $StartTime$, $EndTime$, $Period$, and $EventDataStoreId$. The $EventDataStoreId$ query parameter is required.
+    public var queryParameterValues: [Swift.String: Swift.String]?
+
+    public init(
+        dashboardId: Swift.String? = nil,
+        queryParameterValues: [Swift.String: Swift.String]? = nil
+    ) {
+        self.dashboardId = dashboardId
+        self.queryParameterValues = queryParameterValues
+    }
+}
+
+public struct StartDashboardRefreshOutput: Swift.Sendable {
+    /// The refresh ID for the dashboard.
+    public var refreshId: Swift.String?
+
+    public init(
+        refreshId: Swift.String? = nil
+    ) {
+        self.refreshId = refreshId
+    }
+}
+
 public struct StartEventDataStoreIngestionInput: Swift.Sendable {
     /// The ARN (or ID suffix of the ARN) of the event data store for which you want to start ingestion.
     /// This member is required.
@@ -5329,8 +5553,7 @@ public struct StartEventDataStoreIngestionInput: Swift.Sendable {
 
     public init(
         eventDataStore: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventDataStore = eventDataStore
     }
 }
@@ -5341,9 +5564,9 @@ public struct StartEventDataStoreIngestionOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when the provided source S3 bucket is not valid for import.
-public struct InvalidImportSourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidImportSourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5359,8 +5582,7 @@ public struct InvalidImportSourceException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5383,8 +5605,7 @@ public struct StartImportInput: Swift.Sendable {
         importId: Swift.String? = nil,
         importSource: CloudTrailClientTypes.ImportSource? = nil,
         startEventTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.destinations = destinations
         self.endEventTime = endEventTime
         self.importId = importId
@@ -5420,8 +5641,7 @@ public struct StartImportOutput: Swift.Sendable {
         importStatus: CloudTrailClientTypes.ImportStatus? = nil,
         startEventTime: Foundation.Date? = nil,
         updatedTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createdTimestamp = createdTimestamp
         self.destinations = destinations
         self.endEventTime = endEventTime
@@ -5441,8 +5661,7 @@ public struct StartLoggingInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -5453,35 +5672,10 @@ public struct StartLoggingOutput: Swift.Sendable {
     public init() { }
 }
 
-/// The query that was submitted has validation errors, or uses incorrect syntax or unsupported keywords. For more information about writing a query, see [Create or edit a query](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-create-edit-query.html) in the CloudTrail User Guide.
-public struct InvalidQueryStatementException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// Brief description of the exception returned by the request.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidQueryStatement" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
 /// You are already running the maximum number of concurrent queries. The maximum number of concurrent queries is 10. Wait a minute for some queries to finish, and then run the query again.
-public struct MaxConcurrentQueriesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MaxConcurrentQueriesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Brief description of the exception returned by the request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5497,8 +5691,7 @@ public struct MaxConcurrentQueriesException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5506,6 +5699,8 @@ public struct MaxConcurrentQueriesException: ClientRuntime.ModeledError, AWSClie
 public struct StartQueryInput: Swift.Sendable {
     /// The URI for the S3 bucket where CloudTrail delivers the query results.
     public var deliveryS3Uri: Swift.String?
+    /// The account ID of the event data store owner.
+    public var eventDataStoreOwnerAccountId: Swift.String?
     /// The alias that identifies a query template.
     public var queryAlias: Swift.String?
     /// The query parameters for the specified QueryAlias.
@@ -5515,12 +5710,13 @@ public struct StartQueryInput: Swift.Sendable {
 
     public init(
         deliveryS3Uri: Swift.String? = nil,
+        eventDataStoreOwnerAccountId: Swift.String? = nil,
         queryAlias: Swift.String? = nil,
         queryParameters: [Swift.String]? = nil,
         queryStatement: Swift.String? = nil
-    )
-    {
+    ) {
         self.deliveryS3Uri = deliveryS3Uri
+        self.eventDataStoreOwnerAccountId = eventDataStoreOwnerAccountId
         self.queryAlias = queryAlias
         self.queryParameters = queryParameters
         self.queryStatement = queryStatement
@@ -5528,13 +5724,16 @@ public struct StartQueryInput: Swift.Sendable {
 }
 
 public struct StartQueryOutput: Swift.Sendable {
+    /// The account ID of the event data store owner.
+    public var eventDataStoreOwnerAccountId: Swift.String?
     /// The ID of the started query.
     public var queryId: Swift.String?
 
     public init(
+        eventDataStoreOwnerAccountId: Swift.String? = nil,
         queryId: Swift.String? = nil
-    )
-    {
+    ) {
+        self.eventDataStoreOwnerAccountId = eventDataStoreOwnerAccountId
         self.queryId = queryId
     }
 }
@@ -5546,8 +5745,7 @@ public struct StopEventDataStoreIngestionInput: Swift.Sendable {
 
     public init(
         eventDataStore: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventDataStore = eventDataStore
     }
 }
@@ -5564,8 +5762,7 @@ public struct StopImportInput: Swift.Sendable {
 
     public init(
         importId: Swift.String? = nil
-    )
-    {
+    ) {
         self.importId = importId
     }
 }
@@ -5600,8 +5797,7 @@ public struct StopImportOutput: Swift.Sendable {
         importStatus: CloudTrailClientTypes.ImportStatus? = nil,
         startEventTime: Foundation.Date? = nil,
         updatedTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createdTimestamp = createdTimestamp
         self.destinations = destinations
         self.endEventTime = endEventTime
@@ -5622,8 +5818,7 @@ public struct StopLoggingInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -5647,8 +5842,7 @@ public struct UpdateChannelInput: Swift.Sendable {
         channel: Swift.String? = nil,
         destinations: [CloudTrailClientTypes.Destination]? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.channel = channel
         self.destinations = destinations
         self.name = name
@@ -5670,12 +5864,74 @@ public struct UpdateChannelOutput: Swift.Sendable {
         destinations: [CloudTrailClientTypes.Destination]? = nil,
         name: Swift.String? = nil,
         source: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.destinations = destinations
         self.name = name
         self.source = source
+    }
+}
+
+public struct UpdateDashboardInput: Swift.Sendable {
+    /// The name or ARN of the dashboard.
+    /// This member is required.
+    public var dashboardId: Swift.String?
+    /// The refresh schedule configuration for the dashboard.
+    public var refreshSchedule: CloudTrailClientTypes.RefreshSchedule?
+    /// Specifies whether termination protection is enabled for the dashboard. If termination protection is enabled, you cannot delete the dashboard until termination protection is disabled.
+    public var terminationProtectionEnabled: Swift.Bool?
+    /// An array of widgets for the dashboard. A custom dashboard can have a maximum of 10 widgets. To add new widgets, pass in an array that includes the existing widgets along with any new widgets. Run the GetDashboard operation to get the list of widgets for the dashboard. To remove widgets, pass in an array that includes the existing widgets minus the widgets you want removed.
+    public var widgets: [CloudTrailClientTypes.RequestWidget]?
+
+    public init(
+        dashboardId: Swift.String? = nil,
+        refreshSchedule: CloudTrailClientTypes.RefreshSchedule? = nil,
+        terminationProtectionEnabled: Swift.Bool? = nil,
+        widgets: [CloudTrailClientTypes.RequestWidget]? = nil
+    ) {
+        self.dashboardId = dashboardId
+        self.refreshSchedule = refreshSchedule
+        self.terminationProtectionEnabled = terminationProtectionEnabled
+        self.widgets = widgets
+    }
+}
+
+public struct UpdateDashboardOutput: Swift.Sendable {
+    /// The timestamp that shows when the dashboard was created.
+    public var createdTimestamp: Foundation.Date?
+    /// The ARN for the dashboard.
+    public var dashboardArn: Swift.String?
+    /// The name for the dashboard.
+    public var name: Swift.String?
+    /// The refresh schedule for the dashboard, if configured.
+    public var refreshSchedule: CloudTrailClientTypes.RefreshSchedule?
+    /// Indicates whether termination protection is enabled for the dashboard.
+    public var terminationProtectionEnabled: Swift.Bool?
+    /// The type of dashboard.
+    public var type: CloudTrailClientTypes.DashboardType?
+    /// The timestamp that shows when the dashboard was updated.
+    public var updatedTimestamp: Foundation.Date?
+    /// An array of widgets for the dashboard.
+    public var widgets: [CloudTrailClientTypes.Widget]?
+
+    public init(
+        createdTimestamp: Foundation.Date? = nil,
+        dashboardArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        refreshSchedule: CloudTrailClientTypes.RefreshSchedule? = nil,
+        terminationProtectionEnabled: Swift.Bool? = nil,
+        type: CloudTrailClientTypes.DashboardType? = nil,
+        updatedTimestamp: Foundation.Date? = nil,
+        widgets: [CloudTrailClientTypes.Widget]? = nil
+    ) {
+        self.createdTimestamp = createdTimestamp
+        self.dashboardArn = dashboardArn
+        self.name = name
+        self.refreshSchedule = refreshSchedule
+        self.terminationProtectionEnabled = terminationProtectionEnabled
+        self.type = type
+        self.updatedTimestamp = updatedTimestamp
+        self.widgets = widgets
     }
 }
 
@@ -5725,8 +5981,7 @@ public struct UpdateEventDataStoreInput: Swift.Sendable {
         organizationEnabled: Swift.Bool? = nil,
         retentionPeriod: Swift.Int? = nil,
         terminationProtectionEnabled: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.advancedEventSelectors = advancedEventSelectors
         self.billingMode = billingMode
         self.eventDataStore = eventDataStore
@@ -5784,8 +6039,7 @@ public struct UpdateEventDataStoreOutput: Swift.Sendable {
         status: CloudTrailClientTypes.EventDataStoreStatus? = nil,
         terminationProtectionEnabled: Swift.Bool? = nil,
         updatedTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.advancedEventSelectors = advancedEventSelectors
         self.billingMode = billingMode
         self.createdTimestamp = createdTimestamp
@@ -5862,8 +6116,7 @@ public struct UpdateTrailInput: Swift.Sendable {
         s3BucketName: Swift.String? = nil,
         s3KeyPrefix: Swift.String? = nil,
         snsTopicName: Swift.String? = nil
-    )
-    {
+    ) {
         self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
         self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
         self.enableLogFileValidation = enableLogFileValidation
@@ -5922,8 +6175,7 @@ public struct UpdateTrailOutput: Swift.Sendable {
         snsTopicARN: Swift.String? = nil,
         snsTopicName: Swift.String? = nil,
         trailARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
         self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
         self.includeGlobalServiceEvents = includeGlobalServiceEvents
@@ -5961,6 +6213,13 @@ extension CreateChannelInput {
     }
 }
 
+extension CreateDashboardInput {
+
+    static func urlPathProvider(_ value: CreateDashboardInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateEventDataStoreInput {
 
     static func urlPathProvider(_ value: CreateEventDataStoreInput) -> Swift.String? {
@@ -5978,6 +6237,13 @@ extension CreateTrailInput {
 extension DeleteChannelInput {
 
     static func urlPathProvider(_ value: DeleteChannelInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteDashboardInput {
+
+    static func urlPathProvider(_ value: DeleteDashboardInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6052,6 +6318,13 @@ extension GetChannelInput {
     }
 }
 
+extension GetDashboardInput {
+
+    static func urlPathProvider(_ value: GetDashboardInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetEventDataStoreInput {
 
     static func urlPathProvider(_ value: GetEventDataStoreInput) -> Swift.String? {
@@ -6111,6 +6384,13 @@ extension GetTrailStatusInput {
 extension ListChannelsInput {
 
     static func urlPathProvider(_ value: ListChannelsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListDashboardsInput {
+
+    static func urlPathProvider(_ value: ListDashboardsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6220,6 +6500,13 @@ extension RestoreEventDataStoreInput {
     }
 }
 
+extension StartDashboardRefreshInput {
+
+    static func urlPathProvider(_ value: StartDashboardRefreshInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension StartEventDataStoreIngestionInput {
 
     static func urlPathProvider(_ value: StartEventDataStoreIngestionInput) -> Swift.String? {
@@ -6276,6 +6563,13 @@ extension UpdateChannelInput {
     }
 }
 
+extension UpdateDashboardInput {
+
+    static func urlPathProvider(_ value: UpdateDashboardInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UpdateEventDataStoreInput {
 
     static func urlPathProvider(_ value: UpdateEventDataStoreInput) -> Swift.String? {
@@ -6304,6 +6598,7 @@ extension CancelQueryInput {
     static func write(value: CancelQueryInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["EventDataStore"].write(value.eventDataStore)
+        try writer["EventDataStoreOwnerAccountId"].write(value.eventDataStoreOwnerAccountId)
         try writer["QueryId"].write(value.queryId)
     }
 }
@@ -6316,6 +6611,18 @@ extension CreateChannelInput {
         try writer["Name"].write(value.name)
         try writer["Source"].write(value.source)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: CloudTrailClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CreateDashboardInput {
+
+    static func write(value: CreateDashboardInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["RefreshSchedule"].write(value.refreshSchedule, with: CloudTrailClientTypes.RefreshSchedule.write(value:to:))
+        try writer["TagsList"].writeList(value.tagsList, memberWritingClosure: CloudTrailClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TerminationProtectionEnabled"].write(value.terminationProtectionEnabled)
+        try writer["Widgets"].writeList(value.widgets, memberWritingClosure: CloudTrailClientTypes.RequestWidget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -6363,6 +6670,14 @@ extension DeleteChannelInput {
     }
 }
 
+extension DeleteDashboardInput {
+
+    static func write(value: DeleteDashboardInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DashboardId"].write(value.dashboardId)
+    }
+}
+
 extension DeleteEventDataStoreInput {
 
     static func write(value: DeleteEventDataStoreInput?, to writer: SmithyJSON.Writer) throws {
@@ -6400,8 +6715,10 @@ extension DescribeQueryInput {
     static func write(value: DescribeQueryInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["EventDataStore"].write(value.eventDataStore)
+        try writer["EventDataStoreOwnerAccountId"].write(value.eventDataStoreOwnerAccountId)
         try writer["QueryAlias"].write(value.queryAlias)
         try writer["QueryId"].write(value.queryId)
+        try writer["RefreshId"].write(value.refreshId)
     }
 }
 
@@ -6448,6 +6765,14 @@ extension GetChannelInput {
     }
 }
 
+extension GetDashboardInput {
+
+    static func write(value: GetDashboardInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DashboardId"].write(value.dashboardId)
+    }
+}
+
 extension GetEventDataStoreInput {
 
     static func write(value: GetEventDataStoreInput?, to writer: SmithyJSON.Writer) throws {
@@ -6486,6 +6811,7 @@ extension GetQueryResultsInput {
     static func write(value: GetQueryResultsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["EventDataStore"].write(value.eventDataStore)
+        try writer["EventDataStoreOwnerAccountId"].write(value.eventDataStoreOwnerAccountId)
         try writer["MaxQueryResults"].write(value.maxQueryResults)
         try writer["NextToken"].write(value.nextToken)
         try writer["QueryId"].write(value.queryId)
@@ -6522,6 +6848,17 @@ extension ListChannelsInput {
         guard let value else { return }
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension ListDashboardsInput {
+
+    static func write(value: ListDashboardsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NamePrefix"].write(value.namePrefix)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Type"].write(value.type)
     }
 }
 
@@ -6680,6 +7017,15 @@ extension RestoreEventDataStoreInput {
     }
 }
 
+extension StartDashboardRefreshInput {
+
+    static func write(value: StartDashboardRefreshInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DashboardId"].write(value.dashboardId)
+        try writer["QueryParameterValues"].writeMap(value.queryParameterValues, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension StartEventDataStoreIngestionInput {
 
     static func write(value: StartEventDataStoreIngestionInput?, to writer: SmithyJSON.Writer) throws {
@@ -6713,6 +7059,7 @@ extension StartQueryInput {
     static func write(value: StartQueryInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DeliveryS3Uri"].write(value.deliveryS3Uri)
+        try writer["EventDataStoreOwnerAccountId"].write(value.eventDataStoreOwnerAccountId)
         try writer["QueryAlias"].write(value.queryAlias)
         try writer["QueryParameters"].writeList(value.queryParameters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["QueryStatement"].write(value.queryStatement)
@@ -6750,6 +7097,17 @@ extension UpdateChannelInput {
         try writer["Channel"].write(value.channel)
         try writer["Destinations"].writeList(value.destinations, memberWritingClosure: CloudTrailClientTypes.Destination.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
+    }
+}
+
+extension UpdateDashboardInput {
+
+    static func write(value: UpdateDashboardInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DashboardId"].write(value.dashboardId)
+        try writer["RefreshSchedule"].write(value.refreshSchedule, with: CloudTrailClientTypes.RefreshSchedule.write(value:to:))
+        try writer["TerminationProtectionEnabled"].write(value.terminationProtectionEnabled)
+        try writer["Widgets"].writeList(value.widgets, memberWritingClosure: CloudTrailClientTypes.RequestWidget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -6801,6 +7159,7 @@ extension CancelQueryOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CancelQueryOutput()
+        value.eventDataStoreOwnerAccountId = try reader["EventDataStoreOwnerAccountId"].readIfPresent()
         value.queryId = try reader["QueryId"].readIfPresent() ?? ""
         value.queryStatus = try reader["QueryStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
@@ -6819,6 +7178,24 @@ extension CreateChannelOutput {
         value.name = try reader["Name"].readIfPresent()
         value.source = try reader["Source"].readIfPresent()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CreateDashboardOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDashboardOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateDashboardOutput()
+        value.dashboardArn = try reader["DashboardArn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.refreshSchedule = try reader["RefreshSchedule"].readIfPresent(with: CloudTrailClientTypes.RefreshSchedule.read(from:))
+        value.tagsList = try reader["TagsList"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.terminationProtectionEnabled = try reader["TerminationProtectionEnabled"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.widgets = try reader["Widgets"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.Widget.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -6878,6 +7255,13 @@ extension DeleteChannelOutput {
     }
 }
 
+extension DeleteDashboardOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDashboardOutput {
+        return DeleteDashboardOutput()
+    }
+}
+
 extension DeleteEventDataStoreOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteEventDataStoreOutput {
@@ -6916,6 +7300,7 @@ extension DescribeQueryOutput {
         value.deliveryS3Uri = try reader["DeliveryS3Uri"].readIfPresent()
         value.deliveryStatus = try reader["DeliveryStatus"].readIfPresent()
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.eventDataStoreOwnerAccountId = try reader["EventDataStoreOwnerAccountId"].readIfPresent()
         value.prompt = try reader["Prompt"].readIfPresent()
         value.queryId = try reader["QueryId"].readIfPresent()
         value.queryStatistics = try reader["QueryStatistics"].readIfPresent(with: CloudTrailClientTypes.QueryStatisticsForDescribeQuery.read(from:))
@@ -6971,6 +7356,7 @@ extension GenerateQueryOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GenerateQueryOutput()
+        value.eventDataStoreOwnerAccountId = try reader["EventDataStoreOwnerAccountId"].readIfPresent()
         value.queryAlias = try reader["QueryAlias"].readIfPresent()
         value.queryStatement = try reader["QueryStatement"].readIfPresent()
         return value
@@ -6990,6 +7376,27 @@ extension GetChannelOutput {
         value.name = try reader["Name"].readIfPresent()
         value.source = try reader["Source"].readIfPresent()
         value.sourceConfig = try reader["SourceConfig"].readIfPresent(with: CloudTrailClientTypes.SourceConfig.read(from:))
+        return value
+    }
+}
+
+extension GetDashboardOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDashboardOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDashboardOutput()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.dashboardArn = try reader["DashboardArn"].readIfPresent()
+        value.lastRefreshFailureReason = try reader["LastRefreshFailureReason"].readIfPresent()
+        value.lastRefreshId = try reader["LastRefreshId"].readIfPresent()
+        value.refreshSchedule = try reader["RefreshSchedule"].readIfPresent(with: CloudTrailClientTypes.RefreshSchedule.read(from:))
+        value.status = try reader["Status"].readIfPresent()
+        value.terminationProtectionEnabled = try reader["TerminationProtectionEnabled"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.widgets = try reader["Widgets"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.Widget.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -7092,6 +7499,7 @@ extension GetResourcePolicyOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetResourcePolicyOutput()
+        value.delegatedAdminResourcePolicy = try reader["DelegatedAdminResourcePolicy"].readIfPresent()
         value.resourceArn = try reader["ResourceArn"].readIfPresent()
         value.resourcePolicy = try reader["ResourcePolicy"].readIfPresent()
         return value
@@ -7146,6 +7554,19 @@ extension ListChannelsOutput {
         let reader = responseReader
         var value = ListChannelsOutput()
         value.channels = try reader["Channels"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.Channel.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListDashboardsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDashboardsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDashboardsOutput()
+        value.dashboards = try reader["Dashboards"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.DashboardDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -7309,6 +7730,7 @@ extension PutResourcePolicyOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = PutResourcePolicyOutput()
+        value.delegatedAdminResourcePolicy = try reader["DelegatedAdminResourcePolicy"].readIfPresent()
         value.resourceArn = try reader["ResourceArn"].readIfPresent()
         value.resourcePolicy = try reader["ResourcePolicy"].readIfPresent()
         return value
@@ -7348,6 +7770,18 @@ extension RestoreEventDataStoreOutput {
         value.status = try reader["Status"].readIfPresent()
         value.terminationProtectionEnabled = try reader["TerminationProtectionEnabled"].readIfPresent()
         value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension StartDashboardRefreshOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartDashboardRefreshOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartDashboardRefreshOutput()
+        value.refreshId = try reader["RefreshId"].readIfPresent()
         return value
     }
 }
@@ -7392,6 +7826,7 @@ extension StartQueryOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartQueryOutput()
+        value.eventDataStoreOwnerAccountId = try reader["EventDataStoreOwnerAccountId"].readIfPresent()
         value.queryId = try reader["QueryId"].readIfPresent()
         return value
     }
@@ -7442,6 +7877,25 @@ extension UpdateChannelOutput {
         value.destinations = try reader["Destinations"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.Destination.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.name = try reader["Name"].readIfPresent()
         value.source = try reader["Source"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateDashboardOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDashboardOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateDashboardOutput()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.dashboardArn = try reader["DashboardArn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.refreshSchedule = try reader["RefreshSchedule"].readIfPresent(with: CloudTrailClientTypes.RefreshSchedule.read(from:))
+        value.terminationProtectionEnabled = try reader["TerminationProtectionEnabled"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.widgets = try reader["Widgets"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.Widget.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -7572,6 +8026,27 @@ enum CreateChannelOutputError {
     }
 }
 
+enum CreateDashboardOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "EventDataStoreNotFound": return try EventDataStoreNotFoundException.makeError(baseError: baseError)
+            case "InactiveEventDataStore": return try InactiveEventDataStoreException.makeError(baseError: baseError)
+            case "InsufficientEncryptionPolicy": return try InsufficientEncryptionPolicyException.makeError(baseError: baseError)
+            case "InvalidQueryStatement": return try InvalidQueryStatementException.makeError(baseError: baseError)
+            case "InvalidTagParameter": return try InvalidTagParameterException.makeError(baseError: baseError)
+            case "ServiceQuotaExceeded": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateEventDataStoreOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7666,6 +8141,22 @@ enum DeleteChannelOutputError {
     }
 }
 
+enum DeleteDashboardOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteEventDataStoreOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7701,6 +8192,7 @@ enum DeleteResourcePolicyOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
             case "ResourceARNNotValid": return try ResourceARNNotValidException.makeError(baseError: baseError)
             case "ResourceNotFound": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -7892,6 +8384,21 @@ enum GetChannelOutputError {
     }
 }
 
+enum GetDashboardOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFound": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetEventDataStoreOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8059,6 +8566,20 @@ enum ListChannelsOutputError {
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextTokenException.makeError(baseError: baseError)
             case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDashboardsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
             case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8297,6 +8818,7 @@ enum PutResourcePolicyOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
             case "ResourceARNNotValid": return try ResourceARNNotValidException.makeError(baseError: baseError)
             case "ResourceNotFound": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -8382,6 +8904,24 @@ enum RestoreEventDataStoreOutputError {
             case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
             case "OrganizationNotInAllFeaturesMode": return try OrganizationNotInAllFeaturesModeException.makeError(baseError: baseError)
             case "OrganizationsNotInUse": return try OrganizationsNotInUseException.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartDashboardRefreshOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "EventDataStoreNotFound": return try EventDataStoreNotFoundException.makeError(baseError: baseError)
+            case "InactiveEventDataStore": return try InactiveEventDataStoreException.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceeded": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8568,6 +9108,27 @@ enum UpdateChannelOutputError {
             case "InvalidEventDataStoreCategory": return try InvalidEventDataStoreCategoryException.makeError(baseError: baseError)
             case "InvalidParameter": return try InvalidParameterException.makeError(baseError: baseError)
             case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateDashboardOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "EventDataStoreNotFound": return try EventDataStoreNotFoundException.makeError(baseError: baseError)
+            case "InactiveEventDataStore": return try InactiveEventDataStoreException.makeError(baseError: baseError)
+            case "InsufficientEncryptionPolicy": return try InsufficientEncryptionPolicyException.makeError(baseError: baseError)
+            case "InvalidQueryStatement": return try InvalidQueryStatementException.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceeded": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8952,6 +9513,45 @@ extension ChannelAlreadyExistsException {
     }
 }
 
+extension InsufficientEncryptionPolicyException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InsufficientEncryptionPolicyException {
+        let reader = baseError.errorBodyReader
+        var value = InsufficientEncryptionPolicyException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidQueryStatementException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidQueryStatementException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidQueryStatementException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension EventDataStoreAlreadyExistsException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EventDataStoreAlreadyExistsException {
@@ -8996,19 +9596,6 @@ extension InvalidEventSelectorsException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidEventSelectorsException {
         let reader = baseError.errorBodyReader
         var value = InvalidEventSelectorsException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InsufficientEncryptionPolicyException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InsufficientEncryptionPolicyException {
-        let reader = baseError.errorBodyReader
-        var value = InsufficientEncryptionPolicyException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9719,19 +10306,6 @@ extension InvalidImportSourceException {
     }
 }
 
-extension InvalidQueryStatementException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidQueryStatementException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidQueryStatementException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension MaxConcurrentQueriesException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MaxConcurrentQueriesException {
@@ -9774,6 +10348,55 @@ extension CloudTrailClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudTrailClientTypes.Tag()
         value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudTrailClientTypes.Widget {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.Widget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudTrailClientTypes.Widget()
+        value.queryAlias = try reader["QueryAlias"].readIfPresent()
+        value.queryStatement = try reader["QueryStatement"].readIfPresent()
+        value.queryParameters = try reader["QueryParameters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.viewProperties = try reader["ViewProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudTrailClientTypes.RefreshSchedule {
+
+    static func write(value: CloudTrailClientTypes.RefreshSchedule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Frequency"].write(value.frequency, with: CloudTrailClientTypes.RefreshScheduleFrequency.write(value:to:))
+        try writer["Status"].write(value.status)
+        try writer["TimeOfDay"].write(value.timeOfDay)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.RefreshSchedule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudTrailClientTypes.RefreshSchedule()
+        value.frequency = try reader["Frequency"].readIfPresent(with: CloudTrailClientTypes.RefreshScheduleFrequency.read(from:))
+        value.status = try reader["Status"].readIfPresent()
+        value.timeOfDay = try reader["TimeOfDay"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudTrailClientTypes.RefreshScheduleFrequency {
+
+    static func write(value: CloudTrailClientTypes.RefreshScheduleFrequency?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Unit"].write(value.unit)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.RefreshScheduleFrequency {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudTrailClientTypes.RefreshScheduleFrequency()
+        value.unit = try reader["Unit"].readIfPresent()
         value.value = try reader["Value"].readIfPresent()
         return value
     }
@@ -10022,6 +10645,17 @@ extension CloudTrailClientTypes.Channel {
     }
 }
 
+extension CloudTrailClientTypes.DashboardDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.DashboardDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudTrailClientTypes.DashboardDetail()
+        value.dashboardArn = try reader["DashboardArn"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
 extension CloudTrailClientTypes.EventDataStore {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.EventDataStore {
@@ -10143,6 +10777,16 @@ extension CloudTrailClientTypes.Resource {
         value.resourceType = try reader["ResourceType"].readIfPresent()
         value.resourceName = try reader["ResourceName"].readIfPresent()
         return value
+    }
+}
+
+extension CloudTrailClientTypes.RequestWidget {
+
+    static func write(value: CloudTrailClientTypes.RequestWidget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["QueryParameters"].writeList(value.queryParameters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["QueryStatement"].write(value.queryStatement)
+        try writer["ViewProperties"].writeMap(value.viewProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 

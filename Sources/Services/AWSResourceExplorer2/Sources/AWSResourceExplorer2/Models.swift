@@ -55,9 +55,9 @@ public struct GetIndexInput: Swift.Sendable {
 }
 
 /// The credentials that you used to call this operation don't have the minimum required permissions.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -72,16 +72,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request failed because of internal service error. Try your request again later.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -96,16 +95,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You specified a resource that doesn't exist. Check the ID or ARN that you used to identity the resource, and try again.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -120,16 +118,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/quotas.html).
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -144,8 +141,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -164,8 +160,7 @@ extension ResourceExplorer2ClientTypes {
         public init(
             name: Swift.String? = nil,
             validationIssue: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.validationIssue = validationIssue
         }
@@ -173,9 +168,9 @@ extension ResourceExplorer2ClientTypes {
 }
 
 /// You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// An array of the request fields that had validation errors.
         public internal(set) var fieldList: [ResourceExplorer2ClientTypes.ValidationExceptionField]? = nil
         /// This member is required.
@@ -194,8 +189,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         fieldList: [ResourceExplorer2ClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
     }
@@ -208,8 +202,7 @@ public struct AssociateDefaultViewInput: Swift.Sendable {
 
     public init(
         viewArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.viewArn = viewArn
     }
 }
@@ -220,8 +213,7 @@ public struct AssociateDefaultViewOutput: Swift.Sendable {
 
     public init(
         viewArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.viewArn = viewArn
     }
 }
@@ -256,9 +248,9 @@ extension ResourceExplorer2ClientTypes {
 }
 
 /// The principal making the request isn't permitted to perform the operation.
-public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -273,8 +265,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -285,8 +276,7 @@ public struct BatchGetViewInput: Swift.Sendable {
 
     public init(
         viewArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.viewArns = viewArns
     }
 }
@@ -305,8 +295,7 @@ extension ResourceExplorer2ClientTypes {
         public init(
             errorMessage: Swift.String? = nil,
             viewArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorMessage = errorMessage
             self.viewArn = viewArn
         }
@@ -323,8 +312,7 @@ extension ResourceExplorer2ClientTypes {
 
         public init(
             filterString: Swift.String? = nil
-        )
-        {
+        ) {
             self.filterString = filterString
         }
     }
@@ -348,8 +336,7 @@ extension ResourceExplorer2ClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -379,8 +366,7 @@ extension ResourceExplorer2ClientTypes {
             owner: Swift.String? = nil,
             scope: Swift.String? = nil,
             viewArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.filters = filters
             self.includedProperties = includedProperties
             self.lastUpdatedAt = lastUpdatedAt
@@ -405,17 +391,16 @@ public struct BatchGetViewOutput: Swift.Sendable {
     public init(
         errors: [ResourceExplorer2ClientTypes.BatchGetViewError]? = nil,
         views: [ResourceExplorer2ClientTypes.View]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.views = views
     }
 }
 
 /// If you attempted to create a view, then the request failed because either you specified parameters that didn’t match the original request, or you attempted to create a view with a name that already exists in this Amazon Web Services Region. If you attempted to create an index, then the request failed because either you specified parameters that didn't match the original request, or an index already exists in the current Amazon Web Services Region. If you attempted to update an index type to AGGREGATOR, then the request failed because you already have an AGGREGATOR index in a different Amazon Web Services Region.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -431,8 +416,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -446,8 +430,7 @@ public struct CreateIndexInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.tags = tags
     }
@@ -513,8 +496,7 @@ public struct CreateIndexOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
         state: ResourceExplorer2ClientTypes.IndexState? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.state = state
@@ -528,8 +510,7 @@ public struct DeleteIndexInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -546,8 +527,7 @@ public struct DeleteIndexOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         state: ResourceExplorer2ClientTypes.IndexState? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.lastUpdatedAt = lastUpdatedAt
         self.state = state
@@ -600,8 +580,7 @@ public struct ListIndexesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         regions: [Swift.String]? = nil,
         type: ResourceExplorer2ClientTypes.IndexType? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.regions = regions
@@ -628,8 +607,7 @@ extension ResourceExplorer2ClientTypes {
             arn: Swift.String? = nil,
             region: Swift.String? = nil,
             type: ResourceExplorer2ClientTypes.IndexType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.region = region
             self.type = type
@@ -646,17 +624,16 @@ public struct ListIndexesOutput: Swift.Sendable {
     public init(
         indexes: [ResourceExplorer2ClientTypes.Index]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.indexes = indexes
         self.nextToken = nextToken
     }
 }
 
 /// The request failed because it exceeds a service quota.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The name of the service quota that was exceeded by the request.
@@ -680,8 +657,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         message: Swift.String? = nil,
         name: Swift.String? = nil,
         value: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.name = name
         self.properties.value = value
@@ -699,8 +675,7 @@ public struct UpdateIndexTypeInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         type: ResourceExplorer2ClientTypes.IndexType? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.type = type
     }
@@ -721,8 +696,7 @@ public struct UpdateIndexTypeOutput: Swift.Sendable {
         lastUpdatedAt: Foundation.Date? = nil,
         state: ResourceExplorer2ClientTypes.IndexState? = nil,
         type: ResourceExplorer2ClientTypes.IndexType? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.lastUpdatedAt = lastUpdatedAt
         self.state = state
@@ -752,8 +726,7 @@ public struct CreateViewInput: Swift.Sendable {
         scope: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         viewName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.filters = filters
         self.includedProperties = includedProperties
@@ -774,8 +747,7 @@ public struct CreateViewOutput: Swift.Sendable {
 
     public init(
         view: ResourceExplorer2ClientTypes.View? = nil
-    )
-    {
+    ) {
         self.view = view
     }
 }
@@ -787,8 +759,7 @@ public struct DeleteViewInput: Swift.Sendable {
 
     public init(
         viewArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.viewArn = viewArn
     }
 }
@@ -799,8 +770,7 @@ public struct DeleteViewOutput: Swift.Sendable {
 
     public init(
         viewArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.viewArn = viewArn
     }
 }
@@ -812,8 +782,7 @@ public struct GetViewInput: Swift.Sendable {
 
     public init(
         viewArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.viewArn = viewArn
     }
 }
@@ -827,8 +796,7 @@ public struct GetViewOutput: Swift.Sendable {
     public init(
         tags: [Swift.String: Swift.String]? = nil,
         view: ResourceExplorer2ClientTypes.View? = nil
-    )
-    {
+    ) {
         self.tags = tags
         self.view = view
     }
@@ -848,8 +816,7 @@ public struct ListViewsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -864,8 +831,7 @@ public struct ListViewsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         views: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.views = views
     }
@@ -884,8 +850,7 @@ public struct UpdateViewInput: Swift.Sendable {
         filters: ResourceExplorer2ClientTypes.SearchFilter? = nil,
         includedProperties: [ResourceExplorer2ClientTypes.IncludedProperty]? = nil,
         viewArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.includedProperties = includedProperties
         self.viewArn = viewArn
@@ -903,8 +868,7 @@ public struct UpdateViewOutput: Swift.Sendable {
 
     public init(
         view: ResourceExplorer2ClientTypes.View? = nil
-    )
-    {
+    ) {
         self.view = view
     }
 }
@@ -922,8 +886,7 @@ extension ResourceExplorer2ClientTypes {
         public init(
             awsServiceAccessStatus: ResourceExplorer2ClientTypes.AWSServiceAccessStatus? = nil,
             serviceLinkedRole: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsServiceAccessStatus = awsServiceAccessStatus
             self.serviceLinkedRole = serviceLinkedRole
         }
@@ -936,8 +899,7 @@ public struct GetAccountLevelServiceConfigurationOutput: Swift.Sendable {
 
     public init(
         orgConfiguration: ResourceExplorer2ClientTypes.OrgConfiguration? = nil
-    )
-    {
+    ) {
         self.orgConfiguration = orgConfiguration
     }
 }
@@ -948,8 +910,7 @@ public struct GetDefaultViewOutput: Swift.Sendable {
 
     public init(
         viewArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.viewArn = viewArn
     }
 }
@@ -981,8 +942,7 @@ public struct GetIndexOutput: Swift.Sendable {
         state: ResourceExplorer2ClientTypes.IndexState? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         type: ResourceExplorer2ClientTypes.IndexType? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.lastUpdatedAt = lastUpdatedAt
@@ -1006,8 +966,7 @@ public struct GetManagedViewInput: Swift.Sendable {
 
     public init(
         managedViewArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.managedViewArn = managedViewArn
     }
 }
@@ -1048,8 +1007,7 @@ extension ResourceExplorer2ClientTypes {
             scope: Swift.String? = nil,
             trustedService: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.filters = filters
             self.includedProperties = includedProperties
             self.lastUpdatedAt = lastUpdatedAt
@@ -1075,8 +1033,7 @@ public struct GetManagedViewOutput: Swift.Sendable {
 
     public init(
         managedView: ResourceExplorer2ClientTypes.ManagedView? = nil
-    )
-    {
+    ) {
         self.managedView = managedView
     }
 }
@@ -1094,8 +1051,7 @@ public struct ListIndexesForMembersInput: Swift.Sendable {
         accountIdList: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountIdList = accountIdList
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1124,8 +1080,7 @@ extension ResourceExplorer2ClientTypes {
             arn: Swift.String? = nil,
             region: Swift.String? = nil,
             type: ResourceExplorer2ClientTypes.IndexType? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.arn = arn
             self.region = region
@@ -1143,8 +1098,7 @@ public struct ListIndexesForMembersOutput: Swift.Sendable {
     public init(
         indexes: [ResourceExplorer2ClientTypes.MemberIndex]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.indexes = indexes
         self.nextToken = nextToken
     }
@@ -1162,8 +1116,7 @@ public struct ListManagedViewsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         servicePrincipal: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.servicePrincipal = servicePrincipal
@@ -1179,8 +1132,7 @@ public struct ListManagedViewsOutput: Swift.Sendable {
     public init(
         managedViews: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.managedViews = managedViews
         self.nextToken = nextToken
     }
@@ -1201,8 +1153,7 @@ public struct ListResourcesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         viewArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1230,8 +1181,7 @@ extension ResourceExplorer2ClientTypes {
             data: Smithy.Document? = nil,
             lastReportedAt: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.data = data
             self.lastReportedAt = lastReportedAt
             self.name = name
@@ -1266,8 +1216,7 @@ extension ResourceExplorer2ClientTypes {
             region: Swift.String? = nil,
             resourceType: Swift.String? = nil,
             service: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.lastReportedAt = lastReportedAt
             self.owningAccountId = owningAccountId
@@ -1291,8 +1240,7 @@ public struct ListResourcesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resources: [ResourceExplorer2ClientTypes.Resource]? = nil,
         viewArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resources = resources
         self.viewArn = viewArn
@@ -1308,8 +1256,7 @@ public struct ListSupportedResourceTypesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1327,8 +1274,7 @@ extension ResourceExplorer2ClientTypes {
         public init(
             resourceType: Swift.String? = nil,
             service: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceType = resourceType
             self.service = service
         }
@@ -1344,8 +1290,7 @@ public struct ListSupportedResourceTypesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceTypes: [ResourceExplorer2ClientTypes.SupportedResourceType]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceTypes = resourceTypes
     }
@@ -1358,8 +1303,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1370,8 +1314,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1397,8 +1340,7 @@ extension ResourceExplorer2ClientTypes {
         public init(
             complete: Swift.Bool? = nil,
             totalResources: Swift.Int? = nil
-        )
-        {
+        ) {
             self.complete = complete
             self.totalResources = totalResources
         }
@@ -1421,8 +1363,7 @@ public struct SearchInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         queryString: Swift.String? = nil,
         viewArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.queryString = queryString
@@ -1450,8 +1391,7 @@ public struct SearchOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resources: [ResourceExplorer2ClientTypes.Resource]? = nil,
         viewArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.count = count
         self.nextToken = nextToken
         self.resources = resources
@@ -1469,8 +1409,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1497,8 +1436,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

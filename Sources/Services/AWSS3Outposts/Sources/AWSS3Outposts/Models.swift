@@ -32,9 +32,9 @@ public struct DeleteEndpointOutput: Swift.Sendable {
 }
 
 /// Access was denied for this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -49,16 +49,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// There was a conflict with this action, and it could not be completed.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -73,16 +72,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// There was an exception with the internal server.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -97,16 +95,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The service link connection to your Outposts home Region is down. Check your connection and try again.
-public struct OutpostOfflineException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OutpostOfflineException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -121,16 +118,15 @@ public struct OutpostOfflineException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The requested resource was not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -145,16 +141,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -169,16 +164,15 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// There was an exception validating this data.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -193,8 +187,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -249,8 +242,7 @@ public struct CreateEndpointInput: Swift.Sendable {
         outpostId: Swift.String? = nil,
         securityGroupId: Swift.String? = nil,
         subnetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessType = accessType
         self.customerOwnedIpv4Pool = customerOwnedIpv4Pool
         self.outpostId = outpostId
@@ -265,8 +257,7 @@ public struct CreateEndpointOutput: Swift.Sendable {
 
     public init(
         endpointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointArn = endpointArn
     }
 }
@@ -282,8 +273,7 @@ public struct DeleteEndpointInput: Swift.Sendable {
     public init(
         endpointId: Swift.String? = nil,
         outpostId: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointId = endpointId
         self.outpostId = outpostId
     }
@@ -301,8 +291,7 @@ extension S3OutpostsClientTypes {
         public init(
             errorCode: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.message = message
         }
@@ -318,8 +307,7 @@ extension S3OutpostsClientTypes {
 
         public init(
             networkInterfaceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.networkInterfaceId = networkInterfaceId
         }
     }
@@ -405,8 +393,7 @@ extension S3OutpostsClientTypes {
             status: S3OutpostsClientTypes.EndpointStatus? = nil,
             subnetId: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessType = accessType
             self.cidrBlock = cidrBlock
             self.creationTime = creationTime
@@ -432,8 +419,7 @@ public struct ListEndpointsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -448,8 +434,7 @@ public struct ListEndpointsOutput: Swift.Sendable {
     public init(
         endpoints: [S3OutpostsClientTypes.Endpoint]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpoints = endpoints
         self.nextToken = nextToken
     }
@@ -464,8 +449,7 @@ public struct ListOutpostsWithS3Input: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -492,8 +476,7 @@ extension S3OutpostsClientTypes {
             outpostId: Swift.String? = nil,
             ownerId: Swift.String? = nil,
             s3OutpostArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.capacityInBytes = capacityInBytes
             self.outpostArn = outpostArn
             self.outpostId = outpostId
@@ -518,8 +501,7 @@ public struct ListOutpostsWithS3Output: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         outposts: [S3OutpostsClientTypes.Outpost]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.outposts = outposts
     }
@@ -538,8 +520,7 @@ public struct ListSharedEndpointsInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         outpostId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.outpostId = outpostId
@@ -555,8 +536,7 @@ public struct ListSharedEndpointsOutput: Swift.Sendable {
     public init(
         endpoints: [S3OutpostsClientTypes.Endpoint]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpoints = endpoints
         self.nextToken = nextToken
     }

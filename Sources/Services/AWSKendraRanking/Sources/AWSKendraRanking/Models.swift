@@ -37,9 +37,9 @@ public struct UpdateRescoreExecutionPlanOutput: Swift.Sendable {
 }
 
 /// You don’t have sufficient access to perform this action. Please ensure you have the required permission policies and user accounts and try again.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -54,16 +54,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A conflict occurred with the request. Please fix any inconsistencies with your resources and try again.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -78,16 +77,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An issue occurred with the internal server used for your Amazon Kendra Intelligent Ranking service. Please wait a few minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -102,16 +100,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You have exceeded the set limits for your Amazon Kendra Intelligent Ranking service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -126,16 +123,15 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was denied due to request throttling. Please reduce the number of requests and try again.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -150,16 +146,15 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The input fails to satisfy the constraints set by the Amazon Kendra Intelligent Ranking service. Please provide the correct input and try again.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -174,8 +169,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -190,8 +184,7 @@ extension KendraRankingClientTypes {
 
         public init(
             rescoreCapacityUnits: Swift.Int? = nil
-        )
-        {
+        ) {
             self.rescoreCapacityUnits = rescoreCapacityUnits
         }
     }
@@ -211,8 +204,7 @@ extension KendraRankingClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -238,8 +230,7 @@ public struct CreateRescoreExecutionPlanInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [KendraRankingClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.capacityUnits = capacityUnits
         self.clientToken = clientToken
         self.description = description
@@ -259,17 +250,16 @@ public struct CreateRescoreExecutionPlanOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
     }
 }
 
 /// The resource you want to use doesn't exist. Please check you have provided the correct resource and try again.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -284,8 +274,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -297,8 +286,7 @@ public struct DeleteRescoreExecutionPlanInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -310,8 +298,7 @@ public struct DescribeRescoreExecutionPlanInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -384,8 +371,7 @@ public struct DescribeRescoreExecutionPlanOutput: Swift.Sendable {
         name: Swift.String? = nil,
         status: KendraRankingClientTypes.RescoreExecutionPlanStatus? = nil,
         updatedAt: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.capacityUnits = capacityUnits
         self.createdAt = createdAt
@@ -407,8 +393,7 @@ public struct ListRescoreExecutionPlansInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -435,8 +420,7 @@ extension KendraRankingClientTypes {
             name: Swift.String? = nil,
             status: KendraRankingClientTypes.RescoreExecutionPlanStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.id = id
             self.name = name
@@ -455,17 +439,16 @@ public struct ListRescoreExecutionPlansOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         summaryItems: [KendraRankingClientTypes.RescoreExecutionPlanSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.summaryItems = summaryItems
     }
 }
 
 /// The resource you want to use is unavailable. Please check you have provided the correct resource information and try again.
-public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -480,8 +463,7 @@ public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -494,8 +476,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -507,8 +488,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [KendraRankingClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -542,8 +522,7 @@ extension KendraRankingClientTypes {
             title: Swift.String? = nil,
             tokenizedBody: [Swift.String]? = nil,
             tokenizedTitle: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.body = body
             self.groupId = groupId
             self.id = id
@@ -570,8 +549,7 @@ public struct RescoreInput: Swift.Sendable {
         documents: [KendraRankingClientTypes.Document]? = nil,
         rescoreExecutionPlanId: Swift.String? = nil,
         searchQuery: Swift.String? = nil
-    )
-    {
+    ) {
         self.documents = documents
         self.rescoreExecutionPlanId = rescoreExecutionPlanId
         self.searchQuery = searchQuery
@@ -590,8 +568,7 @@ extension KendraRankingClientTypes {
         public init(
             documentId: Swift.String? = nil,
             score: Swift.Float? = nil
-        )
-        {
+        ) {
             self.documentId = documentId
             self.score = score
         }
@@ -607,8 +584,7 @@ public struct RescoreOutput: Swift.Sendable {
     public init(
         rescoreId: Swift.String? = nil,
         resultItems: [KendraRankingClientTypes.RescoreResultItem]? = nil
-    )
-    {
+    ) {
         self.rescoreId = rescoreId
         self.resultItems = resultItems
     }
@@ -626,8 +602,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [KendraRankingClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -651,8 +626,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -680,8 +654,7 @@ public struct UpdateRescoreExecutionPlanInput: Swift.Sendable {
         description: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.capacityUnits = capacityUnits
         self.description = description
         self.id = id

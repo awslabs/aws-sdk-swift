@@ -33,9 +33,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -50,8 +50,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -70,8 +69,7 @@ extension CustomerProfilesClientTypes {
         public init(
             keyName: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.keyName = keyName
             self.values = values
         }
@@ -79,9 +77,9 @@ extension CustomerProfilesClientTypes {
 }
 
 /// The input you provided is invalid.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -96,16 +94,15 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An internal service error occurred.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -120,16 +117,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The requested resource does not exist, or access was denied.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -144,16 +140,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You exceeded the maximum number of requests.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -168,8 +163,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -193,8 +187,7 @@ public struct AddProfileKeyInput: Swift.Sendable {
         keyName: Swift.String? = nil,
         profileId: Swift.String? = nil,
         values: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.keyName = keyName
         self.profileId = profileId
@@ -211,8 +204,7 @@ public struct AddProfileKeyOutput: Swift.Sendable {
     public init(
         keyName: Swift.String? = nil,
         values: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.keyName = keyName
         self.values = values
     }
@@ -254,8 +246,7 @@ extension CustomerProfilesClientTypes {
             postalCode: Swift.String? = nil,
             province: Swift.String? = nil,
             state: Swift.String? = nil
-        )
-        {
+        ) {
             self.address1 = address1
             self.address2 = address2
             self.address3 = address3
@@ -278,6 +269,100 @@ extension CustomerProfilesClientTypes.Address: Swift.CustomDebugStringConvertibl
 
 extension CustomerProfilesClientTypes {
 
+    public enum StringDimensionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case beginsWith
+        case contains
+        case endsWith
+        case exclusive
+        case inclusive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StringDimensionType] {
+            return [
+                .beginsWith,
+                .contains,
+                .endsWith,
+                .exclusive,
+                .inclusive
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .beginsWith: return "BEGINS_WITH"
+            case .contains: return "CONTAINS"
+            case .endsWith: return "ENDS_WITH"
+            case .exclusive: return "EXCLUSIVE"
+            case .inclusive: return "INCLUSIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Object to hold the dimensions of a profile's fields to segment on.
+    public struct ProfileDimension: Swift.Sendable {
+        /// The action to segment on.
+        /// This member is required.
+        public var dimensionType: CustomerProfilesClientTypes.StringDimensionType?
+        /// The values to apply the DimensionType on.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            dimensionType: CustomerProfilesClientTypes.StringDimensionType? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.dimensionType = dimensionType
+            self.values = values
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Object that segments on Customer Profile's address object.
+    public struct AddressDimension: Swift.Sendable {
+        /// The city belonging to the address.
+        public var city: CustomerProfilesClientTypes.ProfileDimension?
+        /// The country belonging to the address.
+        public var country: CustomerProfilesClientTypes.ProfileDimension?
+        /// The county belonging to the address.
+        public var county: CustomerProfilesClientTypes.ProfileDimension?
+        /// The postal code belonging to the address.
+        public var postalCode: CustomerProfilesClientTypes.ProfileDimension?
+        /// The province belonging to the address.
+        public var province: CustomerProfilesClientTypes.ProfileDimension?
+        /// The state belonging to the address.
+        public var state: CustomerProfilesClientTypes.ProfileDimension?
+
+        public init(
+            city: CustomerProfilesClientTypes.ProfileDimension? = nil,
+            country: CustomerProfilesClientTypes.ProfileDimension? = nil,
+            county: CustomerProfilesClientTypes.ProfileDimension? = nil,
+            postalCode: CustomerProfilesClientTypes.ProfileDimension? = nil,
+            province: CustomerProfilesClientTypes.ProfileDimension? = nil,
+            state: CustomerProfilesClientTypes.ProfileDimension? = nil
+        ) {
+            self.city = city
+            self.country = country
+            self.county = county
+            self.postalCode = postalCode
+            self.province = province
+            self.state = state
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
     /// Batch defines the boundaries for ingestion for each step in APPFLOW_INTEGRATION workflow. APPFLOW_INTEGRATION workflow splits ingestion based on these boundaries.
     public struct Batch: Swift.Sendable {
         /// End time of batch to split ingestion.
@@ -290,8 +375,7 @@ extension CustomerProfilesClientTypes {
         public init(
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -345,8 +429,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             datetimeTypeFieldName: Swift.String? = nil
-        )
-        {
+        ) {
             self.datetimeTypeFieldName = datetimeTypeFieldName
         }
     }
@@ -362,8 +445,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             object: Swift.String? = nil
-        )
-        {
+        ) {
             self.object = object
         }
     }
@@ -382,8 +464,7 @@ extension CustomerProfilesClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             bucketPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.bucketPrefix = bucketPrefix
         }
@@ -406,8 +487,7 @@ extension CustomerProfilesClientTypes {
             enableDynamicFieldUpdate: Swift.Bool = false,
             includeDeletedRecords: Swift.Bool = false,
             object: Swift.String? = nil
-        )
-        {
+        ) {
             self.enableDynamicFieldUpdate = enableDynamicFieldUpdate
             self.includeDeletedRecords = includeDeletedRecords
             self.object = object
@@ -425,8 +505,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             object: Swift.String? = nil
-        )
-        {
+        ) {
             self.object = object
         }
     }
@@ -442,8 +521,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             object: Swift.String? = nil
-        )
-        {
+        ) {
             self.object = object
         }
     }
@@ -470,8 +548,7 @@ extension CustomerProfilesClientTypes {
             salesforce: CustomerProfilesClientTypes.SalesforceSourceProperties? = nil,
             serviceNow: CustomerProfilesClientTypes.ServiceNowSourceProperties? = nil,
             zendesk: CustomerProfilesClientTypes.ZendeskSourceProperties? = nil
-        )
-        {
+        ) {
             self.marketo = marketo
             self.s3 = s3
             self.salesforce = salesforce
@@ -501,8 +578,7 @@ extension CustomerProfilesClientTypes {
             connectorType: CustomerProfilesClientTypes.SourceConnectorType? = nil,
             incrementalPullConfig: CustomerProfilesClientTypes.IncrementalPullConfig? = nil,
             sourceConnectorProperties: CustomerProfilesClientTypes.SourceConnectorProperties? = nil
-        )
-        {
+        ) {
             self.connectorProfileName = connectorProfileName
             self.connectorType = connectorType
             self.incrementalPullConfig = incrementalPullConfig
@@ -923,8 +999,7 @@ extension CustomerProfilesClientTypes {
             salesforce: CustomerProfilesClientTypes.SalesforceConnectorOperator? = nil,
             serviceNow: CustomerProfilesClientTypes.ServiceNowConnectorOperator? = nil,
             zendesk: CustomerProfilesClientTypes.ZendeskConnectorOperator? = nil
-        )
-        {
+        ) {
             self.marketo = marketo
             self.s3 = s3
             self.salesforce = salesforce
@@ -1066,8 +1141,7 @@ extension CustomerProfilesClientTypes {
             sourceFields: [Swift.String]? = nil,
             taskProperties: [Swift.String: Swift.String]? = nil,
             taskType: CustomerProfilesClientTypes.TaskType? = nil
-        )
-        {
+        ) {
             self.connectorOperator = connectorOperator
             self.destinationField = destinationField
             self.sourceFields = sourceFields
@@ -1134,8 +1208,7 @@ extension CustomerProfilesClientTypes {
             scheduleOffset: Swift.Int? = 0,
             scheduleStartTime: Foundation.Date? = nil,
             timezone: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataPullMode = dataPullMode
             self.firstExecutionFrom = firstExecutionFrom
             self.scheduleEndTime = scheduleEndTime
@@ -1156,8 +1229,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             scheduled: CustomerProfilesClientTypes.ScheduledTriggerProperties? = nil
-        )
-        {
+        ) {
             self.scheduled = scheduled
         }
     }
@@ -1208,8 +1280,7 @@ extension CustomerProfilesClientTypes {
         public init(
             triggerProperties: CustomerProfilesClientTypes.TriggerProperties? = nil,
             triggerType: CustomerProfilesClientTypes.TriggerType? = nil
-        )
-        {
+        ) {
             self.triggerProperties = triggerProperties
             self.triggerType = triggerType
         }
@@ -1245,8 +1316,7 @@ extension CustomerProfilesClientTypes {
             sourceFlowConfig: CustomerProfilesClientTypes.SourceFlowConfig? = nil,
             tasks: [CustomerProfilesClientTypes.Task]? = nil,
             triggerConfig: CustomerProfilesClientTypes.TriggerConfig? = nil
-        )
-        {
+        ) {
             self.description = description
             self.flowName = flowName
             self.kmsArn = kmsArn
@@ -1276,8 +1346,7 @@ extension CustomerProfilesClientTypes {
         public init(
             batches: [CustomerProfilesClientTypes.Batch]? = nil,
             flowDefinition: CustomerProfilesClientTypes.FlowDefinition? = nil
-        )
-        {
+        ) {
             self.batches = batches
             self.flowDefinition = flowDefinition
         }
@@ -1306,8 +1375,7 @@ extension CustomerProfilesClientTypes {
             connectorProfileName: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             sourceConnectorType: CustomerProfilesClientTypes.SourceConnectorType? = nil
-        )
-        {
+        ) {
             self.connectorProfileName = connectorProfileName
             self.roleArn = roleArn
             self.sourceConnectorType = sourceConnectorType
@@ -1333,8 +1401,7 @@ extension CustomerProfilesClientTypes {
             recordsProcessed: Swift.Int = 0,
             stepsCompleted: Swift.Int = 0,
             totalSteps: Swift.Int = 0
-        )
-        {
+        ) {
             self.recordsProcessed = recordsProcessed
             self.stepsCompleted = stepsCompleted
             self.totalSteps = totalSteps
@@ -1424,8 +1491,7 @@ extension CustomerProfilesClientTypes {
             lastUpdatedAt: Foundation.Date? = nil,
             recordsProcessed: Swift.Int = 0,
             status: CustomerProfilesClientTypes.Status? = nil
-        )
-        {
+        ) {
             self.batchRecordsEndTime = batchRecordsEndTime
             self.batchRecordsStartTime = batchRecordsStartTime
             self.createdAt = createdAt
@@ -1448,8 +1514,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -1469,8 +1534,7 @@ extension CustomerProfilesClientTypes {
         public init(
             attributes: [CustomerProfilesClientTypes.AttributeItem]? = nil,
             expression: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.expression = expression
         }
@@ -1480,6 +1544,184 @@ extension CustomerProfilesClientTypes {
 extension CustomerProfilesClientTypes.AttributeDetails: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CONTENT_REDACTED"
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    public enum AttributeDimensionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case after
+        case before
+        case beginsWith
+        case between
+        case contains
+        case endsWith
+        case equal
+        case exclusive
+        case greaterThan
+        case greaterThanOrEqual
+        case inclusive
+        case lessThan
+        case lessThanOrEqual
+        case notBetween
+        case on
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AttributeDimensionType] {
+            return [
+                .after,
+                .before,
+                .beginsWith,
+                .between,
+                .contains,
+                .endsWith,
+                .equal,
+                .exclusive,
+                .greaterThan,
+                .greaterThanOrEqual,
+                .inclusive,
+                .lessThan,
+                .lessThanOrEqual,
+                .notBetween,
+                .on
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .after: return "AFTER"
+            case .before: return "BEFORE"
+            case .beginsWith: return "BEGINS_WITH"
+            case .between: return "BETWEEN"
+            case .contains: return "CONTAINS"
+            case .endsWith: return "ENDS_WITH"
+            case .equal: return "EQUAL"
+            case .exclusive: return "EXCLUSIVE"
+            case .greaterThan: return "GREATER_THAN"
+            case .greaterThanOrEqual: return "GREATER_THAN_OR_EQUAL"
+            case .inclusive: return "INCLUSIVE"
+            case .lessThan: return "LESS_THAN"
+            case .lessThanOrEqual: return "LESS_THAN_OR_EQUAL"
+            case .notBetween: return "NOT_BETWEEN"
+            case .on: return "ON"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Object that segments on various Customer Profile's fields.
+    public struct AttributeDimension: Swift.Sendable {
+        /// The action to segment with.
+        /// This member is required.
+        public var dimensionType: CustomerProfilesClientTypes.AttributeDimensionType?
+        /// The values to apply the DimensionType on.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            dimensionType: CustomerProfilesClientTypes.AttributeDimensionType? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.dimensionType = dimensionType
+            self.values = values
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    public enum FilterDimensionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case after
+        case before
+        case beginsWith
+        case between
+        case contains
+        case endsWith
+        case equal
+        case exclusive
+        case greaterThan
+        case greaterThanOrEqual
+        case inclusive
+        case lessThan
+        case lessThanOrEqual
+        case notBetween
+        case on
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FilterDimensionType] {
+            return [
+                .after,
+                .before,
+                .beginsWith,
+                .between,
+                .contains,
+                .endsWith,
+                .equal,
+                .exclusive,
+                .greaterThan,
+                .greaterThanOrEqual,
+                .inclusive,
+                .lessThan,
+                .lessThanOrEqual,
+                .notBetween,
+                .on
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .after: return "AFTER"
+            case .before: return "BEFORE"
+            case .beginsWith: return "BEGINS_WITH"
+            case .between: return "BETWEEN"
+            case .contains: return "CONTAINS"
+            case .endsWith: return "ENDS_WITH"
+            case .equal: return "EQUAL"
+            case .exclusive: return "EXCLUSIVE"
+            case .greaterThan: return "GREATER_THAN"
+            case .greaterThanOrEqual: return "GREATER_THAN_OR_EQUAL"
+            case .inclusive: return "INCLUSIVE"
+            case .lessThan: return "LESS_THAN"
+            case .lessThanOrEqual: return "LESS_THAN_OR_EQUAL"
+            case .notBetween: return "NOT_BETWEEN"
+            case .on: return "ON"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Object that defines how to filter the incoming objects for the calculated attribute.
+    public struct FilterAttributeDimension: Swift.Sendable {
+        /// The action to filter with.
+        /// This member is required.
+        public var dimensionType: CustomerProfilesClientTypes.FilterDimensionType?
+        /// The values to apply the DimensionType on.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            dimensionType: CustomerProfilesClientTypes.FilterDimensionType? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.dimensionType = dimensionType
+            self.values = values
+        }
     }
 }
 
@@ -1555,12 +1797,26 @@ extension CustomerProfilesClientTypes {
             attributeMatchingModel: CustomerProfilesClientTypes.AttributeMatchingModel? = nil,
             emailAddress: [Swift.String]? = nil,
             phoneNumber: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.address = address
             self.attributeMatchingModel = attributeMatchingModel
             self.emailAddress = emailAddress
             self.phoneNumber = phoneNumber
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// List containing the values for the given attribute.
+    public struct AttributeValueItem: Swift.Sendable {
+        /// An individual value belonging to the given attribute.
+        public var value: Swift.String?
+
+        public init(
+            value: Swift.String? = nil
+        ) {
+            self.value = value
         }
     }
 }
@@ -1611,8 +1867,7 @@ extension CustomerProfilesClientTypes {
         public init(
             conflictResolvingModel: CustomerProfilesClientTypes.ConflictResolvingModel? = nil,
             sourceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.conflictResolvingModel = conflictResolvingModel
             self.sourceName = sourceName
         }
@@ -1629,8 +1884,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             matchingAttributesList: [[Swift.String]]? = nil
-        )
-        {
+        ) {
             self.matchingAttributesList = matchingAttributesList
         }
     }
@@ -1655,13 +1909,464 @@ extension CustomerProfilesClientTypes {
             consolidation: CustomerProfilesClientTypes.Consolidation? = nil,
             enabled: Swift.Bool? = nil,
             minAllowedConfidenceScoreForMerging: Swift.Double? = nil
-        )
-        {
+        ) {
             self.conflictResolution = conflictResolution
             self.consolidation = consolidation
             self.enabled = enabled
             self.minAllowedConfidenceScoreForMerging = minAllowedConfidenceScoreForMerging
         }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    public enum RangeUnit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case days
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RangeUnit] {
+            return [
+                .days
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .days: return "DAYS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Overrides the original range on a calculated attribute definition.
+    public struct RangeOverride: Swift.Sendable {
+        /// The end time of when to include objects.
+        public var end: Swift.Int
+        /// The start time of when to include objects.
+        /// This member is required.
+        public var start: Swift.Int?
+        /// The unit for start and end.
+        /// This member is required.
+        public var unit: CustomerProfilesClientTypes.RangeUnit?
+
+        public init(
+            end: Swift.Int = 0,
+            start: Swift.Int? = 366,
+            unit: CustomerProfilesClientTypes.RangeUnit? = nil
+        ) {
+            self.end = end
+            self.start = start
+            self.unit = unit
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// An object to override the original condition block of a calculated attribute.
+    public struct ConditionOverrides: Swift.Sendable {
+        /// The relative time period over which data is included in the aggregation for this override.
+        public var range: CustomerProfilesClientTypes.RangeOverride?
+
+        public init(
+            range: CustomerProfilesClientTypes.RangeOverride? = nil
+        ) {
+            self.range = range
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes.ConditionOverrides: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+public struct BatchGetCalculatedAttributeForProfileInput: Swift.Sendable {
+    /// The unique name of the calculated attribute.
+    /// This member is required.
+    public var calculatedAttributeName: Swift.String?
+    /// Overrides the condition block within the original calculated attribute definition.
+    public var conditionOverrides: CustomerProfilesClientTypes.ConditionOverrides?
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// List of unique identifiers for customer profiles to retrieve.
+    /// This member is required.
+    public var profileIds: [Swift.String]?
+
+    public init(
+        calculatedAttributeName: Swift.String? = nil,
+        conditionOverrides: CustomerProfilesClientTypes.ConditionOverrides? = nil,
+        domainName: Swift.String? = nil,
+        profileIds: [Swift.String]? = nil
+    ) {
+        self.calculatedAttributeName = calculatedAttributeName
+        self.conditionOverrides = conditionOverrides
+        self.domainName = domainName
+        self.profileIds = profileIds
+    }
+}
+
+extension BatchGetCalculatedAttributeForProfileInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BatchGetCalculatedAttributeForProfileInput(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), domainName: \(Swift.String(describing: domainName)), profileIds: \(Swift.String(describing: profileIds)), conditionOverrides: \"CONTENT_REDACTED\")"}
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// The object containing the values of a single calculated attribute value.
+    public struct CalculatedAttributeValue: Swift.Sendable {
+        /// The unique name of the calculated attribute.
+        public var calculatedAttributeName: Swift.String?
+        /// The display name of the calculated attribute.
+        public var displayName: Swift.String?
+        /// Indicates whether the calculated attribute's value is based on partial data. If the data is partial, it is set to true.
+        public var isDataPartial: Swift.String?
+        /// The profile id belonging to this calculated attribute value.
+        public var profileId: Swift.String?
+        /// The value of the calculated attribute.
+        public var value: Swift.String?
+
+        public init(
+            calculatedAttributeName: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            isDataPartial: Swift.String? = nil,
+            profileId: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.calculatedAttributeName = calculatedAttributeName
+            self.displayName = displayName
+            self.isDataPartial = isDataPartial
+            self.profileId = profileId
+            self.value = value
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Error object describing why a specific profile and calculated attribute failed.
+    public struct BatchGetCalculatedAttributeForProfileError: Swift.Sendable {
+        /// Status code for why a specific profile and calculated attribute failed.
+        /// This member is required.
+        public var code: Swift.String?
+        /// Message describing why a specific profile and calculated attribute failed.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The profile id that failed.
+        /// This member is required.
+        public var profileId: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil,
+            profileId: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+            self.profileId = profileId
+        }
+    }
+}
+
+public struct BatchGetCalculatedAttributeForProfileOutput: Swift.Sendable {
+    /// List of calculated attribute values retrieved.
+    public var calculatedAttributeValues: [CustomerProfilesClientTypes.CalculatedAttributeValue]?
+    /// Overrides the condition block within the original calculated attribute definition.
+    public var conditionOverrides: CustomerProfilesClientTypes.ConditionOverrides?
+    /// List of errors for calculated attribute values that could not be retrieved.
+    public var errors: [CustomerProfilesClientTypes.BatchGetCalculatedAttributeForProfileError]?
+
+    public init(
+        calculatedAttributeValues: [CustomerProfilesClientTypes.CalculatedAttributeValue]? = nil,
+        conditionOverrides: CustomerProfilesClientTypes.ConditionOverrides? = nil,
+        errors: [CustomerProfilesClientTypes.BatchGetCalculatedAttributeForProfileError]? = nil
+    ) {
+        self.calculatedAttributeValues = calculatedAttributeValues
+        self.conditionOverrides = conditionOverrides
+        self.errors = errors
+    }
+}
+
+extension BatchGetCalculatedAttributeForProfileOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BatchGetCalculatedAttributeForProfileOutput(calculatedAttributeValues: \(Swift.String(describing: calculatedAttributeValues)), errors: \(Swift.String(describing: errors)), conditionOverrides: \"CONTENT_REDACTED\")"}
+}
+
+public struct BatchGetProfileInput: Swift.Sendable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// List of unique identifiers for customer profiles to retrieve.
+    /// This member is required.
+    public var profileIds: [Swift.String]?
+
+    public init(
+        domainName: Swift.String? = nil,
+        profileIds: [Swift.String]? = nil
+    ) {
+        self.domainName = domainName
+        self.profileIds = profileIds
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Error object describing why a specific profile failed.
+    public struct BatchGetProfileError: Swift.Sendable {
+        /// Status code for why a specific profile failed.
+        /// This member is required.
+        public var code: Swift.String?
+        /// Message describing why a specific profile failed.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The profile id that failed.
+        /// This member is required.
+        public var profileId: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil,
+            profileId: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+            self.profileId = profileId
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// A data type pair that consists of a KeyName and Values list that were used to find a profile returned in response to a [SearchProfiles](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_SearchProfiles.html) request.
+    public struct FoundByKeyValue: Swift.Sendable {
+        /// A searchable identifier of a customer profile.
+        public var keyName: Swift.String?
+        /// A list of key values.
+        public var values: [Swift.String]?
+
+        public init(
+            keyName: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.keyName = keyName
+            self.values = values
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    @available(*, deprecated)
+    public enum Gender: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case female
+        case male
+        case unspecified
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Gender] {
+            return [
+                .female,
+                .male,
+                .unspecified
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .female: return "FEMALE"
+            case .male: return "MALE"
+            case .unspecified: return "UNSPECIFIED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    @available(*, deprecated)
+    public enum PartyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case business
+        case individual
+        case other
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PartyType] {
+            return [
+                .business,
+                .individual,
+                .other
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .business: return "BUSINESS"
+            case .individual: return "INDIVIDUAL"
+            case .other: return "OTHER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// The standard profile of a customer.
+    public struct Profile: Swift.Sendable {
+        /// An account number that you have given to the customer.
+        public var accountNumber: Swift.String?
+        /// Any additional information relevant to the customer’s profile.
+        public var additionalInformation: Swift.String?
+        /// A generic address associated with the customer that is not mailing, shipping, or billing.
+        public var address: CustomerProfilesClientTypes.Address?
+        /// A key value pair of attributes of a customer profile.
+        public var attributes: [Swift.String: Swift.String]?
+        /// The customer’s billing address.
+        public var billingAddress: CustomerProfilesClientTypes.Address?
+        /// The customer’s birth date.
+        public var birthDate: Swift.String?
+        /// The customer’s business email address.
+        public var businessEmailAddress: Swift.String?
+        /// The name of the customer’s business.
+        public var businessName: Swift.String?
+        /// The customer’s home phone number.
+        public var businessPhoneNumber: Swift.String?
+        /// The customer’s email address, which has not been specified as a personal or business address.
+        public var emailAddress: Swift.String?
+        /// The customer’s first name.
+        public var firstName: Swift.String?
+        /// A list of items used to find a profile returned in a [SearchProfiles](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_SearchProfiles.html) response. An item is a key-value(s) pair that matches an attribute in the profile. If the optional AdditionalSearchKeys parameter was included in the [SearchProfiles](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_SearchProfiles.html) request, the FoundByItems list should be interpreted based on the LogicalOperator used in the request:
+        ///
+        /// * AND - The profile included in the response matched all of the search keys specified in the request. The FoundByItems will include all of the key-value(s) pairs that were specified in the request (as this is a requirement of AND search logic).
+        ///
+        /// * OR - The profile included in the response matched at least one of the search keys specified in the request. The FoundByItems will include each of the key-value(s) pairs that the profile was found by.
+        ///
+        ///
+        /// The OR relationship is the default behavior if the LogicalOperator parameter is not included in the [SearchProfiles](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_SearchProfiles.html) request.
+        public var foundByItems: [CustomerProfilesClientTypes.FoundByKeyValue]?
+        /// The gender with which the customer identifies.
+        @available(*, deprecated)
+        public var gender: CustomerProfilesClientTypes.Gender?
+        /// An alternative to Gender which accepts any string as input.
+        public var genderString: Swift.String?
+        /// The customer’s home phone number.
+        public var homePhoneNumber: Swift.String?
+        /// The customer’s last name.
+        public var lastName: Swift.String?
+        /// The customer’s mailing address.
+        public var mailingAddress: CustomerProfilesClientTypes.Address?
+        /// The customer’s middle name.
+        public var middleName: Swift.String?
+        /// The customer’s mobile phone number.
+        public var mobilePhoneNumber: Swift.String?
+        /// The type of profile used to describe the customer.
+        @available(*, deprecated)
+        public var partyType: CustomerProfilesClientTypes.PartyType?
+        /// An alternative to PartyType which accepts any string as input.
+        public var partyTypeString: Swift.String?
+        /// The customer’s personal email address.
+        public var personalEmailAddress: Swift.String?
+        /// The customer's phone number, which has not been specified as a mobile, home, or business number.
+        public var phoneNumber: Swift.String?
+        /// The unique identifier of a customer profile.
+        public var profileId: Swift.String?
+        /// The customer’s shipping address.
+        public var shippingAddress: CustomerProfilesClientTypes.Address?
+
+        public init(
+            accountNumber: Swift.String? = nil,
+            additionalInformation: Swift.String? = nil,
+            address: CustomerProfilesClientTypes.Address? = nil,
+            attributes: [Swift.String: Swift.String]? = nil,
+            billingAddress: CustomerProfilesClientTypes.Address? = nil,
+            birthDate: Swift.String? = nil,
+            businessEmailAddress: Swift.String? = nil,
+            businessName: Swift.String? = nil,
+            businessPhoneNumber: Swift.String? = nil,
+            emailAddress: Swift.String? = nil,
+            firstName: Swift.String? = nil,
+            foundByItems: [CustomerProfilesClientTypes.FoundByKeyValue]? = nil,
+            gender: CustomerProfilesClientTypes.Gender? = nil,
+            genderString: Swift.String? = nil,
+            homePhoneNumber: Swift.String? = nil,
+            lastName: Swift.String? = nil,
+            mailingAddress: CustomerProfilesClientTypes.Address? = nil,
+            middleName: Swift.String? = nil,
+            mobilePhoneNumber: Swift.String? = nil,
+            partyType: CustomerProfilesClientTypes.PartyType? = nil,
+            partyTypeString: Swift.String? = nil,
+            personalEmailAddress: Swift.String? = nil,
+            phoneNumber: Swift.String? = nil,
+            profileId: Swift.String? = nil,
+            shippingAddress: CustomerProfilesClientTypes.Address? = nil
+        ) {
+            self.accountNumber = accountNumber
+            self.additionalInformation = additionalInformation
+            self.address = address
+            self.attributes = attributes
+            self.billingAddress = billingAddress
+            self.birthDate = birthDate
+            self.businessEmailAddress = businessEmailAddress
+            self.businessName = businessName
+            self.businessPhoneNumber = businessPhoneNumber
+            self.emailAddress = emailAddress
+            self.firstName = firstName
+            self.foundByItems = foundByItems
+            self.gender = gender
+            self.genderString = genderString
+            self.homePhoneNumber = homePhoneNumber
+            self.lastName = lastName
+            self.mailingAddress = mailingAddress
+            self.middleName = middleName
+            self.mobilePhoneNumber = mobilePhoneNumber
+            self.partyType = partyType
+            self.partyTypeString = partyTypeString
+            self.personalEmailAddress = personalEmailAddress
+            self.phoneNumber = phoneNumber
+            self.profileId = profileId
+            self.shippingAddress = shippingAddress
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes.Profile: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Profile(foundByItems: \(Swift.String(describing: foundByItems)), profileId: \(Swift.String(describing: profileId)), accountNumber: \"CONTENT_REDACTED\", additionalInformation: \"CONTENT_REDACTED\", address: \"CONTENT_REDACTED\", attributes: \"CONTENT_REDACTED\", billingAddress: \"CONTENT_REDACTED\", birthDate: \"CONTENT_REDACTED\", businessEmailAddress: \"CONTENT_REDACTED\", businessName: \"CONTENT_REDACTED\", businessPhoneNumber: \"CONTENT_REDACTED\", emailAddress: \"CONTENT_REDACTED\", firstName: \"CONTENT_REDACTED\", gender: \"CONTENT_REDACTED\", genderString: \"CONTENT_REDACTED\", homePhoneNumber: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\", mailingAddress: \"CONTENT_REDACTED\", middleName: \"CONTENT_REDACTED\", mobilePhoneNumber: \"CONTENT_REDACTED\", partyType: \"CONTENT_REDACTED\", partyTypeString: \"CONTENT_REDACTED\", personalEmailAddress: \"CONTENT_REDACTED\", phoneNumber: \"CONTENT_REDACTED\", shippingAddress: \"CONTENT_REDACTED\")"}
+}
+
+public struct BatchGetProfileOutput: Swift.Sendable {
+    /// For information about the errors that are common to all actions, see [Common Errors](https://docs.aws.amazon.com/connect/latest/APIReference/CommonErrors.html).
+    public var errors: [CustomerProfilesClientTypes.BatchGetProfileError]?
+    /// Array of Profile Objects.
+    public var profiles: [CustomerProfilesClientTypes.Profile]?
+
+    public init(
+        errors: [CustomerProfilesClientTypes.BatchGetProfileError]? = nil,
+        profiles: [CustomerProfilesClientTypes.Profile]? = nil
+    ) {
+        self.errors = errors
+        self.profiles = profiles
     }
 }
 
@@ -1689,8 +2394,7 @@ extension CustomerProfilesClientTypes {
             displayName: Swift.String? = nil,
             lastUpdatedAt: Foundation.Date? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.calculatedAttributeName = calculatedAttributeName
             self.createdAt = createdAt
             self.description = description
@@ -1704,6 +2408,36 @@ extension CustomerProfilesClientTypes {
 extension CustomerProfilesClientTypes.ListCalculatedAttributeDefinitionItem: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "ListCalculatedAttributeDefinitionItem(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), createdAt: \(Swift.String(describing: createdAt)), displayName: \(Swift.String(describing: displayName)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Object that segments on Customer Profile's Calculated Attributes.
+    public struct CalculatedAttributeDimension: Swift.Sendable {
+        /// Applies the given condition over the initial Calculated Attribute's definition.
+        public var conditionOverrides: CustomerProfilesClientTypes.ConditionOverrides?
+        /// The action to segment with.
+        /// This member is required.
+        public var dimensionType: CustomerProfilesClientTypes.AttributeDimensionType?
+        /// The values to apply the DimensionType with.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            conditionOverrides: CustomerProfilesClientTypes.ConditionOverrides? = nil,
+            dimensionType: CustomerProfilesClientTypes.AttributeDimensionType? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.conditionOverrides = conditionOverrides
+            self.dimensionType = dimensionType
+            self.values = values
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes.CalculatedAttributeDimension: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CalculatedAttributeDimension(dimensionType: \(Swift.String(describing: dimensionType)), values: \(Swift.String(describing: values)), conditionOverrides: \"CONTENT_REDACTED\")"}
 }
 
 extension CustomerProfilesClientTypes {
@@ -1724,12 +2458,79 @@ extension CustomerProfilesClientTypes {
             displayName: Swift.String? = nil,
             isDataPartial: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.calculatedAttributeName = calculatedAttributeName
             self.displayName = displayName
             self.isDataPartial = isDataPartial
             self.value = value
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    public enum ComparisonOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case after
+        case before
+        case beginsWith
+        case between
+        case contains
+        case endsWith
+        case equal
+        case exclusive
+        case greaterThan
+        case greaterThanOrEqual
+        case inclusive
+        case lessThan
+        case lessThanOrEqual
+        case notBetween
+        case on
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ComparisonOperator] {
+            return [
+                .after,
+                .before,
+                .beginsWith,
+                .between,
+                .contains,
+                .endsWith,
+                .equal,
+                .exclusive,
+                .greaterThan,
+                .greaterThanOrEqual,
+                .inclusive,
+                .lessThan,
+                .lessThanOrEqual,
+                .notBetween,
+                .on
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .after: return "AFTER"
+            case .before: return "BEFORE"
+            case .beginsWith: return "BEGINS_WITH"
+            case .between: return "BETWEEN"
+            case .contains: return "CONTAINS"
+            case .endsWith: return "ENDS_WITH"
+            case .equal: return "EQUAL"
+            case .exclusive: return "EXCLUSIVE"
+            case .greaterThan: return "GREATER_THAN"
+            case .greaterThanOrEqual: return "GREATER_THAN_OR_EQUAL"
+            case .inclusive: return "INCLUSIVE"
+            case .lessThan: return "LESS_THAN"
+            case .lessThanOrEqual: return "LESS_THAN_OR_EQUAL"
+            case .notBetween: return "NOT_BETWEEN"
+            case .on: return "ON"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -1774,8 +2575,7 @@ extension CustomerProfilesClientTypes {
         public init(
             unit: CustomerProfilesClientTypes.Unit? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.unit = unit
             self.value = value
         }
@@ -1831,8 +2631,7 @@ extension CustomerProfilesClientTypes {
         public init(
             `operator`: CustomerProfilesClientTypes.Operator? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.`operator` = `operator`
             self.value = value
         }
@@ -1854,8 +2653,7 @@ extension CustomerProfilesClientTypes {
             objectCount: Swift.Int? = nil,
             range: CustomerProfilesClientTypes.Range? = nil,
             threshold: CustomerProfilesClientTypes.Threshold? = nil
-        )
-        {
+        ) {
             self.objectCount = objectCount
             self.range = range
             self.threshold = threshold
@@ -1866,6 +2664,128 @@ extension CustomerProfilesClientTypes {
 extension CustomerProfilesClientTypes.Conditions: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CONTENT_REDACTED"
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Contains the map of attribute names to attribute dimensions.
+    public struct FilterDimension: Swift.Sendable {
+        /// Is the attribute within the FilterDimension map
+        /// This member is required.
+        public var attributes: [Swift.String: CustomerProfilesClientTypes.FilterAttributeDimension]?
+
+        public init(
+            attributes: [Swift.String: CustomerProfilesClientTypes.FilterAttributeDimension]? = nil
+        ) {
+            self.attributes = attributes
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    public enum ModelType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case any
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ModelType] {
+            return [
+                .all,
+                .any,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .any: return "ANY"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Object that holds the dimensions to filter on.
+    public struct FilterGroup: Swift.Sendable {
+        /// Object that holds the attributes to filter on.
+        /// This member is required.
+        public var dimensions: [CustomerProfilesClientTypes.FilterDimension]?
+        /// The type of logical relationship between the dimensions of the Filter group.
+        /// This member is required.
+        public var type: CustomerProfilesClientTypes.ModelType?
+
+        public init(
+            dimensions: [CustomerProfilesClientTypes.FilterDimension]? = nil,
+            type: CustomerProfilesClientTypes.ModelType? = nil
+        ) {
+            self.dimensions = dimensions
+            self.type = type
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    public enum Include: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case any
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Include] {
+            return [
+                .all,
+                .any,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .any: return "ANY"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Defines how to filter the objects coming in for calculated attributes.
+    public struct Filter: Swift.Sendable {
+        /// Holds the list of Filter groups within the Filter definition.
+        /// This member is required.
+        public var groups: [CustomerProfilesClientTypes.FilterGroup]?
+        /// Define whether to include or exclude objects for Calculated Attributed calculation that fit the filter groups criteria.
+        /// This member is required.
+        public var include: CustomerProfilesClientTypes.Include?
+
+        public init(
+            groups: [CustomerProfilesClientTypes.FilterGroup]? = nil,
+            include: CustomerProfilesClientTypes.Include? = nil
+        ) {
+            self.groups = groups
+            self.include = include
+        }
     }
 }
 
@@ -1932,6 +2852,8 @@ public struct CreateCalculatedAttributeDefinitionInput: Swift.Sendable {
     /// The unique name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
+    /// Defines how to filter incoming objects to include part of the Calculated Attribute.
+    public var filter: CustomerProfilesClientTypes.Filter?
     /// The aggregation operation to perform for the calculated attribute.
     /// This member is required.
     public var statistic: CustomerProfilesClientTypes.Statistic?
@@ -1945,16 +2867,17 @@ public struct CreateCalculatedAttributeDefinitionInput: Swift.Sendable {
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         domainName: Swift.String? = nil,
+        filter: CustomerProfilesClientTypes.Filter? = nil,
         statistic: CustomerProfilesClientTypes.Statistic? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.attributeDetails = attributeDetails
         self.calculatedAttributeName = calculatedAttributeName
         self.conditions = conditions
         self.description = description
         self.displayName = displayName
         self.domainName = domainName
+        self.filter = filter
         self.statistic = statistic
         self.tags = tags
     }
@@ -1962,7 +2885,7 @@ public struct CreateCalculatedAttributeDefinitionInput: Swift.Sendable {
 
 extension CreateCalculatedAttributeDefinitionInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateCalculatedAttributeDefinitionInput(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), displayName: \(Swift.String(describing: displayName)), domainName: \(Swift.String(describing: domainName)), tags: \(Swift.String(describing: tags)), attributeDetails: \"CONTENT_REDACTED\", conditions: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", statistic: \"CONTENT_REDACTED\")"}
+        "CreateCalculatedAttributeDefinitionInput(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), displayName: \(Swift.String(describing: displayName)), domainName: \(Swift.String(describing: domainName)), filter: \(Swift.String(describing: filter)), tags: \(Swift.String(describing: tags)), attributeDetails: \"CONTENT_REDACTED\", conditions: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", statistic: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateCalculatedAttributeDefinitionOutput: Swift.Sendable {
@@ -1978,6 +2901,8 @@ public struct CreateCalculatedAttributeDefinitionOutput: Swift.Sendable {
     public var description: Swift.String?
     /// The display name of the calculated attribute.
     public var displayName: Swift.String?
+    /// The filter that was used as part of the request.
+    public var filter: CustomerProfilesClientTypes.Filter?
     /// The timestamp of when the calculated attribute definition was most recently edited.
     public var lastUpdatedAt: Foundation.Date?
     /// The aggregation operation to perform for the calculated attribute.
@@ -1992,17 +2917,18 @@ public struct CreateCalculatedAttributeDefinitionOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
+        filter: CustomerProfilesClientTypes.Filter? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         statistic: CustomerProfilesClientTypes.Statistic? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.attributeDetails = attributeDetails
         self.calculatedAttributeName = calculatedAttributeName
         self.conditions = conditions
         self.createdAt = createdAt
         self.description = description
         self.displayName = displayName
+        self.filter = filter
         self.lastUpdatedAt = lastUpdatedAt
         self.statistic = statistic
         self.tags = tags
@@ -2011,7 +2937,7 @@ public struct CreateCalculatedAttributeDefinitionOutput: Swift.Sendable {
 
 extension CreateCalculatedAttributeDefinitionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateCalculatedAttributeDefinitionOutput(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), createdAt: \(Swift.String(describing: createdAt)), displayName: \(Swift.String(describing: displayName)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), tags: \(Swift.String(describing: tags)), attributeDetails: \"CONTENT_REDACTED\", conditions: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", statistic: \"CONTENT_REDACTED\")"}
+        "CreateCalculatedAttributeDefinitionOutput(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), createdAt: \(Swift.String(describing: createdAt)), displayName: \(Swift.String(describing: displayName)), filter: \(Swift.String(describing: filter)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), tags: \(Swift.String(describing: tags)), attributeDetails: \"CONTENT_REDACTED\", conditions: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", statistic: \"CONTENT_REDACTED\")"}
 }
 
 extension CustomerProfilesClientTypes {
@@ -2027,8 +2953,7 @@ extension CustomerProfilesClientTypes {
         public init(
             s3BucketName: Swift.String? = nil,
             s3KeyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3BucketName = s3BucketName
             self.s3KeyName = s3KeyName
         }
@@ -2044,8 +2969,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             s3Exporting: CustomerProfilesClientTypes.S3ExportingConfig? = nil
-        )
-        {
+        ) {
             self.s3Exporting = s3Exporting
         }
     }
@@ -2109,8 +3033,7 @@ extension CustomerProfilesClientTypes {
         public init(
             dayOfTheWeek: CustomerProfilesClientTypes.JobScheduleDayOfTheWeek? = nil,
             time: Swift.String? = nil
-        )
-        {
+        ) {
             self.dayOfTheWeek = dayOfTheWeek
             self.time = time
         }
@@ -2136,8 +3059,7 @@ extension CustomerProfilesClientTypes {
             enabled: Swift.Bool? = nil,
             exportingConfig: CustomerProfilesClientTypes.ExportingConfig? = nil,
             jobSchedule: CustomerProfilesClientTypes.JobSchedule? = nil
-        )
-        {
+        ) {
             self.autoMerging = autoMerging
             self.enabled = enabled
             self.exportingConfig = exportingConfig
@@ -2190,8 +3112,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             rule: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.rule = rule
         }
     }
@@ -2225,8 +3146,7 @@ extension CustomerProfilesClientTypes {
             matchingRules: [CustomerProfilesClientTypes.MatchingRule]? = nil,
             maxAllowedRuleLevelForMatching: Swift.Int? = nil,
             maxAllowedRuleLevelForMerging: Swift.Int? = nil
-        )
-        {
+        ) {
             self.attributeTypesSelector = attributeTypesSelector
             self.conflictResolution = conflictResolution
             self.enabled = enabled
@@ -2264,8 +3184,7 @@ public struct CreateDomainInput: Swift.Sendable {
         matching: CustomerProfilesClientTypes.MatchingRequest? = nil,
         ruleBasedMatching: CustomerProfilesClientTypes.RuleBasedMatchingRequest? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.deadLetterQueueUrl = deadLetterQueueUrl
         self.defaultEncryptionKey = defaultEncryptionKey
         self.defaultExpirationDays = defaultExpirationDays
@@ -2294,8 +3213,7 @@ extension CustomerProfilesClientTypes {
             enabled: Swift.Bool? = nil,
             exportingConfig: CustomerProfilesClientTypes.ExportingConfig? = nil,
             jobSchedule: CustomerProfilesClientTypes.JobSchedule? = nil
-        )
-        {
+        ) {
             self.autoMerging = autoMerging
             self.enabled = enabled
             self.exportingConfig = exportingConfig
@@ -2378,8 +3296,7 @@ extension CustomerProfilesClientTypes {
             maxAllowedRuleLevelForMatching: Swift.Int? = nil,
             maxAllowedRuleLevelForMerging: Swift.Int? = nil,
             status: CustomerProfilesClientTypes.RuleBasedMatchingStatus? = nil
-        )
-        {
+        ) {
             self.attributeTypesSelector = attributeTypesSelector
             self.conflictResolution = conflictResolution
             self.enabled = enabled
@@ -2426,8 +3343,7 @@ public struct CreateDomainOutput: Swift.Sendable {
         matching: CustomerProfilesClientTypes.MatchingResponse? = nil,
         ruleBasedMatching: CustomerProfilesClientTypes.RuleBasedMatchingResponse? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.deadLetterQueueUrl = deadLetterQueueUrl
         self.defaultEncryptionKey = defaultEncryptionKey
@@ -2458,8 +3374,7 @@ public struct CreateEventStreamInput: Swift.Sendable {
         eventStreamName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         uri: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.eventStreamName = eventStreamName
         self.tags = tags
@@ -2477,11 +3392,287 @@ public struct CreateEventStreamOutput: Swift.Sendable {
     public init(
         eventStreamArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.eventStreamArn = eventStreamArn
         self.tags = tags
     }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// The criteria that a specific object attribute must meet to trigger the destination.
+    public struct ObjectAttribute: Swift.Sendable {
+        /// The operator used to compare an attribute against a list of values.
+        /// This member is required.
+        public var comparisonOperator: CustomerProfilesClientTypes.ComparisonOperator?
+        /// A field defined within an object type.
+        public var fieldName: Swift.String?
+        /// An attribute contained within a source object.
+        public var source: Swift.String?
+        /// A list of attribute values used for comparison.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            comparisonOperator: CustomerProfilesClientTypes.ComparisonOperator? = nil,
+            fieldName: Swift.String? = nil,
+            source: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.comparisonOperator = comparisonOperator
+            self.fieldName = fieldName
+            self.source = source
+            self.values = values
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// A specific event dimension to be assessed.
+    public struct EventTriggerDimension: Swift.Sendable {
+        /// A list of object attributes to be evaluated.
+        /// This member is required.
+        public var objectAttributes: [CustomerProfilesClientTypes.ObjectAttribute]?
+
+        public init(
+            objectAttributes: [CustomerProfilesClientTypes.ObjectAttribute]? = nil
+        ) {
+            self.objectAttributes = objectAttributes
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    public enum EventTriggerLogicalOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case any
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventTriggerLogicalOperator] {
+            return [
+                .all,
+                .any,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .any: return "ANY"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Specifies the circumstances under which the event should trigger the destination.
+    public struct EventTriggerCondition: Swift.Sendable {
+        /// A list of dimensions to be evaluated for the event.
+        /// This member is required.
+        public var eventTriggerDimensions: [CustomerProfilesClientTypes.EventTriggerDimension]?
+        /// The operator used to combine multiple dimensions.
+        /// This member is required.
+        public var logicalOperator: CustomerProfilesClientTypes.EventTriggerLogicalOperator?
+
+        public init(
+            eventTriggerDimensions: [CustomerProfilesClientTypes.EventTriggerDimension]? = nil,
+            logicalOperator: CustomerProfilesClientTypes.EventTriggerLogicalOperator? = nil
+        ) {
+            self.eventTriggerDimensions = eventTriggerDimensions
+            self.logicalOperator = logicalOperator
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    public enum PeriodUnit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case days
+        case hours
+        case months
+        case weeks
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PeriodUnit] {
+            return [
+                .days,
+                .hours,
+                .months,
+                .weeks
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .days: return "DAYS"
+            case .hours: return "HOURS"
+            case .months: return "MONTHS"
+            case .weeks: return "WEEKS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Defines a limit and the time period during which it is enforced.
+    public struct Period: Swift.Sendable {
+        /// The maximum allowed number of destination invocations per profile.
+        public var maxInvocationsPerProfile: Swift.Int?
+        /// The unit of time.
+        /// This member is required.
+        public var unit: CustomerProfilesClientTypes.PeriodUnit?
+        /// If set to true, there is no limit on the number of destination invocations per profile. The default is false.
+        public var unlimited: Swift.Bool
+        /// The amount of time of the specified unit.
+        /// This member is required.
+        public var value: Swift.Int?
+
+        public init(
+            maxInvocationsPerProfile: Swift.Int? = nil,
+            unit: CustomerProfilesClientTypes.PeriodUnit? = nil,
+            unlimited: Swift.Bool = false,
+            value: Swift.Int? = nil
+        ) {
+            self.maxInvocationsPerProfile = maxInvocationsPerProfile
+            self.unit = unit
+            self.unlimited = unlimited
+            self.value = value
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Defines limits controlling whether an event triggers the destination, based on ingestion latency and the number of invocations per profile over specific time periods.
+    public struct EventTriggerLimits: Swift.Sendable {
+        /// In milliseconds. Specifies that an event will only trigger the destination if it is processed within a certain latency period.
+        public var eventExpiration: Swift.Int?
+        /// A list of time periods during which the limits apply.
+        public var periods: [CustomerProfilesClientTypes.Period]?
+
+        public init(
+            eventExpiration: Swift.Int? = nil,
+            periods: [CustomerProfilesClientTypes.Period]? = nil
+        ) {
+            self.eventExpiration = eventExpiration
+            self.periods = periods
+        }
+    }
+}
+
+public struct CreateEventTriggerInput: Swift.Sendable {
+    /// The description of the event trigger.
+    public var description: Swift.String?
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// A list of conditions that determine when an event should trigger the destination.
+    /// This member is required.
+    public var eventTriggerConditions: [CustomerProfilesClientTypes.EventTriggerCondition]?
+    /// Defines limits controlling whether an event triggers the destination, based on ingestion latency and the number of invocations per profile over specific time periods.
+    public var eventTriggerLimits: CustomerProfilesClientTypes.EventTriggerLimits?
+    /// The unique name of the event trigger.
+    /// This member is required.
+    public var eventTriggerName: Swift.String?
+    /// The unique name of the object type.
+    /// This member is required.
+    public var objectTypeName: Swift.String?
+    /// The destination is triggered only for profiles that meet the criteria of a segment definition.
+    public var segmentFilter: Swift.String?
+    /// An array of key-value pairs to apply to this resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        description: Swift.String? = nil,
+        domainName: Swift.String? = nil,
+        eventTriggerConditions: [CustomerProfilesClientTypes.EventTriggerCondition]? = nil,
+        eventTriggerLimits: CustomerProfilesClientTypes.EventTriggerLimits? = nil,
+        eventTriggerName: Swift.String? = nil,
+        objectTypeName: Swift.String? = nil,
+        segmentFilter: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.description = description
+        self.domainName = domainName
+        self.eventTriggerConditions = eventTriggerConditions
+        self.eventTriggerLimits = eventTriggerLimits
+        self.eventTriggerName = eventTriggerName
+        self.objectTypeName = objectTypeName
+        self.segmentFilter = segmentFilter
+        self.tags = tags
+    }
+}
+
+extension CreateEventTriggerInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateEventTriggerInput(domainName: \(Swift.String(describing: domainName)), eventTriggerLimits: \(Swift.String(describing: eventTriggerLimits)), eventTriggerName: \(Swift.String(describing: eventTriggerName)), objectTypeName: \(Swift.String(describing: objectTypeName)), segmentFilter: \(Swift.String(describing: segmentFilter)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", eventTriggerConditions: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateEventTriggerOutput: Swift.Sendable {
+    /// The timestamp of when the event trigger was created.
+    public var createdAt: Foundation.Date?
+    /// The description of the event trigger.
+    public var description: Swift.String?
+    /// A list of conditions that determine when an event should trigger the destination.
+    public var eventTriggerConditions: [CustomerProfilesClientTypes.EventTriggerCondition]?
+    /// Defines limits controlling whether an event triggers the destination, based on ingestion latency and the number of invocations per profile over specific time periods.
+    public var eventTriggerLimits: CustomerProfilesClientTypes.EventTriggerLimits?
+    /// The unique name of the event trigger.
+    public var eventTriggerName: Swift.String?
+    /// The timestamp of when the event trigger was most recently updated.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The unique name of the object type.
+    public var objectTypeName: Swift.String?
+    /// The destination is triggered only for profiles that meet the criteria of a segment definition.
+    public var segmentFilter: Swift.String?
+    /// An array of key-value pairs to apply to this resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        eventTriggerConditions: [CustomerProfilesClientTypes.EventTriggerCondition]? = nil,
+        eventTriggerLimits: CustomerProfilesClientTypes.EventTriggerLimits? = nil,
+        eventTriggerName: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        objectTypeName: Swift.String? = nil,
+        segmentFilter: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.createdAt = createdAt
+        self.description = description
+        self.eventTriggerConditions = eventTriggerConditions
+        self.eventTriggerLimits = eventTriggerLimits
+        self.eventTriggerName = eventTriggerName
+        self.lastUpdatedAt = lastUpdatedAt
+        self.objectTypeName = objectTypeName
+        self.segmentFilter = segmentFilter
+        self.tags = tags
+    }
+}
+
+extension CreateEventTriggerOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateEventTriggerOutput(createdAt: \(Swift.String(describing: createdAt)), eventTriggerLimits: \(Swift.String(describing: eventTriggerLimits)), eventTriggerName: \(Swift.String(describing: eventTriggerName)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), objectTypeName: \(Swift.String(describing: objectTypeName)), segmentFilter: \(Swift.String(describing: segmentFilter)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", eventTriggerConditions: \"CONTENT_REDACTED\")"}
 }
 
 extension CustomerProfilesClientTypes {
@@ -2493,8 +3684,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             appflowIntegration: CustomerProfilesClientTypes.AppflowIntegration? = nil
-        )
-        {
+        ) {
             self.appflowIntegration = appflowIntegration
         }
     }
@@ -2552,8 +3742,7 @@ public struct CreateIntegrationWorkflowInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         workflowType: CustomerProfilesClientTypes.WorkflowType? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.integrationConfig = integrationConfig
         self.objectTypeName = objectTypeName
@@ -2574,76 +3763,9 @@ public struct CreateIntegrationWorkflowOutput: Swift.Sendable {
     public init(
         message: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
         self.workflowId = workflowId
-    }
-}
-
-extension CustomerProfilesClientTypes {
-
-    @available(*, deprecated)
-    public enum Gender: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case female
-        case male
-        case unspecified
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [Gender] {
-            return [
-                .female,
-                .male,
-                .unspecified
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .female: return "FEMALE"
-            case .male: return "MALE"
-            case .unspecified: return "UNSPECIFIED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension CustomerProfilesClientTypes {
-
-    @available(*, deprecated)
-    public enum PartyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case business
-        case individual
-        case other
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [PartyType] {
-            return [
-                .business,
-                .individual,
-                .other
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .business: return "BUSINESS"
-            case .individual: return "INDIVIDUAL"
-            case .other: return "OTHER"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -2725,8 +3847,7 @@ public struct CreateProfileInput: Swift.Sendable {
         personalEmailAddress: Swift.String? = nil,
         phoneNumber: Swift.String? = nil,
         shippingAddress: CustomerProfilesClientTypes.Address? = nil
-    )
-    {
+    ) {
         self.accountNumber = accountNumber
         self.additionalInformation = additionalInformation
         self.address = address
@@ -2766,9 +3887,510 @@ public struct CreateProfileOutput: Swift.Sendable {
 
     public init(
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileId = profileId
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Object that segments on various Customer profile's fields that are larger than normal.
+    public struct ExtraLengthValueProfileDimension: Swift.Sendable {
+        /// The action to segment with.
+        /// This member is required.
+        public var dimensionType: CustomerProfilesClientTypes.StringDimensionType?
+        /// The values to apply the DimensionType on.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            dimensionType: CustomerProfilesClientTypes.StringDimensionType? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.dimensionType = dimensionType
+            self.values = values
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    public enum DateDimensionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case after
+        case before
+        case between
+        case notBetween
+        case on
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DateDimensionType] {
+            return [
+                .after,
+                .before,
+                .between,
+                .notBetween,
+                .on
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .after: return "AFTER"
+            case .before: return "BEFORE"
+            case .between: return "BETWEEN"
+            case .notBetween: return "NOT_BETWEEN"
+            case .on: return "ON"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Object that segments on various Customer Profile's date fields.
+    public struct DateDimension: Swift.Sendable {
+        /// The action to segment with.
+        /// This member is required.
+        public var dimensionType: CustomerProfilesClientTypes.DateDimensionType?
+        /// The values to apply the DimensionType on.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            dimensionType: CustomerProfilesClientTypes.DateDimensionType? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.dimensionType = dimensionType
+            self.values = values
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// The object used to segment on attributes within the customer profile.
+    public struct ProfileAttributes: Swift.Sendable {
+        /// A field to describe values to segment on within account number.
+        public var accountNumber: CustomerProfilesClientTypes.ProfileDimension?
+        /// A field to describe values to segment on within additional information.
+        public var additionalInformation: CustomerProfilesClientTypes.ExtraLengthValueProfileDimension?
+        /// A field to describe values to segment on within address.
+        public var address: CustomerProfilesClientTypes.AddressDimension?
+        /// A field to describe values to segment on within attributes.
+        public var attributes: [Swift.String: CustomerProfilesClientTypes.AttributeDimension]?
+        /// A field to describe values to segment on within billing address.
+        public var billingAddress: CustomerProfilesClientTypes.AddressDimension?
+        /// A field to describe values to segment on within birthDate.
+        public var birthDate: CustomerProfilesClientTypes.DateDimension?
+        /// A field to describe values to segment on within business email address.
+        public var businessEmailAddress: CustomerProfilesClientTypes.ProfileDimension?
+        /// A field to describe values to segment on within business name.
+        public var businessName: CustomerProfilesClientTypes.ProfileDimension?
+        /// A field to describe values to segment on within business phone number.
+        public var businessPhoneNumber: CustomerProfilesClientTypes.ProfileDimension?
+        /// A field to describe values to segment on within email address.
+        public var emailAddress: CustomerProfilesClientTypes.ProfileDimension?
+        /// A field to describe values to segment on within first name.
+        public var firstName: CustomerProfilesClientTypes.ProfileDimension?
+        /// A field to describe values to segment on within genderString.
+        public var genderString: CustomerProfilesClientTypes.ProfileDimension?
+        /// A field to describe values to segment on within home phone number.
+        public var homePhoneNumber: CustomerProfilesClientTypes.ProfileDimension?
+        /// A field to describe values to segment on within last name.
+        public var lastName: CustomerProfilesClientTypes.ProfileDimension?
+        /// A field to describe values to segment on within mailing address.
+        public var mailingAddress: CustomerProfilesClientTypes.AddressDimension?
+        /// A field to describe values to segment on within middle name.
+        public var middleName: CustomerProfilesClientTypes.ProfileDimension?
+        /// A field to describe values to segment on within mobile phone number.
+        public var mobilePhoneNumber: CustomerProfilesClientTypes.ProfileDimension?
+        /// A field to describe values to segment on within partyTypeString.
+        public var partyTypeString: CustomerProfilesClientTypes.ProfileDimension?
+        /// A field to describe values to segment on within personal email address.
+        public var personalEmailAddress: CustomerProfilesClientTypes.ProfileDimension?
+        /// A field to describe values to segment on within phone number.
+        public var phoneNumber: CustomerProfilesClientTypes.ProfileDimension?
+        /// A field to describe values to segment on within shipping address.
+        public var shippingAddress: CustomerProfilesClientTypes.AddressDimension?
+
+        public init(
+            accountNumber: CustomerProfilesClientTypes.ProfileDimension? = nil,
+            additionalInformation: CustomerProfilesClientTypes.ExtraLengthValueProfileDimension? = nil,
+            address: CustomerProfilesClientTypes.AddressDimension? = nil,
+            attributes: [Swift.String: CustomerProfilesClientTypes.AttributeDimension]? = nil,
+            billingAddress: CustomerProfilesClientTypes.AddressDimension? = nil,
+            birthDate: CustomerProfilesClientTypes.DateDimension? = nil,
+            businessEmailAddress: CustomerProfilesClientTypes.ProfileDimension? = nil,
+            businessName: CustomerProfilesClientTypes.ProfileDimension? = nil,
+            businessPhoneNumber: CustomerProfilesClientTypes.ProfileDimension? = nil,
+            emailAddress: CustomerProfilesClientTypes.ProfileDimension? = nil,
+            firstName: CustomerProfilesClientTypes.ProfileDimension? = nil,
+            genderString: CustomerProfilesClientTypes.ProfileDimension? = nil,
+            homePhoneNumber: CustomerProfilesClientTypes.ProfileDimension? = nil,
+            lastName: CustomerProfilesClientTypes.ProfileDimension? = nil,
+            mailingAddress: CustomerProfilesClientTypes.AddressDimension? = nil,
+            middleName: CustomerProfilesClientTypes.ProfileDimension? = nil,
+            mobilePhoneNumber: CustomerProfilesClientTypes.ProfileDimension? = nil,
+            partyTypeString: CustomerProfilesClientTypes.ProfileDimension? = nil,
+            personalEmailAddress: CustomerProfilesClientTypes.ProfileDimension? = nil,
+            phoneNumber: CustomerProfilesClientTypes.ProfileDimension? = nil,
+            shippingAddress: CustomerProfilesClientTypes.AddressDimension? = nil
+        ) {
+            self.accountNumber = accountNumber
+            self.additionalInformation = additionalInformation
+            self.address = address
+            self.attributes = attributes
+            self.billingAddress = billingAddress
+            self.birthDate = birthDate
+            self.businessEmailAddress = businessEmailAddress
+            self.businessName = businessName
+            self.businessPhoneNumber = businessPhoneNumber
+            self.emailAddress = emailAddress
+            self.firstName = firstName
+            self.genderString = genderString
+            self.homePhoneNumber = homePhoneNumber
+            self.lastName = lastName
+            self.mailingAddress = mailingAddress
+            self.middleName = middleName
+            self.mobilePhoneNumber = mobilePhoneNumber
+            self.partyTypeString = partyTypeString
+            self.personalEmailAddress = personalEmailAddress
+            self.phoneNumber = phoneNumber
+            self.shippingAddress = shippingAddress
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes.ProfileAttributes: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Object that holds what profile and calculated attributes to segment on.
+    public enum Dimension: Swift.Sendable {
+        /// Object that holds the profile attributes to segment on.
+        case profileattributes(CustomerProfilesClientTypes.ProfileAttributes)
+        /// Object that holds the calculated attributes to segment on.
+        case calculatedattributes([Swift.String: CustomerProfilesClientTypes.CalculatedAttributeDimension])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// The source segments to build off of.
+    public struct SourceSegment: Swift.Sendable {
+        /// The unique name of the segment definition.
+        public var segmentDefinitionName: Swift.String?
+
+        public init(
+            segmentDefinitionName: Swift.String? = nil
+        ) {
+            self.segmentDefinitionName = segmentDefinitionName
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    public enum IncludeOptions: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case any
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IncludeOptions] {
+            return [
+                .all,
+                .any,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .any: return "ANY"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Contains dimensions that determine what to segment on.
+    public struct Group: Swift.Sendable {
+        /// Defines the attributes to segment on.
+        public var dimensions: [CustomerProfilesClientTypes.Dimension]?
+        /// Defines the starting source of data.
+        public var sourceSegments: [CustomerProfilesClientTypes.SourceSegment]?
+        /// Defines how to interact with the source data.
+        public var sourceType: CustomerProfilesClientTypes.IncludeOptions?
+        /// Defines how to interact with the profiles found in the current filtering.
+        public var type: CustomerProfilesClientTypes.IncludeOptions?
+
+        public init(
+            dimensions: [CustomerProfilesClientTypes.Dimension]? = nil,
+            sourceSegments: [CustomerProfilesClientTypes.SourceSegment]? = nil,
+            sourceType: CustomerProfilesClientTypes.IncludeOptions? = .all,
+            type: CustomerProfilesClientTypes.IncludeOptions? = .all
+        ) {
+            self.dimensions = dimensions
+            self.sourceSegments = sourceSegments
+            self.sourceType = sourceType
+            self.type = type
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Contains all groups of the segment definition.
+    public struct SegmentGroup: Swift.Sendable {
+        /// Holds the list of groups within the segment definition.
+        public var groups: [CustomerProfilesClientTypes.Group]?
+        /// Defines whether to include or exclude the profiles that fit the segment criteria.
+        public var include: CustomerProfilesClientTypes.IncludeOptions?
+
+        public init(
+            groups: [CustomerProfilesClientTypes.Group]? = nil,
+            include: CustomerProfilesClientTypes.IncludeOptions? = .all
+        ) {
+            self.groups = groups
+            self.include = include
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes.SegmentGroup: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+public struct CreateSegmentDefinitionInput: Swift.Sendable {
+    /// The description of the segment definition.
+    public var description: Swift.String?
+    /// The display name of the segment definition.
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The unique name of the segment definition.
+    /// This member is required.
+    public var segmentDefinitionName: Swift.String?
+    /// Specifies the base segments and dimensions for a segment definition along with their respective relationship.
+    /// This member is required.
+    public var segmentGroups: CustomerProfilesClientTypes.SegmentGroup?
+    /// The tags used to organize, track, or control access for this resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        domainName: Swift.String? = nil,
+        segmentDefinitionName: Swift.String? = nil,
+        segmentGroups: CustomerProfilesClientTypes.SegmentGroup? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.description = description
+        self.displayName = displayName
+        self.domainName = domainName
+        self.segmentDefinitionName = segmentDefinitionName
+        self.segmentGroups = segmentGroups
+        self.tags = tags
+    }
+}
+
+extension CreateSegmentDefinitionInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateSegmentDefinitionInput(displayName: \(Swift.String(describing: displayName)), domainName: \(Swift.String(describing: domainName)), segmentDefinitionName: \(Swift.String(describing: segmentDefinitionName)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", segmentGroups: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateSegmentDefinitionOutput: Swift.Sendable {
+    /// The timestamp of when the segment definition was created.
+    public var createdAt: Foundation.Date?
+    /// The description of the segment definition.
+    public var description: Swift.String?
+    /// The display name of the segment definition.
+    public var displayName: Swift.String?
+    /// The arn of the segment definition.
+    public var segmentDefinitionArn: Swift.String?
+    /// The name of the segment definition.
+    /// This member is required.
+    public var segmentDefinitionName: Swift.String?
+    /// The tags used to organize, track, or control access for this resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        segmentDefinitionArn: Swift.String? = nil,
+        segmentDefinitionName: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.createdAt = createdAt
+        self.description = description
+        self.displayName = displayName
+        self.segmentDefinitionArn = segmentDefinitionArn
+        self.segmentDefinitionName = segmentDefinitionName
+        self.tags = tags
+    }
+}
+
+extension CreateSegmentDefinitionOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateSegmentDefinitionOutput(createdAt: \(Swift.String(describing: createdAt)), displayName: \(Swift.String(describing: displayName)), segmentDefinitionArn: \(Swift.String(describing: segmentDefinitionArn)), segmentDefinitionName: \(Swift.String(describing: segmentDefinitionName)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Contains all groups of the segment definition.
+    public struct SegmentGroupStructure: Swift.Sendable {
+        /// Holds the list of groups within the segment definition.
+        public var groups: [CustomerProfilesClientTypes.Group]?
+        /// Define whether to include or exclude the profiles that fit the segment criteria.
+        public var include: CustomerProfilesClientTypes.IncludeOptions?
+
+        public init(
+            groups: [CustomerProfilesClientTypes.Group]? = nil,
+            include: CustomerProfilesClientTypes.IncludeOptions? = nil
+        ) {
+            self.groups = groups
+            self.include = include
+        }
+    }
+}
+
+public struct CreateSegmentEstimateInput: Swift.Sendable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The segment query for calculating a segment estimate.
+    /// This member is required.
+    public var segmentQuery: CustomerProfilesClientTypes.SegmentGroupStructure?
+
+    public init(
+        domainName: Swift.String? = nil,
+        segmentQuery: CustomerProfilesClientTypes.SegmentGroupStructure? = nil
+    ) {
+        self.domainName = domainName
+        self.segmentQuery = segmentQuery
+    }
+}
+
+public struct CreateSegmentEstimateOutput: Swift.Sendable {
+    /// The unique name of the domain.
+    public var domainName: Swift.String?
+    /// A unique identifier for the resource. The value can be passed to GetSegmentEstimate to retrieve the result of segment estimate status.
+    public var estimateId: Swift.String?
+    /// The status code for the response.
+    public var statusCode: Swift.Int
+
+    public init(
+        domainName: Swift.String? = nil,
+        estimateId: Swift.String? = nil,
+        statusCode: Swift.Int = 0
+    ) {
+        self.domainName = domainName
+        self.estimateId = estimateId
+        self.statusCode = statusCode
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    public enum DataFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case csv
+        case jsonl
+        case orc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataFormat] {
+            return [
+                .csv,
+                .jsonl,
+                .orc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .csv: return "CSV"
+            case .jsonl: return "JSONL"
+            case .orc: return "ORC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateSegmentSnapshotInput: Swift.Sendable {
+    /// The format in which the segment will be exported.
+    /// This member is required.
+    public var dataFormat: CustomerProfilesClientTypes.DataFormat?
+    /// The destination to which the segment will be exported. This field must be provided if the request is not submitted from the Amazon Connect Admin Website.
+    public var destinationUri: Swift.String?
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the exported segment.
+    public var encryptionKey: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role that allows Customer Profiles service principal to assume the role for conducting KMS and S3 operations.
+    public var roleArn: Swift.String?
+    /// The name of the segment definition used in this snapshot request.
+    /// This member is required.
+    public var segmentDefinitionName: Swift.String?
+
+    public init(
+        dataFormat: CustomerProfilesClientTypes.DataFormat? = nil,
+        destinationUri: Swift.String? = nil,
+        domainName: Swift.String? = nil,
+        encryptionKey: Swift.String? = nil,
+        roleArn: Swift.String? = nil,
+        segmentDefinitionName: Swift.String? = nil
+    ) {
+        self.dataFormat = dataFormat
+        self.destinationUri = destinationUri
+        self.domainName = domainName
+        self.encryptionKey = encryptionKey
+        self.roleArn = roleArn
+        self.segmentDefinitionName = segmentDefinitionName
+    }
+}
+
+public struct CreateSegmentSnapshotOutput: Swift.Sendable {
+    /// The unique identifier of the segment snapshot.
+    /// This member is required.
+    public var snapshotId: Swift.String?
+
+    public init(
+        snapshotId: Swift.String? = nil
+    ) {
+        self.snapshotId = snapshotId
     }
 }
 
@@ -2783,8 +4405,7 @@ public struct DeleteCalculatedAttributeDefinitionInput: Swift.Sendable {
     public init(
         calculatedAttributeName: Swift.String? = nil,
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.calculatedAttributeName = calculatedAttributeName
         self.domainName = domainName
     }
@@ -2802,8 +4423,7 @@ public struct DeleteDomainInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -2815,8 +4435,7 @@ public struct DeleteDomainOutput: Swift.Sendable {
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
     }
 }
@@ -2832,8 +4451,7 @@ public struct DeleteEventStreamInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         eventStreamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.eventStreamName = eventStreamName
     }
@@ -2842,6 +4460,35 @@ public struct DeleteEventStreamInput: Swift.Sendable {
 public struct DeleteEventStreamOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct DeleteEventTriggerInput: Swift.Sendable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The unique name of the event trigger.
+    /// This member is required.
+    public var eventTriggerName: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        eventTriggerName: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.eventTriggerName = eventTriggerName
+    }
+}
+
+public struct DeleteEventTriggerOutput: Swift.Sendable {
+    /// A message that indicates the delete request is done.
+    /// This member is required.
+    public var message: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.message = message
+    }
 }
 
 public struct DeleteIntegrationInput: Swift.Sendable {
@@ -2855,8 +4502,7 @@ public struct DeleteIntegrationInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         uri: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.uri = uri
     }
@@ -2869,8 +4515,7 @@ public struct DeleteIntegrationOutput: Swift.Sendable {
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
     }
 }
@@ -2886,8 +4531,7 @@ public struct DeleteProfileInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.profileId = profileId
     }
@@ -2899,8 +4543,7 @@ public struct DeleteProfileOutput: Swift.Sendable {
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
     }
 }
@@ -2924,8 +4567,7 @@ public struct DeleteProfileKeyInput: Swift.Sendable {
         keyName: Swift.String? = nil,
         profileId: Swift.String? = nil,
         values: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.keyName = keyName
         self.profileId = profileId
@@ -2939,8 +4581,7 @@ public struct DeleteProfileKeyOutput: Swift.Sendable {
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
     }
 }
@@ -2964,8 +4605,7 @@ public struct DeleteProfileObjectInput: Swift.Sendable {
         objectTypeName: Swift.String? = nil,
         profileId: Swift.String? = nil,
         profileObjectUniqueKey: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.objectTypeName = objectTypeName
         self.profileId = profileId
@@ -2979,8 +4619,7 @@ public struct DeleteProfileObjectOutput: Swift.Sendable {
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
     }
 }
@@ -2996,8 +4635,7 @@ public struct DeleteProfileObjectTypeInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         objectTypeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.objectTypeName = objectTypeName
     }
@@ -3010,8 +4648,35 @@ public struct DeleteProfileObjectTypeOutput: Swift.Sendable {
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
+        self.message = message
+    }
+}
+
+public struct DeleteSegmentDefinitionInput: Swift.Sendable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The unique name of the segment definition.
+    /// This member is required.
+    public var segmentDefinitionName: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        segmentDefinitionName: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.segmentDefinitionName = segmentDefinitionName
+    }
+}
+
+public struct DeleteSegmentDefinitionOutput: Swift.Sendable {
+    /// A message that indicates the delete request is done.
+    public var message: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
         self.message = message
     }
 }
@@ -3027,8 +4692,7 @@ public struct DeleteWorkflowInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.workflowId = workflowId
     }
@@ -3050,8 +4714,7 @@ public struct DetectProfileObjectTypeInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         objects: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.objects = objects
     }
@@ -3115,8 +4778,7 @@ extension CustomerProfilesClientTypes {
             contentType: CustomerProfilesClientTypes.FieldContentType? = nil,
             source: Swift.String? = nil,
             target: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentType = contentType
             self.source = source
             self.target = target
@@ -3129,6 +4791,7 @@ extension CustomerProfilesClientTypes {
     public enum StandardIdentifier: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case asset
         case `case`
+        case communicationRecord
         case lookupOnly
         case newOnly
         case order
@@ -3141,6 +4804,7 @@ extension CustomerProfilesClientTypes {
             return [
                 .asset,
                 .case,
+                .communicationRecord,
                 .lookupOnly,
                 .newOnly,
                 .order,
@@ -3159,6 +4823,7 @@ extension CustomerProfilesClientTypes {
             switch self {
             case .asset: return "ASSET"
             case .case: return "CASE"
+            case .communicationRecord: return "COMMUNICATION_RECORD"
             case .lookupOnly: return "LOOKUP_ONLY"
             case .newOnly: return "NEW_ONLY"
             case .order: return "ORDER"
@@ -3183,8 +4848,7 @@ extension CustomerProfilesClientTypes {
         public init(
             fieldNames: [Swift.String]? = nil,
             standardIdentifiers: [CustomerProfilesClientTypes.StandardIdentifier]? = nil
-        )
-        {
+        ) {
             self.fieldNames = fieldNames
             self.standardIdentifiers = standardIdentifiers
         }
@@ -3206,8 +4870,7 @@ extension CustomerProfilesClientTypes {
             fields: [Swift.String: CustomerProfilesClientTypes.ObjectTypeField]? = nil,
             keys: [Swift.String: [CustomerProfilesClientTypes.ObjectTypeKey]]? = nil,
             sourceLastUpdatedTimestampFormat: Swift.String? = nil
-        )
-        {
+        ) {
             self.fields = fields
             self.keys = keys
             self.sourceLastUpdatedTimestampFormat = sourceLastUpdatedTimestampFormat
@@ -3226,8 +4889,7 @@ public struct DetectProfileObjectTypeOutput: Swift.Sendable {
 
     public init(
         detectedProfileObjectTypes: [CustomerProfilesClientTypes.DetectedProfileObjectType]? = nil
-    )
-    {
+    ) {
         self.detectedProfileObjectTypes = detectedProfileObjectTypes
     }
 }
@@ -3250,8 +4912,7 @@ public struct GetAutoMergingPreviewInput: Swift.Sendable {
         consolidation: CustomerProfilesClientTypes.Consolidation? = nil,
         domainName: Swift.String? = nil,
         minAllowedConfidenceScoreForMerging: Swift.Double? = nil
-    )
-    {
+    ) {
         self.conflictResolution = conflictResolution
         self.consolidation = consolidation
         self.domainName = domainName
@@ -3275,8 +4936,7 @@ public struct GetAutoMergingPreviewOutput: Swift.Sendable {
         numberOfMatchesInSample: Swift.Int = 0,
         numberOfProfilesInSample: Swift.Int = 0,
         numberOfProfilesWillBeMerged: Swift.Int = 0
-    )
-    {
+    ) {
         self.domainName = domainName
         self.numberOfMatchesInSample = numberOfMatchesInSample
         self.numberOfProfilesInSample = numberOfProfilesInSample
@@ -3295,8 +4955,7 @@ public struct GetCalculatedAttributeDefinitionInput: Swift.Sendable {
     public init(
         calculatedAttributeName: Swift.String? = nil,
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.calculatedAttributeName = calculatedAttributeName
         self.domainName = domainName
     }
@@ -3315,6 +4974,8 @@ public struct GetCalculatedAttributeDefinitionOutput: Swift.Sendable {
     public var description: Swift.String?
     /// The display name of the calculated attribute.
     public var displayName: Swift.String?
+    /// The filter assigned to this calculated attribute definition.
+    public var filter: CustomerProfilesClientTypes.Filter?
     /// The timestamp of when the calculated attribute definition was most recently edited.
     public var lastUpdatedAt: Foundation.Date?
     /// The aggregation operation to perform for the calculated attribute.
@@ -3329,17 +4990,18 @@ public struct GetCalculatedAttributeDefinitionOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
+        filter: CustomerProfilesClientTypes.Filter? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         statistic: CustomerProfilesClientTypes.Statistic? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.attributeDetails = attributeDetails
         self.calculatedAttributeName = calculatedAttributeName
         self.conditions = conditions
         self.createdAt = createdAt
         self.description = description
         self.displayName = displayName
+        self.filter = filter
         self.lastUpdatedAt = lastUpdatedAt
         self.statistic = statistic
         self.tags = tags
@@ -3348,7 +5010,7 @@ public struct GetCalculatedAttributeDefinitionOutput: Swift.Sendable {
 
 extension GetCalculatedAttributeDefinitionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetCalculatedAttributeDefinitionOutput(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), createdAt: \(Swift.String(describing: createdAt)), displayName: \(Swift.String(describing: displayName)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), tags: \(Swift.String(describing: tags)), attributeDetails: \"CONTENT_REDACTED\", conditions: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", statistic: \"CONTENT_REDACTED\")"}
+        "GetCalculatedAttributeDefinitionOutput(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), createdAt: \(Swift.String(describing: createdAt)), displayName: \(Swift.String(describing: displayName)), filter: \(Swift.String(describing: filter)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), tags: \(Swift.String(describing: tags)), attributeDetails: \"CONTENT_REDACTED\", conditions: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", statistic: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetCalculatedAttributeForProfileInput: Swift.Sendable {
@@ -3366,8 +5028,7 @@ public struct GetCalculatedAttributeForProfileInput: Swift.Sendable {
         calculatedAttributeName: Swift.String? = nil,
         domainName: Swift.String? = nil,
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.calculatedAttributeName = calculatedAttributeName
         self.domainName = domainName
         self.profileId = profileId
@@ -3389,8 +5050,7 @@ public struct GetCalculatedAttributeForProfileOutput: Swift.Sendable {
         displayName: Swift.String? = nil,
         isDataPartial: Swift.String? = nil,
         value: Swift.String? = nil
-    )
-    {
+    ) {
         self.calculatedAttributeName = calculatedAttributeName
         self.displayName = displayName
         self.isDataPartial = isDataPartial
@@ -3405,8 +5065,7 @@ public struct GetDomainInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -3429,8 +5088,7 @@ extension CustomerProfilesClientTypes {
             objectCount: Swift.Int = 0,
             profileCount: Swift.Int = 0,
             totalSize: Swift.Int = 0
-        )
-        {
+        ) {
             self.meteringProfileCount = meteringProfileCount
             self.objectCount = objectCount
             self.profileCount = profileCount
@@ -3475,8 +5133,7 @@ public struct GetDomainOutput: Swift.Sendable {
         ruleBasedMatching: CustomerProfilesClientTypes.RuleBasedMatchingResponse? = nil,
         stats: CustomerProfilesClientTypes.DomainStats? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.deadLetterQueueUrl = deadLetterQueueUrl
         self.defaultEncryptionKey = defaultEncryptionKey
@@ -3501,8 +5158,7 @@ public struct GetEventStreamInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         eventStreamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.eventStreamName = eventStreamName
     }
@@ -3557,8 +5213,7 @@ extension CustomerProfilesClientTypes {
             status: CustomerProfilesClientTypes.EventStreamDestinationStatus? = nil,
             unhealthySince: Foundation.Date? = nil,
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.status = status
             self.unhealthySince = unhealthySince
@@ -3625,8 +5280,7 @@ public struct GetEventStreamOutput: Swift.Sendable {
         state: CustomerProfilesClientTypes.EventStreamState? = nil,
         stoppedSince: Foundation.Date? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.destinationDetails = destinationDetails
         self.domainName = domainName
@@ -3635,6 +5289,71 @@ public struct GetEventStreamOutput: Swift.Sendable {
         self.stoppedSince = stoppedSince
         self.tags = tags
     }
+}
+
+public struct GetEventTriggerInput: Swift.Sendable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The unique name of the event trigger.
+    /// This member is required.
+    public var eventTriggerName: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        eventTriggerName: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.eventTriggerName = eventTriggerName
+    }
+}
+
+public struct GetEventTriggerOutput: Swift.Sendable {
+    /// The timestamp of when the event trigger was created.
+    public var createdAt: Foundation.Date?
+    /// The description of the event trigger.
+    public var description: Swift.String?
+    /// A list of conditions that determine when an event should trigger the destination.
+    public var eventTriggerConditions: [CustomerProfilesClientTypes.EventTriggerCondition]?
+    /// Defines limits controlling whether an event triggers the destination, based on ingestion latency and the number of invocations per profile over specific time periods.
+    public var eventTriggerLimits: CustomerProfilesClientTypes.EventTriggerLimits?
+    /// The unique name of the event trigger.
+    public var eventTriggerName: Swift.String?
+    /// The timestamp of when the event trigger was most recently updated.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The unique name of the object type.
+    public var objectTypeName: Swift.String?
+    /// The destination is triggered only for profiles that meet the criteria of a segment definition.
+    public var segmentFilter: Swift.String?
+    /// An array of key-value pairs to apply to this resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        eventTriggerConditions: [CustomerProfilesClientTypes.EventTriggerCondition]? = nil,
+        eventTriggerLimits: CustomerProfilesClientTypes.EventTriggerLimits? = nil,
+        eventTriggerName: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        objectTypeName: Swift.String? = nil,
+        segmentFilter: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.createdAt = createdAt
+        self.description = description
+        self.eventTriggerConditions = eventTriggerConditions
+        self.eventTriggerLimits = eventTriggerLimits
+        self.eventTriggerName = eventTriggerName
+        self.lastUpdatedAt = lastUpdatedAt
+        self.objectTypeName = objectTypeName
+        self.segmentFilter = segmentFilter
+        self.tags = tags
+    }
+}
+
+extension GetEventTriggerOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetEventTriggerOutput(createdAt: \(Swift.String(describing: createdAt)), eventTriggerLimits: \(Swift.String(describing: eventTriggerLimits)), eventTriggerName: \(Swift.String(describing: eventTriggerName)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), objectTypeName: \(Swift.String(describing: objectTypeName)), segmentFilter: \(Swift.String(describing: segmentFilter)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", eventTriggerConditions: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetIdentityResolutionJobInput: Swift.Sendable {
@@ -3648,8 +5367,7 @@ public struct GetIdentityResolutionJobInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.jobId = jobId
     }
@@ -3667,8 +5385,7 @@ extension CustomerProfilesClientTypes {
         public init(
             s3BucketName: Swift.String? = nil,
             s3KeyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3BucketName = s3BucketName
             self.s3KeyName = s3KeyName
         }
@@ -3684,8 +5401,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             s3Exporting: CustomerProfilesClientTypes.S3ExportingLocation? = nil
-        )
-        {
+        ) {
             self.s3Exporting = s3Exporting
         }
     }
@@ -3706,8 +5422,7 @@ extension CustomerProfilesClientTypes {
             numberOfMatchesFound: Swift.Int = 0,
             numberOfMergesDone: Swift.Int = 0,
             numberOfProfilesReviewed: Swift.Int = 0
-        )
-        {
+        ) {
             self.numberOfMatchesFound = numberOfMatchesFound
             self.numberOfMergesDone = numberOfMergesDone
             self.numberOfProfilesReviewed = numberOfProfilesReviewed
@@ -3809,8 +5524,7 @@ public struct GetIdentityResolutionJobOutput: Swift.Sendable {
         lastUpdatedAt: Foundation.Date? = nil,
         message: Swift.String? = nil,
         status: CustomerProfilesClientTypes.IdentityResolutionJobStatus? = nil
-    )
-    {
+    ) {
         self.autoMerging = autoMerging
         self.domainName = domainName
         self.exportingLocation = exportingLocation
@@ -3836,8 +5550,7 @@ public struct GetIntegrationInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         uri: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.uri = uri
     }
@@ -3850,6 +5563,8 @@ public struct GetIntegrationOutput: Swift.Sendable {
     /// The unique name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
+    /// A list of unique names for active event triggers associated with the integration. This list would be empty if no Event Trigger is associated with the integration.
+    public var eventTriggerNames: [Swift.String]?
     /// Boolean that shows if the Flow that's associated with the Integration is created in Amazon Appflow, or with ObjectTypeName equals _unstructured via API/CLI in flowDefinition.
     public var isUnstructured: Swift.Bool?
     /// The timestamp of when the domain was most recently edited.
@@ -3872,6 +5587,7 @@ public struct GetIntegrationOutput: Swift.Sendable {
     public init(
         createdAt: Foundation.Date? = nil,
         domainName: Swift.String? = nil,
+        eventTriggerNames: [Swift.String]? = nil,
         isUnstructured: Swift.Bool? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         objectTypeName: Swift.String? = nil,
@@ -3880,10 +5596,10 @@ public struct GetIntegrationOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         uri: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.domainName = domainName
+        self.eventTriggerNames = eventTriggerNames
         self.isUnstructured = isUnstructured
         self.lastUpdatedAt = lastUpdatedAt
         self.objectTypeName = objectTypeName
@@ -3908,8 +5624,7 @@ public struct GetMatchesInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3931,8 +5646,7 @@ extension CustomerProfilesClientTypes {
             confidenceScore: Swift.Double? = nil,
             matchId: Swift.String? = nil,
             profileIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.confidenceScore = confidenceScore
             self.matchId = matchId
             self.profileIds = profileIds
@@ -3955,8 +5669,7 @@ public struct GetMatchesOutput: Swift.Sendable {
         matches: [CustomerProfilesClientTypes.MatchItem]? = nil,
         nextToken: Swift.String? = nil,
         potentialMatches: Swift.Int? = nil
-    )
-    {
+    ) {
         self.matchGenerationDate = matchGenerationDate
         self.matches = matches
         self.nextToken = nextToken
@@ -3975,8 +5688,7 @@ public struct GetProfileObjectTypeInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         objectTypeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.objectTypeName = objectTypeName
     }
@@ -4029,8 +5741,7 @@ public struct GetProfileObjectTypeOutput: Swift.Sendable {
         sourceLastUpdatedTimestampFormat: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowProfileCreation = allowProfileCreation
         self.createdAt = createdAt
         self.description = description
@@ -4060,8 +5771,7 @@ public struct GetProfileObjectTypeTemplateInput: Swift.Sendable {
 
     public init(
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateId = templateId
     }
 }
@@ -4090,8 +5800,7 @@ public struct GetProfileObjectTypeTemplateOutput: Swift.Sendable {
         sourceName: Swift.String? = nil,
         sourceObject: Swift.String? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowProfileCreation = allowProfileCreation
         self.fields = fields
         self.keys = keys
@@ -4105,6 +5814,356 @@ public struct GetProfileObjectTypeTemplateOutput: Swift.Sendable {
 extension GetProfileObjectTypeTemplateOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "GetProfileObjectTypeTemplateOutput(allowProfileCreation: \(Swift.String(describing: allowProfileCreation)), sourceLastUpdatedTimestampFormat: \(Swift.String(describing: sourceLastUpdatedTimestampFormat)), sourceName: \(Swift.String(describing: sourceName)), sourceObject: \(Swift.String(describing: sourceObject)), templateId: \(Swift.String(describing: templateId)), fields: \"CONTENT_REDACTED\", keys: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetSegmentDefinitionInput: Swift.Sendable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The unique name of the segment definition.
+    /// This member is required.
+    public var segmentDefinitionName: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        segmentDefinitionName: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.segmentDefinitionName = segmentDefinitionName
+    }
+}
+
+public struct GetSegmentDefinitionOutput: Swift.Sendable {
+    /// The timestamp of when the segment definition was created.
+    public var createdAt: Foundation.Date?
+    /// The description of the segment definition.
+    public var description: Swift.String?
+    /// The display name of the segment definition.
+    public var displayName: Swift.String?
+    /// The arn of the segment definition.
+    /// This member is required.
+    public var segmentDefinitionArn: Swift.String?
+    /// The name of the segment definition.
+    public var segmentDefinitionName: Swift.String?
+    /// The segment criteria associated with this definition.
+    public var segmentGroups: CustomerProfilesClientTypes.SegmentGroup?
+    /// The tags used to organize, track, or control access for this resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        segmentDefinitionArn: Swift.String? = nil,
+        segmentDefinitionName: Swift.String? = nil,
+        segmentGroups: CustomerProfilesClientTypes.SegmentGroup? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.createdAt = createdAt
+        self.description = description
+        self.displayName = displayName
+        self.segmentDefinitionArn = segmentDefinitionArn
+        self.segmentDefinitionName = segmentDefinitionName
+        self.segmentGroups = segmentGroups
+        self.tags = tags
+    }
+}
+
+extension GetSegmentDefinitionOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetSegmentDefinitionOutput(createdAt: \(Swift.String(describing: createdAt)), displayName: \(Swift.String(describing: displayName)), segmentDefinitionArn: \(Swift.String(describing: segmentDefinitionArn)), segmentDefinitionName: \(Swift.String(describing: segmentDefinitionName)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", segmentGroups: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetSegmentEstimateInput: Swift.Sendable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The query Id passed by a previous CreateSegmentEstimate operation.
+    /// This member is required.
+    public var estimateId: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        estimateId: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.estimateId = estimateId
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    public enum EstimateStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case running
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EstimateStatus] {
+            return [
+                .failed,
+                .running,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .running: return "RUNNING"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetSegmentEstimateOutput: Swift.Sendable {
+    /// The unique name of the domain.
+    public var domainName: Swift.String?
+    /// The estimated number of profiles contained in the segment.
+    public var estimate: Swift.String?
+    /// The QueryId which is the same as the value passed in QueryId.
+    public var estimateId: Swift.String?
+    /// The error message if there is any error.
+    public var message: Swift.String?
+    /// The current status of the query.
+    public var status: CustomerProfilesClientTypes.EstimateStatus?
+    /// The status code of the segment estimate.
+    public var statusCode: Swift.Int
+
+    public init(
+        domainName: Swift.String? = nil,
+        estimate: Swift.String? = nil,
+        estimateId: Swift.String? = nil,
+        message: Swift.String? = nil,
+        status: CustomerProfilesClientTypes.EstimateStatus? = nil,
+        statusCode: Swift.Int = 0
+    ) {
+        self.domainName = domainName
+        self.estimate = estimate
+        self.estimateId = estimateId
+        self.message = message
+        self.status = status
+        self.statusCode = statusCode
+    }
+}
+
+public struct GetSegmentMembershipInput: Swift.Sendable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The list of profile IDs to query for.
+    /// This member is required.
+    public var profileIds: [Swift.String]?
+    /// The Id of the wanted segment. Needs to be a valid, and existing segment Id.
+    /// This member is required.
+    public var segmentDefinitionName: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        profileIds: [Swift.String]? = nil,
+        segmentDefinitionName: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.profileIds = profileIds
+        self.segmentDefinitionName = segmentDefinitionName
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Object that holds failures for membership.
+    public struct ProfileQueryFailures: Swift.Sendable {
+        /// A message describing the failure.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The profile id the failure belongs to.
+        /// This member is required.
+        public var profileId: Swift.String?
+        /// The status describing the failure.
+        public var status: Swift.Int?
+
+        public init(
+            message: Swift.String? = nil,
+            profileId: Swift.String? = nil,
+            status: Swift.Int? = nil
+        ) {
+            self.message = message
+            self.profileId = profileId
+            self.status = status
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    public enum QueryResult: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case absent
+        case present
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QueryResult] {
+            return [
+                .absent,
+                .present
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .absent: return "ABSENT"
+            case .present: return "PRESENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Object that holds the results for membership.
+    public struct ProfileQueryResult: Swift.Sendable {
+        /// The standard profile of a customer.
+        public var profile: CustomerProfilesClientTypes.Profile?
+        /// The profile id the result belongs to.
+        /// This member is required.
+        public var profileId: Swift.String?
+        /// Describes whether the profile was absent or present in the segment.
+        /// This member is required.
+        public var queryResult: CustomerProfilesClientTypes.QueryResult?
+
+        public init(
+            profile: CustomerProfilesClientTypes.Profile? = nil,
+            profileId: Swift.String? = nil,
+            queryResult: CustomerProfilesClientTypes.QueryResult? = nil
+        ) {
+            self.profile = profile
+            self.profileId = profileId
+            self.queryResult = queryResult
+        }
+    }
+}
+
+public struct GetSegmentMembershipOutput: Swift.Sendable {
+    /// An array of maps where each contains a response per profile failed for the request.
+    public var failures: [CustomerProfilesClientTypes.ProfileQueryFailures]?
+    /// An array of maps where each contains a response per profile requested.
+    public var profiles: [CustomerProfilesClientTypes.ProfileQueryResult]?
+    /// The unique name of the segment definition.
+    public var segmentDefinitionName: Swift.String?
+
+    public init(
+        failures: [CustomerProfilesClientTypes.ProfileQueryFailures]? = nil,
+        profiles: [CustomerProfilesClientTypes.ProfileQueryResult]? = nil,
+        segmentDefinitionName: Swift.String? = nil
+    ) {
+        self.failures = failures
+        self.profiles = profiles
+        self.segmentDefinitionName = segmentDefinitionName
+    }
+}
+
+public struct GetSegmentSnapshotInput: Swift.Sendable {
+    /// The unique identifier of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The unique name of the segment definition.
+    /// This member is required.
+    public var segmentDefinitionName: Swift.String?
+    /// The unique identifier of the segment snapshot.
+    /// This member is required.
+    public var snapshotId: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        segmentDefinitionName: Swift.String? = nil,
+        snapshotId: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.segmentDefinitionName = segmentDefinitionName
+        self.snapshotId = snapshotId
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    public enum SegmentSnapshotStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SegmentSnapshotStatus] {
+            return [
+                .completed,
+                .failed,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetSegmentSnapshotOutput: Swift.Sendable {
+    /// The format in which the segment will be exported.
+    /// This member is required.
+    public var dataFormat: CustomerProfilesClientTypes.DataFormat?
+    /// The destination to which the segment will be exported. This field must be provided if the request is not submitted from the Amazon Connect Admin Website.
+    public var destinationUri: Swift.String?
+    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the exported segment.
+    public var encryptionKey: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role that allows Customer Profiles service principal to assume the role for conducting KMS and S3 operations.
+    public var roleArn: Swift.String?
+    /// The unique identifier of the segment snapshot.
+    /// This member is required.
+    public var snapshotId: Swift.String?
+    /// The status of the asynchronous job for exporting the segment snapshot.
+    /// This member is required.
+    public var status: CustomerProfilesClientTypes.SegmentSnapshotStatus?
+    /// The status message of the asynchronous job for exporting the segment snapshot.
+    public var statusMessage: Swift.String?
+
+    public init(
+        dataFormat: CustomerProfilesClientTypes.DataFormat? = nil,
+        destinationUri: Swift.String? = nil,
+        encryptionKey: Swift.String? = nil,
+        roleArn: Swift.String? = nil,
+        snapshotId: Swift.String? = nil,
+        status: CustomerProfilesClientTypes.SegmentSnapshotStatus? = nil,
+        statusMessage: Swift.String? = nil
+    ) {
+        self.dataFormat = dataFormat
+        self.destinationUri = destinationUri
+        self.encryptionKey = encryptionKey
+        self.roleArn = roleArn
+        self.snapshotId = snapshotId
+        self.status = status
+        self.statusMessage = statusMessage
+    }
 }
 
 extension CustomerProfilesClientTypes {
@@ -4161,8 +6220,7 @@ public struct GetSimilarProfilesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchKey: Swift.String? = nil,
         searchValue: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.matchType = matchType
         self.maxResults = maxResults
@@ -4193,8 +6251,7 @@ public struct GetSimilarProfilesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         profileIds: [Swift.String]? = nil,
         ruleLevel: Swift.Int? = nil
-    )
-    {
+    ) {
         self.confidenceScore = confidenceScore
         self.matchId = matchId
         self.matchType = matchType
@@ -4215,8 +6272,7 @@ public struct GetWorkflowInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.workflowId = workflowId
     }
@@ -4231,8 +6287,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             appflowIntegration: CustomerProfilesClientTypes.AppflowIntegrationWorkflowAttributes? = nil
-        )
-        {
+        ) {
             self.appflowIntegration = appflowIntegration
         }
     }
@@ -4247,8 +6302,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             appflowIntegration: CustomerProfilesClientTypes.AppflowIntegrationWorkflowMetrics? = nil
-        )
-        {
+        ) {
             self.appflowIntegration = appflowIntegration
         }
     }
@@ -4281,8 +6335,7 @@ public struct GetWorkflowOutput: Swift.Sendable {
         status: CustomerProfilesClientTypes.Status? = nil,
         workflowId: Swift.String? = nil,
         workflowType: CustomerProfilesClientTypes.WorkflowType? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.errorDescription = errorDescription
         self.lastUpdatedAt = lastUpdatedAt
@@ -4311,8 +6364,7 @@ public struct GetWorkflowStepsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4329,8 +6381,7 @@ extension CustomerProfilesClientTypes {
 
         public init(
             appflowIntegration: CustomerProfilesClientTypes.AppflowIntegrationWorkflowStep? = nil
-        )
-        {
+        ) {
             self.appflowIntegration = appflowIntegration
         }
     }
@@ -4351,8 +6402,7 @@ public struct GetWorkflowStepsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         workflowId: Swift.String? = nil,
         workflowType: CustomerProfilesClientTypes.WorkflowType? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
         self.workflowId = workflowId
@@ -4376,8 +6426,7 @@ public struct ListAccountIntegrationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         uri: Swift.String? = nil
-    )
-    {
+    ) {
         self.includeHidden = includeHidden
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4395,6 +6444,8 @@ extension CustomerProfilesClientTypes {
         /// The unique name of the domain.
         /// This member is required.
         public var domainName: Swift.String?
+        /// A list of unique names for active event triggers associated with the integration.
+        public var eventTriggerNames: [Swift.String]?
         /// Boolean that shows if the Flow that's associated with the Integration is created in Amazon Appflow, or with ObjectTypeName equals _unstructured via API/CLI in flowDefinition.
         public var isUnstructured: Swift.Bool?
         /// The timestamp of when the domain was most recently edited.
@@ -4417,6 +6468,7 @@ extension CustomerProfilesClientTypes {
         public init(
             createdAt: Foundation.Date? = nil,
             domainName: Swift.String? = nil,
+            eventTriggerNames: [Swift.String]? = nil,
             isUnstructured: Swift.Bool? = nil,
             lastUpdatedAt: Foundation.Date? = nil,
             objectTypeName: Swift.String? = nil,
@@ -4425,10 +6477,10 @@ extension CustomerProfilesClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             uri: Swift.String? = nil,
             workflowId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.domainName = domainName
+            self.eventTriggerNames = eventTriggerNames
             self.isUnstructured = isUnstructured
             self.lastUpdatedAt = lastUpdatedAt
             self.objectTypeName = objectTypeName
@@ -4450,8 +6502,7 @@ public struct ListAccountIntegrationsOutput: Swift.Sendable {
     public init(
         items: [CustomerProfilesClientTypes.ListIntegrationItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -4470,8 +6521,7 @@ public struct ListCalculatedAttributeDefinitionsInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4487,8 +6537,7 @@ public struct ListCalculatedAttributeDefinitionsOutput: Swift.Sendable {
     public init(
         items: [CustomerProfilesClientTypes.ListCalculatedAttributeDefinitionItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -4516,8 +6565,7 @@ public struct ListCalculatedAttributesForProfileInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4534,8 +6582,7 @@ public struct ListCalculatedAttributesForProfileOutput: Swift.Sendable {
     public init(
         items: [CustomerProfilesClientTypes.ListCalculatedAttributeForProfileItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -4550,8 +6597,7 @@ public struct ListDomainsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4578,8 +6624,7 @@ extension CustomerProfilesClientTypes {
             domainName: Swift.String? = nil,
             lastUpdatedAt: Foundation.Date? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.domainName = domainName
             self.lastUpdatedAt = lastUpdatedAt
@@ -4597,8 +6642,7 @@ public struct ListDomainsOutput: Swift.Sendable {
     public init(
         items: [CustomerProfilesClientTypes.ListDomainItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -4617,8 +6661,7 @@ public struct ListEventStreamsInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4642,8 +6685,7 @@ extension CustomerProfilesClientTypes {
             status: CustomerProfilesClientTypes.EventStreamDestinationStatus? = nil,
             unhealthySince: Foundation.Date? = nil,
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
             self.unhealthySince = unhealthySince
             self.uri = uri
@@ -4682,8 +6724,7 @@ extension CustomerProfilesClientTypes {
             state: CustomerProfilesClientTypes.EventStreamState? = nil,
             stoppedSince: Foundation.Date? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.destinationSummary = destinationSummary
             self.domainName = domainName
             self.eventStreamArn = eventStreamArn
@@ -4704,11 +6745,85 @@ public struct ListEventStreamsOutput: Swift.Sendable {
     public init(
         items: [CustomerProfilesClientTypes.EventStreamSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
+}
+
+public struct ListEventTriggersInput: Swift.Sendable {
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The pagination token to use with ListEventTriggers.
+    public var nextToken: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// The summary of the event trigger.
+    public struct EventTriggerSummaryItem: Swift.Sendable {
+        /// The timestamp of when the event trigger was created.
+        public var createdAt: Foundation.Date?
+        /// The description of the event trigger.
+        public var description: Swift.String?
+        /// The unique name of the event trigger.
+        public var eventTriggerName: Swift.String?
+        /// The timestamp of when the event trigger was most recently updated.
+        public var lastUpdatedAt: Foundation.Date?
+        /// The unique name of the object type.
+        public var objectTypeName: Swift.String?
+        /// An array of key-value pairs to apply to this resource.
+        public var tags: [Swift.String: Swift.String]?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            eventTriggerName: Swift.String? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
+            objectTypeName: Swift.String? = nil,
+            tags: [Swift.String: Swift.String]? = nil
+        ) {
+            self.createdAt = createdAt
+            self.description = description
+            self.eventTriggerName = eventTriggerName
+            self.lastUpdatedAt = lastUpdatedAt
+            self.objectTypeName = objectTypeName
+            self.tags = tags
+        }
+    }
+}
+
+public struct ListEventTriggersOutput: Swift.Sendable {
+    /// The list of Event Triggers.
+    public var items: [CustomerProfilesClientTypes.EventTriggerSummaryItem]?
+    /// The pagination token from the previous call to ListEventTriggers.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [CustomerProfilesClientTypes.EventTriggerSummaryItem]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+extension ListEventTriggersOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListEventTriggersOutput(nextToken: \(Swift.String(describing: nextToken)), items: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListIdentityResolutionJobsInput: Swift.Sendable {
@@ -4724,8 +6839,7 @@ public struct ListIdentityResolutionJobsInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4776,8 +6890,7 @@ extension CustomerProfilesClientTypes {
             jobStats: CustomerProfilesClientTypes.JobStats? = nil,
             message: Swift.String? = nil,
             status: CustomerProfilesClientTypes.IdentityResolutionJobStatus? = nil
-        )
-        {
+        ) {
             self.domainName = domainName
             self.exportingLocation = exportingLocation
             self.jobEndTime = jobEndTime
@@ -4799,8 +6912,7 @@ public struct ListIdentityResolutionJobsOutput: Swift.Sendable {
     public init(
         identityResolutionJobsList: [CustomerProfilesClientTypes.IdentityResolutionJob]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityResolutionJobsList = identityResolutionJobsList
         self.nextToken = nextToken
     }
@@ -4822,8 +6934,7 @@ public struct ListIntegrationsInput: Swift.Sendable {
         includeHidden: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.includeHidden = includeHidden
         self.maxResults = maxResults
@@ -4840,10 +6951,110 @@ public struct ListIntegrationsOutput: Swift.Sendable {
     public init(
         items: [CustomerProfilesClientTypes.ListIntegrationItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
+    }
+}
+
+public struct ListObjectTypeAttributesInput: Swift.Sendable {
+    /// The unique identifier of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The maximum number of objects returned per page.
+    public var maxResults: Swift.Int?
+    /// The pagination token from the previous call.
+    public var nextToken: Swift.String?
+    /// The name of the profile object type.
+    /// This member is required.
+    public var objectTypeName: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        objectTypeName: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.objectTypeName = objectTypeName
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Item that contains the attribute and when it was last updated.
+    public struct ListObjectTypeAttributeItem: Swift.Sendable {
+        /// Name of the attribute.
+        /// This member is required.
+        public var attributeName: Swift.String?
+        /// When the attribute was last updated.
+        /// This member is required.
+        public var lastUpdatedAt: Foundation.Date?
+
+        public init(
+            attributeName: Swift.String? = nil,
+            lastUpdatedAt: Foundation.Date? = nil
+        ) {
+            self.attributeName = attributeName
+            self.lastUpdatedAt = lastUpdatedAt
+        }
+    }
+}
+
+public struct ListObjectTypeAttributesOutput: Swift.Sendable {
+    /// The items returned as part of the response.
+    public var items: [CustomerProfilesClientTypes.ListObjectTypeAttributeItem]?
+    /// The pagination token from the previous call.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [CustomerProfilesClientTypes.ListObjectTypeAttributeItem]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListProfileAttributeValuesInput: Swift.Sendable {
+    /// The attribute name.
+    /// This member is required.
+    public var attributeName: Swift.String?
+    /// The unique identifier of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+
+    public init(
+        attributeName: Swift.String? = nil,
+        domainName: Swift.String? = nil
+    ) {
+        self.attributeName = attributeName
+        self.domainName = domainName
+    }
+}
+
+public struct ListProfileAttributeValuesOutput: Swift.Sendable {
+    /// The attribute name.
+    public var attributeName: Swift.String?
+    /// The name of the domain.
+    public var domainName: Swift.String?
+    /// The items returned as part of the response.
+    public var items: [CustomerProfilesClientTypes.AttributeValueItem]?
+    /// The status code for the response.
+    public var statusCode: Swift.Int
+
+    public init(
+        attributeName: Swift.String? = nil,
+        domainName: Swift.String? = nil,
+        items: [CustomerProfilesClientTypes.AttributeValueItem]? = nil,
+        statusCode: Swift.Int = 0
+    ) {
+        self.attributeName = attributeName
+        self.domainName = domainName
+        self.items = items
+        self.statusCode = statusCode
     }
 }
 
@@ -4861,8 +7072,7 @@ extension CustomerProfilesClientTypes {
         public init(
             keyName: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.keyName = keyName
             self.values = values
         }
@@ -4893,8 +7103,7 @@ public struct ListProfileObjectsInput: Swift.Sendable {
         objectFilter: CustomerProfilesClientTypes.ObjectFilter? = nil,
         objectTypeName: Swift.String? = nil,
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4919,8 +7128,7 @@ extension CustomerProfilesClientTypes {
             object: Swift.String? = nil,
             objectTypeName: Swift.String? = nil,
             profileObjectUniqueKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.object = object
             self.objectTypeName = objectTypeName
             self.profileObjectUniqueKey = profileObjectUniqueKey
@@ -4942,8 +7150,7 @@ public struct ListProfileObjectsOutput: Swift.Sendable {
     public init(
         items: [CustomerProfilesClientTypes.ListProfileObjectsItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -4962,8 +7169,7 @@ public struct ListProfileObjectTypesInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4999,8 +7205,7 @@ extension CustomerProfilesClientTypes {
             maxProfileObjectCount: Swift.Int? = nil,
             objectTypeName: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.description = description
             self.lastUpdatedAt = lastUpdatedAt
@@ -5021,8 +7226,7 @@ public struct ListProfileObjectTypesOutput: Swift.Sendable {
     public init(
         items: [CustomerProfilesClientTypes.ListProfileObjectTypeItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -5042,8 +7246,7 @@ public struct ListProfileObjectTypeTemplatesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -5064,8 +7267,7 @@ extension CustomerProfilesClientTypes {
             sourceName: Swift.String? = nil,
             sourceObject: Swift.String? = nil,
             templateId: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceName = sourceName
             self.sourceObject = sourceObject
             self.templateId = templateId
@@ -5082,8 +7284,7 @@ public struct ListProfileObjectTypeTemplatesOutput: Swift.Sendable {
     public init(
         items: [CustomerProfilesClientTypes.ListProfileObjectTypeTemplateItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -5102,8 +7303,7 @@ public struct ListRuleBasedMatchesInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5119,9 +7319,83 @@ public struct ListRuleBasedMatchesOutput: Swift.Sendable {
     public init(
         matchIds: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.matchIds = matchIds
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListSegmentDefinitionsInput: Swift.Sendable {
+    /// The unique identifier of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The maximum number of objects returned per page.
+    public var maxResults: Swift.Int?
+    /// The pagination token from the previous call.
+    public var nextToken: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Object holding the segment definition fields.
+    public struct SegmentDefinitionItem: Swift.Sendable {
+        /// When the segment definition was created.
+        public var createdAt: Foundation.Date?
+        /// The description of the segment definition.
+        public var description: Swift.String?
+        /// Display name of the segment definition.
+        public var displayName: Swift.String?
+        /// The arn of the segment definition.
+        public var segmentDefinitionArn: Swift.String?
+        /// Name of the segment definition.
+        public var segmentDefinitionName: Swift.String?
+        /// The tags belonging to the segment definition.
+        public var tags: [Swift.String: Swift.String]?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            segmentDefinitionArn: Swift.String? = nil,
+            segmentDefinitionName: Swift.String? = nil,
+            tags: [Swift.String: Swift.String]? = nil
+        ) {
+            self.createdAt = createdAt
+            self.description = description
+            self.displayName = displayName
+            self.segmentDefinitionArn = segmentDefinitionArn
+            self.segmentDefinitionName = segmentDefinitionName
+            self.tags = tags
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes.SegmentDefinitionItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SegmentDefinitionItem(createdAt: \(Swift.String(describing: createdAt)), displayName: \(Swift.String(describing: displayName)), segmentDefinitionArn: \(Swift.String(describing: segmentDefinitionArn)), segmentDefinitionName: \(Swift.String(describing: segmentDefinitionName)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListSegmentDefinitionsOutput: Swift.Sendable {
+    /// List of segment definitions.
+    public var items: [CustomerProfilesClientTypes.SegmentDefinitionItem]?
+    /// The pagination token from the previous call.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [CustomerProfilesClientTypes.SegmentDefinitionItem]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
         self.nextToken = nextToken
     }
 }
@@ -5133,8 +7407,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -5145,8 +7418,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -5176,8 +7448,7 @@ public struct ListWorkflowsInput: Swift.Sendable {
         queryStartDate: Foundation.Date? = nil,
         status: CustomerProfilesClientTypes.Status? = nil,
         workflowType: CustomerProfilesClientTypes.WorkflowType? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5218,8 +7489,7 @@ extension CustomerProfilesClientTypes {
             statusDescription: Swift.String? = nil,
             workflowId: Swift.String? = nil,
             workflowType: CustomerProfilesClientTypes.WorkflowType? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.lastUpdatedAt = lastUpdatedAt
             self.status = status
@@ -5239,8 +7509,7 @@ public struct ListWorkflowsOutput: Swift.Sendable {
     public init(
         items: [CustomerProfilesClientTypes.ListWorkflowsItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -5315,8 +7584,7 @@ extension CustomerProfilesClientTypes {
             personalEmailAddress: Swift.String? = nil,
             phoneNumber: Swift.String? = nil,
             shippingAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountNumber = accountNumber
             self.additionalInformation = additionalInformation
             self.address = address
@@ -5360,8 +7628,7 @@ public struct MergeProfilesInput: Swift.Sendable {
         fieldSourceProfileIds: CustomerProfilesClientTypes.FieldSourceProfileIds? = nil,
         mainProfileId: Swift.String? = nil,
         profileIdsToBeMerged: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.fieldSourceProfileIds = fieldSourceProfileIds
         self.mainProfileId = mainProfileId
@@ -5375,8 +7642,7 @@ public struct MergeProfilesOutput: Swift.Sendable {
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.message = message
     }
 }
@@ -5385,6 +7651,8 @@ public struct PutIntegrationInput: Swift.Sendable {
     /// The unique name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
+    /// A list of unique names for active event triggers associated with the integration.
+    public var eventTriggerNames: [Swift.String]?
     /// The configuration that controls how Customer Profiles retrieves data from the source.
     public var flowDefinition: CustomerProfilesClientTypes.FlowDefinition?
     /// The name of the profile object type.
@@ -5400,15 +7668,16 @@ public struct PutIntegrationInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil,
+        eventTriggerNames: [Swift.String]? = nil,
         flowDefinition: CustomerProfilesClientTypes.FlowDefinition? = nil,
         objectTypeName: Swift.String? = nil,
         objectTypeNames: [Swift.String: Swift.String]? = nil,
         roleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         uri: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
+        self.eventTriggerNames = eventTriggerNames
         self.flowDefinition = flowDefinition
         self.objectTypeName = objectTypeName
         self.objectTypeNames = objectTypeNames
@@ -5420,7 +7689,7 @@ public struct PutIntegrationInput: Swift.Sendable {
 
 extension PutIntegrationInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PutIntegrationInput(domainName: \(Swift.String(describing: domainName)), objectTypeName: \(Swift.String(describing: objectTypeName)), objectTypeNames: \(Swift.String(describing: objectTypeNames)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), uri: \(Swift.String(describing: uri)), flowDefinition: \"CONTENT_REDACTED\")"}
+        "PutIntegrationInput(domainName: \(Swift.String(describing: domainName)), eventTriggerNames: \(Swift.String(describing: eventTriggerNames)), objectTypeName: \(Swift.String(describing: objectTypeName)), objectTypeNames: \(Swift.String(describing: objectTypeNames)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), uri: \(Swift.String(describing: uri)), flowDefinition: \"CONTENT_REDACTED\")"}
 }
 
 public struct PutIntegrationOutput: Swift.Sendable {
@@ -5430,6 +7699,8 @@ public struct PutIntegrationOutput: Swift.Sendable {
     /// The unique name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
+    /// A list of unique names for active event triggers associated with the integration. This list would be empty if no Event Trigger is associated with the integration.
+    public var eventTriggerNames: [Swift.String]?
     /// Boolean that shows if the Flow that's associated with the Integration is created in Amazon Appflow, or with ObjectTypeName equals _unstructured via API/CLI in flowDefinition.
     public var isUnstructured: Swift.Bool?
     /// The timestamp of when the domain was most recently edited.
@@ -5452,6 +7723,7 @@ public struct PutIntegrationOutput: Swift.Sendable {
     public init(
         createdAt: Foundation.Date? = nil,
         domainName: Swift.String? = nil,
+        eventTriggerNames: [Swift.String]? = nil,
         isUnstructured: Swift.Bool? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         objectTypeName: Swift.String? = nil,
@@ -5460,10 +7732,10 @@ public struct PutIntegrationOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         uri: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.domainName = domainName
+        self.eventTriggerNames = eventTriggerNames
         self.isUnstructured = isUnstructured
         self.lastUpdatedAt = lastUpdatedAt
         self.objectTypeName = objectTypeName
@@ -5490,8 +7762,7 @@ public struct PutProfileObjectInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         object: Swift.String? = nil,
         objectTypeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
         self.object = object
         self.objectTypeName = objectTypeName
@@ -5509,8 +7780,7 @@ public struct PutProfileObjectOutput: Swift.Sendable {
 
     public init(
         profileObjectUniqueKey: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileObjectUniqueKey = profileObjectUniqueKey
     }
 }
@@ -5557,8 +7827,7 @@ public struct PutProfileObjectTypeInput: Swift.Sendable {
         sourceLastUpdatedTimestampFormat: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowProfileCreation = allowProfileCreation
         self.description = description
         self.domainName = domainName
@@ -5626,8 +7895,7 @@ public struct PutProfileObjectTypeOutput: Swift.Sendable {
         sourceLastUpdatedTimestampFormat: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowProfileCreation = allowProfileCreation
         self.createdAt = createdAt
         self.description = description
@@ -5713,8 +7981,7 @@ public struct SearchProfilesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         values: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.additionalSearchKeys = additionalSearchKeys
         self.domainName = domainName
         self.keyName = keyName
@@ -5723,152 +7990,6 @@ public struct SearchProfilesInput: Swift.Sendable {
         self.nextToken = nextToken
         self.values = values
     }
-}
-
-extension CustomerProfilesClientTypes {
-
-    /// A data type pair that consists of a KeyName and Values list that were used to find a profile returned in response to a [SearchProfiles](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_SearchProfiles.html) request.
-    public struct FoundByKeyValue: Swift.Sendable {
-        /// A searchable identifier of a customer profile.
-        public var keyName: Swift.String?
-        /// A list of key values.
-        public var values: [Swift.String]?
-
-        public init(
-            keyName: Swift.String? = nil,
-            values: [Swift.String]? = nil
-        )
-        {
-            self.keyName = keyName
-            self.values = values
-        }
-    }
-}
-
-extension CustomerProfilesClientTypes {
-
-    /// The standard profile of a customer.
-    public struct Profile: Swift.Sendable {
-        /// An account number that you have given to the customer.
-        public var accountNumber: Swift.String?
-        /// Any additional information relevant to the customer’s profile.
-        public var additionalInformation: Swift.String?
-        /// A generic address associated with the customer that is not mailing, shipping, or billing.
-        public var address: CustomerProfilesClientTypes.Address?
-        /// A key value pair of attributes of a customer profile.
-        public var attributes: [Swift.String: Swift.String]?
-        /// The customer’s billing address.
-        public var billingAddress: CustomerProfilesClientTypes.Address?
-        /// The customer’s birth date.
-        public var birthDate: Swift.String?
-        /// The customer’s business email address.
-        public var businessEmailAddress: Swift.String?
-        /// The name of the customer’s business.
-        public var businessName: Swift.String?
-        /// The customer’s home phone number.
-        public var businessPhoneNumber: Swift.String?
-        /// The customer’s email address, which has not been specified as a personal or business address.
-        public var emailAddress: Swift.String?
-        /// The customer’s first name.
-        public var firstName: Swift.String?
-        /// A list of items used to find a profile returned in a [SearchProfiles](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_SearchProfiles.html) response. An item is a key-value(s) pair that matches an attribute in the profile. If the optional AdditionalSearchKeys parameter was included in the [SearchProfiles](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_SearchProfiles.html) request, the FoundByItems list should be interpreted based on the LogicalOperator used in the request:
-        ///
-        /// * AND - The profile included in the response matched all of the search keys specified in the request. The FoundByItems will include all of the key-value(s) pairs that were specified in the request (as this is a requirement of AND search logic).
-        ///
-        /// * OR - The profile included in the response matched at least one of the search keys specified in the request. The FoundByItems will include each of the key-value(s) pairs that the profile was found by.
-        ///
-        ///
-        /// The OR relationship is the default behavior if the LogicalOperator parameter is not included in the [SearchProfiles](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_SearchProfiles.html) request.
-        public var foundByItems: [CustomerProfilesClientTypes.FoundByKeyValue]?
-        /// The gender with which the customer identifies.
-        @available(*, deprecated)
-        public var gender: CustomerProfilesClientTypes.Gender?
-        /// An alternative to Gender which accepts any string as input.
-        public var genderString: Swift.String?
-        /// The customer’s home phone number.
-        public var homePhoneNumber: Swift.String?
-        /// The customer’s last name.
-        public var lastName: Swift.String?
-        /// The customer’s mailing address.
-        public var mailingAddress: CustomerProfilesClientTypes.Address?
-        /// The customer’s middle name.
-        public var middleName: Swift.String?
-        /// The customer’s mobile phone number.
-        public var mobilePhoneNumber: Swift.String?
-        /// The type of profile used to describe the customer.
-        @available(*, deprecated)
-        public var partyType: CustomerProfilesClientTypes.PartyType?
-        /// An alternative to PartyType which accepts any string as input.
-        public var partyTypeString: Swift.String?
-        /// The customer’s personal email address.
-        public var personalEmailAddress: Swift.String?
-        /// The customer's phone number, which has not been specified as a mobile, home, or business number.
-        public var phoneNumber: Swift.String?
-        /// The unique identifier of a customer profile.
-        public var profileId: Swift.String?
-        /// The customer’s shipping address.
-        public var shippingAddress: CustomerProfilesClientTypes.Address?
-
-        public init(
-            accountNumber: Swift.String? = nil,
-            additionalInformation: Swift.String? = nil,
-            address: CustomerProfilesClientTypes.Address? = nil,
-            attributes: [Swift.String: Swift.String]? = nil,
-            billingAddress: CustomerProfilesClientTypes.Address? = nil,
-            birthDate: Swift.String? = nil,
-            businessEmailAddress: Swift.String? = nil,
-            businessName: Swift.String? = nil,
-            businessPhoneNumber: Swift.String? = nil,
-            emailAddress: Swift.String? = nil,
-            firstName: Swift.String? = nil,
-            foundByItems: [CustomerProfilesClientTypes.FoundByKeyValue]? = nil,
-            gender: CustomerProfilesClientTypes.Gender? = nil,
-            genderString: Swift.String? = nil,
-            homePhoneNumber: Swift.String? = nil,
-            lastName: Swift.String? = nil,
-            mailingAddress: CustomerProfilesClientTypes.Address? = nil,
-            middleName: Swift.String? = nil,
-            mobilePhoneNumber: Swift.String? = nil,
-            partyType: CustomerProfilesClientTypes.PartyType? = nil,
-            partyTypeString: Swift.String? = nil,
-            personalEmailAddress: Swift.String? = nil,
-            phoneNumber: Swift.String? = nil,
-            profileId: Swift.String? = nil,
-            shippingAddress: CustomerProfilesClientTypes.Address? = nil
-        )
-        {
-            self.accountNumber = accountNumber
-            self.additionalInformation = additionalInformation
-            self.address = address
-            self.attributes = attributes
-            self.billingAddress = billingAddress
-            self.birthDate = birthDate
-            self.businessEmailAddress = businessEmailAddress
-            self.businessName = businessName
-            self.businessPhoneNumber = businessPhoneNumber
-            self.emailAddress = emailAddress
-            self.firstName = firstName
-            self.foundByItems = foundByItems
-            self.gender = gender
-            self.genderString = genderString
-            self.homePhoneNumber = homePhoneNumber
-            self.lastName = lastName
-            self.mailingAddress = mailingAddress
-            self.middleName = middleName
-            self.mobilePhoneNumber = mobilePhoneNumber
-            self.partyType = partyType
-            self.partyTypeString = partyTypeString
-            self.personalEmailAddress = personalEmailAddress
-            self.phoneNumber = phoneNumber
-            self.profileId = profileId
-            self.shippingAddress = shippingAddress
-        }
-    }
-}
-
-extension CustomerProfilesClientTypes.Profile: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "Profile(foundByItems: \(Swift.String(describing: foundByItems)), profileId: \(Swift.String(describing: profileId)), accountNumber: \"CONTENT_REDACTED\", additionalInformation: \"CONTENT_REDACTED\", address: \"CONTENT_REDACTED\", attributes: \"CONTENT_REDACTED\", billingAddress: \"CONTENT_REDACTED\", birthDate: \"CONTENT_REDACTED\", businessEmailAddress: \"CONTENT_REDACTED\", businessName: \"CONTENT_REDACTED\", businessPhoneNumber: \"CONTENT_REDACTED\", emailAddress: \"CONTENT_REDACTED\", firstName: \"CONTENT_REDACTED\", gender: \"CONTENT_REDACTED\", genderString: \"CONTENT_REDACTED\", homePhoneNumber: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\", mailingAddress: \"CONTENT_REDACTED\", middleName: \"CONTENT_REDACTED\", mobilePhoneNumber: \"CONTENT_REDACTED\", partyType: \"CONTENT_REDACTED\", partyTypeString: \"CONTENT_REDACTED\", personalEmailAddress: \"CONTENT_REDACTED\", phoneNumber: \"CONTENT_REDACTED\", shippingAddress: \"CONTENT_REDACTED\")"}
 }
 
 public struct SearchProfilesOutput: Swift.Sendable {
@@ -5880,8 +8001,7 @@ public struct SearchProfilesOutput: Swift.Sendable {
     public init(
         items: [CustomerProfilesClientTypes.Profile]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -5898,8 +8018,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -5921,8 +8040,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -5953,8 +8071,7 @@ public struct UpdateCalculatedAttributeDefinitionInput: Swift.Sendable {
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.calculatedAttributeName = calculatedAttributeName
         self.conditions = conditions
         self.description = description
@@ -5998,8 +8115,7 @@ public struct UpdateCalculatedAttributeDefinitionOutput: Swift.Sendable {
         lastUpdatedAt: Foundation.Date? = nil,
         statistic: CustomerProfilesClientTypes.Statistic? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.attributeDetails = attributeDetails
         self.calculatedAttributeName = calculatedAttributeName
         self.conditions = conditions
@@ -6042,8 +8158,7 @@ public struct UpdateDomainInput: Swift.Sendable {
         matching: CustomerProfilesClientTypes.MatchingRequest? = nil,
         ruleBasedMatching: CustomerProfilesClientTypes.RuleBasedMatchingRequest? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.deadLetterQueueUrl = deadLetterQueueUrl
         self.defaultEncryptionKey = defaultEncryptionKey
         self.defaultExpirationDays = defaultExpirationDays
@@ -6087,8 +8202,7 @@ public struct UpdateDomainOutput: Swift.Sendable {
         matching: CustomerProfilesClientTypes.MatchingResponse? = nil,
         ruleBasedMatching: CustomerProfilesClientTypes.RuleBasedMatchingResponse? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.deadLetterQueueUrl = deadLetterQueueUrl
         self.defaultEncryptionKey = defaultEncryptionKey
@@ -6099,6 +8213,96 @@ public struct UpdateDomainOutput: Swift.Sendable {
         self.ruleBasedMatching = ruleBasedMatching
         self.tags = tags
     }
+}
+
+public struct UpdateEventTriggerInput: Swift.Sendable {
+    /// The description of the event trigger.
+    public var description: Swift.String?
+    /// The unique name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// A list of conditions that determine when an event should trigger the destination.
+    public var eventTriggerConditions: [CustomerProfilesClientTypes.EventTriggerCondition]?
+    /// Defines limits controlling whether an event triggers the destination, based on ingestion latency and the number of invocations per profile over specific time periods.
+    public var eventTriggerLimits: CustomerProfilesClientTypes.EventTriggerLimits?
+    /// The unique name of the event trigger.
+    /// This member is required.
+    public var eventTriggerName: Swift.String?
+    /// The unique name of the object type.
+    public var objectTypeName: Swift.String?
+    /// The destination is triggered only for profiles that meet the criteria of a segment definition.
+    public var segmentFilter: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        domainName: Swift.String? = nil,
+        eventTriggerConditions: [CustomerProfilesClientTypes.EventTriggerCondition]? = nil,
+        eventTriggerLimits: CustomerProfilesClientTypes.EventTriggerLimits? = nil,
+        eventTriggerName: Swift.String? = nil,
+        objectTypeName: Swift.String? = nil,
+        segmentFilter: Swift.String? = nil
+    ) {
+        self.description = description
+        self.domainName = domainName
+        self.eventTriggerConditions = eventTriggerConditions
+        self.eventTriggerLimits = eventTriggerLimits
+        self.eventTriggerName = eventTriggerName
+        self.objectTypeName = objectTypeName
+        self.segmentFilter = segmentFilter
+    }
+}
+
+extension UpdateEventTriggerInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateEventTriggerInput(domainName: \(Swift.String(describing: domainName)), eventTriggerLimits: \(Swift.String(describing: eventTriggerLimits)), eventTriggerName: \(Swift.String(describing: eventTriggerName)), objectTypeName: \(Swift.String(describing: objectTypeName)), segmentFilter: \(Swift.String(describing: segmentFilter)), description: \"CONTENT_REDACTED\", eventTriggerConditions: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateEventTriggerOutput: Swift.Sendable {
+    /// The timestamp of when the event trigger was created.
+    public var createdAt: Foundation.Date?
+    /// The description of the event trigger.
+    public var description: Swift.String?
+    /// A list of conditions that determine when an event should trigger the destination.
+    public var eventTriggerConditions: [CustomerProfilesClientTypes.EventTriggerCondition]?
+    /// Defines limits controlling whether an event triggers the destination, based on ingestion latency and the number of invocations per profile over specific time periods.
+    public var eventTriggerLimits: CustomerProfilesClientTypes.EventTriggerLimits?
+    /// The unique name of the event trigger.
+    public var eventTriggerName: Swift.String?
+    /// The timestamp of when the event trigger was most recently updated.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The unique name of the object type.
+    public var objectTypeName: Swift.String?
+    /// The destination is triggered only for profiles that meet the criteria of a segment definition.
+    public var segmentFilter: Swift.String?
+    /// An array of key-value pairs to apply to this resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        eventTriggerConditions: [CustomerProfilesClientTypes.EventTriggerCondition]? = nil,
+        eventTriggerLimits: CustomerProfilesClientTypes.EventTriggerLimits? = nil,
+        eventTriggerName: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        objectTypeName: Swift.String? = nil,
+        segmentFilter: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.createdAt = createdAt
+        self.description = description
+        self.eventTriggerConditions = eventTriggerConditions
+        self.eventTriggerLimits = eventTriggerLimits
+        self.eventTriggerName = eventTriggerName
+        self.lastUpdatedAt = lastUpdatedAt
+        self.objectTypeName = objectTypeName
+        self.segmentFilter = segmentFilter
+        self.tags = tags
+    }
+}
+
+extension UpdateEventTriggerOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateEventTriggerOutput(createdAt: \(Swift.String(describing: createdAt)), eventTriggerLimits: \(Swift.String(describing: eventTriggerLimits)), eventTriggerName: \(Swift.String(describing: eventTriggerName)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), objectTypeName: \(Swift.String(describing: objectTypeName)), segmentFilter: \(Swift.String(describing: segmentFilter)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", eventTriggerConditions: \"CONTENT_REDACTED\")"}
 }
 
 extension CustomerProfilesClientTypes {
@@ -6137,8 +8341,7 @@ extension CustomerProfilesClientTypes {
             postalCode: Swift.String? = nil,
             province: Swift.String? = nil,
             state: Swift.String? = nil
-        )
-        {
+        ) {
             self.address1 = address1
             self.address2 = address2
             self.address3 = address3
@@ -6241,8 +8444,7 @@ public struct UpdateProfileInput: Swift.Sendable {
         phoneNumber: Swift.String? = nil,
         profileId: Swift.String? = nil,
         shippingAddress: CustomerProfilesClientTypes.UpdateAddress? = nil
-    )
-    {
+    ) {
         self.accountNumber = accountNumber
         self.additionalInformation = additionalInformation
         self.address = address
@@ -6283,8 +8485,7 @@ public struct UpdateProfileOutput: Swift.Sendable {
 
     public init(
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileId = profileId
     }
 }
@@ -6296,6 +8497,29 @@ extension AddProfileKeyInput {
             return nil
         }
         return "/domains/\(domainName.urlPercentEncoding())/profiles/keys"
+    }
+}
+
+extension BatchGetCalculatedAttributeForProfileInput {
+
+    static func urlPathProvider(_ value: BatchGetCalculatedAttributeForProfileInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let calculatedAttributeName = value.calculatedAttributeName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/calculated-attributes/\(calculatedAttributeName.urlPercentEncoding())/batch-get-for-profiles"
+    }
+}
+
+extension BatchGetProfileInput {
+
+    static func urlPathProvider(_ value: BatchGetProfileInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/batch-get-profiles"
     }
 }
 
@@ -6335,6 +8559,19 @@ extension CreateEventStreamInput {
     }
 }
 
+extension CreateEventTriggerInput {
+
+    static func urlPathProvider(_ value: CreateEventTriggerInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let eventTriggerName = value.eventTriggerName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/event-triggers/\(eventTriggerName.urlPercentEncoding())"
+    }
+}
+
 extension CreateIntegrationWorkflowInput {
 
     static func urlPathProvider(_ value: CreateIntegrationWorkflowInput) -> Swift.String? {
@@ -6352,6 +8589,42 @@ extension CreateProfileInput {
             return nil
         }
         return "/domains/\(domainName.urlPercentEncoding())/profiles"
+    }
+}
+
+extension CreateSegmentDefinitionInput {
+
+    static func urlPathProvider(_ value: CreateSegmentDefinitionInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let segmentDefinitionName = value.segmentDefinitionName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/segment-definitions/\(segmentDefinitionName.urlPercentEncoding())"
+    }
+}
+
+extension CreateSegmentEstimateInput {
+
+    static func urlPathProvider(_ value: CreateSegmentEstimateInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/segment-estimates"
+    }
+}
+
+extension CreateSegmentSnapshotInput {
+
+    static func urlPathProvider(_ value: CreateSegmentSnapshotInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let segmentDefinitionName = value.segmentDefinitionName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/segments/\(segmentDefinitionName.urlPercentEncoding())/snapshots"
     }
 }
 
@@ -6388,6 +8661,19 @@ extension DeleteEventStreamInput {
             return nil
         }
         return "/domains/\(domainName.urlPercentEncoding())/event-streams/\(eventStreamName.urlPercentEncoding())"
+    }
+}
+
+extension DeleteEventTriggerInput {
+
+    static func urlPathProvider(_ value: DeleteEventTriggerInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let eventTriggerName = value.eventTriggerName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/event-triggers/\(eventTriggerName.urlPercentEncoding())"
     }
 }
 
@@ -6441,6 +8727,19 @@ extension DeleteProfileObjectTypeInput {
             return nil
         }
         return "/domains/\(domainName.urlPercentEncoding())/object-types/\(objectTypeName.urlPercentEncoding())"
+    }
+}
+
+extension DeleteSegmentDefinitionInput {
+
+    static func urlPathProvider(_ value: DeleteSegmentDefinitionInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let segmentDefinitionName = value.segmentDefinitionName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/segment-definitions/\(segmentDefinitionName.urlPercentEncoding())"
     }
 }
 
@@ -6529,6 +8828,19 @@ extension GetEventStreamInput {
     }
 }
 
+extension GetEventTriggerInput {
+
+    static func urlPathProvider(_ value: GetEventTriggerInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let eventTriggerName = value.eventTriggerName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/event-triggers/\(eventTriggerName.urlPercentEncoding())"
+    }
+}
+
 extension GetIdentityResolutionJobInput {
 
     static func urlPathProvider(_ value: GetIdentityResolutionJobInput) -> Swift.String? {
@@ -6598,6 +8910,61 @@ extension GetProfileObjectTypeTemplateInput {
             return nil
         }
         return "/templates/\(templateId.urlPercentEncoding())"
+    }
+}
+
+extension GetSegmentDefinitionInput {
+
+    static func urlPathProvider(_ value: GetSegmentDefinitionInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let segmentDefinitionName = value.segmentDefinitionName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/segment-definitions/\(segmentDefinitionName.urlPercentEncoding())"
+    }
+}
+
+extension GetSegmentEstimateInput {
+
+    static func urlPathProvider(_ value: GetSegmentEstimateInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let estimateId = value.estimateId else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/segment-estimates/\(estimateId.urlPercentEncoding())"
+    }
+}
+
+extension GetSegmentMembershipInput {
+
+    static func urlPathProvider(_ value: GetSegmentMembershipInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let segmentDefinitionName = value.segmentDefinitionName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/segments/\(segmentDefinitionName.urlPercentEncoding())/membership"
+    }
+}
+
+extension GetSegmentSnapshotInput {
+
+    static func urlPathProvider(_ value: GetSegmentSnapshotInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let segmentDefinitionName = value.segmentDefinitionName else {
+            return nil
+        }
+        guard let snapshotId = value.snapshotId else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/segments/\(segmentDefinitionName.urlPercentEncoding())/snapshots/\(snapshotId.urlPercentEncoding())"
     }
 }
 
@@ -6800,6 +9167,32 @@ extension ListEventStreamsInput {
     }
 }
 
+extension ListEventTriggersInput {
+
+    static func urlPathProvider(_ value: ListEventTriggersInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/event-triggers"
+    }
+}
+
+extension ListEventTriggersInput {
+
+    static func queryItemProvider(_ value: ListEventTriggersInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListIdentityResolutionJobsInput {
 
     static func urlPathProvider(_ value: ListIdentityResolutionJobsInput) -> Swift.String? {
@@ -6853,6 +9246,48 @@ extension ListIntegrationsInput {
             items.append(maxResultsQueryItem)
         }
         return items
+    }
+}
+
+extension ListObjectTypeAttributesInput {
+
+    static func urlPathProvider(_ value: ListObjectTypeAttributesInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let objectTypeName = value.objectTypeName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/object-types/\(objectTypeName.urlPercentEncoding())/attributes"
+    }
+}
+
+extension ListObjectTypeAttributesInput {
+
+    static func queryItemProvider(_ value: ListObjectTypeAttributesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListProfileAttributeValuesInput {
+
+    static func urlPathProvider(_ value: ListProfileAttributeValuesInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let attributeName = value.attributeName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/profile-attributes/\(attributeName.urlPercentEncoding())/values"
     }
 }
 
@@ -6944,6 +9379,32 @@ extension ListRuleBasedMatchesInput {
 extension ListRuleBasedMatchesInput {
 
     static func queryItemProvider(_ value: ListRuleBasedMatchesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListSegmentDefinitionsInput {
+
+    static func urlPathProvider(_ value: ListSegmentDefinitionsInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/segment-definitions"
+    }
+}
+
+extension ListSegmentDefinitionsInput {
+
+    static func queryItemProvider(_ value: ListSegmentDefinitionsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -7121,6 +9582,19 @@ extension UpdateDomainInput {
     }
 }
 
+extension UpdateEventTriggerInput {
+
+    static func urlPathProvider(_ value: UpdateEventTriggerInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let eventTriggerName = value.eventTriggerName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/event-triggers/\(eventTriggerName.urlPercentEncoding())"
+    }
+}
+
 extension UpdateProfileInput {
 
     static func urlPathProvider(_ value: UpdateProfileInput) -> Swift.String? {
@@ -7141,6 +9615,23 @@ extension AddProfileKeyInput {
     }
 }
 
+extension BatchGetCalculatedAttributeForProfileInput {
+
+    static func write(value: BatchGetCalculatedAttributeForProfileInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConditionOverrides"].write(value.conditionOverrides, with: CustomerProfilesClientTypes.ConditionOverrides.write(value:to:))
+        try writer["ProfileIds"].writeList(value.profileIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchGetProfileInput {
+
+    static func write(value: BatchGetProfileInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ProfileIds"].writeList(value.profileIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateCalculatedAttributeDefinitionInput {
 
     static func write(value: CreateCalculatedAttributeDefinitionInput?, to writer: SmithyJSON.Writer) throws {
@@ -7149,6 +9640,7 @@ extension CreateCalculatedAttributeDefinitionInput {
         try writer["Conditions"].write(value.conditions, with: CustomerProfilesClientTypes.Conditions.write(value:to:))
         try writer["Description"].write(value.description)
         try writer["DisplayName"].write(value.displayName)
+        try writer["Filter"].write(value.filter, with: CustomerProfilesClientTypes.Filter.write(value:to:))
         try writer["Statistic"].write(value.statistic)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -7173,6 +9665,19 @@ extension CreateEventStreamInput {
         guard let value else { return }
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["Uri"].write(value.uri)
+    }
+}
+
+extension CreateEventTriggerInput {
+
+    static func write(value: CreateEventTriggerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["EventTriggerConditions"].writeList(value.eventTriggerConditions, memberWritingClosure: CustomerProfilesClientTypes.EventTriggerCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EventTriggerLimits"].write(value.eventTriggerLimits, with: CustomerProfilesClientTypes.EventTriggerLimits.write(value:to:))
+        try writer["ObjectTypeName"].write(value.objectTypeName)
+        try writer["SegmentFilter"].write(value.segmentFilter)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -7215,6 +9720,36 @@ extension CreateProfileInput {
         try writer["PersonalEmailAddress"].write(value.personalEmailAddress)
         try writer["PhoneNumber"].write(value.phoneNumber)
         try writer["ShippingAddress"].write(value.shippingAddress, with: CustomerProfilesClientTypes.Address.write(value:to:))
+    }
+}
+
+extension CreateSegmentDefinitionInput {
+
+    static func write(value: CreateSegmentDefinitionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["DisplayName"].write(value.displayName)
+        try writer["SegmentGroups"].write(value.segmentGroups, with: CustomerProfilesClientTypes.SegmentGroup.write(value:to:))
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateSegmentEstimateInput {
+
+    static func write(value: CreateSegmentEstimateInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SegmentQuery"].write(value.segmentQuery, with: CustomerProfilesClientTypes.SegmentGroupStructure.write(value:to:))
+    }
+}
+
+extension CreateSegmentSnapshotInput {
+
+    static func write(value: CreateSegmentSnapshotInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataFormat"].write(value.dataFormat)
+        try writer["DestinationUri"].write(value.destinationUri)
+        try writer["EncryptionKey"].write(value.encryptionKey)
+        try writer["RoleArn"].write(value.roleArn)
     }
 }
 
@@ -7280,6 +9815,14 @@ extension GetIntegrationInput {
     }
 }
 
+extension GetSegmentMembershipInput {
+
+    static func write(value: GetSegmentMembershipInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ProfileIds"].writeList(value.profileIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension GetSimilarProfilesInput {
 
     static func write(value: GetSimilarProfilesInput?, to writer: SmithyJSON.Writer) throws {
@@ -7333,6 +9876,7 @@ extension PutIntegrationInput {
 
     static func write(value: PutIntegrationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["EventTriggerNames"].writeList(value.eventTriggerNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["FlowDefinition"].write(value.flowDefinition, with: CustomerProfilesClientTypes.FlowDefinition.write(value:to:))
         try writer["ObjectTypeName"].write(value.objectTypeName)
         try writer["ObjectTypeNames"].writeMap(value.objectTypeNames, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -7410,6 +9954,18 @@ extension UpdateDomainInput {
     }
 }
 
+extension UpdateEventTriggerInput {
+
+    static func write(value: UpdateEventTriggerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["EventTriggerConditions"].writeList(value.eventTriggerConditions, memberWritingClosure: CustomerProfilesClientTypes.EventTriggerCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EventTriggerLimits"].write(value.eventTriggerLimits, with: CustomerProfilesClientTypes.EventTriggerLimits.write(value:to:))
+        try writer["ObjectTypeName"].write(value.objectTypeName)
+        try writer["SegmentFilter"].write(value.segmentFilter)
+    }
+}
+
 extension UpdateProfileInput {
 
     static func write(value: UpdateProfileInput?, to writer: SmithyJSON.Writer) throws {
@@ -7454,6 +10010,33 @@ extension AddProfileKeyOutput {
     }
 }
 
+extension BatchGetCalculatedAttributeForProfileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetCalculatedAttributeForProfileOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetCalculatedAttributeForProfileOutput()
+        value.calculatedAttributeValues = try reader["CalculatedAttributeValues"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.CalculatedAttributeValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.conditionOverrides = try reader["ConditionOverrides"].readIfPresent(with: CustomerProfilesClientTypes.ConditionOverrides.read(from:))
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.BatchGetCalculatedAttributeForProfileError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchGetProfileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetProfileOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetProfileOutput()
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.BatchGetProfileError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.profiles = try reader["Profiles"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.Profile.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension CreateCalculatedAttributeDefinitionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCalculatedAttributeDefinitionOutput {
@@ -7467,6 +10050,7 @@ extension CreateCalculatedAttributeDefinitionOutput {
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["Description"].readIfPresent()
         value.displayName = try reader["DisplayName"].readIfPresent()
+        value.filter = try reader["Filter"].readIfPresent(with: CustomerProfilesClientTypes.Filter.read(from:))
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.statistic = try reader["Statistic"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -7507,6 +10091,26 @@ extension CreateEventStreamOutput {
     }
 }
 
+extension CreateEventTriggerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateEventTriggerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateEventTriggerOutput()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.description = try reader["Description"].readIfPresent()
+        value.eventTriggerConditions = try reader["EventTriggerConditions"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.EventTriggerCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.eventTriggerLimits = try reader["EventTriggerLimits"].readIfPresent(with: CustomerProfilesClientTypes.EventTriggerLimits.read(from:))
+        value.eventTriggerName = try reader["EventTriggerName"].readIfPresent()
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.objectTypeName = try reader["ObjectTypeName"].readIfPresent()
+        value.segmentFilter = try reader["SegmentFilter"].readIfPresent()
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension CreateIntegrationWorkflowOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateIntegrationWorkflowOutput {
@@ -7528,6 +10132,49 @@ extension CreateProfileOutput {
         let reader = responseReader
         var value = CreateProfileOutput()
         value.profileId = try reader["ProfileId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateSegmentDefinitionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateSegmentDefinitionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateSegmentDefinitionOutput()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.description = try reader["Description"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.segmentDefinitionArn = try reader["SegmentDefinitionArn"].readIfPresent()
+        value.segmentDefinitionName = try reader["SegmentDefinitionName"].readIfPresent() ?? ""
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension CreateSegmentEstimateOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateSegmentEstimateOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateSegmentEstimateOutput()
+        value.domainName = try reader["DomainName"].readIfPresent()
+        value.estimateId = try reader["EstimateId"].readIfPresent()
+        value.statusCode = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension CreateSegmentSnapshotOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateSegmentSnapshotOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateSegmentSnapshotOutput()
+        value.snapshotId = try reader["SnapshotId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7555,6 +10202,18 @@ extension DeleteEventStreamOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteEventStreamOutput {
         return DeleteEventStreamOutput()
+    }
+}
+
+extension DeleteEventTriggerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteEventTriggerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteEventTriggerOutput()
+        value.message = try reader["Message"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -7618,6 +10277,18 @@ extension DeleteProfileObjectTypeOutput {
     }
 }
 
+extension DeleteSegmentDefinitionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteSegmentDefinitionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteSegmentDefinitionOutput()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
 extension DeleteWorkflowOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteWorkflowOutput {
@@ -7665,6 +10336,7 @@ extension GetCalculatedAttributeDefinitionOutput {
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["Description"].readIfPresent()
         value.displayName = try reader["DisplayName"].readIfPresent()
+        value.filter = try reader["Filter"].readIfPresent(with: CustomerProfilesClientTypes.Filter.read(from:))
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.statistic = try reader["Statistic"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -7726,6 +10398,26 @@ extension GetEventStreamOutput {
     }
 }
 
+extension GetEventTriggerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetEventTriggerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetEventTriggerOutput()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.description = try reader["Description"].readIfPresent()
+        value.eventTriggerConditions = try reader["EventTriggerConditions"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.EventTriggerCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.eventTriggerLimits = try reader["EventTriggerLimits"].readIfPresent(with: CustomerProfilesClientTypes.EventTriggerLimits.read(from:))
+        value.eventTriggerName = try reader["EventTriggerName"].readIfPresent()
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.objectTypeName = try reader["ObjectTypeName"].readIfPresent()
+        value.segmentFilter = try reader["SegmentFilter"].readIfPresent()
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension GetIdentityResolutionJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetIdentityResolutionJobOutput {
@@ -7757,6 +10449,7 @@ extension GetIntegrationOutput {
         var value = GetIntegrationOutput()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.domainName = try reader["DomainName"].readIfPresent() ?? ""
+        value.eventTriggerNames = try reader["EventTriggerNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.isUnstructured = try reader["IsUnstructured"].readIfPresent()
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.objectTypeName = try reader["ObjectTypeName"].readIfPresent()
@@ -7823,6 +10516,73 @@ extension GetProfileObjectTypeTemplateOutput {
         value.sourceName = try reader["SourceName"].readIfPresent()
         value.sourceObject = try reader["SourceObject"].readIfPresent()
         value.templateId = try reader["TemplateId"].readIfPresent()
+        return value
+    }
+}
+
+extension GetSegmentDefinitionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSegmentDefinitionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetSegmentDefinitionOutput()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.description = try reader["Description"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.segmentDefinitionArn = try reader["SegmentDefinitionArn"].readIfPresent() ?? ""
+        value.segmentDefinitionName = try reader["SegmentDefinitionName"].readIfPresent()
+        value.segmentGroups = try reader["SegmentGroups"].readIfPresent(with: CustomerProfilesClientTypes.SegmentGroup.read(from:))
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GetSegmentEstimateOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSegmentEstimateOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetSegmentEstimateOutput()
+        value.domainName = try reader["DomainName"].readIfPresent()
+        value.estimate = try reader["Estimate"].readIfPresent()
+        value.estimateId = try reader["EstimateId"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusCode = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension GetSegmentMembershipOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSegmentMembershipOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetSegmentMembershipOutput()
+        value.failures = try reader["Failures"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.ProfileQueryFailures.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.profiles = try reader["Profiles"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.ProfileQueryResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.segmentDefinitionName = try reader["SegmentDefinitionName"].readIfPresent()
+        return value
+    }
+}
+
+extension GetSegmentSnapshotOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSegmentSnapshotOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetSegmentSnapshotOutput()
+        value.dataFormat = try reader["DataFormat"].readIfPresent() ?? .sdkUnknown("")
+        value.destinationUri = try reader["DestinationUri"].readIfPresent()
+        value.encryptionKey = try reader["EncryptionKey"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.snapshotId = try reader["SnapshotId"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
         return value
     }
 }
@@ -7943,6 +10703,19 @@ extension ListEventStreamsOutput {
     }
 }
 
+extension ListEventTriggersOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListEventTriggersOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListEventTriggersOutput()
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.EventTriggerSummaryItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListIdentityResolutionJobsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListIdentityResolutionJobsOutput {
@@ -7965,6 +10738,34 @@ extension ListIntegrationsOutput {
         var value = ListIntegrationsOutput()
         value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.ListIntegrationItem.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListObjectTypeAttributesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListObjectTypeAttributesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListObjectTypeAttributesOutput()
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.ListObjectTypeAttributeItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListProfileAttributeValuesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListProfileAttributeValuesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListProfileAttributeValuesOutput()
+        value.attributeName = try reader["AttributeName"].readIfPresent()
+        value.domainName = try reader["DomainName"].readIfPresent()
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.AttributeValueItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.statusCode = httpResponse.statusCode.rawValue
         return value
     }
 }
@@ -8021,6 +10822,19 @@ extension ListRuleBasedMatchesOutput {
     }
 }
 
+extension ListSegmentDefinitionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSegmentDefinitionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListSegmentDefinitionsOutput()
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.SegmentDefinitionItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListTagsForResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTagsForResourceOutput {
@@ -8067,6 +10881,7 @@ extension PutIntegrationOutput {
         var value = PutIntegrationOutput()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.domainName = try reader["DomainName"].readIfPresent() ?? ""
+        value.eventTriggerNames = try reader["EventTriggerNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.isUnstructured = try reader["IsUnstructured"].readIfPresent()
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.objectTypeName = try reader["ObjectTypeName"].readIfPresent()
@@ -8183,6 +10998,26 @@ extension UpdateDomainOutput {
     }
 }
 
+extension UpdateEventTriggerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateEventTriggerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateEventTriggerOutput()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.description = try reader["Description"].readIfPresent()
+        value.eventTriggerConditions = try reader["EventTriggerConditions"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.EventTriggerCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.eventTriggerLimits = try reader["EventTriggerLimits"].readIfPresent(with: CustomerProfilesClientTypes.EventTriggerLimits.read(from:))
+        value.eventTriggerName = try reader["EventTriggerName"].readIfPresent()
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.objectTypeName = try reader["ObjectTypeName"].readIfPresent()
+        value.segmentFilter = try reader["SegmentFilter"].readIfPresent()
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension UpdateProfileOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateProfileOutput {
@@ -8196,6 +11031,42 @@ extension UpdateProfileOutput {
 }
 
 enum AddProfileKeyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchGetCalculatedAttributeForProfileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchGetProfileOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8267,6 +11138,24 @@ enum CreateEventStreamOutputError {
     }
 }
 
+enum CreateEventTriggerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateIntegrationWorkflowOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8286,6 +11175,60 @@ enum CreateIntegrationWorkflowOutputError {
 }
 
 enum CreateProfileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateSegmentDefinitionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateSegmentEstimateOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateSegmentSnapshotOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8340,6 +11283,24 @@ enum DeleteDomainOutputError {
 }
 
 enum DeleteEventStreamOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteEventTriggerOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8430,6 +11391,24 @@ enum DeleteProfileObjectOutputError {
 }
 
 enum DeleteProfileObjectTypeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteSegmentDefinitionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8573,6 +11552,24 @@ enum GetEventStreamOutputError {
     }
 }
 
+enum GetEventTriggerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetIdentityResolutionJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8646,6 +11643,78 @@ enum GetProfileObjectTypeOutputError {
 }
 
 enum GetProfileObjectTypeTemplateOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetSegmentDefinitionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetSegmentEstimateOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetSegmentMembershipOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetSegmentSnapshotOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8807,6 +11876,24 @@ enum ListEventStreamsOutputError {
     }
 }
 
+enum ListEventTriggersOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListIdentityResolutionJobsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8826,6 +11913,42 @@ enum ListIdentityResolutionJobsOutputError {
 }
 
 enum ListIntegrationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListObjectTypeAttributesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListProfileAttributeValuesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8898,6 +12021,24 @@ enum ListProfileObjectTypeTemplatesOutputError {
 }
 
 enum ListRuleBasedMatchesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListSegmentDefinitionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -9106,6 +12247,24 @@ enum UpdateDomainOutputError {
     }
 }
 
+enum UpdateEventTriggerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateProfileOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9185,6 +12344,156 @@ extension AccessDeniedException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.BatchGetCalculatedAttributeForProfileError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.BatchGetCalculatedAttributeForProfileError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.BatchGetCalculatedAttributeForProfileError()
+        value.code = try reader["Code"].readIfPresent() ?? ""
+        value.message = try reader["Message"].readIfPresent() ?? ""
+        value.profileId = try reader["ProfileId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.CalculatedAttributeValue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.CalculatedAttributeValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.CalculatedAttributeValue()
+        value.calculatedAttributeName = try reader["CalculatedAttributeName"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.isDataPartial = try reader["IsDataPartial"].readIfPresent()
+        value.profileId = try reader["ProfileId"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.ConditionOverrides {
+
+    static func write(value: CustomerProfilesClientTypes.ConditionOverrides?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Range"].write(value.range, with: CustomerProfilesClientTypes.RangeOverride.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ConditionOverrides {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.ConditionOverrides()
+        value.range = try reader["Range"].readIfPresent(with: CustomerProfilesClientTypes.RangeOverride.read(from:))
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.RangeOverride {
+
+    static func write(value: CustomerProfilesClientTypes.RangeOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["End"].write(value.end)
+        try writer["Start"].write(value.start)
+        try writer["Unit"].write(value.unit)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.RangeOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.RangeOverride()
+        value.start = try reader["Start"].readIfPresent() ?? 366
+        value.end = try reader["End"].readIfPresent() ?? 0
+        value.unit = try reader["Unit"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.BatchGetProfileError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.BatchGetProfileError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.BatchGetProfileError()
+        value.code = try reader["Code"].readIfPresent() ?? ""
+        value.message = try reader["Message"].readIfPresent() ?? ""
+        value.profileId = try reader["ProfileId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.Profile {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.Profile {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.Profile()
+        value.profileId = try reader["ProfileId"].readIfPresent()
+        value.accountNumber = try reader["AccountNumber"].readIfPresent()
+        value.additionalInformation = try reader["AdditionalInformation"].readIfPresent()
+        value.partyType = try reader["PartyType"].readIfPresent()
+        value.businessName = try reader["BusinessName"].readIfPresent()
+        value.firstName = try reader["FirstName"].readIfPresent()
+        value.middleName = try reader["MiddleName"].readIfPresent()
+        value.lastName = try reader["LastName"].readIfPresent()
+        value.birthDate = try reader["BirthDate"].readIfPresent()
+        value.gender = try reader["Gender"].readIfPresent()
+        value.phoneNumber = try reader["PhoneNumber"].readIfPresent()
+        value.mobilePhoneNumber = try reader["MobilePhoneNumber"].readIfPresent()
+        value.homePhoneNumber = try reader["HomePhoneNumber"].readIfPresent()
+        value.businessPhoneNumber = try reader["BusinessPhoneNumber"].readIfPresent()
+        value.emailAddress = try reader["EmailAddress"].readIfPresent()
+        value.personalEmailAddress = try reader["PersonalEmailAddress"].readIfPresent()
+        value.businessEmailAddress = try reader["BusinessEmailAddress"].readIfPresent()
+        value.address = try reader["Address"].readIfPresent(with: CustomerProfilesClientTypes.Address.read(from:))
+        value.shippingAddress = try reader["ShippingAddress"].readIfPresent(with: CustomerProfilesClientTypes.Address.read(from:))
+        value.mailingAddress = try reader["MailingAddress"].readIfPresent(with: CustomerProfilesClientTypes.Address.read(from:))
+        value.billingAddress = try reader["BillingAddress"].readIfPresent(with: CustomerProfilesClientTypes.Address.read(from:))
+        value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.foundByItems = try reader["FoundByItems"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.FoundByKeyValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.partyTypeString = try reader["PartyTypeString"].readIfPresent()
+        value.genderString = try reader["GenderString"].readIfPresent()
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.FoundByKeyValue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.FoundByKeyValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.FoundByKeyValue()
+        value.keyName = try reader["KeyName"].readIfPresent()
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.Address {
+
+    static func write(value: CustomerProfilesClientTypes.Address?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Address1"].write(value.address1)
+        try writer["Address2"].write(value.address2)
+        try writer["Address3"].write(value.address3)
+        try writer["Address4"].write(value.address4)
+        try writer["City"].write(value.city)
+        try writer["Country"].write(value.country)
+        try writer["County"].write(value.county)
+        try writer["PostalCode"].write(value.postalCode)
+        try writer["Province"].write(value.province)
+        try writer["State"].write(value.state)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.Address {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.Address()
+        value.address1 = try reader["Address1"].readIfPresent()
+        value.address2 = try reader["Address2"].readIfPresent()
+        value.address3 = try reader["Address3"].readIfPresent()
+        value.address4 = try reader["Address4"].readIfPresent()
+        value.city = try reader["City"].readIfPresent()
+        value.county = try reader["County"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.province = try reader["Province"].readIfPresent()
+        value.country = try reader["Country"].readIfPresent()
+        value.postalCode = try reader["PostalCode"].readIfPresent()
         return value
     }
 }
@@ -9270,6 +12579,72 @@ extension CustomerProfilesClientTypes.Range {
         var value = CustomerProfilesClientTypes.Range()
         value.value = try reader["Value"].readIfPresent() ?? 0
         value.unit = try reader["Unit"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.Filter {
+
+    static func write(value: CustomerProfilesClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Groups"].writeList(value.groups, memberWritingClosure: CustomerProfilesClientTypes.FilterGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Include"].write(value.include)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.Filter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.Filter()
+        value.include = try reader["Include"].readIfPresent() ?? .sdkUnknown("")
+        value.groups = try reader["Groups"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.FilterGroup.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.FilterGroup {
+
+    static func write(value: CustomerProfilesClientTypes.FilterGroup?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: CustomerProfilesClientTypes.FilterDimension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.FilterGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.FilterGroup()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.FilterDimension.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.FilterDimension {
+
+    static func write(value: CustomerProfilesClientTypes.FilterDimension?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Attributes"].writeMap(value.attributes, valueWritingClosure: CustomerProfilesClientTypes.FilterAttributeDimension.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.FilterDimension {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.FilterDimension()
+        value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: CustomerProfilesClientTypes.FilterAttributeDimension.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.FilterAttributeDimension {
+
+    static func write(value: CustomerProfilesClientTypes.FilterAttributeDimension?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DimensionType"].write(value.dimensionType)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.FilterAttributeDimension {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.FilterAttributeDimension()
+        value.dimensionType = try reader["DimensionType"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9442,6 +12817,97 @@ extension CustomerProfilesClientTypes.MatchingRule {
     }
 }
 
+extension CustomerProfilesClientTypes.EventTriggerCondition {
+
+    static func write(value: CustomerProfilesClientTypes.EventTriggerCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EventTriggerDimensions"].writeList(value.eventTriggerDimensions, memberWritingClosure: CustomerProfilesClientTypes.EventTriggerDimension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["LogicalOperator"].write(value.logicalOperator)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.EventTriggerCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.EventTriggerCondition()
+        value.eventTriggerDimensions = try reader["EventTriggerDimensions"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.EventTriggerDimension.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.logicalOperator = try reader["LogicalOperator"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.EventTriggerDimension {
+
+    static func write(value: CustomerProfilesClientTypes.EventTriggerDimension?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ObjectAttributes"].writeList(value.objectAttributes, memberWritingClosure: CustomerProfilesClientTypes.ObjectAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.EventTriggerDimension {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.EventTriggerDimension()
+        value.objectAttributes = try reader["ObjectAttributes"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.ObjectAttribute.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.ObjectAttribute {
+
+    static func write(value: CustomerProfilesClientTypes.ObjectAttribute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComparisonOperator"].write(value.comparisonOperator)
+        try writer["FieldName"].write(value.fieldName)
+        try writer["Source"].write(value.source)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ObjectAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.ObjectAttribute()
+        value.source = try reader["Source"].readIfPresent()
+        value.fieldName = try reader["FieldName"].readIfPresent()
+        value.comparisonOperator = try reader["ComparisonOperator"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.EventTriggerLimits {
+
+    static func write(value: CustomerProfilesClientTypes.EventTriggerLimits?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EventExpiration"].write(value.eventExpiration)
+        try writer["Periods"].writeList(value.periods, memberWritingClosure: CustomerProfilesClientTypes.Period.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.EventTriggerLimits {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.EventTriggerLimits()
+        value.eventExpiration = try reader["EventExpiration"].readIfPresent()
+        value.periods = try reader["Periods"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.Period.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.Period {
+
+    static func write(value: CustomerProfilesClientTypes.Period?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxInvocationsPerProfile"].write(value.maxInvocationsPerProfile)
+        try writer["Unit"].write(value.unit)
+        try writer["Unlimited"].write(value.unlimited)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.Period {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.Period()
+        value.unit = try reader["Unit"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? 0
+        value.maxInvocationsPerProfile = try reader["MaxInvocationsPerProfile"].readIfPresent()
+        value.unlimited = try reader["Unlimited"].readIfPresent() ?? false
+        return value
+    }
+}
+
 extension CustomerProfilesClientTypes.DetectedProfileObjectType {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.DetectedProfileObjectType {
@@ -9561,6 +13027,278 @@ extension CustomerProfilesClientTypes.MatchItem {
     }
 }
 
+extension CustomerProfilesClientTypes.SegmentGroup {
+
+    static func write(value: CustomerProfilesClientTypes.SegmentGroup?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Groups"].writeList(value.groups, memberWritingClosure: CustomerProfilesClientTypes.Group.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Include"].write(value.include)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.SegmentGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.SegmentGroup()
+        value.groups = try reader["Groups"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.Group.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.include = try reader["Include"].readIfPresent() ?? .all
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.Group {
+
+    static func write(value: CustomerProfilesClientTypes.Group?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: CustomerProfilesClientTypes.Dimension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SourceSegments"].writeList(value.sourceSegments, memberWritingClosure: CustomerProfilesClientTypes.SourceSegment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SourceType"].write(value.sourceType)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.Group {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.Group()
+        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.Dimension.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sourceSegments = try reader["SourceSegments"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.SourceSegment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sourceType = try reader["SourceType"].readIfPresent() ?? .all
+        value.type = try reader["Type"].readIfPresent() ?? .all
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.SourceSegment {
+
+    static func write(value: CustomerProfilesClientTypes.SourceSegment?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SegmentDefinitionName"].write(value.segmentDefinitionName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.SourceSegment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.SourceSegment()
+        value.segmentDefinitionName = try reader["SegmentDefinitionName"].readIfPresent()
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.Dimension {
+
+    static func write(value: CustomerProfilesClientTypes.Dimension?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .calculatedattributes(calculatedattributes):
+                try writer["CalculatedAttributes"].writeMap(calculatedattributes, valueWritingClosure: CustomerProfilesClientTypes.CalculatedAttributeDimension.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+            case let .profileattributes(profileattributes):
+                try writer["ProfileAttributes"].write(profileattributes, with: CustomerProfilesClientTypes.ProfileAttributes.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.Dimension {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "ProfileAttributes":
+                return .profileattributes(try reader["ProfileAttributes"].read(with: CustomerProfilesClientTypes.ProfileAttributes.read(from:)))
+            case "CalculatedAttributes":
+                return .calculatedattributes(try reader["CalculatedAttributes"].readMap(valueReadingClosure: CustomerProfilesClientTypes.CalculatedAttributeDimension.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes.CalculatedAttributeDimension {
+
+    static func write(value: CustomerProfilesClientTypes.CalculatedAttributeDimension?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConditionOverrides"].write(value.conditionOverrides, with: CustomerProfilesClientTypes.ConditionOverrides.write(value:to:))
+        try writer["DimensionType"].write(value.dimensionType)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.CalculatedAttributeDimension {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.CalculatedAttributeDimension()
+        value.dimensionType = try reader["DimensionType"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.conditionOverrides = try reader["ConditionOverrides"].readIfPresent(with: CustomerProfilesClientTypes.ConditionOverrides.read(from:))
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.ProfileAttributes {
+
+    static func write(value: CustomerProfilesClientTypes.ProfileAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccountNumber"].write(value.accountNumber, with: CustomerProfilesClientTypes.ProfileDimension.write(value:to:))
+        try writer["AdditionalInformation"].write(value.additionalInformation, with: CustomerProfilesClientTypes.ExtraLengthValueProfileDimension.write(value:to:))
+        try writer["Address"].write(value.address, with: CustomerProfilesClientTypes.AddressDimension.write(value:to:))
+        try writer["Attributes"].writeMap(value.attributes, valueWritingClosure: CustomerProfilesClientTypes.AttributeDimension.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["BillingAddress"].write(value.billingAddress, with: CustomerProfilesClientTypes.AddressDimension.write(value:to:))
+        try writer["BirthDate"].write(value.birthDate, with: CustomerProfilesClientTypes.DateDimension.write(value:to:))
+        try writer["BusinessEmailAddress"].write(value.businessEmailAddress, with: CustomerProfilesClientTypes.ProfileDimension.write(value:to:))
+        try writer["BusinessName"].write(value.businessName, with: CustomerProfilesClientTypes.ProfileDimension.write(value:to:))
+        try writer["BusinessPhoneNumber"].write(value.businessPhoneNumber, with: CustomerProfilesClientTypes.ProfileDimension.write(value:to:))
+        try writer["EmailAddress"].write(value.emailAddress, with: CustomerProfilesClientTypes.ProfileDimension.write(value:to:))
+        try writer["FirstName"].write(value.firstName, with: CustomerProfilesClientTypes.ProfileDimension.write(value:to:))
+        try writer["GenderString"].write(value.genderString, with: CustomerProfilesClientTypes.ProfileDimension.write(value:to:))
+        try writer["HomePhoneNumber"].write(value.homePhoneNumber, with: CustomerProfilesClientTypes.ProfileDimension.write(value:to:))
+        try writer["LastName"].write(value.lastName, with: CustomerProfilesClientTypes.ProfileDimension.write(value:to:))
+        try writer["MailingAddress"].write(value.mailingAddress, with: CustomerProfilesClientTypes.AddressDimension.write(value:to:))
+        try writer["MiddleName"].write(value.middleName, with: CustomerProfilesClientTypes.ProfileDimension.write(value:to:))
+        try writer["MobilePhoneNumber"].write(value.mobilePhoneNumber, with: CustomerProfilesClientTypes.ProfileDimension.write(value:to:))
+        try writer["PartyTypeString"].write(value.partyTypeString, with: CustomerProfilesClientTypes.ProfileDimension.write(value:to:))
+        try writer["PersonalEmailAddress"].write(value.personalEmailAddress, with: CustomerProfilesClientTypes.ProfileDimension.write(value:to:))
+        try writer["PhoneNumber"].write(value.phoneNumber, with: CustomerProfilesClientTypes.ProfileDimension.write(value:to:))
+        try writer["ShippingAddress"].write(value.shippingAddress, with: CustomerProfilesClientTypes.AddressDimension.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ProfileAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.ProfileAttributes()
+        value.accountNumber = try reader["AccountNumber"].readIfPresent(with: CustomerProfilesClientTypes.ProfileDimension.read(from:))
+        value.additionalInformation = try reader["AdditionalInformation"].readIfPresent(with: CustomerProfilesClientTypes.ExtraLengthValueProfileDimension.read(from:))
+        value.firstName = try reader["FirstName"].readIfPresent(with: CustomerProfilesClientTypes.ProfileDimension.read(from:))
+        value.lastName = try reader["LastName"].readIfPresent(with: CustomerProfilesClientTypes.ProfileDimension.read(from:))
+        value.middleName = try reader["MiddleName"].readIfPresent(with: CustomerProfilesClientTypes.ProfileDimension.read(from:))
+        value.genderString = try reader["GenderString"].readIfPresent(with: CustomerProfilesClientTypes.ProfileDimension.read(from:))
+        value.partyTypeString = try reader["PartyTypeString"].readIfPresent(with: CustomerProfilesClientTypes.ProfileDimension.read(from:))
+        value.birthDate = try reader["BirthDate"].readIfPresent(with: CustomerProfilesClientTypes.DateDimension.read(from:))
+        value.phoneNumber = try reader["PhoneNumber"].readIfPresent(with: CustomerProfilesClientTypes.ProfileDimension.read(from:))
+        value.businessName = try reader["BusinessName"].readIfPresent(with: CustomerProfilesClientTypes.ProfileDimension.read(from:))
+        value.businessPhoneNumber = try reader["BusinessPhoneNumber"].readIfPresent(with: CustomerProfilesClientTypes.ProfileDimension.read(from:))
+        value.homePhoneNumber = try reader["HomePhoneNumber"].readIfPresent(with: CustomerProfilesClientTypes.ProfileDimension.read(from:))
+        value.mobilePhoneNumber = try reader["MobilePhoneNumber"].readIfPresent(with: CustomerProfilesClientTypes.ProfileDimension.read(from:))
+        value.emailAddress = try reader["EmailAddress"].readIfPresent(with: CustomerProfilesClientTypes.ProfileDimension.read(from:))
+        value.personalEmailAddress = try reader["PersonalEmailAddress"].readIfPresent(with: CustomerProfilesClientTypes.ProfileDimension.read(from:))
+        value.businessEmailAddress = try reader["BusinessEmailAddress"].readIfPresent(with: CustomerProfilesClientTypes.ProfileDimension.read(from:))
+        value.address = try reader["Address"].readIfPresent(with: CustomerProfilesClientTypes.AddressDimension.read(from:))
+        value.shippingAddress = try reader["ShippingAddress"].readIfPresent(with: CustomerProfilesClientTypes.AddressDimension.read(from:))
+        value.mailingAddress = try reader["MailingAddress"].readIfPresent(with: CustomerProfilesClientTypes.AddressDimension.read(from:))
+        value.billingAddress = try reader["BillingAddress"].readIfPresent(with: CustomerProfilesClientTypes.AddressDimension.read(from:))
+        value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: CustomerProfilesClientTypes.AttributeDimension.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.AttributeDimension {
+
+    static func write(value: CustomerProfilesClientTypes.AttributeDimension?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DimensionType"].write(value.dimensionType)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.AttributeDimension {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.AttributeDimension()
+        value.dimensionType = try reader["DimensionType"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.AddressDimension {
+
+    static func write(value: CustomerProfilesClientTypes.AddressDimension?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["City"].write(value.city, with: CustomerProfilesClientTypes.ProfileDimension.write(value:to:))
+        try writer["Country"].write(value.country, with: CustomerProfilesClientTypes.ProfileDimension.write(value:to:))
+        try writer["County"].write(value.county, with: CustomerProfilesClientTypes.ProfileDimension.write(value:to:))
+        try writer["PostalCode"].write(value.postalCode, with: CustomerProfilesClientTypes.ProfileDimension.write(value:to:))
+        try writer["Province"].write(value.province, with: CustomerProfilesClientTypes.ProfileDimension.write(value:to:))
+        try writer["State"].write(value.state, with: CustomerProfilesClientTypes.ProfileDimension.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.AddressDimension {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.AddressDimension()
+        value.city = try reader["City"].readIfPresent(with: CustomerProfilesClientTypes.ProfileDimension.read(from:))
+        value.country = try reader["Country"].readIfPresent(with: CustomerProfilesClientTypes.ProfileDimension.read(from:))
+        value.county = try reader["County"].readIfPresent(with: CustomerProfilesClientTypes.ProfileDimension.read(from:))
+        value.postalCode = try reader["PostalCode"].readIfPresent(with: CustomerProfilesClientTypes.ProfileDimension.read(from:))
+        value.province = try reader["Province"].readIfPresent(with: CustomerProfilesClientTypes.ProfileDimension.read(from:))
+        value.state = try reader["State"].readIfPresent(with: CustomerProfilesClientTypes.ProfileDimension.read(from:))
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.ProfileDimension {
+
+    static func write(value: CustomerProfilesClientTypes.ProfileDimension?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DimensionType"].write(value.dimensionType)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ProfileDimension {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.ProfileDimension()
+        value.dimensionType = try reader["DimensionType"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.DateDimension {
+
+    static func write(value: CustomerProfilesClientTypes.DateDimension?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DimensionType"].write(value.dimensionType)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.DateDimension {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.DateDimension()
+        value.dimensionType = try reader["DimensionType"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.ExtraLengthValueProfileDimension {
+
+    static func write(value: CustomerProfilesClientTypes.ExtraLengthValueProfileDimension?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DimensionType"].write(value.dimensionType)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ExtraLengthValueProfileDimension {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.ExtraLengthValueProfileDimension()
+        value.dimensionType = try reader["DimensionType"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.ProfileQueryResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ProfileQueryResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.ProfileQueryResult()
+        value.profileId = try reader["ProfileId"].readIfPresent() ?? ""
+        value.queryResult = try reader["QueryResult"].readIfPresent() ?? .sdkUnknown("")
+        value.profile = try reader["Profile"].readIfPresent(with: CustomerProfilesClientTypes.Profile.read(from:))
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.ProfileQueryFailures {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ProfileQueryFailures {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.ProfileQueryFailures()
+        value.profileId = try reader["ProfileId"].readIfPresent() ?? ""
+        value.message = try reader["Message"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
 extension CustomerProfilesClientTypes.WorkflowAttributes {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.WorkflowAttributes {
@@ -9647,6 +13385,7 @@ extension CustomerProfilesClientTypes.ListIntegrationItem {
         value.workflowId = try reader["WorkflowId"].readIfPresent()
         value.isUnstructured = try reader["IsUnstructured"].readIfPresent()
         value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.eventTriggerNames = try reader["EventTriggerNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -9720,6 +13459,21 @@ extension CustomerProfilesClientTypes.DestinationSummary {
     }
 }
 
+extension CustomerProfilesClientTypes.EventTriggerSummaryItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.EventTriggerSummaryItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.EventTriggerSummaryItem()
+        value.objectTypeName = try reader["ObjectTypeName"].readIfPresent()
+        value.eventTriggerName = try reader["EventTriggerName"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension CustomerProfilesClientTypes.IdentityResolutionJob {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.IdentityResolutionJob {
@@ -9733,6 +13487,27 @@ extension CustomerProfilesClientTypes.IdentityResolutionJob {
         value.jobStats = try reader["JobStats"].readIfPresent(with: CustomerProfilesClientTypes.JobStats.read(from:))
         value.exportingLocation = try reader["ExportingLocation"].readIfPresent(with: CustomerProfilesClientTypes.ExportingLocation.read(from:))
         value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.ListObjectTypeAttributeItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ListObjectTypeAttributeItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.ListObjectTypeAttributeItem()
+        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.AttributeValueItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.AttributeValueItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.AttributeValueItem()
+        value.value = try reader["Value"].readIfPresent()
         return value
     }
 }
@@ -9777,6 +13552,21 @@ extension CustomerProfilesClientTypes.ListProfileObjectTypeTemplateItem {
     }
 }
 
+extension CustomerProfilesClientTypes.SegmentDefinitionItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.SegmentDefinitionItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.SegmentDefinitionItem()
+        value.segmentDefinitionName = try reader["SegmentDefinitionName"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.segmentDefinitionArn = try reader["SegmentDefinitionArn"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension CustomerProfilesClientTypes.ListWorkflowsItem {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ListWorkflowsItem {
@@ -9788,84 +13578,6 @@ extension CustomerProfilesClientTypes.ListWorkflowsItem {
         value.statusDescription = try reader["StatusDescription"].readIfPresent() ?? ""
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension CustomerProfilesClientTypes.Profile {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.Profile {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CustomerProfilesClientTypes.Profile()
-        value.profileId = try reader["ProfileId"].readIfPresent()
-        value.accountNumber = try reader["AccountNumber"].readIfPresent()
-        value.additionalInformation = try reader["AdditionalInformation"].readIfPresent()
-        value.partyType = try reader["PartyType"].readIfPresent()
-        value.businessName = try reader["BusinessName"].readIfPresent()
-        value.firstName = try reader["FirstName"].readIfPresent()
-        value.middleName = try reader["MiddleName"].readIfPresent()
-        value.lastName = try reader["LastName"].readIfPresent()
-        value.birthDate = try reader["BirthDate"].readIfPresent()
-        value.gender = try reader["Gender"].readIfPresent()
-        value.phoneNumber = try reader["PhoneNumber"].readIfPresent()
-        value.mobilePhoneNumber = try reader["MobilePhoneNumber"].readIfPresent()
-        value.homePhoneNumber = try reader["HomePhoneNumber"].readIfPresent()
-        value.businessPhoneNumber = try reader["BusinessPhoneNumber"].readIfPresent()
-        value.emailAddress = try reader["EmailAddress"].readIfPresent()
-        value.personalEmailAddress = try reader["PersonalEmailAddress"].readIfPresent()
-        value.businessEmailAddress = try reader["BusinessEmailAddress"].readIfPresent()
-        value.address = try reader["Address"].readIfPresent(with: CustomerProfilesClientTypes.Address.read(from:))
-        value.shippingAddress = try reader["ShippingAddress"].readIfPresent(with: CustomerProfilesClientTypes.Address.read(from:))
-        value.mailingAddress = try reader["MailingAddress"].readIfPresent(with: CustomerProfilesClientTypes.Address.read(from:))
-        value.billingAddress = try reader["BillingAddress"].readIfPresent(with: CustomerProfilesClientTypes.Address.read(from:))
-        value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.foundByItems = try reader["FoundByItems"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.FoundByKeyValue.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.partyTypeString = try reader["PartyTypeString"].readIfPresent()
-        value.genderString = try reader["GenderString"].readIfPresent()
-        return value
-    }
-}
-
-extension CustomerProfilesClientTypes.FoundByKeyValue {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.FoundByKeyValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CustomerProfilesClientTypes.FoundByKeyValue()
-        value.keyName = try reader["KeyName"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CustomerProfilesClientTypes.Address {
-
-    static func write(value: CustomerProfilesClientTypes.Address?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Address1"].write(value.address1)
-        try writer["Address2"].write(value.address2)
-        try writer["Address3"].write(value.address3)
-        try writer["Address4"].write(value.address4)
-        try writer["City"].write(value.city)
-        try writer["Country"].write(value.country)
-        try writer["County"].write(value.county)
-        try writer["PostalCode"].write(value.postalCode)
-        try writer["Province"].write(value.province)
-        try writer["State"].write(value.state)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.Address {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CustomerProfilesClientTypes.Address()
-        value.address1 = try reader["Address1"].readIfPresent()
-        value.address2 = try reader["Address2"].readIfPresent()
-        value.address3 = try reader["Address3"].readIfPresent()
-        value.address4 = try reader["Address4"].readIfPresent()
-        value.city = try reader["City"].readIfPresent()
-        value.county = try reader["County"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.province = try reader["Province"].readIfPresent()
-        value.country = try reader["Country"].readIfPresent()
-        value.postalCode = try reader["PostalCode"].readIfPresent()
         return value
     }
 }
@@ -10060,6 +13772,15 @@ extension CustomerProfilesClientTypes.IncrementalPullConfig {
     static func write(value: CustomerProfilesClientTypes.IncrementalPullConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DatetimeTypeFieldName"].write(value.datetimeTypeFieldName)
+    }
+}
+
+extension CustomerProfilesClientTypes.SegmentGroupStructure {
+
+    static func write(value: CustomerProfilesClientTypes.SegmentGroupStructure?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Groups"].writeList(value.groups, memberWritingClosure: CustomerProfilesClientTypes.Group.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Include"].write(value.include)
     }
 }
 

@@ -68,8 +68,7 @@ extension EMRServerlessClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -87,8 +86,7 @@ extension EMRServerlessClientTypes {
         public init(
             enabled: Swift.Bool? = nil,
             idleTimeoutMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.idleTimeoutMinutes = idleTimeoutMinutes
         }
@@ -108,8 +106,7 @@ extension EMRServerlessClientTypes {
         public init(
             imageUri: Swift.String? = nil,
             resolvedImageDigest: Swift.String? = nil
-        )
-        {
+        ) {
             self.imageUri = imageUri
             self.resolvedImageDigest = resolvedImageDigest
         }
@@ -136,8 +133,7 @@ extension EMRServerlessClientTypes {
             disk: Swift.String? = nil,
             diskType: Swift.String? = nil,
             memory: Swift.String? = nil
-        )
-        {
+        ) {
             self.cpu = cpu
             self.disk = disk
             self.diskType = diskType
@@ -159,8 +155,7 @@ extension EMRServerlessClientTypes {
         public init(
             workerConfiguration: EMRServerlessClientTypes.WorkerResourceConfig? = nil,
             workerCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.workerConfiguration = workerConfiguration
             self.workerCount = workerCount
         }
@@ -179,8 +174,7 @@ extension EMRServerlessClientTypes {
         public init(
             livyEndpointEnabled: Swift.Bool? = nil,
             studioEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.livyEndpointEnabled = livyEndpointEnabled
             self.studioEnabled = studioEnabled
         }
@@ -204,8 +198,7 @@ extension EMRServerlessClientTypes {
             cpu: Swift.String? = nil,
             disk: Swift.String? = nil,
             memory: Swift.String? = nil
-        )
-        {
+        ) {
             self.cpu = cpu
             self.disk = disk
             self.memory = memory
@@ -239,8 +232,7 @@ extension EMRServerlessClientTypes {
             logGroupName: Swift.String? = nil,
             logStreamNamePrefix: Swift.String? = nil,
             logTypes: [Swift.String: [Swift.String]]? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.encryptionKeyArn = encryptionKeyArn
             self.logGroupName = logGroupName
@@ -262,8 +254,7 @@ extension EMRServerlessClientTypes {
         public init(
             enabled: Swift.Bool? = nil,
             encryptionKeyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.encryptionKeyArn = encryptionKeyArn
         }
@@ -279,8 +270,7 @@ extension EMRServerlessClientTypes {
 
         public init(
             remoteWriteUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.remoteWriteUrl = remoteWriteUrl
         }
     }
@@ -298,8 +288,7 @@ extension EMRServerlessClientTypes {
         public init(
             encryptionKeyArn: Swift.String? = nil,
             logUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.encryptionKeyArn = encryptionKeyArn
             self.logUri = logUri
         }
@@ -324,8 +313,7 @@ extension EMRServerlessClientTypes {
             managedPersistenceMonitoringConfiguration: EMRServerlessClientTypes.ManagedPersistenceMonitoringConfiguration? = nil,
             prometheusMonitoringConfiguration: EMRServerlessClientTypes.PrometheusMonitoringConfiguration? = nil,
             s3MonitoringConfiguration: EMRServerlessClientTypes.S3MonitoringConfiguration? = nil
-        )
-        {
+        ) {
             self.cloudWatchLoggingConfiguration = cloudWatchLoggingConfiguration
             self.managedPersistenceMonitoringConfiguration = managedPersistenceMonitoringConfiguration
             self.prometheusMonitoringConfiguration = prometheusMonitoringConfiguration
@@ -346,8 +334,7 @@ extension EMRServerlessClientTypes {
         public init(
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
@@ -366,8 +353,7 @@ extension EMRServerlessClientTypes {
         public init(
             maxConcurrentRuns: Swift.Int? = nil,
             queueTimeoutMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxConcurrentRuns = maxConcurrentRuns
             self.queueTimeoutMinutes = queueTimeoutMinutes
         }
@@ -427,8 +413,7 @@ extension EMRServerlessClientTypes {
 
         public init(
             imageConfiguration: EMRServerlessClientTypes.ImageConfiguration? = nil
-        )
-        {
+        ) {
             self.imageConfiguration = imageConfiguration
         }
     }
@@ -477,8 +462,7 @@ extension EMRServerlessClientTypes {
             stateDetails: Swift.String? = nil,
             type: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.architecture = architecture
             self.arn = arn
             self.createdAt = createdAt
@@ -494,9 +478,9 @@ extension EMRServerlessClientTypes {
 }
 
 /// The request could not be processed because of conflict in the current state of the resource.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -512,16 +496,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Request processing failed because of an error or failure with the service.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -537,16 +520,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified resource was not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -562,16 +544,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -587,8 +568,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -602,8 +582,7 @@ extension EMRServerlessClientTypes {
 
         public init(
             imageUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.imageUri = imageUri
         }
     }
@@ -618,8 +597,7 @@ extension EMRServerlessClientTypes {
 
         public init(
             imageConfiguration: EMRServerlessClientTypes.ImageConfigurationInput? = nil
-        )
-        {
+        ) {
             self.imageConfiguration = imageConfiguration
         }
     }
@@ -639,8 +617,7 @@ public struct CreateApplicationOutput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         arn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.arn = arn
         self.name = name
@@ -654,8 +631,7 @@ public struct DeleteApplicationInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -672,8 +648,7 @@ public struct GetApplicationInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -690,8 +665,7 @@ public struct ListApplicationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         states: [EMRServerlessClientTypes.ApplicationState]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.states = states
@@ -708,17 +682,16 @@ public struct ListApplicationsOutput: Swift.Sendable {
     public init(
         applications: [EMRServerlessClientTypes.ApplicationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applications = applications
         self.nextToken = nextToken
     }
 }
 
 /// The maximum number of resources per account has been reached.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -734,8 +707,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -747,8 +719,7 @@ public struct StartApplicationInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -765,8 +736,7 @@ public struct StopApplicationInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -787,8 +757,7 @@ public struct CancelJobRunInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         jobRunId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.jobRunId = jobRunId
     }
@@ -805,14 +774,15 @@ public struct CancelJobRunOutput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         jobRunId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.jobRunId = jobRunId
     }
 }
 
 public struct GetDashboardForJobRunInput: Swift.Sendable {
+    /// Allows access to system profile logs for Lake Formation-enabled jobs. Default is false.
+    public var accessSystemProfileLogs: Swift.Bool?
     /// The ID of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -823,11 +793,12 @@ public struct GetDashboardForJobRunInput: Swift.Sendable {
     public var jobRunId: Swift.String?
 
     public init(
+        accessSystemProfileLogs: Swift.Bool? = nil,
         applicationId: Swift.String? = nil,
         attempt: Swift.Int? = nil,
         jobRunId: Swift.String? = nil
-    )
-    {
+    ) {
+        self.accessSystemProfileLogs = accessSystemProfileLogs
         self.applicationId = applicationId
         self.attempt = attempt
         self.jobRunId = jobRunId
@@ -840,8 +811,7 @@ public struct GetDashboardForJobRunOutput: Swift.Sendable {
 
     public init(
         url: Swift.String? = nil
-    )
-    {
+    ) {
         self.url = url
     }
 }
@@ -860,8 +830,7 @@ public struct GetJobRunInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         attempt: Swift.Int? = nil,
         jobRunId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.attempt = attempt
         self.jobRunId = jobRunId
@@ -883,8 +852,7 @@ extension EMRServerlessClientTypes {
             memoryGBHour: Swift.Double? = nil,
             storageGBHour: Swift.Double? = nil,
             vCPUHour: Swift.Double? = nil
-        )
-        {
+        ) {
             self.memoryGBHour = memoryGBHour
             self.storageGBHour = storageGBHour
             self.vCPUHour = vCPUHour
@@ -908,8 +876,7 @@ extension EMRServerlessClientTypes {
             initQueryFile: Swift.String? = nil,
             parameters: Swift.String? = nil,
             query: Swift.String? = nil
-        )
-        {
+        ) {
             self.initQueryFile = initQueryFile
             self.parameters = parameters
             self.query = query
@@ -938,8 +905,7 @@ extension EMRServerlessClientTypes {
             entryPoint: Swift.String? = nil,
             entryPointArguments: [Swift.String]? = nil,
             sparkSubmitParameters: Swift.String? = nil
-        )
-        {
+        ) {
             self.entryPoint = entryPoint
             self.entryPointArguments = entryPointArguments
             self.sparkSubmitParameters = sparkSubmitParameters
@@ -1005,8 +971,7 @@ extension EMRServerlessClientTypes {
         public init(
             maxAttempts: Swift.Int? = nil,
             maxFailedAttemptsPerHour: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxAttempts = maxAttempts
             self.maxFailedAttemptsPerHour = maxFailedAttemptsPerHour
         }
@@ -1078,8 +1043,7 @@ extension EMRServerlessClientTypes {
             memoryGBHour: Swift.Double? = nil,
             storageGBHour: Swift.Double? = nil,
             vCPUHour: Swift.Double? = nil
-        )
-        {
+        ) {
             self.memoryGBHour = memoryGBHour
             self.storageGBHour = storageGBHour
             self.vCPUHour = vCPUHour
@@ -1104,8 +1068,7 @@ public struct ListJobRunAttemptsInput: Swift.Sendable {
         jobRunId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.jobRunId = jobRunId
         self.maxResults = maxResults
@@ -1175,8 +1138,7 @@ extension EMRServerlessClientTypes {
             stateDetails: Swift.String? = nil,
             type: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.arn = arn
             self.attempt = attempt
@@ -1206,8 +1168,7 @@ public struct ListJobRunAttemptsOutput: Swift.Sendable {
     public init(
         jobRunAttempts: [EMRServerlessClientTypes.JobRunAttemptSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobRunAttempts = jobRunAttempts
         self.nextToken = nextToken
     }
@@ -1238,8 +1199,7 @@ public struct ListJobRunsInput: Swift.Sendable {
         mode: EMRServerlessClientTypes.JobRunMode? = nil,
         nextToken: Swift.String? = nil,
         states: [EMRServerlessClientTypes.JobRunState]? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.createdAtAfter = createdAtAfter
         self.createdAtBefore = createdAtBefore
@@ -1314,8 +1274,7 @@ extension EMRServerlessClientTypes {
             stateDetails: Swift.String? = nil,
             type: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.arn = arn
             self.attempt = attempt
@@ -1346,8 +1305,7 @@ public struct ListJobRunsOutput: Swift.Sendable {
     public init(
         jobRuns: [EMRServerlessClientTypes.JobRunSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobRuns = jobRuns
         self.nextToken = nextToken
     }
@@ -1368,8 +1326,7 @@ public struct StartJobRunOutput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         arn: Swift.String? = nil,
         jobRunId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.arn = arn
         self.jobRunId = jobRunId
@@ -1383,8 +1340,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1395,8 +1351,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1412,8 +1367,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1435,8 +1389,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1463,8 +1416,7 @@ extension EMRServerlessClientTypes {
             classification: Swift.String? = nil,
             configurations: [EMRServerlessClientTypes.Configuration]? = nil,
             properties: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.classification = classification
             self.configurations = configurations
             self.properties = properties
@@ -1556,8 +1508,7 @@ extension EMRServerlessClientTypes {
             type: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil,
             workerTypeSpecifications: [Swift.String: EMRServerlessClientTypes.WorkerTypeSpecification]? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.architecture = architecture
             self.arn = arn
@@ -1596,8 +1547,7 @@ extension EMRServerlessClientTypes {
         public init(
             applicationConfiguration: [EMRServerlessClientTypes.Configuration]? = nil,
             monitoringConfiguration: EMRServerlessClientTypes.MonitoringConfiguration? = nil
-        )
-        {
+        ) {
             self.applicationConfiguration = applicationConfiguration
             self.monitoringConfiguration = monitoringConfiguration
         }
@@ -1661,8 +1611,7 @@ public struct CreateApplicationInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         type: Swift.String? = nil,
         workerTypeSpecifications: [Swift.String: EMRServerlessClientTypes.WorkerTypeSpecificationInput]? = nil
-    )
-    {
+    ) {
         self.architecture = architecture
         self.autoStartConfiguration = autoStartConfiguration
         self.autoStopConfiguration = autoStopConfiguration
@@ -1733,8 +1682,7 @@ public struct UpdateApplicationInput: Swift.Sendable {
         runtimeConfiguration: [EMRServerlessClientTypes.Configuration]? = nil,
         schedulerConfiguration: EMRServerlessClientTypes.SchedulerConfiguration? = nil,
         workerTypeSpecifications: [Swift.String: EMRServerlessClientTypes.WorkerTypeSpecificationInput]? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.architecture = architecture
         self.autoStartConfiguration = autoStartConfiguration
@@ -1851,8 +1799,7 @@ extension EMRServerlessClientTypes {
             totalExecutionDurationSeconds: Swift.Int? = nil,
             totalResourceUtilization: EMRServerlessClientTypes.TotalResourceUtilization? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.arn = arn
             self.attempt = attempt
@@ -1891,8 +1838,7 @@ public struct GetApplicationOutput: Swift.Sendable {
 
     public init(
         application: EMRServerlessClientTypes.Application? = nil
-    )
-    {
+    ) {
         self.application = application
     }
 }
@@ -1933,8 +1879,7 @@ public struct StartJobRunInput: Swift.Sendable {
         name: Swift.String? = nil,
         retryPolicy: EMRServerlessClientTypes.RetryPolicy? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.clientToken = clientToken
         self.configurationOverrides = configurationOverrides
@@ -1955,8 +1900,7 @@ public struct UpdateApplicationOutput: Swift.Sendable {
 
     public init(
         application: EMRServerlessClientTypes.Application? = nil
-    )
-    {
+    ) {
         self.application = application
     }
 }
@@ -1968,8 +1912,7 @@ public struct GetJobRunOutput: Swift.Sendable {
 
     public init(
         jobRun: EMRServerlessClientTypes.JobRun? = nil
-    )
-    {
+    ) {
         self.jobRun = jobRun
     }
 }
@@ -2031,6 +1974,10 @@ extension GetDashboardForJobRunInput {
 
     static func queryItemProvider(_ value: GetDashboardForJobRunInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let accessSystemProfileLogs = value.accessSystemProfileLogs {
+            let accessSystemProfileLogsQueryItem = Smithy.URIQueryItem(name: "accessSystemProfileLogs".urlPercentEncoding(), value: Swift.String(accessSystemProfileLogs).urlPercentEncoding())
+            items.append(accessSystemProfileLogsQueryItem)
+        }
         if let attempt = value.attempt {
             let attemptQueryItem = Smithy.URIQueryItem(name: "attempt".urlPercentEncoding(), value: Swift.String(attempt).urlPercentEncoding())
             items.append(attemptQueryItem)

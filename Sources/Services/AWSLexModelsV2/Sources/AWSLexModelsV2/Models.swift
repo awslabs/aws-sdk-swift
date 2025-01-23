@@ -61,8 +61,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -103,8 +102,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             audioRecognitionStrategy: LexModelsV2ClientTypes.AudioRecognitionStrategy? = nil
-        )
-        {
+        ) {
             self.audioRecognitionStrategy = audioRecognitionStrategy
         }
     }
@@ -124,8 +122,7 @@ extension LexModelsV2ClientTypes {
         public init(
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
         }
@@ -154,8 +151,7 @@ extension LexModelsV2ClientTypes {
             actualIntent: Swift.String? = nil,
             errorDetails: LexModelsV2ClientTypes.ExecutionErrorDetails? = nil,
             expectedAgentPrompt: Swift.String? = nil
-        )
-        {
+        ) {
             self.actualAgentPrompt = actualAgentPrompt
             self.actualElicitedSlot = actualElicitedSlot
             self.actualIntent = actualIntent
@@ -175,8 +171,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             agentPrompt: Swift.String? = nil
-        )
-        {
+        ) {
             self.agentPrompt = agentPrompt
         }
     }
@@ -255,8 +250,7 @@ extension LexModelsV2ClientTypes {
             name: LexModelsV2ClientTypes.AggregatedUtterancesFilterName? = nil,
             `operator`: LexModelsV2ClientTypes.AggregatedUtterancesFilterOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.values = values
@@ -336,8 +330,7 @@ extension LexModelsV2ClientTypes {
         public init(
             attribute: LexModelsV2ClientTypes.AggregatedUtterancesSortAttribute? = nil,
             order: LexModelsV2ClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.attribute = attribute
             self.order = order
         }
@@ -368,8 +361,7 @@ extension LexModelsV2ClientTypes {
             utterance: Swift.String? = nil,
             utteranceFirstRecordedInAggregationDuration: Foundation.Date? = nil,
             utteranceLastRecordedInAggregationDuration: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.containsDataFromDeletedResources = containsDataFromDeletedResources
             self.hitCount = hitCount
             self.missedCount = missedCount
@@ -394,8 +386,7 @@ extension LexModelsV2ClientTypes {
         public init(
             allowAudioInput: Swift.Bool? = nil,
             allowDTMFInput: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.allowAudioInput = allowAudioInput
             self.allowDTMFInput = allowDTMFInput
         }
@@ -506,8 +497,7 @@ extension LexModelsV2ClientTypes {
             interval: LexModelsV2ClientTypes.AnalyticsInterval? = nil,
             name: LexModelsV2ClientTypes.AnalyticsBinByName? = nil,
             order: LexModelsV2ClientTypes.AnalyticsSortOrder? = nil
-        )
-        {
+        ) {
             self.interval = interval
             self.name = name
             self.order = order
@@ -527,8 +517,7 @@ extension LexModelsV2ClientTypes {
         public init(
             name: LexModelsV2ClientTypes.AnalyticsBinByName? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -780,8 +769,7 @@ extension LexModelsV2ClientTypes {
             name: LexModelsV2ClientTypes.AnalyticsIntentFilterName? = nil,
             `operator`: LexModelsV2ClientTypes.AnalyticsFilterOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.values = values
@@ -801,8 +789,7 @@ extension LexModelsV2ClientTypes {
         public init(
             name: LexModelsV2ClientTypes.AnalyticsIntentField? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -819,8 +806,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             name: LexModelsV2ClientTypes.AnalyticsIntentField? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -929,8 +915,7 @@ extension LexModelsV2ClientTypes {
             name: LexModelsV2ClientTypes.AnalyticsIntentMetricName? = nil,
             order: LexModelsV2ClientTypes.AnalyticsSortOrder? = nil,
             statistic: LexModelsV2ClientTypes.AnalyticsMetricStatistic? = nil
-        )
-        {
+        ) {
             self.name = name
             self.order = order
             self.statistic = statistic
@@ -969,8 +954,7 @@ extension LexModelsV2ClientTypes {
             name: LexModelsV2ClientTypes.AnalyticsIntentMetricName? = nil,
             statistic: LexModelsV2ClientTypes.AnalyticsMetricStatistic? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.name = name
             self.statistic = statistic
             self.value = value
@@ -1028,8 +1012,7 @@ extension LexModelsV2ClientTypes {
             intentName: Swift.String? = nil,
             intentPath: Swift.String? = nil,
             nodeType: LexModelsV2ClientTypes.AnalyticsNodeType? = nil
-        )
-        {
+        ) {
             self.intentCount = intentCount
             self.intentLevel = intentLevel
             self.intentName = intentName
@@ -1054,8 +1037,7 @@ extension LexModelsV2ClientTypes {
             binKeys: [LexModelsV2ClientTypes.AnalyticsBinKey]? = nil,
             groupByKeys: [LexModelsV2ClientTypes.AnalyticsIntentGroupByKey]? = nil,
             metricsResults: [LexModelsV2ClientTypes.AnalyticsIntentMetricResult]? = nil
-        )
-        {
+        ) {
             self.binKeys = binKeys
             self.groupByKeys = groupByKeys
             self.metricsResults = metricsResults
@@ -1235,8 +1217,7 @@ extension LexModelsV2ClientTypes {
             name: LexModelsV2ClientTypes.AnalyticsIntentStageFilterName? = nil,
             `operator`: LexModelsV2ClientTypes.AnalyticsFilterOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.values = values
@@ -1256,8 +1237,7 @@ extension LexModelsV2ClientTypes {
         public init(
             name: LexModelsV2ClientTypes.AnalyticsIntentStageField? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -1274,8 +1254,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             name: LexModelsV2ClientTypes.AnalyticsIntentStageField? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -1352,8 +1331,7 @@ extension LexModelsV2ClientTypes {
             name: LexModelsV2ClientTypes.AnalyticsIntentStageMetricName? = nil,
             order: LexModelsV2ClientTypes.AnalyticsSortOrder? = nil,
             statistic: LexModelsV2ClientTypes.AnalyticsMetricStatistic? = nil
-        )
-        {
+        ) {
             self.name = name
             self.order = order
             self.statistic = statistic
@@ -1392,8 +1370,7 @@ extension LexModelsV2ClientTypes {
             name: LexModelsV2ClientTypes.AnalyticsIntentStageMetricName? = nil,
             statistic: LexModelsV2ClientTypes.AnalyticsMetricStatistic? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.name = name
             self.statistic = statistic
             self.value = value
@@ -1416,8 +1393,7 @@ extension LexModelsV2ClientTypes {
             binKeys: [LexModelsV2ClientTypes.AnalyticsBinKey]? = nil,
             groupByKeys: [LexModelsV2ClientTypes.AnalyticsIntentStageGroupByKey]? = nil,
             metricsResults: [LexModelsV2ClientTypes.AnalyticsIntentStageMetricResult]? = nil
-        )
-        {
+        ) {
             self.binKeys = binKeys
             self.groupByKeys = groupByKeys
             self.metricsResults = metricsResults
@@ -1529,8 +1505,7 @@ extension LexModelsV2ClientTypes {
             name: LexModelsV2ClientTypes.AnalyticsCommonFilterName? = nil,
             `operator`: LexModelsV2ClientTypes.AnalyticsFilterOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.values = values
@@ -1719,8 +1694,7 @@ extension LexModelsV2ClientTypes {
             name: LexModelsV2ClientTypes.AnalyticsSessionFilterName? = nil,
             `operator`: LexModelsV2ClientTypes.AnalyticsFilterOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.values = values
@@ -1740,8 +1714,7 @@ extension LexModelsV2ClientTypes {
         public init(
             name: LexModelsV2ClientTypes.AnalyticsSessionField? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -1758,8 +1731,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             name: LexModelsV2ClientTypes.AnalyticsSessionField? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -1846,8 +1818,7 @@ extension LexModelsV2ClientTypes {
             name: LexModelsV2ClientTypes.AnalyticsSessionMetricName? = nil,
             order: LexModelsV2ClientTypes.AnalyticsSortOrder? = nil,
             statistic: LexModelsV2ClientTypes.AnalyticsMetricStatistic? = nil
-        )
-        {
+        ) {
             self.name = name
             self.order = order
             self.statistic = statistic
@@ -1890,8 +1861,7 @@ extension LexModelsV2ClientTypes {
             name: LexModelsV2ClientTypes.AnalyticsSessionMetricName? = nil,
             statistic: LexModelsV2ClientTypes.AnalyticsMetricStatistic? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.name = name
             self.statistic = statistic
             self.value = value
@@ -1914,8 +1884,7 @@ extension LexModelsV2ClientTypes {
             binKeys: [LexModelsV2ClientTypes.AnalyticsBinKey]? = nil,
             groupByKeys: [LexModelsV2ClientTypes.AnalyticsSessionGroupByKey]? = nil,
             metricsResults: [LexModelsV2ClientTypes.AnalyticsSessionMetricResult]? = nil
-        )
-        {
+        ) {
             self.binKeys = binKeys
             self.groupByKeys = groupByKeys
             self.metricsResults = metricsResults
@@ -1991,8 +1960,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             name: LexModelsV2ClientTypes.AnalyticsUtteranceAttributeName? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -2007,8 +1975,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             lastUsedIntent: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastUsedIntent = lastUsedIntent
         }
     }
@@ -2186,8 +2153,7 @@ extension LexModelsV2ClientTypes {
             name: LexModelsV2ClientTypes.AnalyticsUtteranceFilterName? = nil,
             `operator`: LexModelsV2ClientTypes.AnalyticsFilterOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.values = values
@@ -2207,8 +2173,7 @@ extension LexModelsV2ClientTypes {
         public init(
             name: LexModelsV2ClientTypes.AnalyticsUtteranceField? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -2225,8 +2190,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             name: LexModelsV2ClientTypes.AnalyticsUtteranceField? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -2298,8 +2262,7 @@ extension LexModelsV2ClientTypes {
             name: LexModelsV2ClientTypes.AnalyticsUtteranceMetricName? = nil,
             order: LexModelsV2ClientTypes.AnalyticsSortOrder? = nil,
             statistic: LexModelsV2ClientTypes.AnalyticsMetricStatistic? = nil
-        )
-        {
+        ) {
             self.name = name
             self.order = order
             self.statistic = statistic
@@ -2336,8 +2299,7 @@ extension LexModelsV2ClientTypes {
             name: LexModelsV2ClientTypes.AnalyticsUtteranceMetricName? = nil,
             statistic: LexModelsV2ClientTypes.AnalyticsMetricStatistic? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.name = name
             self.statistic = statistic
             self.value = value
@@ -2363,8 +2325,7 @@ extension LexModelsV2ClientTypes {
             binKeys: [LexModelsV2ClientTypes.AnalyticsBinKey]? = nil,
             groupByKeys: [LexModelsV2ClientTypes.AnalyticsUtteranceGroupByKey]? = nil,
             metricsResults: [LexModelsV2ClientTypes.AnalyticsUtteranceMetricResult]? = nil
-        )
-        {
+        ) {
             self.attributeResults = attributeResults
             self.binKeys = binKeys
             self.groupByKeys = groupByKeys
@@ -2408,8 +2369,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             transcript: Swift.String? = nil
-        )
-        {
+        ) {
             self.transcript = transcript
         }
     }
@@ -2458,8 +2418,7 @@ extension LexModelsV2ClientTypes {
         public init(
             name: LexModelsV2ClientTypes.AssociatedTranscriptFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -2480,8 +2439,7 @@ extension LexModelsV2ClientTypes {
         public init(
             endTimeoutMs: Swift.Int? = nil,
             maxLengthMs: Swift.Int? = nil
-        )
-        {
+        ) {
             self.endTimeoutMs = endTimeoutMs
             self.maxLengthMs = maxLengthMs
         }
@@ -2510,8 +2468,7 @@ extension LexModelsV2ClientTypes {
             endCharacter: Swift.String? = nil,
             endTimeoutMs: Swift.Int? = nil,
             maxLength: Swift.Int? = nil
-        )
-        {
+        ) {
             self.deletionCharacter = deletionCharacter
             self.endCharacter = endCharacter
             self.endTimeoutMs = endTimeoutMs
@@ -2536,8 +2493,7 @@ extension LexModelsV2ClientTypes {
             audioSpecification: LexModelsV2ClientTypes.AudioSpecification? = nil,
             dtmfSpecification: LexModelsV2ClientTypes.DTMFSpecification? = nil,
             startTimeoutMs: Swift.Int? = nil
-        )
-        {
+        ) {
             self.audioSpecification = audioSpecification
             self.dtmfSpecification = dtmfSpecification
             self.startTimeoutMs = startTimeoutMs
@@ -2562,8 +2518,7 @@ extension LexModelsV2ClientTypes {
             kmsKeyArn: Swift.String? = nil,
             logPrefix: Swift.String? = nil,
             s3BucketArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyArn = kmsKeyArn
             self.logPrefix = logPrefix
             self.s3BucketArn = s3BucketArn
@@ -2581,8 +2536,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             s3Bucket: LexModelsV2ClientTypes.S3BucketLogDestination? = nil
-        )
-        {
+        ) {
             self.s3Bucket = s3Bucket
         }
     }
@@ -2605,8 +2559,7 @@ extension LexModelsV2ClientTypes {
             destination: LexModelsV2ClientTypes.AudioLogDestination? = nil,
             enabled: Swift.Bool = false,
             selectiveLoggingEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.enabled = enabled
             self.selectiveLoggingEnabled = selectiveLoggingEnabled
@@ -2615,9 +2568,9 @@ extension LexModelsV2ClientTypes {
 }
 
 /// The service encountered an unexpected condition. Try your request again.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2632,16 +2585,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2656,16 +2608,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You have reached a quota for your bot.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2680,16 +2631,15 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Your request rate is too high. Reduce the frequency of requests.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The number of seconds after which the user can invoke the API again.
         public internal(set) var retryAfterSeconds: Swift.Int = 0
@@ -2707,17 +2657,16 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int = 0
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
 }
 
 /// One of the input parameters in your request isn't valid. Check the parameters and try your request again.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2732,8 +2681,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2754,8 +2702,7 @@ extension LexModelsV2ClientTypes {
             displayAs: Swift.String? = nil,
             phrase: Swift.String? = nil,
             weight: Swift.Int? = nil
-        )
-        {
+        ) {
             self.displayAs = displayAs
             self.phrase = phrase
             self.weight = weight
@@ -2782,8 +2729,7 @@ public struct BatchCreateCustomVocabularyItemInput: Swift.Sendable {
         botVersion: Swift.String? = nil,
         customVocabularyItemList: [LexModelsV2ClientTypes.NewCustomVocabularyItem]? = nil,
         localeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.customVocabularyItemList = customVocabularyItemList
@@ -2841,8 +2787,7 @@ extension LexModelsV2ClientTypes {
             errorCode: LexModelsV2ClientTypes.ErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             itemId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.itemId = itemId
@@ -2870,8 +2815,7 @@ extension LexModelsV2ClientTypes {
             itemId: Swift.String? = nil,
             phrase: Swift.String? = nil,
             weight: Swift.Int? = nil
-        )
-        {
+        ) {
             self.displayAs = displayAs
             self.itemId = itemId
             self.phrase = phrase
@@ -2898,8 +2842,7 @@ public struct BatchCreateCustomVocabularyItemOutput: Swift.Sendable {
         errors: [LexModelsV2ClientTypes.FailedCustomVocabularyItem]? = nil,
         localeId: Swift.String? = nil,
         resources: [LexModelsV2ClientTypes.CustomVocabularyItem]? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.errors = errors
@@ -2918,8 +2861,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             itemId: Swift.String? = nil
-        )
-        {
+        ) {
             self.itemId = itemId
         }
     }
@@ -2944,8 +2886,7 @@ public struct BatchDeleteCustomVocabularyItemInput: Swift.Sendable {
         botVersion: Swift.String? = nil,
         customVocabularyItemList: [LexModelsV2ClientTypes.CustomVocabularyEntryId]? = nil,
         localeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.customVocabularyItemList = customVocabularyItemList
@@ -2971,8 +2912,7 @@ public struct BatchDeleteCustomVocabularyItemOutput: Swift.Sendable {
         errors: [LexModelsV2ClientTypes.FailedCustomVocabularyItem]? = nil,
         localeId: Swift.String? = nil,
         resources: [LexModelsV2ClientTypes.CustomVocabularyItem]? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.errors = errors
@@ -3000,8 +2940,7 @@ public struct BatchUpdateCustomVocabularyItemInput: Swift.Sendable {
         botVersion: Swift.String? = nil,
         customVocabularyItemList: [LexModelsV2ClientTypes.CustomVocabularyItem]? = nil,
         localeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.customVocabularyItemList = customVocabularyItemList
@@ -3027,8 +2966,7 @@ public struct BatchUpdateCustomVocabularyItemOutput: Swift.Sendable {
         errors: [LexModelsV2ClientTypes.FailedCustomVocabularyItem]? = nil,
         localeId: Swift.String? = nil,
         resources: [LexModelsV2ClientTypes.CustomVocabularyItem]? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.errors = errors
@@ -3051,8 +2989,7 @@ extension LexModelsV2ClientTypes {
         public init(
             identifier: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.identifier = identifier
             self.version = version
         }
@@ -3068,8 +3005,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             answerField: Swift.String? = nil
-        )
-        {
+        ) {
             self.answerField = answerField
         }
     }
@@ -3091,8 +3027,7 @@ extension LexModelsV2ClientTypes {
             bedrockKnowledgeBaseArn: Swift.String? = nil,
             exactResponse: Swift.Bool = false,
             exactResponseFields: LexModelsV2ClientTypes.BedrockKnowledgeStoreExactResponseFields? = nil
-        )
-        {
+        ) {
             self.bedrockKnowledgeBaseArn = bedrockKnowledgeBaseArn
             self.exactResponse = exactResponse
             self.exactResponseFields = exactResponseFields
@@ -3148,8 +3083,7 @@ extension LexModelsV2ClientTypes {
             guardrail: LexModelsV2ClientTypes.BedrockGuardrailConfiguration? = nil,
             modelArn: Swift.String? = nil,
             traceStatus: LexModelsV2ClientTypes.BedrockTraceStatus? = nil
-        )
-        {
+        ) {
             self.customPrompt = customPrompt
             self.guardrail = guardrail
             self.modelArn = modelArn
@@ -3173,8 +3107,7 @@ extension LexModelsV2ClientTypes {
             botVersion: Swift.String? = nil,
             endDate: Foundation.Date? = nil,
             startDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.botVersion = botVersion
             self.endDate = endDate
             self.startDate = startDate
@@ -3196,8 +3129,7 @@ extension LexModelsV2ClientTypes {
         public init(
             codeHookInterfaceVersion: Swift.String? = nil,
             lambdaARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.codeHookInterfaceVersion = codeHookInterfaceVersion
             self.lambdaARN = lambdaARN
         }
@@ -3214,8 +3146,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             lambdaCodeHook: LexModelsV2ClientTypes.LambdaCodeHook? = nil
-        )
-        {
+        ) {
             self.lambdaCodeHook = lambdaCodeHook
         }
     }
@@ -3234,8 +3165,7 @@ extension LexModelsV2ClientTypes {
         public init(
             codeHookSpecification: LexModelsV2ClientTypes.CodeHookSpecification? = nil,
             enabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.codeHookSpecification = codeHookSpecification
             self.enabled = enabled
         }
@@ -3305,8 +3235,7 @@ extension LexModelsV2ClientTypes {
             creationDateTime: Foundation.Date? = nil,
             failureReasons: [Swift.String]? = nil,
             lastUpdatedDateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.botAliasId = botAliasId
             self.botAliasReplicationStatus = botAliasReplicationStatus
             self.botVersion = botVersion
@@ -3379,8 +3308,7 @@ extension LexModelsV2ClientTypes {
             creationDateTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             lastUpdatedDateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.botAliasId = botAliasId
             self.botAliasName = botAliasName
             self.botAliasStatus = botAliasStatus
@@ -3410,8 +3338,7 @@ extension LexModelsV2ClientTypes {
             botAliasId: Swift.String? = nil,
             botId: Swift.String? = nil,
             localeId: Swift.String? = nil
-        )
-        {
+        ) {
             self.botAliasId = botAliasId
             self.botId = botId
             self.localeId = localeId
@@ -3433,8 +3360,7 @@ extension LexModelsV2ClientTypes {
         public init(
             botId: Swift.String? = nil,
             botVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.botId = botId
             self.botVersion = botVersion
         }
@@ -3520,8 +3446,7 @@ extension LexModelsV2ClientTypes {
             name: LexModelsV2ClientTypes.BotFilterName? = nil,
             `operator`: LexModelsV2ClientTypes.BotFilterOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.values = values
@@ -3539,8 +3464,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             childDirected: Swift.Bool = false
-        )
-        {
+        ) {
             self.childDirected = childDirected
         }
     }
@@ -3573,8 +3497,7 @@ extension LexModelsV2ClientTypes {
             idleSessionTTLInSeconds: Swift.Int? = nil,
             roleArn: Swift.String? = nil,
             testBotAliasTags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.botName = botName
             self.botTags = botTags
             self.dataPrivacy = dataPrivacy
@@ -3603,8 +3526,7 @@ extension LexModelsV2ClientTypes {
             botId: Swift.String? = nil,
             botVersion: Swift.String? = nil,
             localeId: Swift.String? = nil
-        )
-        {
+        ) {
             self.botId = botId
             self.botVersion = botVersion
             self.localeId = localeId
@@ -3685,8 +3607,7 @@ extension LexModelsV2ClientTypes {
             name: LexModelsV2ClientTypes.BotLocaleFilterName? = nil,
             `operator`: LexModelsV2ClientTypes.BotLocaleFilterOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.values = values
@@ -3708,8 +3629,7 @@ extension LexModelsV2ClientTypes {
         public init(
             event: Swift.String? = nil,
             eventDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.event = event
             self.eventDate = eventDate
         }
@@ -3772,8 +3692,7 @@ extension LexModelsV2ClientTypes {
         public init(
             engine: LexModelsV2ClientTypes.VoiceEngine? = nil,
             voiceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.engine = engine
             self.voiceId = voiceId
         }
@@ -3820,8 +3739,7 @@ extension LexModelsV2ClientTypes {
             localeId: Swift.String? = nil,
             nluIntentConfidenceThreshold: Swift.Double? = nil,
             voiceSettings: LexModelsV2ClientTypes.VoiceSettings? = nil
-        )
-        {
+        ) {
             self.botId = botId
             self.botVersion = botVersion
             self.localeId = localeId
@@ -3871,8 +3789,7 @@ extension LexModelsV2ClientTypes {
         public init(
             attribute: LexModelsV2ClientTypes.BotLocaleSortAttribute? = nil,
             order: LexModelsV2ClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.attribute = attribute
             self.order = order
         }
@@ -3953,8 +3870,7 @@ extension LexModelsV2ClientTypes {
             lastUpdatedDateTime: Foundation.Date? = nil,
             localeId: Swift.String? = nil,
             localeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.botLocaleStatus = botLocaleStatus
             self.description = description
             self.lastBuildSubmittedDateTime = lastBuildSubmittedDateTime
@@ -3991,8 +3907,7 @@ extension LexModelsV2ClientTypes {
             botMemberId: Swift.String? = nil,
             botMemberName: Swift.String? = nil,
             botMemberVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.botMemberAliasId = botMemberAliasId
             self.botMemberAliasName = botMemberAliasName
             self.botMemberId = botMemberId
@@ -4011,8 +3926,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             discoveredIntentCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.discoveredIntentCount = discoveredIntentCount
         }
     }
@@ -4027,8 +3941,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             discoveredSlotTypeCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.discoveredSlotTypeCount = discoveredSlotTypeCount
         }
     }
@@ -4046,8 +3959,7 @@ extension LexModelsV2ClientTypes {
         public init(
             intents: LexModelsV2ClientTypes.IntentStatistics? = nil,
             slotTypes: LexModelsV2ClientTypes.SlotTypeStatistics? = nil
-        )
-        {
+        ) {
             self.intents = intents
             self.slotTypes = slotTypes
         }
@@ -4069,8 +3981,7 @@ extension LexModelsV2ClientTypes {
             associatedTranscriptsUrl: Swift.String? = nil,
             botLocaleExportUrl: Swift.String? = nil,
             statistics: LexModelsV2ClientTypes.BotRecommendationResultStatistics? = nil
-        )
-        {
+        ) {
             self.associatedTranscriptsUrl = associatedTranscriptsUrl
             self.botLocaleExportUrl = botLocaleExportUrl
             self.statistics = statistics
@@ -4148,8 +4059,7 @@ extension LexModelsV2ClientTypes {
             botRecommendationStatus: LexModelsV2ClientTypes.BotRecommendationStatus? = nil,
             creationDateTime: Foundation.Date? = nil,
             lastUpdatedDateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.botRecommendationId = botRecommendationId
             self.botRecommendationStatus = botRecommendationStatus
             self.creationDateTime = creationDateTime
@@ -4212,8 +4122,7 @@ extension LexModelsV2ClientTypes {
             creationDateTime: Foundation.Date? = nil,
             failureReasons: [Swift.String]? = nil,
             replicaRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.botReplicaStatus = botReplicaStatus
             self.creationDateTime = creationDateTime
             self.failureReasons = failureReasons
@@ -4262,8 +4171,7 @@ extension LexModelsV2ClientTypes {
         public init(
             attribute: LexModelsV2ClientTypes.BotSortAttribute? = nil,
             order: LexModelsV2ClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.attribute = attribute
             self.order = order
         }
@@ -4373,8 +4281,7 @@ extension LexModelsV2ClientTypes {
             description: Swift.String? = nil,
             lastUpdatedDateTime: Foundation.Date? = nil,
             latestBotVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.botId = botId
             self.botName = botName
             self.botStatus = botStatus
@@ -4396,8 +4303,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             sourceBotVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceBotVersion = sourceBotVersion
         }
     }
@@ -4443,8 +4349,7 @@ extension LexModelsV2ClientTypes {
         public init(
             attribute: LexModelsV2ClientTypes.BotVersionReplicaSortAttribute? = nil,
             order: LexModelsV2ClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.attribute = attribute
             self.order = order
         }
@@ -4505,8 +4410,7 @@ extension LexModelsV2ClientTypes {
             botVersionReplicationStatus: LexModelsV2ClientTypes.BotVersionReplicationStatus? = nil,
             creationDateTime: Foundation.Date? = nil,
             failureReasons: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.botVersion = botVersion
             self.botVersionReplicationStatus = botVersionReplicationStatus
             self.creationDateTime = creationDateTime
@@ -4555,8 +4459,7 @@ extension LexModelsV2ClientTypes {
         public init(
             attribute: LexModelsV2ClientTypes.BotVersionSortAttribute? = nil,
             order: LexModelsV2ClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.attribute = attribute
             self.order = order
         }
@@ -4584,8 +4487,7 @@ extension LexModelsV2ClientTypes {
             botVersion: Swift.String? = nil,
             creationDateTime: Foundation.Date? = nil,
             description: Swift.String? = nil
-        )
-        {
+        ) {
             self.botName = botName
             self.botStatus = botStatus
             self.botVersion = botVersion
@@ -4596,9 +4498,9 @@ extension LexModelsV2ClientTypes {
 }
 
 /// The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4613,16 +4515,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
-public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4637,8 +4538,7 @@ public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4658,8 +4558,7 @@ public struct BuildBotLocaleInput: Swift.Sendable {
         botId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
         localeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.localeId = localeId
@@ -4684,8 +4583,7 @@ public struct BuildBotLocaleOutput: Swift.Sendable {
         botVersion: Swift.String? = nil,
         lastBuildSubmittedDateTime: Foundation.Date? = nil,
         localeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botLocaleStatus = botLocaleStatus
         self.botVersion = botVersion
@@ -4707,8 +4605,7 @@ extension LexModelsV2ClientTypes {
         public init(
             bedrockModelSpecification: LexModelsV2ClientTypes.BedrockModelSpecification? = nil,
             enabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.bedrockModelSpecification = bedrockModelSpecification
             self.enabled = enabled
         }
@@ -4728,8 +4625,7 @@ extension LexModelsV2ClientTypes {
         public init(
             bedrockModelSpecification: LexModelsV2ClientTypes.BedrockModelSpecification? = nil,
             enabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.bedrockModelSpecification = bedrockModelSpecification
             self.enabled = enabled
         }
@@ -4748,8 +4644,7 @@ extension LexModelsV2ClientTypes {
         public init(
             descriptiveBotBuilder: LexModelsV2ClientTypes.DescriptiveBotBuilderSpecification? = nil,
             sampleUtteranceGeneration: LexModelsV2ClientTypes.SampleUtteranceGenerationSpecification? = nil
-        )
-        {
+        ) {
             self.descriptiveBotBuilder = descriptiveBotBuilder
             self.sampleUtteranceGeneration = sampleUtteranceGeneration
         }
@@ -4796,8 +4691,7 @@ extension LexModelsV2ClientTypes {
         public init(
             attribute: LexModelsV2ClientTypes.BuiltInIntentSortAttribute? = nil,
             order: LexModelsV2ClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.attribute = attribute
             self.order = order
         }
@@ -4816,8 +4710,7 @@ extension LexModelsV2ClientTypes {
         public init(
             description: Swift.String? = nil,
             intentSignature: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.intentSignature = intentSignature
         }
@@ -4864,8 +4757,7 @@ extension LexModelsV2ClientTypes {
         public init(
             attribute: LexModelsV2ClientTypes.BuiltInSlotTypeSortAttribute? = nil,
             order: LexModelsV2ClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.attribute = attribute
             self.order = order
         }
@@ -4884,8 +4776,7 @@ extension LexModelsV2ClientTypes {
         public init(
             description: Swift.String? = nil,
             slotTypeSignature: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.slotTypeSignature = slotTypeSignature
         }
@@ -4906,8 +4797,7 @@ extension LexModelsV2ClientTypes {
         public init(
             text: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
             self.value = value
         }
@@ -4928,8 +4818,7 @@ extension LexModelsV2ClientTypes {
         public init(
             cloudWatchLogGroupArn: Swift.String? = nil,
             logPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
             self.logPrefix = logPrefix
         }
@@ -4950,8 +4839,7 @@ extension LexModelsV2ClientTypes {
         public init(
             name: Swift.String? = nil,
             slotTypeId: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.slotTypeId = slotTypeId
         }
@@ -4967,8 +4855,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             subSlots: [LexModelsV2ClientTypes.SubSlotTypeComposition]? = nil
-        )
-        {
+        ) {
             self.subSlots = subSlots
         }
     }
@@ -4984,8 +4871,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             expressionString: Swift.String? = nil
-        )
-        {
+        ) {
             self.expressionString = expressionString
         }
     }
@@ -5057,8 +4943,7 @@ extension LexModelsV2ClientTypes {
             slotToElicit: Swift.String? = nil,
             suppressNextMessage: Swift.Bool? = nil,
             type: LexModelsV2ClientTypes.DialogActionType? = nil
-        )
-        {
+        ) {
             self.slotToElicit = slotToElicit
             self.suppressNextMessage = suppressNextMessage
             self.type = type
@@ -5104,8 +4989,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             interpretedValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.interpretedValue = interpretedValue
         }
     }
@@ -5121,8 +5005,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.value = value
         }
     }
@@ -5147,8 +5030,7 @@ extension LexModelsV2ClientTypes {
             imageUrl: Swift.String? = nil,
             subtitle: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.buttons = buttons
             self.imageUrl = imageUrl
             self.subtitle = subtitle
@@ -5167,8 +5049,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.value = value
         }
     }
@@ -5184,8 +5065,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.value = value
         }
     }
@@ -5209,8 +5089,7 @@ extension LexModelsV2ClientTypes {
             imageResponseCard: LexModelsV2ClientTypes.ImageResponseCard? = nil,
             plainTextMessage: LexModelsV2ClientTypes.PlainTextMessage? = nil,
             ssmlMessage: LexModelsV2ClientTypes.SSMLMessage? = nil
-        )
-        {
+        ) {
             self.customPayload = customPayload
             self.imageResponseCard = imageResponseCard
             self.plainTextMessage = plainTextMessage
@@ -5232,8 +5111,7 @@ extension LexModelsV2ClientTypes {
         public init(
             message: LexModelsV2ClientTypes.Message? = nil,
             variations: [LexModelsV2ClientTypes.Message]? = nil
-        )
-        {
+        ) {
             self.message = message
             self.variations = variations
         }
@@ -5253,8 +5131,7 @@ extension LexModelsV2ClientTypes {
         public init(
             allowInterrupt: Swift.Bool? = nil,
             messageGroups: [LexModelsV2ClientTypes.MessageGroup]? = nil
-        )
-        {
+        ) {
             self.allowInterrupt = allowInterrupt
             self.messageGroups = messageGroups
         }
@@ -5339,8 +5216,7 @@ extension LexModelsV2ClientTypes {
         public init(
             intentName: Swift.String? = nil,
             matchResult: LexModelsV2ClientTypes.TestResultMatchStatus? = nil
-        )
-        {
+        ) {
             self.intentName = intentName
             self.matchResult = matchResult
         }
@@ -5360,8 +5236,7 @@ extension LexModelsV2ClientTypes {
         public init(
             endToEndResult: LexModelsV2ClientTypes.TestResultMatchStatus? = nil,
             speechTranscriptionResult: LexModelsV2ClientTypes.TestResultMatchStatus? = nil
-        )
-        {
+        ) {
             self.endToEndResult = endToEndResult
             self.speechTranscriptionResult = speechTranscriptionResult
         }
@@ -5386,8 +5261,7 @@ extension LexModelsV2ClientTypes {
             intentName: Swift.String? = nil,
             matchResult: LexModelsV2ClientTypes.TestResultMatchStatus? = nil,
             slotName: Swift.String? = nil
-        )
-        {
+        ) {
             self.intentName = intentName
             self.matchResult = matchResult
             self.slotName = slotName
@@ -5420,8 +5294,7 @@ extension LexModelsV2ClientTypes {
             intentClassificationResults: [LexModelsV2ClientTypes.ConversationLevelIntentClassificationResultItem]? = nil,
             slotResolutionResults: [LexModelsV2ClientTypes.ConversationLevelSlotResolutionResultItem]? = nil,
             speechTranscriptionResult: LexModelsV2ClientTypes.TestResultMatchStatus? = nil
-        )
-        {
+        ) {
             self.conversationId = conversationId
             self.endToEndResult = endToEndResult
             self.intentClassificationResults = intentClassificationResults
@@ -5441,8 +5314,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             items: [LexModelsV2ClientTypes.ConversationLevelTestResultItem]? = nil
-        )
-        {
+        ) {
             self.items = items
         }
     }
@@ -5457,8 +5329,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             endToEndResult: LexModelsV2ClientTypes.TestResultMatchStatus? = nil
-        )
-        {
+        ) {
             self.endToEndResult = endToEndResult
         }
     }
@@ -5511,8 +5382,7 @@ extension LexModelsV2ClientTypes {
             endTime: Foundation.Date? = nil,
             inputMode: LexModelsV2ClientTypes.ConversationLogsInputModeFilter? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.inputMode = inputMode
             self.startTime = startTime
@@ -5542,8 +5412,7 @@ extension LexModelsV2ClientTypes {
             botId: Swift.String? = nil,
             filter: LexModelsV2ClientTypes.ConversationLogsDataSourceFilterBy? = nil,
             localeId: Swift.String? = nil
-        )
-        {
+        ) {
             self.botAliasId = botAliasId
             self.botId = botId
             self.filter = filter
@@ -5562,8 +5431,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             cloudWatch: LexModelsV2ClientTypes.CloudWatchLogGroupLogDestination? = nil
-        )
-        {
+        ) {
             self.cloudWatch = cloudWatch
         }
     }
@@ -5586,8 +5454,7 @@ extension LexModelsV2ClientTypes {
             destination: LexModelsV2ClientTypes.TextLogDestination? = nil,
             enabled: Swift.Bool = false,
             selectiveLoggingEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.enabled = enabled
             self.selectiveLoggingEnabled = selectiveLoggingEnabled
@@ -5607,8 +5474,7 @@ extension LexModelsV2ClientTypes {
         public init(
             audioLogSettings: [LexModelsV2ClientTypes.AudioLogSetting]? = nil,
             textLogSettings: [LexModelsV2ClientTypes.TextLogSetting]? = nil
-        )
-        {
+        ) {
             self.audioLogSettings = audioLogSettings
             self.textLogSettings = textLogSettings
         }
@@ -5649,8 +5515,7 @@ public struct CreateBotInput: Swift.Sendable {
         idleSessionTTLInSeconds: Swift.Int? = nil,
         roleArn: Swift.String? = nil,
         testBotAliasTags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.botMembers = botMembers
         self.botName = botName
         self.botTags = botTags
@@ -5702,8 +5567,7 @@ public struct CreateBotOutput: Swift.Sendable {
         idleSessionTTLInSeconds: Swift.Int? = nil,
         roleArn: Swift.String? = nil,
         testBotAliasTags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botMembers = botMembers
         self.botName = botName
@@ -5729,8 +5593,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             detectSentiment: Swift.Bool = false
-        )
-        {
+        ) {
             self.detectSentiment = detectSentiment
         }
     }
@@ -5765,8 +5628,7 @@ public struct CreateBotAliasInput: Swift.Sendable {
         description: Swift.String? = nil,
         sentimentAnalysisSettings: LexModelsV2ClientTypes.SentimentAnalysisSettings? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.botAliasLocaleSettings = botAliasLocaleSettings
         self.botAliasName = botAliasName
         self.botId = botId
@@ -5814,8 +5676,7 @@ public struct CreateBotAliasOutput: Swift.Sendable {
         description: Swift.String? = nil,
         sentimentAnalysisSettings: LexModelsV2ClientTypes.SentimentAnalysisSettings? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.botAliasId = botAliasId
         self.botAliasLocaleSettings = botAliasLocaleSettings
         self.botAliasName = botAliasName
@@ -5843,8 +5704,7 @@ extension LexModelsV2ClientTypes {
         public init(
             bedrockModelSpecification: LexModelsV2ClientTypes.BedrockModelSpecification? = nil,
             enabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.bedrockModelSpecification = bedrockModelSpecification
             self.enabled = enabled
         }
@@ -5860,8 +5720,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             slotResolutionImprovement: LexModelsV2ClientTypes.SlotResolutionImprovementSpecification? = nil
-        )
-        {
+        ) {
             self.slotResolutionImprovement = slotResolutionImprovement
         }
     }
@@ -5879,8 +5738,7 @@ extension LexModelsV2ClientTypes {
         public init(
             buildtimeSettings: LexModelsV2ClientTypes.BuildtimeSettings? = nil,
             runtimeSettings: LexModelsV2ClientTypes.RuntimeSettings? = nil
-        )
-        {
+        ) {
             self.buildtimeSettings = buildtimeSettings
             self.runtimeSettings = runtimeSettings
         }
@@ -5923,8 +5781,7 @@ public struct CreateBotLocaleInput: Swift.Sendable {
         localeId: Swift.String? = nil,
         nluIntentConfidenceThreshold: Swift.Double? = nil,
         voiceSettings: LexModelsV2ClientTypes.VoiceSettings? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.description = description
@@ -5968,8 +5825,7 @@ public struct CreateBotLocaleOutput: Swift.Sendable {
         localeName: Swift.String? = nil,
         nluIntentConfidenceThreshold: Swift.Double? = nil,
         voiceSettings: LexModelsV2ClientTypes.VoiceSettings? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botLocaleStatus = botLocaleStatus
         self.botVersion = botVersion
@@ -5994,8 +5850,7 @@ public struct CreateBotReplicaInput: Swift.Sendable {
     public init(
         botId: Swift.String? = nil,
         replicaRegion: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.replicaRegion = replicaRegion
     }
@@ -6019,8 +5874,7 @@ public struct CreateBotReplicaOutput: Swift.Sendable {
         creationDateTime: Foundation.Date? = nil,
         replicaRegion: Swift.String? = nil,
         sourceRegion: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botReplicaStatus = botReplicaStatus
         self.creationDateTime = creationDateTime
@@ -6043,8 +5897,7 @@ public struct CreateBotVersionInput: Swift.Sendable {
         botId: Swift.String? = nil,
         botVersionLocaleSpecification: [Swift.String: LexModelsV2ClientTypes.BotVersionLocaleDetails]? = nil,
         description: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersionLocaleSpecification = botVersionLocaleSpecification
         self.description = description
@@ -6072,8 +5925,7 @@ public struct CreateBotVersionOutput: Swift.Sendable {
         botVersionLocaleSpecification: [Swift.String: LexModelsV2ClientTypes.BotVersionLocaleDetails]? = nil,
         creationDateTime: Foundation.Date? = nil,
         description: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botStatus = botStatus
         self.botVersion = botVersion
@@ -6133,8 +5985,7 @@ extension LexModelsV2ClientTypes {
             botId: Swift.String? = nil,
             botVersion: Swift.String? = nil,
             localeId: Swift.String? = nil
-        )
-        {
+        ) {
             self.botId = botId
             self.botVersion = botVersion
             self.localeId = localeId
@@ -6152,8 +6003,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             testSetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.testSetId = testSetId
         }
     }
@@ -6177,8 +6027,7 @@ extension LexModelsV2ClientTypes {
             botLocaleExportSpecification: LexModelsV2ClientTypes.BotLocaleExportSpecification? = nil,
             customVocabularyExportSpecification: LexModelsV2ClientTypes.CustomVocabularyExportSpecification? = nil,
             testSetExportSpecification: LexModelsV2ClientTypes.TestSetExportSpecification? = nil
-        )
-        {
+        ) {
             self.botExportSpecification = botExportSpecification
             self.botLocaleExportSpecification = botLocaleExportSpecification
             self.customVocabularyExportSpecification = customVocabularyExportSpecification
@@ -6201,8 +6050,7 @@ public struct CreateExportInput: Swift.Sendable {
         fileFormat: LexModelsV2ClientTypes.ImportExportFileFormat? = nil,
         filePassword: Swift.String? = nil,
         resourceSpecification: LexModelsV2ClientTypes.ExportResourceSpecification? = nil
-    )
-    {
+    ) {
         self.fileFormat = fileFormat
         self.filePassword = filePassword
         self.resourceSpecification = resourceSpecification
@@ -6267,8 +6115,7 @@ public struct CreateExportOutput: Swift.Sendable {
         exportStatus: LexModelsV2ClientTypes.ExportStatus? = nil,
         fileFormat: LexModelsV2ClientTypes.ImportExportFileFormat? = nil,
         resourceSpecification: LexModelsV2ClientTypes.ExportResourceSpecification? = nil
-    )
-    {
+    ) {
         self.creationDateTime = creationDateTime
         self.exportId = exportId
         self.exportStatus = exportStatus
@@ -6287,8 +6134,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             enabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -6311,8 +6157,7 @@ extension LexModelsV2ClientTypes {
             allowInterrupt: Swift.Bool? = nil,
             delayInSeconds: Swift.Int? = nil,
             messageGroups: [LexModelsV2ClientTypes.MessageGroup]? = nil
-        )
-        {
+        ) {
             self.allowInterrupt = allowInterrupt
             self.delayInSeconds = delayInSeconds
             self.messageGroups = messageGroups
@@ -6337,8 +6182,7 @@ extension LexModelsV2ClientTypes {
             allowInterrupt: Swift.Bool? = nil,
             frequencyInSeconds: Swift.Int? = nil,
             messageGroups: [LexModelsV2ClientTypes.MessageGroup]? = nil
-        )
-        {
+        ) {
             self.allowInterrupt = allowInterrupt
             self.frequencyInSeconds = frequencyInSeconds
             self.messageGroups = messageGroups
@@ -6365,8 +6209,7 @@ extension LexModelsV2ClientTypes {
             startResponse: LexModelsV2ClientTypes.FulfillmentStartResponseSpecification? = nil,
             timeoutInSeconds: Swift.Int? = nil,
             updateResponse: LexModelsV2ClientTypes.FulfillmentUpdateResponseSpecification? = nil
-        )
-        {
+        ) {
             self.active = active
             self.startResponse = startResponse
             self.timeoutInSeconds = timeoutInSeconds
@@ -6385,8 +6228,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -6405,8 +6247,7 @@ extension LexModelsV2ClientTypes {
         public init(
             enableCodeHookInvocation: Swift.Bool? = nil,
             invocationLabel: Swift.String? = nil
-        )
-        {
+        ) {
             self.enableCodeHookInvocation = enableCodeHookInvocation
             self.invocationLabel = invocationLabel
         }
@@ -6494,8 +6335,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             startTimeoutMs: Swift.Int? = nil
-        )
-        {
+        ) {
             self.startTimeoutMs = startTimeoutMs
         }
     }
@@ -6520,8 +6360,7 @@ extension LexModelsV2ClientTypes {
             allowedInputTypes: LexModelsV2ClientTypes.AllowedInputTypes? = nil,
             audioAndDTMFInputSpecification: LexModelsV2ClientTypes.AudioAndDTMFInputSpecification? = nil,
             textInputSpecification: LexModelsV2ClientTypes.TextInputSpecification? = nil
-        )
-        {
+        ) {
             self.allowInterrupt = allowInterrupt
             self.allowedInputTypes = allowedInputTypes
             self.audioAndDTMFInputSpecification = audioAndDTMFInputSpecification
@@ -6553,8 +6392,7 @@ extension LexModelsV2ClientTypes {
             messageGroups: [LexModelsV2ClientTypes.MessageGroup]? = nil,
             messageSelectionStrategy: LexModelsV2ClientTypes.MessageSelectionStrategy? = nil,
             promptAttemptsSpecification: [Swift.String: LexModelsV2ClientTypes.PromptAttemptSpecification]? = nil
-        )
-        {
+        ) {
             self.allowInterrupt = allowInterrupt
             self.maxRetries = maxRetries
             self.messageGroups = messageGroups
@@ -6580,8 +6418,7 @@ extension LexModelsV2ClientTypes {
             kendraIndex: Swift.String? = nil,
             queryFilterString: Swift.String? = nil,
             queryFilterStringEnabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.kendraIndex = kendraIndex
             self.queryFilterString = queryFilterString
             self.queryFilterStringEnabled = queryFilterStringEnabled
@@ -6607,8 +6444,7 @@ extension LexModelsV2ClientTypes {
             name: Swift.String? = nil,
             timeToLiveInSeconds: Swift.Int? = nil,
             turnsToLive: Swift.Int? = nil
-        )
-        {
+        ) {
             self.name = name
             self.timeToLiveInSeconds = timeToLiveInSeconds
             self.turnsToLive = turnsToLive
@@ -6635,8 +6471,7 @@ extension LexModelsV2ClientTypes {
             kendraIndex: Swift.String? = nil,
             queryFilterString: Swift.String? = nil,
             queryFilterStringEnabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.exactResponse = exactResponse
             self.kendraIndex = kendraIndex
             self.queryFilterString = queryFilterString
@@ -6659,8 +6494,7 @@ extension LexModelsV2ClientTypes {
         public init(
             answerField: Swift.String? = nil,
             questionField: Swift.String? = nil
-        )
-        {
+        ) {
             self.answerField = answerField
             self.questionField = questionField
         }
@@ -6690,8 +6524,7 @@ extension LexModelsV2ClientTypes {
             exactResponseFields: LexModelsV2ClientTypes.ExactResponseFields? = nil,
             includeFields: [Swift.String]? = nil,
             indexName: Swift.String? = nil
-        )
-        {
+        ) {
             self.domainEndpoint = domainEndpoint
             self.exactResponse = exactResponse
             self.exactResponseFields = exactResponseFields
@@ -6716,8 +6549,7 @@ extension LexModelsV2ClientTypes {
             bedrockKnowledgeStoreConfiguration: LexModelsV2ClientTypes.BedrockKnowledgeStoreConfiguration? = nil,
             kendraConfiguration: LexModelsV2ClientTypes.QnAKendraConfiguration? = nil,
             opensearchConfiguration: LexModelsV2ClientTypes.OpensearchConfiguration? = nil
-        )
-        {
+        ) {
             self.bedrockKnowledgeStoreConfiguration = bedrockKnowledgeStoreConfiguration
             self.kendraConfiguration = kendraConfiguration
             self.opensearchConfiguration = opensearchConfiguration
@@ -6737,8 +6569,7 @@ extension LexModelsV2ClientTypes {
         public init(
             bedrockModelConfiguration: LexModelsV2ClientTypes.BedrockModelSpecification? = nil,
             dataSourceConfiguration: LexModelsV2ClientTypes.DataSourceConfiguration? = nil
-        )
-        {
+        ) {
             self.bedrockModelConfiguration = bedrockModelConfiguration
             self.dataSourceConfiguration = dataSourceConfiguration
         }
@@ -6755,8 +6586,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             utterance: Swift.String? = nil
-        )
-        {
+        ) {
             self.utterance = utterance
         }
     }
@@ -6773,8 +6603,7 @@ public struct CreateResourcePolicyInput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.resourceArn = resourceArn
     }
@@ -6789,8 +6618,7 @@ public struct CreateResourcePolicyOutput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.revisionId = revisionId
     }
@@ -6837,8 +6665,7 @@ extension LexModelsV2ClientTypes {
         public init(
             arn: Swift.String? = nil,
             service: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.service = service
         }
@@ -6874,8 +6701,7 @@ public struct CreateResourcePolicyStatementInput: Swift.Sendable {
         principal: [LexModelsV2ClientTypes.Principal]? = nil,
         resourceArn: Swift.String? = nil,
         statementId: Swift.String? = nil
-    )
-    {
+    ) {
         self.action = action
         self.condition = condition
         self.effect = effect
@@ -6895,8 +6721,7 @@ public struct CreateResourcePolicyStatementOutput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.revisionId = revisionId
     }
@@ -6911,8 +6736,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             allowMultipleValues: Swift.Bool = false
-        )
-        {
+        ) {
             self.allowMultipleValues = allowMultipleValues
         }
     }
@@ -6957,8 +6781,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             obfuscationSettingType: LexModelsV2ClientTypes.ObfuscationSettingType? = nil
-        )
-        {
+        ) {
             self.obfuscationSettingType = obfuscationSettingType
         }
     }
@@ -6974,8 +6797,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             defaultValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
         }
     }
@@ -6991,8 +6813,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             defaultValueList: [LexModelsV2ClientTypes.SlotDefaultValue]? = nil
-        )
-        {
+        ) {
             self.defaultValueList = defaultValueList
         }
     }
@@ -7019,8 +6840,7 @@ extension LexModelsV2ClientTypes {
             frequencyInSeconds: Swift.Int? = nil,
             messageGroups: [LexModelsV2ClientTypes.MessageGroup]? = nil,
             timeoutInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.allowInterrupt = allowInterrupt
             self.frequencyInSeconds = frequencyInSeconds
             self.messageGroups = messageGroups
@@ -7049,8 +6869,7 @@ extension LexModelsV2ClientTypes {
             continueResponse: LexModelsV2ClientTypes.ResponseSpecification? = nil,
             stillWaitingResponse: LexModelsV2ClientTypes.StillWaitingResponseSpecification? = nil,
             waitingResponse: LexModelsV2ClientTypes.ResponseSpecification? = nil
-        )
-        {
+        ) {
             self.active = active
             self.continueResponse = continueResponse
             self.stillWaitingResponse = stillWaitingResponse
@@ -7078,8 +6897,7 @@ extension LexModelsV2ClientTypes {
             promptSpecification: LexModelsV2ClientTypes.PromptSpecification? = nil,
             sampleUtterances: [LexModelsV2ClientTypes.SampleUtterance]? = nil,
             waitAndContinueSpecification: LexModelsV2ClientTypes.WaitAndContinueSpecification? = nil
-        )
-        {
+        ) {
             self.defaultValueSpecification = defaultValueSpecification
             self.promptSpecification = promptSpecification
             self.sampleUtterances = sampleUtterances
@@ -7102,8 +6920,7 @@ extension LexModelsV2ClientTypes {
         public init(
             slotTypeId: Swift.String? = nil,
             valueElicitationSetting: LexModelsV2ClientTypes.SubSlotValueElicitationSetting? = nil
-        )
-        {
+        ) {
             self.slotTypeId = slotTypeId
             self.valueElicitationSetting = valueElicitationSetting
         }
@@ -7122,8 +6939,7 @@ extension LexModelsV2ClientTypes {
         public init(
             expression: Swift.String? = nil,
             slotSpecifications: [Swift.String: LexModelsV2ClientTypes.Specifications]? = nil
-        )
-        {
+        ) {
             self.expression = expression
             self.slotSpecifications = slotSpecifications
         }
@@ -7198,8 +7014,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             slotResolutionStrategy: LexModelsV2ClientTypes.SlotResolutionStrategy? = nil
-        )
-        {
+        ) {
             self.slotResolutionStrategy = slotResolutionStrategy
         }
     }
@@ -7222,8 +7037,7 @@ extension LexModelsV2ClientTypes {
             kmsKeyArn: Swift.String? = nil,
             s3BucketName: Swift.String? = nil,
             s3ObjectKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyArn = kmsKeyArn
             self.s3BucketName = s3BucketName
             self.s3ObjectKey = s3ObjectKey
@@ -7240,8 +7054,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             source: LexModelsV2ClientTypes.GrammarSlotTypeSource? = nil
-        )
-        {
+        ) {
             self.source = source
         }
     }
@@ -7256,8 +7069,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             grammarSlotTypeSetting: LexModelsV2ClientTypes.GrammarSlotTypeSetting? = nil
-        )
-        {
+        ) {
             self.grammarSlotTypeSetting = grammarSlotTypeSetting
         }
     }
@@ -7273,8 +7085,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.value = value
         }
     }
@@ -7292,8 +7103,7 @@ extension LexModelsV2ClientTypes {
         public init(
             sampleValue: LexModelsV2ClientTypes.SampleValue? = nil,
             synonyms: [LexModelsV2ClientTypes.SampleValue]? = nil
-        )
-        {
+        ) {
             self.sampleValue = sampleValue
             self.synonyms = synonyms
         }
@@ -7323,8 +7133,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             pattern: Swift.String? = nil
-        )
-        {
+        ) {
             self.pattern = pattern
         }
     }
@@ -7385,8 +7194,7 @@ extension LexModelsV2ClientTypes {
             advancedRecognitionSetting: LexModelsV2ClientTypes.AdvancedRecognitionSetting? = nil,
             regexFilter: LexModelsV2ClientTypes.SlotValueRegexFilter? = nil,
             resolutionStrategy: LexModelsV2ClientTypes.SlotValueResolutionStrategy? = nil
-        )
-        {
+        ) {
             self.advancedRecognitionSetting = advancedRecognitionSetting
             self.regexFilter = regexFilter
             self.resolutionStrategy = resolutionStrategy
@@ -7438,8 +7246,7 @@ public struct CreateSlotTypeInput: Swift.Sendable {
         slotTypeName: Swift.String? = nil,
         slotTypeValues: [LexModelsV2ClientTypes.SlotTypeValue]? = nil,
         valueSelectionSetting: LexModelsV2ClientTypes.SlotValueSelectionSetting? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.compositeSlotTypeSetting = compositeSlotTypeSetting
@@ -7492,8 +7299,7 @@ public struct CreateSlotTypeOutput: Swift.Sendable {
         slotTypeName: Swift.String? = nil,
         slotTypeValues: [LexModelsV2ClientTypes.SlotTypeValue]? = nil,
         valueSelectionSetting: LexModelsV2ClientTypes.SlotValueSelectionSetting? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.compositeSlotTypeSetting = compositeSlotTypeSetting
@@ -7527,8 +7333,7 @@ extension LexModelsV2ClientTypes {
             botAliasId: Swift.String? = nil,
             botId: Swift.String? = nil,
             localeId: Swift.String? = nil
-        )
-        {
+        ) {
             self.botAliasId = botAliasId
             self.botId = botId
             self.localeId = localeId
@@ -7545,8 +7350,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             botAliasTarget: LexModelsV2ClientTypes.TestSetDiscrepancyReportBotAliasTarget? = nil
-        )
-        {
+        ) {
             self.botAliasTarget = botAliasTarget
         }
     }
@@ -7563,8 +7367,7 @@ public struct CreateTestSetDiscrepancyReportInput: Swift.Sendable {
     public init(
         target: LexModelsV2ClientTypes.TestSetDiscrepancyReportResourceTarget? = nil,
         testSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.target = target
         self.testSetId = testSetId
     }
@@ -7585,8 +7388,7 @@ public struct CreateTestSetDiscrepancyReportOutput: Swift.Sendable {
         target: LexModelsV2ClientTypes.TestSetDiscrepancyReportResourceTarget? = nil,
         testSetDiscrepancyReportId: Swift.String? = nil,
         testSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationDateTime = creationDateTime
         self.target = target
         self.testSetDiscrepancyReportId = testSetDiscrepancyReportId
@@ -7608,8 +7410,7 @@ public struct CreateUploadUrlOutput: Swift.Sendable {
     public init(
         importId: Swift.String? = nil,
         uploadUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.importId = importId
         self.uploadUrl = uploadUrl
     }
@@ -7633,8 +7434,7 @@ extension LexModelsV2ClientTypes {
             botId: Swift.String? = nil,
             botVersion: Swift.String? = nil,
             localeId: Swift.String? = nil
-        )
-        {
+        ) {
             self.botId = botId
             self.botVersion = botVersion
             self.localeId = localeId
@@ -7694,8 +7494,7 @@ extension LexModelsV2ClientTypes {
         public init(
             endDateTime: Foundation.Date? = nil,
             startDateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endDateTime = endDateTime
             self.startDateTime = startDateTime
         }
@@ -7712,8 +7511,7 @@ public struct DeleteBotInput: Swift.Sendable {
     public init(
         botId: Swift.String? = nil,
         skipResourceInUseCheck: Swift.Bool? = false
-    )
-    {
+    ) {
         self.botId = botId
         self.skipResourceInUseCheck = skipResourceInUseCheck
     }
@@ -7728,8 +7526,7 @@ public struct DeleteBotOutput: Swift.Sendable {
     public init(
         botId: Swift.String? = nil,
         botStatus: LexModelsV2ClientTypes.BotStatus? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botStatus = botStatus
     }
@@ -7749,8 +7546,7 @@ public struct DeleteBotAliasInput: Swift.Sendable {
         botAliasId: Swift.String? = nil,
         botId: Swift.String? = nil,
         skipResourceInUseCheck: Swift.Bool? = false
-    )
-    {
+    ) {
         self.botAliasId = botAliasId
         self.botId = botId
         self.skipResourceInUseCheck = skipResourceInUseCheck
@@ -7769,8 +7565,7 @@ public struct DeleteBotAliasOutput: Swift.Sendable {
         botAliasId: Swift.String? = nil,
         botAliasStatus: LexModelsV2ClientTypes.BotAliasStatus? = nil,
         botId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botAliasId = botAliasId
         self.botAliasStatus = botAliasStatus
         self.botId = botId
@@ -7792,8 +7587,7 @@ public struct DeleteBotLocaleInput: Swift.Sendable {
         botId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
         localeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.localeId = localeId
@@ -7815,8 +7609,7 @@ public struct DeleteBotLocaleOutput: Swift.Sendable {
         botLocaleStatus: LexModelsV2ClientTypes.BotLocaleStatus? = nil,
         botVersion: Swift.String? = nil,
         localeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botLocaleStatus = botLocaleStatus
         self.botVersion = botVersion
@@ -7835,8 +7628,7 @@ public struct DeleteBotReplicaInput: Swift.Sendable {
     public init(
         botId: Swift.String? = nil,
         replicaRegion: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.replicaRegion = replicaRegion
     }
@@ -7854,8 +7646,7 @@ public struct DeleteBotReplicaOutput: Swift.Sendable {
         botId: Swift.String? = nil,
         botReplicaStatus: LexModelsV2ClientTypes.BotReplicaStatus? = nil,
         replicaRegion: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botReplicaStatus = botReplicaStatus
         self.replicaRegion = replicaRegion
@@ -7876,8 +7667,7 @@ public struct DeleteBotVersionInput: Swift.Sendable {
         botId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
         skipResourceInUseCheck: Swift.Bool? = false
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.skipResourceInUseCheck = skipResourceInUseCheck
@@ -7896,8 +7686,7 @@ public struct DeleteBotVersionOutput: Swift.Sendable {
         botId: Swift.String? = nil,
         botStatus: LexModelsV2ClientTypes.BotStatus? = nil,
         botVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botStatus = botStatus
         self.botVersion = botVersion
@@ -7919,8 +7708,7 @@ public struct DeleteCustomVocabularyInput: Swift.Sendable {
         botId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
         localeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.localeId = localeId
@@ -7942,8 +7730,7 @@ public struct DeleteCustomVocabularyOutput: Swift.Sendable {
         botVersion: Swift.String? = nil,
         customVocabularyStatus: LexModelsV2ClientTypes.CustomVocabularyStatus? = nil,
         localeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.customVocabularyStatus = customVocabularyStatus
@@ -7958,8 +7745,7 @@ public struct DeleteExportInput: Swift.Sendable {
 
     public init(
         exportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportId = exportId
     }
 }
@@ -7973,8 +7759,7 @@ public struct DeleteExportOutput: Swift.Sendable {
     public init(
         exportId: Swift.String? = nil,
         exportStatus: LexModelsV2ClientTypes.ExportStatus? = nil
-    )
-    {
+    ) {
         self.exportId = exportId
         self.exportStatus = exportStatus
     }
@@ -7987,8 +7772,7 @@ public struct DeleteImportInput: Swift.Sendable {
 
     public init(
         importId: Swift.String? = nil
-    )
-    {
+    ) {
         self.importId = importId
     }
 }
@@ -8037,8 +7821,7 @@ public struct DeleteImportOutput: Swift.Sendable {
     public init(
         importId: Swift.String? = nil,
         importStatus: LexModelsV2ClientTypes.ImportStatus? = nil
-    )
-    {
+    ) {
         self.importId = importId
         self.importStatus = importStatus
     }
@@ -8063,8 +7846,7 @@ public struct DeleteIntentInput: Swift.Sendable {
         botVersion: Swift.String? = nil,
         intentId: Swift.String? = nil,
         localeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.intentId = intentId
@@ -8082,8 +7864,7 @@ public struct DeleteResourcePolicyInput: Swift.Sendable {
     public init(
         expectedRevisionId: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.expectedRevisionId = expectedRevisionId
         self.resourceArn = resourceArn
     }
@@ -8098,8 +7879,7 @@ public struct DeleteResourcePolicyOutput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.revisionId = revisionId
     }
@@ -8119,8 +7899,7 @@ public struct DeleteResourcePolicyStatementInput: Swift.Sendable {
         expectedRevisionId: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         statementId: Swift.String? = nil
-    )
-    {
+    ) {
         self.expectedRevisionId = expectedRevisionId
         self.resourceArn = resourceArn
         self.statementId = statementId
@@ -8136,8 +7915,7 @@ public struct DeleteResourcePolicyStatementOutput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.revisionId = revisionId
     }
@@ -8166,8 +7944,7 @@ public struct DeleteSlotInput: Swift.Sendable {
         intentId: Swift.String? = nil,
         localeId: Swift.String? = nil,
         slotId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.intentId = intentId
@@ -8198,8 +7975,7 @@ public struct DeleteSlotTypeInput: Swift.Sendable {
         localeId: Swift.String? = nil,
         skipResourceInUseCheck: Swift.Bool? = false,
         slotTypeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.localeId = localeId
@@ -8215,8 +7991,7 @@ public struct DeleteTestSetInput: Swift.Sendable {
 
     public init(
         testSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.testSetId = testSetId
     }
 }
@@ -8234,8 +8009,7 @@ public struct DeleteUtterancesInput: Swift.Sendable {
         botId: Swift.String? = nil,
         localeId: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.localeId = localeId
         self.sessionId = sessionId
@@ -8254,8 +8028,7 @@ public struct DescribeBotInput: Swift.Sendable {
 
     public init(
         botId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
     }
 }
@@ -8299,8 +8072,7 @@ public struct DescribeBotOutput: Swift.Sendable {
         idleSessionTTLInSeconds: Swift.Int? = nil,
         lastUpdatedDateTime: Foundation.Date? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botMembers = botMembers
         self.botName = botName
@@ -8327,8 +8099,7 @@ public struct DescribeBotAliasInput: Swift.Sendable {
     public init(
         botAliasId: Swift.String? = nil,
         botId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botAliasId = botAliasId
         self.botId = botId
     }
@@ -8348,8 +8119,7 @@ extension LexModelsV2ClientTypes {
         public init(
             botId: Swift.String? = nil,
             botVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.botId = botId
             self.botVersion = botVersion
         }
@@ -8398,8 +8168,7 @@ public struct DescribeBotAliasOutput: Swift.Sendable {
         lastUpdatedDateTime: Foundation.Date? = nil,
         parentBotNetworks: [LexModelsV2ClientTypes.ParentBotNetwork]? = nil,
         sentimentAnalysisSettings: LexModelsV2ClientTypes.SentimentAnalysisSettings? = nil
-    )
-    {
+    ) {
         self.botAliasHistoryEvents = botAliasHistoryEvents
         self.botAliasId = botAliasId
         self.botAliasLocaleSettings = botAliasLocaleSettings
@@ -8431,8 +8200,7 @@ public struct DescribeBotLocaleInput: Swift.Sendable {
         botId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
         localeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.localeId = localeId
@@ -8493,8 +8261,7 @@ public struct DescribeBotLocaleOutput: Swift.Sendable {
         recommendedActions: [Swift.String]? = nil,
         slotTypesCount: Swift.Int? = nil,
         voiceSettings: LexModelsV2ClientTypes.VoiceSettings? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botLocaleHistoryEvents = botLocaleHistoryEvents
         self.botLocaleStatus = botLocaleStatus
@@ -8534,8 +8301,7 @@ public struct DescribeBotRecommendationInput: Swift.Sendable {
         botRecommendationId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
         localeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botRecommendationId = botRecommendationId
         self.botVersion = botVersion
@@ -8558,8 +8324,7 @@ extension LexModelsV2ClientTypes {
             associatedTranscriptsPassword: Swift.String? = nil,
             botLocaleExportPassword: Swift.String? = nil,
             kmsKeyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.associatedTranscriptsPassword = associatedTranscriptsPassword
             self.botLocaleExportPassword = botLocaleExportPassword
             self.kmsKeyArn = kmsKeyArn
@@ -8581,8 +8346,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             objectPrefixes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.objectPrefixes = objectPrefixes
         }
     }
@@ -8597,8 +8361,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             dateRangeFilter: LexModelsV2ClientTypes.DateRangeFilter? = nil
-        )
-        {
+        ) {
             self.dateRangeFilter = dateRangeFilter
         }
     }
@@ -8613,8 +8376,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             lexTranscriptFilter: LexModelsV2ClientTypes.LexTranscriptFilter? = nil
-        )
-        {
+        ) {
             self.lexTranscriptFilter = lexTranscriptFilter
         }
     }
@@ -8669,8 +8431,7 @@ extension LexModelsV2ClientTypes {
             s3BucketName: Swift.String? = nil,
             transcriptFilter: LexModelsV2ClientTypes.TranscriptFilter? = nil,
             transcriptFormat: LexModelsV2ClientTypes.TranscriptFormat? = nil
-        )
-        {
+        ) {
             self.kmsKeyArn = kmsKeyArn
             self.pathFormat = pathFormat
             self.s3BucketName = s3BucketName
@@ -8689,8 +8450,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             s3BucketTranscriptSource: LexModelsV2ClientTypes.S3BucketTranscriptSource? = nil
-        )
-        {
+        ) {
             self.s3BucketTranscriptSource = s3BucketTranscriptSource
         }
     }
@@ -8732,8 +8492,7 @@ public struct DescribeBotRecommendationOutput: Swift.Sendable {
         lastUpdatedDateTime: Foundation.Date? = nil,
         localeId: Swift.String? = nil,
         transcriptSourceSetting: LexModelsV2ClientTypes.TranscriptSourceSetting? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botRecommendationId = botRecommendationId
         self.botRecommendationResults = botRecommendationResults
@@ -8759,8 +8518,7 @@ public struct DescribeBotReplicaInput: Swift.Sendable {
     public init(
         botId: Swift.String? = nil,
         replicaRegion: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.replicaRegion = replicaRegion
     }
@@ -8787,8 +8545,7 @@ public struct DescribeBotReplicaOutput: Swift.Sendable {
         failureReasons: [Swift.String]? = nil,
         replicaRegion: Swift.String? = nil,
         sourceRegion: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botReplicaStatus = botReplicaStatus
         self.creationDateTime = creationDateTime
@@ -8817,8 +8574,7 @@ public struct DescribeBotResourceGenerationInput: Swift.Sendable {
         botVersion: Swift.String? = nil,
         generationId: Swift.String? = nil,
         localeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.generationId = generationId
@@ -8894,8 +8650,7 @@ public struct DescribeBotResourceGenerationOutput: Swift.Sendable {
         lastUpdatedDateTime: Foundation.Date? = nil,
         localeId: Swift.String? = nil,
         modelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.creationDateTime = creationDateTime
@@ -8921,8 +8676,7 @@ public struct DescribeBotVersionInput: Swift.Sendable {
     public init(
         botId: Swift.String? = nil,
         botVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
     }
@@ -8970,8 +8724,7 @@ public struct DescribeBotVersionOutput: Swift.Sendable {
         idleSessionTTLInSeconds: Swift.Int? = nil,
         parentBotNetworks: [LexModelsV2ClientTypes.ParentBotNetwork]? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botMembers = botMembers
         self.botName = botName
@@ -9003,8 +8756,7 @@ public struct DescribeCustomVocabularyMetadataInput: Swift.Sendable {
         botId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
         localeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.localeId = localeId
@@ -9032,8 +8784,7 @@ public struct DescribeCustomVocabularyMetadataOutput: Swift.Sendable {
         customVocabularyStatus: LexModelsV2ClientTypes.CustomVocabularyStatus? = nil,
         lastUpdatedDateTime: Foundation.Date? = nil,
         localeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.creationDateTime = creationDateTime
@@ -9050,8 +8801,7 @@ public struct DescribeExportInput: Swift.Sendable {
 
     public init(
         exportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportId = exportId
     }
 }
@@ -9083,8 +8833,7 @@ public struct DescribeExportOutput: Swift.Sendable {
         fileFormat: LexModelsV2ClientTypes.ImportExportFileFormat? = nil,
         lastUpdatedDateTime: Foundation.Date? = nil,
         resourceSpecification: LexModelsV2ClientTypes.ExportResourceSpecification? = nil
-    )
-    {
+    ) {
         self.creationDateTime = creationDateTime
         self.downloadUrl = downloadUrl
         self.exportId = exportId
@@ -9103,8 +8852,7 @@ public struct DescribeImportInput: Swift.Sendable {
 
     public init(
         importId: Swift.String? = nil
-    )
-    {
+    ) {
         self.importId = importId
     }
 }
@@ -9155,8 +8903,7 @@ extension LexModelsV2ClientTypes {
         public init(
             s3BucketName: Swift.String? = nil,
             s3Path: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3BucketName = s3BucketName
             self.s3Path = s3Path
         }
@@ -9209,8 +8956,7 @@ extension LexModelsV2ClientTypes {
             kmsKeyArn: Swift.String? = nil,
             s3BucketName: Swift.String? = nil,
             s3Path: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyArn = kmsKeyArn
             self.s3BucketName = s3BucketName
             self.s3Path = s3Path
@@ -9250,8 +8996,7 @@ extension LexModelsV2ClientTypes {
             storageLocation: LexModelsV2ClientTypes.TestSetStorageLocation? = nil,
             testSetName: Swift.String? = nil,
             testSetTags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.description = description
             self.importInputLocation = importInputLocation
             self.modality = modality
@@ -9281,8 +9026,7 @@ extension LexModelsV2ClientTypes {
             botLocaleImportSpecification: LexModelsV2ClientTypes.BotLocaleImportSpecification? = nil,
             customVocabularyImportSpecification: LexModelsV2ClientTypes.CustomVocabularyImportSpecification? = nil,
             testSetImportResourceSpecification: LexModelsV2ClientTypes.TestSetImportResourceSpecification? = nil
-        )
-        {
+        ) {
             self.botImportSpecification = botImportSpecification
             self.botLocaleImportSpecification = botLocaleImportSpecification
             self.customVocabularyImportSpecification = customVocabularyImportSpecification
@@ -9321,8 +9065,7 @@ public struct DescribeImportOutput: Swift.Sendable {
         lastUpdatedDateTime: Foundation.Date? = nil,
         mergeStrategy: LexModelsV2ClientTypes.MergeStrategy? = nil,
         resourceSpecification: LexModelsV2ClientTypes.ImportResourceSpecification? = nil
-    )
-    {
+    ) {
         self.creationDateTime = creationDateTime
         self.failureReasons = failureReasons
         self.importId = importId
@@ -9354,8 +9097,7 @@ public struct DescribeIntentInput: Swift.Sendable {
         botVersion: Swift.String? = nil,
         intentId: Swift.String? = nil,
         localeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.intentId = intentId
@@ -9377,8 +9119,7 @@ extension LexModelsV2ClientTypes {
         public init(
             priority: Swift.Int? = nil,
             slotId: Swift.String? = nil
-        )
-        {
+        ) {
             self.priority = priority
             self.slotId = slotId
         }
@@ -9392,8 +9133,7 @@ public struct DescribeResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -9410,8 +9150,7 @@ public struct DescribeResourcePolicyOutput: Swift.Sendable {
         policy: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.resourceArn = resourceArn
         self.revisionId = revisionId
@@ -9441,8 +9180,7 @@ public struct DescribeSlotInput: Swift.Sendable {
         intentId: Swift.String? = nil,
         localeId: Swift.String? = nil,
         slotId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.intentId = intentId
@@ -9470,8 +9208,7 @@ public struct DescribeSlotTypeInput: Swift.Sendable {
         botVersion: Swift.String? = nil,
         localeId: Swift.String? = nil,
         slotTypeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.localeId = localeId
@@ -9521,8 +9258,7 @@ public struct DescribeSlotTypeOutput: Swift.Sendable {
         slotTypeName: Swift.String? = nil,
         slotTypeValues: [LexModelsV2ClientTypes.SlotTypeValue]? = nil,
         valueSelectionSetting: LexModelsV2ClientTypes.SlotValueSelectionSetting? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.compositeSlotTypeSetting = compositeSlotTypeSetting
@@ -9546,8 +9282,7 @@ public struct DescribeTestExecutionInput: Swift.Sendable {
 
     public init(
         testExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.testExecutionId = testExecutionId
     }
 }
@@ -9590,8 +9325,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             botAliasTarget: LexModelsV2ClientTypes.BotAliasTestExecutionTarget? = nil
-        )
-        {
+        ) {
             self.botAliasTarget = botAliasTarget
         }
     }
@@ -9703,8 +9437,7 @@ public struct DescribeTestExecutionOutput: Swift.Sendable {
         testExecutionStatus: LexModelsV2ClientTypes.TestExecutionStatus? = nil,
         testSetId: Swift.String? = nil,
         testSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiMode = apiMode
         self.creationDateTime = creationDateTime
         self.failureReasons = failureReasons
@@ -9725,8 +9458,7 @@ public struct DescribeTestSetInput: Swift.Sendable {
 
     public init(
         testSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.testSetId = testSetId
     }
 }
@@ -9802,8 +9534,7 @@ public struct DescribeTestSetOutput: Swift.Sendable {
         storageLocation: LexModelsV2ClientTypes.TestSetStorageLocation? = nil,
         testSetId: Swift.String? = nil,
         testSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationDateTime = creationDateTime
         self.description = description
         self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -9824,8 +9555,7 @@ public struct DescribeTestSetDiscrepancyReportInput: Swift.Sendable {
 
     public init(
         testSetDiscrepancyReportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.testSetDiscrepancyReportId = testSetDiscrepancyReportId
     }
 }
@@ -9876,8 +9606,7 @@ extension LexModelsV2ClientTypes {
         public init(
             errorMessage: Swift.String? = nil,
             intentName: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorMessage = errorMessage
             self.intentName = intentName
         }
@@ -9902,8 +9631,7 @@ extension LexModelsV2ClientTypes {
             errorMessage: Swift.String? = nil,
             intentName: Swift.String? = nil,
             slotName: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorMessage = errorMessage
             self.intentName = intentName
             self.slotName = slotName
@@ -9925,8 +9653,7 @@ extension LexModelsV2ClientTypes {
         public init(
             intentDiscrepancies: [LexModelsV2ClientTypes.TestSetIntentDiscrepancyItem]? = nil,
             slotDiscrepancies: [LexModelsV2ClientTypes.TestSetSlotDiscrepancyItem]? = nil
-        )
-        {
+        ) {
             self.intentDiscrepancies = intentDiscrepancies
             self.slotDiscrepancies = slotDiscrepancies
         }
@@ -9963,8 +9690,7 @@ public struct DescribeTestSetDiscrepancyReportOutput: Swift.Sendable {
         testSetDiscrepancyReportStatus: LexModelsV2ClientTypes.TestSetDiscrepancyReportStatus? = nil,
         testSetDiscrepancyTopErrors: LexModelsV2ClientTypes.TestSetDiscrepancyErrors? = nil,
         testSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationDateTime = creationDateTime
         self.failureReasons = failureReasons
         self.lastUpdatedDataTime = lastUpdatedDataTime
@@ -9984,8 +9710,7 @@ public struct DescribeTestSetGenerationInput: Swift.Sendable {
 
     public init(
         testSetGenerationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.testSetGenerationId = testSetGenerationId
     }
 }
@@ -9999,8 +9724,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             conversationLogsDataSource: LexModelsV2ClientTypes.ConversationLogsDataSource? = nil
-        )
-        {
+        ) {
             self.conversationLogsDataSource = conversationLogsDataSource
         }
     }
@@ -10077,8 +9801,7 @@ public struct DescribeTestSetGenerationOutput: Swift.Sendable {
         testSetGenerationStatus: LexModelsV2ClientTypes.TestSetGenerationStatus? = nil,
         testSetId: Swift.String? = nil,
         testSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationDateTime = creationDateTime
         self.description = description
         self.failureReasons = failureReasons
@@ -10166,8 +9889,7 @@ extension LexModelsV2ClientTypes {
             name: LexModelsV2ClientTypes.ExportFilterName? = nil,
             `operator`: LexModelsV2ClientTypes.ExportFilterOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.values = values
@@ -10215,8 +9937,7 @@ extension LexModelsV2ClientTypes {
         public init(
             attribute: LexModelsV2ClientTypes.ExportSortAttribute? = nil,
             order: LexModelsV2ClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.attribute = attribute
             self.order = order
         }
@@ -10247,8 +9968,7 @@ extension LexModelsV2ClientTypes {
             fileFormat: LexModelsV2ClientTypes.ImportExportFileFormat? = nil,
             lastUpdatedDateTime: Foundation.Date? = nil,
             resourceSpecification: LexModelsV2ClientTypes.ExportResourceSpecification? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.exportId = exportId
             self.exportStatus = exportStatus
@@ -10278,8 +9998,7 @@ public struct GenerateBotElementInput: Swift.Sendable {
         botVersion: Swift.String? = nil,
         intentId: Swift.String? = nil,
         localeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.intentId = intentId
@@ -10305,8 +10024,7 @@ public struct GenerateBotElementOutput: Swift.Sendable {
         intentId: Swift.String? = nil,
         localeId: Swift.String? = nil,
         sampleUtterances: [LexModelsV2ClientTypes.SampleUtterance]? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.intentId = intentId
@@ -10362,8 +10080,7 @@ extension LexModelsV2ClientTypes {
         public init(
             attribute: LexModelsV2ClientTypes.GenerationSortByAttribute? = nil,
             order: LexModelsV2ClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.attribute = attribute
             self.order = order
         }
@@ -10388,8 +10105,7 @@ extension LexModelsV2ClientTypes {
             generationId: Swift.String? = nil,
             generationStatus: LexModelsV2ClientTypes.GenerationStatus? = nil,
             lastUpdatedDateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.generationId = generationId
             self.generationStatus = generationStatus
@@ -10405,8 +10121,7 @@ public struct GetTestExecutionArtifactsUrlInput: Swift.Sendable {
 
     public init(
         testExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.testExecutionId = testExecutionId
     }
 }
@@ -10420,8 +10135,7 @@ public struct GetTestExecutionArtifactsUrlOutput: Swift.Sendable {
     public init(
         downloadArtifactsUrl: Swift.String? = nil,
         testExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.downloadArtifactsUrl = downloadArtifactsUrl
         self.testExecutionId = testExecutionId
     }
@@ -10500,8 +10214,7 @@ extension LexModelsV2ClientTypes {
             name: LexModelsV2ClientTypes.ImportFilterName? = nil,
             `operator`: LexModelsV2ClientTypes.ImportFilterOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.values = values
@@ -10584,8 +10297,7 @@ extension LexModelsV2ClientTypes {
         public init(
             attribute: LexModelsV2ClientTypes.ImportSortAttribute? = nil,
             order: LexModelsV2ClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.attribute = attribute
             self.order = order
         }
@@ -10622,8 +10334,7 @@ extension LexModelsV2ClientTypes {
             importedResourceType: LexModelsV2ClientTypes.ImportResourceType? = nil,
             lastUpdatedDateTime: Foundation.Date? = nil,
             mergeStrategy: LexModelsV2ClientTypes.MergeStrategy? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.importId = importId
             self.importStatus = importStatus
@@ -10646,8 +10357,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             phrase: Swift.String? = nil
-        )
-        {
+        ) {
             self.phrase = phrase
         }
     }
@@ -10670,8 +10380,7 @@ extension LexModelsV2ClientTypes {
             intentMatchResultCounts: [Swift.String: Swift.Int]? = nil,
             speechTranscriptionResultCounts: [Swift.String: Swift.Int]? = nil,
             totalResultCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.intentMatchResultCounts = intentMatchResultCounts
             self.speechTranscriptionResultCounts = speechTranscriptionResultCounts
             self.totalResultCount = totalResultCount
@@ -10697,8 +10406,7 @@ extension LexModelsV2ClientTypes {
             intentName: Swift.String? = nil,
             multiTurnConversation: Swift.Bool = false,
             resultCounts: LexModelsV2ClientTypes.IntentClassificationTestResultItemCounts? = nil
-        )
-        {
+        ) {
             self.intentName = intentName
             self.multiTurnConversation = multiTurnConversation
             self.resultCounts = resultCounts
@@ -10716,8 +10424,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             items: [LexModelsV2ClientTypes.IntentClassificationTestResultItem]? = nil
-        )
-        {
+        ) {
             self.items = items
         }
     }
@@ -10796,8 +10503,7 @@ extension LexModelsV2ClientTypes {
             name: LexModelsV2ClientTypes.IntentFilterName? = nil,
             `operator`: LexModelsV2ClientTypes.IntentFilterOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.values = values
@@ -10822,8 +10528,7 @@ extension LexModelsV2ClientTypes {
             slotMatchResultCounts: [Swift.String: Swift.Int]? = nil,
             speechTranscriptionResultCounts: [Swift.String: Swift.Int]? = nil,
             totalResultCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.slotMatchResultCounts = slotMatchResultCounts
             self.speechTranscriptionResultCounts = speechTranscriptionResultCounts
             self.totalResultCount = totalResultCount
@@ -10845,8 +10550,7 @@ extension LexModelsV2ClientTypes {
         public init(
             resultCounts: LexModelsV2ClientTypes.SlotResolutionTestResultItemCounts? = nil,
             slotName: Swift.String? = nil
-        )
-        {
+        ) {
             self.resultCounts = resultCounts
             self.slotName = slotName
         }
@@ -10871,8 +10575,7 @@ extension LexModelsV2ClientTypes {
             intentName: Swift.String? = nil,
             multiTurnConversation: Swift.Bool = false,
             slotResolutionResults: [LexModelsV2ClientTypes.SlotResolutionTestResultItem]? = nil
-        )
-        {
+        ) {
             self.intentName = intentName
             self.multiTurnConversation = multiTurnConversation
             self.slotResolutionResults = slotResolutionResults
@@ -10890,8 +10593,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             items: [LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResultItem]? = nil
-        )
-        {
+        ) {
             self.items = items
         }
     }
@@ -10940,8 +10642,7 @@ extension LexModelsV2ClientTypes {
         public init(
             attribute: LexModelsV2ClientTypes.IntentSortAttribute? = nil,
             order: LexModelsV2ClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.attribute = attribute
             self.order = order
         }
@@ -11016,8 +10717,7 @@ extension LexModelsV2ClientTypes {
             lastUpdatedDateTime: Foundation.Date? = nil,
             outputContexts: [LexModelsV2ClientTypes.OutputContext]? = nil,
             parentIntentSignature: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.inputContexts = inputContexts
             self.intentId = intentId
@@ -11038,8 +10738,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             intentName: Swift.String? = nil
-        )
-        {
+        ) {
             self.intentName = intentName
         }
     }
@@ -11103,8 +10802,7 @@ extension LexModelsV2ClientTypes {
         public init(
             timeDimension: LexModelsV2ClientTypes.TimeDimension? = nil,
             timeValue: Swift.Int? = nil
-        )
-        {
+        ) {
             self.timeDimension = timeDimension
             self.timeValue = timeValue
         }
@@ -11121,8 +10819,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             relativeAggregationDuration: LexModelsV2ClientTypes.RelativeAggregationDuration? = nil
-        )
-        {
+        ) {
             self.relativeAggregationDuration = relativeAggregationDuration
         }
     }
@@ -11161,8 +10858,7 @@ public struct ListAggregatedUtterancesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: LexModelsV2ClientTypes.AggregatedUtterancesSortBy? = nil
-    )
-    {
+    ) {
         self.aggregationDuration = aggregationDuration
         self.botAliasId = botAliasId
         self.botId = botId
@@ -11214,8 +10910,7 @@ public struct ListAggregatedUtterancesOutput: Swift.Sendable {
         botVersion: Swift.String? = nil,
         localeId: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.aggregatedUtterancesSummaries = aggregatedUtterancesSummaries
         self.aggregationDuration = aggregationDuration
         self.aggregationLastRefreshedDateTime = aggregationLastRefreshedDateTime
@@ -11242,8 +10937,7 @@ public struct ListBotAliasesInput: Swift.Sendable {
         botId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -11262,8 +10956,7 @@ public struct ListBotAliasesOutput: Swift.Sendable {
         botAliasSummaries: [LexModelsV2ClientTypes.BotAliasSummary]? = nil,
         botId: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.botAliasSummaries = botAliasSummaries
         self.botId = botId
         self.nextToken = nextToken
@@ -11287,8 +10980,7 @@ public struct ListBotAliasReplicasInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         replicaRegion: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -11314,8 +11006,7 @@ public struct ListBotAliasReplicasOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         replicaRegion: Swift.String? = nil,
         sourceRegion: Swift.String? = nil
-    )
-    {
+    ) {
         self.botAliasReplicaSummaries = botAliasReplicaSummaries
         self.botId = botId
         self.nextToken = nextToken
@@ -11347,8 +11038,7 @@ public struct ListBotLocalesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: LexModelsV2ClientTypes.BotLocaleSortBy? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.filters = filters
@@ -11373,8 +11063,7 @@ public struct ListBotLocalesOutput: Swift.Sendable {
         botLocaleSummaries: [LexModelsV2ClientTypes.BotLocaleSummary]? = nil,
         botVersion: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botLocaleSummaries = botLocaleSummaries
         self.botVersion = botVersion
@@ -11403,8 +11092,7 @@ public struct ListBotRecommendationsInput: Swift.Sendable {
         localeId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.localeId = localeId
@@ -11431,8 +11119,7 @@ public struct ListBotRecommendationsOutput: Swift.Sendable {
         botVersion: Swift.String? = nil,
         localeId: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botRecommendationSummaries = botRecommendationSummaries
         self.botVersion = botVersion
@@ -11448,8 +11135,7 @@ public struct ListBotReplicasInput: Swift.Sendable {
 
     public init(
         botId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
     }
 }
@@ -11466,8 +11152,7 @@ public struct ListBotReplicasOutput: Swift.Sendable {
         botId: Swift.String? = nil,
         botReplicaSummaries: [LexModelsV2ClientTypes.BotReplicaSummary]? = nil,
         sourceRegion: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botReplicaSummaries = botReplicaSummaries
         self.sourceRegion = sourceRegion
@@ -11498,8 +11183,7 @@ public struct ListBotResourceGenerationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: LexModelsV2ClientTypes.GenerationSortBy? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.localeId = localeId
@@ -11527,8 +11211,7 @@ public struct ListBotResourceGenerationsOutput: Swift.Sendable {
         generationSummaries: [LexModelsV2ClientTypes.GenerationSummary]? = nil,
         localeId: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.generationSummaries = generationSummaries
@@ -11552,8 +11235,7 @@ public struct ListBotsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: LexModelsV2ClientTypes.BotSortBy? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -11570,8 +11252,7 @@ public struct ListBotsOutput: Swift.Sendable {
     public init(
         botSummaries: [LexModelsV2ClientTypes.BotSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.botSummaries = botSummaries
         self.nextToken = nextToken
     }
@@ -11597,8 +11278,7 @@ public struct ListBotVersionReplicasInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         replicaRegion: Swift.String? = nil,
         sortBy: LexModelsV2ClientTypes.BotVersionReplicaSortBy? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -11625,8 +11305,7 @@ public struct ListBotVersionReplicasOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         replicaRegion: Swift.String? = nil,
         sourceRegion: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersionReplicaSummaries = botVersionReplicaSummaries
         self.nextToken = nextToken
@@ -11651,8 +11330,7 @@ public struct ListBotVersionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: LexModelsV2ClientTypes.BotVersionSortBy? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -11672,8 +11350,7 @@ public struct ListBotVersionsOutput: Swift.Sendable {
         botId: Swift.String? = nil,
         botVersionSummaries: [LexModelsV2ClientTypes.BotVersionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersionSummaries = botVersionSummaries
         self.nextToken = nextToken
@@ -11696,8 +11373,7 @@ public struct ListBuiltInIntentsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: LexModelsV2ClientTypes.BuiltInIntentSortBy? = nil
-    )
-    {
+    ) {
         self.localeId = localeId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -11717,8 +11393,7 @@ public struct ListBuiltInIntentsOutput: Swift.Sendable {
         builtInIntentSummaries: [LexModelsV2ClientTypes.BuiltInIntentSummary]? = nil,
         localeId: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.builtInIntentSummaries = builtInIntentSummaries
         self.localeId = localeId
         self.nextToken = nextToken
@@ -11741,8 +11416,7 @@ public struct ListBuiltInSlotTypesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: LexModelsV2ClientTypes.BuiltInSlotTypeSortBy? = nil
-    )
-    {
+    ) {
         self.localeId = localeId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -11762,8 +11436,7 @@ public struct ListBuiltInSlotTypesOutput: Swift.Sendable {
         builtInSlotTypeSummaries: [LexModelsV2ClientTypes.BuiltInSlotTypeSummary]? = nil,
         localeId: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.builtInSlotTypeSummaries = builtInSlotTypeSummaries
         self.localeId = localeId
         self.nextToken = nextToken
@@ -11791,8 +11464,7 @@ public struct ListCustomVocabularyItemsInput: Swift.Sendable {
         localeId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.localeId = localeId
@@ -11819,8 +11491,7 @@ public struct ListCustomVocabularyItemsOutput: Swift.Sendable {
         customVocabularyItems: [LexModelsV2ClientTypes.CustomVocabularyItem]? = nil,
         localeId: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.customVocabularyItems = customVocabularyItems
@@ -11853,8 +11524,7 @@ public struct ListExportsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: LexModelsV2ClientTypes.ExportSortBy? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.filters = filters
@@ -11883,8 +11553,7 @@ public struct ListExportsOutput: Swift.Sendable {
         exportSummaries: [LexModelsV2ClientTypes.ExportSummary]? = nil,
         localeId: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.exportSummaries = exportSummaries
@@ -11917,8 +11586,7 @@ public struct ListImportsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: LexModelsV2ClientTypes.ImportSortBy? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.filters = filters
@@ -11947,8 +11615,7 @@ public struct ListImportsOutput: Swift.Sendable {
         importSummaries: [LexModelsV2ClientTypes.ImportSummary]? = nil,
         localeId: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.importSummaries = importSummaries
@@ -11995,8 +11662,7 @@ public struct ListIntentMetricsInput: Swift.Sendable {
         metrics: [LexModelsV2ClientTypes.AnalyticsIntentMetric]? = nil,
         nextToken: Swift.String? = nil,
         startDateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.binBy = binBy
         self.botId = botId
         self.endDateTime = endDateTime
@@ -12021,8 +11687,7 @@ public struct ListIntentMetricsOutput: Swift.Sendable {
         botId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         results: [LexModelsV2ClientTypes.AnalyticsIntentResult]? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.nextToken = nextToken
         self.results = results
@@ -12057,8 +11722,7 @@ public struct ListIntentPathsInput: Swift.Sendable {
         filters: [LexModelsV2ClientTypes.AnalyticsPathFilter]? = nil,
         intentPath: Swift.String? = nil,
         startDateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.endDateTime = endDateTime
         self.filters = filters
@@ -12073,8 +11737,7 @@ public struct ListIntentPathsOutput: Swift.Sendable {
 
     public init(
         nodeSummaries: [LexModelsV2ClientTypes.AnalyticsIntentNodeSummary]? = nil
-    )
-    {
+    ) {
         self.nodeSummaries = nodeSummaries
     }
 }
@@ -12106,8 +11769,7 @@ public struct ListIntentsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: LexModelsV2ClientTypes.IntentSortBy? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.filters = filters
@@ -12136,8 +11798,7 @@ public struct ListIntentsOutput: Swift.Sendable {
         intentSummaries: [LexModelsV2ClientTypes.IntentSummary]? = nil,
         localeId: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.intentSummaries = intentSummaries
@@ -12184,8 +11845,7 @@ public struct ListIntentStageMetricsInput: Swift.Sendable {
         metrics: [LexModelsV2ClientTypes.AnalyticsIntentStageMetric]? = nil,
         nextToken: Swift.String? = nil,
         startDateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.binBy = binBy
         self.botId = botId
         self.endDateTime = endDateTime
@@ -12210,8 +11870,7 @@ public struct ListIntentStageMetricsOutput: Swift.Sendable {
         botId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         results: [LexModelsV2ClientTypes.AnalyticsIntentStageResult]? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.nextToken = nextToken
         self.results = results
@@ -12243,8 +11902,7 @@ public struct ListRecommendedIntentsInput: Swift.Sendable {
         localeId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botRecommendationId = botRecommendationId
         self.botVersion = botVersion
@@ -12269,8 +11927,7 @@ extension LexModelsV2ClientTypes {
             intentId: Swift.String? = nil,
             intentName: Swift.String? = nil,
             sampleUtterancesCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.intentId = intentId
             self.intentName = intentName
             self.sampleUtterancesCount = sampleUtterancesCount
@@ -12299,8 +11956,7 @@ public struct ListRecommendedIntentsOutput: Swift.Sendable {
         localeId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         summaryList: [LexModelsV2ClientTypes.RecommendedIntentSummary]? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botRecommendationId = botRecommendationId
         self.botVersion = botVersion
@@ -12330,8 +11986,7 @@ extension LexModelsV2ClientTypes {
         public init(
             name: LexModelsV2ClientTypes.AnalyticsSessionSortByName? = nil,
             order: LexModelsV2ClientTypes.AnalyticsSortOrder? = nil
-        )
-        {
+        ) {
             self.name = name
             self.order = order
         }
@@ -12365,8 +12020,7 @@ public struct ListSessionAnalyticsDataInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: LexModelsV2ClientTypes.SessionDataSortBy? = nil,
         startDateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.endDateTime = endDateTime
         self.filters = filters
@@ -12430,8 +12084,7 @@ extension LexModelsV2ClientTypes {
             numberOfTurns: Swift.Int? = nil,
             originatingRequestId: Swift.String? = nil,
             sessionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.botAliasId = botAliasId
             self.botVersion = botVersion
             self.channel = channel
@@ -12461,8 +12114,7 @@ public struct ListSessionAnalyticsDataOutput: Swift.Sendable {
         botId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         sessions: [LexModelsV2ClientTypes.SessionSpecification]? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.nextToken = nextToken
         self.sessions = sessions
@@ -12507,8 +12159,7 @@ public struct ListSessionMetricsInput: Swift.Sendable {
         metrics: [LexModelsV2ClientTypes.AnalyticsSessionMetric]? = nil,
         nextToken: Swift.String? = nil,
         startDateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.binBy = binBy
         self.botId = botId
         self.endDateTime = endDateTime
@@ -12533,8 +12184,7 @@ public struct ListSessionMetricsOutput: Swift.Sendable {
         botId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         results: [LexModelsV2ClientTypes.AnalyticsSessionResult]? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.nextToken = nextToken
         self.results = results
@@ -12614,8 +12264,7 @@ extension LexModelsV2ClientTypes {
             name: LexModelsV2ClientTypes.SlotFilterName? = nil,
             `operator`: LexModelsV2ClientTypes.SlotFilterOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.values = values
@@ -12666,8 +12315,7 @@ extension LexModelsV2ClientTypes {
         public init(
             attribute: LexModelsV2ClientTypes.SlotSortAttribute? = nil,
             order: LexModelsV2ClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.attribute = attribute
             self.order = order
         }
@@ -12705,8 +12353,7 @@ public struct ListSlotsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: LexModelsV2ClientTypes.SlotSortBy? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.filters = filters
@@ -12745,8 +12392,7 @@ extension LexModelsV2ClientTypes {
             slotName: Swift.String? = nil,
             slotTypeId: Swift.String? = nil,
             valueElicitationPromptSpecification: LexModelsV2ClientTypes.PromptSpecification? = nil
-        )
-        {
+        ) {
             self.description = description
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.slotConstraint = slotConstraint
@@ -12779,8 +12425,7 @@ public struct ListSlotsOutput: Swift.Sendable {
         localeId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         slotSummaries: [LexModelsV2ClientTypes.SlotSummary]? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.intentId = intentId
@@ -12866,8 +12511,7 @@ extension LexModelsV2ClientTypes {
             name: LexModelsV2ClientTypes.SlotTypeFilterName? = nil,
             `operator`: LexModelsV2ClientTypes.SlotTypeFilterOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.values = values
@@ -12918,8 +12562,7 @@ extension LexModelsV2ClientTypes {
         public init(
             attribute: LexModelsV2ClientTypes.SlotTypeSortAttribute? = nil,
             order: LexModelsV2ClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.attribute = attribute
             self.order = order
         }
@@ -12953,8 +12596,7 @@ public struct ListSlotTypesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: LexModelsV2ClientTypes.SlotTypeSortBy? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.filters = filters
@@ -13030,8 +12672,7 @@ extension LexModelsV2ClientTypes {
             slotTypeCategory: LexModelsV2ClientTypes.SlotTypeCategory? = nil,
             slotTypeId: Swift.String? = nil,
             slotTypeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.parentSlotTypeSignature = parentSlotTypeSignature
@@ -13060,8 +12701,7 @@ public struct ListSlotTypesOutput: Swift.Sendable {
         localeId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         slotTypeSummaries: [LexModelsV2ClientTypes.SlotTypeSummary]? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.localeId = localeId
@@ -13077,8 +12717,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -13089,8 +12728,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -13146,8 +12784,7 @@ extension LexModelsV2ClientTypes {
         public init(
             conversationLevelTestResultsFilterBy: LexModelsV2ClientTypes.ConversationLevelTestResultsFilterBy? = nil,
             resultTypeFilter: LexModelsV2ClientTypes.TestResultTypeFilter? = nil
-        )
-        {
+        ) {
             self.conversationLevelTestResultsFilterBy = conversationLevelTestResultsFilterBy
             self.resultTypeFilter = resultTypeFilter
         }
@@ -13171,8 +12808,7 @@ public struct ListTestExecutionResultItemsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resultFilterBy: LexModelsV2ClientTypes.TestExecutionResultFilterBy? = nil,
         testExecutionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resultFilterBy = resultFilterBy
@@ -13201,8 +12837,7 @@ extension LexModelsV2ClientTypes {
             multiTurnConversation: Swift.Bool = false,
             speechTranscriptionResultCounts: [Swift.String: Swift.Int]? = nil,
             totalResultCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.endToEndResultCounts = endToEndResultCounts
             self.multiTurnConversation = multiTurnConversation
             self.speechTranscriptionResultCounts = speechTranscriptionResultCounts
@@ -13221,8 +12856,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             items: [LexModelsV2ClientTypes.OverallTestResultItem]? = nil
-        )
-        {
+        ) {
             self.items = items
         }
     }
@@ -13238,8 +12872,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             audioFileS3Location: Swift.String? = nil
-        )
-        {
+        ) {
             self.audioFileS3Location = audioFileS3Location
         }
     }
@@ -13257,8 +12890,7 @@ extension LexModelsV2ClientTypes {
         public init(
             audioInput: LexModelsV2ClientTypes.UtteranceAudioInputSpecification? = nil,
             textInput: Swift.String? = nil
-        )
-        {
+        ) {
             self.audioInput = audioInput
             self.textInput = textInput
         }
@@ -13308,8 +12940,7 @@ extension LexModelsV2ClientTypes {
         public init(
             attribute: LexModelsV2ClientTypes.TestExecutionSortAttribute? = nil,
             order: LexModelsV2ClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.attribute = attribute
             self.order = order
         }
@@ -13328,8 +12959,7 @@ public struct ListTestExecutionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: LexModelsV2ClientTypes.TestExecutionSortBy? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.sortBy = sortBy
@@ -13369,8 +12999,7 @@ extension LexModelsV2ClientTypes {
             testExecutionStatus: LexModelsV2ClientTypes.TestExecutionStatus? = nil,
             testSetId: Swift.String? = nil,
             testSetName: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiMode = apiMode
             self.creationDateTime = creationDateTime
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -13393,8 +13022,7 @@ public struct ListTestExecutionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         testExecutions: [LexModelsV2ClientTypes.TestExecutionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.testExecutions = testExecutions
     }
@@ -13413,8 +13041,7 @@ public struct ListTestSetRecordsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         testSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.testSetId = testSetId
@@ -13464,8 +13091,7 @@ extension LexModelsV2ClientTypes {
         public init(
             attribute: LexModelsV2ClientTypes.TestSetSortAttribute? = nil,
             order: LexModelsV2ClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.attribute = attribute
             self.order = order
         }
@@ -13484,8 +13110,7 @@ public struct ListTestSetsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: LexModelsV2ClientTypes.TestSetSortBy? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.sortBy = sortBy
@@ -13528,8 +13153,7 @@ extension LexModelsV2ClientTypes {
             storageLocation: LexModelsV2ClientTypes.TestSetStorageLocation? = nil,
             testSetId: Swift.String? = nil,
             testSetName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDateTime = creationDateTime
             self.description = description
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -13553,8 +13177,7 @@ public struct ListTestSetsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         testSets: [LexModelsV2ClientTypes.TestSetSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.testSets = testSets
     }
@@ -13578,8 +13201,7 @@ extension LexModelsV2ClientTypes {
         public init(
             name: LexModelsV2ClientTypes.AnalyticsUtteranceSortByName? = nil,
             order: LexModelsV2ClientTypes.AnalyticsSortOrder? = nil
-        )
-        {
+        ) {
             self.name = name
             self.order = order
         }
@@ -13613,8 +13235,7 @@ public struct ListUtteranceAnalyticsDataInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: LexModelsV2ClientTypes.UtteranceDataSortBy? = nil,
         startDateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.endDateTime = endDateTime
         self.filters = filters
@@ -13683,8 +13304,7 @@ extension LexModelsV2ClientTypes {
             content: Swift.String? = nil,
             contentType: LexModelsV2ClientTypes.UtteranceContentType? = nil,
             imageResponseCard: LexModelsV2ClientTypes.ImageResponseCard? = nil
-        )
-        {
+        ) {
             self.content = content
             self.contentType = contentType
             self.imageResponseCard = imageResponseCard
@@ -13804,8 +13424,7 @@ extension LexModelsV2ClientTypes {
             utteranceRequestId: Swift.String? = nil,
             utteranceTimestamp: Foundation.Date? = nil,
             utteranceUnderstood: Swift.Bool = false
-        )
-        {
+        ) {
             self.associatedIntentName = associatedIntentName
             self.associatedSlotName = associatedSlotName
             self.audioVoiceDurationMillis = audioVoiceDurationMillis
@@ -13844,8 +13463,7 @@ public struct ListUtteranceAnalyticsDataOutput: Swift.Sendable {
         botId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         utterances: [LexModelsV2ClientTypes.UtteranceSpecification]? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.nextToken = nextToken
         self.utterances = utterances
@@ -13895,8 +13513,7 @@ public struct ListUtteranceMetricsInput: Swift.Sendable {
         metrics: [LexModelsV2ClientTypes.AnalyticsUtteranceMetric]? = nil,
         nextToken: Swift.String? = nil,
         startDateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.binBy = binBy
         self.botId = botId
@@ -13922,8 +13539,7 @@ public struct ListUtteranceMetricsOutput: Swift.Sendable {
         botId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         results: [LexModelsV2ClientTypes.AnalyticsUtteranceResult]? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.nextToken = nextToken
         self.results = results
@@ -13991,8 +13607,7 @@ public struct SearchAssociatedTranscriptsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextIndex: Swift.Int? = nil,
         searchOrder: LexModelsV2ClientTypes.SearchOrder? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botRecommendationId = botRecommendationId
         self.botVersion = botVersion
@@ -14028,8 +13643,7 @@ public struct SearchAssociatedTranscriptsOutput: Swift.Sendable {
         localeId: Swift.String? = nil,
         nextIndex: Swift.Int? = nil,
         totalResults: Swift.Int? = nil
-    )
-    {
+    ) {
         self.associatedTranscripts = associatedTranscripts
         self.botId = botId
         self.botRecommendationId = botRecommendationId
@@ -14062,8 +13676,7 @@ public struct StartBotRecommendationInput: Swift.Sendable {
         encryptionSetting: LexModelsV2ClientTypes.EncryptionSetting? = nil,
         localeId: Swift.String? = nil,
         transcriptSourceSetting: LexModelsV2ClientTypes.TranscriptSourceSetting? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.encryptionSetting = encryptionSetting
@@ -14099,8 +13712,7 @@ public struct StartBotRecommendationOutput: Swift.Sendable {
         encryptionSetting: LexModelsV2ClientTypes.EncryptionSetting? = nil,
         localeId: Swift.String? = nil,
         transcriptSourceSetting: LexModelsV2ClientTypes.TranscriptSourceSetting? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botRecommendationId = botRecommendationId
         self.botRecommendationStatus = botRecommendationStatus
@@ -14131,8 +13743,7 @@ public struct StartBotResourceGenerationInput: Swift.Sendable {
         botVersion: Swift.String? = nil,
         generationInputPrompt: Swift.String? = nil,
         localeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.generationInputPrompt = generationInputPrompt
@@ -14164,8 +13775,7 @@ public struct StartBotResourceGenerationOutput: Swift.Sendable {
         generationInputPrompt: Swift.String? = nil,
         generationStatus: LexModelsV2ClientTypes.GenerationStatus? = nil,
         localeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.creationDateTime = creationDateTime
@@ -14194,8 +13804,7 @@ public struct StartImportInput: Swift.Sendable {
         importId: Swift.String? = nil,
         mergeStrategy: LexModelsV2ClientTypes.MergeStrategy? = nil,
         resourceSpecification: LexModelsV2ClientTypes.ImportResourceSpecification? = nil
-    )
-    {
+    ) {
         self.filePassword = filePassword
         self.importId = importId
         self.mergeStrategy = mergeStrategy
@@ -14226,8 +13835,7 @@ public struct StartImportOutput: Swift.Sendable {
         importStatus: LexModelsV2ClientTypes.ImportStatus? = nil,
         mergeStrategy: LexModelsV2ClientTypes.MergeStrategy? = nil,
         resourceSpecification: LexModelsV2ClientTypes.ImportResourceSpecification? = nil
-    )
-    {
+    ) {
         self.creationDateTime = creationDateTime
         self.importId = importId
         self.importStatus = importStatus
@@ -14254,8 +13862,7 @@ public struct StartTestExecutionInput: Swift.Sendable {
         target: LexModelsV2ClientTypes.TestExecutionTarget? = nil,
         testExecutionModality: LexModelsV2ClientTypes.TestExecutionModality? = nil,
         testSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiMode = apiMode
         self.target = target
         self.testExecutionModality = testExecutionModality
@@ -14284,8 +13891,7 @@ public struct StartTestExecutionOutput: Swift.Sendable {
         testExecutionId: Swift.String? = nil,
         testExecutionModality: LexModelsV2ClientTypes.TestExecutionModality? = nil,
         testSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiMode = apiMode
         self.creationDateTime = creationDateTime
         self.target = target
@@ -14320,8 +13926,7 @@ public struct StartTestSetGenerationInput: Swift.Sendable {
         storageLocation: LexModelsV2ClientTypes.TestSetStorageLocation? = nil,
         testSetName: Swift.String? = nil,
         testSetTags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.generationDataSource = generationDataSource
         self.roleArn = roleArn
@@ -14361,8 +13966,7 @@ public struct StartTestSetGenerationOutput: Swift.Sendable {
         testSetGenerationStatus: LexModelsV2ClientTypes.TestSetGenerationStatus? = nil,
         testSetName: Swift.String? = nil,
         testSetTags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.creationDateTime = creationDateTime
         self.description = description
         self.generationDataSource = generationDataSource
@@ -14394,8 +13998,7 @@ public struct StopBotRecommendationInput: Swift.Sendable {
         botRecommendationId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
         localeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botRecommendationId = botRecommendationId
         self.botVersion = botVersion
@@ -14421,8 +14024,7 @@ public struct StopBotRecommendationOutput: Swift.Sendable {
         botRecommendationStatus: LexModelsV2ClientTypes.BotRecommendationStatus? = nil,
         botVersion: Swift.String? = nil,
         localeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botRecommendationId = botRecommendationId
         self.botRecommendationStatus = botRecommendationStatus
@@ -14442,8 +14044,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -14465,8 +14066,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -14509,8 +14109,7 @@ public struct UpdateBotInput: Swift.Sendable {
         description: Swift.String? = nil,
         idleSessionTTLInSeconds: Swift.Int? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botMembers = botMembers
         self.botName = botName
@@ -14558,8 +14157,7 @@ public struct UpdateBotOutput: Swift.Sendable {
         idleSessionTTLInSeconds: Swift.Int? = nil,
         lastUpdatedDateTime: Foundation.Date? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botMembers = botMembers
         self.botName = botName
@@ -14604,8 +14202,7 @@ public struct UpdateBotAliasInput: Swift.Sendable {
         conversationLogSettings: LexModelsV2ClientTypes.ConversationLogSettings? = nil,
         description: Swift.String? = nil,
         sentimentAnalysisSettings: LexModelsV2ClientTypes.SentimentAnalysisSettings? = nil
-    )
-    {
+    ) {
         self.botAliasId = botAliasId
         self.botAliasLocaleSettings = botAliasLocaleSettings
         self.botAliasName = botAliasName
@@ -14653,8 +14250,7 @@ public struct UpdateBotAliasOutput: Swift.Sendable {
         description: Swift.String? = nil,
         lastUpdatedDateTime: Foundation.Date? = nil,
         sentimentAnalysisSettings: LexModelsV2ClientTypes.SentimentAnalysisSettings? = nil
-    )
-    {
+    ) {
         self.botAliasId = botAliasId
         self.botAliasLocaleSettings = botAliasLocaleSettings
         self.botAliasName = botAliasName
@@ -14697,8 +14293,7 @@ public struct UpdateBotLocaleInput: Swift.Sendable {
         localeId: Swift.String? = nil,
         nluIntentConfidenceThreshold: Swift.Double? = nil,
         voiceSettings: LexModelsV2ClientTypes.VoiceSettings? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.description = description
@@ -14751,8 +14346,7 @@ public struct UpdateBotLocaleOutput: Swift.Sendable {
         nluIntentConfidenceThreshold: Swift.Double? = nil,
         recommendedActions: [Swift.String]? = nil,
         voiceSettings: LexModelsV2ClientTypes.VoiceSettings? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botLocaleStatus = botLocaleStatus
         self.botVersion = botVersion
@@ -14792,8 +14386,7 @@ public struct UpdateBotRecommendationInput: Swift.Sendable {
         botVersion: Swift.String? = nil,
         encryptionSetting: LexModelsV2ClientTypes.EncryptionSetting? = nil,
         localeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botRecommendationId = botRecommendationId
         self.botVersion = botVersion
@@ -14832,8 +14425,7 @@ public struct UpdateBotRecommendationOutput: Swift.Sendable {
         lastUpdatedDateTime: Foundation.Date? = nil,
         localeId: Swift.String? = nil,
         transcriptSourceSetting: LexModelsV2ClientTypes.TranscriptSourceSetting? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botRecommendationId = botRecommendationId
         self.botRecommendationStatus = botRecommendationStatus
@@ -14856,8 +14448,7 @@ public struct UpdateExportInput: Swift.Sendable {
     public init(
         exportId: Swift.String? = nil,
         filePassword: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportId = exportId
         self.filePassword = filePassword
     }
@@ -14889,8 +14480,7 @@ public struct UpdateExportOutput: Swift.Sendable {
         fileFormat: LexModelsV2ClientTypes.ImportExportFileFormat? = nil,
         lastUpdatedDateTime: Foundation.Date? = nil,
         resourceSpecification: LexModelsV2ClientTypes.ExportResourceSpecification? = nil
-    )
-    {
+    ) {
         self.creationDateTime = creationDateTime
         self.exportId = exportId
         self.exportStatus = exportStatus
@@ -14914,8 +14504,7 @@ public struct UpdateResourcePolicyInput: Swift.Sendable {
         expectedRevisionId: Swift.String? = nil,
         policy: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.expectedRevisionId = expectedRevisionId
         self.policy = policy
         self.resourceArn = resourceArn
@@ -14931,8 +14520,7 @@ public struct UpdateResourcePolicyOutput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.revisionId = revisionId
     }
@@ -14979,8 +14567,7 @@ public struct UpdateSlotTypeInput: Swift.Sendable {
         slotTypeName: Swift.String? = nil,
         slotTypeValues: [LexModelsV2ClientTypes.SlotTypeValue]? = nil,
         valueSelectionSetting: LexModelsV2ClientTypes.SlotValueSelectionSetting? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.compositeSlotTypeSetting = compositeSlotTypeSetting
@@ -15037,8 +14624,7 @@ public struct UpdateSlotTypeOutput: Swift.Sendable {
         slotTypeName: Swift.String? = nil,
         slotTypeValues: [LexModelsV2ClientTypes.SlotTypeValue]? = nil,
         valueSelectionSetting: LexModelsV2ClientTypes.SlotValueSelectionSetting? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.compositeSlotTypeSetting = compositeSlotTypeSetting
@@ -15069,8 +14655,7 @@ public struct UpdateTestSetInput: Swift.Sendable {
         description: Swift.String? = nil,
         testSetId: Swift.String? = nil,
         testSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.testSetId = testSetId
         self.testSetName = testSetName
@@ -15110,8 +14695,7 @@ public struct UpdateTestSetOutput: Swift.Sendable {
         storageLocation: LexModelsV2ClientTypes.TestSetStorageLocation? = nil,
         testSetId: Swift.String? = nil,
         testSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationDateTime = creationDateTime
         self.description = description
         self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -15137,8 +14721,7 @@ extension LexModelsV2ClientTypes {
         public init(
             runtimeHintValues: [LexModelsV2ClientTypes.RuntimeHintValue]? = nil,
             subSlotHints: [Swift.String: LexModelsV2ClientTypes.RuntimeHintDetails]? = nil
-        )
-        {
+        ) {
             self.runtimeHintValues = runtimeHintValues
             self.subSlotHints = subSlotHints
         }
@@ -15160,8 +14743,7 @@ extension LexModelsV2ClientTypes {
             shape: LexModelsV2ClientTypes.SlotShape? = nil,
             value: LexModelsV2ClientTypes.SlotValue? = nil,
             values: [LexModelsV2ClientTypes.SlotValueOverride]? = nil
-        )
-        {
+        ) {
             self.shape = shape
             self.value = value
             self.values = values
@@ -15181,8 +14763,7 @@ extension LexModelsV2ClientTypes {
         public init(
             name: Swift.String? = nil,
             slots: [Swift.String: LexModelsV2ClientTypes.SlotValueOverride]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.slots = slots
         }
@@ -15198,8 +14779,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             slotHints: [Swift.String: [Swift.String: LexModelsV2ClientTypes.RuntimeHintDetails]]? = nil
-        )
-        {
+        ) {
             self.slotHints = slotHints
         }
     }
@@ -15220,8 +14800,7 @@ extension LexModelsV2ClientTypes {
             subSlots: [Swift.String: LexModelsV2ClientTypes.UserTurnSlotOutput]? = nil,
             value: Swift.String? = nil,
             values: [LexModelsV2ClientTypes.UserTurnSlotOutput]? = nil
-        )
-        {
+        ) {
             self.subSlots = subSlots
             self.value = value
             self.values = values
@@ -15244,8 +14823,7 @@ extension LexModelsV2ClientTypes {
             dialogAction: LexModelsV2ClientTypes.DialogAction? = nil,
             intent: LexModelsV2ClientTypes.IntentOverride? = nil,
             sessionAttributes: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.dialogAction = dialogAction
             self.intent = intent
             self.sessionAttributes = sessionAttributes
@@ -15268,8 +14846,7 @@ extension LexModelsV2ClientTypes {
             activeContexts: [LexModelsV2ClientTypes.ActiveContext]? = nil,
             runtimeHints: LexModelsV2ClientTypes.RuntimeHints? = nil,
             sessionAttributes: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.activeContexts = activeContexts
             self.runtimeHints = runtimeHints
             self.sessionAttributes = sessionAttributes
@@ -15298,8 +14875,7 @@ extension LexModelsV2ClientTypes {
             name: Swift.String? = nil,
             nextStep: LexModelsV2ClientTypes.DialogState? = nil,
             response: LexModelsV2ClientTypes.ResponseSpecification? = nil
-        )
-        {
+        ) {
             self.condition = condition
             self.name = name
             self.nextStep = nextStep
@@ -15320,8 +14896,7 @@ extension LexModelsV2ClientTypes {
         public init(
             nextStep: LexModelsV2ClientTypes.DialogState? = nil,
             response: LexModelsV2ClientTypes.ResponseSpecification? = nil
-        )
-        {
+        ) {
             self.nextStep = nextStep
             self.response = response
         }
@@ -15344,8 +14919,7 @@ extension LexModelsV2ClientTypes {
             requestAttributes: [Swift.String: Swift.String]? = nil,
             sessionState: LexModelsV2ClientTypes.InputSessionStateSpecification? = nil,
             utteranceInput: LexModelsV2ClientTypes.UtteranceInputSpecification? = nil
-        )
-        {
+        ) {
             self.requestAttributes = requestAttributes
             self.sessionState = sessionState
             self.utteranceInput = utteranceInput
@@ -15366,8 +14940,7 @@ extension LexModelsV2ClientTypes {
         public init(
             name: Swift.String? = nil,
             slots: [Swift.String: LexModelsV2ClientTypes.UserTurnSlotOutput]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.slots = slots
         }
@@ -15390,8 +14963,7 @@ extension LexModelsV2ClientTypes {
             activeContexts: [LexModelsV2ClientTypes.ActiveContext]? = nil,
             intent: LexModelsV2ClientTypes.UserTurnIntentOutput? = nil,
             transcript: Swift.String? = nil
-        )
-        {
+        ) {
             self.activeContexts = activeContexts
             self.intent = intent
             self.transcript = transcript
@@ -15417,8 +14989,7 @@ extension LexModelsV2ClientTypes {
             active: Swift.Bool? = nil,
             conditionalBranches: [LexModelsV2ClientTypes.ConditionalBranch]? = nil,
             defaultBranch: LexModelsV2ClientTypes.DefaultConditionalBranch? = nil
-        )
-        {
+        ) {
             self.active = active
             self.conditionalBranches = conditionalBranches
             self.defaultBranch = defaultBranch
@@ -15440,8 +15011,7 @@ extension LexModelsV2ClientTypes {
         public init(
             expected: LexModelsV2ClientTypes.UserTurnOutputSpecification? = nil,
             input: LexModelsV2ClientTypes.UserTurnInputSpecification? = nil
-        )
-        {
+        ) {
             self.expected = expected
             self.input = input
         }
@@ -15460,8 +15030,7 @@ extension LexModelsV2ClientTypes {
         public init(
             agentTurn: LexModelsV2ClientTypes.AgentTurnSpecification? = nil,
             userTurn: LexModelsV2ClientTypes.UserTurnSpecification? = nil
-        )
-        {
+        ) {
             self.agentTurn = agentTurn
             self.userTurn = userTurn
         }
@@ -15486,8 +15055,7 @@ extension LexModelsV2ClientTypes {
             closingResponse: LexModelsV2ClientTypes.ResponseSpecification? = nil,
             conditional: LexModelsV2ClientTypes.ConditionalSpecification? = nil,
             nextStep: LexModelsV2ClientTypes.DialogState? = nil
-        )
-        {
+        ) {
             self.active = active
             self.closingResponse = closingResponse
             self.conditional = conditional
@@ -15516,8 +15084,7 @@ extension LexModelsV2ClientTypes {
             recordNumber: Swift.Int? = nil,
             turnNumber: Swift.Int? = nil,
             turnSpecification: LexModelsV2ClientTypes.TurnSpecification? = nil
-        )
-        {
+        ) {
             self.conversationId = conversationId
             self.recordNumber = recordNumber
             self.turnNumber = turnNumber
@@ -15561,8 +15128,7 @@ extension LexModelsV2ClientTypes {
             intentMatchResult: LexModelsV2ClientTypes.TestResultMatchStatus? = nil,
             slotMatchResult: LexModelsV2ClientTypes.TestResultMatchStatus? = nil,
             speechTranscriptionResult: LexModelsV2ClientTypes.TestResultMatchStatus? = nil
-        )
-        {
+        ) {
             self.actualOutput = actualOutput
             self.conversationLevelResult = conversationLevelResult
             self.endToEndResult = endToEndResult
@@ -15585,8 +15151,7 @@ public struct ListTestSetRecordsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         testSetRecords: [LexModelsV2ClientTypes.TestSetTurnRecord]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.testSetRecords = testSetRecords
     }
@@ -15604,8 +15169,7 @@ extension LexModelsV2ClientTypes {
         public init(
             agent: LexModelsV2ClientTypes.AgentTurnResult? = nil,
             user: LexModelsV2ClientTypes.UserTurnResult? = nil
-        )
-        {
+        ) {
             self.agent = agent
             self.user = user
         }
@@ -15629,8 +15193,7 @@ extension LexModelsV2ClientTypes {
             conversationId: Swift.String? = nil,
             recordNumber: Swift.Int? = nil,
             turnResult: LexModelsV2ClientTypes.TestSetTurnResult? = nil
-        )
-        {
+        ) {
             self.conversationId = conversationId
             self.recordNumber = recordNumber
             self.turnResult = turnResult
@@ -15648,8 +15211,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             items: [LexModelsV2ClientTypes.UtteranceLevelTestResultItem]? = nil
-        )
-        {
+        ) {
             self.items = items
         }
     }
@@ -15676,8 +15238,7 @@ extension LexModelsV2ClientTypes {
             intentLevelSlotResolutionTestResults: LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResults? = nil,
             overallTestResults: LexModelsV2ClientTypes.OverallTestResults? = nil,
             utteranceLevelTestResults: LexModelsV2ClientTypes.UtteranceLevelTestResults? = nil
-        )
-        {
+        ) {
             self.conversationLevelTestResults = conversationLevelTestResults
             self.intentClassificationTestResults = intentClassificationTestResults
             self.intentLevelSlotResolutionTestResults = intentLevelSlotResolutionTestResults
@@ -15696,8 +15257,7 @@ public struct ListTestExecutionResultItemsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         testExecutionResults: LexModelsV2ClientTypes.TestExecutionResultItems? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.testExecutionResults = testExecutionResults
     }
@@ -15736,8 +15296,7 @@ extension LexModelsV2ClientTypes {
             timeoutConditional: LexModelsV2ClientTypes.ConditionalSpecification? = nil,
             timeoutNextStep: LexModelsV2ClientTypes.DialogState? = nil,
             timeoutResponse: LexModelsV2ClientTypes.ResponseSpecification? = nil
-        )
-        {
+        ) {
             self.failureConditional = failureConditional
             self.failureNextStep = failureNextStep
             self.failureResponse = failureResponse
@@ -15784,8 +15343,7 @@ extension LexModelsV2ClientTypes {
             timeoutConditional: LexModelsV2ClientTypes.ConditionalSpecification? = nil,
             timeoutNextStep: LexModelsV2ClientTypes.DialogState? = nil,
             timeoutResponse: LexModelsV2ClientTypes.ResponseSpecification? = nil
-        )
-        {
+        ) {
             self.failureConditional = failureConditional
             self.failureNextStep = failureNextStep
             self.failureResponse = failureResponse
@@ -15820,8 +15378,7 @@ extension LexModelsV2ClientTypes {
             enableCodeHookInvocation: Swift.Bool? = nil,
             invocationLabel: Swift.String? = nil,
             postCodeHookSpecification: LexModelsV2ClientTypes.PostDialogCodeHookInvocationSpecification? = nil
-        )
-        {
+        ) {
             self.active = active
             self.enableCodeHookInvocation = enableCodeHookInvocation
             self.invocationLabel = invocationLabel
@@ -15849,8 +15406,7 @@ extension LexModelsV2ClientTypes {
             enabled: Swift.Bool = false,
             fulfillmentUpdatesSpecification: LexModelsV2ClientTypes.FulfillmentUpdatesSpecification? = nil,
             postFulfillmentStatusSpecification: LexModelsV2ClientTypes.PostFulfillmentStatusSpecification? = nil
-        )
-        {
+        ) {
             self.active = active
             self.enabled = enabled
             self.fulfillmentUpdatesSpecification = fulfillmentUpdatesSpecification
@@ -15877,8 +15433,7 @@ extension LexModelsV2ClientTypes {
             conditional: LexModelsV2ClientTypes.ConditionalSpecification? = nil,
             initialResponse: LexModelsV2ClientTypes.ResponseSpecification? = nil,
             nextStep: LexModelsV2ClientTypes.DialogState? = nil
-        )
-        {
+        ) {
             self.codeHook = codeHook
             self.conditional = conditional
             self.initialResponse = initialResponse
@@ -15917,8 +15472,7 @@ extension LexModelsV2ClientTypes {
             failureConditional: LexModelsV2ClientTypes.ConditionalSpecification? = nil,
             failureNextStep: LexModelsV2ClientTypes.DialogState? = nil,
             failureResponse: LexModelsV2ClientTypes.ResponseSpecification? = nil
-        )
-        {
+        ) {
             self.captureConditional = captureConditional
             self.captureNextStep = captureNextStep
             self.captureResponse = captureResponse
@@ -15959,8 +15513,7 @@ extension LexModelsV2ClientTypes {
             slotConstraint: LexModelsV2ClientTypes.SlotConstraint? = nil,
             slotResolutionSetting: LexModelsV2ClientTypes.SlotResolutionSetting? = nil,
             waitAndContinueSpecification: LexModelsV2ClientTypes.WaitAndContinueSpecification? = nil
-        )
-        {
+        ) {
             self.defaultValueSpecification = defaultValueSpecification
             self.promptSpecification = promptSpecification
             self.sampleUtterances = sampleUtterances
@@ -16018,8 +15571,7 @@ extension LexModelsV2ClientTypes {
             failureNextStep: LexModelsV2ClientTypes.DialogState? = nil,
             failureResponse: LexModelsV2ClientTypes.ResponseSpecification? = nil,
             promptSpecification: LexModelsV2ClientTypes.PromptSpecification? = nil
-        )
-        {
+        ) {
             self.active = active
             self.codeHook = codeHook
             self.confirmationConditional = confirmationConditional
@@ -16079,8 +15631,7 @@ public struct CreateSlotInput: Swift.Sendable {
         slotTypeId: Swift.String? = nil,
         subSlotSetting: LexModelsV2ClientTypes.SubSlotSetting? = nil,
         valueElicitationSetting: LexModelsV2ClientTypes.SlotValueElicitationSetting? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.description = description
@@ -16137,8 +15688,7 @@ public struct CreateSlotOutput: Swift.Sendable {
         slotTypeId: Swift.String? = nil,
         subSlotSetting: LexModelsV2ClientTypes.SubSlotSetting? = nil,
         valueElicitationSetting: LexModelsV2ClientTypes.SlotValueElicitationSetting? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.creationDateTime = creationDateTime
@@ -16200,8 +15750,7 @@ public struct DescribeSlotOutput: Swift.Sendable {
         slotTypeId: Swift.String? = nil,
         subSlotSetting: LexModelsV2ClientTypes.SubSlotSetting? = nil,
         valueElicitationSetting: LexModelsV2ClientTypes.SlotValueElicitationSetting? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.creationDateTime = creationDateTime
@@ -16265,8 +15814,7 @@ public struct UpdateSlotInput: Swift.Sendable {
         slotTypeId: Swift.String? = nil,
         subSlotSetting: LexModelsV2ClientTypes.SubSlotSetting? = nil,
         valueElicitationSetting: LexModelsV2ClientTypes.SlotValueElicitationSetting? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.description = description
@@ -16327,8 +15875,7 @@ public struct UpdateSlotOutput: Swift.Sendable {
         slotTypeId: Swift.String? = nil,
         subSlotSetting: LexModelsV2ClientTypes.SubSlotSetting? = nil,
         valueElicitationSetting: LexModelsV2ClientTypes.SlotValueElicitationSetting? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.creationDateTime = creationDateTime
@@ -16401,8 +15948,7 @@ public struct CreateIntentInput: Swift.Sendable {
         parentIntentSignature: Swift.String? = nil,
         qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration? = nil,
         sampleUtterances: [LexModelsV2ClientTypes.SampleUtterance]? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.description = description
@@ -16479,8 +16025,7 @@ public struct CreateIntentOutput: Swift.Sendable {
         parentIntentSignature: Swift.String? = nil,
         qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration? = nil,
         sampleUtterances: [LexModelsV2ClientTypes.SampleUtterance]? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.creationDateTime = creationDateTime
@@ -16565,8 +16110,7 @@ public struct DescribeIntentOutput: Swift.Sendable {
         qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration? = nil,
         sampleUtterances: [LexModelsV2ClientTypes.SampleUtterance]? = nil,
         slotPriorities: [LexModelsV2ClientTypes.SlotPriority]? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.creationDateTime = creationDateTime
@@ -16652,8 +16196,7 @@ public struct UpdateIntentInput: Swift.Sendable {
         qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration? = nil,
         sampleUtterances: [LexModelsV2ClientTypes.SampleUtterance]? = nil,
         slotPriorities: [LexModelsV2ClientTypes.SlotPriority]? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.description = description
@@ -16738,8 +16281,7 @@ public struct UpdateIntentOutput: Swift.Sendable {
         qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration? = nil,
         sampleUtterances: [LexModelsV2ClientTypes.SampleUtterance]? = nil,
         slotPriorities: [LexModelsV2ClientTypes.SlotPriority]? = nil
-    )
-    {
+    ) {
         self.botId = botId
         self.botVersion = botVersion
         self.creationDateTime = creationDateTime

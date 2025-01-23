@@ -107,8 +107,7 @@ extension SnowballClientTypes {
             street2: Swift.String? = nil,
             street3: Swift.String? = nil,
             type: SnowballClientTypes.AddressType? = nil
-        )
-        {
+        ) {
             self.addressId = addressId
             self.city = city
             self.company = company
@@ -129,9 +128,9 @@ extension SnowballClientTypes {
 }
 
 /// The action can't be performed because the job's current state doesn't allow that action to be performed.
-public struct InvalidJobStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidJobStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -146,16 +145,15 @@ public struct InvalidJobStateException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified resource can't be found. Check the information you provided in your last request, and try again.
-public struct InvalidResourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidResourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The provided resource value is invalid.
         public internal(set) var resourceType: Swift.String? = nil
@@ -173,17 +171,16 @@ public struct InvalidResourceException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         message: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceType = resourceType
     }
 }
 
 /// The provided Key Management Service key lacks the permissions to perform the specified [CreateJob] or [UpdateJob] action.
-public struct KMSRequestFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KMSRequestFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -198,8 +195,7 @@ public struct KMSRequestFailedException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -211,8 +207,7 @@ public struct CancelClusterInput: Swift.Sendable {
 
     public init(
         clusterId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterId = clusterId
     }
 }
@@ -229,8 +224,7 @@ public struct CancelJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -241,9 +235,9 @@ public struct CancelJobOutput: Swift.Sendable {
 }
 
 /// The address provided was invalid. Check the address with your region's carrier, and try again.
-public struct InvalidAddressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidAddressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -258,16 +252,15 @@ public struct InvalidAddressException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The address is either outside the serviceable area for your region, or an error occurred. Check the address with your region's carrier and try again. If the issue persists, contact Amazon Web Services Support.
-public struct UnsupportedAddressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedAddressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -282,8 +275,7 @@ public struct UnsupportedAddressException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -295,8 +287,7 @@ public struct CreateAddressInput: Swift.Sendable {
 
     public init(
         address: SnowballClientTypes.Address? = nil
-    )
-    {
+    ) {
         self.address = address
     }
 }
@@ -307,16 +298,15 @@ public struct CreateAddressOutput: Swift.Sendable {
 
     public init(
         addressId: Swift.String? = nil
-    )
-    {
+    ) {
         self.addressId = addressId
     }
 }
 
 /// Your user lacks the necessary Amazon EC2 permissions to perform the attempted action.
-public struct Ec2RequestFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct Ec2RequestFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -331,16 +321,15 @@ public struct Ec2RequestFailedException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Job or cluster creation failed. One or more inputs were invalid. Confirm that the [CreateClusterRequest$SnowballType] value supports your [CreateJobRequest$JobType], and try again.
-public struct InvalidInputCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidInputCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -355,8 +344,7 @@ public struct InvalidInputCombinationException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -473,8 +461,7 @@ extension SnowballClientTypes {
             jobStatesToNotify: [SnowballClientTypes.JobState]? = nil,
             notifyAll: Swift.Bool = false,
             snsTopicARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.devicePickupSnsTopicARN = devicePickupSnsTopicARN
             self.jobStatesToNotify = jobStatesToNotify
             self.notifyAll = notifyAll
@@ -495,8 +482,7 @@ extension SnowballClientTypes {
         public init(
             eksAnywhereVersion: Swift.String? = nil,
             kubernetesVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.eksAnywhereVersion = eksAnywhereVersion
             self.kubernetesVersion = kubernetesVersion
         }
@@ -541,8 +527,7 @@ extension SnowballClientTypes {
         public init(
             storageLimit: Swift.Int = 0,
             storageUnit: SnowballClientTypes.StorageUnit? = nil
-        )
-        {
+        ) {
             self.storageLimit = storageLimit
             self.storageUnit = storageUnit
         }
@@ -567,8 +552,7 @@ extension SnowballClientTypes {
             serviceSize: Swift.Int? = nil,
             storageLimit: Swift.Double? = nil,
             storageUnit: SnowballClientTypes.StorageUnit? = nil
-        )
-        {
+        ) {
             self.faultTolerance = faultTolerance
             self.serviceSize = serviceSize
             self.storageLimit = storageLimit
@@ -589,8 +573,7 @@ extension SnowballClientTypes {
         public init(
             storageLimit: Swift.Int = 0,
             storageUnit: SnowballClientTypes.StorageUnit? = nil
-        )
-        {
+        ) {
             self.storageLimit = storageLimit
             self.storageUnit = storageUnit
         }
@@ -615,8 +598,7 @@ extension SnowballClientTypes {
             nfsOnDeviceService: SnowballClientTypes.NFSOnDeviceServiceConfiguration? = nil,
             s3OnDeviceService: SnowballClientTypes.S3OnDeviceServiceConfiguration? = nil,
             tgwOnDeviceService: SnowballClientTypes.TGWOnDeviceServiceConfiguration? = nil
-        )
-        {
+        ) {
             self.eksOnDeviceService = eksOnDeviceService
             self.nfsOnDeviceService = nfsOnDeviceService
             self.s3OnDeviceService = s3OnDeviceService
@@ -670,8 +652,7 @@ extension SnowballClientTypes {
         public init(
             amiId: Swift.String? = nil,
             snowballAmiId: Swift.String? = nil
-        )
-        {
+        ) {
             self.amiId = amiId
             self.snowballAmiId = snowballAmiId
         }
@@ -687,8 +668,7 @@ extension SnowballClientTypes {
 
         public init(
             eventResourceARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventResourceARN = eventResourceARN
         }
     }
@@ -706,8 +686,7 @@ extension SnowballClientTypes {
         public init(
             eventTriggers: [SnowballClientTypes.EventTriggerDefinition]? = nil,
             lambdaArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventTriggers = eventTriggers
             self.lambdaArn = lambdaArn
         }
@@ -726,8 +705,7 @@ extension SnowballClientTypes {
         public init(
             beginMarker: Swift.String? = nil,
             endMarker: Swift.String? = nil
-        )
-        {
+        ) {
             self.beginMarker = beginMarker
             self.endMarker = endMarker
         }
@@ -807,8 +785,7 @@ extension SnowballClientTypes {
         public init(
             serviceName: SnowballClientTypes.DeviceServiceName? = nil,
             transferOption: SnowballClientTypes.TransferOption? = nil
-        )
-        {
+        ) {
             self.serviceName = serviceName
             self.transferOption = transferOption
         }
@@ -830,8 +807,7 @@ extension SnowballClientTypes {
             bucketArn: Swift.String? = nil,
             keyRange: SnowballClientTypes.KeyRange? = nil,
             targetOnDeviceServices: [SnowballClientTypes.TargetOnDeviceService]? = nil
-        )
-        {
+        ) {
             self.bucketArn = bucketArn
             self.keyRange = keyRange
             self.targetOnDeviceServices = targetOnDeviceServices
@@ -854,8 +830,7 @@ extension SnowballClientTypes {
             ec2AmiResources: [SnowballClientTypes.Ec2AmiResource]? = nil,
             lambdaResources: [SnowballClientTypes.LambdaResource]? = nil,
             s3Resources: [SnowballClientTypes.S3Resource]? = nil
-        )
-        {
+        ) {
             self.ec2AmiResources = ec2AmiResources
             self.lambdaResources = lambdaResources
             self.s3Resources = s3Resources
@@ -1016,8 +991,7 @@ extension SnowballClientTypes {
 
         public init(
             gstin: Swift.String? = nil
-        )
-        {
+        ) {
             self.gstin = gstin
         }
     }
@@ -1032,8 +1006,7 @@ extension SnowballClientTypes {
 
         public init(
             ind: SnowballClientTypes.INDTaxDocuments? = nil
-        )
-        {
+        ) {
             self.ind = ind
         }
     }
@@ -1116,8 +1089,7 @@ public struct CreateClusterInput: Swift.Sendable {
         snowballCapacityPreference: SnowballClientTypes.SnowballCapacity? = nil,
         snowballType: SnowballClientTypes.SnowballType? = nil,
         taxDocuments: SnowballClientTypes.TaxDocuments? = nil
-    )
-    {
+    ) {
         self.addressId = addressId
         self.description = description
         self.forceCreateJobs = forceCreateJobs
@@ -1165,8 +1137,7 @@ extension SnowballClientTypes {
             jobState: SnowballClientTypes.JobState? = nil,
             jobType: SnowballClientTypes.JobType? = nil,
             snowballType: SnowballClientTypes.SnowballType? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.description = description
             self.isMaster = isMaster
@@ -1187,17 +1158,16 @@ public struct CreateClusterOutput: Swift.Sendable {
     public init(
         clusterId: Swift.String? = nil,
         jobListEntries: [SnowballClientTypes.JobListEntry]? = nil
-    )
-    {
+    ) {
         self.clusterId = clusterId
         self.jobListEntries = jobListEntries
     }
 }
 
 /// Job creation failed. Currently, clusters support five nodes. If you have fewer than five nodes for your cluster and you have more nodes to create for this cluster, try again and create jobs until your cluster has exactly five nodes.
-public struct ClusterLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClusterLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1212,8 +1182,7 @@ public struct ClusterLimitExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1227,8 +1196,7 @@ extension SnowballClientTypes {
 
         public init(
             isWifiEnabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.isWifiEnabled = isWifiEnabled
         }
     }
@@ -1243,8 +1211,7 @@ extension SnowballClientTypes {
 
         public init(
             wirelessConnection: SnowballClientTypes.WirelessConnection? = nil
-        )
-        {
+        ) {
             self.wirelessConnection = wirelessConnection
         }
     }
@@ -1259,8 +1226,7 @@ extension SnowballClientTypes {
 
         public init(
             snowconeDeviceConfiguration: SnowballClientTypes.SnowconeDeviceConfiguration? = nil
-        )
-        {
+        ) {
             self.snowconeDeviceConfiguration = snowconeDeviceConfiguration
         }
     }
@@ -1331,8 +1297,7 @@ extension SnowballClientTypes {
             identificationNumber: Swift.String? = nil,
             name: Swift.String? = nil,
             phoneNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.devicePickupId = devicePickupId
             self.email = email
             self.identificationExpirationDate = identificationExpirationDate
@@ -1417,8 +1382,7 @@ public struct CreateJobInput: Swift.Sendable {
         snowballCapacityPreference: SnowballClientTypes.SnowballCapacity? = nil,
         snowballType: SnowballClientTypes.SnowballType? = nil,
         taxDocuments: SnowballClientTypes.TaxDocuments? = nil
-    )
-    {
+    ) {
         self.addressId = addressId
         self.clusterId = clusterId
         self.description = description
@@ -1447,8 +1411,7 @@ public struct CreateJobOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -1499,8 +1462,7 @@ public struct CreateLongTermPricingInput: Swift.Sendable {
         isLongTermPricingAutoRenew: Swift.Bool? = nil,
         longTermPricingType: SnowballClientTypes.LongTermPricingType? = nil,
         snowballType: SnowballClientTypes.SnowballType? = nil
-    )
-    {
+    ) {
         self.isLongTermPricingAutoRenew = isLongTermPricingAutoRenew
         self.longTermPricingType = longTermPricingType
         self.snowballType = snowballType
@@ -1513,16 +1475,15 @@ public struct CreateLongTermPricingOutput: Swift.Sendable {
 
     public init(
         longTermPricingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.longTermPricingId = longTermPricingId
     }
 }
 
 /// You get this exception when you call CreateReturnShippingLabel more than once when other requests are not completed.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// You get this resource when you call CreateReturnShippingLabel more than once when other requests are not completed. .
         public internal(set) var conflictResource: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
@@ -1540,17 +1501,16 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         conflictResource: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.conflictResource = conflictResource
         self.properties.message = message
     }
 }
 
 /// You get this exception if you call CreateReturnShippingLabel and a valid return shipping label already exists. In this case, use DescribeReturnShippingLabel to get the URL.
-public struct ReturnShippingLabelAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReturnShippingLabelAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1565,8 +1525,7 @@ public struct ReturnShippingLabelAlreadyExistsException: ClientRuntime.ModeledEr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1581,8 +1540,7 @@ public struct CreateReturnShippingLabelInput: Swift.Sendable {
     public init(
         jobId: Swift.String? = nil,
         shippingOption: SnowballClientTypes.ShippingOption? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.shippingOption = shippingOption
     }
@@ -1629,8 +1587,7 @@ public struct CreateReturnShippingLabelOutput: Swift.Sendable {
 
     public init(
         status: SnowballClientTypes.ShippingLabelStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -1642,8 +1599,7 @@ public struct DescribeAddressInput: Swift.Sendable {
 
     public init(
         addressId: Swift.String? = nil
-    )
-    {
+    ) {
         self.addressId = addressId
     }
 }
@@ -1654,16 +1610,15 @@ public struct DescribeAddressOutput: Swift.Sendable {
 
     public init(
         address: SnowballClientTypes.Address? = nil
-    )
-    {
+    ) {
         self.address = address
     }
 }
 
 /// The NextToken string was altered unexpectedly, and the operation has stopped. Run the operation without changing the NextToken string, and try again.
-public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1678,8 +1633,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1693,8 +1647,7 @@ public struct DescribeAddressesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1709,8 +1662,7 @@ public struct DescribeAddressesOutput: Swift.Sendable {
     public init(
         addresses: [SnowballClientTypes.Address]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.addresses = addresses
         self.nextToken = nextToken
     }
@@ -1723,8 +1675,7 @@ public struct DescribeClusterInput: Swift.Sendable {
 
     public init(
         clusterId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterId = clusterId
     }
 }
@@ -1826,8 +1777,7 @@ extension SnowballClientTypes {
             shippingOption: SnowballClientTypes.ShippingOption? = nil,
             snowballType: SnowballClientTypes.SnowballType? = nil,
             taxDocuments: SnowballClientTypes.TaxDocuments? = nil
-        )
-        {
+        ) {
             self.addressId = addressId
             self.clusterId = clusterId
             self.clusterState = clusterState
@@ -1853,8 +1803,7 @@ public struct DescribeClusterOutput: Swift.Sendable {
 
     public init(
         clusterMetadata: SnowballClientTypes.ClusterMetadata? = nil
-    )
-    {
+    ) {
         self.clusterMetadata = clusterMetadata
     }
 }
@@ -1866,8 +1815,7 @@ public struct DescribeJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -1890,8 +1838,7 @@ extension SnowballClientTypes {
             objectsTransferred: Swift.Int = 0,
             totalBytes: Swift.Int = 0,
             totalObjects: Swift.Int = 0
-        )
-        {
+        ) {
             self.bytesTransferred = bytesTransferred
             self.objectsTransferred = objectsTransferred
             self.totalBytes = totalBytes
@@ -1915,8 +1862,7 @@ extension SnowballClientTypes {
             jobCompletionReportURI: Swift.String? = nil,
             jobFailureLogURI: Swift.String? = nil,
             jobSuccessLogURI: Swift.String? = nil
-        )
-        {
+        ) {
             self.jobCompletionReportURI = jobCompletionReportURI
             self.jobFailureLogURI = jobFailureLogURI
             self.jobSuccessLogURI = jobSuccessLogURI
@@ -1936,8 +1882,7 @@ extension SnowballClientTypes {
         public init(
             status: Swift.String? = nil,
             trackingNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
             self.trackingNumber = trackingNumber
         }
@@ -1967,8 +1912,7 @@ extension SnowballClientTypes {
             inboundShipment: SnowballClientTypes.Shipment? = nil,
             outboundShipment: SnowballClientTypes.Shipment? = nil,
             shippingOption: SnowballClientTypes.ShippingOption? = nil
-        )
-        {
+        ) {
             self.inboundShipment = inboundShipment
             self.outboundShipment = outboundShipment
             self.shippingOption = shippingOption
@@ -2057,8 +2001,7 @@ extension SnowballClientTypes {
             snowballId: Swift.String? = nil,
             snowballType: SnowballClientTypes.SnowballType? = nil,
             taxDocuments: SnowballClientTypes.TaxDocuments? = nil
-        )
-        {
+        ) {
             self.addressId = addressId
             self.clusterId = clusterId
             self.creationDate = creationDate
@@ -2097,8 +2040,7 @@ public struct DescribeJobOutput: Swift.Sendable {
     public init(
         jobMetadata: SnowballClientTypes.JobMetadata? = nil,
         subJobMetadata: [SnowballClientTypes.JobMetadata]? = nil
-    )
-    {
+    ) {
         self.jobMetadata = jobMetadata
         self.subJobMetadata = subJobMetadata
     }
@@ -2111,8 +2053,7 @@ public struct DescribeReturnShippingLabelInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -2129,8 +2070,7 @@ public struct DescribeReturnShippingLabelOutput: Swift.Sendable {
         expirationDate: Foundation.Date? = nil,
         returnShippingLabelURI: Swift.String? = nil,
         status: SnowballClientTypes.ShippingLabelStatus? = nil
-    )
-    {
+    ) {
         self.expirationDate = expirationDate
         self.returnShippingLabelURI = returnShippingLabelURI
         self.status = status
@@ -2144,8 +2084,7 @@ public struct GetJobManifestInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -2156,8 +2095,7 @@ public struct GetJobManifestOutput: Swift.Sendable {
 
     public init(
         manifestURI: Swift.String? = nil
-    )
-    {
+    ) {
         self.manifestURI = manifestURI
     }
 }
@@ -2169,8 +2107,7 @@ public struct GetJobUnlockCodeInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -2181,8 +2118,7 @@ public struct GetJobUnlockCodeOutput: Swift.Sendable {
 
     public init(
         unlockCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.unlockCode = unlockCode
     }
 }
@@ -2201,8 +2137,7 @@ public struct GetSnowballUsageOutput: Swift.Sendable {
     public init(
         snowballLimit: Swift.Int? = nil,
         snowballsInUse: Swift.Int? = nil
-    )
-    {
+    ) {
         self.snowballLimit = snowballLimit
         self.snowballsInUse = snowballsInUse
     }
@@ -2215,8 +2150,7 @@ public struct GetSoftwareUpdatesInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -2227,8 +2161,7 @@ public struct GetSoftwareUpdatesOutput: Swift.Sendable {
 
     public init(
         updatesURI: Swift.String? = nil
-    )
-    {
+    ) {
         self.updatesURI = updatesURI
     }
 }
@@ -2246,8 +2179,7 @@ public struct ListClusterJobsInput: Swift.Sendable {
         clusterId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterId = clusterId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2263,8 +2195,7 @@ public struct ListClusterJobsOutput: Swift.Sendable {
     public init(
         jobListEntries: [SnowballClientTypes.JobListEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobListEntries = jobListEntries
         self.nextToken = nextToken
     }
@@ -2279,8 +2210,7 @@ public struct ListClustersInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2304,8 +2234,7 @@ extension SnowballClientTypes {
             clusterState: SnowballClientTypes.ClusterState? = nil,
             creationDate: Foundation.Date? = nil,
             description: Swift.String? = nil
-        )
-        {
+        ) {
             self.clusterId = clusterId
             self.clusterState = clusterState
             self.creationDate = creationDate
@@ -2323,8 +2252,7 @@ public struct ListClustersOutput: Swift.Sendable {
     public init(
         clusterListEntries: [SnowballClientTypes.ClusterListEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterListEntries = clusterListEntries
         self.nextToken = nextToken
     }
@@ -2339,8 +2267,7 @@ public struct ListCompatibleImagesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2358,8 +2285,7 @@ extension SnowballClientTypes {
         public init(
             amiId: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.amiId = amiId
             self.name = name
         }
@@ -2375,8 +2301,7 @@ public struct ListCompatibleImagesOutput: Swift.Sendable {
     public init(
         compatibleImages: [SnowballClientTypes.CompatibleImage]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.compatibleImages = compatibleImages
         self.nextToken = nextToken
     }
@@ -2391,8 +2316,7 @@ public struct ListJobsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2407,8 +2331,7 @@ public struct ListJobsOutput: Swift.Sendable {
     public init(
         jobListEntries: [SnowballClientTypes.JobListEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobListEntries = jobListEntries
         self.nextToken = nextToken
     }
@@ -2423,8 +2346,7 @@ public struct ListLongTermPricingInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2466,8 +2388,7 @@ extension SnowballClientTypes {
             longTermPricingType: SnowballClientTypes.LongTermPricingType? = nil,
             replacementJob: Swift.String? = nil,
             snowballType: SnowballClientTypes.SnowballType? = nil
-        )
-        {
+        ) {
             self.currentActiveJob = currentActiveJob
             self.isLongTermPricingAutoRenew = isLongTermPricingAutoRenew
             self.jobIds = jobIds
@@ -2491,8 +2412,7 @@ public struct ListLongTermPricingOutput: Swift.Sendable {
     public init(
         longTermPricingEntries: [SnowballClientTypes.LongTermPricingListEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.longTermPricingEntries = longTermPricingEntries
         self.nextToken = nextToken
     }
@@ -2507,8 +2427,7 @@ public struct ListPickupLocationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2523,8 +2442,7 @@ public struct ListPickupLocationsOutput: Swift.Sendable {
     public init(
         addresses: [SnowballClientTypes.Address]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.addresses = addresses
         self.nextToken = nextToken
     }
@@ -2568,8 +2486,7 @@ extension SnowballClientTypes {
 
         public init(
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.version = version
         }
     }
@@ -2587,8 +2504,7 @@ extension SnowballClientTypes {
         public init(
             serviceName: SnowballClientTypes.ServiceName? = nil,
             serviceVersion: SnowballClientTypes.ServiceVersion? = nil
-        )
-        {
+        ) {
             self.serviceName = serviceName
             self.serviceVersion = serviceVersion
         }
@@ -2611,8 +2527,7 @@ public struct ListServiceVersionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         serviceName: SnowballClientTypes.ServiceName? = nil
-    )
-    {
+    ) {
         self.dependentServices = dependentServices
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2637,8 +2552,7 @@ public struct ListServiceVersionsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         serviceName: SnowballClientTypes.ServiceName? = nil,
         serviceVersions: [SnowballClientTypes.ServiceVersion]? = nil
-    )
-    {
+    ) {
         self.dependentServices = dependentServices
         self.nextToken = nextToken
         self.serviceName = serviceName
@@ -2677,8 +2591,7 @@ public struct UpdateClusterInput: Swift.Sendable {
         resources: SnowballClientTypes.JobResource? = nil,
         roleARN: Swift.String? = nil,
         shippingOption: SnowballClientTypes.ShippingOption? = nil
-    )
-    {
+    ) {
         self.addressId = addressId
         self.clusterId = clusterId
         self.description = description
@@ -2733,8 +2646,7 @@ public struct UpdateJobInput: Swift.Sendable {
         roleARN: Swift.String? = nil,
         shippingOption: SnowballClientTypes.ShippingOption? = nil,
         snowballCapacityPreference: SnowballClientTypes.SnowballCapacity? = nil
-    )
-    {
+    ) {
         self.addressId = addressId
         self.description = description
         self.forwardingAddressId = forwardingAddressId
@@ -2794,8 +2706,7 @@ public struct UpdateJobShipmentStateInput: Swift.Sendable {
     public init(
         jobId: Swift.String? = nil,
         shipmentState: SnowballClientTypes.ShipmentState? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.shipmentState = shipmentState
     }
@@ -2819,8 +2730,7 @@ public struct UpdateLongTermPricingInput: Swift.Sendable {
         isLongTermPricingAutoRenew: Swift.Bool? = nil,
         longTermPricingId: Swift.String? = nil,
         replacementJob: Swift.String? = nil
-    )
-    {
+    ) {
         self.isLongTermPricingAutoRenew = isLongTermPricingAutoRenew
         self.longTermPricingId = longTermPricingId
         self.replacementJob = replacementJob

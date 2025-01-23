@@ -10,8 +10,8 @@ import software.amazon.smithy.swift.codegen.utils.toUpperCamelCase
 class AWSSmokeTestGenerator(
     private val ctx: ProtocolGenerator.GenerationContext
 ) : SmokeTestGenerator(ctx) {
-    // Filter out tests by name or tag at codegen time.
-    // Each element must have the prefix "<service-name>:" before the test name or tag name.
+    // Filter out tests by name, test tag, or service name at codegen time.
+    // Each test name or tag must have the prefix "<service-name>:" before the test name or tag name.
     // E.g., "AWSS3:GetObjectTest" or "AWSS3:BucketTests"
     override val smokeTestIdsToIgnore = setOf<String>(
         // Add smoke test name to ignore here:
@@ -21,13 +21,20 @@ class AWSSmokeTestGenerator(
         // Add smoke test tag to ignore here:
         // E.g., "AWSACM:TagToIgnore",
     )
+    override val servicesToIgnore = setOf<String>(
+        "AWSS3Tables" // TEMPORARY DISABLE UNTIL THEY FIX DUPLICATE TEST IDS (GetTable_AccessDeniedException)
+    )
 
     override fun getServiceName(): String {
-        return "AWS" + ctx.service.getTrait(ServiceTrait::class.java).get().sdkId.toUpperCamelCase()
+        val serviceTrait = ctx.service.getTrait(ServiceTrait::class.java).orElse(null)
+        val sdkId = serviceTrait?.sdkId?.toUpperCamelCase() ?: "DefaultService"
+        return "AWS$sdkId"
     }
 
     override fun getClientName(): String {
-        return ctx.service.getTrait(ServiceTrait::class.java).get().sdkId.toUpperCamelCase().removeSuffix("Service") + "Client"
+        val serviceTrait = ctx.service.getTrait(ServiceTrait::class.java).orElse(null)
+        val sdkId = serviceTrait?.sdkId?.toUpperCamelCase()?.removeSuffix("Service") ?: "Default"
+        return "${sdkId}Client"
     }
 
     override fun renderCustomFilePrivateVariables(writer: SwiftWriter) {

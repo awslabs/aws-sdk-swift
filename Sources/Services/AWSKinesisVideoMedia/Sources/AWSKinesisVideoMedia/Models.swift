@@ -24,9 +24,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// Kinesis Video Streams has throttled the request because you have exceeded the limit of allowed client calls. Try making the call later.
-public struct ClientLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClientLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -41,16 +41,15 @@ public struct ClientLimitExceededException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Kinesis Video Streams has throttled the request because you have exceeded the limit of allowed client connections.
-public struct ConnectionLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConnectionLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -65,16 +64,15 @@ public struct ConnectionLimitExceededException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The value for this input parameter is invalid.
-public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -89,16 +87,15 @@ public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Status Code: 400, Caller used wrong endpoint to write data to a stream. On receiving such an exception, the user must call GetDataEndpoint with AccessMode set to "READ" and use the endpoint Kinesis Video returns in the next GetMedia call.
-public struct InvalidEndpointException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidEndpointException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -113,16 +110,15 @@ public struct InvalidEndpointException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Status Code: 403, The caller is not authorized to perform an operation on the given stream, or the token has expired.
-public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -137,16 +133,15 @@ public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Status Code: 404, The stream with the given name does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -161,8 +156,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -246,8 +240,7 @@ extension KinesisVideoMediaClientTypes {
             continuationToken: Swift.String? = nil,
             startSelectorType: KinesisVideoMediaClientTypes.StartSelectorType? = nil,
             startTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.afterFragmentNumber = afterFragmentNumber
             self.continuationToken = continuationToken
             self.startSelectorType = startSelectorType
@@ -269,8 +262,7 @@ public struct GetMediaInput: Swift.Sendable {
         startSelector: KinesisVideoMediaClientTypes.StartSelector? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.startSelector = startSelector
         self.streamARN = streamARN
         self.streamName = streamName
@@ -325,9 +317,8 @@ public struct GetMediaOutput: Swift.Sendable {
 
     public init(
         contentType: Swift.String? = nil,
-        payload: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8))
-    )
-    {
+        payload: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: ""))
+    ) {
         self.contentType = contentType
         self.payload = payload
     }

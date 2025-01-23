@@ -28,9 +28,9 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -46,16 +46,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The resource is not available.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -71,16 +70,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The input fails to satisfy the constraints specified by an AWS service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -96,8 +94,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -109,8 +106,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -121,16 +117,15 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
 
 /// An internal error has occurred.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -146,16 +141,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -171,8 +165,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -220,8 +213,7 @@ public struct CreateWorkflowInput: Swift.Sendable {
         stepTargets: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationConfigurationId = applicationConfigurationId
         self.description = description
         self.inputParameters = inputParameters
@@ -338,8 +330,7 @@ public struct CreateWorkflowOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         templateId: Swift.String? = nil,
         workflowInputs: [Swift.String: MigrationHubOrchestratorClientTypes.StepInput]? = nil
-    )
-    {
+    ) {
         self.adsApplicationConfigurationId = adsApplicationConfigurationId
         self.arn = arn
         self.creationTime = creationTime
@@ -366,8 +357,7 @@ public struct DeleteWorkflowInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -384,8 +374,7 @@ public struct DeleteWorkflowOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         id: Swift.String? = nil,
         status: MigrationHubOrchestratorClientTypes.MigrationWorkflowStatusEnum? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.status = status
@@ -399,8 +388,7 @@ public struct GetWorkflowInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -417,8 +405,7 @@ extension MigrationHubOrchestratorClientTypes {
         public init(
             name: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.url = url
         }
@@ -488,8 +475,7 @@ public struct GetWorkflowOutput: Swift.Sendable {
         totalSteps: Swift.Int? = nil,
         workflowBucket: Swift.String? = nil,
         workflowInputs: [Swift.String: MigrationHubOrchestratorClientTypes.StepInput]? = nil
-    )
-    {
+    ) {
         self.adsApplicationConfigurationId = adsApplicationConfigurationId
         self.adsApplicationName = adsApplicationName
         self.arn = arn
@@ -539,8 +525,7 @@ public struct ListWorkflowsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         status: MigrationHubOrchestratorClientTypes.MigrationWorkflowStatusEnum? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.adsApplicationConfigurationName = adsApplicationConfigurationName
         self.maxResults = maxResults
         self.name = name
@@ -586,8 +571,7 @@ extension MigrationHubOrchestratorClientTypes {
             statusMessage: Swift.String? = nil,
             templateId: Swift.String? = nil,
             totalSteps: Swift.Int? = nil
-        )
-        {
+        ) {
             self.adsApplicationConfigurationName = adsApplicationConfigurationName
             self.completedSteps = completedSteps
             self.creationTime = creationTime
@@ -612,8 +596,7 @@ public struct ListWorkflowsOutput: Swift.Sendable {
     public init(
         migrationWorkflowSummary: [MigrationHubOrchestratorClientTypes.MigrationWorkflowSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.migrationWorkflowSummary = migrationWorkflowSummary
         self.nextToken = nextToken
     }
@@ -626,8 +609,7 @@ public struct StartWorkflowInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -650,8 +632,7 @@ public struct StartWorkflowOutput: Swift.Sendable {
         lastStartTime: Foundation.Date? = nil,
         status: MigrationHubOrchestratorClientTypes.MigrationWorkflowStatusEnum? = nil,
         statusMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.lastStartTime = lastStartTime
@@ -667,8 +648,7 @@ public struct StopWorkflowInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -691,8 +671,7 @@ public struct StopWorkflowOutput: Swift.Sendable {
         lastStopTime: Foundation.Date? = nil,
         status: MigrationHubOrchestratorClientTypes.MigrationWorkflowStatusEnum? = nil,
         statusMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.lastStopTime = lastStopTime
@@ -720,8 +699,7 @@ public struct UpdateWorkflowInput: Swift.Sendable {
         inputParameters: [Swift.String: MigrationHubOrchestratorClientTypes.StepInput]? = nil,
         name: Swift.String? = nil,
         stepTargets: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.id = id
         self.inputParameters = inputParameters
@@ -774,8 +752,7 @@ public struct UpdateWorkflowOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         templateId: Swift.String? = nil,
         workflowInputs: [Swift.String: MigrationHubOrchestratorClientTypes.StepInput]? = nil
-    )
-    {
+    ) {
         self.adsApplicationConfigurationId = adsApplicationConfigurationId
         self.arn = arn
         self.creationTime = creationTime
@@ -797,9 +774,9 @@ extension UpdateWorkflowOutput: Swift.CustomDebugStringConvertible {
 }
 
 /// This exception is thrown when an attempt to update or delete a resource would cause an inconsistent state.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -815,8 +792,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -851,8 +827,7 @@ public struct CreateTemplateInput: Swift.Sendable {
         templateDescription: Swift.String? = nil,
         templateName: Swift.String? = nil,
         templateSource: MigrationHubOrchestratorClientTypes.TemplateSource? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.tags = tags
         self.templateDescription = templateDescription
@@ -873,8 +848,7 @@ public struct CreateTemplateOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         templateArn: Swift.String? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.tags = tags
         self.templateArn = templateArn
         self.templateId = templateId
@@ -888,8 +862,7 @@ public struct DeleteTemplateInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -906,8 +879,7 @@ public struct GetTemplateInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -962,8 +934,7 @@ extension MigrationHubOrchestratorClientTypes {
             dataType: MigrationHubOrchestratorClientTypes.DataType? = nil,
             inputName: Swift.String? = nil,
             `required`: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.dataType = dataType
             self.inputName = inputName
             self.`required` = `required`
@@ -1060,8 +1031,7 @@ public struct GetTemplateOutput: Swift.Sendable {
         templateArn: Swift.String? = nil,
         templateClass: Swift.String? = nil,
         tools: [MigrationHubOrchestratorClientTypes.Tool]? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.description = description
         self.id = id
@@ -1089,8 +1059,7 @@ public struct ListTemplatesInput: Swift.Sendable {
         maxResults: Swift.Int = 0,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
@@ -1115,8 +1084,7 @@ extension MigrationHubOrchestratorClientTypes {
             description: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.id = id
@@ -1135,8 +1103,7 @@ public struct ListTemplatesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         templateSummary: [MigrationHubOrchestratorClientTypes.TemplateSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.templateSummary = templateSummary
     }
@@ -1158,8 +1125,7 @@ public struct UpdateTemplateInput: Swift.Sendable {
         id: Swift.String? = nil,
         templateDescription: Swift.String? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.id = id
         self.templateDescription = templateDescription
@@ -1179,8 +1145,7 @@ public struct UpdateTemplateOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         templateArn: Swift.String? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.tags = tags
         self.templateArn = templateArn
         self.templateId = templateId
@@ -1196,8 +1161,7 @@ public struct ListPluginsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1256,8 +1220,7 @@ extension MigrationHubOrchestratorClientTypes {
             registeredTime: Swift.String? = nil,
             status: MigrationHubOrchestratorClientTypes.PluginHealth? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.hostname = hostname
             self.ipAddress = ipAddress
             self.pluginId = pluginId
@@ -1277,8 +1240,7 @@ public struct ListPluginsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         plugins: [MigrationHubOrchestratorClientTypes.PluginSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.plugins = plugins
     }
@@ -1295,8 +1257,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1322,8 +1283,7 @@ public struct GetTemplateStepInput: Swift.Sendable {
         id: Swift.String? = nil,
         stepGroupId: Swift.String? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.stepGroupId = stepGroupId
         self.templateId = templateId
@@ -1345,8 +1305,7 @@ extension MigrationHubOrchestratorClientTypes {
             dataType: MigrationHubOrchestratorClientTypes.DataType? = nil,
             name: Swift.String? = nil,
             `required`: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.dataType = dataType
             self.name = name
             self.`required` = `required`
@@ -1395,8 +1354,7 @@ extension MigrationHubOrchestratorClientTypes {
         public init(
             linux: Swift.String? = nil,
             windows: Swift.String? = nil
-        )
-        {
+        ) {
             self.linux = linux
             self.windows = windows
         }
@@ -1444,8 +1402,7 @@ extension MigrationHubOrchestratorClientTypes {
         public init(
             linux: Swift.String? = nil,
             windows: Swift.String? = nil
-        )
-        {
+        ) {
             self.linux = linux
             self.windows = windows
         }
@@ -1505,8 +1462,7 @@ extension MigrationHubOrchestratorClientTypes {
             scriptLocationS3Bucket: Swift.String? = nil,
             scriptLocationS3Key: MigrationHubOrchestratorClientTypes.PlatformScriptKey? = nil,
             targetType: MigrationHubOrchestratorClientTypes.TargetType? = nil
-        )
-        {
+        ) {
             self.command = command
             self.runEnvironment = runEnvironment
             self.scriptLocationS3Bucket = scriptLocationS3Bucket
@@ -1552,8 +1508,7 @@ public struct GetTemplateStepOutput: Swift.Sendable {
         stepAutomationConfiguration: MigrationHubOrchestratorClientTypes.StepAutomationConfiguration? = nil,
         stepGroupId: Swift.String? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.description = description
         self.id = id
@@ -1585,8 +1540,7 @@ public struct ListTemplateStepsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         stepGroupId: Swift.String? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.stepGroupId = stepGroupId
@@ -1656,8 +1610,7 @@ extension MigrationHubOrchestratorClientTypes {
             stepGroupId: Swift.String? = nil,
             targetType: MigrationHubOrchestratorClientTypes.TargetType? = nil,
             templateId: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.name = name
             self.next = next
@@ -1680,8 +1633,7 @@ public struct ListTemplateStepsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         templateStepSummaryList: [MigrationHubOrchestratorClientTypes.TemplateStepSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.templateStepSummaryList = templateStepSummaryList
     }
@@ -1698,8 +1650,7 @@ public struct GetTemplateStepGroupInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.templateId = templateId
     }
@@ -1785,8 +1736,7 @@ public struct GetTemplateStepGroupOutput: Swift.Sendable {
         status: MigrationHubOrchestratorClientTypes.StepGroupStatus? = nil,
         templateId: Swift.String? = nil,
         tools: [MigrationHubOrchestratorClientTypes.Tool]? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.description = description
         self.id = id
@@ -1813,8 +1763,7 @@ public struct ListTemplateStepGroupsInput: Swift.Sendable {
         maxResults: Swift.Int = 0,
         nextToken: Swift.String? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.templateId = templateId
@@ -1839,8 +1788,7 @@ extension MigrationHubOrchestratorClientTypes {
             name: Swift.String? = nil,
             next: [Swift.String]? = nil,
             previous: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.id = id
             self.name = name
             self.next = next
@@ -1859,8 +1807,7 @@ public struct ListTemplateStepGroupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         templateStepGroupSummary: [MigrationHubOrchestratorClientTypes.TemplateStepGroupSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.templateStepGroupSummary = templateStepGroupSummary
     }
@@ -1877,8 +1824,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1921,8 +1867,7 @@ extension MigrationHubOrchestratorClientTypes {
             name: Swift.String? = nil,
             `required`: Swift.Bool? = nil,
             value: MigrationHubOrchestratorClientTypes.WorkflowStepOutputUnion? = nil
-        )
-        {
+        ) {
             self.dataType = dataType
             self.name = name
             self.`required` = `required`
@@ -1952,8 +1897,7 @@ extension MigrationHubOrchestratorClientTypes {
             scriptLocationS3Bucket: Swift.String? = nil,
             scriptLocationS3Key: MigrationHubOrchestratorClientTypes.PlatformScriptKey? = nil,
             targetType: MigrationHubOrchestratorClientTypes.TargetType? = nil
-        )
-        {
+        ) {
             self.command = command
             self.runEnvironment = runEnvironment
             self.scriptLocationS3Bucket = scriptLocationS3Bucket
@@ -2000,8 +1944,7 @@ public struct CreateWorkflowStepInput: Swift.Sendable {
         stepTarget: [Swift.String]? = nil,
         workflowId: Swift.String? = nil,
         workflowStepAutomationConfiguration: MigrationHubOrchestratorClientTypes.WorkflowStepAutomationConfiguration? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.next = next
@@ -2030,8 +1973,7 @@ public struct CreateWorkflowStepOutput: Swift.Sendable {
         name: Swift.String? = nil,
         stepGroupId: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.name = name
         self.stepGroupId = stepGroupId
@@ -2054,8 +1996,7 @@ public struct DeleteWorkflowStepInput: Swift.Sendable {
         id: Swift.String? = nil,
         stepGroupId: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.stepGroupId = stepGroupId
         self.workflowId = workflowId
@@ -2082,8 +2023,7 @@ public struct GetWorkflowStepInput: Swift.Sendable {
         id: Swift.String? = nil,
         stepGroupId: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.stepGroupId = stepGroupId
         self.workflowId = workflowId
@@ -2203,8 +2143,7 @@ public struct GetWorkflowStepOutput: Swift.Sendable {
         totalNoOfSrv: Swift.Int? = nil,
         workflowId: Swift.String? = nil,
         workflowStepAutomationConfiguration: MigrationHubOrchestratorClientTypes.WorkflowStepAutomationConfiguration? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.description = description
         self.endTime = endTime
@@ -2246,8 +2185,7 @@ public struct ListWorkflowStepsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         stepGroupId: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.stepGroupId = stepGroupId
@@ -2300,8 +2238,7 @@ extension MigrationHubOrchestratorClientTypes {
             stepActionType: MigrationHubOrchestratorClientTypes.StepActionType? = nil,
             stepId: Swift.String? = nil,
             totalNoOfSrv: Swift.Int? = nil
-        )
-        {
+        ) {
             self.description = description
             self.name = name
             self.next = next
@@ -2329,8 +2266,7 @@ public struct ListWorkflowStepsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         workflowStepsSummary: [MigrationHubOrchestratorClientTypes.WorkflowStepSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.workflowStepsSummary = workflowStepsSummary
     }
@@ -2351,8 +2287,7 @@ public struct RetryWorkflowStepInput: Swift.Sendable {
         id: Swift.String? = nil,
         stepGroupId: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.stepGroupId = stepGroupId
         self.workflowId = workflowId
@@ -2374,8 +2309,7 @@ public struct RetryWorkflowStepOutput: Swift.Sendable {
         status: MigrationHubOrchestratorClientTypes.StepStatus? = nil,
         stepGroupId: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.status = status
         self.stepGroupId = stepGroupId
@@ -2425,8 +2359,7 @@ public struct UpdateWorkflowStepInput: Swift.Sendable {
         stepTarget: [Swift.String]? = nil,
         workflowId: Swift.String? = nil,
         workflowStepAutomationConfiguration: MigrationHubOrchestratorClientTypes.WorkflowStepAutomationConfiguration? = nil
-    )
-    {
+    ) {
         self.description = description
         self.id = id
         self.name = name
@@ -2457,8 +2390,7 @@ public struct UpdateWorkflowStepOutput: Swift.Sendable {
         name: Swift.String? = nil,
         stepGroupId: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.name = name
         self.stepGroupId = stepGroupId
@@ -2486,8 +2418,7 @@ public struct CreateWorkflowStepGroupInput: Swift.Sendable {
         next: [Swift.String]? = nil,
         previous: [Swift.String]? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.next = next
@@ -2523,8 +2454,7 @@ public struct CreateWorkflowStepGroupOutput: Swift.Sendable {
         previous: [Swift.String]? = nil,
         tools: [MigrationHubOrchestratorClientTypes.Tool]? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.description = description
         self.id = id
@@ -2547,8 +2477,7 @@ public struct DeleteWorkflowStepGroupInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.workflowId = workflowId
     }
@@ -2570,8 +2499,7 @@ public struct GetWorkflowStepGroupInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.workflowId = workflowId
     }
@@ -2616,8 +2544,7 @@ public struct GetWorkflowStepGroupOutput: Swift.Sendable {
         status: MigrationHubOrchestratorClientTypes.StepGroupStatus? = nil,
         tools: [MigrationHubOrchestratorClientTypes.Tool]? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.description = description
         self.endTime = endTime
@@ -2646,8 +2573,7 @@ public struct ListWorkflowStepGroupsInput: Swift.Sendable {
         maxResults: Swift.Int = 0,
         nextToken: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.workflowId = workflowId
@@ -2678,8 +2604,7 @@ extension MigrationHubOrchestratorClientTypes {
             owner: MigrationHubOrchestratorClientTypes.Owner? = nil,
             previous: [Swift.String]? = nil,
             status: MigrationHubOrchestratorClientTypes.StepGroupStatus? = nil
-        )
-        {
+        ) {
             self.id = id
             self.name = name
             self.next = next
@@ -2700,8 +2625,7 @@ public struct ListWorkflowStepGroupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         workflowStepGroupsSummary: [MigrationHubOrchestratorClientTypes.WorkflowStepGroupSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.workflowStepGroupsSummary = workflowStepGroupsSummary
     }
@@ -2730,8 +2654,7 @@ public struct UpdateWorkflowStepGroupInput: Swift.Sendable {
         next: [Swift.String]? = nil,
         previous: [Swift.String]? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.id = id
         self.name = name
@@ -2768,8 +2691,7 @@ public struct UpdateWorkflowStepGroupOutput: Swift.Sendable {
         previous: [Swift.String]? = nil,
         tools: [MigrationHubOrchestratorClientTypes.Tool]? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.id = id
         self.lastModifiedTime = lastModifiedTime

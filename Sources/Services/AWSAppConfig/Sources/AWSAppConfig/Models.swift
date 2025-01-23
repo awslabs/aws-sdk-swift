@@ -106,8 +106,7 @@ extension AppConfigClientTypes {
         public init(
             enabled: Swift.Bool? = false,
             protectionPeriodInMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.protectionPeriodInMinutes = protectionPeriodInMinutes
         }
@@ -116,11 +115,13 @@ extension AppConfigClientTypes {
 
 extension AppConfigClientTypes {
 
-    /// An action defines the tasks that the extension performs during the AppConfig workflow. Each action includes an action point such as ON_CREATE_HOSTED_CONFIGURATION, PRE_DEPLOYMENT, or ON_DEPLOYMENT. Each action also includes a name, a URI to an Lambda function, and an Amazon Resource Name (ARN) for an Identity and Access Management assume role. You specify the name, URI, and ARN for each action point defined in the extension. You can specify the following actions for an extension:
+    /// An action defines the tasks that the extension performs during the AppConfig workflow. Each action includes an action point, as shown in the following list:
     ///
     /// * PRE_CREATE_HOSTED_CONFIGURATION_VERSION
     ///
     /// * PRE_START_DEPLOYMENT
+    ///
+    /// * AT_DEPLOYMENT_TICK
     ///
     /// * ON_DEPLOYMENT_START
     ///
@@ -131,6 +132,9 @@ extension AppConfigClientTypes {
     /// * ON_DEPLOYMENT_COMPLETE
     ///
     /// * ON_DEPLOYMENT_ROLLED_BACK
+    ///
+    ///
+    /// Each action also includes a name, a URI to an Lambda function, and an Amazon Resource Name (ARN) for an Identity and Access Management assume role. You specify the name, URI, and ARN for each action point defined in the extension.
     public struct Action: Swift.Sendable {
         /// Information about the action.
         public var description: Swift.String?
@@ -146,8 +150,7 @@ extension AppConfigClientTypes {
             name: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.name = name
             self.roleArn = roleArn
@@ -183,8 +186,7 @@ extension AppConfigClientTypes {
             invocationId: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionName = actionName
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -199,6 +201,7 @@ extension AppConfigClientTypes {
 extension AppConfigClientTypes {
 
     public enum ActionPoint: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case atDeploymentTick
         case onDeploymentBaking
         case onDeploymentComplete
         case onDeploymentRolledBack
@@ -210,6 +213,7 @@ extension AppConfigClientTypes {
 
         public static var allCases: [ActionPoint] {
             return [
+                .atDeploymentTick,
                 .onDeploymentBaking,
                 .onDeploymentComplete,
                 .onDeploymentRolledBack,
@@ -227,6 +231,7 @@ extension AppConfigClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .atDeploymentTick: return "AT_DEPLOYMENT_TICK"
             case .onDeploymentBaking: return "ON_DEPLOYMENT_BAKING"
             case .onDeploymentComplete: return "ON_DEPLOYMENT_COMPLETE"
             case .onDeploymentRolledBack: return "ON_DEPLOYMENT_ROLLED_BACK"
@@ -261,8 +266,7 @@ extension AppConfigClientTypes {
             reason: Swift.String? = nil,
             type: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.constraint = constraint
             self.location = location
             self.reason = reason
@@ -309,9 +313,9 @@ extension AppConfigClientTypes {
 }
 
 /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Detailed information about the input that failed to satisfy the constraints specified by a call.
         public internal(set) var details: AppConfigClientTypes.BadRequestDetails? = nil
         public internal(set) var message: Swift.String? = nil
@@ -331,8 +335,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
         details: AppConfigClientTypes.BadRequestDetails? = nil,
         message: Swift.String? = nil,
         reason: AppConfigClientTypes.BadRequestReason? = nil
-    )
-    {
+    ) {
         self.properties.details = details
         self.properties.message = message
         self.properties.reason = reason
@@ -340,9 +343,9 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// There was an internal failure in the AppConfig service.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -357,16 +360,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The number of one more AppConfig resources exceeds the maximum allowed. Verify that your environment doesn't exceed the following service quotas: Applications: 100 max Deployment strategies: 20 max Configuration profiles: 100 max per application Environments: 20 max per application To resolve this issue, you can delete one or more resources and try again. Or, you can request a quota increase. For more information about quotas and to request an increase, see [Service quotas for AppConfig](https://docs.aws.amazon.com/general/latest/gr/appconfig.html#limits_appconfig) in the Amazon Web Services General Reference.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -381,8 +383,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -400,8 +401,7 @@ public struct CreateApplicationInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.tags = tags
@@ -420,8 +420,7 @@ public struct CreateApplicationOutput: Swift.Sendable {
         description: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.id = id
         self.name = name
@@ -429,9 +428,9 @@ public struct CreateApplicationOutput: Swift.Sendable {
 }
 
 /// The requested resource could not be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var resourceName: Swift.String? = nil
     }
@@ -448,8 +447,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
@@ -498,8 +496,7 @@ extension AppConfigClientTypes {
         public init(
             content: Swift.String? = nil,
             type: AppConfigClientTypes.ValidatorType? = nil
-        )
-        {
+        ) {
             self.content = content
             self.type = type
         }
@@ -529,7 +526,7 @@ public struct CreateConfigurationProfileInput: Swift.Sendable {
     ///
     /// * For an Secrets Manager secret, specify the URI in the following format: secretsmanager://.
     ///
-    /// * For an Amazon S3 object, specify the URI in the following format: s3:/// . Here is an example: s3://my-bucket/my-app/us-east-1/my-config.json
+    /// * For an Amazon S3 object, specify the URI in the following format: s3:/// . Here is an example: s3://amzn-s3-demo-bucket/my-app/us-east-1/my-config.json
     ///
     /// * For an SSM document, specify either the document name in the format ssm-document:// or the Amazon Resource Name (ARN).
     /// This member is required.
@@ -557,8 +554,7 @@ public struct CreateConfigurationProfileInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         type: Swift.String? = nil,
         validators: [AppConfigClientTypes.Validator]? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.description = description
         self.kmsKeyIdentifier = kmsKeyIdentifier
@@ -605,8 +601,7 @@ public struct CreateConfigurationProfileOutput: Swift.Sendable {
         retrievalRoleArn: Swift.String? = nil,
         type: Swift.String? = nil,
         validators: [AppConfigClientTypes.Validator]? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.description = description
         self.id = id
@@ -711,8 +706,7 @@ public struct CreateDeploymentStrategyInput: Swift.Sendable {
         name: Swift.String? = nil,
         replicateTo: AppConfigClientTypes.ReplicateTo? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.deploymentDurationInMinutes = deploymentDurationInMinutes
         self.description = description
         self.finalBakeTimeInMinutes = finalBakeTimeInMinutes
@@ -751,8 +745,7 @@ public struct CreateDeploymentStrategyOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         replicateTo: AppConfigClientTypes.ReplicateTo? = nil
-    )
-    {
+    ) {
         self.deploymentDurationInMinutes = deploymentDurationInMinutes
         self.description = description
         self.finalBakeTimeInMinutes = finalBakeTimeInMinutes
@@ -777,8 +770,7 @@ extension AppConfigClientTypes {
         public init(
             alarmArn: Swift.String? = nil,
             alarmRoleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.alarmArn = alarmArn
             self.alarmRoleArn = alarmRoleArn
         }
@@ -805,8 +797,7 @@ public struct CreateEnvironmentInput: Swift.Sendable {
         monitors: [AppConfigClientTypes.Monitor]? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.description = description
         self.monitors = monitors
@@ -874,8 +865,7 @@ public struct CreateEnvironmentOutput: Swift.Sendable {
         monitors: [AppConfigClientTypes.Monitor]? = nil,
         name: Swift.String? = nil,
         state: AppConfigClientTypes.EnvironmentState? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.description = description
         self.id = id
@@ -886,9 +876,9 @@ public struct CreateEnvironmentOutput: Swift.Sendable {
 }
 
 /// The request could not be processed because of conflict in the current state of the resource.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -903,8 +893,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -924,8 +913,7 @@ extension AppConfigClientTypes {
             description: Swift.String? = nil,
             `dynamic`: Swift.Bool = false,
             `required`: Swift.Bool = false
-        )
-        {
+        ) {
             self.description = description
             self.`dynamic` = `dynamic`
             self.`required` = `required`
@@ -956,8 +944,7 @@ public struct CreateExtensionInput: Swift.Sendable {
         name: Swift.String? = nil,
         parameters: [Swift.String: AppConfigClientTypes.Parameter]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.description = description
         self.latestVersionNumber = latestVersionNumber
@@ -991,8 +978,7 @@ public struct CreateExtensionOutput: Swift.Sendable {
         name: Swift.String? = nil,
         parameters: [Swift.String: AppConfigClientTypes.Parameter]? = nil,
         versionNumber: Swift.Int = 0
-    )
-    {
+    ) {
         self.actions = actions
         self.arn = arn
         self.description = description
@@ -1023,8 +1009,7 @@ public struct CreateExtensionAssociationInput: Swift.Sendable {
         parameters: [Swift.String: Swift.String]? = nil,
         resourceIdentifier: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.extensionIdentifier = extensionIdentifier
         self.extensionVersionNumber = extensionVersionNumber
         self.parameters = parameters
@@ -1054,8 +1039,7 @@ public struct CreateExtensionAssociationOutput: Swift.Sendable {
         id: Swift.String? = nil,
         parameters: [Swift.String: Swift.String]? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.extensionArn = extensionArn
         self.extensionVersionNumber = extensionVersionNumber
@@ -1092,9 +1076,9 @@ extension AppConfigClientTypes {
 }
 
 /// The configuration size is too large.
-public struct PayloadTooLargeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PayloadTooLargeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var limit: Swift.Float = 0.0
         public internal(set) var measure: AppConfigClientTypes.BytesMeasure? = nil
         public internal(set) var message: Swift.String? = nil
@@ -1115,8 +1099,7 @@ public struct PayloadTooLargeException: ClientRuntime.ModeledError, AWSClientRun
         measure: AppConfigClientTypes.BytesMeasure? = nil,
         message: Swift.String? = nil,
         size: Swift.Float = 0.0
-    )
-    {
+    ) {
         self.properties.limit = limit
         self.properties.measure = measure
         self.properties.message = message
@@ -1152,8 +1135,7 @@ public struct CreateHostedConfigurationVersionInput: Swift.Sendable {
         description: Swift.String? = nil,
         latestVersionNumber: Swift.Int? = 0,
         versionLabel: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.configurationProfileId = configurationProfileId
         self.content = content
@@ -1196,8 +1178,7 @@ public struct CreateHostedConfigurationVersionOutput: Swift.Sendable {
         kmsKeyArn: Swift.String? = nil,
         versionLabel: Swift.String? = nil,
         versionNumber: Swift.Int = 0
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.configurationProfileId = configurationProfileId
         self.content = content
@@ -1221,8 +1202,7 @@ public struct DeleteApplicationInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -1279,8 +1259,7 @@ public struct DeleteConfigurationProfileInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         configurationProfileId: Swift.String? = nil,
         deletionProtectionCheck: AppConfigClientTypes.DeletionProtectionCheck? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.configurationProfileId = configurationProfileId
         self.deletionProtectionCheck = deletionProtectionCheck
@@ -1294,8 +1273,7 @@ public struct DeleteDeploymentStrategyInput: Swift.Sendable {
 
     public init(
         deploymentStrategyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deploymentStrategyId = deploymentStrategyId
     }
 }
@@ -1320,8 +1298,7 @@ public struct DeleteEnvironmentInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         deletionProtectionCheck: AppConfigClientTypes.DeletionProtectionCheck? = nil,
         environmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.deletionProtectionCheck = deletionProtectionCheck
         self.environmentId = environmentId
@@ -1338,8 +1315,7 @@ public struct DeleteExtensionInput: Swift.Sendable {
     public init(
         extensionIdentifier: Swift.String? = nil,
         versionNumber: Swift.Int? = 0
-    )
-    {
+    ) {
         self.extensionIdentifier = extensionIdentifier
         self.versionNumber = versionNumber
     }
@@ -1352,8 +1328,7 @@ public struct DeleteExtensionAssociationInput: Swift.Sendable {
 
     public init(
         extensionAssociationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.extensionAssociationId = extensionAssociationId
     }
 }
@@ -1373,8 +1348,7 @@ public struct DeleteHostedConfigurationVersionInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         configurationProfileId: Swift.String? = nil,
         versionNumber: Swift.Int? = 0
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.configurationProfileId = configurationProfileId
         self.versionNumber = versionNumber
@@ -1387,8 +1361,7 @@ public struct GetAccountSettingsOutput: Swift.Sendable {
 
     public init(
         deletionProtection: AppConfigClientTypes.DeletionProtectionSettings? = nil
-    )
-    {
+    ) {
         self.deletionProtection = deletionProtection
     }
 }
@@ -1400,8 +1373,7 @@ public struct GetApplicationInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -1418,8 +1390,7 @@ public struct GetApplicationOutput: Swift.Sendable {
         description: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.id = id
         self.name = name
@@ -1448,8 +1419,7 @@ public struct GetConfigurationInput: Swift.Sendable {
         clientId: Swift.String? = nil,
         configuration: Swift.String? = nil,
         environment: Swift.String? = nil
-    )
-    {
+    ) {
         self.application = application
         self.clientConfigurationVersion = clientConfigurationVersion
         self.clientId = clientId
@@ -1470,8 +1440,7 @@ public struct GetConfigurationOutput: Swift.Sendable {
         configurationVersion: Swift.String? = nil,
         content: Foundation.Data? = nil,
         contentType: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationVersion = configurationVersion
         self.content = content
         self.contentType = contentType
@@ -1494,8 +1463,7 @@ public struct GetConfigurationProfileInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         configurationProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.configurationProfileId = configurationProfileId
     }
@@ -1535,8 +1503,7 @@ public struct GetConfigurationProfileOutput: Swift.Sendable {
         retrievalRoleArn: Swift.String? = nil,
         type: Swift.String? = nil,
         validators: [AppConfigClientTypes.Validator]? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.description = description
         self.id = id
@@ -1565,8 +1532,7 @@ public struct GetDeploymentInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         deploymentNumber: Swift.Int? = 0,
         environmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.deploymentNumber = deploymentNumber
         self.environmentId = environmentId
@@ -1591,8 +1557,7 @@ extension AppConfigClientTypes {
             extensionId: Swift.String? = nil,
             parameters: [Swift.String: Swift.String]? = nil,
             versionNumber: Swift.Int = 0
-        )
-        {
+        ) {
             self.extensionAssociationId = extensionAssociationId
             self.extensionId = extensionId
             self.parameters = parameters
@@ -1707,8 +1672,7 @@ extension AppConfigClientTypes {
             eventType: AppConfigClientTypes.DeploymentEventType? = nil,
             occurredAt: Foundation.Date? = nil,
             triggeredBy: AppConfigClientTypes.TriggeredBy? = nil
-        )
-        {
+        ) {
             self.actionInvocations = actionInvocations
             self.description = description
             self.eventType = eventType
@@ -1831,8 +1795,7 @@ public struct GetDeploymentOutput: Swift.Sendable {
         startedAt: Foundation.Date? = nil,
         state: AppConfigClientTypes.DeploymentState? = nil,
         versionLabel: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.appliedExtensions = appliedExtensions
         self.completedAt = completedAt
@@ -1865,8 +1828,7 @@ public struct GetDeploymentStrategyInput: Swift.Sendable {
 
     public init(
         deploymentStrategyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deploymentStrategyId = deploymentStrategyId
     }
 }
@@ -1898,8 +1860,7 @@ public struct GetDeploymentStrategyOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         replicateTo: AppConfigClientTypes.ReplicateTo? = nil
-    )
-    {
+    ) {
         self.deploymentDurationInMinutes = deploymentDurationInMinutes
         self.description = description
         self.finalBakeTimeInMinutes = finalBakeTimeInMinutes
@@ -1922,8 +1883,7 @@ public struct GetEnvironmentInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         environmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.environmentId = environmentId
     }
@@ -1950,8 +1910,7 @@ public struct GetEnvironmentOutput: Swift.Sendable {
         monitors: [AppConfigClientTypes.Monitor]? = nil,
         name: Swift.String? = nil,
         state: AppConfigClientTypes.EnvironmentState? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.description = description
         self.id = id
@@ -1971,8 +1930,7 @@ public struct GetExtensionInput: Swift.Sendable {
     public init(
         extensionIdentifier: Swift.String? = nil,
         versionNumber: Swift.Int? = 0
-    )
-    {
+    ) {
         self.extensionIdentifier = extensionIdentifier
         self.versionNumber = versionNumber
     }
@@ -2002,8 +1960,7 @@ public struct GetExtensionOutput: Swift.Sendable {
         name: Swift.String? = nil,
         parameters: [Swift.String: AppConfigClientTypes.Parameter]? = nil,
         versionNumber: Swift.Int = 0
-    )
-    {
+    ) {
         self.actions = actions
         self.arn = arn
         self.description = description
@@ -2021,8 +1978,7 @@ public struct GetExtensionAssociationInput: Swift.Sendable {
 
     public init(
         extensionAssociationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.extensionAssociationId = extensionAssociationId
     }
 }
@@ -2048,8 +2004,7 @@ public struct GetExtensionAssociationOutput: Swift.Sendable {
         id: Swift.String? = nil,
         parameters: [Swift.String: Swift.String]? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.extensionArn = extensionArn
         self.extensionVersionNumber = extensionVersionNumber
@@ -2074,8 +2029,7 @@ public struct GetHostedConfigurationVersionInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         configurationProfileId: Swift.String? = nil,
         versionNumber: Swift.Int? = 0
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.configurationProfileId = configurationProfileId
         self.versionNumber = versionNumber
@@ -2109,8 +2063,7 @@ public struct GetHostedConfigurationVersionOutput: Swift.Sendable {
         kmsKeyArn: Swift.String? = nil,
         versionLabel: Swift.String? = nil,
         versionNumber: Swift.Int = 0
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.configurationProfileId = configurationProfileId
         self.content = content
@@ -2136,8 +2089,7 @@ public struct ListApplicationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2157,8 +2109,7 @@ extension AppConfigClientTypes {
             description: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.id = id
             self.name = name
@@ -2175,8 +2126,7 @@ public struct ListApplicationsOutput: Swift.Sendable {
     public init(
         items: [AppConfigClientTypes.Application]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -2198,8 +2148,7 @@ public struct ListConfigurationProfilesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         type: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2232,8 +2181,7 @@ extension AppConfigClientTypes {
             name: Swift.String? = nil,
             type: Swift.String? = nil,
             validatorTypes: [AppConfigClientTypes.ValidatorType]? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.id = id
             self.locationUri = locationUri
@@ -2253,8 +2201,7 @@ public struct ListConfigurationProfilesOutput: Swift.Sendable {
     public init(
         items: [AppConfigClientTypes.ConfigurationProfileSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -2277,8 +2224,7 @@ public struct ListDeploymentsInput: Swift.Sendable {
         environmentId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.environmentId = environmentId
         self.maxResults = maxResults
@@ -2328,8 +2274,7 @@ extension AppConfigClientTypes {
             startedAt: Foundation.Date? = nil,
             state: AppConfigClientTypes.DeploymentState? = nil,
             versionLabel: Swift.String? = nil
-        )
-        {
+        ) {
             self.completedAt = completedAt
             self.configurationName = configurationName
             self.configurationVersion = configurationVersion
@@ -2355,8 +2300,7 @@ public struct ListDeploymentsOutput: Swift.Sendable {
     public init(
         items: [AppConfigClientTypes.DeploymentSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -2371,8 +2315,7 @@ public struct ListDeploymentStrategiesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2407,8 +2350,7 @@ extension AppConfigClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             replicateTo: AppConfigClientTypes.ReplicateTo? = nil
-        )
-        {
+        ) {
             self.deploymentDurationInMinutes = deploymentDurationInMinutes
             self.description = description
             self.finalBakeTimeInMinutes = finalBakeTimeInMinutes
@@ -2430,8 +2372,7 @@ public struct ListDeploymentStrategiesOutput: Swift.Sendable {
     public init(
         items: [AppConfigClientTypes.DeploymentStrategy]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -2450,8 +2391,7 @@ public struct ListEnvironmentsInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2481,8 +2421,7 @@ extension AppConfigClientTypes {
             monitors: [AppConfigClientTypes.Monitor]? = nil,
             name: Swift.String? = nil,
             state: AppConfigClientTypes.EnvironmentState? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.description = description
             self.id = id
@@ -2502,8 +2441,7 @@ public struct ListEnvironmentsOutput: Swift.Sendable {
     public init(
         items: [AppConfigClientTypes.Environment]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -2527,8 +2465,7 @@ public struct ListExtensionAssociationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.extensionIdentifier = extensionIdentifier
         self.extensionVersionNumber = extensionVersionNumber
         self.maxResults = maxResults
@@ -2552,8 +2489,7 @@ extension AppConfigClientTypes {
             extensionArn: Swift.String? = nil,
             id: Swift.String? = nil,
             resourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.extensionArn = extensionArn
             self.id = id
             self.resourceArn = resourceArn
@@ -2570,8 +2506,7 @@ public struct ListExtensionAssociationsOutput: Swift.Sendable {
     public init(
         items: [AppConfigClientTypes.ExtensionAssociationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -2589,8 +2524,7 @@ public struct ListExtensionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
@@ -2618,8 +2552,7 @@ extension AppConfigClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             versionNumber: Swift.Int = 0
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.id = id
@@ -2638,8 +2571,7 @@ public struct ListExtensionsOutput: Swift.Sendable {
     public init(
         items: [AppConfigClientTypes.ExtensionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -2652,7 +2584,7 @@ public struct ListHostedConfigurationVersionsInput: Swift.Sendable {
     /// The configuration profile ID.
     /// This member is required.
     public var configurationProfileId: Swift.String?
-    /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+    /// The maximum number of items to return for this call. If MaxResults is not provided in the call, AppConfig returns the maximum of 50. The call also returns a token that you can specify in a subsequent call to get the next set of results.
     public var maxResults: Swift.Int?
     /// A token to start the list. Use this token to get the next set of results.
     public var nextToken: Swift.String?
@@ -2665,8 +2597,7 @@ public struct ListHostedConfigurationVersionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         versionLabel: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.configurationProfileId = configurationProfileId
         self.maxResults = maxResults
@@ -2702,8 +2633,7 @@ extension AppConfigClientTypes {
             kmsKeyArn: Swift.String? = nil,
             versionLabel: Swift.String? = nil,
             versionNumber: Swift.Int = 0
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
             self.contentType = contentType
@@ -2724,8 +2654,7 @@ public struct ListHostedConfigurationVersionsOutput: Swift.Sendable {
     public init(
         items: [AppConfigClientTypes.HostedConfigurationVersionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -2738,8 +2667,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2750,8 +2678,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2791,8 +2718,7 @@ public struct StartDeploymentInput: Swift.Sendable {
         environmentId: Swift.String? = nil,
         kmsKeyIdentifier: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.configurationProfileId = configurationProfileId
         self.configurationVersion = configurationVersion
@@ -2874,8 +2800,7 @@ public struct StartDeploymentOutput: Swift.Sendable {
         startedAt: Foundation.Date? = nil,
         state: AppConfigClientTypes.DeploymentState? = nil,
         versionLabel: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.appliedExtensions = appliedExtensions
         self.completedAt = completedAt
@@ -2919,8 +2844,7 @@ public struct StopDeploymentInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         deploymentNumber: Swift.Int? = 0,
         environmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowRevert = allowRevert
         self.applicationId = applicationId
         self.deploymentNumber = deploymentNumber
@@ -2997,8 +2921,7 @@ public struct StopDeploymentOutput: Swift.Sendable {
         startedAt: Foundation.Date? = nil,
         state: AppConfigClientTypes.DeploymentState? = nil,
         versionLabel: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.appliedExtensions = appliedExtensions
         self.completedAt = completedAt
@@ -3035,8 +2958,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -3053,8 +2975,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -3066,8 +2987,7 @@ public struct UpdateAccountSettingsInput: Swift.Sendable {
 
     public init(
         deletionProtection: AppConfigClientTypes.DeletionProtectionSettings? = nil
-    )
-    {
+    ) {
         self.deletionProtection = deletionProtection
     }
 }
@@ -3078,8 +2998,7 @@ public struct UpdateAccountSettingsOutput: Swift.Sendable {
 
     public init(
         deletionProtection: AppConfigClientTypes.DeletionProtectionSettings? = nil
-    )
-    {
+    ) {
         self.deletionProtection = deletionProtection
     }
 }
@@ -3097,8 +3016,7 @@ public struct UpdateApplicationInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.description = description
         self.name = name
@@ -3117,8 +3035,7 @@ public struct UpdateApplicationOutput: Swift.Sendable {
         description: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.id = id
         self.name = name
@@ -3151,8 +3068,7 @@ public struct UpdateConfigurationProfileInput: Swift.Sendable {
         name: Swift.String? = nil,
         retrievalRoleArn: Swift.String? = nil,
         validators: [AppConfigClientTypes.Validator]? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.configurationProfileId = configurationProfileId
         self.description = description
@@ -3197,8 +3113,7 @@ public struct UpdateConfigurationProfileOutput: Swift.Sendable {
         retrievalRoleArn: Swift.String? = nil,
         type: Swift.String? = nil,
         validators: [AppConfigClientTypes.Validator]? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.description = description
         self.id = id
@@ -3237,8 +3152,7 @@ public struct UpdateDeploymentStrategyInput: Swift.Sendable {
         finalBakeTimeInMinutes: Swift.Int? = 0,
         growthFactor: Swift.Float? = nil,
         growthType: AppConfigClientTypes.GrowthType? = nil
-    )
-    {
+    ) {
         self.deploymentDurationInMinutes = deploymentDurationInMinutes
         self.deploymentStrategyId = deploymentStrategyId
         self.description = description
@@ -3275,8 +3189,7 @@ public struct UpdateDeploymentStrategyOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         replicateTo: AppConfigClientTypes.ReplicateTo? = nil
-    )
-    {
+    ) {
         self.deploymentDurationInMinutes = deploymentDurationInMinutes
         self.description = description
         self.finalBakeTimeInMinutes = finalBakeTimeInMinutes
@@ -3308,8 +3221,7 @@ public struct UpdateEnvironmentInput: Swift.Sendable {
         environmentId: Swift.String? = nil,
         monitors: [AppConfigClientTypes.Monitor]? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.description = description
         self.environmentId = environmentId
@@ -3339,8 +3251,7 @@ public struct UpdateEnvironmentOutput: Swift.Sendable {
         monitors: [AppConfigClientTypes.Monitor]? = nil,
         name: Swift.String? = nil,
         state: AppConfigClientTypes.EnvironmentState? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.description = description
         self.id = id
@@ -3369,8 +3280,7 @@ public struct UpdateExtensionInput: Swift.Sendable {
         extensionIdentifier: Swift.String? = nil,
         parameters: [Swift.String: AppConfigClientTypes.Parameter]? = nil,
         versionNumber: Swift.Int? = 0
-    )
-    {
+    ) {
         self.actions = actions
         self.description = description
         self.extensionIdentifier = extensionIdentifier
@@ -3403,8 +3313,7 @@ public struct UpdateExtensionOutput: Swift.Sendable {
         name: Swift.String? = nil,
         parameters: [Swift.String: AppConfigClientTypes.Parameter]? = nil,
         versionNumber: Swift.Int = 0
-    )
-    {
+    ) {
         self.actions = actions
         self.arn = arn
         self.description = description
@@ -3425,8 +3334,7 @@ public struct UpdateExtensionAssociationInput: Swift.Sendable {
     public init(
         extensionAssociationId: Swift.String? = nil,
         parameters: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.extensionAssociationId = extensionAssociationId
         self.parameters = parameters
     }
@@ -3453,8 +3361,7 @@ public struct UpdateExtensionAssociationOutput: Swift.Sendable {
         id: Swift.String? = nil,
         parameters: [Swift.String: Swift.String]? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.extensionArn = extensionArn
         self.extensionVersionNumber = extensionVersionNumber
@@ -3479,8 +3386,7 @@ public struct ValidateConfigurationInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         configurationProfileId: Swift.String? = nil,
         configurationVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.configurationProfileId = configurationProfileId
         self.configurationVersion = configurationVersion

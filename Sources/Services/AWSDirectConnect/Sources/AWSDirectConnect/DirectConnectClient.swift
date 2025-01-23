@@ -17,12 +17,14 @@ import class ClientRuntime.HttpClientConfiguration
 import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
+import class Smithy.Context
 import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
+import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
@@ -41,8 +43,8 @@ import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
+@_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
-import struct AWSClientRuntime.EndpointResolverMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
@@ -64,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DirectConnectClient: ClientRuntime.Client {
     public static let clientName = "DirectConnectClient"
-    public static let version = "1.0.40"
+    public static let version = "1.2.1"
     let client: ClientRuntime.SdkHttpClient
     let config: DirectConnectClient.DirectConnectClientConfiguration
     let serviceName = "Direct Connect"
@@ -86,58 +88,69 @@ public class DirectConnectClient: ClientRuntime.Client {
 }
 
 extension DirectConnectClient {
+
     public class DirectConnectClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
         public var useFIPS: Swift.Bool?
-
         public var useDualStack: Swift.Bool?
-
         public var appID: Swift.String?
-
         public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
-
         public var awsRetryMode: AWSClientRuntime.AWSRetryMode
-
         public var maxAttempts: Swift.Int?
-
+        public var requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var ignoreConfiguredEndpointURLs: Swift.Bool?
         public var region: Swift.String?
-
         public var signingRegion: Swift.String?
-
         public var endpointResolver: EndpointResolver
-
         public var telemetryProvider: ClientRuntime.TelemetryProvider
-
         public var retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions
-
         public var clientLogMode: ClientRuntime.ClientLogMode
-
         public var endpoint: Swift.String?
-
         public var idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator
-
         public var httpClientEngine: SmithyHTTPAPI.HTTPClient
-
         public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
-
         public var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
-
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
-
         public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
-
         public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
-
         public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-
         internal let logger: Smithy.LogAgent
 
-        private init(_ useFIPS: Swift.Bool?, _ useDualStack: Swift.Bool?, _ appID: Swift.String?, _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver, _ awsRetryMode: AWSClientRuntime.AWSRetryMode, _ maxAttempts: Swift.Int?, _ region: Swift.String?, _ signingRegion: Swift.String?, _ endpointResolver: EndpointResolver, _ telemetryProvider: ClientRuntime.TelemetryProvider, _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions, _ clientLogMode: ClientRuntime.ClientLogMode, _ endpoint: Swift.String?, _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator, _ httpClientEngine: SmithyHTTPAPI.HTTPClient, _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration, _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?, _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver, _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver, _ interceptorProviders: [ClientRuntime.InterceptorProvider], _ httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]) {
+        private init(
+            _ useFIPS: Swift.Bool?,
+            _ useDualStack: Swift.Bool?,
+            _ appID: Swift.String?,
+            _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver,
+            _ awsRetryMode: AWSClientRuntime.AWSRetryMode,
+            _ maxAttempts: Swift.Int?,
+            _ requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode,
+            _ responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode,
+            _ ignoreConfiguredEndpointURLs: Swift.Bool?,
+            _ region: Swift.String?,
+            _ signingRegion: Swift.String?,
+            _ endpointResolver: EndpointResolver,
+            _ telemetryProvider: ClientRuntime.TelemetryProvider,
+            _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions,
+            _ clientLogMode: ClientRuntime.ClientLogMode,
+            _ endpoint: Swift.String?,
+            _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator,
+            _ httpClientEngine: SmithyHTTPAPI.HTTPClient,
+            _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration,
+            _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?,
+            _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver,
+            _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver,
+            _ interceptorProviders: [ClientRuntime.InterceptorProvider],
+            _ httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
+        ) {
             self.useFIPS = useFIPS
             self.useDualStack = useDualStack
             self.appID = appID
             self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
             self.awsRetryMode = awsRetryMode
             self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = requestChecksumCalculation
+            self.responseChecksumValidation = responseChecksumValidation
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
             self.region = region
             self.signingRegion = signingRegion
             self.endpointResolver = endpointResolver
@@ -156,25 +169,176 @@ extension DirectConnectClient {
             self.logger = telemetryProvider.loggerProvider.getLogger(name: DirectConnectClient.clientName)
         }
 
-        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, maxAttempts: Swift.Int? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil, interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil, httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil) throws {
-            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), maxAttempts, region, signingRegion, try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(), endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(), httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(), authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()], authSchemeResolver ?? DefaultDirectConnectAuthSchemeResolver(), bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")), interceptorProviders ?? [], httpInterceptorProviders ?? [])
+        public convenience init(
+            useFIPS: Swift.Bool? = nil,
+            useDualStack: Swift.Bool? = nil,
+            appID: Swift.String? = nil,
+            awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
+            awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
+            maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            region: Swift.String? = nil,
+            signingRegion: Swift.String? = nil,
+            endpointResolver: EndpointResolver? = nil,
+            telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
+            retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
+            clientLogMode: ClientRuntime.ClientLogMode? = nil,
+            endpoint: Swift.String? = nil,
+            idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
+            httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
+            httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
+            authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
+        ) throws {
+            self.init(
+                useFIPS,
+                useDualStack,
+                try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
+                try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                maxAttempts,
+                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
+                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
+                ignoreConfiguredEndpointURLs,
+                region,
+                signingRegion,
+                try endpointResolver ?? DefaultEndpointResolver(),
+                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
+                try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
+                clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
+                endpoint,
+                idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemeResolver ?? DefaultDirectConnectAuthSchemeResolver(),
+                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                interceptorProviders ?? [],
+                httpInterceptorProviders ?? []
+            )
         }
 
-        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, maxAttempts: Swift.Int? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil, interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil, httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil) async throws {
-            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), maxAttempts, try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(), endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(), httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(), authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()], authSchemeResolver ?? DefaultDirectConnectAuthSchemeResolver(), bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")), interceptorProviders ?? [], httpInterceptorProviders ?? [])
+        public convenience init(
+            useFIPS: Swift.Bool? = nil,
+            useDualStack: Swift.Bool? = nil,
+            appID: Swift.String? = nil,
+            awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
+            awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
+            maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            region: Swift.String? = nil,
+            signingRegion: Swift.String? = nil,
+            endpointResolver: EndpointResolver? = nil,
+            telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
+            retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
+            clientLogMode: ClientRuntime.ClientLogMode? = nil,
+            endpoint: Swift.String? = nil,
+            idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
+            httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
+            httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
+            authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
+        ) async throws {
+            self.init(
+                useFIPS,
+                useDualStack,
+                try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
+                try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                maxAttempts,
+                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
+                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
+                ignoreConfiguredEndpointURLs,
+                try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
+                try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
+                try endpointResolver ?? DefaultEndpointResolver(),
+                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
+                try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
+                clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
+                endpoint,
+                idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemeResolver ?? DefaultDirectConnectAuthSchemeResolver(),
+                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                interceptorProviders ?? [],
+                httpInterceptorProviders ?? []
+            )
         }
 
         public convenience required init() async throws {
-            try await self.init(useFIPS: nil, useDualStack: nil, appID: nil, awsCredentialIdentityResolver: nil, awsRetryMode: nil, maxAttempts: nil, region: nil, signingRegion: nil, endpointResolver: nil, telemetryProvider: nil, retryStrategyOptions: nil, clientLogMode: nil, endpoint: nil, idempotencyTokenGenerator: nil, httpClientEngine: nil, httpClientConfiguration: nil, authSchemes: nil, authSchemeResolver: nil, bearerTokenIdentityResolver: nil, interceptorProviders: nil, httpInterceptorProviders: nil)
+            try await self.init(
+                useFIPS: nil,
+                useDualStack: nil,
+                appID: nil,
+                awsCredentialIdentityResolver: nil,
+                awsRetryMode: nil,
+                maxAttempts: nil,
+                requestChecksumCalculation: nil,
+                responseChecksumValidation: nil,
+                ignoreConfiguredEndpointURLs: nil,
+                region: nil,
+                signingRegion: nil,
+                endpointResolver: nil,
+                telemetryProvider: nil,
+                retryStrategyOptions: nil,
+                clientLogMode: nil,
+                endpoint: nil,
+                idempotencyTokenGenerator: nil,
+                httpClientEngine: nil,
+                httpClientConfiguration: nil,
+                authSchemes: nil,
+                authSchemeResolver: nil,
+                bearerTokenIdentityResolver: nil,
+                interceptorProviders: nil,
+                httpInterceptorProviders: nil
+            )
         }
 
-        public convenience init(region: String) throws {
-            self.init(nil, nil, try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(), try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), nil, region, region, try DefaultEndpointResolver(), ClientRuntime.DefaultTelemetry.provider, try AWSClientConfigDefaultsProvider.retryStrategyOptions(), AWSClientConfigDefaultsProvider.clientLogMode(), nil, AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), AWSClientConfigDefaultsProvider.httpClientEngine(), AWSClientConfigDefaultsProvider.httpClientConfiguration(), [AWSSDKHTTPAuth.SigV4AuthScheme()], DefaultDirectConnectAuthSchemeResolver(), SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")), [], [])
+        public convenience init(region: Swift.String) throws {
+            self.init(
+                nil,
+                nil,
+                try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(),
+                try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                nil,
+                try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
+                try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
+                nil,
+                region,
+                region,
+                try DefaultEndpointResolver(),
+                ClientRuntime.DefaultTelemetry.provider,
+                try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                AWSClientConfigDefaultsProvider.clientLogMode(),
+                nil,
+                AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                AWSClientConfigDefaultsProvider.httpClientEngine(),
+                AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                DefaultDirectConnectAuthSchemeResolver(),
+                SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                [],
+                []
+            )
         }
 
         public var partitionID: String? {
             return "\(DirectConnectClient.clientName) - \(region ?? "")"
         }
+
         public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
             self.interceptorProviders.append(provider)
         }
@@ -195,7 +359,7 @@ extension DirectConnectClient {
 }
 
 extension DirectConnectClient {
-    /// Performs the `AcceptDirectConnectGatewayAssociationProposal` operation on the `OvertureService` service.
+    /// Performs the `AcceptDirectConnectGatewayAssociationProposal` operation on the `DirectConnect` service.
     ///
     /// Accepts a proposal request to attach a virtual private gateway or transit gateway to a Direct Connect gateway.
     ///
@@ -224,6 +388,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -242,15 +408,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptDirectConnectGatewayAssociationProposalOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<AcceptDirectConnectGatewayAssociationProposalOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AcceptDirectConnectGatewayAssociationProposalInput, AcceptDirectConnectGatewayAssociationProposalOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AcceptDirectConnectGatewayAssociationProposalOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AcceptDirectConnectGatewayAssociationProposalInput, AcceptDirectConnectGatewayAssociationProposalOutput>(xAmzTarget: "OvertureService.AcceptDirectConnectGatewayAssociationProposal"))
         builder.serialize(ClientRuntime.BodyMiddleware<AcceptDirectConnectGatewayAssociationProposalInput, AcceptDirectConnectGatewayAssociationProposalOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AcceptDirectConnectGatewayAssociationProposalInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptDirectConnectGatewayAssociationProposalInput, AcceptDirectConnectGatewayAssociationProposalOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptDirectConnectGatewayAssociationProposalOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AcceptDirectConnectGatewayAssociationProposalInput, AcceptDirectConnectGatewayAssociationProposalOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AcceptDirectConnectGatewayAssociationProposalInput, AcceptDirectConnectGatewayAssociationProposalOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AcceptDirectConnectGatewayAssociationProposalInput, AcceptDirectConnectGatewayAssociationProposalOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AcceptDirectConnectGatewayAssociationProposal")
@@ -266,7 +435,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AllocateConnectionOnInterconnect` operation on the `OvertureService` service.
+    /// Performs the `AllocateConnectionOnInterconnect` operation on the `DirectConnect` service.
     ///
     /// Deprecated. Use [AllocateHostedConnection] instead. Creates a hosted connection on an interconnect. Allocates a VLAN number and a specified amount of bandwidth for use by a hosted connection on the specified interconnect. Intended for use by Direct Connect Partners only.
     @available(*, deprecated)
@@ -296,6 +465,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -314,15 +485,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AllocateConnectionOnInterconnectOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<AllocateConnectionOnInterconnectOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AllocateConnectionOnInterconnectInput, AllocateConnectionOnInterconnectOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AllocateConnectionOnInterconnectOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AllocateConnectionOnInterconnectInput, AllocateConnectionOnInterconnectOutput>(xAmzTarget: "OvertureService.AllocateConnectionOnInterconnect"))
         builder.serialize(ClientRuntime.BodyMiddleware<AllocateConnectionOnInterconnectInput, AllocateConnectionOnInterconnectOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AllocateConnectionOnInterconnectInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AllocateConnectionOnInterconnectInput, AllocateConnectionOnInterconnectOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AllocateConnectionOnInterconnectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AllocateConnectionOnInterconnectInput, AllocateConnectionOnInterconnectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AllocateConnectionOnInterconnectInput, AllocateConnectionOnInterconnectOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AllocateConnectionOnInterconnectInput, AllocateConnectionOnInterconnectOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AllocateConnectionOnInterconnect")
@@ -338,7 +512,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AllocateHostedConnection` operation on the `OvertureService` service.
+    /// Performs the `AllocateHostedConnection` operation on the `DirectConnect` service.
     ///
     /// Creates a hosted connection on the specified interconnect or a link aggregation group (LAG) of interconnects. Allocates a VLAN number and a specified amount of capacity (bandwidth) for use by a hosted connection on the specified interconnect or LAG of interconnects. Amazon Web Services polices the hosted connection for the specified capacity and the Direct Connect Partner must also police the hosted connection for the specified capacity. Intended for use by Direct Connect Partners only.
     ///
@@ -369,6 +543,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -387,15 +563,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AllocateHostedConnectionOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<AllocateHostedConnectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AllocateHostedConnectionInput, AllocateHostedConnectionOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AllocateHostedConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AllocateHostedConnectionInput, AllocateHostedConnectionOutput>(xAmzTarget: "OvertureService.AllocateHostedConnection"))
         builder.serialize(ClientRuntime.BodyMiddleware<AllocateHostedConnectionInput, AllocateHostedConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AllocateHostedConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AllocateHostedConnectionInput, AllocateHostedConnectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AllocateHostedConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AllocateHostedConnectionInput, AllocateHostedConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AllocateHostedConnectionInput, AllocateHostedConnectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AllocateHostedConnectionInput, AllocateHostedConnectionOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AllocateHostedConnection")
@@ -411,7 +590,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AllocatePrivateVirtualInterface` operation on the `OvertureService` service.
+    /// Performs the `AllocatePrivateVirtualInterface` operation on the `DirectConnect` service.
     ///
     /// Provisions a private virtual interface to be owned by the specified Amazon Web Services account. Virtual interfaces created using this action must be confirmed by the owner using [ConfirmPrivateVirtualInterface]. Until then, the virtual interface is in the Confirming state and is not available to handle traffic.
     ///
@@ -442,6 +621,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -460,15 +641,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AllocatePrivateVirtualInterfaceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<AllocatePrivateVirtualInterfaceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AllocatePrivateVirtualInterfaceInput, AllocatePrivateVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AllocatePrivateVirtualInterfaceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AllocatePrivateVirtualInterfaceInput, AllocatePrivateVirtualInterfaceOutput>(xAmzTarget: "OvertureService.AllocatePrivateVirtualInterface"))
         builder.serialize(ClientRuntime.BodyMiddleware<AllocatePrivateVirtualInterfaceInput, AllocatePrivateVirtualInterfaceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AllocatePrivateVirtualInterfaceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AllocatePrivateVirtualInterfaceInput, AllocatePrivateVirtualInterfaceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AllocatePrivateVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AllocatePrivateVirtualInterfaceInput, AllocatePrivateVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AllocatePrivateVirtualInterfaceInput, AllocatePrivateVirtualInterfaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AllocatePrivateVirtualInterfaceInput, AllocatePrivateVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AllocatePrivateVirtualInterface")
@@ -484,7 +668,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AllocatePublicVirtualInterface` operation on the `OvertureService` service.
+    /// Performs the `AllocatePublicVirtualInterface` operation on the `DirectConnect` service.
     ///
     /// Provisions a public virtual interface to be owned by the specified Amazon Web Services account. The owner of a connection calls this function to provision a public virtual interface to be owned by the specified Amazon Web Services account. Virtual interfaces created using this function must be confirmed by the owner using [ConfirmPublicVirtualInterface]. Until this step has been completed, the virtual interface is in the confirming state and is not available to handle traffic. When creating an IPv6 public virtual interface, omit the Amazon address and customer address. IPv6 addresses are automatically assigned from the Amazon pool of IPv6 addresses; you cannot specify custom IPv6 addresses.
     ///
@@ -515,6 +699,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -533,15 +719,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AllocatePublicVirtualInterfaceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<AllocatePublicVirtualInterfaceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AllocatePublicVirtualInterfaceInput, AllocatePublicVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AllocatePublicVirtualInterfaceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AllocatePublicVirtualInterfaceInput, AllocatePublicVirtualInterfaceOutput>(xAmzTarget: "OvertureService.AllocatePublicVirtualInterface"))
         builder.serialize(ClientRuntime.BodyMiddleware<AllocatePublicVirtualInterfaceInput, AllocatePublicVirtualInterfaceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AllocatePublicVirtualInterfaceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AllocatePublicVirtualInterfaceInput, AllocatePublicVirtualInterfaceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AllocatePublicVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AllocatePublicVirtualInterfaceInput, AllocatePublicVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AllocatePublicVirtualInterfaceInput, AllocatePublicVirtualInterfaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AllocatePublicVirtualInterfaceInput, AllocatePublicVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AllocatePublicVirtualInterface")
@@ -557,7 +746,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AllocateTransitVirtualInterface` operation on the `OvertureService` service.
+    /// Performs the `AllocateTransitVirtualInterface` operation on the `DirectConnect` service.
     ///
     /// Provisions a transit virtual interface to be owned by the specified Amazon Web Services account. Use this type of interface to connect a transit gateway to your Direct Connect gateway. The owner of a connection provisions a transit virtual interface to be owned by the specified Amazon Web Services account. After you create a transit virtual interface, it must be confirmed by the owner using [ConfirmTransitVirtualInterface]. Until this step has been completed, the transit virtual interface is in the requested state and is not available to handle traffic.
     ///
@@ -588,6 +777,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -606,15 +797,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AllocateTransitVirtualInterfaceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<AllocateTransitVirtualInterfaceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AllocateTransitVirtualInterfaceInput, AllocateTransitVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AllocateTransitVirtualInterfaceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AllocateTransitVirtualInterfaceInput, AllocateTransitVirtualInterfaceOutput>(xAmzTarget: "OvertureService.AllocateTransitVirtualInterface"))
         builder.serialize(ClientRuntime.BodyMiddleware<AllocateTransitVirtualInterfaceInput, AllocateTransitVirtualInterfaceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AllocateTransitVirtualInterfaceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AllocateTransitVirtualInterfaceInput, AllocateTransitVirtualInterfaceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AllocateTransitVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AllocateTransitVirtualInterfaceInput, AllocateTransitVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AllocateTransitVirtualInterfaceInput, AllocateTransitVirtualInterfaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AllocateTransitVirtualInterfaceInput, AllocateTransitVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AllocateTransitVirtualInterface")
@@ -630,7 +824,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateConnectionWithLag` operation on the `OvertureService` service.
+    /// Performs the `AssociateConnectionWithLag` operation on the `DirectConnect` service.
     ///
     /// Associates an existing connection with a link aggregation group (LAG). The connection is interrupted and re-established as a member of the LAG (connectivity to Amazon Web Services is interrupted). The connection must be hosted on the same Direct Connect endpoint as the LAG, and its bandwidth must match the bandwidth for the LAG. You can re-associate a connection that's currently associated with a different LAG; however, if removing the connection would cause the original LAG to fall below its setting for minimum number of operational connections, the request fails. Any virtual interfaces that are directly associated with the connection are automatically re-associated with the LAG. If the connection was originally associated with a different LAG, the virtual interfaces remain associated with the original LAG. For interconnects, any hosted connections are automatically re-associated with the LAG. If the interconnect was originally associated with a different LAG, the hosted connections remain associated with the original LAG.
     ///
@@ -659,6 +853,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -677,15 +873,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateConnectionWithLagOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<AssociateConnectionWithLagOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateConnectionWithLagInput, AssociateConnectionWithLagOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateConnectionWithLagOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateConnectionWithLagInput, AssociateConnectionWithLagOutput>(xAmzTarget: "OvertureService.AssociateConnectionWithLag"))
         builder.serialize(ClientRuntime.BodyMiddleware<AssociateConnectionWithLagInput, AssociateConnectionWithLagOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateConnectionWithLagInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateConnectionWithLagInput, AssociateConnectionWithLagOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateConnectionWithLagOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateConnectionWithLagInput, AssociateConnectionWithLagOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateConnectionWithLagInput, AssociateConnectionWithLagOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateConnectionWithLagInput, AssociateConnectionWithLagOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateConnectionWithLag")
@@ -701,7 +900,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateHostedConnection` operation on the `OvertureService` service.
+    /// Performs the `AssociateHostedConnection` operation on the `DirectConnect` service.
     ///
     /// Associates a hosted connection and its virtual interfaces with a link aggregation group (LAG) or interconnect. If the target interconnect or LAG has an existing hosted connection with a conflicting VLAN number or IP address, the operation fails. This action temporarily interrupts the hosted connection's connectivity to Amazon Web Services as it is being migrated. Intended for use by Direct Connect Partners only.
     ///
@@ -730,6 +929,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -748,15 +949,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateHostedConnectionOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<AssociateHostedConnectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateHostedConnectionInput, AssociateHostedConnectionOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateHostedConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateHostedConnectionInput, AssociateHostedConnectionOutput>(xAmzTarget: "OvertureService.AssociateHostedConnection"))
         builder.serialize(ClientRuntime.BodyMiddleware<AssociateHostedConnectionInput, AssociateHostedConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateHostedConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateHostedConnectionInput, AssociateHostedConnectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateHostedConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateHostedConnectionInput, AssociateHostedConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateHostedConnectionInput, AssociateHostedConnectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateHostedConnectionInput, AssociateHostedConnectionOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateHostedConnection")
@@ -772,7 +976,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateMacSecKey` operation on the `OvertureService` service.
+    /// Performs the `AssociateMacSecKey` operation on the `DirectConnect` service.
     ///
     /// Associates a MAC Security (MACsec) Connection Key Name (CKN)/ Connectivity Association Key (CAK) pair with an Direct Connect dedicated connection. You must supply either the secretARN, or the CKN/CAK (ckn and cak) pair in the request. For information about MAC Security (MACsec) key considerations, see [MACsec pre-shared CKN/CAK key considerations ](https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-mac-sec-getting-started.html#mac-sec-key-consideration) in the Direct Connect User Guide.
     ///
@@ -801,6 +1005,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -819,15 +1025,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateMacSecKeyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<AssociateMacSecKeyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateMacSecKeyInput, AssociateMacSecKeyOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateMacSecKeyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateMacSecKeyInput, AssociateMacSecKeyOutput>(xAmzTarget: "OvertureService.AssociateMacSecKey"))
         builder.serialize(ClientRuntime.BodyMiddleware<AssociateMacSecKeyInput, AssociateMacSecKeyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateMacSecKeyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateMacSecKeyInput, AssociateMacSecKeyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateMacSecKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateMacSecKeyInput, AssociateMacSecKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateMacSecKeyInput, AssociateMacSecKeyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateMacSecKeyInput, AssociateMacSecKeyOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateMacSecKey")
@@ -843,7 +1052,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `AssociateVirtualInterface` operation on the `OvertureService` service.
+    /// Performs the `AssociateVirtualInterface` operation on the `DirectConnect` service.
     ///
     /// Associates a virtual interface with a specified link aggregation group (LAG) or connection. Connectivity to Amazon Web Services is temporarily interrupted as the virtual interface is being migrated. If the target connection or LAG has an associated virtual interface with a conflicting VLAN number or a conflicting IP address, the operation fails. Virtual interfaces associated with a hosted connection cannot be associated with a LAG; hosted connections must be migrated along with their virtual interfaces using [AssociateHostedConnection]. To reassociate a virtual interface to a new connection or LAG, the requester must own either the virtual interface itself or the connection to which the virtual interface is currently associated. Additionally, the requester must own the connection or LAG for the association.
     ///
@@ -872,6 +1081,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -890,15 +1101,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateVirtualInterfaceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<AssociateVirtualInterfaceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateVirtualInterfaceInput, AssociateVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateVirtualInterfaceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateVirtualInterfaceInput, AssociateVirtualInterfaceOutput>(xAmzTarget: "OvertureService.AssociateVirtualInterface"))
         builder.serialize(ClientRuntime.BodyMiddleware<AssociateVirtualInterfaceInput, AssociateVirtualInterfaceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateVirtualInterfaceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateVirtualInterfaceInput, AssociateVirtualInterfaceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateVirtualInterfaceInput, AssociateVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateVirtualInterfaceInput, AssociateVirtualInterfaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateVirtualInterfaceInput, AssociateVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateVirtualInterface")
@@ -914,7 +1128,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ConfirmConnection` operation on the `OvertureService` service.
+    /// Performs the `ConfirmConnection` operation on the `DirectConnect` service.
     ///
     /// Confirms the creation of the specified hosted connection on an interconnect. Upon creation, the hosted connection is initially in the Ordering state, and remains in this state until the owner confirms creation of the hosted connection.
     ///
@@ -943,6 +1157,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -961,15 +1177,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConfirmConnectionOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ConfirmConnectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ConfirmConnectionInput, ConfirmConnectionOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ConfirmConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ConfirmConnectionInput, ConfirmConnectionOutput>(xAmzTarget: "OvertureService.ConfirmConnection"))
         builder.serialize(ClientRuntime.BodyMiddleware<ConfirmConnectionInput, ConfirmConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ConfirmConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ConfirmConnectionInput, ConfirmConnectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ConfirmConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ConfirmConnectionInput, ConfirmConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ConfirmConnectionInput, ConfirmConnectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ConfirmConnectionInput, ConfirmConnectionOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ConfirmConnection")
@@ -985,7 +1204,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ConfirmCustomerAgreement` operation on the `OvertureService` service.
+    /// Performs the `ConfirmCustomerAgreement` operation on the `DirectConnect` service.
     ///
     /// The confirmation of the terms of agreement when creating the connection/link aggregation group (LAG).
     ///
@@ -1014,6 +1233,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1032,15 +1253,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConfirmCustomerAgreementOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ConfirmCustomerAgreementOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ConfirmCustomerAgreementInput, ConfirmCustomerAgreementOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ConfirmCustomerAgreementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ConfirmCustomerAgreementInput, ConfirmCustomerAgreementOutput>(xAmzTarget: "OvertureService.ConfirmCustomerAgreement"))
         builder.serialize(ClientRuntime.BodyMiddleware<ConfirmCustomerAgreementInput, ConfirmCustomerAgreementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ConfirmCustomerAgreementInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ConfirmCustomerAgreementInput, ConfirmCustomerAgreementOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ConfirmCustomerAgreementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ConfirmCustomerAgreementInput, ConfirmCustomerAgreementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ConfirmCustomerAgreementInput, ConfirmCustomerAgreementOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ConfirmCustomerAgreementInput, ConfirmCustomerAgreementOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ConfirmCustomerAgreement")
@@ -1056,7 +1280,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ConfirmPrivateVirtualInterface` operation on the `OvertureService` service.
+    /// Performs the `ConfirmPrivateVirtualInterface` operation on the `DirectConnect` service.
     ///
     /// Accepts ownership of a private virtual interface created by another Amazon Web Services account. After the virtual interface owner makes this call, the virtual interface is created and attached to the specified virtual private gateway or Direct Connect gateway, and is made available to handle traffic.
     ///
@@ -1085,6 +1309,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1103,15 +1329,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConfirmPrivateVirtualInterfaceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ConfirmPrivateVirtualInterfaceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ConfirmPrivateVirtualInterfaceInput, ConfirmPrivateVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ConfirmPrivateVirtualInterfaceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ConfirmPrivateVirtualInterfaceInput, ConfirmPrivateVirtualInterfaceOutput>(xAmzTarget: "OvertureService.ConfirmPrivateVirtualInterface"))
         builder.serialize(ClientRuntime.BodyMiddleware<ConfirmPrivateVirtualInterfaceInput, ConfirmPrivateVirtualInterfaceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ConfirmPrivateVirtualInterfaceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ConfirmPrivateVirtualInterfaceInput, ConfirmPrivateVirtualInterfaceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ConfirmPrivateVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ConfirmPrivateVirtualInterfaceInput, ConfirmPrivateVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ConfirmPrivateVirtualInterfaceInput, ConfirmPrivateVirtualInterfaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ConfirmPrivateVirtualInterfaceInput, ConfirmPrivateVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ConfirmPrivateVirtualInterface")
@@ -1127,7 +1356,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ConfirmPublicVirtualInterface` operation on the `OvertureService` service.
+    /// Performs the `ConfirmPublicVirtualInterface` operation on the `DirectConnect` service.
     ///
     /// Accepts ownership of a public virtual interface created by another Amazon Web Services account. After the virtual interface owner makes this call, the specified virtual interface is created and made available to handle traffic.
     ///
@@ -1156,6 +1385,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1174,15 +1405,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConfirmPublicVirtualInterfaceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ConfirmPublicVirtualInterfaceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ConfirmPublicVirtualInterfaceInput, ConfirmPublicVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ConfirmPublicVirtualInterfaceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ConfirmPublicVirtualInterfaceInput, ConfirmPublicVirtualInterfaceOutput>(xAmzTarget: "OvertureService.ConfirmPublicVirtualInterface"))
         builder.serialize(ClientRuntime.BodyMiddleware<ConfirmPublicVirtualInterfaceInput, ConfirmPublicVirtualInterfaceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ConfirmPublicVirtualInterfaceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ConfirmPublicVirtualInterfaceInput, ConfirmPublicVirtualInterfaceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ConfirmPublicVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ConfirmPublicVirtualInterfaceInput, ConfirmPublicVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ConfirmPublicVirtualInterfaceInput, ConfirmPublicVirtualInterfaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ConfirmPublicVirtualInterfaceInput, ConfirmPublicVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ConfirmPublicVirtualInterface")
@@ -1198,7 +1432,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ConfirmTransitVirtualInterface` operation on the `OvertureService` service.
+    /// Performs the `ConfirmTransitVirtualInterface` operation on the `DirectConnect` service.
     ///
     /// Accepts ownership of a transit virtual interface created by another Amazon Web Services account. After the owner of the transit virtual interface makes this call, the specified transit virtual interface is created and made available to handle traffic.
     ///
@@ -1227,6 +1461,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1245,15 +1481,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConfirmTransitVirtualInterfaceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ConfirmTransitVirtualInterfaceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ConfirmTransitVirtualInterfaceInput, ConfirmTransitVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ConfirmTransitVirtualInterfaceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ConfirmTransitVirtualInterfaceInput, ConfirmTransitVirtualInterfaceOutput>(xAmzTarget: "OvertureService.ConfirmTransitVirtualInterface"))
         builder.serialize(ClientRuntime.BodyMiddleware<ConfirmTransitVirtualInterfaceInput, ConfirmTransitVirtualInterfaceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ConfirmTransitVirtualInterfaceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ConfirmTransitVirtualInterfaceInput, ConfirmTransitVirtualInterfaceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ConfirmTransitVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ConfirmTransitVirtualInterfaceInput, ConfirmTransitVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ConfirmTransitVirtualInterfaceInput, ConfirmTransitVirtualInterfaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ConfirmTransitVirtualInterfaceInput, ConfirmTransitVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ConfirmTransitVirtualInterface")
@@ -1269,7 +1508,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateBGPPeer` operation on the `OvertureService` service.
+    /// Performs the `CreateBGPPeer` operation on the `DirectConnect` service.
     ///
     /// Creates a BGP peer on the specified virtual interface. You must create a BGP peer for the corresponding address family (IPv4/IPv6) in order to access Amazon Web Services resources that also use that address family. If logical redundancy is not supported by the connection, interconnect, or LAG, the BGP peer cannot be in the same address family as an existing BGP peer on the virtual interface. When creating a IPv6 BGP peer, omit the Amazon address and customer address. IPv6 addresses are automatically assigned from the Amazon pool of IPv6 addresses; you cannot specify custom IPv6 addresses. If you let Amazon Web Services auto-assign IPv4 addresses, a /30 CIDR will be allocated from 169.254.0.0/16. Amazon Web Services does not recommend this option if you intend to use the customer router peer IP address as the source and destination for traffic. Instead you should use RFC 1918 or other addressing, and specify the address yourself. For more information about RFC 1918 see [ Address Allocation for Private Internets](https://datatracker.ietf.org/doc/html/rfc1918). For a public virtual interface, the Autonomous System Number (ASN) must be private or already on the allow list for the virtual interface.
     ///
@@ -1298,6 +1537,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1316,15 +1557,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBGPPeerOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateBGPPeerOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateBGPPeerInput, CreateBGPPeerOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateBGPPeerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateBGPPeerInput, CreateBGPPeerOutput>(xAmzTarget: "OvertureService.CreateBGPPeer"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateBGPPeerInput, CreateBGPPeerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateBGPPeerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBGPPeerInput, CreateBGPPeerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateBGPPeerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateBGPPeerInput, CreateBGPPeerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateBGPPeerInput, CreateBGPPeerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateBGPPeerInput, CreateBGPPeerOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateBGPPeer")
@@ -1340,7 +1584,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateConnection` operation on the `OvertureService` service.
+    /// Performs the `CreateConnection` operation on the `DirectConnect` service.
     ///
     /// Creates a connection between a customer network and a specific Direct Connect location. A connection links your internal network to an Direct Connect location over a standard Ethernet fiber-optic cable. One end of the cable is connected to your router, the other to an Direct Connect router. To find the locations for your Region, use [DescribeLocations]. You can automatically add the new connection to a link aggregation group (LAG) by specifying a LAG ID in the request. This ensures that the new connection is allocated on the same Direct Connect endpoint that hosts the specified LAG. If there are no available ports on the endpoint, the request fails and no connection is created.
     ///
@@ -1371,6 +1615,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1389,15 +1635,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConnectionOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateConnectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateConnectionInput, CreateConnectionOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateConnectionInput, CreateConnectionOutput>(xAmzTarget: "OvertureService.CreateConnection"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateConnectionInput, CreateConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateConnectionInput, CreateConnectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateConnectionInput, CreateConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateConnectionInput, CreateConnectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateConnectionInput, CreateConnectionOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateConnection")
@@ -1413,7 +1662,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDirectConnectGateway` operation on the `OvertureService` service.
+    /// Performs the `CreateDirectConnectGateway` operation on the `DirectConnect` service.
     ///
     /// Creates a Direct Connect gateway, which is an intermediate object that enables you to connect a set of virtual interfaces and virtual private gateways. A Direct Connect gateway is global and visible in any Amazon Web Services Region after it is created. The virtual interfaces and virtual private gateways that are connected through a Direct Connect gateway can be in different Amazon Web Services Regions. This enables you to connect to a VPC in any Region, regardless of the Region in which the virtual interfaces are located, and pass traffic between them.
     ///
@@ -1442,6 +1691,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1460,15 +1711,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDirectConnectGatewayOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateDirectConnectGatewayOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDirectConnectGatewayInput, CreateDirectConnectGatewayOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDirectConnectGatewayOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateDirectConnectGatewayInput, CreateDirectConnectGatewayOutput>(xAmzTarget: "OvertureService.CreateDirectConnectGateway"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateDirectConnectGatewayInput, CreateDirectConnectGatewayOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDirectConnectGatewayInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDirectConnectGatewayInput, CreateDirectConnectGatewayOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDirectConnectGatewayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDirectConnectGatewayInput, CreateDirectConnectGatewayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDirectConnectGatewayInput, CreateDirectConnectGatewayOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDirectConnectGatewayInput, CreateDirectConnectGatewayOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateDirectConnectGateway")
@@ -1484,7 +1738,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDirectConnectGatewayAssociation` operation on the `OvertureService` service.
+    /// Performs the `CreateDirectConnectGatewayAssociation` operation on the `DirectConnect` service.
     ///
     /// Creates an association between a Direct Connect gateway and a virtual private gateway. The virtual private gateway must be attached to a VPC and must not be associated with another Direct Connect gateway.
     ///
@@ -1513,6 +1767,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1531,15 +1787,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDirectConnectGatewayAssociationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateDirectConnectGatewayAssociationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDirectConnectGatewayAssociationInput, CreateDirectConnectGatewayAssociationOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDirectConnectGatewayAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateDirectConnectGatewayAssociationInput, CreateDirectConnectGatewayAssociationOutput>(xAmzTarget: "OvertureService.CreateDirectConnectGatewayAssociation"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateDirectConnectGatewayAssociationInput, CreateDirectConnectGatewayAssociationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDirectConnectGatewayAssociationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDirectConnectGatewayAssociationInput, CreateDirectConnectGatewayAssociationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDirectConnectGatewayAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDirectConnectGatewayAssociationInput, CreateDirectConnectGatewayAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDirectConnectGatewayAssociationInput, CreateDirectConnectGatewayAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDirectConnectGatewayAssociationInput, CreateDirectConnectGatewayAssociationOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateDirectConnectGatewayAssociation")
@@ -1555,7 +1814,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateDirectConnectGatewayAssociationProposal` operation on the `OvertureService` service.
+    /// Performs the `CreateDirectConnectGatewayAssociationProposal` operation on the `DirectConnect` service.
     ///
     /// Creates a proposal to associate the specified virtual private gateway or transit gateway with the specified Direct Connect gateway. You can associate a Direct Connect gateway and virtual private gateway or transit gateway that is owned by any Amazon Web Services account.
     ///
@@ -1584,6 +1843,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1602,15 +1863,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDirectConnectGatewayAssociationProposalOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateDirectConnectGatewayAssociationProposalOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDirectConnectGatewayAssociationProposalInput, CreateDirectConnectGatewayAssociationProposalOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDirectConnectGatewayAssociationProposalOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateDirectConnectGatewayAssociationProposalInput, CreateDirectConnectGatewayAssociationProposalOutput>(xAmzTarget: "OvertureService.CreateDirectConnectGatewayAssociationProposal"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateDirectConnectGatewayAssociationProposalInput, CreateDirectConnectGatewayAssociationProposalOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDirectConnectGatewayAssociationProposalInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDirectConnectGatewayAssociationProposalInput, CreateDirectConnectGatewayAssociationProposalOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDirectConnectGatewayAssociationProposalOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDirectConnectGatewayAssociationProposalInput, CreateDirectConnectGatewayAssociationProposalOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDirectConnectGatewayAssociationProposalInput, CreateDirectConnectGatewayAssociationProposalOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDirectConnectGatewayAssociationProposalInput, CreateDirectConnectGatewayAssociationProposalOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateDirectConnectGatewayAssociationProposal")
@@ -1626,7 +1890,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateInterconnect` operation on the `OvertureService` service.
+    /// Performs the `CreateInterconnect` operation on the `DirectConnect` service.
     ///
     /// Creates an interconnect between an Direct Connect Partner's network and a specific Direct Connect location. An interconnect is a connection that is capable of hosting other connections. The Direct Connect Partner can use an interconnect to provide Direct Connect hosted connections to customers through their own network services. Like a standard connection, an interconnect links the partner's network to an Direct Connect location over a standard Ethernet fiber-optic cable. One end is connected to the partner's router, the other to an Direct Connect router. You can automatically add the new interconnect to a link aggregation group (LAG) by specifying a LAG ID in the request. This ensures that the new interconnect is allocated on the same Direct Connect endpoint that hosts the specified LAG. If there are no available ports on the endpoint, the request fails and no interconnect is created. For each end customer, the Direct Connect Partner provisions a connection on their interconnect by calling [AllocateHostedConnection]. The end customer can then connect to Amazon Web Services resources by creating a virtual interface on their connection, using the VLAN assigned to them by the Direct Connect Partner. Intended for use by Direct Connect Partners only.
     ///
@@ -1657,6 +1921,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1675,15 +1941,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInterconnectOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateInterconnectOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateInterconnectInput, CreateInterconnectOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateInterconnectOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateInterconnectInput, CreateInterconnectOutput>(xAmzTarget: "OvertureService.CreateInterconnect"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateInterconnectInput, CreateInterconnectOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateInterconnectInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateInterconnectInput, CreateInterconnectOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateInterconnectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateInterconnectInput, CreateInterconnectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateInterconnectInput, CreateInterconnectOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateInterconnectInput, CreateInterconnectOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateInterconnect")
@@ -1699,7 +1968,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateLag` operation on the `OvertureService` service.
+    /// Performs the `CreateLag` operation on the `DirectConnect` service.
     ///
     /// Creates a link aggregation group (LAG) with the specified number of bundled physical dedicated connections between the customer network and a specific Direct Connect location. A LAG is a logical interface that uses the Link Aggregation Control Protocol (LACP) to aggregate multiple interfaces, enabling you to treat them as a single interface. All connections in a LAG must use the same bandwidth (either 1Gbps, 10Gbps, 100Gbps, or 400Gbps) and must terminate at the same Direct Connect endpoint. You can have up to 10 dedicated connections per location. Regardless of this limit, if you request more connections for the LAG than Direct Connect can allocate on a single endpoint, no LAG is created.. You can specify an existing physical dedicated connection or interconnect to include in the LAG (which counts towards the total number of connections). Doing so interrupts the current physical dedicated connection, and re-establishes them as a member of the LAG. The LAG will be created on the same Direct Connect endpoint to which the dedicated connection terminates. Any virtual interfaces associated with the dedicated connection are automatically disassociated and re-associated with the LAG. The connection ID does not change. If the Amazon Web Services account used to create a LAG is a registered Direct Connect Partner, the LAG is automatically enabled to host sub-connections. For a LAG owned by a partner, any associated virtual interfaces cannot be directly configured.
     ///
@@ -1730,6 +1999,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1748,15 +2019,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLagOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateLagOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateLagInput, CreateLagOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLagOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateLagInput, CreateLagOutput>(xAmzTarget: "OvertureService.CreateLag"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateLagInput, CreateLagOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateLagInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLagInput, CreateLagOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLagOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateLagInput, CreateLagOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateLagInput, CreateLagOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateLagInput, CreateLagOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateLag")
@@ -1772,7 +2046,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePrivateVirtualInterface` operation on the `OvertureService` service.
+    /// Performs the `CreatePrivateVirtualInterface` operation on the `DirectConnect` service.
     ///
     /// Creates a private virtual interface. A virtual interface is the VLAN that transports Direct Connect traffic. A private virtual interface can be connected to either a Direct Connect gateway or a Virtual Private Gateway (VGW). Connecting the private virtual interface to a Direct Connect gateway enables the possibility for connecting to multiple VPCs, including VPCs in different Amazon Web Services Regions. Connecting the private virtual interface to a VGW only provides access to a single VPC within the same Region. Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating the connection disrupts network connectivity for all virtual interfaces associated with the connection for up to 30 seconds. To check whether your connection supports jumbo frames, call [DescribeConnections]. To check whether your virtual interface supports jumbo frames, call [DescribeVirtualInterfaces].
     ///
@@ -1803,6 +2077,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1821,15 +2097,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePrivateVirtualInterfaceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreatePrivateVirtualInterfaceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePrivateVirtualInterfaceInput, CreatePrivateVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePrivateVirtualInterfaceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreatePrivateVirtualInterfaceInput, CreatePrivateVirtualInterfaceOutput>(xAmzTarget: "OvertureService.CreatePrivateVirtualInterface"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreatePrivateVirtualInterfaceInput, CreatePrivateVirtualInterfaceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePrivateVirtualInterfaceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePrivateVirtualInterfaceInput, CreatePrivateVirtualInterfaceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePrivateVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePrivateVirtualInterfaceInput, CreatePrivateVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreatePrivateVirtualInterfaceInput, CreatePrivateVirtualInterfaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePrivateVirtualInterfaceInput, CreatePrivateVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreatePrivateVirtualInterface")
@@ -1845,7 +2124,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreatePublicVirtualInterface` operation on the `OvertureService` service.
+    /// Performs the `CreatePublicVirtualInterface` operation on the `DirectConnect` service.
     ///
     /// Creates a public virtual interface. A virtual interface is the VLAN that transports Direct Connect traffic. A public virtual interface supports sending traffic to public services of Amazon Web Services such as Amazon S3. When creating an IPv6 public virtual interface (addressFamily is ipv6), leave the customer and amazon address fields blank to use auto-assigned IPv6 space. Custom IPv6 addresses are not supported.
     ///
@@ -1876,6 +2155,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1894,15 +2175,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePublicVirtualInterfaceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreatePublicVirtualInterfaceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePublicVirtualInterfaceInput, CreatePublicVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePublicVirtualInterfaceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreatePublicVirtualInterfaceInput, CreatePublicVirtualInterfaceOutput>(xAmzTarget: "OvertureService.CreatePublicVirtualInterface"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreatePublicVirtualInterfaceInput, CreatePublicVirtualInterfaceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePublicVirtualInterfaceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePublicVirtualInterfaceInput, CreatePublicVirtualInterfaceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePublicVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePublicVirtualInterfaceInput, CreatePublicVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreatePublicVirtualInterfaceInput, CreatePublicVirtualInterfaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePublicVirtualInterfaceInput, CreatePublicVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreatePublicVirtualInterface")
@@ -1918,7 +2202,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTransitVirtualInterface` operation on the `OvertureService` service.
+    /// Performs the `CreateTransitVirtualInterface` operation on the `DirectConnect` service.
     ///
     /// Creates a transit virtual interface. A transit virtual interface should be used to access one or more transit gateways associated with Direct Connect gateways. A transit virtual interface enables the connection of multiple VPCs attached to a transit gateway to a Direct Connect gateway. If you associate your transit gateway with one or more Direct Connect gateways, the Autonomous System Number (ASN) used by the transit gateway and the Direct Connect gateway must be different. For example, if you use the default ASN 64512 for both your the transit gateway and Direct Connect gateway, the association request fails. A jumbo MTU value must be either 1500 or 8500. No other values will be accepted. Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating the connection disrupts network connectivity for all virtual interfaces associated with the connection for up to 30 seconds. To check whether your connection supports jumbo frames, call [DescribeConnections]. To check whether your virtual interface supports jumbo frames, call [DescribeVirtualInterfaces].
     ///
@@ -1949,6 +2233,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1967,15 +2253,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTransitVirtualInterfaceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateTransitVirtualInterfaceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateTransitVirtualInterfaceInput, CreateTransitVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateTransitVirtualInterfaceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateTransitVirtualInterfaceInput, CreateTransitVirtualInterfaceOutput>(xAmzTarget: "OvertureService.CreateTransitVirtualInterface"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateTransitVirtualInterfaceInput, CreateTransitVirtualInterfaceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTransitVirtualInterfaceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTransitVirtualInterfaceInput, CreateTransitVirtualInterfaceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTransitVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateTransitVirtualInterfaceInput, CreateTransitVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateTransitVirtualInterfaceInput, CreateTransitVirtualInterfaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateTransitVirtualInterfaceInput, CreateTransitVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateTransitVirtualInterface")
@@ -1991,7 +2280,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteBGPPeer` operation on the `OvertureService` service.
+    /// Performs the `DeleteBGPPeer` operation on the `DirectConnect` service.
     ///
     /// Deletes the specified BGP peer on the specified virtual interface with the specified customer address and ASN. You cannot delete the last BGP peer from a virtual interface.
     ///
@@ -2020,6 +2309,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2038,15 +2329,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBGPPeerOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteBGPPeerOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteBGPPeerInput, DeleteBGPPeerOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteBGPPeerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteBGPPeerInput, DeleteBGPPeerOutput>(xAmzTarget: "OvertureService.DeleteBGPPeer"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteBGPPeerInput, DeleteBGPPeerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteBGPPeerInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBGPPeerInput, DeleteBGPPeerOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteBGPPeerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteBGPPeerInput, DeleteBGPPeerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteBGPPeerInput, DeleteBGPPeerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteBGPPeerInput, DeleteBGPPeerOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteBGPPeer")
@@ -2062,7 +2356,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConnection` operation on the `OvertureService` service.
+    /// Performs the `DeleteConnection` operation on the `DirectConnect` service.
     ///
     /// Deletes the specified connection. Deleting a connection only stops the Direct Connect port hour and data transfer charges. If you are partnering with any third parties to connect with the Direct Connect location, you must cancel your service with them separately.
     ///
@@ -2091,6 +2385,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2109,15 +2405,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConnectionOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteConnectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(xAmzTarget: "OvertureService.DeleteConnection"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteConnectionInput, DeleteConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteConnectionInput, DeleteConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteConnection")
@@ -2133,7 +2432,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDirectConnectGateway` operation on the `OvertureService` service.
+    /// Performs the `DeleteDirectConnectGateway` operation on the `DirectConnect` service.
     ///
     /// Deletes the specified Direct Connect gateway. You must first delete all virtual interfaces that are attached to the Direct Connect gateway and disassociate all virtual private gateways associated with the Direct Connect gateway.
     ///
@@ -2162,6 +2461,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2180,15 +2481,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDirectConnectGatewayOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteDirectConnectGatewayOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDirectConnectGatewayInput, DeleteDirectConnectGatewayOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDirectConnectGatewayOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDirectConnectGatewayInput, DeleteDirectConnectGatewayOutput>(xAmzTarget: "OvertureService.DeleteDirectConnectGateway"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDirectConnectGatewayInput, DeleteDirectConnectGatewayOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDirectConnectGatewayInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDirectConnectGatewayInput, DeleteDirectConnectGatewayOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDirectConnectGatewayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDirectConnectGatewayInput, DeleteDirectConnectGatewayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDirectConnectGatewayInput, DeleteDirectConnectGatewayOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDirectConnectGatewayInput, DeleteDirectConnectGatewayOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteDirectConnectGateway")
@@ -2204,7 +2508,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDirectConnectGatewayAssociation` operation on the `OvertureService` service.
+    /// Performs the `DeleteDirectConnectGatewayAssociation` operation on the `DirectConnect` service.
     ///
     /// Deletes the association between the specified Direct Connect gateway and virtual private gateway. We recommend that you specify the associationID to delete the association. Alternatively, if you own virtual gateway and a Direct Connect gateway association, you can specify the virtualGatewayId and directConnectGatewayId to delete an association.
     ///
@@ -2233,6 +2537,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2251,15 +2557,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDirectConnectGatewayAssociationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteDirectConnectGatewayAssociationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDirectConnectGatewayAssociationInput, DeleteDirectConnectGatewayAssociationOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDirectConnectGatewayAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDirectConnectGatewayAssociationInput, DeleteDirectConnectGatewayAssociationOutput>(xAmzTarget: "OvertureService.DeleteDirectConnectGatewayAssociation"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDirectConnectGatewayAssociationInput, DeleteDirectConnectGatewayAssociationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDirectConnectGatewayAssociationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDirectConnectGatewayAssociationInput, DeleteDirectConnectGatewayAssociationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDirectConnectGatewayAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDirectConnectGatewayAssociationInput, DeleteDirectConnectGatewayAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDirectConnectGatewayAssociationInput, DeleteDirectConnectGatewayAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDirectConnectGatewayAssociationInput, DeleteDirectConnectGatewayAssociationOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteDirectConnectGatewayAssociation")
@@ -2275,7 +2584,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDirectConnectGatewayAssociationProposal` operation on the `OvertureService` service.
+    /// Performs the `DeleteDirectConnectGatewayAssociationProposal` operation on the `DirectConnect` service.
     ///
     /// Deletes the association proposal request between the specified Direct Connect gateway and virtual private gateway or transit gateway.
     ///
@@ -2304,6 +2613,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2322,15 +2633,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDirectConnectGatewayAssociationProposalOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteDirectConnectGatewayAssociationProposalOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDirectConnectGatewayAssociationProposalInput, DeleteDirectConnectGatewayAssociationProposalOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDirectConnectGatewayAssociationProposalOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDirectConnectGatewayAssociationProposalInput, DeleteDirectConnectGatewayAssociationProposalOutput>(xAmzTarget: "OvertureService.DeleteDirectConnectGatewayAssociationProposal"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDirectConnectGatewayAssociationProposalInput, DeleteDirectConnectGatewayAssociationProposalOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDirectConnectGatewayAssociationProposalInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDirectConnectGatewayAssociationProposalInput, DeleteDirectConnectGatewayAssociationProposalOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDirectConnectGatewayAssociationProposalOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDirectConnectGatewayAssociationProposalInput, DeleteDirectConnectGatewayAssociationProposalOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDirectConnectGatewayAssociationProposalInput, DeleteDirectConnectGatewayAssociationProposalOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDirectConnectGatewayAssociationProposalInput, DeleteDirectConnectGatewayAssociationProposalOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteDirectConnectGatewayAssociationProposal")
@@ -2346,7 +2660,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteInterconnect` operation on the `OvertureService` service.
+    /// Performs the `DeleteInterconnect` operation on the `DirectConnect` service.
     ///
     /// Deletes the specified interconnect. Intended for use by Direct Connect Partners only.
     ///
@@ -2375,6 +2689,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2393,15 +2709,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInterconnectOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteInterconnectOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteInterconnectInput, DeleteInterconnectOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteInterconnectOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteInterconnectInput, DeleteInterconnectOutput>(xAmzTarget: "OvertureService.DeleteInterconnect"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteInterconnectInput, DeleteInterconnectOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteInterconnectInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteInterconnectInput, DeleteInterconnectOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteInterconnectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteInterconnectInput, DeleteInterconnectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteInterconnectInput, DeleteInterconnectOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteInterconnectInput, DeleteInterconnectOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteInterconnect")
@@ -2417,7 +2736,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteLag` operation on the `OvertureService` service.
+    /// Performs the `DeleteLag` operation on the `DirectConnect` service.
     ///
     /// Deletes the specified link aggregation group (LAG). You cannot delete a LAG if it has active virtual interfaces or hosted connections.
     ///
@@ -2446,6 +2765,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2464,15 +2785,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLagOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteLagOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteLagInput, DeleteLagOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteLagOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteLagInput, DeleteLagOutput>(xAmzTarget: "OvertureService.DeleteLag"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteLagInput, DeleteLagOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteLagInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteLagInput, DeleteLagOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteLagOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteLagInput, DeleteLagOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteLagInput, DeleteLagOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteLagInput, DeleteLagOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteLag")
@@ -2488,7 +2812,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteVirtualInterface` operation on the `OvertureService` service.
+    /// Performs the `DeleteVirtualInterface` operation on the `DirectConnect` service.
     ///
     /// Deletes a virtual interface.
     ///
@@ -2517,6 +2841,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2535,15 +2861,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVirtualInterfaceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteVirtualInterfaceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteVirtualInterfaceInput, DeleteVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteVirtualInterfaceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteVirtualInterfaceInput, DeleteVirtualInterfaceOutput>(xAmzTarget: "OvertureService.DeleteVirtualInterface"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteVirtualInterfaceInput, DeleteVirtualInterfaceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteVirtualInterfaceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVirtualInterfaceInput, DeleteVirtualInterfaceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteVirtualInterfaceInput, DeleteVirtualInterfaceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteVirtualInterfaceInput, DeleteVirtualInterfaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteVirtualInterfaceInput, DeleteVirtualInterfaceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteVirtualInterface")
@@ -2559,7 +2888,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConnectionLoa` operation on the `OvertureService` service.
+    /// Performs the `DescribeConnectionLoa` operation on the `DirectConnect` service.
     ///
     /// Deprecated. Use [DescribeLoa] instead. Gets the LOA-CFA for a connection. The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that your APN partner or service provider uses when establishing your cross connect to Amazon Web Services at the colocation facility. For more information, see [Requesting Cross Connects at Direct Connect Locations](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html) in the Direct Connect User Guide.
     @available(*, deprecated)
@@ -2589,6 +2918,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2607,15 +2938,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConnectionLoaOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeConnectionLoaOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConnectionLoaInput, DescribeConnectionLoaOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeConnectionLoaOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeConnectionLoaInput, DescribeConnectionLoaOutput>(xAmzTarget: "OvertureService.DescribeConnectionLoa"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeConnectionLoaInput, DescribeConnectionLoaOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeConnectionLoaInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeConnectionLoaInput, DescribeConnectionLoaOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConnectionLoaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConnectionLoaInput, DescribeConnectionLoaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeConnectionLoaInput, DescribeConnectionLoaOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConnectionLoaInput, DescribeConnectionLoaOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeConnectionLoa")
@@ -2631,7 +2965,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConnections` operation on the `OvertureService` service.
+    /// Performs the `DescribeConnections` operation on the `DirectConnect` service.
     ///
     /// Displays the specified connection or all connections in this Region.
     ///
@@ -2660,6 +2994,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2678,15 +3014,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConnectionsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeConnectionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConnectionsInput, DescribeConnectionsOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeConnectionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeConnectionsInput, DescribeConnectionsOutput>(xAmzTarget: "OvertureService.DescribeConnections"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeConnectionsInput, DescribeConnectionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeConnectionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeConnectionsInput, DescribeConnectionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConnectionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConnectionsInput, DescribeConnectionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeConnectionsInput, DescribeConnectionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConnectionsInput, DescribeConnectionsOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeConnections")
@@ -2702,7 +3041,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConnectionsOnInterconnect` operation on the `OvertureService` service.
+    /// Performs the `DescribeConnectionsOnInterconnect` operation on the `DirectConnect` service.
     ///
     /// Deprecated. Use [DescribeHostedConnections] instead. Lists the connections that have been provisioned on the specified interconnect. Intended for use by Direct Connect Partners only.
     @available(*, deprecated)
@@ -2732,6 +3071,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2750,15 +3091,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConnectionsOnInterconnectOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeConnectionsOnInterconnectOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConnectionsOnInterconnectInput, DescribeConnectionsOnInterconnectOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeConnectionsOnInterconnectOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeConnectionsOnInterconnectInput, DescribeConnectionsOnInterconnectOutput>(xAmzTarget: "OvertureService.DescribeConnectionsOnInterconnect"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeConnectionsOnInterconnectInput, DescribeConnectionsOnInterconnectOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeConnectionsOnInterconnectInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeConnectionsOnInterconnectInput, DescribeConnectionsOnInterconnectOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConnectionsOnInterconnectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConnectionsOnInterconnectInput, DescribeConnectionsOnInterconnectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeConnectionsOnInterconnectInput, DescribeConnectionsOnInterconnectOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConnectionsOnInterconnectInput, DescribeConnectionsOnInterconnectOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeConnectionsOnInterconnect")
@@ -2774,7 +3118,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeCustomerMetadata` operation on the `OvertureService` service.
+    /// Performs the `DescribeCustomerMetadata` operation on the `DirectConnect` service.
     ///
     /// Get and view a list of customer agreements, along with their signed status and whether the customer is an NNIPartner, NNIPartnerV2, or a nonPartner.
     ///
@@ -2803,6 +3147,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2821,15 +3167,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCustomerMetadataOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeCustomerMetadataOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeCustomerMetadataInput, DescribeCustomerMetadataOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeCustomerMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeCustomerMetadataInput, DescribeCustomerMetadataOutput>(xAmzTarget: "OvertureService.DescribeCustomerMetadata"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeCustomerMetadataInput, DescribeCustomerMetadataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCustomerMetadataInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCustomerMetadataInput, DescribeCustomerMetadataOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCustomerMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeCustomerMetadataInput, DescribeCustomerMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeCustomerMetadataInput, DescribeCustomerMetadataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeCustomerMetadataInput, DescribeCustomerMetadataOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeCustomerMetadata")
@@ -2845,7 +3194,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDirectConnectGatewayAssociationProposals` operation on the `OvertureService` service.
+    /// Performs the `DescribeDirectConnectGatewayAssociationProposals` operation on the `DirectConnect` service.
     ///
     /// Describes one or more association proposals for connection between a virtual private gateway or transit gateway and a Direct Connect gateway.
     ///
@@ -2874,6 +3223,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2892,15 +3243,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDirectConnectGatewayAssociationProposalsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeDirectConnectGatewayAssociationProposalsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDirectConnectGatewayAssociationProposalsInput, DescribeDirectConnectGatewayAssociationProposalsOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDirectConnectGatewayAssociationProposalsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeDirectConnectGatewayAssociationProposalsInput, DescribeDirectConnectGatewayAssociationProposalsOutput>(xAmzTarget: "OvertureService.DescribeDirectConnectGatewayAssociationProposals"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeDirectConnectGatewayAssociationProposalsInput, DescribeDirectConnectGatewayAssociationProposalsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDirectConnectGatewayAssociationProposalsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDirectConnectGatewayAssociationProposalsInput, DescribeDirectConnectGatewayAssociationProposalsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDirectConnectGatewayAssociationProposalsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDirectConnectGatewayAssociationProposalsInput, DescribeDirectConnectGatewayAssociationProposalsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDirectConnectGatewayAssociationProposalsInput, DescribeDirectConnectGatewayAssociationProposalsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDirectConnectGatewayAssociationProposalsInput, DescribeDirectConnectGatewayAssociationProposalsOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeDirectConnectGatewayAssociationProposals")
@@ -2916,7 +3270,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDirectConnectGatewayAssociations` operation on the `OvertureService` service.
+    /// Performs the `DescribeDirectConnectGatewayAssociations` operation on the `DirectConnect` service.
     ///
     /// Lists the associations between your Direct Connect gateways and virtual private gateways and transit gateways. You must specify one of the following:
     ///
@@ -2955,6 +3309,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2973,15 +3329,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDirectConnectGatewayAssociationsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeDirectConnectGatewayAssociationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDirectConnectGatewayAssociationsInput, DescribeDirectConnectGatewayAssociationsOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDirectConnectGatewayAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeDirectConnectGatewayAssociationsInput, DescribeDirectConnectGatewayAssociationsOutput>(xAmzTarget: "OvertureService.DescribeDirectConnectGatewayAssociations"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeDirectConnectGatewayAssociationsInput, DescribeDirectConnectGatewayAssociationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDirectConnectGatewayAssociationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDirectConnectGatewayAssociationsInput, DescribeDirectConnectGatewayAssociationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDirectConnectGatewayAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDirectConnectGatewayAssociationsInput, DescribeDirectConnectGatewayAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDirectConnectGatewayAssociationsInput, DescribeDirectConnectGatewayAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDirectConnectGatewayAssociationsInput, DescribeDirectConnectGatewayAssociationsOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeDirectConnectGatewayAssociations")
@@ -2997,7 +3356,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDirectConnectGatewayAttachments` operation on the `OvertureService` service.
+    /// Performs the `DescribeDirectConnectGatewayAttachments` operation on the `DirectConnect` service.
     ///
     /// Lists the attachments between your Direct Connect gateways and virtual interfaces. You must specify a Direct Connect gateway, a virtual interface, or both. If you specify a Direct Connect gateway, the response contains all virtual interfaces attached to the Direct Connect gateway. If you specify a virtual interface, the response contains all Direct Connect gateways attached to the virtual interface. If you specify both, the response contains the attachment between the Direct Connect gateway and the virtual interface.
     ///
@@ -3026,6 +3385,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3044,15 +3405,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDirectConnectGatewayAttachmentsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeDirectConnectGatewayAttachmentsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDirectConnectGatewayAttachmentsInput, DescribeDirectConnectGatewayAttachmentsOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDirectConnectGatewayAttachmentsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeDirectConnectGatewayAttachmentsInput, DescribeDirectConnectGatewayAttachmentsOutput>(xAmzTarget: "OvertureService.DescribeDirectConnectGatewayAttachments"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeDirectConnectGatewayAttachmentsInput, DescribeDirectConnectGatewayAttachmentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDirectConnectGatewayAttachmentsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDirectConnectGatewayAttachmentsInput, DescribeDirectConnectGatewayAttachmentsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDirectConnectGatewayAttachmentsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDirectConnectGatewayAttachmentsInput, DescribeDirectConnectGatewayAttachmentsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDirectConnectGatewayAttachmentsInput, DescribeDirectConnectGatewayAttachmentsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDirectConnectGatewayAttachmentsInput, DescribeDirectConnectGatewayAttachmentsOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeDirectConnectGatewayAttachments")
@@ -3068,7 +3432,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDirectConnectGateways` operation on the `OvertureService` service.
+    /// Performs the `DescribeDirectConnectGateways` operation on the `DirectConnect` service.
     ///
     /// Lists all your Direct Connect gateways or only the specified Direct Connect gateway. Deleted Direct Connect gateways are not returned.
     ///
@@ -3097,6 +3461,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3115,15 +3481,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDirectConnectGatewaysOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeDirectConnectGatewaysOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDirectConnectGatewaysInput, DescribeDirectConnectGatewaysOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDirectConnectGatewaysOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeDirectConnectGatewaysInput, DescribeDirectConnectGatewaysOutput>(xAmzTarget: "OvertureService.DescribeDirectConnectGateways"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeDirectConnectGatewaysInput, DescribeDirectConnectGatewaysOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDirectConnectGatewaysInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDirectConnectGatewaysInput, DescribeDirectConnectGatewaysOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDirectConnectGatewaysOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDirectConnectGatewaysInput, DescribeDirectConnectGatewaysOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDirectConnectGatewaysInput, DescribeDirectConnectGatewaysOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDirectConnectGatewaysInput, DescribeDirectConnectGatewaysOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeDirectConnectGateways")
@@ -3139,7 +3508,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeHostedConnections` operation on the `OvertureService` service.
+    /// Performs the `DescribeHostedConnections` operation on the `DirectConnect` service.
     ///
     /// Lists the hosted connections that have been provisioned on the specified interconnect or link aggregation group (LAG). Intended for use by Direct Connect Partners only.
     ///
@@ -3168,6 +3537,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3186,15 +3557,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeHostedConnectionsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeHostedConnectionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeHostedConnectionsInput, DescribeHostedConnectionsOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeHostedConnectionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeHostedConnectionsInput, DescribeHostedConnectionsOutput>(xAmzTarget: "OvertureService.DescribeHostedConnections"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeHostedConnectionsInput, DescribeHostedConnectionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeHostedConnectionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeHostedConnectionsInput, DescribeHostedConnectionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeHostedConnectionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeHostedConnectionsInput, DescribeHostedConnectionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeHostedConnectionsInput, DescribeHostedConnectionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeHostedConnectionsInput, DescribeHostedConnectionsOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeHostedConnections")
@@ -3210,7 +3584,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeInterconnectLoa` operation on the `OvertureService` service.
+    /// Performs the `DescribeInterconnectLoa` operation on the `DirectConnect` service.
     ///
     /// Deprecated. Use [DescribeLoa] instead. Gets the LOA-CFA for the specified interconnect. The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that is used when establishing your cross connect to Amazon Web Services at the colocation facility. For more information, see [Requesting Cross Connects at Direct Connect Locations](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html) in the Direct Connect User Guide.
     @available(*, deprecated)
@@ -3240,6 +3614,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3258,15 +3634,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInterconnectLoaOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeInterconnectLoaOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeInterconnectLoaInput, DescribeInterconnectLoaOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeInterconnectLoaOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeInterconnectLoaInput, DescribeInterconnectLoaOutput>(xAmzTarget: "OvertureService.DescribeInterconnectLoa"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeInterconnectLoaInput, DescribeInterconnectLoaOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeInterconnectLoaInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeInterconnectLoaInput, DescribeInterconnectLoaOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeInterconnectLoaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeInterconnectLoaInput, DescribeInterconnectLoaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeInterconnectLoaInput, DescribeInterconnectLoaOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeInterconnectLoaInput, DescribeInterconnectLoaOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeInterconnectLoa")
@@ -3282,7 +3661,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeInterconnects` operation on the `OvertureService` service.
+    /// Performs the `DescribeInterconnects` operation on the `DirectConnect` service.
     ///
     /// Lists the interconnects owned by the Amazon Web Services account or only the specified interconnect.
     ///
@@ -3311,6 +3690,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3329,15 +3710,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInterconnectsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeInterconnectsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeInterconnectsInput, DescribeInterconnectsOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeInterconnectsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeInterconnectsInput, DescribeInterconnectsOutput>(xAmzTarget: "OvertureService.DescribeInterconnects"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeInterconnectsInput, DescribeInterconnectsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeInterconnectsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeInterconnectsInput, DescribeInterconnectsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeInterconnectsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeInterconnectsInput, DescribeInterconnectsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeInterconnectsInput, DescribeInterconnectsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeInterconnectsInput, DescribeInterconnectsOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeInterconnects")
@@ -3353,7 +3737,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLags` operation on the `OvertureService` service.
+    /// Performs the `DescribeLags` operation on the `DirectConnect` service.
     ///
     /// Describes all your link aggregation groups (LAG) or the specified LAG.
     ///
@@ -3382,6 +3766,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3400,15 +3786,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLagsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeLagsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeLagsInput, DescribeLagsOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLagsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeLagsInput, DescribeLagsOutput>(xAmzTarget: "OvertureService.DescribeLags"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeLagsInput, DescribeLagsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLagsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLagsInput, DescribeLagsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLagsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeLagsInput, DescribeLagsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeLagsInput, DescribeLagsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeLagsInput, DescribeLagsOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeLags")
@@ -3424,7 +3813,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLoa` operation on the `OvertureService` service.
+    /// Performs the `DescribeLoa` operation on the `DirectConnect` service.
     ///
     /// Gets the LOA-CFA for a connection, interconnect, or link aggregation group (LAG). The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that is used when establishing your cross connect to Amazon Web Services at the colocation facility. For more information, see [Requesting Cross Connects at Direct Connect Locations](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html) in the Direct Connect User Guide.
     ///
@@ -3453,6 +3842,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3471,15 +3862,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLoaOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeLoaOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeLoaInput, DescribeLoaOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLoaOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeLoaInput, DescribeLoaOutput>(xAmzTarget: "OvertureService.DescribeLoa"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeLoaInput, DescribeLoaOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLoaInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLoaInput, DescribeLoaOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLoaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeLoaInput, DescribeLoaOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeLoaInput, DescribeLoaOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeLoaInput, DescribeLoaOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeLoa")
@@ -3495,7 +3889,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLocations` operation on the `OvertureService` service.
+    /// Performs the `DescribeLocations` operation on the `DirectConnect` service.
     ///
     /// Lists the Direct Connect locations in the current Amazon Web Services Region. These are the locations that can be selected when calling [CreateConnection] or [CreateInterconnect].
     ///
@@ -3524,6 +3918,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3542,15 +3938,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLocationsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeLocationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeLocationsInput, DescribeLocationsOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLocationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeLocationsInput, DescribeLocationsOutput>(xAmzTarget: "OvertureService.DescribeLocations"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeLocationsInput, DescribeLocationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLocationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLocationsInput, DescribeLocationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLocationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeLocationsInput, DescribeLocationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeLocationsInput, DescribeLocationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeLocationsInput, DescribeLocationsOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeLocations")
@@ -3566,7 +3965,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRouterConfiguration` operation on the `OvertureService` service.
+    /// Performs the `DescribeRouterConfiguration` operation on the `DirectConnect` service.
     ///
     /// Details about the router.
     ///
@@ -3595,6 +3994,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3613,15 +4014,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRouterConfigurationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeRouterConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRouterConfigurationInput, DescribeRouterConfigurationOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRouterConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeRouterConfigurationInput, DescribeRouterConfigurationOutput>(xAmzTarget: "OvertureService.DescribeRouterConfiguration"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeRouterConfigurationInput, DescribeRouterConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRouterConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRouterConfigurationInput, DescribeRouterConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRouterConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRouterConfigurationInput, DescribeRouterConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeRouterConfigurationInput, DescribeRouterConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRouterConfigurationInput, DescribeRouterConfigurationOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeRouterConfiguration")
@@ -3637,7 +4041,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTags` operation on the `OvertureService` service.
+    /// Performs the `DescribeTags` operation on the `DirectConnect` service.
     ///
     /// Describes the tags associated with the specified Direct Connect resources.
     ///
@@ -3666,6 +4070,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3684,15 +4090,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTagsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeTagsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeTagsInput, DescribeTagsOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTagsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTagsInput, DescribeTagsOutput>(xAmzTarget: "OvertureService.DescribeTags"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeTagsInput, DescribeTagsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTagsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTagsInput, DescribeTagsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTagsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeTagsInput, DescribeTagsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeTagsInput, DescribeTagsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeTagsInput, DescribeTagsOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeTags")
@@ -3708,7 +4117,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVirtualGateways` operation on the `OvertureService` service.
+    /// Performs the `DescribeVirtualGateways` operation on the `DirectConnect` service.
     ///
     /// Deprecated. Use DescribeVpnGateways instead. See [DescribeVPNGateways](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeVpnGateways.html) in the Amazon Elastic Compute Cloud API Reference. Lists the virtual private gateways owned by the Amazon Web Services account. You can create one or more Direct Connect private virtual interfaces linked to a virtual private gateway.
     ///
@@ -3737,6 +4146,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3755,15 +4166,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVirtualGatewaysOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeVirtualGatewaysOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeVirtualGatewaysInput, DescribeVirtualGatewaysOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeVirtualGatewaysOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeVirtualGatewaysInput, DescribeVirtualGatewaysOutput>(xAmzTarget: "OvertureService.DescribeVirtualGateways"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeVirtualGatewaysInput, DescribeVirtualGatewaysOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeVirtualGatewaysInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeVirtualGatewaysInput, DescribeVirtualGatewaysOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeVirtualGatewaysOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeVirtualGatewaysInput, DescribeVirtualGatewaysOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeVirtualGatewaysInput, DescribeVirtualGatewaysOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeVirtualGatewaysInput, DescribeVirtualGatewaysOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeVirtualGateways")
@@ -3779,7 +4193,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeVirtualInterfaces` operation on the `OvertureService` service.
+    /// Performs the `DescribeVirtualInterfaces` operation on the `DirectConnect` service.
     ///
     /// Displays all virtual interfaces for an Amazon Web Services account. Virtual interfaces deleted fewer than 15 minutes before you make the request are also returned. If you specify a connection ID, only the virtual interfaces associated with the connection are returned. If you specify a virtual interface ID, then only a single virtual interface is returned. A virtual interface (VLAN) transmits the traffic between the Direct Connect location and the customer network.
     ///
@@ -3808,6 +4222,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3826,15 +4242,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVirtualInterfacesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeVirtualInterfacesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeVirtualInterfacesInput, DescribeVirtualInterfacesOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeVirtualInterfacesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeVirtualInterfacesInput, DescribeVirtualInterfacesOutput>(xAmzTarget: "OvertureService.DescribeVirtualInterfaces"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeVirtualInterfacesInput, DescribeVirtualInterfacesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeVirtualInterfacesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeVirtualInterfacesInput, DescribeVirtualInterfacesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeVirtualInterfacesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeVirtualInterfacesInput, DescribeVirtualInterfacesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeVirtualInterfacesInput, DescribeVirtualInterfacesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeVirtualInterfacesInput, DescribeVirtualInterfacesOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeVirtualInterfaces")
@@ -3850,7 +4269,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateConnectionFromLag` operation on the `OvertureService` service.
+    /// Performs the `DisassociateConnectionFromLag` operation on the `DirectConnect` service.
     ///
     /// Disassociates a connection from a link aggregation group (LAG). The connection is interrupted and re-established as a standalone connection (the connection is not deleted; to delete the connection, use the [DeleteConnection] request). If the LAG has associated virtual interfaces or hosted connections, they remain associated with the LAG. A disassociated connection owned by an Direct Connect Partner is automatically converted to an interconnect. If disassociating the connection would cause the LAG to fall below its setting for minimum number of operational connections, the request fails, except when it's the last member of the LAG. If all connections are disassociated, the LAG continues to exist as an empty LAG with no physical connections.
     ///
@@ -3879,6 +4298,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3897,15 +4318,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateConnectionFromLagOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DisassociateConnectionFromLagOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateConnectionFromLagInput, DisassociateConnectionFromLagOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateConnectionFromLagOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateConnectionFromLagInput, DisassociateConnectionFromLagOutput>(xAmzTarget: "OvertureService.DisassociateConnectionFromLag"))
         builder.serialize(ClientRuntime.BodyMiddleware<DisassociateConnectionFromLagInput, DisassociateConnectionFromLagOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateConnectionFromLagInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateConnectionFromLagInput, DisassociateConnectionFromLagOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateConnectionFromLagOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateConnectionFromLagInput, DisassociateConnectionFromLagOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateConnectionFromLagInput, DisassociateConnectionFromLagOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateConnectionFromLagInput, DisassociateConnectionFromLagOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateConnectionFromLag")
@@ -3921,7 +4345,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisassociateMacSecKey` operation on the `OvertureService` service.
+    /// Performs the `DisassociateMacSecKey` operation on the `DirectConnect` service.
     ///
     /// Removes the association between a MAC Security (MACsec) security key and an Direct Connect dedicated connection.
     ///
@@ -3950,6 +4374,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3968,15 +4394,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateMacSecKeyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DisassociateMacSecKeyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateMacSecKeyInput, DisassociateMacSecKeyOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateMacSecKeyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateMacSecKeyInput, DisassociateMacSecKeyOutput>(xAmzTarget: "OvertureService.DisassociateMacSecKey"))
         builder.serialize(ClientRuntime.BodyMiddleware<DisassociateMacSecKeyInput, DisassociateMacSecKeyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateMacSecKeyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateMacSecKeyInput, DisassociateMacSecKeyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateMacSecKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateMacSecKeyInput, DisassociateMacSecKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateMacSecKeyInput, DisassociateMacSecKeyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateMacSecKeyInput, DisassociateMacSecKeyOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateMacSecKey")
@@ -3992,7 +4421,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListVirtualInterfaceTestHistory` operation on the `OvertureService` service.
+    /// Performs the `ListVirtualInterfaceTestHistory` operation on the `DirectConnect` service.
     ///
     /// Lists the virtual interface failover test history.
     ///
@@ -4021,6 +4450,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4039,15 +4470,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVirtualInterfaceTestHistoryOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListVirtualInterfaceTestHistoryOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListVirtualInterfaceTestHistoryInput, ListVirtualInterfaceTestHistoryOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListVirtualInterfaceTestHistoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListVirtualInterfaceTestHistoryInput, ListVirtualInterfaceTestHistoryOutput>(xAmzTarget: "OvertureService.ListVirtualInterfaceTestHistory"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListVirtualInterfaceTestHistoryInput, ListVirtualInterfaceTestHistoryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListVirtualInterfaceTestHistoryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListVirtualInterfaceTestHistoryInput, ListVirtualInterfaceTestHistoryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListVirtualInterfaceTestHistoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListVirtualInterfaceTestHistoryInput, ListVirtualInterfaceTestHistoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListVirtualInterfaceTestHistoryInput, ListVirtualInterfaceTestHistoryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListVirtualInterfaceTestHistoryInput, ListVirtualInterfaceTestHistoryOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListVirtualInterfaceTestHistory")
@@ -4063,7 +4497,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartBgpFailoverTest` operation on the `OvertureService` service.
+    /// Performs the `StartBgpFailoverTest` operation on the `DirectConnect` service.
     ///
     /// Starts the virtual interface failover test that verifies your configuration meets your resiliency requirements by placing the BGP peering session in the DOWN state. You can then send traffic to verify that there are no outages. You can run the test on public, private, transit, and hosted virtual interfaces. You can use [ListVirtualInterfaceTestHistory](https://docs.aws.amazon.com/directconnect/latest/APIReference/API_ListVirtualInterfaceTestHistory.html) to view the virtual interface test history. If you need to stop the test before the test interval completes, use [StopBgpFailoverTest](https://docs.aws.amazon.com/directconnect/latest/APIReference/API_StopBgpFailoverTest.html).
     ///
@@ -4092,6 +4526,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4110,15 +4546,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartBgpFailoverTestOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartBgpFailoverTestOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartBgpFailoverTestInput, StartBgpFailoverTestOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartBgpFailoverTestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartBgpFailoverTestInput, StartBgpFailoverTestOutput>(xAmzTarget: "OvertureService.StartBgpFailoverTest"))
         builder.serialize(ClientRuntime.BodyMiddleware<StartBgpFailoverTestInput, StartBgpFailoverTestOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartBgpFailoverTestInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartBgpFailoverTestInput, StartBgpFailoverTestOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartBgpFailoverTestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartBgpFailoverTestInput, StartBgpFailoverTestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartBgpFailoverTestInput, StartBgpFailoverTestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartBgpFailoverTestInput, StartBgpFailoverTestOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartBgpFailoverTest")
@@ -4134,7 +4573,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopBgpFailoverTest` operation on the `OvertureService` service.
+    /// Performs the `StopBgpFailoverTest` operation on the `DirectConnect` service.
     ///
     /// Stops the virtual interface failover test.
     ///
@@ -4163,6 +4602,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4181,15 +4622,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopBgpFailoverTestOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StopBgpFailoverTestOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopBgpFailoverTestInput, StopBgpFailoverTestOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopBgpFailoverTestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopBgpFailoverTestInput, StopBgpFailoverTestOutput>(xAmzTarget: "OvertureService.StopBgpFailoverTest"))
         builder.serialize(ClientRuntime.BodyMiddleware<StopBgpFailoverTestInput, StopBgpFailoverTestOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopBgpFailoverTestInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopBgpFailoverTestInput, StopBgpFailoverTestOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopBgpFailoverTestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopBgpFailoverTestInput, StopBgpFailoverTestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopBgpFailoverTestInput, StopBgpFailoverTestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopBgpFailoverTestInput, StopBgpFailoverTestOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopBgpFailoverTest")
@@ -4205,7 +4649,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `OvertureService` service.
+    /// Performs the `TagResource` operation on the `DirectConnect` service.
     ///
     /// Adds the specified tags to the specified Direct Connect resource. Each resource can have a maximum of 50 tags. Each tag consists of a key and an optional value. If a tag with the same key is already associated with the resource, this action updates its value.
     ///
@@ -4236,6 +4680,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4254,15 +4700,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<TagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "OvertureService.TagResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TagResource")
@@ -4278,7 +4727,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `OvertureService` service.
+    /// Performs the `UntagResource` operation on the `DirectConnect` service.
     ///
     /// Removes one or more tags from the specified Direct Connect resource.
     ///
@@ -4307,6 +4756,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4325,15 +4776,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "OvertureService.UntagResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
@@ -4349,7 +4803,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateConnection` operation on the `OvertureService` service.
+    /// Performs the `UpdateConnection` operation on the `DirectConnect` service.
     ///
     /// Updates the Direct Connect dedicated connection configuration. You can update the following parameters for a connection:
     ///
@@ -4382,6 +4836,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4400,15 +4856,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConnectionOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateConnectionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateConnectionInput, UpdateConnectionOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateConnectionInput, UpdateConnectionOutput>(xAmzTarget: "OvertureService.UpdateConnection"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateConnectionInput, UpdateConnectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateConnectionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateConnectionInput, UpdateConnectionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateConnectionInput, UpdateConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateConnectionInput, UpdateConnectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateConnectionInput, UpdateConnectionOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateConnection")
@@ -4424,7 +4883,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDirectConnectGateway` operation on the `OvertureService` service.
+    /// Performs the `UpdateDirectConnectGateway` operation on the `DirectConnect` service.
     ///
     /// Updates the name of a current Direct Connect gateway.
     ///
@@ -4453,6 +4912,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4471,15 +4932,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDirectConnectGatewayOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateDirectConnectGatewayOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDirectConnectGatewayInput, UpdateDirectConnectGatewayOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDirectConnectGatewayOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateDirectConnectGatewayInput, UpdateDirectConnectGatewayOutput>(xAmzTarget: "OvertureService.UpdateDirectConnectGateway"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateDirectConnectGatewayInput, UpdateDirectConnectGatewayOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDirectConnectGatewayInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDirectConnectGatewayInput, UpdateDirectConnectGatewayOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDirectConnectGatewayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDirectConnectGatewayInput, UpdateDirectConnectGatewayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDirectConnectGatewayInput, UpdateDirectConnectGatewayOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDirectConnectGatewayInput, UpdateDirectConnectGatewayOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateDirectConnectGateway")
@@ -4495,7 +4959,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateDirectConnectGatewayAssociation` operation on the `OvertureService` service.
+    /// Performs the `UpdateDirectConnectGatewayAssociation` operation on the `DirectConnect` service.
     ///
     /// Updates the specified attributes of the Direct Connect gateway association. Add or remove prefixes from the association.
     ///
@@ -4524,6 +4988,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4542,15 +5008,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDirectConnectGatewayAssociationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateDirectConnectGatewayAssociationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDirectConnectGatewayAssociationInput, UpdateDirectConnectGatewayAssociationOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDirectConnectGatewayAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateDirectConnectGatewayAssociationInput, UpdateDirectConnectGatewayAssociationOutput>(xAmzTarget: "OvertureService.UpdateDirectConnectGatewayAssociation"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateDirectConnectGatewayAssociationInput, UpdateDirectConnectGatewayAssociationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDirectConnectGatewayAssociationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDirectConnectGatewayAssociationInput, UpdateDirectConnectGatewayAssociationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDirectConnectGatewayAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDirectConnectGatewayAssociationInput, UpdateDirectConnectGatewayAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDirectConnectGatewayAssociationInput, UpdateDirectConnectGatewayAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDirectConnectGatewayAssociationInput, UpdateDirectConnectGatewayAssociationOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateDirectConnectGatewayAssociation")
@@ -4566,7 +5035,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateLag` operation on the `OvertureService` service.
+    /// Performs the `UpdateLag` operation on the `DirectConnect` service.
     ///
     /// Updates the attributes of the specified link aggregation group (LAG). You can update the following LAG attributes:
     ///
@@ -4606,6 +5075,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4624,15 +5095,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLagOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateLagOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateLagInput, UpdateLagOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLagOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateLagInput, UpdateLagOutput>(xAmzTarget: "OvertureService.UpdateLag"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateLagInput, UpdateLagOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLagInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLagInput, UpdateLagOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLagOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateLagInput, UpdateLagOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateLagInput, UpdateLagOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateLagInput, UpdateLagOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateLag")
@@ -4648,7 +5122,7 @@ extension DirectConnectClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateVirtualInterfaceAttributes` operation on the `OvertureService` service.
+    /// Performs the `UpdateVirtualInterfaceAttributes` operation on the `DirectConnect` service.
     ///
     /// Updates the specified attributes of the specified virtual private interface. Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating the connection disrupts network connectivity for all virtual interfaces associated with the connection for up to 30 seconds. To check whether your connection supports jumbo frames, call [DescribeConnections]. To check whether your virtual interface supports jumbo frames, call [DescribeVirtualInterfaces].
     ///
@@ -4677,6 +5151,8 @@ extension DirectConnectClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4695,15 +5171,18 @@ extension DirectConnectClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateVirtualInterfaceAttributesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateVirtualInterfaceAttributesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateVirtualInterfaceAttributesInput, UpdateVirtualInterfaceAttributesOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Direct Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateVirtualInterfaceAttributesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateVirtualInterfaceAttributesInput, UpdateVirtualInterfaceAttributesOutput>(xAmzTarget: "OvertureService.UpdateVirtualInterfaceAttributes"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateVirtualInterfaceAttributesInput, UpdateVirtualInterfaceAttributesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateVirtualInterfaceAttributesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateVirtualInterfaceAttributesInput, UpdateVirtualInterfaceAttributesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateVirtualInterfaceAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateVirtualInterfaceAttributesInput, UpdateVirtualInterfaceAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateVirtualInterfaceAttributesInput, UpdateVirtualInterfaceAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateVirtualInterfaceAttributesInput, UpdateVirtualInterfaceAttributesOutput>(serviceID: serviceName, version: DirectConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DirectConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateVirtualInterfaceAttributes")

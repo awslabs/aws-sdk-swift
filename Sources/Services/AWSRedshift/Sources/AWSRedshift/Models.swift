@@ -113,9 +113,9 @@ public struct ModifyClusterSnapshotScheduleOutput: Swift.Sendable {
 }
 
 /// Your request cannot be completed because a dependent internal service is temporarily unavailable. Wait 30 to 60 seconds and try again.
-public struct DependentServiceUnavailableFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DependentServiceUnavailableFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -130,16 +130,15 @@ public struct DependentServiceUnavailableFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Indicates that the Reserved Node being exchanged is not in an active state.
-public struct InvalidReservedNodeStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidReservedNodeStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -154,16 +153,15 @@ public struct InvalidReservedNodeStateFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// User already has a reservation with the given identifier.
-public struct ReservedNodeAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReservedNodeAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -178,16 +176,15 @@ public struct ReservedNodeAlreadyExistsFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Indicates that the reserved node has already been exchanged.
-public struct ReservedNodeAlreadyMigratedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReservedNodeAlreadyMigratedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -202,16 +199,15 @@ public struct ReservedNodeAlreadyMigratedFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified reserved compute node not found.
-public struct ReservedNodeNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReservedNodeNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -226,16 +222,15 @@ public struct ReservedNodeNotFoundFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Specified offering does not exist.
-public struct ReservedNodeOfferingNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReservedNodeOfferingNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -250,16 +245,15 @@ public struct ReservedNodeOfferingNotFoundFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The requested operation isn't supported.
-public struct UnsupportedOperationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedOperationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -274,8 +268,7 @@ public struct UnsupportedOperationFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -291,8 +284,7 @@ public struct AcceptReservedNodeExchangeInput: Swift.Sendable {
     public init(
         reservedNodeId: Swift.String? = nil,
         targetReservedNodeOfferingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.reservedNodeId = reservedNodeId
         self.targetReservedNodeOfferingId = targetReservedNodeOfferingId
     }
@@ -310,8 +302,7 @@ extension RedshiftClientTypes {
         public init(
             recurringChargeAmount: Swift.Double? = nil,
             recurringChargeFrequency: Swift.String? = nil
-        )
-        {
+        ) {
             self.recurringChargeAmount = recurringChargeAmount
             self.recurringChargeFrequency = recurringChargeFrequency
         }
@@ -402,8 +393,7 @@ extension RedshiftClientTypes {
             startTime: Foundation.Date? = nil,
             state: Swift.String? = nil,
             usagePrice: Swift.Double? = nil
-        )
-        {
+        ) {
             self.currencyCode = currencyCode
             self.duration = duration
             self.fixedPrice = fixedPrice
@@ -427,16 +417,15 @@ public struct AcceptReservedNodeExchangeOutput: Swift.Sendable {
 
     public init(
         exchangedReservedNode: RedshiftClientTypes.ReservedNode? = nil
-    )
-    {
+    ) {
         self.exchangedReservedNode = exchangedReservedNode
     }
 }
 
 /// You are not authorized to access the cluster.
-public struct AccessToClusterDeniedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessToClusterDeniedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -451,16 +440,15 @@ public struct AccessToClusterDeniedFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The owner of the specified snapshot has not authorized your account to access the snapshot.
-public struct AccessToSnapshotDeniedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessToSnapshotDeniedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -475,8 +463,7 @@ public struct AccessToSnapshotDeniedFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -490,8 +477,7 @@ extension RedshiftClientTypes {
 
         public init(
             attributeValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributeValue = attributeValue
         }
     }
@@ -509,8 +495,7 @@ extension RedshiftClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             attributeValues: [RedshiftClientTypes.AttributeValueTarget]? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.attributeValues = attributeValues
         }
@@ -529,8 +514,7 @@ extension RedshiftClientTypes {
         public init(
             accountAlias: Swift.String? = nil,
             accountId: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountAlias = accountAlias
             self.accountId = accountId
         }
@@ -570,9 +554,9 @@ extension RedshiftClientTypes {
 }
 
 /// The ClusterIdentifier parameter does not refer to an existing cluster.
-public struct ClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -587,16 +571,15 @@ public struct ClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The name of the partner was not found.
-public struct PartnerNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PartnerNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -611,16 +594,15 @@ public struct PartnerNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The partner integration is not authorized.
-public struct UnauthorizedPartnerIntegrationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnauthorizedPartnerIntegrationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -635,8 +617,7 @@ public struct UnauthorizedPartnerIntegrationFault: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -660,8 +641,7 @@ public struct AddPartnerInput: Swift.Sendable {
         clusterIdentifier: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         partnerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.clusterIdentifier = clusterIdentifier
         self.databaseName = databaseName
@@ -678,8 +658,7 @@ public struct AddPartnerOutput: Swift.Sendable {
     public init(
         databaseName: Swift.String? = nil,
         partnerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
         self.partnerName = partnerName
     }
@@ -761,8 +740,7 @@ extension RedshiftClientTypes {
         public init(
             aquaConfigurationStatus: RedshiftClientTypes.AquaConfigurationStatus? = nil,
             aquaStatus: RedshiftClientTypes.AquaStatus? = nil
-        )
-        {
+        ) {
             self.aquaConfigurationStatus = aquaConfigurationStatus
             self.aquaStatus = aquaStatus
         }
@@ -770,9 +748,9 @@ extension RedshiftClientTypes {
 }
 
 /// There is an error with the datashare.
-public struct InvalidDataShareFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDataShareFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -787,16 +765,15 @@ public struct InvalidDataShareFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The namespace isn't valid because the namespace doesn't exist. Provide a valid namespace.
-public struct InvalidNamespaceFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNamespaceFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -811,8 +788,7 @@ public struct InvalidNamespaceFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -836,8 +812,7 @@ public struct AssociateDataShareConsumerInput: Swift.Sendable {
         consumerArn: Swift.String? = nil,
         consumerRegion: Swift.String? = nil,
         dataShareArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowWrites = allowWrites
         self.associateEntireAccount = associateEntireAccount
         self.consumerArn = consumerArn
@@ -914,8 +889,7 @@ extension RedshiftClientTypes {
             producerAllowedWrites: Swift.Bool? = nil,
             status: RedshiftClientTypes.DataShareStatus? = nil,
             statusChangeDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.consumerAcceptedWrites = consumerAcceptedWrites
             self.consumerIdentifier = consumerIdentifier
             self.consumerRegion = consumerRegion
@@ -927,6 +901,32 @@ extension RedshiftClientTypes {
     }
 }
 
+extension RedshiftClientTypes {
+
+    public enum DataShareType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `internal`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataShareType] {
+            return [
+                .internal
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .internal: return "INTERNAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct AssociateDataShareConsumerOutput: Swift.Sendable {
     /// A value that specifies whether the datashare can be shared to a publicly accessible cluster.
     public var allowPubliclyAccessibleConsumers: Swift.Bool?
@@ -934,6 +934,8 @@ public struct AssociateDataShareConsumerOutput: Swift.Sendable {
     public var dataShareArn: Swift.String?
     /// A value that specifies when the datashare has an association between producer and data consumers.
     public var dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]?
+    /// The type of the datashare created by RegisterNamespace.
+    public var dataShareType: RedshiftClientTypes.DataShareType?
     /// The identifier of a datashare to show its managing entity.
     public var managedBy: Swift.String?
     /// The Amazon Resource Name (ARN) of the producer namespace.
@@ -943,13 +945,14 @@ public struct AssociateDataShareConsumerOutput: Swift.Sendable {
         allowPubliclyAccessibleConsumers: Swift.Bool? = nil,
         dataShareArn: Swift.String? = nil,
         dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]? = nil,
+        dataShareType: RedshiftClientTypes.DataShareType? = nil,
         managedBy: Swift.String? = nil,
         producerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowPubliclyAccessibleConsumers = allowPubliclyAccessibleConsumers
         self.dataShareArn = dataShareArn
         self.dataShareAssociations = dataShareAssociations
+        self.dataShareType = dataShareType
         self.managedBy = managedBy
         self.producerArn = producerArn
     }
@@ -999,8 +1002,7 @@ extension RedshiftClientTypes {
         public init(
             clusterIdentifier: Swift.String? = nil,
             scheduleAssociationState: RedshiftClientTypes.ScheduleState? = nil
-        )
-        {
+        ) {
             self.clusterIdentifier = clusterIdentifier
             self.scheduleAssociationState = scheduleAssociationState
         }
@@ -1019,8 +1021,7 @@ extension RedshiftClientTypes {
         public init(
             clusterIdentifier: Swift.String? = nil,
             customDomainName: Swift.String? = nil
-        )
-        {
+        ) {
             self.clusterIdentifier = clusterIdentifier
             self.customDomainName = customDomainName
         }
@@ -1042,8 +1043,7 @@ extension RedshiftClientTypes {
             certificateAssociations: [RedshiftClientTypes.CertificateAssociation]? = nil,
             customDomainCertificateArn: Swift.String? = nil,
             customDomainCertificateExpiryDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.certificateAssociations = certificateAssociations
             self.customDomainCertificateArn = customDomainCertificateArn
             self.customDomainCertificateExpiryDate = customDomainCertificateExpiryDate
@@ -1063,8 +1063,7 @@ extension RedshiftClientTypes {
         public init(
             authenticationProfileContent: Swift.String? = nil,
             authenticationProfileName: Swift.String? = nil
-        )
-        {
+        ) {
             self.authenticationProfileContent = authenticationProfileContent
             self.authenticationProfileName = authenticationProfileName
         }
@@ -1072,9 +1071,9 @@ extension RedshiftClientTypes {
 }
 
 /// The authentication profile already exists.
-public struct AuthenticationProfileAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AuthenticationProfileAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1089,16 +1088,15 @@ public struct AuthenticationProfileAlreadyExistsFault: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The authentication profile can't be found.
-public struct AuthenticationProfileNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AuthenticationProfileNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1113,16 +1111,15 @@ public struct AuthenticationProfileNotFoundFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The size or number of authentication profiles has exceeded the quota. The maximum length of the JSON string and maximum number of authentication profiles is determined by a quota for your account.
-public struct AuthenticationProfileQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AuthenticationProfileQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1137,16 +1134,15 @@ public struct AuthenticationProfileQuotaExceededFault: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified CIDR block or EC2 security group is already authorized for the specified cluster security group.
-public struct AuthorizationAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AuthorizationAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1161,16 +1157,15 @@ public struct AuthorizationAlreadyExistsFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified CIDR IP range or EC2 security group is not authorized for the specified cluster security group.
-public struct AuthorizationNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AuthorizationNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1185,16 +1180,15 @@ public struct AuthorizationNotFoundFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The authorization quota for the cluster security group has been reached.
-public struct AuthorizationQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AuthorizationQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1209,8 +1203,7 @@ public struct AuthorizationQuotaExceededFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1245,9 +1238,9 @@ extension RedshiftClientTypes {
 }
 
 /// The cluster security group name does not refer to an existing cluster security group.
-public struct ClusterSecurityGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClusterSecurityGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1262,16 +1255,15 @@ public struct ClusterSecurityGroupNotFoundFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The state of the cluster security group is not available.
-public struct InvalidClusterSecurityGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidClusterSecurityGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1286,8 +1278,7 @@ public struct InvalidClusterSecurityGroupStateFault: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1309,8 +1300,7 @@ public struct AuthorizeClusterSecurityGroupIngressInput: Swift.Sendable {
         clusterSecurityGroupName: Swift.String? = nil,
         ec2SecurityGroupName: Swift.String? = nil,
         ec2SecurityGroupOwnerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.cidrip = cidrip
         self.clusterSecurityGroupName = clusterSecurityGroupName
         self.ec2SecurityGroupName = ec2SecurityGroupName
@@ -1330,8 +1320,7 @@ extension RedshiftClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1356,8 +1345,7 @@ extension RedshiftClientTypes {
             ec2SecurityGroupOwnerId: Swift.String? = nil,
             status: Swift.String? = nil,
             tags: [RedshiftClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.ec2SecurityGroupName = ec2SecurityGroupName
             self.ec2SecurityGroupOwnerId = ec2SecurityGroupOwnerId
             self.status = status
@@ -1381,8 +1369,7 @@ extension RedshiftClientTypes {
             cidrip: Swift.String? = nil,
             status: Swift.String? = nil,
             tags: [RedshiftClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.cidrip = cidrip
             self.status = status
             self.tags = tags
@@ -1411,8 +1398,7 @@ extension RedshiftClientTypes {
             ec2SecurityGroups: [RedshiftClientTypes.EC2SecurityGroup]? = nil,
             ipRanges: [RedshiftClientTypes.IPRange]? = nil,
             tags: [RedshiftClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.clusterSecurityGroupName = clusterSecurityGroupName
             self.description = description
             self.ec2SecurityGroups = ec2SecurityGroups
@@ -1428,8 +1414,7 @@ public struct AuthorizeClusterSecurityGroupIngressOutput: Swift.Sendable {
 
     public init(
         clusterSecurityGroup: RedshiftClientTypes.ClusterSecurityGroup? = nil
-    )
-    {
+    ) {
         self.clusterSecurityGroup = clusterSecurityGroup
     }
 }
@@ -1448,8 +1433,7 @@ public struct AuthorizeDataShareInput: Swift.Sendable {
         allowWrites: Swift.Bool? = nil,
         consumerIdentifier: Swift.String? = nil,
         dataShareArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowWrites = allowWrites
         self.consumerIdentifier = consumerIdentifier
         self.dataShareArn = dataShareArn
@@ -1463,6 +1447,8 @@ public struct AuthorizeDataShareOutput: Swift.Sendable {
     public var dataShareArn: Swift.String?
     /// A value that specifies when the datashare has an association between producer and data consumers.
     public var dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]?
+    /// The type of the datashare created by RegisterNamespace.
+    public var dataShareType: RedshiftClientTypes.DataShareType?
     /// The identifier of a datashare to show its managing entity.
     public var managedBy: Swift.String?
     /// The Amazon Resource Name (ARN) of the producer namespace.
@@ -1472,13 +1458,14 @@ public struct AuthorizeDataShareOutput: Swift.Sendable {
         allowPubliclyAccessibleConsumers: Swift.Bool? = nil,
         dataShareArn: Swift.String? = nil,
         dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]? = nil,
+        dataShareType: RedshiftClientTypes.DataShareType? = nil,
         managedBy: Swift.String? = nil,
         producerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowPubliclyAccessibleConsumers = allowPubliclyAccessibleConsumers
         self.dataShareArn = dataShareArn
         self.dataShareAssociations = dataShareAssociations
+        self.dataShareType = dataShareType
         self.managedBy = managedBy
         self.producerArn = producerArn
     }
@@ -1496,8 +1483,7 @@ extension RedshiftClientTypes {
         public init(
             authorizedAudiencesList: [Swift.String]? = nil,
             trustedTokenIssuerArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.authorizedAudiencesList = authorizedAudiencesList
             self.trustedTokenIssuerArn = trustedTokenIssuerArn
         }
@@ -1505,9 +1491,9 @@ extension RedshiftClientTypes {
 }
 
 /// The authorization already exists for this endpoint.
-public struct EndpointAuthorizationAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EndpointAuthorizationAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1522,16 +1508,15 @@ public struct EndpointAuthorizationAlreadyExistsFault: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The number of endpoint authorizations per cluster has exceeded its limit.
-public struct EndpointAuthorizationsPerClusterLimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EndpointAuthorizationsPerClusterLimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1546,16 +1531,15 @@ public struct EndpointAuthorizationsPerClusterLimitExceededFault: ClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The status of the authorization is not valid.
-public struct InvalidAuthorizationStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidAuthorizationStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1570,16 +1554,15 @@ public struct InvalidAuthorizationStateFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified cluster is not in the available state.
-public struct InvalidClusterStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidClusterStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1594,8 +1577,7 @@ public struct InvalidClusterStateFault: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1613,8 +1595,7 @@ public struct AuthorizeEndpointAccessInput: Swift.Sendable {
         account: Swift.String? = nil,
         clusterIdentifier: Swift.String? = nil,
         vpcIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.account = account
         self.clusterIdentifier = clusterIdentifier
         self.vpcIds = vpcIds
@@ -1652,8 +1633,7 @@ public struct AuthorizeEndpointAccessOutput: Swift.Sendable {
         grantee: Swift.String? = nil,
         grantor: Swift.String? = nil,
         status: RedshiftClientTypes.AuthorizationStatus? = nil
-    )
-    {
+    ) {
         self.allowedAllVPCs = allowedAllVPCs
         self.allowedVPCs = allowedVPCs
         self.authorizeTime = authorizeTime
@@ -1667,9 +1647,9 @@ public struct AuthorizeEndpointAccessOutput: Swift.Sendable {
 }
 
 /// The snapshot identifier does not refer to an existing cluster snapshot.
-public struct ClusterSnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClusterSnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1684,16 +1664,15 @@ public struct ClusterSnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request cannot be completed because a dependent service is throttling requests made by Amazon Redshift on your behalf. Wait and retry the request.
-public struct DependentServiceRequestThrottlingFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DependentServiceRequestThrottlingFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1708,16 +1687,15 @@ public struct DependentServiceRequestThrottlingFault: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified cluster snapshot is not in the available state, or other accounts are authorized to access the snapshot.
-public struct InvalidClusterSnapshotStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidClusterSnapshotStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1732,16 +1710,15 @@ public struct InvalidClusterSnapshotStateFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The encryption key has exceeded its grant limit in Amazon Web Services KMS.
-public struct LimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1756,8 +1733,7 @@ public struct LimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1783,8 +1759,7 @@ public struct AuthorizeSnapshotAccessInput: Swift.Sendable {
         snapshotArn: Swift.String? = nil,
         snapshotClusterIdentifier: Swift.String? = nil,
         snapshotIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountWithRestoreAccess = accountWithRestoreAccess
         self.snapshotArn = snapshotArn
         self.snapshotClusterIdentifier = snapshotClusterIdentifier
@@ -1915,8 +1890,7 @@ extension RedshiftClientTypes {
             tags: [RedshiftClientTypes.Tag]? = nil,
             totalBackupSizeInMegaBytes: Swift.Double? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountsWithRestoreAccess = accountsWithRestoreAccess
             self.actualIncrementalBackupSizeInMegaBytes = actualIncrementalBackupSizeInMegaBytes
             self.availabilityZone = availabilityZone
@@ -1964,8 +1938,7 @@ public struct AuthorizeSnapshotAccessOutput: Swift.Sendable {
 
     public init(
         snapshot: RedshiftClientTypes.Snapshot? = nil
-    )
-    {
+    ) {
         self.snapshot = snapshot
     }
 }
@@ -1979,8 +1952,7 @@ extension RedshiftClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -1998,8 +1970,7 @@ extension RedshiftClientTypes {
         public init(
             name: Swift.String? = nil,
             supportedPlatforms: [RedshiftClientTypes.SupportedPlatform]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.supportedPlatforms = supportedPlatforms
         }
@@ -2007,9 +1978,9 @@ extension RedshiftClientTypes {
 }
 
 /// The maximum number for a batch delete of snapshots has been reached. The limit is 100.
-public struct BatchDeleteRequestSizeExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BatchDeleteRequestSizeExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2024,8 +1995,7 @@ public struct BatchDeleteRequestSizeExceededFault: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2043,8 +2013,7 @@ extension RedshiftClientTypes {
         public init(
             snapshotClusterIdentifier: Swift.String? = nil,
             snapshotIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.snapshotClusterIdentifier = snapshotClusterIdentifier
             self.snapshotIdentifier = snapshotIdentifier
         }
@@ -2058,8 +2027,7 @@ public struct BatchDeleteClusterSnapshotsInput: Swift.Sendable {
 
     public init(
         identifiers: [RedshiftClientTypes.DeleteClusterSnapshotMessage]? = nil
-    )
-    {
+    ) {
         self.identifiers = identifiers
     }
 }
@@ -2082,8 +2050,7 @@ extension RedshiftClientTypes {
             failureReason: Swift.String? = nil,
             snapshotClusterIdentifier: Swift.String? = nil,
             snapshotIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.failureCode = failureCode
             self.failureReason = failureReason
             self.snapshotClusterIdentifier = snapshotClusterIdentifier
@@ -2101,17 +2068,16 @@ public struct BatchDeleteClusterSnapshotsOutput: Swift.Sendable {
     public init(
         errors: [RedshiftClientTypes.SnapshotErrorMessage]? = nil,
         resources: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.resources = resources
     }
 }
 
 /// The maximum number for snapshot identifiers has been reached. The limit is 100.
-public struct BatchModifyClusterSnapshotsLimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BatchModifyClusterSnapshotsLimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2126,16 +2092,15 @@ public struct BatchModifyClusterSnapshotsLimitExceededFault: ClientRuntime.Model
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The retention period specified is either in the past or is not a valid value. The value must be either -1 or an integer between 1 and 3,653.
-public struct InvalidRetentionPeriodFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRetentionPeriodFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2150,8 +2115,7 @@ public struct InvalidRetentionPeriodFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2169,8 +2133,7 @@ public struct BatchModifyClusterSnapshotsInput: Swift.Sendable {
         force: Swift.Bool? = nil,
         manualSnapshotRetentionPeriod: Swift.Int? = nil,
         snapshotIdentifierList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.force = force
         self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
         self.snapshotIdentifierList = snapshotIdentifierList
@@ -2186,17 +2149,16 @@ public struct BatchModifyClusterSnapshotsOutput: Swift.Sendable {
     public init(
         errors: [RedshiftClientTypes.SnapshotErrorMessage]? = nil,
         resources: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.resources = resources
     }
 }
 
 /// Could not find the specified S3 bucket.
-public struct BucketNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BucketNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2211,16 +2173,15 @@ public struct BucketNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A resize operation for the specified cluster is not found.
-public struct ResizeNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResizeNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2235,8 +2196,7 @@ public struct ResizeNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2248,8 +2208,7 @@ public struct CancelResizeInput: Swift.Sendable {
 
     public init(
         clusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
     }
 }
@@ -2306,8 +2265,7 @@ public struct CancelResizeOutput: Swift.Sendable {
         targetNodeType: Swift.String? = nil,
         targetNumberOfNodes: Swift.Int? = nil,
         totalResizeDataInMegaBytes: Swift.Int? = nil
-    )
-    {
+    ) {
         self.avgResizeRateInMegaBytesPerSecond = avgResizeRateInMegaBytesPerSecond
         self.dataTransferProgressPercent = dataTransferProgressPercent
         self.elapsedTimeInSeconds = elapsedTimeInSeconds
@@ -2342,8 +2300,7 @@ extension RedshiftClientTypes {
             nodeRole: Swift.String? = nil,
             privateIPAddress: Swift.String? = nil,
             publicIPAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.nodeRole = nodeRole
             self.privateIPAddress = privateIPAddress
             self.publicIPAddress = publicIPAddress
@@ -2380,8 +2337,7 @@ extension RedshiftClientTypes {
             parameterApplyErrorDescription: Swift.String? = nil,
             parameterApplyStatus: Swift.String? = nil,
             parameterName: Swift.String? = nil
-        )
-        {
+        ) {
             self.parameterApplyErrorDescription = parameterApplyErrorDescription
             self.parameterApplyStatus = parameterApplyStatus
             self.parameterName = parameterName
@@ -2404,8 +2360,7 @@ extension RedshiftClientTypes {
             clusterParameterStatusList: [RedshiftClientTypes.ClusterParameterStatus]? = nil,
             parameterApplyStatus: Swift.String? = nil,
             parameterGroupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.clusterParameterStatusList = clusterParameterStatusList
             self.parameterApplyStatus = parameterApplyStatus
             self.parameterGroupName = parameterGroupName
@@ -2425,8 +2380,7 @@ extension RedshiftClientTypes {
         public init(
             clusterSecurityGroupName: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.clusterSecurityGroupName = clusterSecurityGroupName
             self.status = status
         }
@@ -2451,8 +2405,7 @@ extension RedshiftClientTypes {
             manualSnapshotRetentionPeriod: Swift.Int? = nil,
             retentionPeriod: Swift.Int? = nil,
             snapshotCopyGrantName: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationRegion = destinationRegion
             self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
             self.retentionPeriod = retentionPeriod
@@ -2485,8 +2438,7 @@ extension RedshiftClientTypes {
             estimatedTimeToCompletionInSeconds: Swift.Int? = nil,
             status: Swift.String? = nil,
             totalDataInMegaBytes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.currentRateInMegaBytesPerSecond = currentRateInMegaBytesPerSecond
             self.dataTransferredInMegaBytes = dataTransferredInMegaBytes
             self.elapsedTimeInSeconds = elapsedTimeInSeconds
@@ -2512,8 +2464,7 @@ extension RedshiftClientTypes {
             deferMaintenanceEndTime: Foundation.Date? = nil,
             deferMaintenanceIdentifier: Swift.String? = nil,
             deferMaintenanceStartTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.deferMaintenanceEndTime = deferMaintenanceEndTime
             self.deferMaintenanceIdentifier = deferMaintenanceIdentifier
             self.deferMaintenanceStartTime = deferMaintenanceStartTime
@@ -2533,8 +2484,7 @@ extension RedshiftClientTypes {
         public init(
             elasticIp: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.elasticIp = elasticIp
             self.status = status
         }
@@ -2562,8 +2512,7 @@ extension RedshiftClientTypes {
             networkInterfaceId: Swift.String? = nil,
             privateIpAddress: Swift.String? = nil,
             subnetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.ipv6Address = ipv6Address
             self.networkInterfaceId = networkInterfaceId
@@ -2588,8 +2537,7 @@ extension RedshiftClientTypes {
             networkInterfaces: [RedshiftClientTypes.NetworkInterface]? = nil,
             vpcEndpointId: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.networkInterfaces = networkInterfaces
             self.vpcEndpointId = vpcEndpointId
             self.vpcId = vpcId
@@ -2612,8 +2560,7 @@ extension RedshiftClientTypes {
             address: Swift.String? = nil,
             port: Swift.Int? = nil,
             vpcEndpoints: [RedshiftClientTypes.VpcEndpoint]? = nil
-        )
-        {
+        ) {
             self.address = address
             self.port = port
             self.vpcEndpoints = vpcEndpoints
@@ -2636,8 +2583,7 @@ extension RedshiftClientTypes {
             hsmClientCertificateIdentifier: Swift.String? = nil,
             hsmConfigurationIdentifier: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
             self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
             self.status = status
@@ -2663,8 +2609,7 @@ extension RedshiftClientTypes {
         public init(
             applyStatus: Swift.String? = nil,
             iamRoleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.applyStatus = applyStatus
             self.iamRoleArn = iamRoleArn
         }
@@ -2683,8 +2628,7 @@ extension RedshiftClientTypes {
         public init(
             availabilityZone: Swift.String? = nil,
             clusterNodes: [RedshiftClientTypes.ClusterNode]? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.clusterNodes = clusterNodes
         }
@@ -2730,8 +2674,7 @@ extension RedshiftClientTypes {
             nodeType: Swift.String? = nil,
             numberOfNodes: Swift.Int? = nil,
             publiclyAccessible: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
             self.clusterIdentifier = clusterIdentifier
             self.clusterType = clusterType
@@ -2826,8 +2769,7 @@ extension RedshiftClientTypes {
             targetReservedNodeCount: Swift.Int? = nil,
             targetReservedNodeOfferingId: Swift.String? = nil,
             targetReservedNodeType: Swift.String? = nil
-        )
-        {
+        ) {
             self.requestTime = requestTime
             self.reservedNodeExchangeRequestId = reservedNodeExchangeRequestId
             self.sourceReservedNodeCount = sourceReservedNodeCount
@@ -2853,8 +2795,7 @@ extension RedshiftClientTypes {
         public init(
             allowCancelResize: Swift.Bool? = nil,
             resizeType: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowCancelResize = allowCancelResize
             self.resizeType = resizeType
         }
@@ -2885,8 +2826,7 @@ extension RedshiftClientTypes {
             progressInMegaBytes: Swift.Int? = nil,
             snapshotSizeInMegaBytes: Swift.Int? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.currentRestoreRateInMegaBytesPerSecond = currentRestoreRateInMegaBytesPerSecond
             self.elapsedTimeInSeconds = elapsedTimeInSeconds
             self.estimatedTimeToCompletionInSeconds = estimatedTimeToCompletionInSeconds
@@ -2909,8 +2849,7 @@ extension RedshiftClientTypes {
         public init(
             status: Swift.String? = nil,
             vpcSecurityGroupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
             self.vpcSecurityGroupId = vpcSecurityGroupId
         }
@@ -3075,7 +3014,7 @@ extension RedshiftClientTypes {
         public var pendingModifiedValues: RedshiftClientTypes.PendingModifiedValues?
         /// The weekly time range, in Universal Coordinated Time (UTC), during which system maintenance can occur.
         public var preferredMaintenanceWindow: Swift.String?
-        /// A boolean value that, if true, indicates that the cluster can be accessed from a public network.
+        /// A boolean value that, if true, indicates that the cluster can be accessed from a public network. Default: false
         public var publiclyAccessible: Swift.Bool?
         /// The status of the reserved-node exchange request. Statuses include in-progress and requested.
         public var reservedNodeExchangeStatus: RedshiftClientTypes.ReservedNodeExchangeStatus?
@@ -3161,8 +3100,7 @@ extension RedshiftClientTypes {
             totalStorageCapacityInMegaBytes: Swift.Int? = nil,
             vpcId: Swift.String? = nil,
             vpcSecurityGroups: [RedshiftClientTypes.VpcSecurityGroupMembership]? = nil
-        )
-        {
+        ) {
             self.allowVersionUpgrade = allowVersionUpgrade
             self.aquaConfiguration = aquaConfiguration
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
@@ -3228,9 +3166,9 @@ extension RedshiftClientTypes {
 }
 
 /// The account already has a cluster with the given identifier.
-public struct ClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3245,8 +3183,7 @@ public struct ClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3266,8 +3203,7 @@ extension RedshiftClientTypes {
             databaseRevision: Swift.String? = nil,
             databaseRevisionReleaseDate: Foundation.Date? = nil,
             description: Swift.String? = nil
-        )
-        {
+        ) {
             self.databaseRevision = databaseRevision
             self.databaseRevisionReleaseDate = databaseRevisionReleaseDate
             self.description = description
@@ -3293,8 +3229,7 @@ extension RedshiftClientTypes {
             currentDatabaseRevision: Swift.String? = nil,
             databaseRevisionReleaseDate: Foundation.Date? = nil,
             revisionTargets: [RedshiftClientTypes.RevisionTarget]? = nil
-        )
-        {
+        ) {
             self.clusterIdentifier = clusterIdentifier
             self.currentDatabaseRevision = currentDatabaseRevision
             self.databaseRevisionReleaseDate = databaseRevisionReleaseDate
@@ -3304,9 +3239,9 @@ extension RedshiftClientTypes {
 }
 
 /// Cluster is already on the latest database revision.
-public struct ClusterOnLatestRevisionFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClusterOnLatestRevisionFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3321,8 +3256,7 @@ public struct ClusterOnLatestRevisionFault: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3345,8 +3279,7 @@ extension RedshiftClientTypes {
             parameterGroupFamily: Swift.String? = nil,
             parameterGroupName: Swift.String? = nil,
             tags: [RedshiftClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.description = description
             self.parameterGroupFamily = parameterGroupFamily
             self.parameterGroupName = parameterGroupName
@@ -3356,9 +3289,9 @@ extension RedshiftClientTypes {
 }
 
 /// A cluster parameter group with the same name already exists.
-public struct ClusterParameterGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClusterParameterGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3373,8 +3306,7 @@ public struct ClusterParameterGroupAlreadyExistsFault: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3441,8 +3373,7 @@ extension RedshiftClientTypes {
             parameterName: Swift.String? = nil,
             parameterValue: Swift.String? = nil,
             source: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedValues = allowedValues
             self.applyType = applyType
             self.dataType = dataType
@@ -3457,9 +3388,9 @@ extension RedshiftClientTypes {
 }
 
 /// The parameter group name does not refer to an existing parameter group.
-public struct ClusterParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClusterParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3474,16 +3405,15 @@ public struct ClusterParameterGroupNotFoundFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request would result in the user exceeding the allowed number of cluster parameter groups. For information about increasing your quota, go to [Limits in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html) in the Amazon Redshift Cluster Management Guide.
-public struct ClusterParameterGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClusterParameterGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3498,16 +3428,15 @@ public struct ClusterParameterGroupQuotaExceededFault: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request would exceed the allowed number of cluster instances for this account. For information about increasing your quota, go to [Limits in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html) in the Amazon Redshift Cluster Management Guide.
-public struct ClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3522,16 +3451,15 @@ public struct ClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A cluster security group with the same name already exists.
-public struct ClusterSecurityGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClusterSecurityGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3546,16 +3474,15 @@ public struct ClusterSecurityGroupAlreadyExistsFault: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request would result in the user exceeding the allowed number of cluster security groups. For information about increasing your quota, go to [Limits in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html) in the Amazon Redshift Cluster Management Guide.
-public struct ClusterSecurityGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClusterSecurityGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3570,16 +3497,15 @@ public struct ClusterSecurityGroupQuotaExceededFault: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The value specified as a snapshot identifier is already used by an existing snapshot.
-public struct ClusterSnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClusterSnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3594,16 +3520,15 @@ public struct ClusterSnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request would result in the user exceeding the allowed number of cluster snapshots.
-public struct ClusterSnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClusterSnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3618,8 +3543,7 @@ public struct ClusterSnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3639,8 +3563,7 @@ extension RedshiftClientTypes {
             subnetAvailabilityZone: RedshiftClientTypes.AvailabilityZone? = nil,
             subnetIdentifier: Swift.String? = nil,
             subnetStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.subnetAvailabilityZone = subnetAvailabilityZone
             self.subnetIdentifier = subnetIdentifier
             self.subnetStatus = subnetStatus
@@ -3675,8 +3598,7 @@ extension RedshiftClientTypes {
             supportedClusterIpAddressTypes: [Swift.String]? = nil,
             tags: [RedshiftClientTypes.Tag]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.clusterSubnetGroupName = clusterSubnetGroupName
             self.description = description
             self.subnetGroupStatus = subnetGroupStatus
@@ -3689,9 +3611,9 @@ extension RedshiftClientTypes {
 }
 
 /// A ClusterSubnetGroupName is already used by an existing cluster subnet group.
-public struct ClusterSubnetGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClusterSubnetGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3706,16 +3628,15 @@ public struct ClusterSubnetGroupAlreadyExistsFault: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The cluster subnet group name does not refer to an existing cluster subnet group.
-public struct ClusterSubnetGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClusterSubnetGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3730,16 +3651,15 @@ public struct ClusterSubnetGroupNotFoundFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request would result in user exceeding the allowed number of cluster subnet groups. For information about increasing your quota, go to [Limits in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html) in the Amazon Redshift Cluster Management Guide.
-public struct ClusterSubnetGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClusterSubnetGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3754,16 +3674,15 @@ public struct ClusterSubnetGroupQuotaExceededFault: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request would result in user exceeding the allowed number of subnets in a cluster subnet groups. For information about increasing your quota, go to [Limits in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html) in the Amazon Redshift Cluster Management Guide.
-public struct ClusterSubnetQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClusterSubnetQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3778,8 +3697,7 @@ public struct ClusterSubnetQuotaExceededFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3799,8 +3717,7 @@ extension RedshiftClientTypes {
             clusterParameterGroupFamily: Swift.String? = nil,
             clusterVersion: Swift.String? = nil,
             description: Swift.String? = nil
-        )
-        {
+        ) {
             self.clusterParameterGroupFamily = clusterParameterGroupFamily
             self.clusterVersion = clusterVersion
             self.description = description
@@ -3809,9 +3726,9 @@ extension RedshiftClientTypes {
 }
 
 /// There is a conflict while updating the resource policy.
-public struct ConflictPolicyUpdateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictPolicyUpdateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3826,8 +3743,7 @@ public struct ConflictPolicyUpdateFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3864,8 +3780,7 @@ public struct CopyClusterSnapshotInput: Swift.Sendable {
         sourceSnapshotClusterIdentifier: Swift.String? = nil,
         sourceSnapshotIdentifier: Swift.String? = nil,
         targetSnapshotIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
         self.sourceSnapshotClusterIdentifier = sourceSnapshotClusterIdentifier
         self.sourceSnapshotIdentifier = sourceSnapshotIdentifier
@@ -3879,16 +3794,15 @@ public struct CopyClusterSnapshotOutput: Swift.Sendable {
 
     public init(
         snapshot: RedshiftClientTypes.Snapshot? = nil
-    )
-    {
+    ) {
         self.snapshot = snapshot
     }
 }
 
 /// Cross-region snapshot copy was temporarily disabled. Try your request again.
-public struct CopyToRegionDisabledFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CopyToRegionDisabledFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3903,16 +3817,15 @@ public struct CopyToRegionDisabledFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The authentication profile request is not valid. The profile name can't be null or empty. The authentication profile API operation must be available in the Amazon Web Services Region.
-public struct InvalidAuthenticationProfileRequestFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidAuthenticationProfileRequestFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3927,8 +3840,7 @@ public struct InvalidAuthenticationProfileRequestFault: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3944,8 +3856,7 @@ public struct CreateAuthenticationProfileInput: Swift.Sendable {
     public init(
         authenticationProfileContent: Swift.String? = nil,
         authenticationProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationProfileContent = authenticationProfileContent
         self.authenticationProfileName = authenticationProfileName
     }
@@ -3960,17 +3871,16 @@ public struct CreateAuthenticationProfileOutput: Swift.Sendable {
     public init(
         authenticationProfileContent: Swift.String? = nil,
         authenticationProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationProfileContent = authenticationProfileContent
         self.authenticationProfileName = authenticationProfileName
     }
 }
 
 /// There is no Amazon Redshift HSM client certificate with the specified identifier.
-public struct HsmClientCertificateNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct HsmClientCertificateNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3985,16 +3895,15 @@ public struct HsmClientCertificateNotFoundFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// There is no Amazon Redshift HSM configuration with the specified identifier.
-public struct HsmConfigurationNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct HsmConfigurationNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4009,16 +3918,15 @@ public struct HsmConfigurationNotFoundFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The number of nodes specified exceeds the allotted capacity of the cluster.
-public struct InsufficientClusterCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientClusterCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4033,16 +3941,15 @@ public struct InsufficientClusterCapacityFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The cluster subnet group cannot be deleted because it is in use.
-public struct InvalidClusterSubnetGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidClusterSubnetGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4057,16 +3964,15 @@ public struct InvalidClusterSubnetGroupStateFault: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The provided cluster track name is not valid.
-public struct InvalidClusterTrackFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidClusterTrackFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4081,16 +3987,15 @@ public struct InvalidClusterTrackFault: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The Elastic IP (EIP) is invalid or cannot be found.
-public struct InvalidElasticIpFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidElasticIpFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4105,16 +4010,15 @@ public struct InvalidElasticIpFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The requested subnet is not valid, or not all of the subnets are in the same VPC.
-public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4129,16 +4033,15 @@ public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The tag is invalid.
-public struct InvalidTagFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTagFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4153,16 +4056,15 @@ public struct InvalidTagFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The cluster subnet group does not cover all Availability Zones.
-public struct InvalidVPCNetworkStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidVPCNetworkStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4177,16 +4079,15 @@ public struct InvalidVPCNetworkStateFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// There are no subnets in your VPC with associated IPv6 CIDR blocks. To use dual-stack mode, associate an IPv6 CIDR block with each subnet in your VPC.
-public struct Ipv6CidrBlockNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct Ipv6CidrBlockNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4201,16 +4102,15 @@ public struct Ipv6CidrBlockNotFoundFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation would exceed the number of nodes allowed for a cluster.
-public struct NumberOfNodesPerClusterLimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NumberOfNodesPerClusterLimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4225,16 +4125,15 @@ public struct NumberOfNodesPerClusterLimitExceededFault: ClientRuntime.ModeledEr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation would exceed the number of nodes allotted to the account. For information about increasing your quota, go to [Limits in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html) in the Amazon Redshift Cluster Management Guide.
-public struct NumberOfNodesQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NumberOfNodesQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4249,16 +4148,15 @@ public struct NumberOfNodesQuotaExceededFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The application you attempted to find doesn't exist.
-public struct RedshiftIdcApplicationNotExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RedshiftIdcApplicationNotExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4273,16 +4171,15 @@ public struct RedshiftIdcApplicationNotExistsFault: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// We could not find the specified snapshot schedule.
-public struct SnapshotScheduleNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SnapshotScheduleNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4297,16 +4194,15 @@ public struct SnapshotScheduleNotFoundFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You have exceeded the number of tags allowed.
-public struct TagLimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TagLimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4321,16 +4217,15 @@ public struct TagLimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Your account is not authorized to perform the requested operation.
-public struct UnauthorizedOperation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnauthorizedOperation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4345,8 +4240,7 @@ public struct UnauthorizedOperation: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4416,7 +4310,7 @@ public struct CreateClusterInput: Swift.Sendable {
     public var defaultIamRoleArn: Swift.String?
     /// The Elastic IP (EIP) address for the cluster. Constraints: The cluster must be provisioned in EC2-VPC and publicly-accessible through an Internet gateway. Don't specify the Elastic IP address for a publicly accessible cluster with availability zone relocation turned on. For more information about provisioning clusters in EC2-VPC, go to [Supported Platforms to Launch Your Cluster](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#cluster-platforms) in the Amazon Redshift Cluster Management Guide.
     public var elasticIp: Swift.String?
-    /// If true, the data in the cluster is encrypted at rest. Default: false
+    /// If true, the data in the cluster is encrypted at rest. If you set the value on this parameter to false, the request will fail. Default: true
     public var encrypted: Swift.Bool?
     /// An option that specifies whether to create the cluster with enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC. For more information, see [Enhanced VPC Routing](https://docs.aws.amazon.com/redshift/latest/mgmt/enhanced-vpc-routing.html) in the Amazon Redshift Cluster Management Guide. If this option is true, enhanced VPC routing is enabled. Default: false
     public var enhancedVpcRouting: Swift.Bool?
@@ -4480,7 +4374,7 @@ public struct CreateClusterInput: Swift.Sendable {
     public var port: Swift.Int?
     /// The weekly time range (in UTC) during which automated cluster maintenance can occur. Format: ddd:hh24:mi-ddd:hh24:mi Default: A 30-minute window selected at random from an 8-hour block of time per region, occurring on a random day of the week. For more information about the time blocks for each region, see [Maintenance Windows](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#rs-maintenance-windows) in Amazon Redshift Cluster Management Guide. Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Minimum 30-minute window.
     public var preferredMaintenanceWindow: Swift.String?
-    /// If true, the cluster can be accessed from a public network.
+    /// If true, the cluster can be accessed from a public network. Default: false
     public var publiclyAccessible: Swift.Bool?
     /// The Amazon resource name (ARN) of the Amazon Redshift IAM Identity Center application.
     public var redshiftIdcApplicationArn: Swift.String?
@@ -4531,8 +4425,7 @@ public struct CreateClusterInput: Swift.Sendable {
         snapshotScheduleIdentifier: Swift.String? = nil,
         tags: [RedshiftClientTypes.Tag]? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.additionalInfo = additionalInfo
         self.allowVersionUpgrade = allowVersionUpgrade
         self.aquaConfigurationStatus = aquaConfigurationStatus
@@ -4586,8 +4479,7 @@ public struct CreateClusterOutput: Swift.Sendable {
 
     public init(
         cluster: RedshiftClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -4622,8 +4514,7 @@ public struct CreateClusterParameterGroupInput: Swift.Sendable {
         parameterGroupFamily: Swift.String? = nil,
         parameterGroupName: Swift.String? = nil,
         tags: [RedshiftClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.parameterGroupFamily = parameterGroupFamily
         self.parameterGroupName = parameterGroupName
@@ -4637,8 +4528,7 @@ public struct CreateClusterParameterGroupOutput: Swift.Sendable {
 
     public init(
         clusterParameterGroup: RedshiftClientTypes.ClusterParameterGroup? = nil
-    )
-    {
+    ) {
         self.clusterParameterGroup = clusterParameterGroup
     }
 }
@@ -4667,8 +4557,7 @@ public struct CreateClusterSecurityGroupInput: Swift.Sendable {
         clusterSecurityGroupName: Swift.String? = nil,
         description: Swift.String? = nil,
         tags: [RedshiftClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clusterSecurityGroupName = clusterSecurityGroupName
         self.description = description
         self.tags = tags
@@ -4681,8 +4570,7 @@ public struct CreateClusterSecurityGroupOutput: Swift.Sendable {
 
     public init(
         clusterSecurityGroup: RedshiftClientTypes.ClusterSecurityGroup? = nil
-    )
-    {
+    ) {
         self.clusterSecurityGroup = clusterSecurityGroup
     }
 }
@@ -4716,8 +4604,7 @@ public struct CreateClusterSnapshotInput: Swift.Sendable {
         manualSnapshotRetentionPeriod: Swift.Int? = nil,
         snapshotIdentifier: Swift.String? = nil,
         tags: [RedshiftClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
         self.snapshotIdentifier = snapshotIdentifier
@@ -4731,8 +4618,7 @@ public struct CreateClusterSnapshotOutput: Swift.Sendable {
 
     public init(
         snapshot: RedshiftClientTypes.Snapshot? = nil
-    )
-    {
+    ) {
         self.snapshot = snapshot
     }
 }
@@ -4765,8 +4651,7 @@ public struct CreateClusterSubnetGroupInput: Swift.Sendable {
         description: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil,
         tags: [RedshiftClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clusterSubnetGroupName = clusterSubnetGroupName
         self.description = description
         self.subnetIds = subnetIds
@@ -4780,16 +4665,15 @@ public struct CreateClusterSubnetGroupOutput: Swift.Sendable {
 
     public init(
         clusterSubnetGroup: RedshiftClientTypes.ClusterSubnetGroup? = nil
-    )
-    {
+    ) {
         self.clusterSubnetGroup = clusterSubnetGroup
     }
 }
 
 /// An error occurred when an attempt was made to change the custom domain association.
-public struct CustomCnameAssociationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CustomCnameAssociationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4804,8 +4688,7 @@ public struct CustomCnameAssociationFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4825,8 +4708,7 @@ public struct CreateCustomDomainAssociationInput: Swift.Sendable {
         clusterIdentifier: Swift.String? = nil,
         customDomainCertificateArn: Swift.String? = nil,
         customDomainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.customDomainCertificateArn = customDomainCertificateArn
         self.customDomainName = customDomainName
@@ -4848,8 +4730,7 @@ public struct CreateCustomDomainAssociationOutput: Swift.Sendable {
         customDomainCertExpiryTime: Swift.String? = nil,
         customDomainCertificateArn: Swift.String? = nil,
         customDomainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.customDomainCertExpiryTime = customDomainCertExpiryTime
         self.customDomainCertificateArn = customDomainCertificateArn
@@ -4858,9 +4739,9 @@ public struct CreateCustomDomainAssociationOutput: Swift.Sendable {
 }
 
 /// The account already has a Redshift-managed VPC endpoint with the given identifier.
-public struct EndpointAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EndpointAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4875,16 +4756,15 @@ public struct EndpointAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The number of Redshift-managed VPC endpoints per authorization has exceeded its limit.
-public struct EndpointsPerAuthorizationLimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EndpointsPerAuthorizationLimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4899,16 +4779,15 @@ public struct EndpointsPerAuthorizationLimitExceededFault: ClientRuntime.Modeled
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The number of Redshift-managed VPC endpoints per cluster has exceeded its limit.
-public struct EndpointsPerClusterLimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EndpointsPerClusterLimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4923,8 +4802,7 @@ public struct EndpointsPerClusterLimitExceededFault: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4949,8 +4827,7 @@ public struct CreateEndpointAccessInput: Swift.Sendable {
         resourceOwner: Swift.String? = nil,
         subnetGroupName: Swift.String? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.endpointName = endpointName
         self.resourceOwner = resourceOwner
@@ -4993,8 +4870,7 @@ public struct CreateEndpointAccessOutput: Swift.Sendable {
         subnetGroupName: Swift.String? = nil,
         vpcEndpoint: RedshiftClientTypes.VpcEndpoint? = nil,
         vpcSecurityGroups: [RedshiftClientTypes.VpcSecurityGroupMembership]? = nil
-    )
-    {
+    ) {
         self.address = address
         self.clusterIdentifier = clusterIdentifier
         self.endpointCreateTime = endpointCreateTime
@@ -5009,9 +4885,9 @@ public struct CreateEndpointAccessOutput: Swift.Sendable {
 }
 
 /// The request would exceed the allowed number of event subscriptions for this account. For information about increasing your quota, go to [Limits in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html) in the Amazon Redshift Cluster Management Guide.
-public struct EventSubscriptionQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EventSubscriptionQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5026,16 +4902,15 @@ public struct EventSubscriptionQuotaExceededFault: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Amazon SNS has responded that there is a problem with the specified Amazon SNS topic.
-public struct SNSInvalidTopicFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SNSInvalidTopicFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5050,16 +4925,15 @@ public struct SNSInvalidTopicFault: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You do not have permission to publish to the specified Amazon SNS topic.
-public struct SNSNoAuthorizationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SNSNoAuthorizationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5074,16 +4948,15 @@ public struct SNSNoAuthorizationFault: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An Amazon SNS topic with the specified Amazon Resource Name (ARN) does not exist.
-public struct SNSTopicArnNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SNSTopicArnNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5098,16 +4971,15 @@ public struct SNSTopicArnNotFoundFault: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified Amazon Redshift event source could not be found.
-public struct SourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5122,16 +4994,15 @@ public struct SourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// There is already an existing event notification subscription with the specified name.
-public struct SubscriptionAlreadyExistFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SubscriptionAlreadyExistFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5146,16 +5017,15 @@ public struct SubscriptionAlreadyExistFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The value specified for the event category was not one of the allowed values, or it specified a category that does not apply to the specified source type. The allowed values are Configuration, Management, Monitoring, and Security.
-public struct SubscriptionCategoryNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SubscriptionCategoryNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5170,16 +5040,15 @@ public struct SubscriptionCategoryNotFoundFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An Amazon Redshift event with the specified event ID does not exist.
-public struct SubscriptionEventIdNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SubscriptionEventIdNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5194,16 +5063,15 @@ public struct SubscriptionEventIdNotFoundFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The value specified for the event severity was not one of the allowed values, or it specified a severity that does not apply to the specified source type. The allowed values are ERROR and INFO.
-public struct SubscriptionSeverityNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SubscriptionSeverityNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5218,8 +5086,7 @@ public struct SubscriptionSeverityNotFoundFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5262,8 +5129,7 @@ public struct CreateEventSubscriptionInput: Swift.Sendable {
         sourceType: Swift.String? = nil,
         subscriptionName: Swift.String? = nil,
         tags: [RedshiftClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.enabled = enabled
         self.eventCategories = eventCategories
         self.severity = severity
@@ -5318,8 +5184,7 @@ extension RedshiftClientTypes {
             status: Swift.String? = nil,
             subscriptionCreationTime: Foundation.Date? = nil,
             tags: [RedshiftClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.custSubscriptionId = custSubscriptionId
             self.customerAwsId = customerAwsId
             self.enabled = enabled
@@ -5341,16 +5206,15 @@ public struct CreateEventSubscriptionOutput: Swift.Sendable {
 
     public init(
         eventSubscription: RedshiftClientTypes.EventSubscription? = nil
-    )
-    {
+    ) {
         self.eventSubscription = eventSubscription
     }
 }
 
 /// There is already an existing Amazon Redshift HSM client certificate with the specified identifier.
-public struct HsmClientCertificateAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct HsmClientCertificateAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5365,16 +5229,15 @@ public struct HsmClientCertificateAlreadyExistsFault: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The quota for HSM client certificates has been reached. For information about increasing your quota, go to [Limits in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html) in the Amazon Redshift Cluster Management Guide.
-public struct HsmClientCertificateQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct HsmClientCertificateQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5389,8 +5252,7 @@ public struct HsmClientCertificateQuotaExceededFault: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5406,8 +5268,7 @@ public struct CreateHsmClientCertificateInput: Swift.Sendable {
     public init(
         hsmClientCertificateIdentifier: Swift.String? = nil,
         tags: [RedshiftClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
         self.tags = tags
     }
@@ -5428,8 +5289,7 @@ extension RedshiftClientTypes {
             hsmClientCertificateIdentifier: Swift.String? = nil,
             hsmClientCertificatePublicKey: Swift.String? = nil,
             tags: [RedshiftClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
             self.hsmClientCertificatePublicKey = hsmClientCertificatePublicKey
             self.tags = tags
@@ -5443,16 +5303,15 @@ public struct CreateHsmClientCertificateOutput: Swift.Sendable {
 
     public init(
         hsmClientCertificate: RedshiftClientTypes.HsmClientCertificate? = nil
-    )
-    {
+    ) {
         self.hsmClientCertificate = hsmClientCertificate
     }
 }
 
 /// There is already an existing Amazon Redshift HSM configuration with the specified identifier.
-public struct HsmConfigurationAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct HsmConfigurationAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5467,16 +5326,15 @@ public struct HsmConfigurationAlreadyExistsFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The quota for HSM configurations has been reached. For information about increasing your quota, go to [Limits in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html) in the Amazon Redshift Cluster Management Guide.
-public struct HsmConfigurationQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct HsmConfigurationQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5491,8 +5349,7 @@ public struct HsmConfigurationQuotaExceededFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5528,8 +5385,7 @@ public struct CreateHsmConfigurationInput: Swift.Sendable {
         hsmPartitionPassword: Swift.String? = nil,
         hsmServerPublicCertificate: Swift.String? = nil,
         tags: [RedshiftClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
         self.hsmIpAddress = hsmIpAddress
@@ -5561,8 +5417,7 @@ extension RedshiftClientTypes {
             hsmIpAddress: Swift.String? = nil,
             hsmPartitionName: Swift.String? = nil,
             tags: [RedshiftClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.description = description
             self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
             self.hsmIpAddress = hsmIpAddress
@@ -5578,16 +5433,15 @@ public struct CreateHsmConfigurationOutput: Swift.Sendable {
 
     public init(
         hsmConfiguration: RedshiftClientTypes.HsmConfiguration? = nil
-    )
-    {
+    ) {
         self.hsmConfiguration = hsmConfiguration
     }
 }
 
 /// The integration you are trying to create already exists.
-public struct IntegrationAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IntegrationAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5602,16 +5456,15 @@ public struct IntegrationAlreadyExistsFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A conflicting conditional operation is currently in progress against this resource. This typically occurs when there are multiple requests being made to the same resource at the same time, and these requests conflict with each other.
-public struct IntegrationConflictOperationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IntegrationConflictOperationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5626,16 +5479,15 @@ public struct IntegrationConflictOperationFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You can't create any more zero-ETL or S3 event integrations because the quota has been reached.
-public struct IntegrationQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IntegrationQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5650,16 +5502,15 @@ public struct IntegrationQuotaExceededFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified integration source can't be found.
-public struct IntegrationSourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IntegrationSourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5674,16 +5525,15 @@ public struct IntegrationSourceNotFoundFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified integration target can't be found.
-public struct IntegrationTargetNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IntegrationTargetNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5698,8 +5548,7 @@ public struct IntegrationTargetNotFoundFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5731,8 +5580,7 @@ public struct CreateIntegrationInput: Swift.Sendable {
         sourceArn: Swift.String? = nil,
         tagList: [RedshiftClientTypes.Tag]? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalEncryptionContext = additionalEncryptionContext
         self.description = description
         self.integrationName = integrationName
@@ -5756,8 +5604,7 @@ extension RedshiftClientTypes {
         public init(
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
         }
@@ -5844,8 +5691,7 @@ public struct CreateIntegrationOutput: Swift.Sendable {
         status: RedshiftClientTypes.ZeroETLIntegrationStatus? = nil,
         tags: [RedshiftClientTypes.Tag]? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalEncryptionContext = additionalEncryptionContext
         self.createTime = createTime
         self.description = description
@@ -5861,9 +5707,9 @@ public struct CreateIntegrationOutput: Swift.Sendable {
 }
 
 /// A dependent service denied access for the integration.
-public struct DependentServiceAccessDeniedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DependentServiceAccessDeniedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5878,16 +5724,15 @@ public struct DependentServiceAccessDeniedFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The application you attempted to add already exists.
-public struct RedshiftIdcApplicationAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RedshiftIdcApplicationAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5902,16 +5747,15 @@ public struct RedshiftIdcApplicationAlreadyExistsFault: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The maximum number of Redshift IAM Identity Center applications was exceeded.
-public struct RedshiftIdcApplicationQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RedshiftIdcApplicationQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5926,8 +5770,7 @@ public struct RedshiftIdcApplicationQuotaExceededFault: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5971,8 +5814,7 @@ extension RedshiftClientTypes {
 
         public init(
             authorization: RedshiftClientTypes.ServiceAuthorization? = nil
-        )
-        {
+        ) {
             self.authorization = authorization
         }
     }
@@ -5998,8 +5840,7 @@ extension RedshiftClientTypes {
 
         public init(
             authorization: RedshiftClientTypes.ServiceAuthorization? = nil
-        )
-        {
+        ) {
             self.authorization = authorization
         }
     }
@@ -6055,8 +5896,7 @@ public struct CreateRedshiftIdcApplicationInput: Swift.Sendable {
         identityNamespace: Swift.String? = nil,
         redshiftIdcApplicationName: Swift.String? = nil,
         serviceIntegrations: [RedshiftClientTypes.ServiceIntegrationsUnion]? = nil
-    )
-    {
+    ) {
         self.authorizedTokenIssuerList = authorizedTokenIssuerList
         self.iamRoleArn = iamRoleArn
         self.idcDisplayName = idcDisplayName
@@ -6103,8 +5943,7 @@ extension RedshiftClientTypes {
             redshiftIdcApplicationArn: Swift.String? = nil,
             redshiftIdcApplicationName: Swift.String? = nil,
             serviceIntegrations: [RedshiftClientTypes.ServiceIntegrationsUnion]? = nil
-        )
-        {
+        ) {
             self.authorizedTokenIssuerList = authorizedTokenIssuerList
             self.iamRoleArn = iamRoleArn
             self.idcDisplayName = idcDisplayName
@@ -6125,16 +5964,15 @@ public struct CreateRedshiftIdcApplicationOutput: Swift.Sendable {
 
     public init(
         redshiftIdcApplication: RedshiftClientTypes.RedshiftIdcApplication? = nil
-    )
-    {
+    ) {
         self.redshiftIdcApplication = redshiftIdcApplication
     }
 }
 
 /// The scheduled action is not valid.
-public struct InvalidScheduledActionFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidScheduledActionFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6149,16 +5987,15 @@ public struct InvalidScheduledActionFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The schedule you submitted isn't valid.
-public struct InvalidScheduleFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidScheduleFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6173,16 +6010,15 @@ public struct InvalidScheduleFault: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The scheduled action already exists.
-public struct ScheduledActionAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ScheduledActionAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6197,16 +6033,15 @@ public struct ScheduledActionAlreadyExistsFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The quota for scheduled actions exceeded.
-public struct ScheduledActionQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ScheduledActionQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6221,16 +6056,15 @@ public struct ScheduledActionQuotaExceededFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The action type specified for a scheduled action is not supported.
-public struct ScheduledActionTypeUnsupportedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ScheduledActionTypeUnsupportedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6245,8 +6079,7 @@ public struct ScheduledActionTypeUnsupportedFault: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6261,8 +6094,7 @@ extension RedshiftClientTypes {
 
         public init(
             clusterIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.clusterIdentifier = clusterIdentifier
         }
     }
@@ -6296,8 +6128,7 @@ extension RedshiftClientTypes {
             numberOfNodes: Swift.Int? = nil,
             reservedNodeId: Swift.String? = nil,
             targetReservedNodeOfferingId: Swift.String? = nil
-        )
-        {
+        ) {
             self.classic = classic
             self.clusterIdentifier = clusterIdentifier
             self.clusterType = clusterType
@@ -6319,8 +6150,7 @@ extension RedshiftClientTypes {
 
         public init(
             clusterIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.clusterIdentifier = clusterIdentifier
         }
     }
@@ -6341,8 +6171,7 @@ extension RedshiftClientTypes {
             pauseCluster: RedshiftClientTypes.PauseClusterMessage? = nil,
             resizeCluster: RedshiftClientTypes.ResizeClusterMessage? = nil,
             resumeCluster: RedshiftClientTypes.ResumeClusterMessage? = nil
-        )
-        {
+        ) {
             self.pauseCluster = pauseCluster
             self.resizeCluster = resizeCluster
             self.resumeCluster = resumeCluster
@@ -6381,8 +6210,7 @@ public struct CreateScheduledActionInput: Swift.Sendable {
         scheduledActionName: Swift.String? = nil,
         startTime: Foundation.Date? = nil,
         targetAction: RedshiftClientTypes.ScheduledActionType? = nil
-    )
-    {
+    ) {
         self.enable = enable
         self.endTime = endTime
         self.iamRole = iamRole
@@ -6454,8 +6282,7 @@ public struct CreateScheduledActionOutput: Swift.Sendable {
         startTime: Foundation.Date? = nil,
         state: RedshiftClientTypes.ScheduledActionState? = nil,
         targetAction: RedshiftClientTypes.ScheduledActionType? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.iamRole = iamRole
         self.nextInvocations = nextInvocations
@@ -6469,9 +6296,9 @@ public struct CreateScheduledActionOutput: Swift.Sendable {
 }
 
 /// The snapshot copy grant can't be created because a grant with the same name already exists.
-public struct SnapshotCopyGrantAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SnapshotCopyGrantAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6486,16 +6313,15 @@ public struct SnapshotCopyGrantAlreadyExistsFault: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The Amazon Web Services account has exceeded the maximum number of snapshot copy grants in this region.
-public struct SnapshotCopyGrantQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SnapshotCopyGrantQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6510,8 +6336,7 @@ public struct SnapshotCopyGrantQuotaExceededFault: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6540,8 +6365,7 @@ public struct CreateSnapshotCopyGrantInput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         snapshotCopyGrantName: Swift.String? = nil,
         tags: [RedshiftClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.kmsKeyId = kmsKeyId
         self.snapshotCopyGrantName = snapshotCopyGrantName
         self.tags = tags
@@ -6563,8 +6387,7 @@ extension RedshiftClientTypes {
             kmsKeyId: Swift.String? = nil,
             snapshotCopyGrantName: Swift.String? = nil,
             tags: [RedshiftClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.snapshotCopyGrantName = snapshotCopyGrantName
             self.tags = tags
@@ -6578,16 +6401,15 @@ public struct CreateSnapshotCopyGrantOutput: Swift.Sendable {
 
     public init(
         snapshotCopyGrant: RedshiftClientTypes.SnapshotCopyGrant? = nil
-    )
-    {
+    ) {
         self.snapshotCopyGrant = snapshotCopyGrant
     }
 }
 
 /// The definition you submitted is not supported.
-public struct ScheduleDefinitionTypeUnsupportedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ScheduleDefinitionTypeUnsupportedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6602,16 +6424,15 @@ public struct ScheduleDefinitionTypeUnsupportedFault: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified snapshot schedule already exists.
-public struct SnapshotScheduleAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SnapshotScheduleAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6626,16 +6447,15 @@ public struct SnapshotScheduleAlreadyExistsFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You have exceeded the quota of snapshot schedules.
-public struct SnapshotScheduleQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SnapshotScheduleQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6650,8 +6470,7 @@ public struct SnapshotScheduleQuotaExceededFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6677,8 +6496,7 @@ public struct CreateSnapshotScheduleInput: Swift.Sendable {
         scheduleDescription: Swift.String? = nil,
         scheduleIdentifier: Swift.String? = nil,
         tags: [RedshiftClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.nextInvocations = nextInvocations
         self.scheduleDefinitions = scheduleDefinitions
@@ -6713,8 +6531,7 @@ public struct CreateSnapshotScheduleOutput: Swift.Sendable {
         scheduleDescription: Swift.String? = nil,
         scheduleIdentifier: Swift.String? = nil,
         tags: [RedshiftClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.associatedClusterCount = associatedClusterCount
         self.associatedClusters = associatedClusters
         self.nextInvocations = nextInvocations
@@ -6726,9 +6543,9 @@ public struct CreateSnapshotScheduleOutput: Swift.Sendable {
 }
 
 /// The resource could not be found.
-public struct ResourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6743,8 +6560,7 @@ public struct ResourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6761,17 +6577,16 @@ public struct CreateTagsInput: Swift.Sendable {
     public init(
         resourceName: Swift.String? = nil,
         tags: [RedshiftClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceName = resourceName
         self.tags = tags
     }
 }
 
 /// The usage limit is not valid.
-public struct InvalidUsageLimitFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidUsageLimitFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6786,16 +6601,15 @@ public struct InvalidUsageLimitFault: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The usage limit already exists.
-public struct UsageLimitAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UsageLimitAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6810,8 +6624,7 @@ public struct UsageLimitAlreadyExistsFault: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6969,8 +6782,7 @@ public struct CreateUsageLimitInput: Swift.Sendable {
         limitType: RedshiftClientTypes.UsageLimitLimitType? = nil,
         period: RedshiftClientTypes.UsageLimitPeriod? = nil,
         tags: [RedshiftClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.amount = amount
         self.breachAction = breachAction
         self.clusterIdentifier = clusterIdentifier
@@ -7015,8 +6827,7 @@ public struct CreateUsageLimitOutput: Swift.Sendable {
         period: RedshiftClientTypes.UsageLimitPeriod? = nil,
         tags: [RedshiftClientTypes.Tag]? = nil,
         usageLimitId: Swift.String? = nil
-    )
-    {
+    ) {
         self.amount = amount
         self.breachAction = breachAction
         self.clusterIdentifier = clusterIdentifier
@@ -7029,9 +6840,9 @@ public struct CreateUsageLimitOutput: Swift.Sendable {
 }
 
 /// An error occurred. The custom domain name couldn't be found.
-public struct CustomDomainAssociationNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CustomDomainAssociationNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7046,8 +6857,7 @@ public struct CustomDomainAssociationNotFoundFault: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7061,6 +6871,8 @@ extension RedshiftClientTypes {
         public var dataShareArn: Swift.String?
         /// A value that specifies when the datashare has an association between producer and data consumers.
         public var dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]?
+        /// The type of the datashare created by RegisterNamespace.
+        public var dataShareType: RedshiftClientTypes.DataShareType?
         /// The identifier of a datashare to show its managing entity.
         public var managedBy: Swift.String?
         /// The Amazon Resource Name (ARN) of the producer namespace.
@@ -7070,13 +6882,14 @@ extension RedshiftClientTypes {
             allowPubliclyAccessibleConsumers: Swift.Bool? = nil,
             dataShareArn: Swift.String? = nil,
             dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]? = nil,
+            dataShareType: RedshiftClientTypes.DataShareType? = nil,
             managedBy: Swift.String? = nil,
             producerArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowPubliclyAccessibleConsumers = allowPubliclyAccessibleConsumers
             self.dataShareArn = dataShareArn
             self.dataShareAssociations = dataShareAssociations
+            self.dataShareType = dataShareType
             self.managedBy = managedBy
             self.producerArn = producerArn
         }
@@ -7161,8 +6974,7 @@ public struct DeauthorizeDataShareInput: Swift.Sendable {
     public init(
         consumerIdentifier: Swift.String? = nil,
         dataShareArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.consumerIdentifier = consumerIdentifier
         self.dataShareArn = dataShareArn
     }
@@ -7175,6 +6987,8 @@ public struct DeauthorizeDataShareOutput: Swift.Sendable {
     public var dataShareArn: Swift.String?
     /// A value that specifies when the datashare has an association between producer and data consumers.
     public var dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]?
+    /// The type of the datashare created by RegisterNamespace.
+    public var dataShareType: RedshiftClientTypes.DataShareType?
     /// The identifier of a datashare to show its managing entity.
     public var managedBy: Swift.String?
     /// The Amazon Resource Name (ARN) of the producer namespace.
@@ -7184,13 +6998,14 @@ public struct DeauthorizeDataShareOutput: Swift.Sendable {
         allowPubliclyAccessibleConsumers: Swift.Bool? = nil,
         dataShareArn: Swift.String? = nil,
         dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]? = nil,
+        dataShareType: RedshiftClientTypes.DataShareType? = nil,
         managedBy: Swift.String? = nil,
         producerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowPubliclyAccessibleConsumers = allowPubliclyAccessibleConsumers
         self.dataShareArn = dataShareArn
         self.dataShareAssociations = dataShareAssociations
+        self.dataShareType = dataShareType
         self.managedBy = managedBy
         self.producerArn = producerArn
     }
@@ -7211,8 +7026,7 @@ extension RedshiftClientTypes {
             marker: Swift.String? = nil,
             parameterGroupFamily: Swift.String? = nil,
             parameters: [RedshiftClientTypes.Parameter]? = nil
-        )
-        {
+        ) {
             self.marker = marker
             self.parameterGroupFamily = parameterGroupFamily
             self.parameters = parameters
@@ -7227,8 +7041,7 @@ public struct DeleteAuthenticationProfileInput: Swift.Sendable {
 
     public init(
         authenticationProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationProfileName = authenticationProfileName
     }
 }
@@ -7239,8 +7052,7 @@ public struct DeleteAuthenticationProfileOutput: Swift.Sendable {
 
     public init(
         authenticationProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationProfileName = authenticationProfileName
     }
 }
@@ -7276,8 +7088,7 @@ public struct DeleteClusterInput: Swift.Sendable {
         finalClusterSnapshotIdentifier: Swift.String? = nil,
         finalClusterSnapshotRetentionPeriod: Swift.Int? = nil,
         skipFinalClusterSnapshot: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.finalClusterSnapshotIdentifier = finalClusterSnapshotIdentifier
         self.finalClusterSnapshotRetentionPeriod = finalClusterSnapshotRetentionPeriod
@@ -7291,16 +7102,15 @@ public struct DeleteClusterOutput: Swift.Sendable {
 
     public init(
         cluster: RedshiftClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
 
 /// The cluster parameter group action can not be completed because another task is in progress that involves the parameter group. Wait a few moments and try the operation again.
-public struct InvalidClusterParameterGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidClusterParameterGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7315,8 +7125,7 @@ public struct InvalidClusterParameterGroupStateFault: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7333,8 +7142,7 @@ public struct DeleteClusterParameterGroupInput: Swift.Sendable {
 
     public init(
         parameterGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.parameterGroupName = parameterGroupName
     }
 }
@@ -7347,8 +7155,7 @@ public struct DeleteClusterSecurityGroupInput: Swift.Sendable {
 
     public init(
         clusterSecurityGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterSecurityGroupName = clusterSecurityGroupName
     }
 }
@@ -7364,8 +7171,7 @@ public struct DeleteClusterSnapshotInput: Swift.Sendable {
     public init(
         snapshotClusterIdentifier: Swift.String? = nil,
         snapshotIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.snapshotClusterIdentifier = snapshotClusterIdentifier
         self.snapshotIdentifier = snapshotIdentifier
     }
@@ -7377,16 +7183,15 @@ public struct DeleteClusterSnapshotOutput: Swift.Sendable {
 
     public init(
         snapshot: RedshiftClientTypes.Snapshot? = nil
-    )
-    {
+    ) {
         self.snapshot = snapshot
     }
 }
 
 /// The state of the subnet is invalid.
-public struct InvalidClusterSubnetStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidClusterSubnetStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7401,8 +7206,7 @@ public struct InvalidClusterSubnetStateFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7415,8 +7219,7 @@ public struct DeleteClusterSubnetGroupInput: Swift.Sendable {
 
     public init(
         clusterSubnetGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterSubnetGroupName = clusterSubnetGroupName
     }
 }
@@ -7432,17 +7235,16 @@ public struct DeleteCustomDomainAssociationInput: Swift.Sendable {
     public init(
         clusterIdentifier: Swift.String? = nil,
         customDomainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.customDomainName = customDomainName
     }
 }
 
 /// The endpoint name doesn't refer to an existing endpoint.
-public struct EndpointNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EndpointNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7457,16 +7259,15 @@ public struct EndpointNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The status of the endpoint is not valid.
-public struct InvalidEndpointStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidEndpointStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7481,8 +7282,7 @@ public struct InvalidEndpointStateFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7494,8 +7294,7 @@ public struct DeleteEndpointAccessInput: Swift.Sendable {
 
     public init(
         endpointName: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointName = endpointName
     }
 }
@@ -7534,8 +7333,7 @@ public struct DeleteEndpointAccessOutput: Swift.Sendable {
         subnetGroupName: Swift.String? = nil,
         vpcEndpoint: RedshiftClientTypes.VpcEndpoint? = nil,
         vpcSecurityGroups: [RedshiftClientTypes.VpcSecurityGroupMembership]? = nil
-    )
-    {
+    ) {
         self.address = address
         self.clusterIdentifier = clusterIdentifier
         self.endpointCreateTime = endpointCreateTime
@@ -7550,9 +7348,9 @@ public struct DeleteEndpointAccessOutput: Swift.Sendable {
 }
 
 /// The subscription request is invalid because it is a duplicate request. This subscription request is already in progress.
-public struct InvalidSubscriptionStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSubscriptionStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7567,16 +7365,15 @@ public struct InvalidSubscriptionStateFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An Amazon Redshift event notification subscription with the specified name does not exist.
-public struct SubscriptionNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SubscriptionNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7591,8 +7388,7 @@ public struct SubscriptionNotFoundFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7605,16 +7401,15 @@ public struct DeleteEventSubscriptionInput: Swift.Sendable {
 
     public init(
         subscriptionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.subscriptionName = subscriptionName
     }
 }
 
 /// The specified HSM client certificate is not in the available state, or it is still in use by one or more Amazon Redshift clusters.
-public struct InvalidHsmClientCertificateStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidHsmClientCertificateStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7629,8 +7424,7 @@ public struct InvalidHsmClientCertificateStateFault: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7643,16 +7437,15 @@ public struct DeleteHsmClientCertificateInput: Swift.Sendable {
 
     public init(
         hsmClientCertificateIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
     }
 }
 
 /// The specified HSM configuration is not in the available state, or it is still in use by one or more Amazon Redshift clusters.
-public struct InvalidHsmConfigurationStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidHsmConfigurationStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7667,8 +7460,7 @@ public struct InvalidHsmConfigurationStateFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7681,16 +7473,15 @@ public struct DeleteHsmConfigurationInput: Swift.Sendable {
 
     public init(
         hsmConfigurationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
     }
 }
 
 /// The integration is in an invalid state and can't perform the requested operation.
-public struct IntegrationConflictStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IntegrationConflictStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7705,16 +7496,15 @@ public struct IntegrationConflictStateFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The integration can't be found.
-public struct IntegrationNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IntegrationNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7729,8 +7519,7 @@ public struct IntegrationNotFoundFault: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7742,8 +7531,7 @@ public struct DeleteIntegrationInput: Swift.Sendable {
 
     public init(
         integrationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.integrationArn = integrationArn
     }
 }
@@ -7784,8 +7572,7 @@ public struct DeleteIntegrationOutput: Swift.Sendable {
         status: RedshiftClientTypes.ZeroETLIntegrationStatus? = nil,
         tags: [RedshiftClientTypes.Tag]? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalEncryptionContext = additionalEncryptionContext
         self.createTime = createTime
         self.description = description
@@ -7819,8 +7606,7 @@ public struct DeletePartnerInput: Swift.Sendable {
         clusterIdentifier: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         partnerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.clusterIdentifier = clusterIdentifier
         self.databaseName = databaseName
@@ -7837,8 +7623,7 @@ public struct DeletePartnerOutput: Swift.Sendable {
     public init(
         databaseName: Swift.String? = nil,
         partnerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
         self.partnerName = partnerName
     }
@@ -7851,8 +7636,7 @@ public struct DeleteRedshiftIdcApplicationInput: Swift.Sendable {
 
     public init(
         redshiftIdcApplicationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.redshiftIdcApplicationArn = redshiftIdcApplicationArn
     }
 }
@@ -7864,16 +7648,15 @@ public struct DeleteResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
 
 /// The scheduled action cannot be found.
-public struct ScheduledActionNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ScheduledActionNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7888,8 +7671,7 @@ public struct ScheduledActionNotFoundFault: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7901,16 +7683,15 @@ public struct DeleteScheduledActionInput: Swift.Sendable {
 
     public init(
         scheduledActionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.scheduledActionName = scheduledActionName
     }
 }
 
 /// The snapshot copy grant can't be deleted because it is used by one or more clusters.
-public struct InvalidSnapshotCopyGrantStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSnapshotCopyGrantStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7925,16 +7706,15 @@ public struct InvalidSnapshotCopyGrantStateFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified snapshot copy grant can't be found. Make sure that the name is typed correctly and that the grant exists in the destination region.
-public struct SnapshotCopyGrantNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SnapshotCopyGrantNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7949,8 +7729,7 @@ public struct SnapshotCopyGrantNotFoundFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7963,16 +7742,15 @@ public struct DeleteSnapshotCopyGrantInput: Swift.Sendable {
 
     public init(
         snapshotCopyGrantName: Swift.String? = nil
-    )
-    {
+    ) {
         self.snapshotCopyGrantName = snapshotCopyGrantName
     }
 }
 
 /// The cluster snapshot schedule state is not valid.
-public struct InvalidClusterSnapshotScheduleStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidClusterSnapshotScheduleStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7987,8 +7765,7 @@ public struct InvalidClusterSnapshotScheduleStateFault: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8000,8 +7777,7 @@ public struct DeleteSnapshotScheduleInput: Swift.Sendable {
 
     public init(
         scheduleIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.scheduleIdentifier = scheduleIdentifier
     }
 }
@@ -8018,17 +7794,16 @@ public struct DeleteTagsInput: Swift.Sendable {
     public init(
         resourceName: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceName = resourceName
         self.tagKeys = tagKeys
     }
 }
 
 /// The usage limit identifier can't be found.
-public struct UsageLimitNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UsageLimitNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8043,8 +7818,7 @@ public struct UsageLimitNotFoundFault: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8056,9 +7830,114 @@ public struct DeleteUsageLimitInput: Swift.Sendable {
 
     public init(
         usageLimitId: Swift.String? = nil
-    )
-    {
+    ) {
         self.usageLimitId = usageLimitId
+    }
+}
+
+extension RedshiftClientTypes {
+
+    /// The identifier for a provisioned cluster.
+    public struct ProvisionedIdentifier: Swift.Sendable {
+        /// The unique identifier for the provisioned cluster.
+        /// This member is required.
+        public var clusterIdentifier: Swift.String?
+
+        public init(
+            clusterIdentifier: Swift.String? = nil
+        ) {
+            self.clusterIdentifier = clusterIdentifier
+        }
+    }
+}
+
+extension RedshiftClientTypes {
+
+    /// The identifier for a serverless namespace.
+    public struct ServerlessIdentifier: Swift.Sendable {
+        /// The unique identifier for the serverless namespace.
+        /// This member is required.
+        public var namespaceIdentifier: Swift.String?
+        /// The unique identifier for the workgroup associated with the serverless namespace.
+        /// This member is required.
+        public var workgroupIdentifier: Swift.String?
+
+        public init(
+            namespaceIdentifier: Swift.String? = nil,
+            workgroupIdentifier: Swift.String? = nil
+        ) {
+            self.namespaceIdentifier = namespaceIdentifier
+            self.workgroupIdentifier = workgroupIdentifier
+        }
+    }
+}
+
+extension RedshiftClientTypes {
+
+    /// Object to store union of values for a provisioned cluster or serverless namespace’s identifier.
+    public enum NamespaceIdentifierUnion: Swift.Sendable {
+        /// The identifier for a serverless namespace.
+        case serverlessidentifier(RedshiftClientTypes.ServerlessIdentifier)
+        /// The identifier for a provisioned cluster.
+        case provisionedidentifier(RedshiftClientTypes.ProvisionedIdentifier)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct DeregisterNamespaceInput: Swift.Sendable {
+    /// An array containing the ID of the consumer account that you want to deregister the cluster or serverless namespace from.
+    /// This member is required.
+    public var consumerIdentifiers: [Swift.String]?
+    /// The unique identifier of the cluster or serverless namespace that you want to deregister.
+    /// This member is required.
+    public var namespaceIdentifier: RedshiftClientTypes.NamespaceIdentifierUnion?
+
+    public init(
+        consumerIdentifiers: [Swift.String]? = nil,
+        namespaceIdentifier: RedshiftClientTypes.NamespaceIdentifierUnion? = nil
+    ) {
+        self.consumerIdentifiers = consumerIdentifiers
+        self.namespaceIdentifier = namespaceIdentifier
+    }
+}
+
+extension RedshiftClientTypes {
+
+    public enum NamespaceRegistrationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deregistering
+        case registering
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NamespaceRegistrationStatus] {
+            return [
+                .deregistering,
+                .registering
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deregistering: return "Deregistering"
+            case .registering: return "Registering"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DeregisterNamespaceOutput: Swift.Sendable {
+    /// The registration status of the cluster or serverless namespace.
+    public var status: RedshiftClientTypes.NamespaceRegistrationStatus?
+
+    public init(
+        status: RedshiftClientTypes.NamespaceRegistrationStatus? = nil
+    ) {
+        self.status = status
     }
 }
 
@@ -8068,8 +7947,7 @@ public struct DescribeAccountAttributesInput: Swift.Sendable {
 
     public init(
         attributeNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.attributeNames = attributeNames
     }
 }
@@ -8080,8 +7958,7 @@ public struct DescribeAccountAttributesOutput: Swift.Sendable {
 
     public init(
         accountAttributes: [RedshiftClientTypes.AccountAttribute]? = nil
-    )
-    {
+    ) {
         self.accountAttributes = accountAttributes
     }
 }
@@ -8092,8 +7969,7 @@ public struct DescribeAuthenticationProfilesInput: Swift.Sendable {
 
     public init(
         authenticationProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationProfileName = authenticationProfileName
     }
 }
@@ -8104,8 +7980,7 @@ public struct DescribeAuthenticationProfilesOutput: Swift.Sendable {
 
     public init(
         authenticationProfiles: [RedshiftClientTypes.AuthenticationProfile]? = nil
-    )
-    {
+    ) {
         self.authenticationProfiles = authenticationProfiles
     }
 }
@@ -8122,8 +7997,7 @@ public struct DescribeClusterDbRevisionsInput: Swift.Sendable {
         clusterIdentifier: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.marker = marker
         self.maxRecords = maxRecords
@@ -8139,8 +8013,7 @@ public struct DescribeClusterDbRevisionsOutput: Swift.Sendable {
     public init(
         clusterDbRevisions: [RedshiftClientTypes.ClusterDbRevision]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterDbRevisions = clusterDbRevisions
         self.marker = marker
     }
@@ -8165,8 +8038,7 @@ public struct DescribeClusterParameterGroupsInput: Swift.Sendable {
         parameterGroupName: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil,
         tagValues: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxRecords = maxRecords
         self.parameterGroupName = parameterGroupName
@@ -8185,8 +8057,7 @@ public struct DescribeClusterParameterGroupsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         parameterGroups: [RedshiftClientTypes.ClusterParameterGroup]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.parameterGroups = parameterGroups
     }
@@ -8209,8 +8080,7 @@ public struct DescribeClusterParametersInput: Swift.Sendable {
         maxRecords: Swift.Int? = nil,
         parameterGroupName: Swift.String? = nil,
         source: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxRecords = maxRecords
         self.parameterGroupName = parameterGroupName
@@ -8228,8 +8098,7 @@ public struct DescribeClusterParametersOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         parameters: [RedshiftClientTypes.Parameter]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.parameters = parameters
     }
@@ -8254,8 +8123,7 @@ public struct DescribeClustersInput: Swift.Sendable {
         maxRecords: Swift.Int? = nil,
         tagKeys: [Swift.String]? = nil,
         tagValues: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.marker = marker
         self.maxRecords = maxRecords
@@ -8274,8 +8142,7 @@ public struct DescribeClustersOutput: Swift.Sendable {
     public init(
         clusters: [RedshiftClientTypes.Cluster]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusters = clusters
         self.marker = marker
     }
@@ -8300,8 +8167,7 @@ public struct DescribeClusterSecurityGroupsInput: Swift.Sendable {
         maxRecords: Swift.Int? = nil,
         tagKeys: [Swift.String]? = nil,
         tagValues: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.clusterSecurityGroupName = clusterSecurityGroupName
         self.marker = marker
         self.maxRecords = maxRecords
@@ -8320,8 +8186,7 @@ public struct DescribeClusterSecurityGroupsOutput: Swift.Sendable {
     public init(
         clusterSecurityGroups: [RedshiftClientTypes.ClusterSecurityGroup]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterSecurityGroups = clusterSecurityGroups
         self.marker = marker
     }
@@ -8401,8 +8266,7 @@ extension RedshiftClientTypes {
         public init(
             attribute: RedshiftClientTypes.SnapshotAttributeToSortBy? = nil,
             sortOrder: RedshiftClientTypes.SortByOrder? = nil
-        )
-        {
+        ) {
             self.attribute = attribute
             self.sortOrder = sortOrder
         }
@@ -8460,8 +8324,7 @@ public struct DescribeClusterSnapshotsInput: Swift.Sendable {
         startTime: Foundation.Date? = nil,
         tagKeys: [Swift.String]? = nil,
         tagValues: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.clusterExists = clusterExists
         self.clusterIdentifier = clusterIdentifier
         self.endTime = endTime
@@ -8488,8 +8351,7 @@ public struct DescribeClusterSnapshotsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         snapshots: [RedshiftClientTypes.Snapshot]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.snapshots = snapshots
     }
@@ -8514,8 +8376,7 @@ public struct DescribeClusterSubnetGroupsInput: Swift.Sendable {
         maxRecords: Swift.Int? = nil,
         tagKeys: [Swift.String]? = nil,
         tagValues: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.clusterSubnetGroupName = clusterSubnetGroupName
         self.marker = marker
         self.maxRecords = maxRecords
@@ -8534,8 +8395,7 @@ public struct DescribeClusterSubnetGroupsOutput: Swift.Sendable {
     public init(
         clusterSubnetGroups: [RedshiftClientTypes.ClusterSubnetGroup]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterSubnetGroups = clusterSubnetGroups
         self.marker = marker
     }
@@ -8553,8 +8413,7 @@ public struct DescribeClusterTracksInput: Swift.Sendable {
         maintenanceTrackName: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.maintenanceTrackName = maintenanceTrackName
         self.marker = marker
         self.maxRecords = maxRecords
@@ -8570,8 +8429,7 @@ extension RedshiftClientTypes {
 
         public init(
             operationName: Swift.String? = nil
-        )
-        {
+        ) {
             self.operationName = operationName
         }
     }
@@ -8592,8 +8450,7 @@ extension RedshiftClientTypes {
             databaseVersion: Swift.String? = nil,
             maintenanceTrackName: Swift.String? = nil,
             supportedOperations: [RedshiftClientTypes.SupportedOperation]? = nil
-        )
-        {
+        ) {
             self.databaseVersion = databaseVersion
             self.maintenanceTrackName = maintenanceTrackName
             self.supportedOperations = supportedOperations
@@ -8616,8 +8473,7 @@ extension RedshiftClientTypes {
             databaseVersion: Swift.String? = nil,
             maintenanceTrackName: Swift.String? = nil,
             updateTargets: [RedshiftClientTypes.UpdateTarget]? = nil
-        )
-        {
+        ) {
             self.databaseVersion = databaseVersion
             self.maintenanceTrackName = maintenanceTrackName
             self.updateTargets = updateTargets
@@ -8634,8 +8490,7 @@ public struct DescribeClusterTracksOutput: Swift.Sendable {
     public init(
         maintenanceTracks: [RedshiftClientTypes.MaintenanceTrack]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.maintenanceTracks = maintenanceTracks
         self.marker = marker
     }
@@ -8663,8 +8518,7 @@ public struct DescribeClusterVersionsInput: Swift.Sendable {
         clusterVersion: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.clusterParameterGroupFamily = clusterParameterGroupFamily
         self.clusterVersion = clusterVersion
         self.marker = marker
@@ -8682,8 +8536,7 @@ public struct DescribeClusterVersionsOutput: Swift.Sendable {
     public init(
         clusterVersions: [RedshiftClientTypes.ClusterVersion]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterVersions = clusterVersions
         self.marker = marker
     }
@@ -8704,8 +8557,7 @@ public struct DescribeCustomDomainAssociationsInput: Swift.Sendable {
         customDomainName: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.customDomainCertificateArn = customDomainCertificateArn
         self.customDomainName = customDomainName
         self.marker = marker
@@ -8722,8 +8574,7 @@ public struct DescribeCustomDomainAssociationsOutput: Swift.Sendable {
     public init(
         associations: [RedshiftClientTypes.Association]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.associations = associations
         self.marker = marker
     }
@@ -8741,8 +8592,7 @@ public struct DescribeDataSharesInput: Swift.Sendable {
         dataShareArn: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dataShareArn = dataShareArn
         self.marker = marker
         self.maxRecords = maxRecords
@@ -8758,8 +8608,7 @@ public struct DescribeDataSharesOutput: Swift.Sendable {
     public init(
         dataShares: [RedshiftClientTypes.DataShare]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataShares = dataShares
         self.marker = marker
     }
@@ -8780,8 +8629,7 @@ public struct DescribeDataSharesForConsumerInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         status: RedshiftClientTypes.DataShareStatusForConsumer? = nil
-    )
-    {
+    ) {
         self.consumerArn = consumerArn
         self.marker = marker
         self.maxRecords = maxRecords
@@ -8798,8 +8646,7 @@ public struct DescribeDataSharesForConsumerOutput: Swift.Sendable {
     public init(
         dataShares: [RedshiftClientTypes.DataShare]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataShares = dataShares
         self.marker = marker
     }
@@ -8820,8 +8667,7 @@ public struct DescribeDataSharesForProducerInput: Swift.Sendable {
         maxRecords: Swift.Int? = nil,
         producerArn: Swift.String? = nil,
         status: RedshiftClientTypes.DataShareStatusForProducer? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxRecords = maxRecords
         self.producerArn = producerArn
@@ -8838,8 +8684,7 @@ public struct DescribeDataSharesForProducerOutput: Swift.Sendable {
     public init(
         dataShares: [RedshiftClientTypes.DataShare]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataShares = dataShares
         self.marker = marker
     }
@@ -8859,8 +8704,7 @@ public struct DescribeDefaultClusterParametersInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         parameterGroupFamily: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxRecords = maxRecords
         self.parameterGroupFamily = parameterGroupFamily
@@ -8873,8 +8717,7 @@ public struct DescribeDefaultClusterParametersOutput: Swift.Sendable {
 
     public init(
         defaultClusterParameters: RedshiftClientTypes.DefaultClusterParameters? = nil
-    )
-    {
+    ) {
         self.defaultClusterParameters = defaultClusterParameters
     }
 }
@@ -8900,8 +8743,7 @@ public struct DescribeEndpointAccessInput: Swift.Sendable {
         maxRecords: Swift.Int? = nil,
         resourceOwner: Swift.String? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.endpointName = endpointName
         self.marker = marker
@@ -8947,8 +8789,7 @@ extension RedshiftClientTypes {
             subnetGroupName: Swift.String? = nil,
             vpcEndpoint: RedshiftClientTypes.VpcEndpoint? = nil,
             vpcSecurityGroups: [RedshiftClientTypes.VpcSecurityGroupMembership]? = nil
-        )
-        {
+        ) {
             self.address = address
             self.clusterIdentifier = clusterIdentifier
             self.endpointCreateTime = endpointCreateTime
@@ -8972,8 +8813,7 @@ public struct DescribeEndpointAccessOutput: Swift.Sendable {
     public init(
         endpointAccessList: [RedshiftClientTypes.EndpointAccess]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointAccessList = endpointAccessList
         self.marker = marker
     }
@@ -8997,8 +8837,7 @@ public struct DescribeEndpointAuthorizationInput: Swift.Sendable {
         grantee: Swift.Bool? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.account = account
         self.clusterIdentifier = clusterIdentifier
         self.grantee = grantee
@@ -9040,8 +8879,7 @@ extension RedshiftClientTypes {
             grantee: Swift.String? = nil,
             grantor: Swift.String? = nil,
             status: RedshiftClientTypes.AuthorizationStatus? = nil
-        )
-        {
+        ) {
             self.allowedAllVPCs = allowedAllVPCs
             self.allowedVPCs = allowedVPCs
             self.authorizeTime = authorizeTime
@@ -9064,8 +8902,7 @@ public struct DescribeEndpointAuthorizationOutput: Swift.Sendable {
     public init(
         endpointAuthorizationList: [RedshiftClientTypes.EndpointAuthorization]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointAuthorizationList = endpointAuthorizationList
         self.marker = marker
     }
@@ -9078,8 +8915,7 @@ public struct DescribeEventCategoriesInput: Swift.Sendable {
 
     public init(
         sourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceType = sourceType
     }
 }
@@ -9102,8 +8938,7 @@ extension RedshiftClientTypes {
             eventDescription: Swift.String? = nil,
             eventId: Swift.String? = nil,
             severity: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventCategories = eventCategories
             self.eventDescription = eventDescription
             self.eventId = eventId
@@ -9124,8 +8959,7 @@ extension RedshiftClientTypes {
         public init(
             events: [RedshiftClientTypes.EventInfoMap]? = nil,
             sourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.events = events
             self.sourceType = sourceType
         }
@@ -9139,8 +8973,7 @@ public struct DescribeEventCategoriesOutput: Swift.Sendable {
 
     public init(
         eventCategoriesMapList: [RedshiftClientTypes.EventCategoriesMap]? = nil
-    )
-    {
+    ) {
         self.eventCategoriesMapList = eventCategoriesMapList
     }
 }
@@ -9224,8 +9057,7 @@ public struct DescribeEventsInput: Swift.Sendable {
         sourceIdentifier: Swift.String? = nil,
         sourceType: RedshiftClientTypes.SourceType? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.duration = duration
         self.endTime = endTime
         self.marker = marker
@@ -9263,8 +9095,7 @@ extension RedshiftClientTypes {
             severity: Swift.String? = nil,
             sourceIdentifier: Swift.String? = nil,
             sourceType: RedshiftClientTypes.SourceType? = nil
-        )
-        {
+        ) {
             self.date = date
             self.eventCategories = eventCategories
             self.eventId = eventId
@@ -9286,8 +9117,7 @@ public struct DescribeEventsOutput: Swift.Sendable {
     public init(
         events: [RedshiftClientTypes.Event]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.events = events
         self.marker = marker
     }
@@ -9312,8 +9142,7 @@ public struct DescribeEventSubscriptionsInput: Swift.Sendable {
         subscriptionName: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil,
         tagValues: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxRecords = maxRecords
         self.subscriptionName = subscriptionName
@@ -9332,8 +9161,7 @@ public struct DescribeEventSubscriptionsOutput: Swift.Sendable {
     public init(
         eventSubscriptionsList: [RedshiftClientTypes.EventSubscription]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventSubscriptionsList = eventSubscriptionsList
         self.marker = marker
     }
@@ -9358,8 +9186,7 @@ public struct DescribeHsmClientCertificatesInput: Swift.Sendable {
         maxRecords: Swift.Int? = nil,
         tagKeys: [Swift.String]? = nil,
         tagValues: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
         self.marker = marker
         self.maxRecords = maxRecords
@@ -9378,8 +9205,7 @@ public struct DescribeHsmClientCertificatesOutput: Swift.Sendable {
     public init(
         hsmClientCertificates: [RedshiftClientTypes.HsmClientCertificate]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.hsmClientCertificates = hsmClientCertificates
         self.marker = marker
     }
@@ -9404,8 +9230,7 @@ public struct DescribeHsmConfigurationsInput: Swift.Sendable {
         maxRecords: Swift.Int? = nil,
         tagKeys: [Swift.String]? = nil,
         tagValues: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
         self.marker = marker
         self.maxRecords = maxRecords
@@ -9424,8 +9249,7 @@ public struct DescribeHsmConfigurationsOutput: Swift.Sendable {
     public init(
         hsmConfigurations: [RedshiftClientTypes.HsmConfiguration]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.hsmConfigurations = hsmConfigurations
         self.marker = marker
     }
@@ -9446,8 +9270,7 @@ public struct DescribeInboundIntegrationsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.integrationArn = integrationArn
         self.marker = marker
         self.maxRecords = maxRecords
@@ -9479,8 +9302,7 @@ extension RedshiftClientTypes {
             sourceArn: Swift.String? = nil,
             status: RedshiftClientTypes.ZeroETLIntegrationStatus? = nil,
             targetArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.createTime = createTime
             self.errors = errors
             self.integrationArn = integrationArn
@@ -9500,8 +9322,7 @@ public struct DescribeInboundIntegrationsOutput: Swift.Sendable {
     public init(
         inboundIntegrations: [RedshiftClientTypes.InboundIntegration]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.inboundIntegrations = inboundIntegrations
         self.marker = marker
     }
@@ -9556,8 +9377,7 @@ extension RedshiftClientTypes {
         public init(
             name: RedshiftClientTypes.DescribeIntegrationsFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -9579,8 +9399,7 @@ public struct DescribeIntegrationsInput: Swift.Sendable {
         integrationArn: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.integrationArn = integrationArn
         self.marker = marker
@@ -9626,8 +9445,7 @@ extension RedshiftClientTypes {
             status: RedshiftClientTypes.ZeroETLIntegrationStatus? = nil,
             tags: [RedshiftClientTypes.Tag]? = nil,
             targetArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.createTime = createTime
             self.description = description
@@ -9652,8 +9470,7 @@ public struct DescribeIntegrationsOutput: Swift.Sendable {
     public init(
         integrations: [RedshiftClientTypes.Integration]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.integrations = integrations
         self.marker = marker
     }
@@ -9667,8 +9484,7 @@ public struct DescribeLoggingStatusInput: Swift.Sendable {
 
     public init(
         clusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
     }
 }
@@ -9730,8 +9546,7 @@ public struct DescribeLoggingStatusOutput: Swift.Sendable {
         logExports: [Swift.String]? = nil,
         loggingEnabled: Swift.Bool? = nil,
         s3KeyPrefix: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucketName = bucketName
         self.lastFailureMessage = lastFailureMessage
         self.lastFailureTime = lastFailureTime
@@ -9837,8 +9652,7 @@ extension RedshiftClientTypes {
             name: RedshiftClientTypes.NodeConfigurationOptionsFilterName? = nil,
             `operator`: RedshiftClientTypes.OperatorType? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.values = values
@@ -9874,8 +9688,7 @@ public struct DescribeNodeConfigurationOptionsInput: Swift.Sendable {
         ownerAccount: Swift.String? = nil,
         snapshotArn: Swift.String? = nil,
         snapshotIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionType = actionType
         self.clusterIdentifier = clusterIdentifier
         self.filters = filters
@@ -9934,8 +9747,7 @@ extension RedshiftClientTypes {
             mode: RedshiftClientTypes.Mode? = nil,
             nodeType: Swift.String? = nil,
             numberOfNodes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.estimatedDiskUtilizationPercent = estimatedDiskUtilizationPercent
             self.mode = mode
             self.nodeType = nodeType
@@ -9953,8 +9765,7 @@ public struct DescribeNodeConfigurationOptionsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         nodeConfigurationOptionList: [RedshiftClientTypes.NodeConfigurationOption]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.nodeConfigurationOptionList = nodeConfigurationOptionList
     }
@@ -9976,8 +9787,7 @@ public struct DescribeOrderableClusterOptionsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         nodeType: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterVersion = clusterVersion
         self.marker = marker
         self.maxRecords = maxRecords
@@ -10003,8 +9813,7 @@ extension RedshiftClientTypes {
             clusterType: Swift.String? = nil,
             clusterVersion: Swift.String? = nil,
             nodeType: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZones = availabilityZones
             self.clusterType = clusterType
             self.clusterVersion = clusterVersion
@@ -10023,8 +9832,7 @@ public struct DescribeOrderableClusterOptionsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         orderableClusterOptions: [RedshiftClientTypes.OrderableClusterOption]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.orderableClusterOptions = orderableClusterOptions
     }
@@ -10047,8 +9855,7 @@ public struct DescribePartnersInput: Swift.Sendable {
         clusterIdentifier: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         partnerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.clusterIdentifier = clusterIdentifier
         self.databaseName = databaseName
@@ -10115,8 +9922,7 @@ extension RedshiftClientTypes {
             status: RedshiftClientTypes.PartnerIntegrationStatus? = nil,
             statusMessage: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.databaseName = databaseName
             self.partnerName = partnerName
@@ -10133,8 +9939,7 @@ public struct DescribePartnersOutput: Swift.Sendable {
 
     public init(
         partnerIntegrationInfoList: [RedshiftClientTypes.PartnerIntegrationInfo]? = nil
-    )
-    {
+    ) {
         self.partnerIntegrationInfoList = partnerIntegrationInfoList
     }
 }
@@ -10151,8 +9956,7 @@ public struct DescribeRedshiftIdcApplicationsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         redshiftIdcApplicationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxRecords = maxRecords
         self.redshiftIdcApplicationArn = redshiftIdcApplicationArn
@@ -10168,17 +9972,16 @@ public struct DescribeRedshiftIdcApplicationsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         redshiftIdcApplications: [RedshiftClientTypes.RedshiftIdcApplication]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.redshiftIdcApplications = redshiftIdcApplications
     }
 }
 
 /// The reserved-node exchange status wasn't found.
-public struct ReservedNodeExchangeNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReservedNodeExchangeNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -10193,8 +9996,7 @@ public struct ReservedNodeExchangeNotFoundFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -10214,8 +10016,7 @@ public struct DescribeReservedNodeExchangeStatusInput: Swift.Sendable {
         maxRecords: Swift.Int? = nil,
         reservedNodeExchangeRequestId: Swift.String? = nil,
         reservedNodeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxRecords = maxRecords
         self.reservedNodeExchangeRequestId = reservedNodeExchangeRequestId
@@ -10232,8 +10033,7 @@ public struct DescribeReservedNodeExchangeStatusOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         reservedNodeExchangeStatusDetails: [RedshiftClientTypes.ReservedNodeExchangeStatus]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.reservedNodeExchangeStatusDetails = reservedNodeExchangeStatusDetails
     }
@@ -10252,8 +10052,7 @@ public struct DescribeReservedNodeOfferingsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         reservedNodeOfferingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxRecords = maxRecords
         self.reservedNodeOfferingId = reservedNodeOfferingId
@@ -10293,8 +10092,7 @@ extension RedshiftClientTypes {
             reservedNodeOfferingId: Swift.String? = nil,
             reservedNodeOfferingType: RedshiftClientTypes.ReservedNodeOfferingType? = nil,
             usagePrice: Swift.Double? = nil
-        )
-        {
+        ) {
             self.currencyCode = currencyCode
             self.duration = duration
             self.fixedPrice = fixedPrice
@@ -10318,8 +10116,7 @@ public struct DescribeReservedNodeOfferingsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         reservedNodeOfferings: [RedshiftClientTypes.ReservedNodeOffering]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.reservedNodeOfferings = reservedNodeOfferings
     }
@@ -10338,8 +10135,7 @@ public struct DescribeReservedNodesInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         reservedNodeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxRecords = maxRecords
         self.reservedNodeId = reservedNodeId
@@ -10356,8 +10152,7 @@ public struct DescribeReservedNodesOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         reservedNodes: [RedshiftClientTypes.ReservedNode]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.reservedNodes = reservedNodes
     }
@@ -10371,8 +10166,7 @@ public struct DescribeResizeInput: Swift.Sendable {
 
     public init(
         clusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
     }
 }
@@ -10429,8 +10223,7 @@ public struct DescribeResizeOutput: Swift.Sendable {
         targetNodeType: Swift.String? = nil,
         targetNumberOfNodes: Swift.Int? = nil,
         totalResizeDataInMegaBytes: Swift.Int? = nil
-    )
-    {
+    ) {
         self.avgResizeRateInMegaBytesPerSecond = avgResizeRateInMegaBytesPerSecond
         self.dataTransferProgressPercent = dataTransferProgressPercent
         self.elapsedTimeInSeconds = elapsedTimeInSeconds
@@ -10493,8 +10286,7 @@ extension RedshiftClientTypes {
         public init(
             name: RedshiftClientTypes.ScheduledActionFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -10560,8 +10352,7 @@ public struct DescribeScheduledActionsInput: Swift.Sendable {
         scheduledActionName: Swift.String? = nil,
         startTime: Foundation.Date? = nil,
         targetActionType: RedshiftClientTypes.ScheduledActionTypeValues? = nil
-    )
-    {
+    ) {
         self.active = active
         self.endTime = endTime
         self.filters = filters
@@ -10606,8 +10397,7 @@ extension RedshiftClientTypes {
             startTime: Foundation.Date? = nil,
             state: RedshiftClientTypes.ScheduledActionState? = nil,
             targetAction: RedshiftClientTypes.ScheduledActionType? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.iamRole = iamRole
             self.nextInvocations = nextInvocations
@@ -10630,8 +10420,7 @@ public struct DescribeScheduledActionsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         scheduledActions: [RedshiftClientTypes.ScheduledAction]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.scheduledActions = scheduledActions
     }
@@ -10656,8 +10445,7 @@ public struct DescribeSnapshotCopyGrantsInput: Swift.Sendable {
         snapshotCopyGrantName: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil,
         tagValues: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxRecords = maxRecords
         self.snapshotCopyGrantName = snapshotCopyGrantName
@@ -10676,8 +10464,7 @@ public struct DescribeSnapshotCopyGrantsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         snapshotCopyGrants: [RedshiftClientTypes.SnapshotCopyGrant]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.snapshotCopyGrants = snapshotCopyGrants
     }
@@ -10704,8 +10491,7 @@ public struct DescribeSnapshotSchedulesInput: Swift.Sendable {
         scheduleIdentifier: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil,
         tagValues: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.marker = marker
         self.maxRecords = maxRecords
@@ -10742,8 +10528,7 @@ extension RedshiftClientTypes {
             scheduleDescription: Swift.String? = nil,
             scheduleIdentifier: Swift.String? = nil,
             tags: [RedshiftClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.associatedClusterCount = associatedClusterCount
             self.associatedClusters = associatedClusters
             self.nextInvocations = nextInvocations
@@ -10764,8 +10549,7 @@ public struct DescribeSnapshotSchedulesOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         snapshotSchedules: [RedshiftClientTypes.SnapshotSchedule]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.snapshotSchedules = snapshotSchedules
     }
@@ -10780,17 +10564,16 @@ public struct DescribeStorageOutput: Swift.Sendable {
     public init(
         totalBackupSizeInMegaBytes: Swift.Double? = nil,
         totalProvisionedStorageInMegaBytes: Swift.Double? = nil
-    )
-    {
+    ) {
         self.totalBackupSizeInMegaBytes = totalBackupSizeInMegaBytes
         self.totalProvisionedStorageInMegaBytes = totalProvisionedStorageInMegaBytes
     }
 }
 
 /// The specified TableRestoreRequestId value was not found.
-public struct TableRestoreNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TableRestoreNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -10805,8 +10588,7 @@ public struct TableRestoreNotFoundFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -10827,8 +10609,7 @@ public struct DescribeTableRestoreStatusInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         tableRestoreRequestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.marker = marker
         self.maxRecords = maxRecords
@@ -10922,8 +10703,7 @@ extension RedshiftClientTypes {
             targetDatabaseName: Swift.String? = nil,
             targetSchemaName: Swift.String? = nil,
             totalDataInMegaBytes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.clusterIdentifier = clusterIdentifier
             self.message = message
             self.newTableName = newTableName
@@ -10952,8 +10732,7 @@ public struct DescribeTableRestoreStatusOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         tableRestoreStatusDetails: [RedshiftClientTypes.TableRestoreStatus]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.tableRestoreStatusDetails = tableRestoreStatusDetails
     }
@@ -11006,8 +10785,7 @@ public struct DescribeTagsInput: Swift.Sendable {
         resourceType: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil,
         tagValues: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxRecords = maxRecords
         self.resourceName = resourceName
@@ -11053,8 +10831,7 @@ extension RedshiftClientTypes {
             resourceName: Swift.String? = nil,
             resourceType: Swift.String? = nil,
             tag: RedshiftClientTypes.Tag? = nil
-        )
-        {
+        ) {
             self.resourceName = resourceName
             self.resourceType = resourceType
             self.tag = tag
@@ -11072,8 +10849,7 @@ public struct DescribeTagsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         taggedResources: [RedshiftClientTypes.TaggedResource]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.taggedResources = taggedResources
     }
@@ -11103,8 +10879,7 @@ public struct DescribeUsageLimitsInput: Swift.Sendable {
         tagKeys: [Swift.String]? = nil,
         tagValues: [Swift.String]? = nil,
         usageLimitId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.featureType = featureType
         self.marker = marker
@@ -11151,8 +10926,7 @@ extension RedshiftClientTypes {
             period: RedshiftClientTypes.UsageLimitPeriod? = nil,
             tags: [RedshiftClientTypes.Tag]? = nil,
             usageLimitId: Swift.String? = nil
-        )
-        {
+        ) {
             self.amount = amount
             self.breachAction = breachAction
             self.clusterIdentifier = clusterIdentifier
@@ -11174,8 +10948,7 @@ public struct DescribeUsageLimitsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         usageLimits: [RedshiftClientTypes.UsageLimit]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.usageLimits = usageLimits
     }
@@ -11189,8 +10962,7 @@ public struct DisableLoggingInput: Swift.Sendable {
 
     public init(
         clusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
     }
 }
@@ -11223,8 +10995,7 @@ public struct DisableLoggingOutput: Swift.Sendable {
         logExports: [Swift.String]? = nil,
         loggingEnabled: Swift.Bool? = nil,
         s3KeyPrefix: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucketName = bucketName
         self.lastFailureMessage = lastFailureMessage
         self.lastFailureTime = lastFailureTime
@@ -11237,9 +11008,9 @@ public struct DisableLoggingOutput: Swift.Sendable {
 }
 
 /// The cluster already has cross-region snapshot copy disabled.
-public struct SnapshotCopyAlreadyDisabledFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SnapshotCopyAlreadyDisabledFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -11254,8 +11025,7 @@ public struct SnapshotCopyAlreadyDisabledFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -11268,8 +11038,7 @@ public struct DisableSnapshotCopyInput: Swift.Sendable {
 
     public init(
         clusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
     }
 }
@@ -11280,8 +11049,7 @@ public struct DisableSnapshotCopyOutput: Swift.Sendable {
 
     public init(
         cluster: RedshiftClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -11302,8 +11070,7 @@ public struct DisassociateDataShareConsumerInput: Swift.Sendable {
         consumerRegion: Swift.String? = nil,
         dataShareArn: Swift.String? = nil,
         disassociateEntireAccount: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.consumerArn = consumerArn
         self.consumerRegion = consumerRegion
         self.dataShareArn = dataShareArn
@@ -11318,6 +11085,8 @@ public struct DisassociateDataShareConsumerOutput: Swift.Sendable {
     public var dataShareArn: Swift.String?
     /// A value that specifies when the datashare has an association between producer and data consumers.
     public var dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]?
+    /// The type of the datashare created by RegisterNamespace.
+    public var dataShareType: RedshiftClientTypes.DataShareType?
     /// The identifier of a datashare to show its managing entity.
     public var managedBy: Swift.String?
     /// The Amazon Resource Name (ARN) of the producer namespace.
@@ -11327,22 +11096,23 @@ public struct DisassociateDataShareConsumerOutput: Swift.Sendable {
         allowPubliclyAccessibleConsumers: Swift.Bool? = nil,
         dataShareArn: Swift.String? = nil,
         dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]? = nil,
+        dataShareType: RedshiftClientTypes.DataShareType? = nil,
         managedBy: Swift.String? = nil,
         producerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowPubliclyAccessibleConsumers = allowPubliclyAccessibleConsumers
         self.dataShareArn = dataShareArn
         self.dataShareAssociations = dataShareAssociations
+        self.dataShareType = dataShareType
         self.managedBy = managedBy
         self.producerArn = producerArn
     }
 }
 
 /// The cluster does not have read bucket or put object permissions on the S3 bucket specified when enabling logging.
-public struct InsufficientS3BucketPolicyFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientS3BucketPolicyFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -11357,16 +11127,15 @@ public struct InsufficientS3BucketPolicyFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The S3 bucket name is invalid. For more information about naming rules, go to [Bucket Restrictions and Limitations](https://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html) in the Amazon Simple Storage Service (S3) Developer Guide.
-public struct InvalidS3BucketNameFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidS3BucketNameFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -11381,16 +11150,15 @@ public struct InvalidS3BucketNameFault: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The string specified for the logging S3 key prefix does not comply with the documented constraints.
-public struct InvalidS3KeyPrefixFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidS3KeyPrefixFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -11405,8 +11173,7 @@ public struct InvalidS3KeyPrefixFault: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -11435,8 +11202,7 @@ public struct EnableLoggingInput: Swift.Sendable {
         logDestinationType: RedshiftClientTypes.LogDestinationType? = nil,
         logExports: [Swift.String]? = nil,
         s3KeyPrefix: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucketName = bucketName
         self.clusterIdentifier = clusterIdentifier
         self.logDestinationType = logDestinationType
@@ -11473,8 +11239,7 @@ public struct EnableLoggingOutput: Swift.Sendable {
         logExports: [Swift.String]? = nil,
         loggingEnabled: Swift.Bool? = nil,
         s3KeyPrefix: Swift.String? = nil
-    )
-    {
+    ) {
         self.bucketName = bucketName
         self.lastFailureMessage = lastFailureMessage
         self.lastFailureTime = lastFailureTime
@@ -11487,9 +11252,9 @@ public struct EnableLoggingOutput: Swift.Sendable {
 }
 
 /// The specified options are incompatible.
-public struct IncompatibleOrderableOptions: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IncompatibleOrderableOptions: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -11504,16 +11269,15 @@ public struct IncompatibleOrderableOptions: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The cluster already has cross-region snapshot copy enabled.
-public struct SnapshotCopyAlreadyEnabledFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SnapshotCopyAlreadyEnabledFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -11528,16 +11292,15 @@ public struct SnapshotCopyAlreadyEnabledFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified region is incorrect or does not exist.
-public struct UnknownSnapshotCopyRegionFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnknownSnapshotCopyRegionFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -11552,8 +11315,7 @@ public struct UnknownSnapshotCopyRegionFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -11579,8 +11341,7 @@ public struct EnableSnapshotCopyInput: Swift.Sendable {
         manualSnapshotRetentionPeriod: Swift.Int? = nil,
         retentionPeriod: Swift.Int? = nil,
         snapshotCopyGrantName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.destinationRegion = destinationRegion
         self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
@@ -11595,16 +11356,15 @@ public struct EnableSnapshotCopyOutput: Swift.Sendable {
 
     public init(
         cluster: RedshiftClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
 
 /// The authorization for this endpoint can't be found.
-public struct EndpointAuthorizationNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EndpointAuthorizationNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -11619,8 +11379,7 @@ public struct EndpointAuthorizationNotFoundFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -11632,8 +11391,7 @@ public struct FailoverPrimaryComputeInput: Swift.Sendable {
 
     public init(
         clusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
     }
 }
@@ -11644,8 +11402,7 @@ public struct FailoverPrimaryComputeOutput: Swift.Sendable {
 
     public init(
         cluster: RedshiftClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -11706,8 +11463,7 @@ public struct GetClusterCredentialsInput: Swift.Sendable {
         dbName: Swift.String? = nil,
         dbUser: Swift.String? = nil,
         durationSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.autoCreate = autoCreate
         self.clusterIdentifier = clusterIdentifier
         self.customDomainName = customDomainName
@@ -11731,8 +11487,7 @@ public struct GetClusterCredentialsOutput: Swift.Sendable {
         dbPassword: Swift.String? = nil,
         dbUser: Swift.String? = nil,
         expiration: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.dbPassword = dbPassword
         self.dbUser = dbUser
         self.expiration = expiration
@@ -11759,8 +11514,7 @@ public struct GetClusterCredentialsWithIAMInput: Swift.Sendable {
         customDomainName: Swift.String? = nil,
         dbName: Swift.String? = nil,
         durationSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.customDomainName = customDomainName
         self.dbName = dbName
@@ -11783,8 +11537,7 @@ public struct GetClusterCredentialsWithIAMOutput: Swift.Sendable {
         dbUser: Swift.String? = nil,
         expiration: Foundation.Date? = nil,
         nextRefreshTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.dbPassword = dbPassword
         self.dbUser = dbUser
         self.expiration = expiration
@@ -11845,8 +11598,7 @@ public struct GetReservedNodeExchangeConfigurationOptionsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         snapshotIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionType = actionType
         self.clusterIdentifier = clusterIdentifier
         self.marker = marker
@@ -11870,8 +11622,7 @@ extension RedshiftClientTypes {
             sourceReservedNode: RedshiftClientTypes.ReservedNode? = nil,
             targetReservedNodeCount: Swift.Int? = nil,
             targetReservedNodeOffering: RedshiftClientTypes.ReservedNodeOffering? = nil
-        )
-        {
+        ) {
             self.sourceReservedNode = sourceReservedNode
             self.targetReservedNodeCount = targetReservedNodeCount
             self.targetReservedNodeOffering = targetReservedNodeOffering
@@ -11888,8 +11639,7 @@ public struct GetReservedNodeExchangeConfigurationOptionsOutput: Swift.Sendable 
     public init(
         marker: Swift.String? = nil,
         reservedNodeConfigurationOptionList: [RedshiftClientTypes.ReservedNodeConfigurationOption]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.reservedNodeConfigurationOptionList = reservedNodeConfigurationOptionList
     }
@@ -11909,8 +11659,7 @@ public struct GetReservedNodeExchangeOfferingsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         reservedNodeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxRecords = maxRecords
         self.reservedNodeId = reservedNodeId
@@ -11926,17 +11675,16 @@ public struct GetReservedNodeExchangeOfferingsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         reservedNodeOfferings: [RedshiftClientTypes.ReservedNodeOffering]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.reservedNodeOfferings = reservedNodeOfferings
     }
 }
 
 /// The resource policy isn't valid.
-public struct InvalidPolicyFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPolicyFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -11951,8 +11699,7 @@ public struct InvalidPolicyFault: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -11964,8 +11711,7 @@ public struct GetResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -11982,8 +11728,7 @@ extension RedshiftClientTypes {
         public init(
             policy: Swift.String? = nil,
             resourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.policy = policy
             self.resourceArn = resourceArn
         }
@@ -11996,8 +11741,7 @@ public struct GetResourcePolicyOutput: Swift.Sendable {
 
     public init(
         resourcePolicy: RedshiftClientTypes.ResourcePolicy? = nil
-    )
-    {
+    ) {
         self.resourcePolicy = resourcePolicy
     }
 }
@@ -12035,9 +11779,9 @@ extension RedshiftClientTypes {
 }
 
 /// You have exceeded the allowed number of table restore requests. Wait for your current table restore requests to complete before making a new request.
-public struct InProgressTableRestoreQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InProgressTableRestoreQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -12052,16 +11796,15 @@ public struct InProgressTableRestoreQuotaExceededFault: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The restore is invalid.
-public struct InvalidRestoreFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRestoreFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -12076,16 +11819,15 @@ public struct InvalidRestoreFault: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The value specified for the sourceDatabaseName, sourceSchemaName, or sourceTableName parameter, or a combination of these, doesn't exist in the snapshot.
-public struct InvalidTableRestoreArgumentFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTableRestoreArgumentFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -12100,8 +11842,7 @@ public struct InvalidTableRestoreArgumentFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -12121,8 +11862,7 @@ public struct ListRecommendationsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         namespaceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.marker = marker
         self.maxRecords = maxRecords
@@ -12177,8 +11917,7 @@ extension RedshiftClientTypes {
             database: Swift.String? = nil,
             text: Swift.String? = nil,
             type: RedshiftClientTypes.RecommendedActionType? = nil
-        )
-        {
+        ) {
             self.command = command
             self.database = database
             self.text = text
@@ -12199,8 +11938,7 @@ extension RedshiftClientTypes {
         public init(
             link: Swift.String? = nil,
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.link = link
             self.text = text
         }
@@ -12249,8 +11987,7 @@ extension RedshiftClientTypes {
             recommendedActions: [RedshiftClientTypes.RecommendedAction]? = nil,
             referenceLinks: [RedshiftClientTypes.ReferenceLink]? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.clusterIdentifier = clusterIdentifier
             self.createdAt = createdAt
             self.description = description
@@ -12276,8 +12013,7 @@ public struct ListRecommendationsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         recommendations: [RedshiftClientTypes.Recommendation]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.recommendations = recommendations
     }
@@ -12293,8 +12029,7 @@ public struct ModifyAquaConfigurationInput: Swift.Sendable {
     public init(
         aquaConfigurationStatus: RedshiftClientTypes.AquaConfigurationStatus? = nil,
         clusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.aquaConfigurationStatus = aquaConfigurationStatus
         self.clusterIdentifier = clusterIdentifier
     }
@@ -12306,8 +12041,7 @@ public struct ModifyAquaConfigurationOutput: Swift.Sendable {
 
     public init(
         aquaConfiguration: RedshiftClientTypes.AquaConfiguration? = nil
-    )
-    {
+    ) {
         self.aquaConfiguration = aquaConfiguration
     }
 }
@@ -12323,8 +12057,7 @@ public struct ModifyAuthenticationProfileInput: Swift.Sendable {
     public init(
         authenticationProfileContent: Swift.String? = nil,
         authenticationProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationProfileContent = authenticationProfileContent
         self.authenticationProfileName = authenticationProfileName
     }
@@ -12339,17 +12072,16 @@ public struct ModifyAuthenticationProfileOutput: Swift.Sendable {
     public init(
         authenticationProfileContent: Swift.String? = nil,
         authenticationProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationProfileContent = authenticationProfileContent
         self.authenticationProfileName = authenticationProfileName
     }
 }
 
 /// The number of tables in the cluster exceeds the limit for the requested new cluster node type.
-public struct TableLimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TableLimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -12364,16 +12096,15 @@ public struct TableLimitExceededFault: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A request option was specified that is not supported.
-public struct UnsupportedOptionFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedOptionFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -12388,8 +12119,7 @@ public struct UnsupportedOptionFault: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -12484,7 +12214,7 @@ public struct ModifyClusterInput: Swift.Sendable {
     public var port: Swift.Int?
     /// The weekly time range (in UTC) during which system maintenance can occur, if necessary. If system maintenance is necessary during the window, it may result in an outage. This maintenance window change is made immediately. If the new maintenance window indicates the current time, there must be at least 120 minutes between the current time and end of the window in order to ensure that pending changes are applied. Default: Uses existing setting. Format: ddd:hh24:mi-ddd:hh24:mi, for example wed:07:30-wed:08:00. Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes.
     public var preferredMaintenanceWindow: Swift.String?
-    /// If true, the cluster can be accessed from a public network. Only clusters in VPCs can be set to be publicly available.
+    /// If true, the cluster can be accessed from a public network. Only clusters in VPCs can be set to be publicly available. Default: false
     public var publiclyAccessible: Swift.Bool?
     /// A list of virtual private cloud (VPC) security groups to be associated with the cluster. This change is asynchronously applied as soon as possible.
     public var vpcSecurityGroupIds: [Swift.String]?
@@ -12519,8 +12249,7 @@ public struct ModifyClusterInput: Swift.Sendable {
         preferredMaintenanceWindow: Swift.String? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.allowVersionUpgrade = allowVersionUpgrade
         self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
         self.availabilityZone = availabilityZone
@@ -12564,8 +12293,7 @@ public struct ModifyClusterOutput: Swift.Sendable {
 
     public init(
         cluster: RedshiftClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -12581,8 +12309,7 @@ public struct ModifyClusterDbRevisionInput: Swift.Sendable {
     public init(
         clusterIdentifier: Swift.String? = nil,
         revisionTarget: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.revisionTarget = revisionTarget
     }
@@ -12594,8 +12321,7 @@ public struct ModifyClusterDbRevisionOutput: Swift.Sendable {
 
     public init(
         cluster: RedshiftClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -12617,8 +12343,7 @@ public struct ModifyClusterIamRolesInput: Swift.Sendable {
         clusterIdentifier: Swift.String? = nil,
         defaultIamRoleArn: Swift.String? = nil,
         removeIamRoles: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.addIamRoles = addIamRoles
         self.clusterIdentifier = clusterIdentifier
         self.defaultIamRoleArn = defaultIamRoleArn
@@ -12632,8 +12357,7 @@ public struct ModifyClusterIamRolesOutput: Swift.Sendable {
 
     public init(
         cluster: RedshiftClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -12660,8 +12384,7 @@ public struct ModifyClusterMaintenanceInput: Swift.Sendable {
         deferMaintenanceEndTime: Foundation.Date? = nil,
         deferMaintenanceIdentifier: Swift.String? = nil,
         deferMaintenanceStartTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.deferMaintenance = deferMaintenance
         self.deferMaintenanceDuration = deferMaintenanceDuration
@@ -12677,8 +12400,7 @@ public struct ModifyClusterMaintenanceOutput: Swift.Sendable {
 
     public init(
         cluster: RedshiftClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -12695,8 +12417,7 @@ public struct ModifyClusterParameterGroupInput: Swift.Sendable {
     public init(
         parameterGroupName: Swift.String? = nil,
         parameters: [RedshiftClientTypes.Parameter]? = nil
-    )
-    {
+    ) {
         self.parameterGroupName = parameterGroupName
         self.parameters = parameters
     }
@@ -12712,8 +12433,7 @@ public struct ModifyClusterParameterGroupOutput: Swift.Sendable {
     public init(
         parameterGroupName: Swift.String? = nil,
         parameterGroupStatus: Swift.String? = nil
-    )
-    {
+    ) {
         self.parameterGroupName = parameterGroupName
         self.parameterGroupStatus = parameterGroupStatus
     }
@@ -12732,8 +12452,7 @@ public struct ModifyClusterSnapshotInput: Swift.Sendable {
         force: Swift.Bool? = nil,
         manualSnapshotRetentionPeriod: Swift.Int? = nil,
         snapshotIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.force = force
         self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
         self.snapshotIdentifier = snapshotIdentifier
@@ -12746,8 +12465,7 @@ public struct ModifyClusterSnapshotOutput: Swift.Sendable {
 
     public init(
         snapshot: RedshiftClientTypes.Snapshot? = nil
-    )
-    {
+    ) {
         self.snapshot = snapshot
     }
 }
@@ -12765,8 +12483,7 @@ public struct ModifyClusterSnapshotScheduleInput: Swift.Sendable {
         clusterIdentifier: Swift.String? = nil,
         disassociateSchedule: Swift.Bool? = nil,
         scheduleIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.disassociateSchedule = disassociateSchedule
         self.scheduleIdentifier = scheduleIdentifier
@@ -12774,9 +12491,9 @@ public struct ModifyClusterSnapshotScheduleInput: Swift.Sendable {
 }
 
 /// A specified subnet is already in use by another cluster.
-public struct SubnetAlreadyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SubnetAlreadyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -12791,8 +12508,7 @@ public struct SubnetAlreadyInUse: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -12812,8 +12528,7 @@ public struct ModifyClusterSubnetGroupInput: Swift.Sendable {
         clusterSubnetGroupName: Swift.String? = nil,
         description: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.clusterSubnetGroupName = clusterSubnetGroupName
         self.description = description
         self.subnetIds = subnetIds
@@ -12826,8 +12541,7 @@ public struct ModifyClusterSubnetGroupOutput: Swift.Sendable {
 
     public init(
         clusterSubnetGroup: RedshiftClientTypes.ClusterSubnetGroup? = nil
-    )
-    {
+    ) {
         self.clusterSubnetGroup = clusterSubnetGroup
     }
 }
@@ -12847,8 +12561,7 @@ public struct ModifyCustomDomainAssociationInput: Swift.Sendable {
         clusterIdentifier: Swift.String? = nil,
         customDomainCertificateArn: Swift.String? = nil,
         customDomainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.customDomainCertificateArn = customDomainCertificateArn
         self.customDomainName = customDomainName
@@ -12870,8 +12583,7 @@ public struct ModifyCustomDomainAssociationOutput: Swift.Sendable {
         customDomainCertExpiryTime: Swift.String? = nil,
         customDomainCertificateArn: Swift.String? = nil,
         customDomainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.customDomainCertExpiryTime = customDomainCertExpiryTime
         self.customDomainCertificateArn = customDomainCertificateArn
@@ -12889,8 +12601,7 @@ public struct ModifyEndpointAccessInput: Swift.Sendable {
     public init(
         endpointName: Swift.String? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.endpointName = endpointName
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
     }
@@ -12930,8 +12641,7 @@ public struct ModifyEndpointAccessOutput: Swift.Sendable {
         subnetGroupName: Swift.String? = nil,
         vpcEndpoint: RedshiftClientTypes.VpcEndpoint? = nil,
         vpcSecurityGroups: [RedshiftClientTypes.VpcSecurityGroupMembership]? = nil
-    )
-    {
+    ) {
         self.address = address
         self.clusterIdentifier = clusterIdentifier
         self.endpointCreateTime = endpointCreateTime
@@ -12971,8 +12681,7 @@ public struct ModifyEventSubscriptionInput: Swift.Sendable {
         sourceIds: [Swift.String]? = nil,
         sourceType: Swift.String? = nil,
         subscriptionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.enabled = enabled
         self.eventCategories = eventCategories
         self.severity = severity
@@ -12989,8 +12698,7 @@ public struct ModifyEventSubscriptionOutput: Swift.Sendable {
 
     public init(
         eventSubscription: RedshiftClientTypes.EventSubscription? = nil
-    )
-    {
+    ) {
         self.eventSubscription = eventSubscription
     }
 }
@@ -13008,8 +12716,7 @@ public struct ModifyIntegrationInput: Swift.Sendable {
         description: Swift.String? = nil,
         integrationArn: Swift.String? = nil,
         integrationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.integrationArn = integrationArn
         self.integrationName = integrationName
@@ -13052,8 +12759,7 @@ public struct ModifyIntegrationOutput: Swift.Sendable {
         status: RedshiftClientTypes.ZeroETLIntegrationStatus? = nil,
         tags: [RedshiftClientTypes.Tag]? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalEncryptionContext = additionalEncryptionContext
         self.createTime = createTime
         self.description = description
@@ -13090,8 +12796,7 @@ public struct ModifyRedshiftIdcApplicationInput: Swift.Sendable {
         identityNamespace: Swift.String? = nil,
         redshiftIdcApplicationArn: Swift.String? = nil,
         serviceIntegrations: [RedshiftClientTypes.ServiceIntegrationsUnion]? = nil
-    )
-    {
+    ) {
         self.authorizedTokenIssuerList = authorizedTokenIssuerList
         self.iamRoleArn = iamRoleArn
         self.idcDisplayName = idcDisplayName
@@ -13107,8 +12812,7 @@ public struct ModifyRedshiftIdcApplicationOutput: Swift.Sendable {
 
     public init(
         redshiftIdcApplication: RedshiftClientTypes.RedshiftIdcApplication? = nil
-    )
-    {
+    ) {
         self.redshiftIdcApplication = redshiftIdcApplication
     }
 }
@@ -13141,8 +12845,7 @@ public struct ModifyScheduledActionInput: Swift.Sendable {
         scheduledActionName: Swift.String? = nil,
         startTime: Foundation.Date? = nil,
         targetAction: RedshiftClientTypes.ScheduledActionType? = nil
-    )
-    {
+    ) {
         self.enable = enable
         self.endTime = endTime
         self.iamRole = iamRole
@@ -13185,8 +12888,7 @@ public struct ModifyScheduledActionOutput: Swift.Sendable {
         startTime: Foundation.Date? = nil,
         state: RedshiftClientTypes.ScheduledActionState? = nil,
         targetAction: RedshiftClientTypes.ScheduledActionType? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.iamRole = iamRole
         self.nextInvocations = nextInvocations
@@ -13200,9 +12902,9 @@ public struct ModifyScheduledActionOutput: Swift.Sendable {
 }
 
 /// Cross-region snapshot copy was temporarily disabled. Try your request again.
-public struct SnapshotCopyDisabledFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SnapshotCopyDisabledFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -13217,8 +12919,7 @@ public struct SnapshotCopyDisabledFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -13238,8 +12939,7 @@ public struct ModifySnapshotCopyRetentionPeriodInput: Swift.Sendable {
         clusterIdentifier: Swift.String? = nil,
         manual: Swift.Bool? = nil,
         retentionPeriod: Swift.Int? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.manual = manual
         self.retentionPeriod = retentionPeriod
@@ -13252,16 +12952,15 @@ public struct ModifySnapshotCopyRetentionPeriodOutput: Swift.Sendable {
 
     public init(
         cluster: RedshiftClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
 
 /// The specified snapshot schedule is already being updated.
-public struct SnapshotScheduleUpdateInProgressFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SnapshotScheduleUpdateInProgressFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -13276,8 +12975,7 @@ public struct SnapshotScheduleUpdateInProgressFault: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -13293,8 +12991,7 @@ public struct ModifySnapshotScheduleInput: Swift.Sendable {
     public init(
         scheduleDefinitions: [Swift.String]? = nil,
         scheduleIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.scheduleDefinitions = scheduleDefinitions
         self.scheduleIdentifier = scheduleIdentifier
     }
@@ -13325,8 +13022,7 @@ public struct ModifySnapshotScheduleOutput: Swift.Sendable {
         scheduleDescription: Swift.String? = nil,
         scheduleIdentifier: Swift.String? = nil,
         tags: [RedshiftClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.associatedClusterCount = associatedClusterCount
         self.associatedClusters = associatedClusters
         self.nextInvocations = nextInvocations
@@ -13350,8 +13046,7 @@ public struct ModifyUsageLimitInput: Swift.Sendable {
         amount: Swift.Int? = nil,
         breachAction: RedshiftClientTypes.UsageLimitBreachAction? = nil,
         usageLimitId: Swift.String? = nil
-    )
-    {
+    ) {
         self.amount = amount
         self.breachAction = breachAction
         self.usageLimitId = usageLimitId
@@ -13392,8 +13087,7 @@ public struct ModifyUsageLimitOutput: Swift.Sendable {
         period: RedshiftClientTypes.UsageLimitPeriod? = nil,
         tags: [RedshiftClientTypes.Tag]? = nil,
         usageLimitId: Swift.String? = nil
-    )
-    {
+    ) {
         self.amount = amount
         self.breachAction = breachAction
         self.clusterIdentifier = clusterIdentifier
@@ -13413,8 +13107,7 @@ public struct PauseClusterInput: Swift.Sendable {
 
     public init(
         clusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
     }
 }
@@ -13425,16 +13118,15 @@ public struct PauseClusterOutput: Swift.Sendable {
 
     public init(
         cluster: RedshiftClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
 
 /// Request would exceed the user's compute node quota. For information about increasing your quota, go to [Limits in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html) in the Amazon Redshift Cluster Management Guide.
-public struct ReservedNodeQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReservedNodeQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -13449,8 +13141,7 @@ public struct ReservedNodeQuotaExceededFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -13466,8 +13157,7 @@ public struct PurchaseReservedNodeOfferingInput: Swift.Sendable {
     public init(
         nodeCount: Swift.Int? = nil,
         reservedNodeOfferingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.nodeCount = nodeCount
         self.reservedNodeOfferingId = reservedNodeOfferingId
     }
@@ -13479,8 +13169,7 @@ public struct PurchaseReservedNodeOfferingOutput: Swift.Sendable {
 
     public init(
         reservedNode: RedshiftClientTypes.ReservedNode? = nil
-    )
-    {
+    ) {
         self.reservedNode = reservedNode
     }
 }
@@ -13496,8 +13185,7 @@ public struct PutResourcePolicyInput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.resourceArn = resourceArn
     }
@@ -13509,8 +13197,7 @@ public struct PutResourcePolicyOutput: Swift.Sendable {
 
     public init(
         resourcePolicy: RedshiftClientTypes.ResourcePolicy? = nil
-    )
-    {
+    ) {
         self.resourcePolicy = resourcePolicy
     }
 }
@@ -13523,8 +13210,7 @@ public struct RebootClusterInput: Swift.Sendable {
 
     public init(
         clusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
     }
 }
@@ -13535,9 +13221,36 @@ public struct RebootClusterOutput: Swift.Sendable {
 
     public init(
         cluster: RedshiftClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
+    }
+}
+
+public struct RegisterNamespaceInput: Swift.Sendable {
+    /// An array containing the ID of the consumer account that you want to register the namespace to.
+    /// This member is required.
+    public var consumerIdentifiers: [Swift.String]?
+    /// The unique identifier of the cluster or serverless namespace that you want to register.
+    /// This member is required.
+    public var namespaceIdentifier: RedshiftClientTypes.NamespaceIdentifierUnion?
+
+    public init(
+        consumerIdentifiers: [Swift.String]? = nil,
+        namespaceIdentifier: RedshiftClientTypes.NamespaceIdentifierUnion? = nil
+    ) {
+        self.consumerIdentifiers = consumerIdentifiers
+        self.namespaceIdentifier = namespaceIdentifier
+    }
+}
+
+public struct RegisterNamespaceOutput: Swift.Sendable {
+    /// The registration status of the cluster or serverless namespace.
+    public var status: RedshiftClientTypes.NamespaceRegistrationStatus?
+
+    public init(
+        status: RedshiftClientTypes.NamespaceRegistrationStatus? = nil
+    ) {
+        self.status = status
     }
 }
 
@@ -13548,8 +13261,7 @@ public struct RejectDataShareInput: Swift.Sendable {
 
     public init(
         dataShareArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataShareArn = dataShareArn
     }
 }
@@ -13561,6 +13273,8 @@ public struct RejectDataShareOutput: Swift.Sendable {
     public var dataShareArn: Swift.String?
     /// A value that specifies when the datashare has an association between producer and data consumers.
     public var dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]?
+    /// The type of the datashare created by RegisterNamespace.
+    public var dataShareType: RedshiftClientTypes.DataShareType?
     /// The identifier of a datashare to show its managing entity.
     public var managedBy: Swift.String?
     /// The Amazon Resource Name (ARN) of the producer namespace.
@@ -13570,13 +13284,14 @@ public struct RejectDataShareOutput: Swift.Sendable {
         allowPubliclyAccessibleConsumers: Swift.Bool? = nil,
         dataShareArn: Swift.String? = nil,
         dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]? = nil,
+        dataShareType: RedshiftClientTypes.DataShareType? = nil,
         managedBy: Swift.String? = nil,
         producerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowPubliclyAccessibleConsumers = allowPubliclyAccessibleConsumers
         self.dataShareArn = dataShareArn
         self.dataShareAssociations = dataShareAssociations
+        self.dataShareType = dataShareType
         self.managedBy = managedBy
         self.producerArn = producerArn
     }
@@ -13596,8 +13311,7 @@ public struct ResetClusterParameterGroupInput: Swift.Sendable {
         parameterGroupName: Swift.String? = nil,
         parameters: [RedshiftClientTypes.Parameter]? = nil,
         resetAllParameters: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.parameterGroupName = parameterGroupName
         self.parameters = parameters
         self.resetAllParameters = resetAllParameters
@@ -13614,8 +13328,7 @@ public struct ResetClusterParameterGroupOutput: Swift.Sendable {
     public init(
         parameterGroupName: Swift.String? = nil,
         parameterGroupStatus: Swift.String? = nil
-    )
-    {
+    ) {
         self.parameterGroupName = parameterGroupName
         self.parameterGroupStatus = parameterGroupStatus
     }
@@ -13647,8 +13360,7 @@ public struct ResizeClusterInput: Swift.Sendable {
         numberOfNodes: Swift.Int? = nil,
         reservedNodeId: Swift.String? = nil,
         targetReservedNodeOfferingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.classic = classic
         self.clusterIdentifier = clusterIdentifier
         self.clusterType = clusterType
@@ -13665,8 +13377,7 @@ public struct ResizeClusterOutput: Swift.Sendable {
 
     public init(
         cluster: RedshiftClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -13748,7 +13459,7 @@ public struct RestoreFromClusterSnapshotInput: Swift.Sendable {
     public var port: Swift.Int?
     /// The weekly time range (in UTC) during which automated cluster maintenance can occur. Format: ddd:hh24:mi-ddd:hh24:mi Default: The value selected for the cluster from which the snapshot was taken. For more information about the time blocks for each region, see [Maintenance Windows](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#rs-maintenance-windows) in Amazon Redshift Cluster Management Guide. Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Minimum 30-minute window.
     public var preferredMaintenanceWindow: Swift.String?
-    /// If true, the cluster can be accessed from a public network.
+    /// If true, the cluster can be accessed from a public network. Default: false
     public var publiclyAccessible: Swift.Bool?
     /// The identifier of the target reserved node offering.
     public var reservedNodeId: Swift.String?
@@ -13803,8 +13514,7 @@ public struct RestoreFromClusterSnapshotInput: Swift.Sendable {
         snapshotScheduleIdentifier: Swift.String? = nil,
         targetReservedNodeOfferingId: Swift.String? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.additionalInfo = additionalInfo
         self.allowVersionUpgrade = allowVersionUpgrade
         self.aquaConfigurationStatus = aquaConfigurationStatus
@@ -13851,8 +13561,7 @@ public struct RestoreFromClusterSnapshotOutput: Swift.Sendable {
 
     public init(
         cluster: RedshiftClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -13893,8 +13602,7 @@ public struct RestoreTableFromClusterSnapshotInput: Swift.Sendable {
         sourceTableName: Swift.String? = nil,
         targetDatabaseName: Swift.String? = nil,
         targetSchemaName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
         self.enableCaseSensitiveIdentifier = enableCaseSensitiveIdentifier
         self.newTableName = newTableName
@@ -13913,8 +13621,7 @@ public struct RestoreTableFromClusterSnapshotOutput: Swift.Sendable {
 
     public init(
         tableRestoreStatus: RedshiftClientTypes.TableRestoreStatus? = nil
-    )
-    {
+    ) {
         self.tableRestoreStatus = tableRestoreStatus
     }
 }
@@ -13927,8 +13634,7 @@ public struct ResumeClusterInput: Swift.Sendable {
 
     public init(
         clusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
     }
 }
@@ -13939,8 +13645,7 @@ public struct ResumeClusterOutput: Swift.Sendable {
 
     public init(
         cluster: RedshiftClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -13962,8 +13667,7 @@ public struct RevokeClusterSecurityGroupIngressInput: Swift.Sendable {
         clusterSecurityGroupName: Swift.String? = nil,
         ec2SecurityGroupName: Swift.String? = nil,
         ec2SecurityGroupOwnerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.cidrip = cidrip
         self.clusterSecurityGroupName = clusterSecurityGroupName
         self.ec2SecurityGroupName = ec2SecurityGroupName
@@ -13977,8 +13681,7 @@ public struct RevokeClusterSecurityGroupIngressOutput: Swift.Sendable {
 
     public init(
         clusterSecurityGroup: RedshiftClientTypes.ClusterSecurityGroup? = nil
-    )
-    {
+    ) {
         self.clusterSecurityGroup = clusterSecurityGroup
     }
 }
@@ -13998,8 +13701,7 @@ public struct RevokeEndpointAccessInput: Swift.Sendable {
         clusterIdentifier: Swift.String? = nil,
         force: Swift.Bool? = nil,
         vpcIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.account = account
         self.clusterIdentifier = clusterIdentifier
         self.force = force
@@ -14038,8 +13740,7 @@ public struct RevokeEndpointAccessOutput: Swift.Sendable {
         grantee: Swift.String? = nil,
         grantor: Swift.String? = nil,
         status: RedshiftClientTypes.AuthorizationStatus? = nil
-    )
-    {
+    ) {
         self.allowedAllVPCs = allowedAllVPCs
         self.allowedVPCs = allowedVPCs
         self.authorizeTime = authorizeTime
@@ -14069,8 +13770,7 @@ public struct RevokeSnapshotAccessInput: Swift.Sendable {
         snapshotArn: Swift.String? = nil,
         snapshotClusterIdentifier: Swift.String? = nil,
         snapshotIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountWithRestoreAccess = accountWithRestoreAccess
         self.snapshotArn = snapshotArn
         self.snapshotClusterIdentifier = snapshotClusterIdentifier
@@ -14084,8 +13784,7 @@ public struct RevokeSnapshotAccessOutput: Swift.Sendable {
 
     public init(
         snapshot: RedshiftClientTypes.Snapshot? = nil
-    )
-    {
+    ) {
         self.snapshot = snapshot
     }
 }
@@ -14098,8 +13797,7 @@ public struct RotateEncryptionKeyInput: Swift.Sendable {
 
     public init(
         clusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterIdentifier = clusterIdentifier
     }
 }
@@ -14110,8 +13808,7 @@ public struct RotateEncryptionKeyOutput: Swift.Sendable {
 
     public init(
         cluster: RedshiftClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
@@ -14142,8 +13839,7 @@ public struct UpdatePartnerStatusInput: Swift.Sendable {
         partnerName: Swift.String? = nil,
         status: RedshiftClientTypes.PartnerIntegrationStatus? = nil,
         statusMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.clusterIdentifier = clusterIdentifier
         self.databaseName = databaseName
@@ -14162,8 +13858,7 @@ public struct UpdatePartnerStatusOutput: Swift.Sendable {
     public init(
         databaseName: Swift.String? = nil,
         partnerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
         self.partnerName = partnerName
     }
@@ -14515,6 +14210,13 @@ extension DeleteTagsInput {
 extension DeleteUsageLimitInput {
 
     static func urlPathProvider(_ value: DeleteUsageLimitInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeregisterNamespaceInput {
+
+    static func urlPathProvider(_ value: DeregisterNamespaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15047,6 +14749,13 @@ extension PutResourcePolicyInput {
 extension RebootClusterInput {
 
     static func urlPathProvider(_ value: RebootClusterInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension RegisterNamespaceInput {
+
+    static func urlPathProvider(_ value: RegisterNamespaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15760,6 +15469,17 @@ extension DeleteUsageLimitInput {
         guard let value else { return }
         try writer["UsageLimitId"].write(value.usageLimitId)
         try writer["Action"].write("DeleteUsageLimit")
+        try writer["Version"].write("2012-12-01")
+    }
+}
+
+extension DeregisterNamespaceInput {
+
+    static func write(value: DeregisterNamespaceInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ConsumerIdentifiers"].writeList(value.consumerIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NamespaceIdentifier"].write(value.namespaceIdentifier, with: RedshiftClientTypes.NamespaceIdentifierUnion.write(value:to:))
+        try writer["Action"].write("DeregisterNamespace")
         try writer["Version"].write("2012-12-01")
     }
 }
@@ -16765,6 +16485,17 @@ extension RebootClusterInput {
     }
 }
 
+extension RegisterNamespaceInput {
+
+    static func write(value: RegisterNamespaceInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ConsumerIdentifiers"].writeList(value.consumerIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NamespaceIdentifier"].write(value.namespaceIdentifier, with: RedshiftClientTypes.NamespaceIdentifierUnion.write(value:to:))
+        try writer["Action"].write("RegisterNamespace")
+        try writer["Version"].write("2012-12-01")
+    }
+}
+
 extension RejectDataShareInput {
 
     static func write(value: RejectDataShareInput?, to writer: SmithyFormURL.Writer) throws {
@@ -16976,6 +16707,7 @@ extension AssociateDataShareConsumerOutput {
         value.allowPubliclyAccessibleConsumers = try reader["AllowPubliclyAccessibleConsumers"].readIfPresent()
         value.dataShareArn = try reader["DataShareArn"].readIfPresent()
         value.dataShareAssociations = try reader["DataShareAssociations"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.DataShareAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataShareType = try reader["DataShareType"].readIfPresent()
         value.managedBy = try reader["ManagedBy"].readIfPresent()
         value.producerArn = try reader["ProducerArn"].readIfPresent()
         return value
@@ -17004,6 +16736,7 @@ extension AuthorizeDataShareOutput {
         value.allowPubliclyAccessibleConsumers = try reader["AllowPubliclyAccessibleConsumers"].readIfPresent()
         value.dataShareArn = try reader["DataShareArn"].readIfPresent()
         value.dataShareAssociations = try reader["DataShareAssociations"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.DataShareAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataShareType = try reader["DataShareType"].readIfPresent()
         value.managedBy = try reader["ManagedBy"].readIfPresent()
         value.producerArn = try reader["ProducerArn"].readIfPresent()
         return value
@@ -17372,6 +17105,7 @@ extension DeauthorizeDataShareOutput {
         value.allowPubliclyAccessibleConsumers = try reader["AllowPubliclyAccessibleConsumers"].readIfPresent()
         value.dataShareArn = try reader["DataShareArn"].readIfPresent()
         value.dataShareAssociations = try reader["DataShareAssociations"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.DataShareAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataShareType = try reader["DataShareType"].readIfPresent()
         value.managedBy = try reader["ManagedBy"].readIfPresent()
         value.producerArn = try reader["ProducerArn"].readIfPresent()
         return value
@@ -17565,6 +17299,18 @@ extension DeleteUsageLimitOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteUsageLimitOutput {
         return DeleteUsageLimitOutput()
+    }
+}
+
+extension DeregisterNamespaceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeregisterNamespaceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["DeregisterNamespaceResult"]
+        var value = DeregisterNamespaceOutput()
+        value.status = try reader["Status"].readIfPresent()
+        return value
     }
 }
 
@@ -18157,6 +17903,7 @@ extension DisassociateDataShareConsumerOutput {
         value.allowPubliclyAccessibleConsumers = try reader["AllowPubliclyAccessibleConsumers"].readIfPresent()
         value.dataShareArn = try reader["DataShareArn"].readIfPresent()
         value.dataShareAssociations = try reader["DataShareAssociations"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.DataShareAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataShareType = try reader["DataShareType"].readIfPresent()
         value.managedBy = try reader["ManagedBy"].readIfPresent()
         value.producerArn = try reader["ProducerArn"].readIfPresent()
         return value
@@ -18602,6 +18349,18 @@ extension RebootClusterOutput {
     }
 }
 
+extension RegisterNamespaceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RegisterNamespaceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["RegisterNamespaceResult"]
+        var value = RegisterNamespaceOutput()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
 extension RejectDataShareOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RejectDataShareOutput {
@@ -18612,6 +18371,7 @@ extension RejectDataShareOutput {
         value.allowPubliclyAccessibleConsumers = try reader["AllowPubliclyAccessibleConsumers"].readIfPresent()
         value.dataShareArn = try reader["DataShareArn"].readIfPresent()
         value.dataShareAssociations = try reader["DataShareAssociations"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.DataShareAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataShareType = try reader["DataShareType"].readIfPresent()
         value.managedBy = try reader["ManagedBy"].readIfPresent()
         value.producerArn = try reader["ProducerArn"].readIfPresent()
         return value
@@ -19621,6 +19381,22 @@ enum DeleteUsageLimitOutputError {
         switch baseError.code {
             case "UnsupportedOperation": return try UnsupportedOperationFault.makeError(baseError: baseError)
             case "UsageLimitNotFound": return try UsageLimitNotFoundFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeregisterNamespaceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClusterNotFound": return try ClusterNotFoundFault.makeError(baseError: baseError)
+            case "InvalidClusterState": return try InvalidClusterStateFault.makeError(baseError: baseError)
+            case "InvalidNamespaceFault": return try InvalidNamespaceFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -20848,6 +20624,22 @@ enum RebootClusterOutputError {
         switch baseError.code {
             case "ClusterNotFound": return try ClusterNotFoundFault.makeError(baseError: baseError)
             case "InvalidClusterState": return try InvalidClusterStateFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum RegisterNamespaceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClusterNotFound": return try ClusterNotFoundFault.makeError(baseError: baseError)
+            case "InvalidClusterState": return try InvalidClusterStateFault.makeError(baseError: baseError)
+            case "InvalidNamespaceFault": return try InvalidNamespaceFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -23953,6 +23745,7 @@ extension RedshiftClientTypes.DataShare {
         value.allowPubliclyAccessibleConsumers = try reader["AllowPubliclyAccessibleConsumers"].readIfPresent()
         value.dataShareAssociations = try reader["DataShareAssociations"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.DataShareAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.managedBy = try reader["ManagedBy"].readIfPresent()
+        value.dataShareType = try reader["DataShareType"].readIfPresent()
         return value
     }
 }
@@ -24300,6 +24093,38 @@ extension RedshiftClientTypes.DeleteClusterSnapshotMessage {
         guard let value else { return }
         try writer["SnapshotClusterIdentifier"].write(value.snapshotClusterIdentifier)
         try writer["SnapshotIdentifier"].write(value.snapshotIdentifier)
+    }
+}
+
+extension RedshiftClientTypes.NamespaceIdentifierUnion {
+
+    static func write(value: RedshiftClientTypes.NamespaceIdentifierUnion?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .provisionedidentifier(provisionedidentifier):
+                try writer["ProvisionedIdentifier"].write(provisionedidentifier, with: RedshiftClientTypes.ProvisionedIdentifier.write(value:to:))
+            case let .serverlessidentifier(serverlessidentifier):
+                try writer["ServerlessIdentifier"].write(serverlessidentifier, with: RedshiftClientTypes.ServerlessIdentifier.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension RedshiftClientTypes.ProvisionedIdentifier {
+
+    static func write(value: RedshiftClientTypes.ProvisionedIdentifier?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ClusterIdentifier"].write(value.clusterIdentifier)
+    }
+}
+
+extension RedshiftClientTypes.ServerlessIdentifier {
+
+    static func write(value: RedshiftClientTypes.ServerlessIdentifier?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["NamespaceIdentifier"].write(value.namespaceIdentifier)
+        try writer["WorkgroupIdentifier"].write(value.workgroupIdentifier)
     }
 }
 

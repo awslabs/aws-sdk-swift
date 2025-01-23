@@ -115,8 +115,7 @@ extension ComprehendClientTypes {
             s3Uri: Swift.String? = nil,
             sourceDocumentsS3Uri: Swift.String? = nil,
             split: ComprehendClientTypes.Split? = nil
-        )
-        {
+        ) {
             self.annotationDataS3Uri = annotationDataS3Uri
             self.attributeNames = attributeNames
             self.documentType = documentType
@@ -128,9 +127,9 @@ extension ComprehendClientTypes {
 }
 
 /// The number of documents in the request exceeds the limit of 25. Try your request again with fewer documents.
-public struct BatchSizeLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BatchSizeLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -145,16 +144,15 @@ public struct BatchSizeLimitExceededException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An internal server error occurred. Retry your request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -169,8 +167,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -233,8 +230,7 @@ extension ComprehendClientTypes {
 
         public init(
             reason: ComprehendClientTypes.InvalidRequestDetailReason? = nil
-        )
-        {
+        ) {
             self.reason = reason
         }
     }
@@ -267,9 +263,9 @@ extension ComprehendClientTypes {
 }
 
 /// The request is invalid.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Provides additional detail about why the request failed.
         public internal(set) var detail: ComprehendClientTypes.InvalidRequestDetail? = nil
         public internal(set) var message: Swift.String? = nil
@@ -289,8 +285,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
         detail: ComprehendClientTypes.InvalidRequestDetail? = nil,
         message: Swift.String? = nil,
         reason: ComprehendClientTypes.InvalidRequestReason? = nil
-    )
-    {
+    ) {
         self.properties.detail = detail
         self.properties.message = message
         self.properties.reason = reason
@@ -298,9 +293,9 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The size of the input text exceeds the limit. Use a smaller document.
-public struct TextSizeLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TextSizeLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -315,8 +310,7 @@ public struct TextSizeLimitExceededException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -328,8 +322,7 @@ public struct BatchDetectDominantLanguageInput: Swift.Sendable {
 
     public init(
         textList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.textList = textList
     }
 }
@@ -354,8 +347,7 @@ extension ComprehendClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             index: Swift.Int? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.index = index
@@ -375,8 +367,7 @@ extension ComprehendClientTypes {
         public init(
             languageCode: Swift.String? = nil,
             score: Swift.Float? = nil
-        )
-        {
+        ) {
             self.languageCode = languageCode
             self.score = score
         }
@@ -395,8 +386,7 @@ extension ComprehendClientTypes {
         public init(
             index: Swift.Int? = nil,
             languages: [ComprehendClientTypes.DominantLanguage]? = nil
-        )
-        {
+        ) {
             self.index = index
             self.languages = languages
         }
@@ -414,8 +404,7 @@ public struct BatchDetectDominantLanguageOutput: Swift.Sendable {
     public init(
         errorList: [ComprehendClientTypes.BatchItemError]? = nil,
         resultList: [ComprehendClientTypes.BatchDetectDominantLanguageItemResult]? = nil
-    )
-    {
+    ) {
         self.errorList = errorList
         self.resultList = resultList
     }
@@ -428,9 +417,9 @@ extension BatchDetectDominantLanguageOutput: Swift.CustomDebugStringConvertible 
 }
 
 /// Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
-public struct UnsupportedLanguageException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedLanguageException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -445,8 +434,7 @@ public struct UnsupportedLanguageException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -521,8 +509,7 @@ public struct BatchDetectEntitiesInput: Swift.Sendable {
     public init(
         languageCode: ComprehendClientTypes.LanguageCode? = nil,
         textList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.languageCode = languageCode
         self.textList = textList
     }
@@ -548,8 +535,7 @@ extension ComprehendClientTypes {
             beginOffset: Swift.Int? = nil,
             childBlockId: Swift.String? = nil,
             endOffset: Swift.Int? = nil
-        )
-        {
+        ) {
             self.beginOffset = beginOffset
             self.childBlockId = childBlockId
             self.endOffset = endOffset
@@ -575,8 +561,7 @@ extension ComprehendClientTypes {
             blockId: Swift.String? = nil,
             childBlocks: [ComprehendClientTypes.ChildBlock]? = nil,
             endOffset: Swift.Int? = nil
-        )
-        {
+        ) {
             self.beginOffset = beginOffset
             self.blockId = blockId
             self.childBlocks = childBlocks
@@ -659,8 +644,7 @@ extension ComprehendClientTypes {
             score: Swift.Float? = nil,
             text: Swift.String? = nil,
             type: ComprehendClientTypes.EntityType? = nil
-        )
-        {
+        ) {
             self.beginOffset = beginOffset
             self.blockReferences = blockReferences
             self.endOffset = endOffset
@@ -683,8 +667,7 @@ extension ComprehendClientTypes {
         public init(
             entities: [ComprehendClientTypes.Entity]? = nil,
             index: Swift.Int? = nil
-        )
-        {
+        ) {
             self.entities = entities
             self.index = index
         }
@@ -702,8 +685,7 @@ public struct BatchDetectEntitiesOutput: Swift.Sendable {
     public init(
         errorList: [ComprehendClientTypes.BatchItemError]? = nil,
         resultList: [ComprehendClientTypes.BatchDetectEntitiesItemResult]? = nil
-    )
-    {
+    ) {
         self.errorList = errorList
         self.resultList = resultList
     }
@@ -726,8 +708,7 @@ public struct BatchDetectKeyPhrasesInput: Swift.Sendable {
     public init(
         languageCode: ComprehendClientTypes.LanguageCode? = nil,
         textList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.languageCode = languageCode
         self.textList = textList
     }
@@ -756,8 +737,7 @@ extension ComprehendClientTypes {
             endOffset: Swift.Int? = nil,
             score: Swift.Float? = nil,
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.beginOffset = beginOffset
             self.endOffset = endOffset
             self.score = score
@@ -778,8 +758,7 @@ extension ComprehendClientTypes {
         public init(
             index: Swift.Int? = nil,
             keyPhrases: [ComprehendClientTypes.KeyPhrase]? = nil
-        )
-        {
+        ) {
             self.index = index
             self.keyPhrases = keyPhrases
         }
@@ -797,8 +776,7 @@ public struct BatchDetectKeyPhrasesOutput: Swift.Sendable {
     public init(
         errorList: [ComprehendClientTypes.BatchItemError]? = nil,
         resultList: [ComprehendClientTypes.BatchDetectKeyPhrasesItemResult]? = nil
-    )
-    {
+    ) {
         self.errorList = errorList
         self.resultList = resultList
     }
@@ -821,8 +799,7 @@ public struct BatchDetectSentimentInput: Swift.Sendable {
     public init(
         languageCode: ComprehendClientTypes.LanguageCode? = nil,
         textList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.languageCode = languageCode
         self.textList = textList
     }
@@ -886,8 +863,7 @@ extension ComprehendClientTypes {
             negative: Swift.Float? = nil,
             neutral: Swift.Float? = nil,
             positive: Swift.Float? = nil
-        )
-        {
+        ) {
             self.mixed = mixed
             self.negative = negative
             self.neutral = neutral
@@ -911,8 +887,7 @@ extension ComprehendClientTypes {
             index: Swift.Int? = nil,
             sentiment: ComprehendClientTypes.SentimentType? = nil,
             sentimentScore: ComprehendClientTypes.SentimentScore? = nil
-        )
-        {
+        ) {
             self.index = index
             self.sentiment = sentiment
             self.sentimentScore = sentimentScore
@@ -931,8 +906,7 @@ public struct BatchDetectSentimentOutput: Swift.Sendable {
     public init(
         errorList: [ComprehendClientTypes.BatchItemError]? = nil,
         resultList: [ComprehendClientTypes.BatchDetectSentimentItemResult]? = nil
-    )
-    {
+    ) {
         self.errorList = errorList
         self.resultList = resultList
     }
@@ -996,8 +970,7 @@ public struct BatchDetectSyntaxInput: Swift.Sendable {
     public init(
         languageCode: ComprehendClientTypes.SyntaxLanguageCode? = nil,
         textList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.languageCode = languageCode
         self.textList = textList
     }
@@ -1097,8 +1070,7 @@ extension ComprehendClientTypes {
         public init(
             score: Swift.Float? = nil,
             tag: ComprehendClientTypes.PartOfSpeechTagType? = nil
-        )
-        {
+        ) {
             self.score = score
             self.tag = tag
         }
@@ -1126,8 +1098,7 @@ extension ComprehendClientTypes {
             partOfSpeech: ComprehendClientTypes.PartOfSpeechTag? = nil,
             text: Swift.String? = nil,
             tokenId: Swift.Int? = nil
-        )
-        {
+        ) {
             self.beginOffset = beginOffset
             self.endOffset = endOffset
             self.partOfSpeech = partOfSpeech
@@ -1149,8 +1120,7 @@ extension ComprehendClientTypes {
         public init(
             index: Swift.Int? = nil,
             syntaxTokens: [ComprehendClientTypes.SyntaxToken]? = nil
-        )
-        {
+        ) {
             self.index = index
             self.syntaxTokens = syntaxTokens
         }
@@ -1168,8 +1138,7 @@ public struct BatchDetectSyntaxOutput: Swift.Sendable {
     public init(
         errorList: [ComprehendClientTypes.BatchItemError]? = nil,
         resultList: [ComprehendClientTypes.BatchDetectSyntaxItemResult]? = nil
-    )
-    {
+    ) {
         self.errorList = errorList
         self.resultList = resultList
     }
@@ -1192,8 +1161,7 @@ public struct BatchDetectTargetedSentimentInput: Swift.Sendable {
     public init(
         languageCode: ComprehendClientTypes.LanguageCode? = nil,
         textList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.languageCode = languageCode
         self.textList = textList
     }
@@ -1216,8 +1184,7 @@ extension ComprehendClientTypes {
         public init(
             sentiment: ComprehendClientTypes.SentimentType? = nil,
             sentimentScore: ComprehendClientTypes.SentimentScore? = nil
-        )
-        {
+        ) {
             self.sentiment = sentiment
             self.sentimentScore = sentimentScore
         }
@@ -1325,8 +1292,7 @@ extension ComprehendClientTypes {
             score: Swift.Float? = nil,
             text: Swift.String? = nil,
             type: ComprehendClientTypes.TargetedSentimentEntityType? = nil
-        )
-        {
+        ) {
             self.beginOffset = beginOffset
             self.endOffset = endOffset
             self.groupScore = groupScore
@@ -1350,8 +1316,7 @@ extension ComprehendClientTypes {
         public init(
             descriptiveMentionIndex: [Swift.Int]? = nil,
             mentions: [ComprehendClientTypes.TargetedSentimentMention]? = nil
-        )
-        {
+        ) {
             self.descriptiveMentionIndex = descriptiveMentionIndex
             self.mentions = mentions
         }
@@ -1370,8 +1335,7 @@ extension ComprehendClientTypes {
         public init(
             entities: [ComprehendClientTypes.TargetedSentimentEntity]? = nil,
             index: Swift.Int? = nil
-        )
-        {
+        ) {
             self.entities = entities
             self.index = index
         }
@@ -1389,8 +1353,7 @@ public struct BatchDetectTargetedSentimentOutput: Swift.Sendable {
     public init(
         errorList: [ComprehendClientTypes.BatchItemError]? = nil,
         resultList: [ComprehendClientTypes.BatchDetectTargetedSentimentItemResult]? = nil
-    )
-    {
+    ) {
         self.errorList = errorList
         self.resultList = resultList
     }
@@ -1449,8 +1412,7 @@ extension ComprehendClientTypes {
             `left`: Swift.Float? = nil,
             top: Swift.Float? = nil,
             width: Swift.Float? = nil
-        )
-        {
+        ) {
             self.height = height
             self.`left` = `left`
             self.top = top
@@ -1471,8 +1433,7 @@ extension ComprehendClientTypes {
         public init(
             x: Swift.Float? = nil,
             y: Swift.Float? = nil
-        )
-        {
+        ) {
             self.x = x
             self.y = y
         }
@@ -1491,8 +1452,7 @@ extension ComprehendClientTypes {
         public init(
             boundingBox: ComprehendClientTypes.BoundingBox? = nil,
             polygon: [ComprehendClientTypes.Point]? = nil
-        )
-        {
+        ) {
             self.boundingBox = boundingBox
             self.polygon = polygon
         }
@@ -1537,8 +1497,7 @@ extension ComprehendClientTypes {
         public init(
             ids: [Swift.String]? = nil,
             type: ComprehendClientTypes.RelationshipType? = nil
-        )
-        {
+        ) {
             self.ids = ids
             self.type = type
         }
@@ -1573,8 +1532,7 @@ extension ComprehendClientTypes {
             page: Swift.Int? = nil,
             relationships: [ComprehendClientTypes.RelationshipsListItem]? = nil,
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.blockType = blockType
             self.geometry = geometry
             self.id = id
@@ -1615,8 +1573,7 @@ extension ComprehendClientTypes {
             microRecall: Swift.Double? = nil,
             precision: Swift.Double? = nil,
             recall: Swift.Double? = nil
-        )
-        {
+        ) {
             self.accuracy = accuracy
             self.f1Score = f1Score
             self.hammingLoss = hammingLoss
@@ -1647,8 +1604,7 @@ extension ComprehendClientTypes {
             numberOfLabels: Swift.Int? = nil,
             numberOfTestDocuments: Swift.Int? = nil,
             numberOfTrainedDocuments: Swift.Int? = nil
-        )
-        {
+        ) {
             self.evaluationMetrics = evaluationMetrics
             self.numberOfLabels = numberOfLabels
             self.numberOfTestDocuments = numberOfTestDocuments
@@ -1664,9 +1620,9 @@ extension ComprehendClientTypes.ClassifierMetadata: Swift.CustomDebugStringConve
 }
 
 /// The specified resource is not available. Check the resource and try your request again.
-public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1681,8 +1637,7 @@ public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1812,8 +1767,7 @@ extension ComprehendClientTypes {
             documentReadAction: ComprehendClientTypes.DocumentReadAction? = nil,
             documentReadMode: ComprehendClientTypes.DocumentReadMode? = nil,
             featureTypes: [ComprehendClientTypes.DocumentReadFeatureTypes]? = nil
-        )
-        {
+        ) {
             self.documentReadAction = documentReadAction
             self.documentReadMode = documentReadMode
             self.featureTypes = featureTypes
@@ -1837,8 +1791,7 @@ public struct ClassifyDocumentInput: Swift.Sendable {
         documentReaderConfig: ComprehendClientTypes.DocumentReaderConfig? = nil,
         endpointArn: Swift.String? = nil,
         text: Swift.String? = nil
-    )
-    {
+    ) {
         self.bytes = bytes
         self.documentReaderConfig = documentReaderConfig
         self.endpointArn = endpointArn
@@ -1866,8 +1819,7 @@ extension ComprehendClientTypes {
             name: Swift.String? = nil,
             page: Swift.Int? = nil,
             score: Swift.Float? = nil
-        )
-        {
+        ) {
             self.name = name
             self.page = page
             self.score = score
@@ -1887,8 +1839,7 @@ extension ComprehendClientTypes {
         public init(
             count: Swift.Int? = nil,
             page: Swift.Int? = nil
-        )
-        {
+        ) {
             self.count = count
             self.page = page
         }
@@ -1907,8 +1858,7 @@ extension ComprehendClientTypes {
         public init(
             extractedCharacters: [ComprehendClientTypes.ExtractedCharactersListItem]? = nil,
             pages: Swift.Int? = nil
-        )
-        {
+        ) {
             self.extractedCharacters = extractedCharacters
             self.pages = pages
         }
@@ -1971,8 +1921,7 @@ extension ComprehendClientTypes {
         public init(
             page: Swift.Int? = nil,
             type: ComprehendClientTypes.DocumentType? = nil
-        )
-        {
+        ) {
             self.page = page
             self.type = type
         }
@@ -2042,8 +1991,7 @@ extension ComprehendClientTypes {
             errorCode: ComprehendClientTypes.PageBasedErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             page: Swift.Int? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.page = page
@@ -2066,8 +2014,7 @@ extension ComprehendClientTypes {
             name: Swift.String? = nil,
             page: Swift.Int? = nil,
             score: Swift.Float? = nil
-        )
-        {
+        ) {
             self.name = name
             self.page = page
             self.score = score
@@ -2123,8 +2070,7 @@ extension ComprehendClientTypes {
             page: Swift.Int? = nil,
             warnCode: ComprehendClientTypes.PageBasedWarningCode? = nil,
             warnMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.page = page
             self.warnCode = warnCode
             self.warnMessage = warnMessage
@@ -2153,8 +2099,7 @@ public struct ClassifyDocumentOutput: Swift.Sendable {
         errors: [ComprehendClientTypes.ErrorsListItem]? = nil,
         labels: [ComprehendClientTypes.DocumentLabel]? = nil,
         warnings: [ComprehendClientTypes.WarningsListItem]? = nil
-    )
-    {
+    ) {
         self.classes = classes
         self.documentMetadata = documentMetadata
         self.documentType = documentType
@@ -2181,8 +2126,7 @@ public struct ContainsPiiEntitiesInput: Swift.Sendable {
     public init(
         languageCode: ComprehendClientTypes.LanguageCode? = nil,
         text: Swift.String? = nil
-    )
-    {
+    ) {
         self.languageCode = languageCode
         self.text = text
     }
@@ -2334,8 +2278,7 @@ extension ComprehendClientTypes {
         public init(
             name: ComprehendClientTypes.PiiEntityType? = nil,
             score: Swift.Float? = nil
-        )
-        {
+        ) {
             self.name = name
             self.score = score
         }
@@ -2348,16 +2291,15 @@ public struct ContainsPiiEntitiesOutput: Swift.Sendable {
 
     public init(
         labels: [ComprehendClientTypes.EntityLabel]? = nil
-    )
-    {
+    ) {
         self.labels = labels
     }
 }
 
 /// The specified resource name is already in use. Use a different name and try your request again.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2372,16 +2314,15 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The maximum number of resources per account has been exceeded. Review the resources, and then try your request again.
-public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2396,16 +2337,15 @@ public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified resource ARN was not found. Check the ARN and try your request again.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2420,16 +2360,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The number of requests exceeds the limit. Resubmit your request later.
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2444,16 +2383,15 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2468,8 +2406,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2526,8 +2463,7 @@ extension ComprehendClientTypes {
             documentType: ComprehendClientTypes.AugmentedManifestsDocumentTypeFormat? = nil,
             s3Uri: Swift.String? = nil,
             sourceDocumentsS3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.annotationDataS3Uri = annotationDataS3Uri
             self.attributeNames = attributeNames
             self.documentType = documentType
@@ -2579,8 +2515,7 @@ extension ComprehendClientTypes {
         public init(
             labelDelimiter: Swift.String? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.labelDelimiter = labelDelimiter
             self.s3Uri = s3Uri
         }
@@ -2597,8 +2532,7 @@ extension ComprehendClientTypes {
 
         public init(
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Uri = s3Uri
         }
     }
@@ -2646,8 +2580,7 @@ extension ComprehendClientTypes {
         public init(
             inputFormat: ComprehendClientTypes.InputFormat? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.inputFormat = inputFormat
             self.s3Uri = s3Uri
         }
@@ -2664,8 +2597,7 @@ extension ComprehendClientTypes {
 
         public init(
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Uri = s3Uri
         }
     }
@@ -2687,8 +2619,7 @@ extension ComprehendClientTypes {
             annotations: ComprehendClientTypes.DatasetEntityRecognizerAnnotations? = nil,
             documents: ComprehendClientTypes.DatasetEntityRecognizerDocuments? = nil,
             entityList: ComprehendClientTypes.DatasetEntityRecognizerEntityList? = nil
-        )
-        {
+        ) {
             self.annotations = annotations
             self.documents = documents
             self.entityList = entityList
@@ -2714,8 +2645,7 @@ extension ComprehendClientTypes {
             dataFormat: ComprehendClientTypes.DatasetDataFormat? = nil,
             documentClassifierInputDataConfig: ComprehendClientTypes.DatasetDocumentClassifierInputDataConfig? = nil,
             entityRecognizerInputDataConfig: ComprehendClientTypes.DatasetEntityRecognizerInputDataConfig? = nil
-        )
-        {
+        ) {
             self.augmentedManifests = augmentedManifests
             self.dataFormat = dataFormat
             self.documentClassifierInputDataConfig = documentClassifierInputDataConfig
@@ -2737,8 +2667,7 @@ extension ComprehendClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -2772,8 +2701,7 @@ public struct CreateDatasetInput: Swift.Sendable {
         flywheelArn: Swift.String? = nil,
         inputDataConfig: ComprehendClientTypes.DatasetInputDataConfig? = nil,
         tags: [ComprehendClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.datasetName = datasetName
         self.datasetType = datasetType
@@ -2790,16 +2718,15 @@ public struct CreateDatasetOutput: Swift.Sendable {
 
     public init(
         datasetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetArn = datasetArn
     }
 }
 
 /// The KMS customer managed key (CMK) entered cannot be validated. Verify the key and re-enter it.
-public struct KmsKeyValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KmsKeyValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2814,8 +2741,7 @@ public struct KmsKeyValidationException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2862,8 +2788,7 @@ extension ComprehendClientTypes {
         public init(
             s3Uri: Swift.String? = nil,
             testS3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Uri = s3Uri
             self.testS3Uri = testS3Uri
         }
@@ -2945,8 +2870,7 @@ extension ComprehendClientTypes {
             labelDelimiter: Swift.String? = nil,
             s3Uri: Swift.String? = nil,
             testS3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.augmentedManifests = augmentedManifests
             self.dataFormat = dataFormat
             self.documentReaderConfig = documentReaderConfig
@@ -3011,8 +2935,7 @@ extension ComprehendClientTypes {
             flywheelStatsS3Prefix: Swift.String? = nil,
             kmsKeyId: Swift.String? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.flywheelStatsS3Prefix = flywheelStatsS3Prefix
             self.kmsKeyId = kmsKeyId
             self.s3Uri = s3Uri
@@ -3034,8 +2957,7 @@ extension ComprehendClientTypes {
         public init(
             securityGroupIds: [Swift.String]? = nil,
             subnets: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnets = subnets
         }
@@ -3096,8 +3018,7 @@ public struct CreateDocumentClassifierInput: Swift.Sendable {
         versionName: Swift.String? = nil,
         volumeKmsKeyId: Swift.String? = nil,
         vpcConfig: ComprehendClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.dataAccessRoleArn = dataAccessRoleArn
         self.documentClassifierName = documentClassifierName
@@ -3120,8 +3041,7 @@ public struct CreateDocumentClassifierOutput: Swift.Sendable {
 
     public init(
         documentClassifierArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.documentClassifierArn = documentClassifierArn
     }
 }
@@ -3152,8 +3072,7 @@ public struct CreateEndpointInput: Swift.Sendable {
         flywheelArn: Swift.String? = nil,
         modelArn: Swift.String? = nil,
         tags: [ComprehendClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.dataAccessRoleArn = dataAccessRoleArn
         self.desiredInferenceUnits = desiredInferenceUnits
@@ -3173,8 +3092,7 @@ public struct CreateEndpointOutput: Swift.Sendable {
     public init(
         endpointArn: Swift.String? = nil,
         modelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointArn = endpointArn
         self.modelArn = modelArn
     }
@@ -3193,8 +3111,7 @@ extension ComprehendClientTypes {
         public init(
             s3Uri: Swift.String? = nil,
             testS3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Uri = s3Uri
             self.testS3Uri = testS3Uri
         }
@@ -3246,8 +3163,7 @@ extension ComprehendClientTypes {
             inputFormat: ComprehendClientTypes.InputFormat? = nil,
             s3Uri: Swift.String? = nil,
             testS3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.inputFormat = inputFormat
             self.s3Uri = s3Uri
             self.testS3Uri = testS3Uri
@@ -3265,8 +3181,7 @@ extension ComprehendClientTypes {
 
         public init(
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Uri = s3Uri
         }
     }
@@ -3282,8 +3197,7 @@ extension ComprehendClientTypes {
 
         public init(
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -3321,8 +3235,7 @@ extension ComprehendClientTypes {
             documents: ComprehendClientTypes.EntityRecognizerDocuments? = nil,
             entityList: ComprehendClientTypes.EntityRecognizerEntityList? = nil,
             entityTypes: [ComprehendClientTypes.EntityTypesListItem]? = nil
-        )
-        {
+        ) {
             self.annotations = annotations
             self.augmentedManifests = augmentedManifests
             self.dataFormat = dataFormat
@@ -3381,8 +3294,7 @@ public struct CreateEntityRecognizerInput: Swift.Sendable {
         versionName: Swift.String? = nil,
         volumeKmsKeyId: Swift.String? = nil,
         vpcConfig: ComprehendClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.dataAccessRoleArn = dataAccessRoleArn
         self.inputDataConfig = inputDataConfig
@@ -3403,8 +3315,7 @@ public struct CreateEntityRecognizerOutput: Swift.Sendable {
 
     public init(
         entityRecognizerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.entityRecognizerArn = entityRecognizerArn
     }
 }
@@ -3431,8 +3342,7 @@ extension ComprehendClientTypes {
             modelKmsKeyId: Swift.String? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             vpcConfig: ComprehendClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.dataLakeKmsKeyId = dataLakeKmsKeyId
             self.modelKmsKeyId = modelKmsKeyId
             self.volumeKmsKeyId = volumeKmsKeyId
@@ -3483,8 +3393,7 @@ extension ComprehendClientTypes {
         public init(
             labels: [Swift.String]? = nil,
             mode: ComprehendClientTypes.DocumentClassifierMode? = nil
-        )
-        {
+        ) {
             self.labels = labels
             self.mode = mode
         }
@@ -3501,8 +3410,7 @@ extension ComprehendClientTypes {
 
         public init(
             entityTypes: [ComprehendClientTypes.EntityTypesListItem]? = nil
-        )
-        {
+        ) {
             self.entityTypes = entityTypes
         }
     }
@@ -3524,8 +3432,7 @@ extension ComprehendClientTypes {
             documentClassificationConfig: ComprehendClientTypes.DocumentClassificationConfig? = nil,
             entityRecognitionConfig: ComprehendClientTypes.EntityRecognitionConfig? = nil,
             languageCode: ComprehendClientTypes.LanguageCode? = nil
-        )
-        {
+        ) {
             self.documentClassificationConfig = documentClassificationConfig
             self.entityRecognitionConfig = entityRecognitionConfig
             self.languageCode = languageCode
@@ -3566,8 +3473,7 @@ public struct CreateFlywheelInput: Swift.Sendable {
         modelType: ComprehendClientTypes.ModelType? = nil,
         tags: [ComprehendClientTypes.Tag]? = nil,
         taskConfig: ComprehendClientTypes.TaskConfig? = nil
-    )
-    {
+    ) {
         self.activeModelArn = activeModelArn
         self.clientRequestToken = clientRequestToken
         self.dataAccessRoleArn = dataAccessRoleArn
@@ -3589,8 +3495,7 @@ public struct CreateFlywheelOutput: Swift.Sendable {
     public init(
         activeModelArn: Swift.String? = nil,
         flywheelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.activeModelArn = activeModelArn
         self.flywheelArn = flywheelArn
     }
@@ -3603,8 +3508,7 @@ public struct DeleteDocumentClassifierInput: Swift.Sendable {
 
     public init(
         documentClassifierArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.documentClassifierArn = documentClassifierArn
     }
 }
@@ -3621,8 +3525,7 @@ public struct DeleteEndpointInput: Swift.Sendable {
 
     public init(
         endpointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointArn = endpointArn
     }
 }
@@ -3639,8 +3542,7 @@ public struct DeleteEntityRecognizerInput: Swift.Sendable {
 
     public init(
         entityRecognizerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.entityRecognizerArn = entityRecognizerArn
     }
 }
@@ -3657,8 +3559,7 @@ public struct DeleteFlywheelInput: Swift.Sendable {
 
     public init(
         flywheelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.flywheelArn = flywheelArn
     }
 }
@@ -3678,8 +3579,7 @@ public struct DeleteResourcePolicyInput: Swift.Sendable {
     public init(
         policyRevisionId: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyRevisionId = policyRevisionId
         self.resourceArn = resourceArn
     }
@@ -3697,8 +3597,7 @@ public struct DescribeDatasetInput: Swift.Sendable {
 
     public init(
         datasetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetArn = datasetArn
     }
 }
@@ -3771,8 +3670,7 @@ extension ComprehendClientTypes {
             message: Swift.String? = nil,
             numberOfDocuments: Swift.Int? = nil,
             status: ComprehendClientTypes.DatasetStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.datasetArn = datasetArn
             self.datasetName = datasetName
@@ -3793,16 +3691,15 @@ public struct DescribeDatasetOutput: Swift.Sendable {
 
     public init(
         datasetProperties: ComprehendClientTypes.DatasetProperties? = nil
-    )
-    {
+    ) {
         self.datasetProperties = datasetProperties
     }
 }
 
 /// The specified job was not found. Check the job ID and try again.
-public struct JobNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct JobNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3817,8 +3714,7 @@ public struct JobNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3830,8 +3726,7 @@ public struct DescribeDocumentClassificationJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -3856,8 +3751,7 @@ extension ComprehendClientTypes {
             documentReaderConfig: ComprehendClientTypes.DocumentReaderConfig? = nil,
             inputFormat: ComprehendClientTypes.InputFormat? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.documentReaderConfig = documentReaderConfig
             self.inputFormat = inputFormat
             self.s3Uri = s3Uri
@@ -3927,8 +3821,7 @@ extension ComprehendClientTypes {
         public init(
             kmsKeyId: Swift.String? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.s3Uri = s3Uri
         }
@@ -3987,8 +3880,7 @@ extension ComprehendClientTypes {
             submitTime: Foundation.Date? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             vpcConfig: ComprehendClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.documentClassifierArn = documentClassifierArn
             self.endTime = endTime
@@ -4013,8 +3905,7 @@ public struct DescribeDocumentClassificationJobOutput: Swift.Sendable {
 
     public init(
         documentClassificationJobProperties: ComprehendClientTypes.DocumentClassificationJobProperties? = nil
-    )
-    {
+    ) {
         self.documentClassificationJobProperties = documentClassificationJobProperties
     }
 }
@@ -4026,8 +3917,7 @@ public struct DescribeDocumentClassifierInput: Swift.Sendable {
 
     public init(
         documentClassifierArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.documentClassifierArn = documentClassifierArn
     }
 }
@@ -4150,8 +4040,7 @@ extension ComprehendClientTypes {
             versionName: Swift.String? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             vpcConfig: ComprehendClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.classifierMetadata = classifierMetadata
             self.dataAccessRoleArn = dataAccessRoleArn
             self.documentClassifierArn = documentClassifierArn
@@ -4186,8 +4075,7 @@ public struct DescribeDocumentClassifierOutput: Swift.Sendable {
 
     public init(
         documentClassifierProperties: ComprehendClientTypes.DocumentClassifierProperties? = nil
-    )
-    {
+    ) {
         self.documentClassifierProperties = documentClassifierProperties
     }
 }
@@ -4199,8 +4087,7 @@ public struct DescribeDominantLanguageDetectionJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -4251,8 +4138,7 @@ extension ComprehendClientTypes {
             submitTime: Foundation.Date? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             vpcConfig: ComprehendClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.inputDataConfig = inputDataConfig
@@ -4275,8 +4161,7 @@ public struct DescribeDominantLanguageDetectionJobOutput: Swift.Sendable {
 
     public init(
         dominantLanguageDetectionJobProperties: ComprehendClientTypes.DominantLanguageDetectionJobProperties? = nil
-    )
-    {
+    ) {
         self.dominantLanguageDetectionJobProperties = dominantLanguageDetectionJobProperties
     }
 }
@@ -4288,8 +4173,7 @@ public struct DescribeEndpointInput: Swift.Sendable {
 
     public init(
         endpointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointArn = endpointArn
     }
 }
@@ -4374,8 +4258,7 @@ extension ComprehendClientTypes {
             message: Swift.String? = nil,
             modelArn: Swift.String? = nil,
             status: ComprehendClientTypes.EndpointStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.currentInferenceUnits = currentInferenceUnits
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -4398,8 +4281,7 @@ public struct DescribeEndpointOutput: Swift.Sendable {
 
     public init(
         endpointProperties: ComprehendClientTypes.EndpointProperties? = nil
-    )
-    {
+    ) {
         self.endpointProperties = endpointProperties
     }
 }
@@ -4411,8 +4293,7 @@ public struct DescribeEntitiesDetectionJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -4472,8 +4353,7 @@ extension ComprehendClientTypes {
             submitTime: Foundation.Date? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             vpcConfig: ComprehendClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.entityRecognizerArn = entityRecognizerArn
@@ -4499,8 +4379,7 @@ public struct DescribeEntitiesDetectionJobOutput: Swift.Sendable {
 
     public init(
         entitiesDetectionJobProperties: ComprehendClientTypes.EntitiesDetectionJobProperties? = nil
-    )
-    {
+    ) {
         self.entitiesDetectionJobProperties = entitiesDetectionJobProperties
     }
 }
@@ -4512,8 +4391,7 @@ public struct DescribeEntityRecognizerInput: Swift.Sendable {
 
     public init(
         entityRecognizerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.entityRecognizerArn = entityRecognizerArn
     }
 }
@@ -4527,8 +4405,7 @@ extension ComprehendClientTypes {
 
         public init(
             flywheelStatsS3Prefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.flywheelStatsS3Prefix = flywheelStatsS3Prefix
         }
     }
@@ -4549,8 +4426,7 @@ extension ComprehendClientTypes {
             f1Score: Swift.Double? = nil,
             precision: Swift.Double? = nil,
             recall: Swift.Double? = nil
-        )
-        {
+        ) {
             self.f1Score = f1Score
             self.precision = precision
             self.recall = recall
@@ -4573,8 +4449,7 @@ extension ComprehendClientTypes {
             evaluationMetrics: ComprehendClientTypes.EntityTypesEvaluationMetrics? = nil,
             numberOfTrainMentions: Swift.Int? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.evaluationMetrics = evaluationMetrics
             self.numberOfTrainMentions = numberOfTrainMentions
             self.type = type
@@ -4597,8 +4472,7 @@ extension ComprehendClientTypes {
             f1Score: Swift.Double? = nil,
             precision: Swift.Double? = nil,
             recall: Swift.Double? = nil
-        )
-        {
+        ) {
             self.f1Score = f1Score
             self.precision = precision
             self.recall = recall
@@ -4624,8 +4498,7 @@ extension ComprehendClientTypes {
             evaluationMetrics: ComprehendClientTypes.EntityRecognizerEvaluationMetrics? = nil,
             numberOfTestDocuments: Swift.Int? = nil,
             numberOfTrainedDocuments: Swift.Int? = nil
-        )
-        {
+        ) {
             self.entityTypes = entityTypes
             self.evaluationMetrics = evaluationMetrics
             self.numberOfTestDocuments = numberOfTestDocuments
@@ -4708,8 +4581,7 @@ extension ComprehendClientTypes {
             versionName: Swift.String? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             vpcConfig: ComprehendClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.entityRecognizerArn = entityRecognizerArn
@@ -4743,8 +4615,7 @@ public struct DescribeEntityRecognizerOutput: Swift.Sendable {
 
     public init(
         entityRecognizerProperties: ComprehendClientTypes.EntityRecognizerProperties? = nil
-    )
-    {
+    ) {
         self.entityRecognizerProperties = entityRecognizerProperties
     }
 }
@@ -4756,8 +4627,7 @@ public struct DescribeEventsDetectionJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -4804,8 +4674,7 @@ extension ComprehendClientTypes {
             outputDataConfig: ComprehendClientTypes.OutputDataConfig? = nil,
             submitTime: Foundation.Date? = nil,
             targetEventTypes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.inputDataConfig = inputDataConfig
@@ -4828,8 +4697,7 @@ public struct DescribeEventsDetectionJobOutput: Swift.Sendable {
 
     public init(
         eventsDetectionJobProperties: ComprehendClientTypes.EventsDetectionJobProperties? = nil
-    )
-    {
+    ) {
         self.eventsDetectionJobProperties = eventsDetectionJobProperties
     }
 }
@@ -4841,8 +4709,7 @@ public struct DescribeFlywheelInput: Swift.Sendable {
 
     public init(
         flywheelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.flywheelArn = flywheelArn
     }
 }
@@ -4927,8 +4794,7 @@ extension ComprehendClientTypes {
             modelType: ComprehendClientTypes.ModelType? = nil,
             status: ComprehendClientTypes.FlywheelStatus? = nil,
             taskConfig: ComprehendClientTypes.TaskConfig? = nil
-        )
-        {
+        ) {
             self.activeModelArn = activeModelArn
             self.creationTime = creationTime
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -4951,8 +4817,7 @@ public struct DescribeFlywheelOutput: Swift.Sendable {
 
     public init(
         flywheelProperties: ComprehendClientTypes.FlywheelProperties? = nil
-    )
-    {
+    ) {
         self.flywheelProperties = flywheelProperties
     }
 }
@@ -4968,8 +4833,7 @@ public struct DescribeFlywheelIterationInput: Swift.Sendable {
     public init(
         flywheelArn: Swift.String? = nil,
         flywheelIterationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.flywheelArn = flywheelArn
         self.flywheelIterationId = flywheelIterationId
     }
@@ -4993,8 +4857,7 @@ extension ComprehendClientTypes {
             averageF1Score: Swift.Double? = nil,
             averagePrecision: Swift.Double? = nil,
             averageRecall: Swift.Double? = nil
-        )
-        {
+        ) {
             self.averageAccuracy = averageAccuracy
             self.averageF1Score = averageF1Score
             self.averagePrecision = averagePrecision
@@ -5083,8 +4946,7 @@ extension ComprehendClientTypes {
             status: ComprehendClientTypes.FlywheelIterationStatus? = nil,
             trainedModelArn: Swift.String? = nil,
             trainedModelMetrics: ComprehendClientTypes.FlywheelModelEvaluationMetrics? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.endTime = endTime
             self.evaluatedModelArn = evaluatedModelArn
@@ -5106,8 +4968,7 @@ public struct DescribeFlywheelIterationOutput: Swift.Sendable {
 
     public init(
         flywheelIterationProperties: ComprehendClientTypes.FlywheelIterationProperties? = nil
-    )
-    {
+    ) {
         self.flywheelIterationProperties = flywheelIterationProperties
     }
 }
@@ -5119,8 +4980,7 @@ public struct DescribeKeyPhrasesDetectionJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -5174,8 +5034,7 @@ extension ComprehendClientTypes {
             submitTime: Foundation.Date? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             vpcConfig: ComprehendClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.inputDataConfig = inputDataConfig
@@ -5199,8 +5058,7 @@ public struct DescribeKeyPhrasesDetectionJobOutput: Swift.Sendable {
 
     public init(
         keyPhrasesDetectionJobProperties: ComprehendClientTypes.KeyPhrasesDetectionJobProperties? = nil
-    )
-    {
+    ) {
         self.keyPhrasesDetectionJobProperties = keyPhrasesDetectionJobProperties
     }
 }
@@ -5212,8 +5070,7 @@ public struct DescribePiiEntitiesDetectionJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -5260,8 +5117,7 @@ extension ComprehendClientTypes {
         public init(
             kmsKeyId: Swift.String? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.s3Uri = s3Uri
         }
@@ -5312,8 +5168,7 @@ extension ComprehendClientTypes {
             maskCharacter: Swift.String? = nil,
             maskMode: ComprehendClientTypes.PiiEntitiesDetectionMaskMode? = nil,
             piiEntityTypes: [ComprehendClientTypes.PiiEntityType]? = nil
-        )
-        {
+        ) {
             self.maskCharacter = maskCharacter
             self.maskMode = maskMode
             self.piiEntityTypes = piiEntityTypes
@@ -5366,8 +5221,7 @@ extension ComprehendClientTypes {
             outputDataConfig: ComprehendClientTypes.PiiOutputDataConfig? = nil,
             redactionConfig: ComprehendClientTypes.RedactionConfig? = nil,
             submitTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.inputDataConfig = inputDataConfig
@@ -5391,8 +5245,7 @@ public struct DescribePiiEntitiesDetectionJobOutput: Swift.Sendable {
 
     public init(
         piiEntitiesDetectionJobProperties: ComprehendClientTypes.PiiEntitiesDetectionJobProperties? = nil
-    )
-    {
+    ) {
         self.piiEntitiesDetectionJobProperties = piiEntitiesDetectionJobProperties
     }
 }
@@ -5404,8 +5257,7 @@ public struct DescribeResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -5425,8 +5277,7 @@ public struct DescribeResourcePolicyOutput: Swift.Sendable {
         lastModifiedTime: Foundation.Date? = nil,
         policyRevisionId: Swift.String? = nil,
         resourcePolicy: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.lastModifiedTime = lastModifiedTime
         self.policyRevisionId = policyRevisionId
@@ -5441,8 +5292,7 @@ public struct DescribeSentimentDetectionJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -5496,8 +5346,7 @@ extension ComprehendClientTypes {
             submitTime: Foundation.Date? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             vpcConfig: ComprehendClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.inputDataConfig = inputDataConfig
@@ -5521,8 +5370,7 @@ public struct DescribeSentimentDetectionJobOutput: Swift.Sendable {
 
     public init(
         sentimentDetectionJobProperties: ComprehendClientTypes.SentimentDetectionJobProperties? = nil
-    )
-    {
+    ) {
         self.sentimentDetectionJobProperties = sentimentDetectionJobProperties
     }
 }
@@ -5534,8 +5382,7 @@ public struct DescribeTargetedSentimentDetectionJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -5589,8 +5436,7 @@ extension ComprehendClientTypes {
             submitTime: Foundation.Date? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             vpcConfig: ComprehendClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.inputDataConfig = inputDataConfig
@@ -5614,8 +5460,7 @@ public struct DescribeTargetedSentimentDetectionJobOutput: Swift.Sendable {
 
     public init(
         targetedSentimentDetectionJobProperties: ComprehendClientTypes.TargetedSentimentDetectionJobProperties? = nil
-    )
-    {
+    ) {
         self.targetedSentimentDetectionJobProperties = targetedSentimentDetectionJobProperties
     }
 }
@@ -5627,8 +5472,7 @@ public struct DescribeTopicsDetectionJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -5682,8 +5526,7 @@ extension ComprehendClientTypes {
             submitTime: Foundation.Date? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             vpcConfig: ComprehendClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.inputDataConfig = inputDataConfig
@@ -5707,8 +5550,7 @@ public struct DescribeTopicsDetectionJobOutput: Swift.Sendable {
 
     public init(
         topicsDetectionJobProperties: ComprehendClientTypes.TopicsDetectionJobProperties? = nil
-    )
-    {
+    ) {
         self.topicsDetectionJobProperties = topicsDetectionJobProperties
     }
 }
@@ -5720,8 +5562,7 @@ public struct DetectDominantLanguageInput: Swift.Sendable {
 
     public init(
         text: Swift.String? = nil
-    )
-    {
+    ) {
         self.text = text
     }
 }
@@ -5737,8 +5578,7 @@ public struct DetectDominantLanguageOutput: Swift.Sendable {
 
     public init(
         languages: [ComprehendClientTypes.DominantLanguage]? = nil
-    )
-    {
+    ) {
         self.languages = languages
     }
 }
@@ -5767,8 +5607,7 @@ public struct DetectEntitiesInput: Swift.Sendable {
         endpointArn: Swift.String? = nil,
         languageCode: ComprehendClientTypes.LanguageCode? = nil,
         text: Swift.String? = nil
-    )
-    {
+    ) {
         self.bytes = bytes
         self.documentReaderConfig = documentReaderConfig
         self.endpointArn = endpointArn
@@ -5800,8 +5639,7 @@ public struct DetectEntitiesOutput: Swift.Sendable {
         documentType: [ComprehendClientTypes.DocumentTypeListItem]? = nil,
         entities: [ComprehendClientTypes.Entity]? = nil,
         errors: [ComprehendClientTypes.ErrorsListItem]? = nil
-    )
-    {
+    ) {
         self.blocks = blocks
         self.documentMetadata = documentMetadata
         self.documentType = documentType
@@ -5827,8 +5665,7 @@ public struct DetectKeyPhrasesInput: Swift.Sendable {
     public init(
         languageCode: ComprehendClientTypes.LanguageCode? = nil,
         text: Swift.String? = nil
-    )
-    {
+    ) {
         self.languageCode = languageCode
         self.text = text
     }
@@ -5845,8 +5682,7 @@ public struct DetectKeyPhrasesOutput: Swift.Sendable {
 
     public init(
         keyPhrases: [ComprehendClientTypes.KeyPhrase]? = nil
-    )
-    {
+    ) {
         self.keyPhrases = keyPhrases
     }
 }
@@ -5868,8 +5704,7 @@ public struct DetectPiiEntitiesInput: Swift.Sendable {
     public init(
         languageCode: ComprehendClientTypes.LanguageCode? = nil,
         text: Swift.String? = nil
-    )
-    {
+    ) {
         self.languageCode = languageCode
         self.text = text
     }
@@ -5893,8 +5728,7 @@ extension ComprehendClientTypes {
             endOffset: Swift.Int? = nil,
             score: Swift.Float? = nil,
             type: ComprehendClientTypes.PiiEntityType? = nil
-        )
-        {
+        ) {
             self.beginOffset = beginOffset
             self.endOffset = endOffset
             self.score = score
@@ -5909,8 +5743,7 @@ public struct DetectPiiEntitiesOutput: Swift.Sendable {
 
     public init(
         entities: [ComprehendClientTypes.PiiEntity]? = nil
-    )
-    {
+    ) {
         self.entities = entities
     }
 }
@@ -5926,8 +5759,7 @@ public struct DetectSentimentInput: Swift.Sendable {
     public init(
         languageCode: ComprehendClientTypes.LanguageCode? = nil,
         text: Swift.String? = nil
-    )
-    {
+    ) {
         self.languageCode = languageCode
         self.text = text
     }
@@ -5947,8 +5779,7 @@ public struct DetectSentimentOutput: Swift.Sendable {
     public init(
         sentiment: ComprehendClientTypes.SentimentType? = nil,
         sentimentScore: ComprehendClientTypes.SentimentScore? = nil
-    )
-    {
+    ) {
         self.sentiment = sentiment
         self.sentimentScore = sentimentScore
     }
@@ -5971,8 +5802,7 @@ public struct DetectSyntaxInput: Swift.Sendable {
     public init(
         languageCode: ComprehendClientTypes.SyntaxLanguageCode? = nil,
         text: Swift.String? = nil
-    )
-    {
+    ) {
         self.languageCode = languageCode
         self.text = text
     }
@@ -5989,8 +5819,7 @@ public struct DetectSyntaxOutput: Swift.Sendable {
 
     public init(
         syntaxTokens: [ComprehendClientTypes.SyntaxToken]? = nil
-    )
-    {
+    ) {
         self.syntaxTokens = syntaxTokens
     }
 }
@@ -6012,8 +5841,7 @@ public struct DetectTargetedSentimentInput: Swift.Sendable {
     public init(
         languageCode: ComprehendClientTypes.LanguageCode? = nil,
         text: Swift.String? = nil
-    )
-    {
+    ) {
         self.languageCode = languageCode
         self.text = text
     }
@@ -6030,8 +5858,7 @@ public struct DetectTargetedSentimentOutput: Swift.Sendable {
 
     public init(
         entities: [ComprehendClientTypes.TargetedSentimentEntity]? = nil
-    )
-    {
+    ) {
         self.entities = entities
     }
 }
@@ -6052,8 +5879,7 @@ extension ComprehendClientTypes {
 
         public init(
             text: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
         }
     }
@@ -6075,8 +5901,7 @@ public struct DetectToxicContentInput: Swift.Sendable {
     public init(
         languageCode: ComprehendClientTypes.LanguageCode? = nil,
         textSegments: [ComprehendClientTypes.TextSegment]? = nil
-    )
-    {
+    ) {
         self.languageCode = languageCode
         self.textSegments = textSegments
     }
@@ -6143,8 +5968,7 @@ extension ComprehendClientTypes {
         public init(
             name: ComprehendClientTypes.ToxicContentType? = nil,
             score: Swift.Float? = nil
-        )
-        {
+        ) {
             self.name = name
             self.score = score
         }
@@ -6163,8 +5987,7 @@ extension ComprehendClientTypes {
         public init(
             labels: [ComprehendClientTypes.ToxicContent]? = nil,
             toxicity: Swift.Float? = nil
-        )
-        {
+        ) {
             self.labels = labels
             self.toxicity = toxicity
         }
@@ -6177,8 +6000,7 @@ public struct DetectToxicContentOutput: Swift.Sendable {
 
     public init(
         resultList: [ComprehendClientTypes.ToxicLabels]? = nil
-    )
-    {
+    ) {
         self.resultList = resultList
     }
 }
@@ -6209,8 +6031,7 @@ public struct ImportModelInput: Swift.Sendable {
         sourceModelArn: Swift.String? = nil,
         tags: [ComprehendClientTypes.Tag]? = nil,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataAccessRoleArn = dataAccessRoleArn
         self.modelKmsKeyId = modelKmsKeyId
         self.modelName = modelName
@@ -6226,16 +6047,15 @@ public struct ImportModelOutput: Swift.Sendable {
 
     public init(
         modelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelArn = modelArn
     }
 }
 
 /// The filter specified for the operation is invalid. Specify a different filter.
-public struct InvalidFilterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidFilterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6250,8 +6070,7 @@ public struct InvalidFilterException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6274,8 +6093,7 @@ extension ComprehendClientTypes {
             creationTimeBefore: Foundation.Date? = nil,
             datasetType: ComprehendClientTypes.DatasetType? = nil,
             status: ComprehendClientTypes.DatasetStatus? = nil
-        )
-        {
+        ) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.datasetType = datasetType
@@ -6299,8 +6117,7 @@ public struct ListDatasetsInput: Swift.Sendable {
         flywheelArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.flywheelArn = flywheelArn
         self.maxResults = maxResults
@@ -6317,8 +6134,7 @@ public struct ListDatasetsOutput: Swift.Sendable {
     public init(
         datasetPropertiesList: [ComprehendClientTypes.DatasetProperties]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetPropertiesList = datasetPropertiesList
         self.nextToken = nextToken
     }
@@ -6342,8 +6158,7 @@ extension ComprehendClientTypes {
             jobStatus: ComprehendClientTypes.JobStatus? = nil,
             submitTimeAfter: Foundation.Date? = nil,
             submitTimeBefore: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.jobName = jobName
             self.jobStatus = jobStatus
             self.submitTimeAfter = submitTimeAfter
@@ -6364,8 +6179,7 @@ public struct ListDocumentClassificationJobsInput: Swift.Sendable {
         filter: ComprehendClientTypes.DocumentClassificationJobFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6381,8 +6195,7 @@ public struct ListDocumentClassificationJobsOutput: Swift.Sendable {
     public init(
         documentClassificationJobPropertiesList: [ComprehendClientTypes.DocumentClassificationJobProperties]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.documentClassificationJobPropertiesList = documentClassificationJobPropertiesList
         self.nextToken = nextToken
     }
@@ -6406,8 +6219,7 @@ extension ComprehendClientTypes {
             status: ComprehendClientTypes.ModelStatus? = nil,
             submitTimeAfter: Foundation.Date? = nil,
             submitTimeBefore: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.documentClassifierName = documentClassifierName
             self.status = status
             self.submitTimeAfter = submitTimeAfter
@@ -6428,8 +6240,7 @@ public struct ListDocumentClassifiersInput: Swift.Sendable {
         filter: ComprehendClientTypes.DocumentClassifierFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6445,8 +6256,7 @@ public struct ListDocumentClassifiersOutput: Swift.Sendable {
     public init(
         documentClassifierPropertiesList: [ComprehendClientTypes.DocumentClassifierProperties]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.documentClassifierPropertiesList = documentClassifierPropertiesList
         self.nextToken = nextToken
     }
@@ -6461,8 +6271,7 @@ public struct ListDocumentClassifierSummariesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -6489,8 +6298,7 @@ extension ComprehendClientTypes {
             latestVersionName: Swift.String? = nil,
             latestVersionStatus: ComprehendClientTypes.ModelStatus? = nil,
             numberOfVersions: Swift.Int? = nil
-        )
-        {
+        ) {
             self.documentClassifierName = documentClassifierName
             self.latestVersionCreatedAt = latestVersionCreatedAt
             self.latestVersionName = latestVersionName
@@ -6509,8 +6317,7 @@ public struct ListDocumentClassifierSummariesOutput: Swift.Sendable {
     public init(
         documentClassifierSummariesList: [ComprehendClientTypes.DocumentClassifierSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.documentClassifierSummariesList = documentClassifierSummariesList
         self.nextToken = nextToken
     }
@@ -6534,8 +6341,7 @@ extension ComprehendClientTypes {
             jobStatus: ComprehendClientTypes.JobStatus? = nil,
             submitTimeAfter: Foundation.Date? = nil,
             submitTimeBefore: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.jobName = jobName
             self.jobStatus = jobStatus
             self.submitTimeAfter = submitTimeAfter
@@ -6556,8 +6362,7 @@ public struct ListDominantLanguageDetectionJobsInput: Swift.Sendable {
         filter: ComprehendClientTypes.DominantLanguageDetectionJobFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6573,8 +6378,7 @@ public struct ListDominantLanguageDetectionJobsOutput: Swift.Sendable {
     public init(
         dominantLanguageDetectionJobPropertiesList: [ComprehendClientTypes.DominantLanguageDetectionJobProperties]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dominantLanguageDetectionJobPropertiesList = dominantLanguageDetectionJobPropertiesList
         self.nextToken = nextToken
     }
@@ -6598,8 +6402,7 @@ extension ComprehendClientTypes {
             creationTimeBefore: Foundation.Date? = nil,
             modelArn: Swift.String? = nil,
             status: ComprehendClientTypes.EndpointStatus? = nil
-        )
-        {
+        ) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.modelArn = modelArn
@@ -6620,8 +6423,7 @@ public struct ListEndpointsInput: Swift.Sendable {
         filter: ComprehendClientTypes.EndpointFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6637,8 +6439,7 @@ public struct ListEndpointsOutput: Swift.Sendable {
     public init(
         endpointPropertiesList: [ComprehendClientTypes.EndpointProperties]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointPropertiesList = endpointPropertiesList
         self.nextToken = nextToken
     }
@@ -6662,8 +6463,7 @@ extension ComprehendClientTypes {
             jobStatus: ComprehendClientTypes.JobStatus? = nil,
             submitTimeAfter: Foundation.Date? = nil,
             submitTimeBefore: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.jobName = jobName
             self.jobStatus = jobStatus
             self.submitTimeAfter = submitTimeAfter
@@ -6684,8 +6484,7 @@ public struct ListEntitiesDetectionJobsInput: Swift.Sendable {
         filter: ComprehendClientTypes.EntitiesDetectionJobFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6701,8 +6500,7 @@ public struct ListEntitiesDetectionJobsOutput: Swift.Sendable {
     public init(
         entitiesDetectionJobPropertiesList: [ComprehendClientTypes.EntitiesDetectionJobProperties]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entitiesDetectionJobPropertiesList = entitiesDetectionJobPropertiesList
         self.nextToken = nextToken
     }
@@ -6726,8 +6524,7 @@ extension ComprehendClientTypes {
             status: ComprehendClientTypes.ModelStatus? = nil,
             submitTimeAfter: Foundation.Date? = nil,
             submitTimeBefore: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.recognizerName = recognizerName
             self.status = status
             self.submitTimeAfter = submitTimeAfter
@@ -6748,8 +6545,7 @@ public struct ListEntityRecognizersInput: Swift.Sendable {
         filter: ComprehendClientTypes.EntityRecognizerFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6765,8 +6561,7 @@ public struct ListEntityRecognizersOutput: Swift.Sendable {
     public init(
         entityRecognizerPropertiesList: [ComprehendClientTypes.EntityRecognizerProperties]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entityRecognizerPropertiesList = entityRecognizerPropertiesList
         self.nextToken = nextToken
     }
@@ -6781,8 +6576,7 @@ public struct ListEntityRecognizerSummariesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -6809,8 +6603,7 @@ extension ComprehendClientTypes {
             latestVersionStatus: ComprehendClientTypes.ModelStatus? = nil,
             numberOfVersions: Swift.Int? = nil,
             recognizerName: Swift.String? = nil
-        )
-        {
+        ) {
             self.latestVersionCreatedAt = latestVersionCreatedAt
             self.latestVersionName = latestVersionName
             self.latestVersionStatus = latestVersionStatus
@@ -6829,8 +6622,7 @@ public struct ListEntityRecognizerSummariesOutput: Swift.Sendable {
     public init(
         entityRecognizerSummariesList: [ComprehendClientTypes.EntityRecognizerSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entityRecognizerSummariesList = entityRecognizerSummariesList
         self.nextToken = nextToken
     }
@@ -6854,8 +6646,7 @@ extension ComprehendClientTypes {
             jobStatus: ComprehendClientTypes.JobStatus? = nil,
             submitTimeAfter: Foundation.Date? = nil,
             submitTimeBefore: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.jobName = jobName
             self.jobStatus = jobStatus
             self.submitTimeAfter = submitTimeAfter
@@ -6876,8 +6667,7 @@ public struct ListEventsDetectionJobsInput: Swift.Sendable {
         filter: ComprehendClientTypes.EventsDetectionJobFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6893,8 +6683,7 @@ public struct ListEventsDetectionJobsOutput: Swift.Sendable {
     public init(
         eventsDetectionJobPropertiesList: [ComprehendClientTypes.EventsDetectionJobProperties]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventsDetectionJobPropertiesList = eventsDetectionJobPropertiesList
         self.nextToken = nextToken
     }
@@ -6912,8 +6701,7 @@ extension ComprehendClientTypes {
         public init(
             creationTimeAfter: Foundation.Date? = nil,
             creationTimeBefore: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
         }
@@ -6936,8 +6724,7 @@ public struct ListFlywheelIterationHistoryInput: Swift.Sendable {
         flywheelArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.flywheelArn = flywheelArn
         self.maxResults = maxResults
@@ -6954,8 +6741,7 @@ public struct ListFlywheelIterationHistoryOutput: Swift.Sendable {
     public init(
         flywheelIterationPropertiesList: [ComprehendClientTypes.FlywheelIterationProperties]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.flywheelIterationPropertiesList = flywheelIterationPropertiesList
         self.nextToken = nextToken
     }
@@ -6976,8 +6762,7 @@ extension ComprehendClientTypes {
             creationTimeAfter: Foundation.Date? = nil,
             creationTimeBefore: Foundation.Date? = nil,
             status: ComprehendClientTypes.FlywheelStatus? = nil
-        )
-        {
+        ) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
             self.status = status
@@ -6997,8 +6782,7 @@ public struct ListFlywheelsInput: Swift.Sendable {
         filter: ComprehendClientTypes.FlywheelFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7038,8 +6822,7 @@ extension ComprehendClientTypes {
             message: Swift.String? = nil,
             modelType: ComprehendClientTypes.ModelType? = nil,
             status: ComprehendClientTypes.FlywheelStatus? = nil
-        )
-        {
+        ) {
             self.activeModelArn = activeModelArn
             self.creationTime = creationTime
             self.dataLakeS3Uri = dataLakeS3Uri
@@ -7062,8 +6845,7 @@ public struct ListFlywheelsOutput: Swift.Sendable {
     public init(
         flywheelSummaryList: [ComprehendClientTypes.FlywheelSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.flywheelSummaryList = flywheelSummaryList
         self.nextToken = nextToken
     }
@@ -7087,8 +6869,7 @@ extension ComprehendClientTypes {
             jobStatus: ComprehendClientTypes.JobStatus? = nil,
             submitTimeAfter: Foundation.Date? = nil,
             submitTimeBefore: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.jobName = jobName
             self.jobStatus = jobStatus
             self.submitTimeAfter = submitTimeAfter
@@ -7109,8 +6890,7 @@ public struct ListKeyPhrasesDetectionJobsInput: Swift.Sendable {
         filter: ComprehendClientTypes.KeyPhrasesDetectionJobFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7126,8 +6906,7 @@ public struct ListKeyPhrasesDetectionJobsOutput: Swift.Sendable {
     public init(
         keyPhrasesDetectionJobPropertiesList: [ComprehendClientTypes.KeyPhrasesDetectionJobProperties]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyPhrasesDetectionJobPropertiesList = keyPhrasesDetectionJobPropertiesList
         self.nextToken = nextToken
     }
@@ -7151,8 +6930,7 @@ extension ComprehendClientTypes {
             jobStatus: ComprehendClientTypes.JobStatus? = nil,
             submitTimeAfter: Foundation.Date? = nil,
             submitTimeBefore: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.jobName = jobName
             self.jobStatus = jobStatus
             self.submitTimeAfter = submitTimeAfter
@@ -7173,8 +6951,7 @@ public struct ListPiiEntitiesDetectionJobsInput: Swift.Sendable {
         filter: ComprehendClientTypes.PiiEntitiesDetectionJobFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7190,8 +6967,7 @@ public struct ListPiiEntitiesDetectionJobsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         piiEntitiesDetectionJobPropertiesList: [ComprehendClientTypes.PiiEntitiesDetectionJobProperties]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.piiEntitiesDetectionJobPropertiesList = piiEntitiesDetectionJobPropertiesList
     }
@@ -7215,8 +6991,7 @@ extension ComprehendClientTypes {
             jobStatus: ComprehendClientTypes.JobStatus? = nil,
             submitTimeAfter: Foundation.Date? = nil,
             submitTimeBefore: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.jobName = jobName
             self.jobStatus = jobStatus
             self.submitTimeAfter = submitTimeAfter
@@ -7237,8 +7012,7 @@ public struct ListSentimentDetectionJobsInput: Swift.Sendable {
         filter: ComprehendClientTypes.SentimentDetectionJobFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7254,8 +7028,7 @@ public struct ListSentimentDetectionJobsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sentimentDetectionJobPropertiesList: [ComprehendClientTypes.SentimentDetectionJobProperties]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sentimentDetectionJobPropertiesList = sentimentDetectionJobPropertiesList
     }
@@ -7268,8 +7041,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -7283,8 +7055,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [ComprehendClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -7308,8 +7079,7 @@ extension ComprehendClientTypes {
             jobStatus: ComprehendClientTypes.JobStatus? = nil,
             submitTimeAfter: Foundation.Date? = nil,
             submitTimeBefore: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.jobName = jobName
             self.jobStatus = jobStatus
             self.submitTimeAfter = submitTimeAfter
@@ -7330,8 +7100,7 @@ public struct ListTargetedSentimentDetectionJobsInput: Swift.Sendable {
         filter: ComprehendClientTypes.TargetedSentimentDetectionJobFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7347,8 +7116,7 @@ public struct ListTargetedSentimentDetectionJobsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         targetedSentimentDetectionJobPropertiesList: [ComprehendClientTypes.TargetedSentimentDetectionJobProperties]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.targetedSentimentDetectionJobPropertiesList = targetedSentimentDetectionJobPropertiesList
     }
@@ -7372,8 +7140,7 @@ extension ComprehendClientTypes {
             jobStatus: ComprehendClientTypes.JobStatus? = nil,
             submitTimeAfter: Foundation.Date? = nil,
             submitTimeBefore: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.jobName = jobName
             self.jobStatus = jobStatus
             self.submitTimeAfter = submitTimeAfter
@@ -7394,8 +7161,7 @@ public struct ListTopicsDetectionJobsInput: Swift.Sendable {
         filter: ComprehendClientTypes.TopicsDetectionJobFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7411,8 +7177,7 @@ public struct ListTopicsDetectionJobsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         topicsDetectionJobPropertiesList: [ComprehendClientTypes.TopicsDetectionJobProperties]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.topicsDetectionJobPropertiesList = topicsDetectionJobPropertiesList
     }
@@ -7432,8 +7197,7 @@ public struct PutResourcePolicyInput: Swift.Sendable {
         policyRevisionId: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         resourcePolicy: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyRevisionId = policyRevisionId
         self.resourceArn = resourceArn
         self.resourcePolicy = resourcePolicy
@@ -7446,8 +7210,7 @@ public struct PutResourcePolicyOutput: Swift.Sendable {
 
     public init(
         policyRevisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyRevisionId = policyRevisionId
     }
 }
@@ -7492,8 +7255,7 @@ public struct StartDocumentClassificationJobInput: Swift.Sendable {
         tags: [ComprehendClientTypes.Tag]? = nil,
         volumeKmsKeyId: Swift.String? = nil,
         vpcConfig: ComprehendClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.dataAccessRoleArn = dataAccessRoleArn
         self.documentClassifierArn = documentClassifierArn
@@ -7534,8 +7296,7 @@ public struct StartDocumentClassificationJobOutput: Swift.Sendable {
         jobArn: Swift.String? = nil,
         jobId: Swift.String? = nil,
         jobStatus: ComprehendClientTypes.JobStatus? = nil
-    )
-    {
+    ) {
         self.documentClassifierArn = documentClassifierArn
         self.jobArn = jobArn
         self.jobId = jobId
@@ -7577,8 +7338,7 @@ public struct StartDominantLanguageDetectionJobInput: Swift.Sendable {
         tags: [ComprehendClientTypes.Tag]? = nil,
         volumeKmsKeyId: Swift.String? = nil,
         vpcConfig: ComprehendClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.dataAccessRoleArn = dataAccessRoleArn
         self.inputDataConfig = inputDataConfig
@@ -7610,8 +7370,7 @@ public struct StartDominantLanguageDetectionJobOutput: Swift.Sendable {
         jobArn: Swift.String? = nil,
         jobId: Swift.String? = nil,
         jobStatus: ComprehendClientTypes.JobStatus? = nil
-    )
-    {
+    ) {
         self.jobArn = jobArn
         self.jobId = jobId
         self.jobStatus = jobStatus
@@ -7662,8 +7421,7 @@ public struct StartEntitiesDetectionJobInput: Swift.Sendable {
         tags: [ComprehendClientTypes.Tag]? = nil,
         volumeKmsKeyId: Swift.String? = nil,
         vpcConfig: ComprehendClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.dataAccessRoleArn = dataAccessRoleArn
         self.entityRecognizerArn = entityRecognizerArn
@@ -7705,8 +7463,7 @@ public struct StartEntitiesDetectionJobOutput: Swift.Sendable {
         jobArn: Swift.String? = nil,
         jobId: Swift.String? = nil,
         jobStatus: ComprehendClientTypes.JobStatus? = nil
-    )
-    {
+    ) {
         self.entityRecognizerArn = entityRecognizerArn
         self.jobArn = jobArn
         self.jobId = jobId
@@ -7746,8 +7503,7 @@ public struct StartEventsDetectionJobInput: Swift.Sendable {
         outputDataConfig: ComprehendClientTypes.OutputDataConfig? = nil,
         tags: [ComprehendClientTypes.Tag]? = nil,
         targetEventTypes: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.dataAccessRoleArn = dataAccessRoleArn
         self.inputDataConfig = inputDataConfig
@@ -7771,8 +7527,7 @@ public struct StartEventsDetectionJobOutput: Swift.Sendable {
         jobArn: Swift.String? = nil,
         jobId: Swift.String? = nil,
         jobStatus: ComprehendClientTypes.JobStatus? = nil
-    )
-    {
+    ) {
         self.jobArn = jobArn
         self.jobId = jobId
         self.jobStatus = jobStatus
@@ -7789,8 +7544,7 @@ public struct StartFlywheelIterationInput: Swift.Sendable {
     public init(
         clientRequestToken: Swift.String? = nil,
         flywheelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.flywheelArn = flywheelArn
     }
@@ -7805,8 +7559,7 @@ public struct StartFlywheelIterationOutput: Swift.Sendable {
     public init(
         flywheelArn: Swift.String? = nil,
         flywheelIterationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.flywheelArn = flywheelArn
         self.flywheelIterationId = flywheelIterationId
     }
@@ -7850,8 +7603,7 @@ public struct StartKeyPhrasesDetectionJobInput: Swift.Sendable {
         tags: [ComprehendClientTypes.Tag]? = nil,
         volumeKmsKeyId: Swift.String? = nil,
         vpcConfig: ComprehendClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.dataAccessRoleArn = dataAccessRoleArn
         self.inputDataConfig = inputDataConfig
@@ -7884,8 +7636,7 @@ public struct StartKeyPhrasesDetectionJobOutput: Swift.Sendable {
         jobArn: Swift.String? = nil,
         jobId: Swift.String? = nil,
         jobStatus: ComprehendClientTypes.JobStatus? = nil
-    )
-    {
+    ) {
         self.jobArn = jobArn
         self.jobId = jobId
         self.jobStatus = jobStatus
@@ -7927,8 +7678,7 @@ public struct StartPiiEntitiesDetectionJobInput: Swift.Sendable {
         outputDataConfig: ComprehendClientTypes.OutputDataConfig? = nil,
         redactionConfig: ComprehendClientTypes.RedactionConfig? = nil,
         tags: [ComprehendClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.dataAccessRoleArn = dataAccessRoleArn
         self.inputDataConfig = inputDataConfig
@@ -7953,8 +7703,7 @@ public struct StartPiiEntitiesDetectionJobOutput: Swift.Sendable {
         jobArn: Swift.String? = nil,
         jobId: Swift.String? = nil,
         jobStatus: ComprehendClientTypes.JobStatus? = nil
-    )
-    {
+    ) {
         self.jobArn = jobArn
         self.jobId = jobId
         self.jobStatus = jobStatus
@@ -7999,8 +7748,7 @@ public struct StartSentimentDetectionJobInput: Swift.Sendable {
         tags: [ComprehendClientTypes.Tag]? = nil,
         volumeKmsKeyId: Swift.String? = nil,
         vpcConfig: ComprehendClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.dataAccessRoleArn = dataAccessRoleArn
         self.inputDataConfig = inputDataConfig
@@ -8033,8 +7781,7 @@ public struct StartSentimentDetectionJobOutput: Swift.Sendable {
         jobArn: Swift.String? = nil,
         jobId: Swift.String? = nil,
         jobStatus: ComprehendClientTypes.JobStatus? = nil
-    )
-    {
+    ) {
         self.jobArn = jobArn
         self.jobId = jobId
         self.jobStatus = jobStatus
@@ -8079,8 +7826,7 @@ public struct StartTargetedSentimentDetectionJobInput: Swift.Sendable {
         tags: [ComprehendClientTypes.Tag]? = nil,
         volumeKmsKeyId: Swift.String? = nil,
         vpcConfig: ComprehendClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.dataAccessRoleArn = dataAccessRoleArn
         self.inputDataConfig = inputDataConfig
@@ -8113,8 +7859,7 @@ public struct StartTargetedSentimentDetectionJobOutput: Swift.Sendable {
         jobArn: Swift.String? = nil,
         jobId: Swift.String? = nil,
         jobStatus: ComprehendClientTypes.JobStatus? = nil
-    )
-    {
+    ) {
         self.jobArn = jobArn
         self.jobId = jobId
         self.jobStatus = jobStatus
@@ -8158,8 +7903,7 @@ public struct StartTopicsDetectionJobInput: Swift.Sendable {
         tags: [ComprehendClientTypes.Tag]? = nil,
         volumeKmsKeyId: Swift.String? = nil,
         vpcConfig: ComprehendClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.dataAccessRoleArn = dataAccessRoleArn
         self.inputDataConfig = inputDataConfig
@@ -8192,8 +7936,7 @@ public struct StartTopicsDetectionJobOutput: Swift.Sendable {
         jobArn: Swift.String? = nil,
         jobId: Swift.String? = nil,
         jobStatus: ComprehendClientTypes.JobStatus? = nil
-    )
-    {
+    ) {
         self.jobArn = jobArn
         self.jobId = jobId
         self.jobStatus = jobStatus
@@ -8207,8 +7950,7 @@ public struct StopDominantLanguageDetectionJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -8222,8 +7964,7 @@ public struct StopDominantLanguageDetectionJobOutput: Swift.Sendable {
     public init(
         jobId: Swift.String? = nil,
         jobStatus: ComprehendClientTypes.JobStatus? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.jobStatus = jobStatus
     }
@@ -8236,8 +7977,7 @@ public struct StopEntitiesDetectionJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -8251,8 +7991,7 @@ public struct StopEntitiesDetectionJobOutput: Swift.Sendable {
     public init(
         jobId: Swift.String? = nil,
         jobStatus: ComprehendClientTypes.JobStatus? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.jobStatus = jobStatus
     }
@@ -8265,8 +8004,7 @@ public struct StopEventsDetectionJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -8280,8 +8018,7 @@ public struct StopEventsDetectionJobOutput: Swift.Sendable {
     public init(
         jobId: Swift.String? = nil,
         jobStatus: ComprehendClientTypes.JobStatus? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.jobStatus = jobStatus
     }
@@ -8294,8 +8031,7 @@ public struct StopKeyPhrasesDetectionJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -8309,8 +8045,7 @@ public struct StopKeyPhrasesDetectionJobOutput: Swift.Sendable {
     public init(
         jobId: Swift.String? = nil,
         jobStatus: ComprehendClientTypes.JobStatus? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.jobStatus = jobStatus
     }
@@ -8323,8 +8058,7 @@ public struct StopPiiEntitiesDetectionJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -8338,8 +8072,7 @@ public struct StopPiiEntitiesDetectionJobOutput: Swift.Sendable {
     public init(
         jobId: Swift.String? = nil,
         jobStatus: ComprehendClientTypes.JobStatus? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.jobStatus = jobStatus
     }
@@ -8352,8 +8085,7 @@ public struct StopSentimentDetectionJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -8367,8 +8099,7 @@ public struct StopSentimentDetectionJobOutput: Swift.Sendable {
     public init(
         jobId: Swift.String? = nil,
         jobStatus: ComprehendClientTypes.JobStatus? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.jobStatus = jobStatus
     }
@@ -8381,8 +8112,7 @@ public struct StopTargetedSentimentDetectionJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -8396,8 +8126,7 @@ public struct StopTargetedSentimentDetectionJobOutput: Swift.Sendable {
     public init(
         jobId: Swift.String? = nil,
         jobStatus: ComprehendClientTypes.JobStatus? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.jobStatus = jobStatus
     }
@@ -8410,8 +8139,7 @@ public struct StopTrainingDocumentClassifierInput: Swift.Sendable {
 
     public init(
         documentClassifierArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.documentClassifierArn = documentClassifierArn
     }
 }
@@ -8428,8 +8156,7 @@ public struct StopTrainingEntityRecognizerInput: Swift.Sendable {
 
     public init(
         entityRecognizerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.entityRecognizerArn = entityRecognizerArn
     }
 }
@@ -8440,9 +8167,9 @@ public struct StopTrainingEntityRecognizerOutput: Swift.Sendable {
 }
 
 /// Concurrent modification of the tags associated with an Amazon Comprehend resource is not supported.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8457,8 +8184,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8474,8 +8200,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [ComprehendClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -8487,9 +8212,9 @@ public struct TagResourceOutput: Swift.Sendable {
 }
 
 /// The request contains more tag keys than can be associated with a resource (50 tag keys per resource).
-public struct TooManyTagKeysException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagKeysException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8504,8 +8229,7 @@ public struct TooManyTagKeysException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8521,8 +8245,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -8552,8 +8275,7 @@ public struct UpdateEndpointInput: Swift.Sendable {
         desiredModelArn: Swift.String? = nil,
         endpointArn: Swift.String? = nil,
         flywheelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.desiredDataAccessRoleArn = desiredDataAccessRoleArn
         self.desiredInferenceUnits = desiredInferenceUnits
         self.desiredModelArn = desiredModelArn
@@ -8568,8 +8290,7 @@ public struct UpdateEndpointOutput: Swift.Sendable {
 
     public init(
         desiredModelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.desiredModelArn = desiredModelArn
     }
 }
@@ -8593,8 +8314,7 @@ extension ComprehendClientTypes {
             modelKmsKeyId: Swift.String? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             vpcConfig: ComprehendClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.modelKmsKeyId = modelKmsKeyId
             self.volumeKmsKeyId = volumeKmsKeyId
             self.vpcConfig = vpcConfig
@@ -8618,8 +8338,7 @@ public struct UpdateFlywheelInput: Swift.Sendable {
         dataAccessRoleArn: Swift.String? = nil,
         dataSecurityConfig: ComprehendClientTypes.UpdateDataSecurityConfig? = nil,
         flywheelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.activeModelArn = activeModelArn
         self.dataAccessRoleArn = dataAccessRoleArn
         self.dataSecurityConfig = dataSecurityConfig
@@ -8633,8 +8352,7 @@ public struct UpdateFlywheelOutput: Swift.Sendable {
 
     public init(
         flywheelProperties: ComprehendClientTypes.FlywheelProperties? = nil
-    )
-    {
+    ) {
         self.flywheelProperties = flywheelProperties
     }
 }

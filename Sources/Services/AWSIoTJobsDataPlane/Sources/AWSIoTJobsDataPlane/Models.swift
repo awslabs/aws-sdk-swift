@@ -26,9 +26,9 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 
 /// The certificate is invalid.
-public struct CertificateValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CertificateValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Additional information about the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -44,16 +44,81 @@ public struct CertificateValidationException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
-/// The contents of the request were invalid. For example, this code is returned when an UpdateJobExecution request contains invalid status details. The message contains details about the error.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+extension IoTJobsDataPlaneClientTypes {
 
-    public struct Properties {
+    /// The list of values used to describe a specific command parameter.
+    public struct CommandParameterValue: Swift.Sendable {
+        /// An attribute of type Boolean. For example: "BOOL": true
+        public var b: Swift.Bool?
+        /// An attribute of type Binary.
+        public var bin: Foundation.Data?
+        /// An attribute of type Double (Sixty-Four Bits).
+        public var d: Swift.Double?
+        /// An attribute of type Integer (Thirty-Two Bits).
+        public var i: Swift.Int?
+        /// An attribute of type Long.
+        public var l: Swift.Int?
+        /// An attribute of type String. For example: "S": "Hello"
+        public var s: Swift.String?
+        /// An attribute of type Unsigned Long.
+        public var ul: Swift.String?
+
+        public init(
+            b: Swift.Bool? = nil,
+            bin: Foundation.Data? = nil,
+            d: Swift.Double? = nil,
+            i: Swift.Int? = nil,
+            l: Swift.Int? = nil,
+            s: Swift.String? = nil,
+            ul: Swift.String? = nil
+        ) {
+            self.b = b
+            self.bin = bin
+            self.d = d
+            self.i = i
+            self.l = l
+            self.s = s
+            self.ul = ul
+        }
+    }
+}
+
+/// A conflict has occurred when performing the API request.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// A conflict occurred while performing the API request on the resource ID.
+        public internal(set) var resourceId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceId: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.resourceId = resourceId
+    }
+}
+
+/// The contents of the request were invalid.
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -69,16 +134,15 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified resource does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -94,16 +158,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The service is temporarily unavailable.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -119,16 +182,15 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The job is in a terminal state.
-public struct TerminalStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TerminalStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -143,16 +205,15 @@ public struct TerminalStateException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The rate exceeds the limit.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message associated with the exception.
         public internal(set) var message: Swift.String? = nil
         /// The payload associated with the exception.
@@ -171,8 +232,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         payload: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.payload = payload
     }
@@ -181,7 +241,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 public struct DescribeJobExecutionInput: Swift.Sendable {
     /// Optional. A number that identifies a particular job execution on a particular device. If not specified, the latest job execution is returned.
     public var executionNumber: Swift.Int?
-    /// Optional. When set to true, the response contains the job document. The default is false.
+    /// Optional. Unless set to false, the response contains the job document. The default is true.
     public var includeJobDocument: Swift.Bool?
     /// The unique identifier assigned to this job when it was created.
     /// This member is required.
@@ -195,8 +255,7 @@ public struct DescribeJobExecutionInput: Swift.Sendable {
         includeJobDocument: Swift.Bool? = nil,
         jobId: Swift.String? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.executionNumber = executionNumber
         self.includeJobDocument = includeJobDocument
         self.jobId = jobId
@@ -255,7 +314,7 @@ extension IoTJobsDataPlaneClientTypes {
 
     /// Contains data about a job execution.
     public struct JobExecution: Swift.Sendable {
-        /// The estimated number of seconds that remain before the job execution status will be changed to TIMED_OUT.
+        /// The estimated number of seconds that remain before the job execution status will be changed to TIMED_OUT. The actual job execution timeout can occur up to 60 seconds later than the estimated duration.
         public var approximateSecondsBeforeTimedOut: Swift.Int?
         /// A number that identifies a particular job execution on a particular device. It can be used later in commands that return or update job execution information.
         public var executionNumber: Swift.Int?
@@ -263,15 +322,15 @@ extension IoTJobsDataPlaneClientTypes {
         public var jobDocument: Swift.String?
         /// The unique identifier you assigned to this job when it was created.
         public var jobId: Swift.String?
-        /// The time, in milliseconds since the epoch, when the job execution was last updated.
+        /// The time, in seconds since the epoch, when the job execution was last updated.
         public var lastUpdatedAt: Swift.Int
-        /// The time, in milliseconds since the epoch, when the job execution was enqueued.
+        /// The time, in seconds since the epoch, when the job execution was enqueued.
         public var queuedAt: Swift.Int
-        /// The time, in milliseconds since the epoch, when the job execution was started.
+        /// The time, in seconds since the epoch, when the job execution was started.
         public var startedAt: Swift.Int?
-        /// The status of the job execution. Can be one of: "QUEUED", "IN_PROGRESS", "FAILED", "SUCCESS", "CANCELED", "REJECTED", or "REMOVED".
+        /// The status of the job execution. Can be one of: "QUEUED", "IN_PROGRESS", "FAILED", "SUCCESS", "CANCELED", "TIMED_OUT", "REJECTED", or "REMOVED".
         public var status: IoTJobsDataPlaneClientTypes.JobExecutionStatus?
-        /// A collection of name/value pairs that describe the status of the job execution.
+        /// A collection of name/value pairs that describe the status of the job execution. The maximum length of the value in the name/value pair is 1,024 characters.
         public var statusDetails: [Swift.String: Swift.String]?
         /// The name of the thing that is executing the job.
         public var thingName: Swift.String?
@@ -290,8 +349,7 @@ extension IoTJobsDataPlaneClientTypes {
             statusDetails: [Swift.String: Swift.String]? = nil,
             thingName: Swift.String? = nil,
             versionNumber: Swift.Int = 0
-        )
-        {
+        ) {
             self.approximateSecondsBeforeTimedOut = approximateSecondsBeforeTimedOut
             self.executionNumber = executionNumber
             self.jobDocument = jobDocument
@@ -313,8 +371,7 @@ public struct DescribeJobExecutionOutput: Swift.Sendable {
 
     public init(
         execution: IoTJobsDataPlaneClientTypes.JobExecution? = nil
-    )
-    {
+    ) {
         self.execution = execution
     }
 }
@@ -326,8 +383,7 @@ public struct GetPendingJobExecutionsInput: Swift.Sendable {
 
     public init(
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.thingName = thingName
     }
 }
@@ -340,13 +396,13 @@ extension IoTJobsDataPlaneClientTypes {
         public var executionNumber: Swift.Int?
         /// The unique identifier you assigned to this job when it was created.
         public var jobId: Swift.String?
-        /// The time, in milliseconds since the epoch, when the job execution was last updated.
+        /// The time, in seconds since the epoch, when the job execution was last updated.
         public var lastUpdatedAt: Swift.Int
-        /// The time, in milliseconds since the epoch, when the job execution was enqueued.
+        /// The time, in seconds since the epoch, when the job execution was enqueued.
         public var queuedAt: Swift.Int
-        /// The time, in milliseconds since the epoch, when the job execution started.
+        /// The time, in seconds since the epoch, when the job execution started.
         public var startedAt: Swift.Int?
-        /// The version of the job execution. Job execution versions are incremented each time AWS IoT Jobs receives an update from a device.
+        /// The version of the job execution. Job execution versions are incremented each time IoT Jobs receives an update from a device.
         public var versionNumber: Swift.Int
 
         public init(
@@ -356,8 +412,7 @@ extension IoTJobsDataPlaneClientTypes {
             queuedAt: Swift.Int = 0,
             startedAt: Swift.Int? = nil,
             versionNumber: Swift.Int = 0
-        )
-        {
+        ) {
             self.executionNumber = executionNumber
             self.jobId = jobId
             self.lastUpdatedAt = lastUpdatedAt
@@ -377,17 +432,39 @@ public struct GetPendingJobExecutionsOutput: Swift.Sendable {
     public init(
         inProgressJobs: [IoTJobsDataPlaneClientTypes.JobExecutionSummary]? = nil,
         queuedJobs: [IoTJobsDataPlaneClientTypes.JobExecutionSummary]? = nil
-    )
-    {
+    ) {
         self.inProgressJobs = inProgressJobs
         self.queuedJobs = queuedJobs
     }
 }
 
-/// An update attempted to change the job execution to a state that is invalid because of the job execution's current state (for example, an attempt to change a request in state SUCCESS to state IN_PROGRESS). In this case, the body of the error message also contains the executionState field.
-public struct InvalidStateTransitionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+/// An internal server error occurred when performing the API request.
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// An update attempted to change the job execution to a state that is invalid because of the job execution's current state (for example, an attempt to change a request in state SUCCESS to state IN_PROGRESS). In this case, the body of the error message also contains the executionState field.
+public struct InvalidStateTransitionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -402,16 +479,101 @@ public struct InvalidStateTransitionException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
+/// The service quota has been exceeded for this request.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// A validation error occurred when performing the API request.
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct StartCommandExecutionInput: Swift.Sendable {
+    /// The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you retry the request using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, Amazon Web Services SDKs will automatically generate a unique client request.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Number (ARN) of the command. For example, arn:aws:iot:::command/
+    /// This member is required.
+    public var commandArn: Swift.String?
+    /// Specifies the amount of time in second the device has to finish the command execution. A timer is started as soon as the command execution is created. If the command execution status is not set to another terminal state before the timer expires, it will automatically update to TIMED_OUT.
+    public var executionTimeoutSeconds: Swift.Int?
+    /// A list of parameters that are required by the StartCommandExecution API when performing the command on a device.
+    public var parameters: [Swift.String: IoTJobsDataPlaneClientTypes.CommandParameterValue]?
+    /// The Amazon Resource Number (ARN) of the device where the command execution is occurring.
+    /// This member is required.
+    public var targetArn: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        commandArn: Swift.String? = nil,
+        executionTimeoutSeconds: Swift.Int? = nil,
+        parameters: [Swift.String: IoTJobsDataPlaneClientTypes.CommandParameterValue]? = nil,
+        targetArn: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.commandArn = commandArn
+        self.executionTimeoutSeconds = executionTimeoutSeconds
+        self.parameters = parameters
+        self.targetArn = targetArn
+    }
+}
+
+public struct StartCommandExecutionOutput: Swift.Sendable {
+    /// A unique identifier for the command execution.
+    public var executionId: Swift.String?
+
+    public init(
+        executionId: Swift.String? = nil
+    ) {
+        self.executionId = executionId
+    }
+}
+
 public struct StartNextPendingJobExecutionInput: Swift.Sendable {
-    /// A collection of name/value pairs that describe the status of the job execution. If not specified, the statusDetails are unchanged.
+    /// A collection of name/value pairs that describe the status of the job execution. If not specified, the statusDetails are unchanged. The maximum length of the value in the name/value pair is 1,024 characters.
     public var statusDetails: [Swift.String: Swift.String]?
-    /// Specifies the amount of time this device has to finish execution of this job. If the job execution status is not set to a terminal state before this timer expires, or before the timer is reset (by calling UpdateJobExecution, setting the status to IN_PROGRESS and specifying a new timeout value in field stepTimeoutInMinutes) the job execution status will be automatically set to TIMED_OUT. Note that setting this timeout has no effect on that job execution timeout which may have been specified when the job was created (CreateJob using field timeoutConfig).
+    /// Specifies the amount of time this device has to finish execution of this job. If the job execution status is not set to a terminal state before this timer expires, or before the timer is reset (by calling UpdateJobExecution, setting the status to IN_PROGRESS, and specifying a new timeout value in field stepTimeoutInMinutes) the job execution status will be automatically set to TIMED_OUT. Note that setting the step timeout has no effect on the in progress timeout that may have been specified when the job was created (CreateJob using field timeoutConfig). Valid values for this parameter range from 1 to 10080 (1 minute to 7 days).
     public var stepTimeoutInMinutes: Swift.Int?
     /// The name of the thing associated with the device.
     /// This member is required.
@@ -421,8 +583,7 @@ public struct StartNextPendingJobExecutionInput: Swift.Sendable {
         statusDetails: [Swift.String: Swift.String]? = nil,
         stepTimeoutInMinutes: Swift.Int? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.statusDetails = statusDetails
         self.stepTimeoutInMinutes = stepTimeoutInMinutes
         self.thingName = thingName
@@ -435,8 +596,7 @@ public struct StartNextPendingJobExecutionOutput: Swift.Sendable {
 
     public init(
         execution: IoTJobsDataPlaneClientTypes.JobExecution? = nil
-    )
-    {
+    ) {
         self.execution = execution
     }
 }
@@ -456,9 +616,9 @@ public struct UpdateJobExecutionInput: Swift.Sendable {
     /// The new status for the job execution (IN_PROGRESS, FAILED, SUCCESS, or REJECTED). This must be specified on every update.
     /// This member is required.
     public var status: IoTJobsDataPlaneClientTypes.JobExecutionStatus?
-    /// Optional. A collection of name/value pairs that describe the status of the job execution. If not specified, the statusDetails are unchanged.
+    /// Optional. A collection of name/value pairs that describe the status of the job execution. If not specified, the statusDetails are unchanged. The maximum length of the value in the name/value pair is 1,024 characters.
     public var statusDetails: [Swift.String: Swift.String]?
-    /// Specifies the amount of time this device has to finish execution of this job. If the job execution status is not set to a terminal state before this timer expires, or before the timer is reset (by again calling UpdateJobExecution, setting the status to IN_PROGRESS and specifying a new timeout value in this field) the job execution status will be automatically set to TIMED_OUT. Note that setting or resetting this timeout has no effect on that job execution timeout which may have been specified when the job was created (CreateJob using field timeoutConfig).
+    /// Specifies the amount of time this device has to finish execution of this job. If the job execution status is not set to a terminal state before this timer expires, or before the timer is reset (by again calling UpdateJobExecution, setting the status to IN_PROGRESS, and specifying a new timeout value in this field) the job execution status will be automatically set to TIMED_OUT. Note that setting or resetting the step timeout has no effect on the in progress timeout that may have been specified when the job was created (CreateJob using field timeoutConfig). Valid values for this parameter range from 1 to 10080 (1 minute to 7 days). A value of -1 is also valid and will cancel the current step timer (created by an earlier use of UpdateJobExecutionRequest).
     public var stepTimeoutInMinutes: Swift.Int?
     /// The name of the thing associated with the device.
     /// This member is required.
@@ -474,8 +634,7 @@ public struct UpdateJobExecutionInput: Swift.Sendable {
         statusDetails: [Swift.String: Swift.String]? = nil,
         stepTimeoutInMinutes: Swift.Int? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.executionNumber = executionNumber
         self.expectedVersion = expectedVersion
         self.includeJobDocument = includeJobDocument
@@ -492,9 +651,9 @@ extension IoTJobsDataPlaneClientTypes {
 
     /// Contains data about the state of a job execution.
     public struct JobExecutionState: Swift.Sendable {
-        /// The status of the job execution. Can be one of: "QUEUED", "IN_PROGRESS", "FAILED", "SUCCESS", "CANCELED", "REJECTED", or "REMOVED".
+        /// The status of the job execution. Can be one of: "QUEUED", "IN_PROGRESS", "FAILED", "SUCCESS", "CANCELED", "TIMED_OUT", "REJECTED", or "REMOVED".
         public var status: IoTJobsDataPlaneClientTypes.JobExecutionStatus?
-        /// A collection of name/value pairs that describe the status of the job execution.
+        /// A collection of name/value pairs that describe the status of the job execution. The maximum length of the value in the name/value pair is 1,024 characters.
         public var statusDetails: [Swift.String: Swift.String]?
         /// The version of the job execution. Job execution versions are incremented each time they are updated by a device.
         public var versionNumber: Swift.Int
@@ -503,8 +662,7 @@ extension IoTJobsDataPlaneClientTypes {
             status: IoTJobsDataPlaneClientTypes.JobExecutionStatus? = nil,
             statusDetails: [Swift.String: Swift.String]? = nil,
             versionNumber: Swift.Int = 0
-        )
-        {
+        ) {
             self.status = status
             self.statusDetails = statusDetails
             self.versionNumber = versionNumber
@@ -521,8 +679,7 @@ public struct UpdateJobExecutionOutput: Swift.Sendable {
     public init(
         executionState: IoTJobsDataPlaneClientTypes.JobExecutionState? = nil,
         jobDocument: Swift.String? = nil
-    )
-    {
+    ) {
         self.executionState = executionState
         self.jobDocument = jobDocument
     }
@@ -567,6 +724,13 @@ extension GetPendingJobExecutionsInput {
     }
 }
 
+extension StartCommandExecutionInput {
+
+    static func urlPathProvider(_ value: StartCommandExecutionInput) -> Swift.String? {
+        return "/command-executions"
+    }
+}
+
 extension StartNextPendingJobExecutionInput {
 
     static func urlPathProvider(_ value: StartNextPendingJobExecutionInput) -> Swift.String? {
@@ -587,6 +751,18 @@ extension UpdateJobExecutionInput {
             return nil
         }
         return "/things/\(thingName.urlPercentEncoding())/jobs/\(jobId.urlPercentEncoding())"
+    }
+}
+
+extension StartCommandExecutionInput {
+
+    static func write(value: StartCommandExecutionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["commandArn"].write(value.commandArn)
+        try writer["executionTimeoutSeconds"].write(value.executionTimeoutSeconds)
+        try writer["parameters"].writeMap(value.parameters, valueWritingClosure: IoTJobsDataPlaneClientTypes.CommandParameterValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["targetArn"].write(value.targetArn)
     }
 }
 
@@ -634,6 +810,18 @@ extension GetPendingJobExecutionsOutput {
         var value = GetPendingJobExecutionsOutput()
         value.inProgressJobs = try reader["inProgressJobs"].readListIfPresent(memberReadingClosure: IoTJobsDataPlaneClientTypes.JobExecutionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.queuedJobs = try reader["queuedJobs"].readListIfPresent(memberReadingClosure: IoTJobsDataPlaneClientTypes.JobExecutionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension StartCommandExecutionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartCommandExecutionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartCommandExecutionOutput()
+        value.executionId = try reader["executionId"].readIfPresent()
         return value
     }
 }
@@ -695,6 +883,25 @@ enum GetPendingJobExecutionsOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartCommandExecutionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -816,6 +1023,59 @@ extension InvalidRequestException {
     }
 }
 
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.resourceId = try reader["resourceId"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InternalServerException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+        let reader = baseError.errorBodyReader
+        var value = InternalServerException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidStateTransitionException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidStateTransitionException {
@@ -873,6 +1133,20 @@ extension IoTJobsDataPlaneClientTypes.JobExecutionState {
         value.statusDetails = try reader["statusDetails"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.versionNumber = try reader["versionNumber"].readIfPresent() ?? 0
         return value
+    }
+}
+
+extension IoTJobsDataPlaneClientTypes.CommandParameterValue {
+
+    static func write(value: IoTJobsDataPlaneClientTypes.CommandParameterValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["B"].write(value.b)
+        try writer["BIN"].write(value.bin)
+        try writer["D"].write(value.d)
+        try writer["I"].write(value.i)
+        try writer["L"].write(value.l)
+        try writer["S"].write(value.s)
+        try writer["UL"].write(value.ul)
     }
 }
 

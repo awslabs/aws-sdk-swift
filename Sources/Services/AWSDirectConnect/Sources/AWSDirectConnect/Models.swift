@@ -42,9 +42,9 @@ public struct DescribeVirtualGatewaysInput: Swift.Sendable {
 }
 
 /// One or more parameters are not valid.
-public struct DirectConnectClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DirectConnectClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -59,16 +59,15 @@ public struct DirectConnectClientException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A server-side error occurred.
-public struct DirectConnectServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DirectConnectServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -83,8 +82,7 @@ public struct DirectConnectServerException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -98,8 +96,7 @@ extension DirectConnectClientTypes {
 
         public init(
             cidr: Swift.String? = nil
-        )
-        {
+        ) {
             self.cidr = cidr
         }
     }
@@ -123,12 +120,34 @@ public struct AcceptDirectConnectGatewayAssociationProposalInput: Swift.Sendable
         directConnectGatewayId: Swift.String? = nil,
         overrideAllowedPrefixesToDirectConnectGateway: [DirectConnectClientTypes.RouteFilterPrefix]? = nil,
         proposalId: Swift.String? = nil
-    )
-    {
+    ) {
         self.associatedGatewayOwnerAccount = associatedGatewayOwnerAccount
         self.directConnectGatewayId = directConnectGatewayId
         self.overrideAllowedPrefixesToDirectConnectGateway = overrideAllowedPrefixesToDirectConnectGateway
         self.proposalId = proposalId
+    }
+}
+
+extension DirectConnectClientTypes {
+
+    /// The Amazon Web Services Cloud WAN core network that the Direct Connect attachment is associated with.
+    public struct AssociatedCoreNetwork: Swift.Sendable {
+        /// the ID of the Direct Connect attachment
+        public var attachmentId: Swift.String?
+        /// The ID of the Cloud WAN core network.
+        public var id: Swift.String?
+        /// The account owner of the Cloud WAN core network.
+        public var ownerAccount: Swift.String?
+
+        public init(
+            attachmentId: Swift.String? = nil,
+            id: Swift.String? = nil,
+            ownerAccount: Swift.String? = nil
+        ) {
+            self.attachmentId = attachmentId
+            self.id = id
+            self.ownerAccount = ownerAccount
+        }
     }
 }
 
@@ -179,8 +198,7 @@ extension DirectConnectClientTypes {
             ownerAccount: Swift.String? = nil,
             region: Swift.String? = nil,
             type: DirectConnectClientTypes.GatewayType? = nil
-        )
-        {
+        ) {
             self.id = id
             self.ownerAccount = ownerAccount
             self.region = region
@@ -233,6 +251,8 @@ extension DirectConnectClientTypes {
     public struct DirectConnectGatewayAssociation: Swift.Sendable {
         /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
         public var allowedPrefixesToDirectConnectGateway: [DirectConnectClientTypes.RouteFilterPrefix]?
+        /// The ID of the Cloud WAN core network associated with the Direct Connect attachment.
+        public var associatedCoreNetwork: DirectConnectClientTypes.AssociatedCoreNetwork?
         /// Information about the associated gateway.
         public var associatedGateway: DirectConnectClientTypes.AssociatedGateway?
         /// The ID of the Direct Connect gateway association.
@@ -265,6 +285,7 @@ extension DirectConnectClientTypes {
 
         public init(
             allowedPrefixesToDirectConnectGateway: [DirectConnectClientTypes.RouteFilterPrefix]? = nil,
+            associatedCoreNetwork: DirectConnectClientTypes.AssociatedCoreNetwork? = nil,
             associatedGateway: DirectConnectClientTypes.AssociatedGateway? = nil,
             associationId: Swift.String? = nil,
             associationState: DirectConnectClientTypes.DirectConnectGatewayAssociationState? = nil,
@@ -274,9 +295,9 @@ extension DirectConnectClientTypes {
             virtualGatewayId: Swift.String? = nil,
             virtualGatewayOwnerAccount: Swift.String? = nil,
             virtualGatewayRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedPrefixesToDirectConnectGateway = allowedPrefixesToDirectConnectGateway
+            self.associatedCoreNetwork = associatedCoreNetwork
             self.associatedGateway = associatedGateway
             self.associationId = associationId
             self.associationState = associationState
@@ -296,8 +317,7 @@ public struct AcceptDirectConnectGatewayAssociationProposalOutput: Swift.Sendabl
 
     public init(
         directConnectGatewayAssociation: DirectConnectClientTypes.DirectConnectGatewayAssociation? = nil
-    )
-    {
+    ) {
         self.directConnectGatewayAssociation = directConnectGatewayAssociation
     }
 }
@@ -343,8 +363,7 @@ extension DirectConnectClientTypes {
         public init(
             agreementName: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.agreementName = agreementName
             self.status = status
         }
@@ -374,8 +393,7 @@ public struct AllocateConnectionOnInterconnectInput: Swift.Sendable {
         interconnectId: Swift.String? = nil,
         ownerAccount: Swift.String? = nil,
         vlan: Swift.Int? = 0
-    )
-    {
+    ) {
         self.bandwidth = bandwidth
         self.connectionName = connectionName
         self.interconnectId = interconnectId
@@ -492,8 +510,7 @@ extension DirectConnectClientTypes {
             secretARN: Swift.String? = nil,
             startOn: Swift.String? = nil,
             state: Swift.String? = nil
-        )
-        {
+        ) {
             self.ckn = ckn
             self.secretARN = secretARN
             self.startOn = startOn
@@ -515,8 +532,7 @@ extension DirectConnectClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -612,8 +628,7 @@ public struct AllocateConnectionOnInterconnectOutput: Swift.Sendable {
         region: Swift.String? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil,
         vlan: Swift.Int = 0
-    )
-    {
+    ) {
         self.awsDevice = awsDevice
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
@@ -640,9 +655,9 @@ public struct AllocateConnectionOnInterconnectOutput: Swift.Sendable {
 }
 
 /// A tag key was specified more than once.
-public struct DuplicateTagKeysException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DuplicateTagKeysException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -657,16 +672,15 @@ public struct DuplicateTagKeysException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You have reached the limit on the number of tags that can be assigned.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -681,8 +695,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -713,8 +726,7 @@ public struct AllocateHostedConnectionInput: Swift.Sendable {
         ownerAccount: Swift.String? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil,
         vlan: Swift.Int? = 0
-    )
-    {
+    ) {
         self.bandwidth = bandwidth
         self.connectionId = connectionId
         self.connectionName = connectionName
@@ -813,8 +825,7 @@ public struct AllocateHostedConnectionOutput: Swift.Sendable {
         region: Swift.String? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil,
         vlan: Swift.Int = 0
-    )
-    {
+    ) {
         self.awsDevice = awsDevice
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
@@ -876,8 +887,7 @@ extension DirectConnectClientTypes {
             tags: [DirectConnectClientTypes.Tag]? = nil,
             virtualInterfaceName: Swift.String? = nil,
             vlan: Swift.Int = 0
-        )
-        {
+        ) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -906,8 +916,7 @@ public struct AllocatePrivateVirtualInterfaceInput: Swift.Sendable {
         connectionId: Swift.String? = nil,
         newPrivateVirtualInterfaceAllocation: DirectConnectClientTypes.NewPrivateVirtualInterfaceAllocation? = nil,
         ownerAccount: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
         self.newPrivateVirtualInterfaceAllocation = newPrivateVirtualInterfaceAllocation
         self.ownerAccount = ownerAccount
@@ -1036,8 +1045,7 @@ extension DirectConnectClientTypes {
             bgpPeerState: DirectConnectClientTypes.BGPPeerState? = nil,
             bgpStatus: DirectConnectClientTypes.BGPStatus? = nil,
             customerAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -1202,8 +1210,7 @@ public struct AllocatePrivateVirtualInterfaceOutput: Swift.Sendable {
         virtualInterfaceState: DirectConnectClientTypes.VirtualInterfaceState? = nil,
         virtualInterfaceType: Swift.String? = nil,
         vlan: Swift.Int = 0
-    )
-    {
+    ) {
         self.addressFamily = addressFamily
         self.amazonAddress = amazonAddress
         self.amazonSideAsn = amazonSideAsn
@@ -1269,8 +1276,7 @@ extension DirectConnectClientTypes {
             tags: [DirectConnectClientTypes.Tag]? = nil,
             virtualInterfaceName: Swift.String? = nil,
             vlan: Swift.Int = 0
-        )
-        {
+        ) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -1299,8 +1305,7 @@ public struct AllocatePublicVirtualInterfaceInput: Swift.Sendable {
         connectionId: Swift.String? = nil,
         newPublicVirtualInterfaceAllocation: DirectConnectClientTypes.NewPublicVirtualInterfaceAllocation? = nil,
         ownerAccount: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
         self.newPublicVirtualInterfaceAllocation = newPublicVirtualInterfaceAllocation
         self.ownerAccount = ownerAccount
@@ -1407,8 +1412,7 @@ public struct AllocatePublicVirtualInterfaceOutput: Swift.Sendable {
         virtualInterfaceState: DirectConnectClientTypes.VirtualInterfaceState? = nil,
         virtualInterfaceType: Swift.String? = nil,
         vlan: Swift.Int = 0
-    )
-    {
+    ) {
         self.addressFamily = addressFamily
         self.amazonAddress = amazonAddress
         self.amazonSideAsn = amazonSideAsn
@@ -1471,8 +1475,7 @@ extension DirectConnectClientTypes {
             tags: [DirectConnectClientTypes.Tag]? = nil,
             virtualInterfaceName: Swift.String? = nil,
             vlan: Swift.Int = 0
-        )
-        {
+        ) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -1501,8 +1504,7 @@ public struct AllocateTransitVirtualInterfaceInput: Swift.Sendable {
         connectionId: Swift.String? = nil,
         newTransitVirtualInterfaceAllocation: DirectConnectClientTypes.NewTransitVirtualInterfaceAllocation? = nil,
         ownerAccount: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
         self.newTransitVirtualInterfaceAllocation = newTransitVirtualInterfaceAllocation
         self.ownerAccount = ownerAccount
@@ -1611,8 +1613,7 @@ extension DirectConnectClientTypes {
             virtualInterfaceState: DirectConnectClientTypes.VirtualInterfaceState? = nil,
             virtualInterfaceType: Swift.String? = nil,
             vlan: Swift.Int = 0
-        )
-        {
+        ) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.amazonSideAsn = amazonSideAsn
@@ -1649,8 +1650,7 @@ public struct AllocateTransitVirtualInterfaceOutput: Swift.Sendable {
 
     public init(
         virtualInterface: DirectConnectClientTypes.VirtualInterface? = nil
-    )
-    {
+    ) {
         self.virtualInterface = virtualInterface
     }
 }
@@ -1666,8 +1666,7 @@ public struct AssociateConnectionWithLagInput: Swift.Sendable {
     public init(
         connectionId: Swift.String? = nil,
         lagId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
         self.lagId = lagId
     }
@@ -1762,8 +1761,7 @@ public struct AssociateConnectionWithLagOutput: Swift.Sendable {
         region: Swift.String? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil,
         vlan: Swift.Int = 0
-    )
-    {
+    ) {
         self.awsDevice = awsDevice
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
@@ -1800,8 +1798,7 @@ public struct AssociateHostedConnectionInput: Swift.Sendable {
     public init(
         connectionId: Swift.String? = nil,
         parentConnectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
         self.parentConnectionId = parentConnectionId
     }
@@ -1896,8 +1893,7 @@ public struct AssociateHostedConnectionOutput: Swift.Sendable {
         region: Swift.String? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil,
         vlan: Swift.Int = 0
-    )
-    {
+    ) {
         self.awsDevice = awsDevice
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
@@ -1939,8 +1935,7 @@ public struct AssociateMacSecKeyInput: Swift.Sendable {
         ckn: Swift.String? = nil,
         connectionId: Swift.String? = nil,
         secretARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.cak = cak
         self.ckn = ckn
         self.connectionId = connectionId
@@ -1957,8 +1952,7 @@ public struct AssociateMacSecKeyOutput: Swift.Sendable {
     public init(
         connectionId: Swift.String? = nil,
         macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
         self.macSecKeys = macSecKeys
     }
@@ -1975,8 +1969,7 @@ public struct AssociateVirtualInterfaceInput: Swift.Sendable {
     public init(
         connectionId: Swift.String? = nil,
         virtualInterfaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
         self.virtualInterfaceId = virtualInterfaceId
     }
@@ -2082,8 +2075,7 @@ public struct AssociateVirtualInterfaceOutput: Swift.Sendable {
         virtualInterfaceState: DirectConnectClientTypes.VirtualInterfaceState? = nil,
         virtualInterfaceType: Swift.String? = nil,
         vlan: Swift.Int = 0
-    )
-    {
+    ) {
         self.addressFamily = addressFamily
         self.amazonAddress = amazonAddress
         self.amazonSideAsn = amazonSideAsn
@@ -2120,8 +2112,7 @@ public struct ConfirmConnectionInput: Swift.Sendable {
 
     public init(
         connectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
     }
 }
@@ -2150,8 +2141,7 @@ public struct ConfirmConnectionOutput: Swift.Sendable {
 
     public init(
         connectionState: DirectConnectClientTypes.ConnectionState? = nil
-    )
-    {
+    ) {
         self.connectionState = connectionState
     }
 }
@@ -2162,8 +2152,7 @@ public struct ConfirmCustomerAgreementInput: Swift.Sendable {
 
     public init(
         agreementName: Swift.String? = nil
-    )
-    {
+    ) {
         self.agreementName = agreementName
     }
 }
@@ -2174,8 +2163,7 @@ public struct ConfirmCustomerAgreementOutput: Swift.Sendable {
 
     public init(
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -2193,8 +2181,7 @@ public struct ConfirmPrivateVirtualInterfaceInput: Swift.Sendable {
         directConnectGatewayId: Swift.String? = nil,
         virtualGatewayId: Swift.String? = nil,
         virtualInterfaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.directConnectGatewayId = directConnectGatewayId
         self.virtualGatewayId = virtualGatewayId
         self.virtualInterfaceId = virtualInterfaceId
@@ -2225,8 +2212,7 @@ public struct ConfirmPrivateVirtualInterfaceOutput: Swift.Sendable {
 
     public init(
         virtualInterfaceState: DirectConnectClientTypes.VirtualInterfaceState? = nil
-    )
-    {
+    ) {
         self.virtualInterfaceState = virtualInterfaceState
     }
 }
@@ -2238,8 +2224,7 @@ public struct ConfirmPublicVirtualInterfaceInput: Swift.Sendable {
 
     public init(
         virtualInterfaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.virtualInterfaceId = virtualInterfaceId
     }
 }
@@ -2268,8 +2253,7 @@ public struct ConfirmPublicVirtualInterfaceOutput: Swift.Sendable {
 
     public init(
         virtualInterfaceState: DirectConnectClientTypes.VirtualInterfaceState? = nil
-    )
-    {
+    ) {
         self.virtualInterfaceState = virtualInterfaceState
     }
 }
@@ -2285,8 +2269,7 @@ public struct ConfirmTransitVirtualInterfaceInput: Swift.Sendable {
     public init(
         directConnectGatewayId: Swift.String? = nil,
         virtualInterfaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.directConnectGatewayId = directConnectGatewayId
         self.virtualInterfaceId = virtualInterfaceId
     }
@@ -2316,8 +2299,7 @@ public struct ConfirmTransitVirtualInterfaceOutput: Swift.Sendable {
 
     public init(
         virtualInterfaceState: DirectConnectClientTypes.VirtualInterfaceState? = nil
-    )
-    {
+    ) {
         self.virtualInterfaceState = virtualInterfaceState
     }
 }
@@ -2413,8 +2395,7 @@ extension DirectConnectClientTypes {
             region: Swift.String? = nil,
             tags: [DirectConnectClientTypes.Tag]? = nil,
             vlan: Swift.Int = 0
-        )
-        {
+        ) {
             self.awsDevice = awsDevice
             self.awsDeviceV2 = awsDeviceV2
             self.awsLogicalDeviceId = awsLogicalDeviceId
@@ -2462,8 +2443,7 @@ extension DirectConnectClientTypes {
             asn: Swift.Int = 0,
             authKey: Swift.String? = nil,
             customerAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -2482,8 +2462,7 @@ public struct CreateBGPPeerInput: Swift.Sendable {
     public init(
         newBGPPeer: DirectConnectClientTypes.NewBGPPeer? = nil,
         virtualInterfaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.newBGPPeer = newBGPPeer
         self.virtualInterfaceId = virtualInterfaceId
     }
@@ -2495,8 +2474,7 @@ public struct CreateBGPPeerOutput: Swift.Sendable {
 
     public init(
         virtualInterface: DirectConnectClientTypes.VirtualInterface? = nil
-    )
-    {
+    ) {
         self.virtualInterface = virtualInterface
     }
 }
@@ -2528,8 +2506,7 @@ public struct CreateConnectionInput: Swift.Sendable {
         providerName: Swift.String? = nil,
         requestMACSec: Swift.Bool? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.bandwidth = bandwidth
         self.connectionName = connectionName
         self.lagId = lagId
@@ -2629,8 +2606,7 @@ public struct CreateConnectionOutput: Swift.Sendable {
         region: Swift.String? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil,
         vlan: Swift.Int = 0
-    )
-    {
+    ) {
         self.awsDevice = awsDevice
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
@@ -2666,8 +2642,7 @@ public struct CreateDirectConnectGatewayInput: Swift.Sendable {
     public init(
         amazonSideAsn: Swift.Int? = nil,
         directConnectGatewayName: Swift.String? = nil
-    )
-    {
+    ) {
         self.amazonSideAsn = amazonSideAsn
         self.directConnectGatewayName = directConnectGatewayName
     }
@@ -2740,8 +2715,7 @@ extension DirectConnectClientTypes {
             directConnectGatewayState: DirectConnectClientTypes.DirectConnectGatewayState? = nil,
             ownerAccount: Swift.String? = nil,
             stateChangeError: Swift.String? = nil
-        )
-        {
+        ) {
             self.amazonSideAsn = amazonSideAsn
             self.directConnectGatewayId = directConnectGatewayId
             self.directConnectGatewayName = directConnectGatewayName
@@ -2758,8 +2732,7 @@ public struct CreateDirectConnectGatewayOutput: Swift.Sendable {
 
     public init(
         directConnectGateway: DirectConnectClientTypes.DirectConnectGateway? = nil
-    )
-    {
+    ) {
         self.directConnectGateway = directConnectGateway
     }
 }
@@ -2780,8 +2753,7 @@ public struct CreateDirectConnectGatewayAssociationInput: Swift.Sendable {
         directConnectGatewayId: Swift.String? = nil,
         gatewayId: Swift.String? = nil,
         virtualGatewayId: Swift.String? = nil
-    )
-    {
+    ) {
         self.addAllowedPrefixesToDirectConnectGateway = addAllowedPrefixesToDirectConnectGateway
         self.directConnectGatewayId = directConnectGatewayId
         self.gatewayId = gatewayId
@@ -2795,8 +2767,7 @@ public struct CreateDirectConnectGatewayAssociationOutput: Swift.Sendable {
 
     public init(
         directConnectGatewayAssociation: DirectConnectClientTypes.DirectConnectGatewayAssociation? = nil
-    )
-    {
+    ) {
         self.directConnectGatewayAssociation = directConnectGatewayAssociation
     }
 }
@@ -2822,8 +2793,7 @@ public struct CreateDirectConnectGatewayAssociationProposalInput: Swift.Sendable
         directConnectGatewayOwnerAccount: Swift.String? = nil,
         gatewayId: Swift.String? = nil,
         removeAllowedPrefixesToDirectConnectGateway: [DirectConnectClientTypes.RouteFilterPrefix]? = nil
-    )
-    {
+    ) {
         self.addAllowedPrefixesToDirectConnectGateway = addAllowedPrefixesToDirectConnectGateway
         self.directConnectGatewayId = directConnectGatewayId
         self.directConnectGatewayOwnerAccount = directConnectGatewayOwnerAccount
@@ -2897,8 +2867,7 @@ extension DirectConnectClientTypes {
             proposalId: Swift.String? = nil,
             proposalState: DirectConnectClientTypes.DirectConnectGatewayAssociationProposalState? = nil,
             requestedAllowedPrefixesToDirectConnectGateway: [DirectConnectClientTypes.RouteFilterPrefix]? = nil
-        )
-        {
+        ) {
             self.associatedGateway = associatedGateway
             self.directConnectGatewayId = directConnectGatewayId
             self.directConnectGatewayOwnerAccount = directConnectGatewayOwnerAccount
@@ -2916,8 +2885,7 @@ public struct CreateDirectConnectGatewayAssociationProposalOutput: Swift.Sendabl
 
     public init(
         directConnectGatewayAssociationProposal: DirectConnectClientTypes.DirectConnectGatewayAssociationProposal? = nil
-    )
-    {
+    ) {
         self.directConnectGatewayAssociationProposal = directConnectGatewayAssociationProposal
     }
 }
@@ -2946,8 +2914,7 @@ public struct CreateInterconnectInput: Swift.Sendable {
         location: Swift.String? = nil,
         providerName: Swift.String? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.bandwidth = bandwidth
         self.interconnectName = interconnectName
         self.lagId = lagId
@@ -3065,8 +3032,7 @@ public struct CreateInterconnectOutput: Swift.Sendable {
         providerName: Swift.String? = nil,
         region: Swift.String? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.awsDevice = awsDevice
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
@@ -3119,8 +3085,7 @@ public struct CreateLagInput: Swift.Sendable {
         providerName: Swift.String? = nil,
         requestMACSec: Swift.Bool? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.childConnectionTags = childConnectionTags
         self.connectionId = connectionId
         self.connectionsBandwidth = connectionsBandwidth
@@ -3259,8 +3224,7 @@ public struct CreateLagOutput: Swift.Sendable {
         providerName: Swift.String? = nil,
         region: Swift.String? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.allowsHostedConnections = allowsHostedConnections
         self.awsDevice = awsDevice
         self.awsDeviceV2 = awsDeviceV2
@@ -3330,8 +3294,7 @@ extension DirectConnectClientTypes {
             virtualGatewayId: Swift.String? = nil,
             virtualInterfaceName: Swift.String? = nil,
             vlan: Swift.Int = 0
-        )
-        {
+        ) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -3359,8 +3322,7 @@ public struct CreatePrivateVirtualInterfaceInput: Swift.Sendable {
     public init(
         connectionId: Swift.String? = nil,
         newPrivateVirtualInterface: DirectConnectClientTypes.NewPrivateVirtualInterface? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
         self.newPrivateVirtualInterface = newPrivateVirtualInterface
     }
@@ -3466,8 +3428,7 @@ public struct CreatePrivateVirtualInterfaceOutput: Swift.Sendable {
         virtualInterfaceState: DirectConnectClientTypes.VirtualInterfaceState? = nil,
         virtualInterfaceType: Swift.String? = nil,
         vlan: Swift.Int = 0
-    )
-    {
+    ) {
         self.addressFamily = addressFamily
         self.amazonAddress = amazonAddress
         self.amazonSideAsn = amazonSideAsn
@@ -3533,8 +3494,7 @@ extension DirectConnectClientTypes {
             tags: [DirectConnectClientTypes.Tag]? = nil,
             virtualInterfaceName: Swift.String? = nil,
             vlan: Swift.Int = 0
-        )
-        {
+        ) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -3559,8 +3519,7 @@ public struct CreatePublicVirtualInterfaceInput: Swift.Sendable {
     public init(
         connectionId: Swift.String? = nil,
         newPublicVirtualInterface: DirectConnectClientTypes.NewPublicVirtualInterface? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
         self.newPublicVirtualInterface = newPublicVirtualInterface
     }
@@ -3666,8 +3625,7 @@ public struct CreatePublicVirtualInterfaceOutput: Swift.Sendable {
         virtualInterfaceState: DirectConnectClientTypes.VirtualInterfaceState? = nil,
         virtualInterfaceType: Swift.String? = nil,
         vlan: Swift.Int = 0
-    )
-    {
+    ) {
         self.addressFamily = addressFamily
         self.amazonAddress = amazonAddress
         self.amazonSideAsn = amazonSideAsn
@@ -3736,8 +3694,7 @@ extension DirectConnectClientTypes {
             tags: [DirectConnectClientTypes.Tag]? = nil,
             virtualInterfaceName: Swift.String? = nil,
             vlan: Swift.Int = 0
-        )
-        {
+        ) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -3764,8 +3721,7 @@ public struct CreateTransitVirtualInterfaceInput: Swift.Sendable {
     public init(
         connectionId: Swift.String? = nil,
         newTransitVirtualInterface: DirectConnectClientTypes.NewTransitVirtualInterface? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
         self.newTransitVirtualInterface = newTransitVirtualInterface
     }
@@ -3777,8 +3733,7 @@ public struct CreateTransitVirtualInterfaceOutput: Swift.Sendable {
 
     public init(
         virtualInterface: DirectConnectClientTypes.VirtualInterface? = nil
-    )
-    {
+    ) {
         self.virtualInterface = virtualInterface
     }
 }
@@ -3798,8 +3753,7 @@ public struct DeleteBGPPeerInput: Swift.Sendable {
         bgpPeerId: Swift.String? = nil,
         customerAddress: Swift.String? = nil,
         virtualInterfaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.asn = asn
         self.bgpPeerId = bgpPeerId
         self.customerAddress = customerAddress
@@ -3813,8 +3767,7 @@ public struct DeleteBGPPeerOutput: Swift.Sendable {
 
     public init(
         virtualInterface: DirectConnectClientTypes.VirtualInterface? = nil
-    )
-    {
+    ) {
         self.virtualInterface = virtualInterface
     }
 }
@@ -3826,8 +3779,7 @@ public struct DeleteConnectionInput: Swift.Sendable {
 
     public init(
         connectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
     }
 }
@@ -3921,8 +3873,7 @@ public struct DeleteConnectionOutput: Swift.Sendable {
         region: Swift.String? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil,
         vlan: Swift.Int = 0
-    )
-    {
+    ) {
         self.awsDevice = awsDevice
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
@@ -3955,8 +3906,7 @@ public struct DeleteDirectConnectGatewayInput: Swift.Sendable {
 
     public init(
         directConnectGatewayId: Swift.String? = nil
-    )
-    {
+    ) {
         self.directConnectGatewayId = directConnectGatewayId
     }
 }
@@ -3967,8 +3917,7 @@ public struct DeleteDirectConnectGatewayOutput: Swift.Sendable {
 
     public init(
         directConnectGateway: DirectConnectClientTypes.DirectConnectGateway? = nil
-    )
-    {
+    ) {
         self.directConnectGateway = directConnectGateway
     }
 }
@@ -3985,8 +3934,7 @@ public struct DeleteDirectConnectGatewayAssociationInput: Swift.Sendable {
         associationId: Swift.String? = nil,
         directConnectGatewayId: Swift.String? = nil,
         virtualGatewayId: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
         self.directConnectGatewayId = directConnectGatewayId
         self.virtualGatewayId = virtualGatewayId
@@ -3999,8 +3947,7 @@ public struct DeleteDirectConnectGatewayAssociationOutput: Swift.Sendable {
 
     public init(
         directConnectGatewayAssociation: DirectConnectClientTypes.DirectConnectGatewayAssociation? = nil
-    )
-    {
+    ) {
         self.directConnectGatewayAssociation = directConnectGatewayAssociation
     }
 }
@@ -4012,8 +3959,7 @@ public struct DeleteDirectConnectGatewayAssociationProposalInput: Swift.Sendable
 
     public init(
         proposalId: Swift.String? = nil
-    )
-    {
+    ) {
         self.proposalId = proposalId
     }
 }
@@ -4024,8 +3970,7 @@ public struct DeleteDirectConnectGatewayAssociationProposalOutput: Swift.Sendabl
 
     public init(
         directConnectGatewayAssociationProposal: DirectConnectClientTypes.DirectConnectGatewayAssociationProposal? = nil
-    )
-    {
+    ) {
         self.directConnectGatewayAssociationProposal = directConnectGatewayAssociationProposal
     }
 }
@@ -4037,8 +3982,7 @@ public struct DeleteInterconnectInput: Swift.Sendable {
 
     public init(
         interconnectId: Swift.String? = nil
-    )
-    {
+    ) {
         self.interconnectId = interconnectId
     }
 }
@@ -4063,8 +4007,7 @@ public struct DeleteInterconnectOutput: Swift.Sendable {
 
     public init(
         interconnectState: DirectConnectClientTypes.InterconnectState? = nil
-    )
-    {
+    ) {
         self.interconnectState = interconnectState
     }
 }
@@ -4076,8 +4019,7 @@ public struct DeleteLagInput: Swift.Sendable {
 
     public init(
         lagId: Swift.String? = nil
-    )
-    {
+    ) {
         self.lagId = lagId
     }
 }
@@ -4164,8 +4106,7 @@ public struct DeleteLagOutput: Swift.Sendable {
         providerName: Swift.String? = nil,
         region: Swift.String? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.allowsHostedConnections = allowsHostedConnections
         self.awsDevice = awsDevice
         self.awsDeviceV2 = awsDeviceV2
@@ -4197,8 +4138,7 @@ public struct DeleteVirtualInterfaceInput: Swift.Sendable {
 
     public init(
         virtualInterfaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.virtualInterfaceId = virtualInterfaceId
     }
 }
@@ -4227,8 +4167,7 @@ public struct DeleteVirtualInterfaceOutput: Swift.Sendable {
 
     public init(
         virtualInterfaceState: DirectConnectClientTypes.VirtualInterfaceState? = nil
-    )
-    {
+    ) {
         self.virtualInterfaceState = virtualInterfaceState
     }
 }
@@ -4272,8 +4211,7 @@ public struct DescribeConnectionLoaInput: Swift.Sendable {
         connectionId: Swift.String? = nil,
         loaContentType: DirectConnectClientTypes.LoaContentType? = nil,
         providerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
         self.loaContentType = loaContentType
         self.providerName = providerName
@@ -4292,8 +4230,7 @@ extension DirectConnectClientTypes {
         public init(
             loaContent: Foundation.Data? = nil,
             loaContentType: DirectConnectClientTypes.LoaContentType? = nil
-        )
-        {
+        ) {
             self.loaContent = loaContent
             self.loaContentType = loaContentType
         }
@@ -4306,8 +4243,7 @@ public struct DescribeConnectionLoaOutput: Swift.Sendable {
 
     public init(
         loa: DirectConnectClientTypes.Loa? = nil
-    )
-    {
+    ) {
         self.loa = loa
     }
 }
@@ -4318,8 +4254,7 @@ public struct DescribeConnectionsInput: Swift.Sendable {
 
     public init(
         connectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
     }
 }
@@ -4330,8 +4265,7 @@ public struct DescribeConnectionsOutput: Swift.Sendable {
 
     public init(
         connections: [DirectConnectClientTypes.Connection]? = nil
-    )
-    {
+    ) {
         self.connections = connections
     }
 }
@@ -4343,8 +4277,7 @@ public struct DescribeConnectionsOnInterconnectInput: Swift.Sendable {
 
     public init(
         interconnectId: Swift.String? = nil
-    )
-    {
+    ) {
         self.interconnectId = interconnectId
     }
 }
@@ -4355,8 +4288,7 @@ public struct DescribeConnectionsOnInterconnectOutput: Swift.Sendable {
 
     public init(
         connections: [DirectConnectClientTypes.Connection]? = nil
-    )
-    {
+    ) {
         self.connections = connections
     }
 }
@@ -4408,8 +4340,7 @@ public struct DescribeCustomerMetadataOutput: Swift.Sendable {
     public init(
         agreements: [DirectConnectClientTypes.CustomerAgreement]? = nil,
         nniPartnerType: DirectConnectClientTypes.NniPartnerType? = nil
-    )
-    {
+    ) {
         self.agreements = agreements
         self.nniPartnerType = nniPartnerType
     }
@@ -4433,8 +4364,7 @@ public struct DescribeDirectConnectGatewayAssociationProposalsInput: Swift.Senda
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         proposalId: Swift.String? = nil
-    )
-    {
+    ) {
         self.associatedGatewayId = associatedGatewayId
         self.directConnectGatewayId = directConnectGatewayId
         self.maxResults = maxResults
@@ -4452,8 +4382,7 @@ public struct DescribeDirectConnectGatewayAssociationProposalsOutput: Swift.Send
     public init(
         directConnectGatewayAssociationProposals: [DirectConnectClientTypes.DirectConnectGatewayAssociationProposal]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.directConnectGatewayAssociationProposals = directConnectGatewayAssociationProposals
         self.nextToken = nextToken
     }
@@ -4480,8 +4409,7 @@ public struct DescribeDirectConnectGatewayAssociationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         virtualGatewayId: Swift.String? = nil
-    )
-    {
+    ) {
         self.associatedGatewayId = associatedGatewayId
         self.associationId = associationId
         self.directConnectGatewayId = directConnectGatewayId
@@ -4500,8 +4428,7 @@ public struct DescribeDirectConnectGatewayAssociationsOutput: Swift.Sendable {
     public init(
         directConnectGatewayAssociations: [DirectConnectClientTypes.DirectConnectGatewayAssociation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.directConnectGatewayAssociations = directConnectGatewayAssociations
         self.nextToken = nextToken
     }
@@ -4522,8 +4449,7 @@ public struct DescribeDirectConnectGatewayAttachmentsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         virtualInterfaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.directConnectGatewayId = directConnectGatewayId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4630,8 +4556,7 @@ extension DirectConnectClientTypes {
             virtualInterfaceId: Swift.String? = nil,
             virtualInterfaceOwnerAccount: Swift.String? = nil,
             virtualInterfaceRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachmentState = attachmentState
             self.attachmentType = attachmentType
             self.directConnectGatewayId = directConnectGatewayId
@@ -4652,8 +4577,7 @@ public struct DescribeDirectConnectGatewayAttachmentsOutput: Swift.Sendable {
     public init(
         directConnectGatewayAttachments: [DirectConnectClientTypes.DirectConnectGatewayAttachment]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.directConnectGatewayAttachments = directConnectGatewayAttachments
         self.nextToken = nextToken
     }
@@ -4671,8 +4595,7 @@ public struct DescribeDirectConnectGatewaysInput: Swift.Sendable {
         directConnectGatewayId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.directConnectGatewayId = directConnectGatewayId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4688,8 +4611,7 @@ public struct DescribeDirectConnectGatewaysOutput: Swift.Sendable {
     public init(
         directConnectGateways: [DirectConnectClientTypes.DirectConnectGateway]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.directConnectGateways = directConnectGateways
         self.nextToken = nextToken
     }
@@ -4702,8 +4624,7 @@ public struct DescribeHostedConnectionsInput: Swift.Sendable {
 
     public init(
         connectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
     }
 }
@@ -4714,8 +4635,7 @@ public struct DescribeHostedConnectionsOutput: Swift.Sendable {
 
     public init(
         connections: [DirectConnectClientTypes.Connection]? = nil
-    )
-    {
+    ) {
         self.connections = connections
     }
 }
@@ -4733,8 +4653,7 @@ public struct DescribeInterconnectLoaInput: Swift.Sendable {
         interconnectId: Swift.String? = nil,
         loaContentType: DirectConnectClientTypes.LoaContentType? = nil,
         providerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.interconnectId = interconnectId
         self.loaContentType = loaContentType
         self.providerName = providerName
@@ -4747,8 +4666,7 @@ public struct DescribeInterconnectLoaOutput: Swift.Sendable {
 
     public init(
         loa: DirectConnectClientTypes.Loa? = nil
-    )
-    {
+    ) {
         self.loa = loa
     }
 }
@@ -4759,8 +4677,7 @@ public struct DescribeInterconnectsInput: Swift.Sendable {
 
     public init(
         interconnectId: Swift.String? = nil
-    )
-    {
+    ) {
         self.interconnectId = interconnectId
     }
 }
@@ -4831,8 +4748,7 @@ extension DirectConnectClientTypes {
             providerName: Swift.String? = nil,
             region: Swift.String? = nil,
             tags: [DirectConnectClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.awsDevice = awsDevice
             self.awsDeviceV2 = awsDeviceV2
             self.awsLogicalDeviceId = awsLogicalDeviceId
@@ -4858,8 +4774,7 @@ public struct DescribeInterconnectsOutput: Swift.Sendable {
 
     public init(
         interconnects: [DirectConnectClientTypes.Interconnect]? = nil
-    )
-    {
+    ) {
         self.interconnects = interconnects
     }
 }
@@ -4870,8 +4785,7 @@ public struct DescribeLagsInput: Swift.Sendable {
 
     public init(
         lagId: Swift.String? = nil
-    )
-    {
+    ) {
         self.lagId = lagId
     }
 }
@@ -4960,8 +4874,7 @@ extension DirectConnectClientTypes {
             providerName: Swift.String? = nil,
             region: Swift.String? = nil,
             tags: [DirectConnectClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.allowsHostedConnections = allowsHostedConnections
             self.awsDevice = awsDevice
             self.awsDeviceV2 = awsDeviceV2
@@ -4993,8 +4906,7 @@ public struct DescribeLagsOutput: Swift.Sendable {
 
     public init(
         lags: [DirectConnectClientTypes.Lag]? = nil
-    )
-    {
+    ) {
         self.lags = lags
     }
 }
@@ -5012,8 +4924,7 @@ public struct DescribeLoaInput: Swift.Sendable {
         connectionId: Swift.String? = nil,
         loaContentType: DirectConnectClientTypes.LoaContentType? = nil,
         providerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
         self.loaContentType = loaContentType
         self.providerName = providerName
@@ -5030,8 +4941,7 @@ public struct DescribeLoaOutput: Swift.Sendable {
     public init(
         loaContent: Foundation.Data? = nil,
         loaContentType: DirectConnectClientTypes.LoaContentType? = nil
-    )
-    {
+    ) {
         self.loaContent = loaContent
         self.loaContentType = loaContentType
     }
@@ -5061,8 +4971,7 @@ extension DirectConnectClientTypes {
             locationCode: Swift.String? = nil,
             locationName: Swift.String? = nil,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.availableMacSecPortSpeeds = availableMacSecPortSpeeds
             self.availablePortSpeeds = availablePortSpeeds
             self.availableProviders = availableProviders
@@ -5079,8 +4988,7 @@ public struct DescribeLocationsOutput: Swift.Sendable {
 
     public init(
         locations: [DirectConnectClientTypes.Location]? = nil
-    )
-    {
+    ) {
         self.locations = locations
     }
 }
@@ -5096,8 +5004,7 @@ public struct DescribeRouterConfigurationInput: Swift.Sendable {
     public init(
         routerTypeIdentifier: Swift.String? = nil,
         virtualInterfaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.routerTypeIdentifier = routerTypeIdentifier
         self.virtualInterfaceId = virtualInterfaceId
     }
@@ -5127,8 +5034,7 @@ extension DirectConnectClientTypes {
             vendor: Swift.String? = nil,
             xsltTemplateName: Swift.String? = nil,
             xsltTemplateNameForMacSec: Swift.String? = nil
-        )
-        {
+        ) {
             self.platform = platform
             self.routerTypeIdentifier = routerTypeIdentifier
             self.software = software
@@ -5154,8 +5060,7 @@ public struct DescribeRouterConfigurationOutput: Swift.Sendable {
         router: DirectConnectClientTypes.RouterType? = nil,
         virtualInterfaceId: Swift.String? = nil,
         virtualInterfaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.customerRouterConfig = customerRouterConfig
         self.router = router
         self.virtualInterfaceId = virtualInterfaceId
@@ -5170,8 +5075,7 @@ public struct DescribeTagsInput: Swift.Sendable {
 
     public init(
         resourceArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArns = resourceArns
     }
 }
@@ -5188,8 +5092,7 @@ extension DirectConnectClientTypes {
         public init(
             resourceArn: Swift.String? = nil,
             tags: [DirectConnectClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.resourceArn = resourceArn
             self.tags = tags
         }
@@ -5202,8 +5105,7 @@ public struct DescribeTagsOutput: Swift.Sendable {
 
     public init(
         resourceTags: [DirectConnectClientTypes.ResourceTag]? = nil
-    )
-    {
+    ) {
         self.resourceTags = resourceTags
     }
 }
@@ -5228,8 +5130,7 @@ extension DirectConnectClientTypes {
         public init(
             virtualGatewayId: Swift.String? = nil,
             virtualGatewayState: Swift.String? = nil
-        )
-        {
+        ) {
             self.virtualGatewayId = virtualGatewayId
             self.virtualGatewayState = virtualGatewayState
         }
@@ -5242,8 +5143,7 @@ public struct DescribeVirtualGatewaysOutput: Swift.Sendable {
 
     public init(
         virtualGateways: [DirectConnectClientTypes.VirtualGateway]? = nil
-    )
-    {
+    ) {
         self.virtualGateways = virtualGateways
     }
 }
@@ -5257,8 +5157,7 @@ public struct DescribeVirtualInterfacesInput: Swift.Sendable {
     public init(
         connectionId: Swift.String? = nil,
         virtualInterfaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
         self.virtualInterfaceId = virtualInterfaceId
     }
@@ -5270,8 +5169,7 @@ public struct DescribeVirtualInterfacesOutput: Swift.Sendable {
 
     public init(
         virtualInterfaces: [DirectConnectClientTypes.VirtualInterface]? = nil
-    )
-    {
+    ) {
         self.virtualInterfaces = virtualInterfaces
     }
 }
@@ -5287,8 +5185,7 @@ public struct DisassociateConnectionFromLagInput: Swift.Sendable {
     public init(
         connectionId: Swift.String? = nil,
         lagId: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
         self.lagId = lagId
     }
@@ -5383,8 +5280,7 @@ public struct DisassociateConnectionFromLagOutput: Swift.Sendable {
         region: Swift.String? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil,
         vlan: Swift.Int = 0
-    )
-    {
+    ) {
         self.awsDevice = awsDevice
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
@@ -5421,8 +5317,7 @@ public struct DisassociateMacSecKeyInput: Swift.Sendable {
     public init(
         connectionId: Swift.String? = nil,
         secretARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
         self.secretARN = secretARN
     }
@@ -5437,8 +5332,7 @@ public struct DisassociateMacSecKeyOutput: Swift.Sendable {
     public init(
         connectionId: Swift.String? = nil,
         macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
         self.macSecKeys = macSecKeys
     }
@@ -5465,8 +5359,7 @@ public struct ListVirtualInterfaceTestHistoryInput: Swift.Sendable {
         status: Swift.String? = nil,
         testId: Swift.String? = nil,
         virtualInterfaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bgpPeers = bgpPeers
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5506,8 +5399,7 @@ extension DirectConnectClientTypes {
             testDurationInMinutes: Swift.Int? = nil,
             testId: Swift.String? = nil,
             virtualInterfaceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.bgpPeers = bgpPeers
             self.endTime = endTime
             self.ownerAccount = ownerAccount
@@ -5529,8 +5421,7 @@ public struct ListVirtualInterfaceTestHistoryOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         virtualInterfaceTestHistory: [DirectConnectClientTypes.VirtualInterfaceTestHistory]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.virtualInterfaceTestHistory = virtualInterfaceTestHistory
     }
@@ -5549,8 +5440,7 @@ public struct StartBgpFailoverTestInput: Swift.Sendable {
         bgpPeers: [Swift.String]? = nil,
         testDurationInMinutes: Swift.Int? = nil,
         virtualInterfaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bgpPeers = bgpPeers
         self.testDurationInMinutes = testDurationInMinutes
         self.virtualInterfaceId = virtualInterfaceId
@@ -5563,8 +5453,7 @@ public struct StartBgpFailoverTestOutput: Swift.Sendable {
 
     public init(
         virtualInterfaceTest: DirectConnectClientTypes.VirtualInterfaceTestHistory? = nil
-    )
-    {
+    ) {
         self.virtualInterfaceTest = virtualInterfaceTest
     }
 }
@@ -5576,8 +5465,7 @@ public struct StopBgpFailoverTestInput: Swift.Sendable {
 
     public init(
         virtualInterfaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.virtualInterfaceId = virtualInterfaceId
     }
 }
@@ -5588,8 +5476,7 @@ public struct StopBgpFailoverTestOutput: Swift.Sendable {
 
     public init(
         virtualInterfaceTest: DirectConnectClientTypes.VirtualInterfaceTestHistory? = nil
-    )
-    {
+    ) {
         self.virtualInterfaceTest = virtualInterfaceTest
     }
 }
@@ -5605,8 +5492,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -5628,8 +5514,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -5653,8 +5538,7 @@ public struct UpdateConnectionInput: Swift.Sendable {
         connectionId: Swift.String? = nil,
         connectionName: Swift.String? = nil,
         encryptionMode: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionId = connectionId
         self.connectionName = connectionName
         self.encryptionMode = encryptionMode
@@ -5750,8 +5634,7 @@ public struct UpdateConnectionOutput: Swift.Sendable {
         region: Swift.String? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil,
         vlan: Swift.Int = 0
-    )
-    {
+    ) {
         self.awsDevice = awsDevice
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
@@ -5788,8 +5671,7 @@ public struct UpdateDirectConnectGatewayInput: Swift.Sendable {
     public init(
         directConnectGatewayId: Swift.String? = nil,
         newDirectConnectGatewayName: Swift.String? = nil
-    )
-    {
+    ) {
         self.directConnectGatewayId = directConnectGatewayId
         self.newDirectConnectGatewayName = newDirectConnectGatewayName
     }
@@ -5801,8 +5683,7 @@ public struct UpdateDirectConnectGatewayOutput: Swift.Sendable {
 
     public init(
         directConnectGateway: DirectConnectClientTypes.DirectConnectGateway? = nil
-    )
-    {
+    ) {
         self.directConnectGateway = directConnectGateway
     }
 }
@@ -5819,8 +5700,7 @@ public struct UpdateDirectConnectGatewayAssociationInput: Swift.Sendable {
         addAllowedPrefixesToDirectConnectGateway: [DirectConnectClientTypes.RouteFilterPrefix]? = nil,
         associationId: Swift.String? = nil,
         removeAllowedPrefixesToDirectConnectGateway: [DirectConnectClientTypes.RouteFilterPrefix]? = nil
-    )
-    {
+    ) {
         self.addAllowedPrefixesToDirectConnectGateway = addAllowedPrefixesToDirectConnectGateway
         self.associationId = associationId
         self.removeAllowedPrefixesToDirectConnectGateway = removeAllowedPrefixesToDirectConnectGateway
@@ -5833,8 +5713,7 @@ public struct UpdateDirectConnectGatewayAssociationOutput: Swift.Sendable {
 
     public init(
         directConnectGatewayAssociation: DirectConnectClientTypes.DirectConnectGatewayAssociation? = nil
-    )
-    {
+    ) {
         self.directConnectGatewayAssociation = directConnectGatewayAssociation
     }
 }
@@ -5855,8 +5734,7 @@ public struct UpdateLagInput: Swift.Sendable {
         lagId: Swift.String? = nil,
         lagName: Swift.String? = nil,
         minimumLinks: Swift.Int? = 0
-    )
-    {
+    ) {
         self.encryptionMode = encryptionMode
         self.lagId = lagId
         self.lagName = lagName
@@ -5946,8 +5824,7 @@ public struct UpdateLagOutput: Swift.Sendable {
         providerName: Swift.String? = nil,
         region: Swift.String? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.allowsHostedConnections = allowsHostedConnections
         self.awsDevice = awsDevice
         self.awsDeviceV2 = awsDeviceV2
@@ -5988,8 +5865,7 @@ public struct UpdateVirtualInterfaceAttributesInput: Swift.Sendable {
         mtu: Swift.Int? = nil,
         virtualInterfaceId: Swift.String? = nil,
         virtualInterfaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.enableSiteLink = enableSiteLink
         self.mtu = mtu
         self.virtualInterfaceId = virtualInterfaceId
@@ -6097,8 +5973,7 @@ public struct UpdateVirtualInterfaceAttributesOutput: Swift.Sendable {
         virtualInterfaceState: DirectConnectClientTypes.VirtualInterfaceState? = nil,
         virtualInterfaceType: Swift.String? = nil,
         vlan: Swift.Int = 0
-    )
-    {
+    ) {
         self.addressFamily = addressFamily
         self.amazonAddress = amazonAddress
         self.amazonSideAsn = amazonSideAsn
@@ -9361,9 +9236,22 @@ extension DirectConnectClientTypes.DirectConnectGatewayAssociation {
         value.associatedGateway = try reader["associatedGateway"].readIfPresent(with: DirectConnectClientTypes.AssociatedGateway.read(from:))
         value.associationId = try reader["associationId"].readIfPresent()
         value.allowedPrefixesToDirectConnectGateway = try reader["allowedPrefixesToDirectConnectGateway"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.RouteFilterPrefix.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.associatedCoreNetwork = try reader["associatedCoreNetwork"].readIfPresent(with: DirectConnectClientTypes.AssociatedCoreNetwork.read(from:))
         value.virtualGatewayId = try reader["virtualGatewayId"].readIfPresent()
         value.virtualGatewayRegion = try reader["virtualGatewayRegion"].readIfPresent()
         value.virtualGatewayOwnerAccount = try reader["virtualGatewayOwnerAccount"].readIfPresent()
+        return value
+    }
+}
+
+extension DirectConnectClientTypes.AssociatedCoreNetwork {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.AssociatedCoreNetwork {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectConnectClientTypes.AssociatedCoreNetwork()
+        value.id = try reader["id"].readIfPresent()
+        value.ownerAccount = try reader["ownerAccount"].readIfPresent()
+        value.attachmentId = try reader["attachmentId"].readIfPresent()
         return value
     }
 }

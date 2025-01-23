@@ -29,9 +29,9 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 
 /// You do not have sufficient permissions to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -47,8 +47,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -67,8 +66,7 @@ extension LookoutMetricsClientTypes {
         public init(
             lambdaArn: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.lambdaArn = lambdaArn
             self.roleArn = roleArn
         }
@@ -130,8 +128,7 @@ extension LookoutMetricsClientTypes {
             roleArn: Swift.String? = nil,
             snsFormat: LookoutMetricsClientTypes.SnsFormat? = nil,
             snsTopicArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.roleArn = roleArn
             self.snsFormat = snsFormat
             self.snsTopicArn = snsTopicArn
@@ -151,8 +148,7 @@ extension LookoutMetricsClientTypes {
         public init(
             lambdaConfiguration: LookoutMetricsClientTypes.LambdaConfiguration? = nil,
             snsConfiguration: LookoutMetricsClientTypes.SNSConfiguration? = nil
-        )
-        {
+        ) {
             self.lambdaConfiguration = lambdaConfiguration
             self.snsConfiguration = snsConfiguration
         }
@@ -160,9 +156,9 @@ extension LookoutMetricsClientTypes {
 }
 
 /// There was a conflict processing the request. Try your request again.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The ID of the resource.
@@ -184,8 +180,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -193,9 +188,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// The request processing has failed because of an unknown error, exception, or failure.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -211,16 +206,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified resource cannot be found. Check the ARN of the resource and try again.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The ID of the resource.
@@ -242,8 +236,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -251,9 +244,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The request was denied due to too many requests being submitted at the same time.
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -269,8 +262,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -289,8 +281,7 @@ extension LookoutMetricsClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -333,9 +324,9 @@ extension LookoutMetricsClientTypes {
 }
 
 /// The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Fields that failed validation.
         public internal(set) var fields: [LookoutMetricsClientTypes.ValidationExceptionField]? = nil
         /// This member is required.
@@ -357,8 +348,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fields: [LookoutMetricsClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: LookoutMetricsClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fields = fields
         self.properties.message = message
         self.properties.reason = reason
@@ -372,8 +362,7 @@ public struct ActivateAnomalyDetectorInput: Swift.Sendable {
 
     public init(
         anomalyDetectorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorArn = anomalyDetectorArn
     }
 }
@@ -424,8 +413,7 @@ extension LookoutMetricsClientTypes {
         public init(
             dimensionName: Swift.String? = nil,
             dimensionValueList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.dimensionName = dimensionName
             self.dimensionValueList = dimensionValueList
         }
@@ -444,8 +432,7 @@ extension LookoutMetricsClientTypes {
         public init(
             dimensionFilterList: [LookoutMetricsClientTypes.DimensionFilter]? = nil,
             metricList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.dimensionFilterList = dimensionFilterList
             self.metricList = metricList
         }
@@ -549,8 +536,7 @@ extension LookoutMetricsClientTypes {
             anomalyDetectorArn: Swift.String? = nil,
             creationTime: Foundation.Date? = nil,
             lastModificationTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.action = action
             self.alertArn = alertArn
             self.alertDescription = alertDescription
@@ -599,8 +585,7 @@ extension LookoutMetricsClientTypes {
             creationTime: Foundation.Date? = nil,
             lastModificationTime: Foundation.Date? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.alertArn = alertArn
             self.alertName = alertName
             self.alertSensitivityThreshold = alertSensitivityThreshold
@@ -696,8 +681,7 @@ extension LookoutMetricsClientTypes {
 
         public init(
             anomalyDetectorFrequency: LookoutMetricsClientTypes.Frequency? = nil
-        )
-        {
+        ) {
             self.anomalyDetectorFrequency = anomalyDetectorFrequency
         }
     }
@@ -712,8 +696,7 @@ extension LookoutMetricsClientTypes {
 
         public init(
             anomalyDetectorFrequency: LookoutMetricsClientTypes.Frequency? = nil
-        )
-        {
+        ) {
             self.anomalyDetectorFrequency = anomalyDetectorFrequency
         }
     }
@@ -790,8 +773,7 @@ extension LookoutMetricsClientTypes {
             metricType: LookoutMetricsClientTypes.DataQualityMetricType? = nil,
             metricValue: Swift.Double? = nil,
             relatedColumnName: Swift.String? = nil
-        )
-        {
+        ) {
             self.metricDescription = metricDescription
             self.metricType = metricType
             self.metricValue = metricValue
@@ -812,8 +794,7 @@ extension LookoutMetricsClientTypes {
         public init(
             dataQualityMetricList: [LookoutMetricsClientTypes.DataQualityMetric]? = nil,
             metricSetArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataQualityMetricList = dataQualityMetricList
             self.metricSetArn = metricSetArn
         }
@@ -832,8 +813,7 @@ extension LookoutMetricsClientTypes {
         public init(
             metricSetDataQualityMetricList: [LookoutMetricsClientTypes.MetricSetDataQualityMetric]? = nil,
             startTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.metricSetDataQualityMetricList = metricSetDataQualityMetricList
             self.startTimestamp = startTimestamp
         }
@@ -958,8 +938,7 @@ extension LookoutMetricsClientTypes {
             lastModificationTime: Foundation.Date? = nil,
             status: LookoutMetricsClientTypes.AnomalyDetectorStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.anomalyDetectorArn = anomalyDetectorArn
             self.anomalyDetectorDescription = anomalyDetectorDescription
             self.anomalyDetectorName = anomalyDetectorName
@@ -983,8 +962,7 @@ extension LookoutMetricsClientTypes {
         public init(
             contributionScore: Swift.Double? = nil,
             dimensionValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.contributionScore = contributionScore
             self.dimensionValue = dimensionValue
         }
@@ -1003,8 +981,7 @@ extension LookoutMetricsClientTypes {
         public init(
             dimensionName: Swift.String? = nil,
             dimensionValueContributionList: [LookoutMetricsClientTypes.DimensionValueContribution]? = nil
-        )
-        {
+        ) {
             self.dimensionName = dimensionName
             self.dimensionValueContributionList = dimensionValueContributionList
         }
@@ -1020,8 +997,7 @@ extension LookoutMetricsClientTypes {
 
         public init(
             dimensionContributionList: [LookoutMetricsClientTypes.DimensionContribution]? = nil
-        )
-        {
+        ) {
             self.dimensionContributionList = dimensionContributionList
         }
     }
@@ -1042,8 +1018,7 @@ extension LookoutMetricsClientTypes {
             contributionMatrix: LookoutMetricsClientTypes.ContributionMatrix? = nil,
             metricName: Swift.String? = nil,
             numTimeSeries: Swift.Int = 0
-        )
-        {
+        ) {
             self.contributionMatrix = contributionMatrix
             self.metricName = metricName
             self.numTimeSeries = numTimeSeries
@@ -1075,8 +1050,7 @@ extension LookoutMetricsClientTypes {
             metricLevelImpactList: [LookoutMetricsClientTypes.MetricLevelImpact]? = nil,
             primaryMetricName: Swift.String? = nil,
             startTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.anomalyGroupId = anomalyGroupId
             self.anomalyGroupScore = anomalyGroupScore
             self.endTime = endTime
@@ -1099,8 +1073,7 @@ extension LookoutMetricsClientTypes {
         public init(
             metricName: Swift.String? = nil,
             occurrenceCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.metricName = metricName
             self.occurrenceCount = occurrenceCount
         }
@@ -1122,8 +1095,7 @@ extension LookoutMetricsClientTypes {
             evaluationStartDate: Swift.String? = nil,
             itemizedMetricStatsList: [LookoutMetricsClientTypes.ItemizedMetricStats]? = nil,
             totalCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.evaluationStartDate = evaluationStartDate
             self.itemizedMetricStatsList = itemizedMetricStatsList
             self.totalCount = totalCount
@@ -1152,8 +1124,7 @@ extension LookoutMetricsClientTypes {
             endTime: Swift.String? = nil,
             primaryMetricName: Swift.String? = nil,
             startTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.anomalyGroupId = anomalyGroupId
             self.anomalyGroupScore = anomalyGroupScore
             self.endTime = endTime
@@ -1176,8 +1147,7 @@ extension LookoutMetricsClientTypes {
         public init(
             anomalyGroupId: Swift.String? = nil,
             timeSeriesId: Swift.String? = nil
-        )
-        {
+        ) {
             self.anomalyGroupId = anomalyGroupId
             self.timeSeriesId = timeSeriesId
         }
@@ -1202,8 +1172,7 @@ extension LookoutMetricsClientTypes {
             anomalyGroupId: Swift.String? = nil,
             isAnomaly: Swift.Bool? = nil,
             timeSeriesId: Swift.String? = nil
-        )
-        {
+        ) {
             self.anomalyGroupId = anomalyGroupId
             self.isAnomaly = isAnomaly
             self.timeSeriesId = timeSeriesId
@@ -1223,8 +1192,7 @@ extension LookoutMetricsClientTypes {
         public init(
             flowName: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.flowName = flowName
             self.roleArn = roleArn
         }
@@ -1241,8 +1209,7 @@ extension LookoutMetricsClientTypes {
 
         public init(
             runBackTestMode: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.runBackTestMode = runBackTestMode
         }
     }
@@ -1275,8 +1242,7 @@ extension LookoutMetricsClientTypes {
             s3ResultsPath: Swift.String? = nil,
             tableName: Swift.String? = nil,
             workGroupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.backTestConfiguration = backTestConfiguration
             self.dataCatalog = dataCatalog
             self.databaseName = databaseName
@@ -1312,8 +1278,7 @@ extension LookoutMetricsClientTypes {
             ns: [Swift.String]? = nil,
             s: Swift.String? = nil,
             ss: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.b = b
             self.bs = bs
             self.n = n
@@ -1336,8 +1301,7 @@ extension LookoutMetricsClientTypes {
         public init(
             historicalDataPathList: [Swift.String]? = nil,
             templatedPathList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.historicalDataPathList = historicalDataPathList
             self.templatedPathList = templatedPathList
         }
@@ -1353,8 +1317,7 @@ extension LookoutMetricsClientTypes {
 
         public init(
             s3SourceConfig: LookoutMetricsClientTypes.AutoDetectionS3SourceConfig? = nil
-        )
-        {
+        ) {
             self.s3SourceConfig = s3SourceConfig
         }
     }
@@ -1367,8 +1330,7 @@ public struct BackTestAnomalyDetectorInput: Swift.Sendable {
 
     public init(
         anomalyDetectorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorArn = anomalyDetectorArn
     }
 }
@@ -1390,8 +1352,7 @@ extension LookoutMetricsClientTypes {
         public init(
             backTestConfiguration: LookoutMetricsClientTypes.BackTestConfiguration? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.backTestConfiguration = backTestConfiguration
             self.roleArn = roleArn
         }
@@ -1431,9 +1392,9 @@ extension LookoutMetricsClientTypes {
 }
 
 /// The request exceeded the service's quotas. Check the service quotas and try again.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The quota code.
@@ -1461,8 +1422,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -1498,8 +1458,7 @@ public struct CreateAlertInput: Swift.Sendable {
         alertSensitivityThreshold: Swift.Int? = 0,
         anomalyDetectorArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.action = action
         self.alertDescription = alertDescription
         self.alertFilters = alertFilters
@@ -1516,8 +1475,7 @@ public struct CreateAlertOutput: Swift.Sendable {
 
     public init(
         alertArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.alertArn = alertArn
     }
 }
@@ -1542,8 +1500,7 @@ public struct CreateAnomalyDetectorInput: Swift.Sendable {
         anomalyDetectorName: Swift.String? = nil,
         kmsKeyArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorConfig = anomalyDetectorConfig
         self.anomalyDetectorDescription = anomalyDetectorDescription
         self.anomalyDetectorName = anomalyDetectorName
@@ -1558,8 +1515,7 @@ public struct CreateAnomalyDetectorOutput: Swift.Sendable {
 
     public init(
         anomalyDetectorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorArn = anomalyDetectorArn
     }
 }
@@ -1602,8 +1558,7 @@ extension LookoutMetricsClientTypes {
         public init(
             dimensionValue: Swift.String? = nil,
             filterOperation: LookoutMetricsClientTypes.FilterOperation? = nil
-        )
-        {
+        ) {
             self.dimensionValue = dimensionValue
             self.filterOperation = filterOperation
         }
@@ -1622,8 +1577,7 @@ extension LookoutMetricsClientTypes {
         public init(
             filterList: [LookoutMetricsClientTypes.Filter]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.filterList = filterList
             self.name = name
         }
@@ -1647,8 +1601,7 @@ extension LookoutMetricsClientTypes {
             aggregationFunction: LookoutMetricsClientTypes.AggregationFunction? = nil,
             metricName: Swift.String? = nil,
             namespace: Swift.String? = nil
-        )
-        {
+        ) {
             self.aggregationFunction = aggregationFunction
             self.metricName = metricName
             self.namespace = namespace
@@ -1670,8 +1623,7 @@ extension LookoutMetricsClientTypes {
         public init(
             securityGroupIdList: [Swift.String]? = nil,
             subnetIdList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroupIdList = securityGroupIdList
             self.subnetIdList = subnetIdList
         }
@@ -1708,8 +1660,7 @@ extension LookoutMetricsClientTypes {
             secretManagerArn: Swift.String? = nil,
             tableName: Swift.String? = nil,
             vpcConfiguration: LookoutMetricsClientTypes.VpcConfiguration? = nil
-        )
-        {
+        ) {
             self.databaseHost = databaseHost
             self.databaseName = databaseName
             self.databasePort = databasePort
@@ -1752,8 +1703,7 @@ extension LookoutMetricsClientTypes {
             secretManagerArn: Swift.String? = nil,
             tableName: Swift.String? = nil,
             vpcConfiguration: LookoutMetricsClientTypes.VpcConfiguration? = nil
-        )
-        {
+        ) {
             self.clusterIdentifier = clusterIdentifier
             self.databaseHost = databaseHost
             self.databaseName = databaseName
@@ -1819,8 +1769,7 @@ extension LookoutMetricsClientTypes {
             fileCompression: LookoutMetricsClientTypes.CSVFileCompression? = nil,
             headerList: [Swift.String]? = nil,
             quoteSymbol: Swift.String? = nil
-        )
-        {
+        ) {
             self.charset = charset
             self.containsHeader = containsHeader
             self.delimiter = delimiter
@@ -1872,8 +1821,7 @@ extension LookoutMetricsClientTypes {
         public init(
             charset: Swift.String? = nil,
             fileCompression: LookoutMetricsClientTypes.JsonFileCompression? = nil
-        )
-        {
+        ) {
             self.charset = charset
             self.fileCompression = fileCompression
         }
@@ -1892,8 +1840,7 @@ extension LookoutMetricsClientTypes {
         public init(
             csvFormatDescriptor: LookoutMetricsClientTypes.CsvFormatDescriptor? = nil,
             jsonFormatDescriptor: LookoutMetricsClientTypes.JsonFormatDescriptor? = nil
-        )
-        {
+        ) {
             self.csvFormatDescriptor = csvFormatDescriptor
             self.jsonFormatDescriptor = jsonFormatDescriptor
         }
@@ -1918,8 +1865,7 @@ extension LookoutMetricsClientTypes {
             historicalDataPathList: [Swift.String]? = nil,
             roleArn: Swift.String? = nil,
             templatedPathList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.fileFormatDescriptor = fileFormatDescriptor
             self.historicalDataPathList = historicalDataPathList
             self.roleArn = roleArn
@@ -1952,8 +1898,7 @@ extension LookoutMetricsClientTypes {
             rdsSourceConfig: LookoutMetricsClientTypes.RDSSourceConfig? = nil,
             redshiftSourceConfig: LookoutMetricsClientTypes.RedshiftSourceConfig? = nil,
             s3SourceConfig: LookoutMetricsClientTypes.S3SourceConfig? = nil
-        )
-        {
+        ) {
             self.appFlowConfig = appFlowConfig
             self.athenaSourceConfig = athenaSourceConfig
             self.cloudWatchConfig = cloudWatchConfig
@@ -1976,8 +1921,7 @@ extension LookoutMetricsClientTypes {
         public init(
             columnFormat: Swift.String? = nil,
             columnName: Swift.String? = nil
-        )
-        {
+        ) {
             self.columnFormat = columnFormat
             self.columnName = columnName
         }
@@ -2027,8 +1971,7 @@ public struct CreateMetricSetInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         timestampColumn: LookoutMetricsClientTypes.TimestampColumn? = nil,
         timezone: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorArn = anomalyDetectorArn
         self.dimensionFilterList = dimensionFilterList
         self.dimensionList = dimensionList
@@ -2050,8 +1993,7 @@ public struct CreateMetricSetOutput: Swift.Sendable {
 
     public init(
         metricSetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.metricSetArn = metricSetArn
     }
 }
@@ -2063,8 +2005,7 @@ public struct DeactivateAnomalyDetectorInput: Swift.Sendable {
 
     public init(
         anomalyDetectorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorArn = anomalyDetectorArn
     }
 }
@@ -2081,8 +2022,7 @@ public struct DeleteAlertInput: Swift.Sendable {
 
     public init(
         alertArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.alertArn = alertArn
     }
 }
@@ -2099,8 +2039,7 @@ public struct DeleteAnomalyDetectorInput: Swift.Sendable {
 
     public init(
         anomalyDetectorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorArn = anomalyDetectorArn
     }
 }
@@ -2117,8 +2056,7 @@ public struct DescribeAlertInput: Swift.Sendable {
 
     public init(
         alertArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.alertArn = alertArn
     }
 }
@@ -2129,8 +2067,7 @@ public struct DescribeAlertOutput: Swift.Sendable {
 
     public init(
         alert: LookoutMetricsClientTypes.Alert? = nil
-    )
-    {
+    ) {
         self.alert = alert
     }
 }
@@ -2151,8 +2088,7 @@ public struct DescribeAnomalyDetectionExecutionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         timestamp: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorArn = anomalyDetectorArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2175,8 +2111,7 @@ extension LookoutMetricsClientTypes {
             failureReason: Swift.String? = nil,
             status: LookoutMetricsClientTypes.AnomalyDetectionTaskStatus? = nil,
             timestamp: Swift.String? = nil
-        )
-        {
+        ) {
             self.failureReason = failureReason
             self.status = status
             self.timestamp = timestamp
@@ -2193,8 +2128,7 @@ public struct DescribeAnomalyDetectionExecutionsOutput: Swift.Sendable {
     public init(
         executionList: [LookoutMetricsClientTypes.ExecutionStatus]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.executionList = executionList
         self.nextToken = nextToken
     }
@@ -2207,8 +2141,7 @@ public struct DescribeAnomalyDetectorInput: Swift.Sendable {
 
     public init(
         anomalyDetectorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorArn = anomalyDetectorArn
     }
 }
@@ -2246,8 +2179,7 @@ public struct DescribeAnomalyDetectorOutput: Swift.Sendable {
         kmsKeyArn: Swift.String? = nil,
         lastModificationTime: Foundation.Date? = nil,
         status: LookoutMetricsClientTypes.AnomalyDetectorStatus? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorArn = anomalyDetectorArn
         self.anomalyDetectorConfig = anomalyDetectorConfig
         self.anomalyDetectorDescription = anomalyDetectorDescription
@@ -2268,8 +2200,7 @@ public struct DescribeMetricSetInput: Swift.Sendable {
 
     public init(
         metricSetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.metricSetArn = metricSetArn
     }
 }
@@ -2319,8 +2250,7 @@ public struct DescribeMetricSetOutput: Swift.Sendable {
         offset: Swift.Int? = 0,
         timestampColumn: LookoutMetricsClientTypes.TimestampColumn? = nil,
         timezone: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorArn = anomalyDetectorArn
         self.creationTime = creationTime
         self.dimensionFilterList = dimensionFilterList
@@ -2353,8 +2283,7 @@ extension LookoutMetricsClientTypes {
             confidence: LookoutMetricsClientTypes.Confidence? = nil,
             message: Swift.String? = nil,
             value: LookoutMetricsClientTypes.AttributeValue? = nil
-        )
-        {
+        ) {
             self.confidence = confidence
             self.message = message
             self.value = value
@@ -2386,8 +2315,7 @@ extension LookoutMetricsClientTypes {
             fileCompression: LookoutMetricsClientTypes.DetectedField? = nil,
             headerList: LookoutMetricsClientTypes.DetectedField? = nil,
             quoteSymbol: LookoutMetricsClientTypes.DetectedField? = nil
-        )
-        {
+        ) {
             self.charset = charset
             self.containsHeader = containsHeader
             self.delimiter = delimiter
@@ -2410,8 +2338,7 @@ extension LookoutMetricsClientTypes {
         public init(
             charset: LookoutMetricsClientTypes.DetectedField? = nil,
             fileCompression: LookoutMetricsClientTypes.DetectedField? = nil
-        )
-        {
+        ) {
             self.charset = charset
             self.fileCompression = fileCompression
         }
@@ -2430,8 +2357,7 @@ extension LookoutMetricsClientTypes {
         public init(
             csvFormatDescriptor: LookoutMetricsClientTypes.DetectedCsvFormatDescriptor? = nil,
             jsonFormatDescriptor: LookoutMetricsClientTypes.DetectedJsonFormatDescriptor? = nil
-        )
-        {
+        ) {
             self.csvFormatDescriptor = csvFormatDescriptor
             self.jsonFormatDescriptor = jsonFormatDescriptor
         }
@@ -2447,8 +2373,7 @@ extension LookoutMetricsClientTypes {
 
         public init(
             fileFormatDescriptor: LookoutMetricsClientTypes.DetectedFileFormatDescriptor? = nil
-        )
-        {
+        ) {
             self.fileFormatDescriptor = fileFormatDescriptor
         }
     }
@@ -2463,8 +2388,7 @@ extension LookoutMetricsClientTypes {
 
         public init(
             s3SourceConfig: LookoutMetricsClientTypes.DetectedS3SourceConfig? = nil
-        )
-        {
+        ) {
             self.s3SourceConfig = s3SourceConfig
         }
     }
@@ -2485,8 +2409,7 @@ extension LookoutMetricsClientTypes {
             metricSetFrequency: LookoutMetricsClientTypes.DetectedField? = nil,
             metricSource: LookoutMetricsClientTypes.DetectedMetricSource? = nil,
             offset: LookoutMetricsClientTypes.DetectedField? = nil
-        )
-        {
+        ) {
             self.metricSetFrequency = metricSetFrequency
             self.metricSource = metricSource
             self.offset = offset
@@ -2505,8 +2428,7 @@ public struct DetectMetricSetConfigInput: Swift.Sendable {
     public init(
         anomalyDetectorArn: Swift.String? = nil,
         autoDetectionMetricSource: LookoutMetricsClientTypes.AutoDetectionMetricSource? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorArn = anomalyDetectorArn
         self.autoDetectionMetricSource = autoDetectionMetricSource
     }
@@ -2518,8 +2440,7 @@ public struct DetectMetricSetConfigOutput: Swift.Sendable {
 
     public init(
         detectedMetricSetConfig: LookoutMetricsClientTypes.DetectedMetricSetConfig? = nil
-    )
-    {
+    ) {
         self.detectedMetricSetConfig = detectedMetricSetConfig
     }
 }
@@ -2538,8 +2459,7 @@ extension LookoutMetricsClientTypes {
         public init(
             dimensionName: Swift.String? = nil,
             dimensionValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.dimensionName = dimensionName
             self.dimensionValue = dimensionValue
         }
@@ -2557,8 +2477,7 @@ public struct GetAnomalyGroupInput: Swift.Sendable {
     public init(
         anomalyDetectorArn: Swift.String? = nil,
         anomalyGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorArn = anomalyDetectorArn
         self.anomalyGroupId = anomalyGroupId
     }
@@ -2570,8 +2489,7 @@ public struct GetAnomalyGroupOutput: Swift.Sendable {
 
     public init(
         anomalyGroup: LookoutMetricsClientTypes.AnomalyGroup? = nil
-    )
-    {
+    ) {
         self.anomalyGroup = anomalyGroup
     }
 }
@@ -2586,8 +2504,7 @@ public struct GetDataQualityMetricsInput: Swift.Sendable {
     public init(
         anomalyDetectorArn: Swift.String? = nil,
         metricSetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorArn = anomalyDetectorArn
         self.metricSetArn = metricSetArn
     }
@@ -2599,8 +2516,7 @@ public struct GetDataQualityMetricsOutput: Swift.Sendable {
 
     public init(
         anomalyDetectorDataQualityMetricList: [LookoutMetricsClientTypes.AnomalyDetectorDataQualityMetric]? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorDataQualityMetricList = anomalyDetectorDataQualityMetricList
     }
 }
@@ -2622,8 +2538,7 @@ public struct GetFeedbackInput: Swift.Sendable {
         anomalyGroupTimeSeriesFeedback: LookoutMetricsClientTypes.AnomalyGroupTimeSeries? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorArn = anomalyDetectorArn
         self.anomalyGroupTimeSeriesFeedback = anomalyGroupTimeSeriesFeedback
         self.maxResults = maxResults
@@ -2643,8 +2558,7 @@ extension LookoutMetricsClientTypes {
         public init(
             isAnomaly: Swift.Bool? = nil,
             timeSeriesId: Swift.String? = nil
-        )
-        {
+        ) {
             self.isAnomaly = isAnomaly
             self.timeSeriesId = timeSeriesId
         }
@@ -2660,8 +2574,7 @@ public struct GetFeedbackOutput: Swift.Sendable {
     public init(
         anomalyGroupTimeSeriesFeedback: [LookoutMetricsClientTypes.TimeSeriesFeedback]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalyGroupTimeSeriesFeedback = anomalyGroupTimeSeriesFeedback
         self.nextToken = nextToken
     }
@@ -2687,8 +2600,7 @@ extension LookoutMetricsClientTypes {
             historicalDataPathList: [Swift.String]? = nil,
             roleArn: Swift.String? = nil,
             templatedPathList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.fileFormatDescriptor = fileFormatDescriptor
             self.historicalDataPathList = historicalDataPathList
             self.roleArn = roleArn
@@ -2703,8 +2615,7 @@ public struct GetSampleDataInput: Swift.Sendable {
 
     public init(
         s3SourceConfig: LookoutMetricsClientTypes.SampleDataS3SourceConfig? = nil
-    )
-    {
+    ) {
         self.s3SourceConfig = s3SourceConfig
     }
 }
@@ -2718,8 +2629,7 @@ public struct GetSampleDataOutput: Swift.Sendable {
     public init(
         headerValues: [Swift.String]? = nil,
         sampleRows: [[Swift.String]]? = nil
-    )
-    {
+    ) {
         self.headerValues = headerValues
         self.sampleRows = sampleRows
     }
@@ -2772,8 +2682,7 @@ extension LookoutMetricsClientTypes {
             contributionPercentage: Swift.Double? = nil,
             metricName: Swift.String? = nil,
             relationshipType: LookoutMetricsClientTypes.RelationshipType? = nil
-        )
-        {
+        ) {
             self.anomalyGroupId = anomalyGroupId
             self.contributionPercentage = contributionPercentage
             self.metricName = metricName
@@ -2794,8 +2703,7 @@ public struct ListAlertsInput: Swift.Sendable {
         anomalyDetectorArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorArn = anomalyDetectorArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2811,8 +2719,7 @@ public struct ListAlertsOutput: Swift.Sendable {
     public init(
         alertSummaryList: [LookoutMetricsClientTypes.AlertSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.alertSummaryList = alertSummaryList
         self.nextToken = nextToken
     }
@@ -2827,8 +2734,7 @@ public struct ListAnomalyDetectorsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2843,8 +2749,7 @@ public struct ListAnomalyDetectorsOutput: Swift.Sendable {
     public init(
         anomalyDetectorSummaryList: [LookoutMetricsClientTypes.AnomalyDetectorSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorSummaryList = anomalyDetectorSummaryList
         self.nextToken = nextToken
     }
@@ -2870,8 +2775,7 @@ public struct ListAnomalyGroupRelatedMetricsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         relationshipTypeFilter: LookoutMetricsClientTypes.RelationshipType? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorArn = anomalyDetectorArn
         self.anomalyGroupId = anomalyGroupId
         self.maxResults = maxResults
@@ -2889,8 +2793,7 @@ public struct ListAnomalyGroupRelatedMetricsOutput: Swift.Sendable {
     public init(
         interMetricImpactList: [LookoutMetricsClientTypes.InterMetricImpactDetails]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.interMetricImpactList = interMetricImpactList
         self.nextToken = nextToken
     }
@@ -2913,8 +2816,7 @@ public struct ListAnomalyGroupSummariesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sensitivityThreshold: Swift.Int? = 0
-    )
-    {
+    ) {
         self.anomalyDetectorArn = anomalyDetectorArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2934,8 +2836,7 @@ public struct ListAnomalyGroupSummariesOutput: Swift.Sendable {
         anomalyGroupStatistics: LookoutMetricsClientTypes.AnomalyGroupStatistics? = nil,
         anomalyGroupSummaryList: [LookoutMetricsClientTypes.AnomalyGroupSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalyGroupStatistics = anomalyGroupStatistics
         self.anomalyGroupSummaryList = anomalyGroupSummaryList
         self.nextToken = nextToken
@@ -2963,8 +2864,7 @@ public struct ListAnomalyGroupTimeSeriesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         metricName: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorArn = anomalyDetectorArn
         self.anomalyGroupId = anomalyGroupId
         self.maxResults = maxResults
@@ -2991,8 +2891,7 @@ extension LookoutMetricsClientTypes {
             dimensionList: [LookoutMetricsClientTypes.DimensionNameValue]? = nil,
             metricValueList: [Swift.Double]? = nil,
             timeSeriesId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dimensionList = dimensionList
             self.metricValueList = metricValueList
             self.timeSeriesId = timeSeriesId
@@ -3018,8 +2917,7 @@ public struct ListAnomalyGroupTimeSeriesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         timeSeriesList: [LookoutMetricsClientTypes.TimeSeries]? = nil,
         timestampList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.anomalyGroupId = anomalyGroupId
         self.metricName = metricName
         self.nextToken = nextToken
@@ -3040,8 +2938,7 @@ public struct ListMetricSetsInput: Swift.Sendable {
         anomalyDetectorArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorArn = anomalyDetectorArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3075,8 +2972,7 @@ extension LookoutMetricsClientTypes {
             metricSetDescription: Swift.String? = nil,
             metricSetName: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.anomalyDetectorArn = anomalyDetectorArn
             self.creationTime = creationTime
             self.lastModificationTime = lastModificationTime
@@ -3097,8 +2993,7 @@ public struct ListMetricSetsOutput: Swift.Sendable {
     public init(
         metricSetSummaryList: [LookoutMetricsClientTypes.MetricSetSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.metricSetSummaryList = metricSetSummaryList
         self.nextToken = nextToken
     }
@@ -3111,8 +3006,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3123,8 +3017,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -3140,8 +3033,7 @@ public struct PutFeedbackInput: Swift.Sendable {
     public init(
         anomalyDetectorArn: Swift.String? = nil,
         anomalyGroupTimeSeriesFeedback: LookoutMetricsClientTypes.AnomalyGroupTimeSeriesFeedback? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorArn = anomalyDetectorArn
         self.anomalyGroupTimeSeriesFeedback = anomalyGroupTimeSeriesFeedback
     }
@@ -3163,8 +3055,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -3186,8 +3077,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -3217,8 +3107,7 @@ public struct UpdateAlertInput: Swift.Sendable {
         alertDescription: Swift.String? = nil,
         alertFilters: LookoutMetricsClientTypes.AlertFilters? = nil,
         alertSensitivityThreshold: Swift.Int? = 0
-    )
-    {
+    ) {
         self.action = action
         self.alertArn = alertArn
         self.alertDescription = alertDescription
@@ -3233,8 +3122,7 @@ public struct UpdateAlertOutput: Swift.Sendable {
 
     public init(
         alertArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.alertArn = alertArn
     }
 }
@@ -3255,8 +3143,7 @@ public struct UpdateAnomalyDetectorInput: Swift.Sendable {
         anomalyDetectorConfig: LookoutMetricsClientTypes.AnomalyDetectorConfig? = nil,
         anomalyDetectorDescription: Swift.String? = nil,
         kmsKeyArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorArn = anomalyDetectorArn
         self.anomalyDetectorConfig = anomalyDetectorConfig
         self.anomalyDetectorDescription = anomalyDetectorDescription
@@ -3270,8 +3157,7 @@ public struct UpdateAnomalyDetectorOutput: Swift.Sendable {
 
     public init(
         anomalyDetectorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorArn = anomalyDetectorArn
     }
 }
@@ -3307,8 +3193,7 @@ public struct UpdateMetricSetInput: Swift.Sendable {
         metricSource: LookoutMetricsClientTypes.MetricSource? = nil,
         offset: Swift.Int? = 0,
         timestampColumn: LookoutMetricsClientTypes.TimestampColumn? = nil
-    )
-    {
+    ) {
         self.dimensionFilterList = dimensionFilterList
         self.dimensionList = dimensionList
         self.metricList = metricList
@@ -3327,8 +3212,7 @@ public struct UpdateMetricSetOutput: Swift.Sendable {
 
     public init(
         metricSetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.metricSetArn = metricSetArn
     }
 }

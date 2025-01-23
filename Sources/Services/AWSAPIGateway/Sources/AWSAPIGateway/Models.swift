@@ -70,6 +70,11 @@ public struct DeleteDocumentationVersionOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteDomainNameAccessAssociationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteDomainNameOutput: Swift.Sendable {
 
     public init() { }
@@ -150,6 +155,11 @@ public struct FlushStageCacheOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct RejectDomainNameAccessAssociationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct TagResourceOutput: Swift.Sendable {
 
     public init() { }
@@ -158,6 +168,32 @@ public struct TagResourceOutput: Swift.Sendable {
 public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
+}
+
+extension APIGatewayClientTypes {
+
+    public enum AccessAssociationSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case vpce
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccessAssociationSourceType] {
+            return [
+                .vpce
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .vpce: return "VPCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
 }
 
 extension APIGatewayClientTypes {
@@ -172,8 +208,7 @@ extension APIGatewayClientTypes {
         public init(
             destinationArn: Swift.String? = nil,
             format: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationArn = destinationArn
             self.format = format
         }
@@ -192,8 +227,7 @@ extension APIGatewayClientTypes {
         public init(
             burstLimit: Swift.Int = 0,
             rateLimit: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.burstLimit = burstLimit
             self.rateLimit = rateLimit
         }
@@ -236,8 +270,7 @@ extension APIGatewayClientTypes {
             stageKeys: [Swift.String]? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdDate = createdDate
             self.customerId = customerId
             self.description = description
@@ -322,8 +355,7 @@ extension APIGatewayClientTypes {
             apiId: Swift.String? = nil,
             stage: Swift.String? = nil,
             throttle: [Swift.String: APIGatewayClientTypes.ThrottleSettings]? = nil
-        )
-        {
+        ) {
             self.apiId = apiId
             self.stage = stage
             self.throttle = throttle
@@ -400,8 +432,7 @@ extension APIGatewayClientTypes {
             name: Swift.String? = nil,
             providerARNs: [Swift.String]? = nil,
             type: APIGatewayClientTypes.AuthorizerType? = nil
-        )
-        {
+        ) {
             self.authType = authType
             self.authorizerCredentials = authorizerCredentials
             self.authorizerResultTtlInSeconds = authorizerResultTtlInSeconds
@@ -417,9 +448,9 @@ extension APIGatewayClientTypes {
 }
 
 /// The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -434,16 +465,15 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request configuration has conflicts. For details, see the accompanying error message.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -458,16 +488,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request exceeded the rate limit. Retry after the specified time period.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var retryAfterSeconds: Swift.String? = nil
     }
@@ -484,17 +513,16 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
 }
 
 /// The requested resource is not found. Make sure that the request URI is correct.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -509,16 +537,15 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request has reached its throttling limit. Retry after the specified time period.
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var retryAfterSeconds: Swift.String? = nil
     }
@@ -535,17 +562,16 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
 }
 
 /// The request is denied because the caller has insufficient permissions.
-public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -560,8 +586,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -578,8 +603,7 @@ extension APIGatewayClientTypes {
         public init(
             restApiId: Swift.String? = nil,
             stageName: Swift.String? = nil
-        )
-        {
+        ) {
             self.restApiId = restApiId
             self.stageName = stageName
         }
@@ -614,8 +638,7 @@ public struct CreateApiKeyInput: Swift.Sendable {
         stageKeys: [APIGatewayClientTypes.StageKey]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         value: Swift.String? = nil
-    )
-    {
+    ) {
         self.customerId = customerId
         self.description = description
         self.enabled = enabled
@@ -661,8 +684,7 @@ public struct CreateApiKeyOutput: Swift.Sendable {
         stageKeys: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         value: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdDate = createdDate
         self.customerId = customerId
         self.description = description
@@ -713,8 +735,7 @@ public struct CreateAuthorizerInput: Swift.Sendable {
         providerARNs: [Swift.String]? = nil,
         restApiId: Swift.String? = nil,
         type: APIGatewayClientTypes.AuthorizerType? = nil
-    )
-    {
+    ) {
         self.authType = authType
         self.authorizerCredentials = authorizerCredentials
         self.authorizerResultTtlInSeconds = authorizerResultTtlInSeconds
@@ -762,8 +783,7 @@ public struct CreateAuthorizerOutput: Swift.Sendable {
         name: Swift.String? = nil,
         providerARNs: [Swift.String]? = nil,
         type: APIGatewayClientTypes.AuthorizerType? = nil
-    )
-    {
+    ) {
         self.authType = authType
         self.authorizerCredentials = authorizerCredentials
         self.authorizerResultTtlInSeconds = authorizerResultTtlInSeconds
@@ -784,6 +804,8 @@ public struct CreateBasePathMappingInput: Swift.Sendable {
     /// The domain name of the BasePathMapping resource to create.
     /// This member is required.
     public var domainName: Swift.String?
+    /// The identifier for the domain name resource. Required for private custom domain names.
+    public var domainNameId: Swift.String?
     /// The string identifier of the associated RestApi.
     /// This member is required.
     public var restApiId: Swift.String?
@@ -793,12 +815,13 @@ public struct CreateBasePathMappingInput: Swift.Sendable {
     public init(
         basePath: Swift.String? = nil,
         domainName: Swift.String? = nil,
+        domainNameId: Swift.String? = nil,
         restApiId: Swift.String? = nil,
         stage: Swift.String? = nil
-    )
-    {
+    ) {
         self.basePath = basePath
         self.domainName = domainName
+        self.domainNameId = domainNameId
         self.restApiId = restApiId
         self.stage = stage
     }
@@ -817,8 +840,7 @@ public struct CreateBasePathMappingOutput: Swift.Sendable {
         basePath: Swift.String? = nil,
         restApiId: Swift.String? = nil,
         stage: Swift.String? = nil
-    )
-    {
+    ) {
         self.basePath = basePath
         self.restApiId = restApiId
         self.stage = stage
@@ -826,9 +848,9 @@ public struct CreateBasePathMappingOutput: Swift.Sendable {
 }
 
 /// The requested service is not available. For details see the accompanying error message. Retry after the specified time period.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var retryAfterSeconds: Swift.String? = nil
     }
@@ -845,8 +867,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -915,8 +936,7 @@ extension APIGatewayClientTypes {
             percentTraffic: Swift.Double = 0.0,
             stageVariableOverrides: [Swift.String: Swift.String]? = nil,
             useStageCache: Swift.Bool = false
-        )
-        {
+        ) {
             self.percentTraffic = percentTraffic
             self.stageVariableOverrides = stageVariableOverrides
             self.useStageCache = useStageCache
@@ -956,8 +976,7 @@ public struct CreateDeploymentInput: Swift.Sendable {
         stageName: Swift.String? = nil,
         tracingEnabled: Swift.Bool? = nil,
         variables: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.cacheClusterEnabled = cacheClusterEnabled
         self.cacheClusterSize = cacheClusterSize
         self.canarySettings = canarySettings
@@ -982,8 +1001,7 @@ extension APIGatewayClientTypes {
         public init(
             apiKeyRequired: Swift.Bool = false,
             authorizationType: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiKeyRequired = apiKeyRequired
             self.authorizationType = authorizationType
         }
@@ -1006,8 +1024,7 @@ public struct CreateDeploymentOutput: Swift.Sendable {
         createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiSummary = apiSummary
         self.createdDate = createdDate
         self.description = description
@@ -1096,8 +1113,7 @@ extension APIGatewayClientTypes {
             path: Swift.String? = nil,
             statusCode: Swift.String? = nil,
             type: APIGatewayClientTypes.DocumentationPartType? = nil
-        )
-        {
+        ) {
             self.method = method
             self.name = name
             self.path = path
@@ -1123,8 +1139,7 @@ public struct CreateDocumentationPartInput: Swift.Sendable {
         location: APIGatewayClientTypes.DocumentationPartLocation? = nil,
         properties: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.location = location
         self.properties = properties
         self.restApiId = restApiId
@@ -1144,8 +1159,7 @@ public struct CreateDocumentationPartOutput: Swift.Sendable {
         id: Swift.String? = nil,
         location: APIGatewayClientTypes.DocumentationPartLocation? = nil,
         properties: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.location = location
         self.properties = properties
@@ -1170,8 +1184,7 @@ public struct CreateDocumentationVersionInput: Swift.Sendable {
         documentationVersion: Swift.String? = nil,
         restApiId: Swift.String? = nil,
         stageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.documentationVersion = documentationVersion
         self.restApiId = restApiId
@@ -1192,8 +1205,7 @@ public struct CreateDocumentationVersionOutput: Swift.Sendable {
         createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdDate = createdDate
         self.description = description
         self.version = version
@@ -1245,8 +1257,7 @@ extension APIGatewayClientTypes {
         public init(
             types: [APIGatewayClientTypes.EndpointType]? = nil,
             vpcEndpointIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.types = types
             self.vpcEndpointIds = vpcEndpointIds
         }
@@ -1265,8 +1276,7 @@ extension APIGatewayClientTypes {
         public init(
             truststoreUri: Swift.String? = nil,
             truststoreVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.truststoreUri = truststoreUri
             self.truststoreVersion = truststoreVersion
         }
@@ -1304,13 +1314,13 @@ extension APIGatewayClientTypes {
 
 /// A request to create a new domain name.
 public struct CreateDomainNameInput: Swift.Sendable {
-    /// The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint for this domain name. Certificate Manager is the only supported source.
+    /// The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint or private endpoint for this domain name. Certificate Manager is the only supported source.
     public var certificateArn: Swift.String?
-    /// [Deprecated] The body of the server certificate that will be used by edge-optimized endpoint for this domain name provided by your certificate authority.
+    /// [Deprecated] The body of the server certificate that will be used by edge-optimized endpoint or private endpoint for this domain name provided by your certificate authority.
     public var certificateBody: Swift.String?
     /// [Deprecated] The intermediate certificates and optionally the root certificate, one after the other without any blank lines, used by an edge-optimized endpoint for this domain name. If you include the root certificate, your certificate chain must start with intermediate certificates and end with the root certificate. Use the intermediate certificates that were provided by your certificate authority. Do not include any intermediaries that are not in the chain of trust path.
     public var certificateChain: Swift.String?
-    /// The user-friendly name of the certificate that will be used by edge-optimized endpoint for this domain name.
+    /// The user-friendly name of the certificate that will be used by edge-optimized endpoint or private endpoint for this domain name.
     public var certificateName: Swift.String?
     /// [Deprecated] Your edge-optimized endpoint's domain name certificate's private key.
     public var certificatePrivateKey: Swift.String?
@@ -1323,6 +1333,8 @@ public struct CreateDomainNameInput: Swift.Sendable {
     public var mutualTlsAuthentication: APIGatewayClientTypes.MutualTlsAuthenticationInput?
     /// The ARN of the public certificate issued by ACM to validate ownership of your custom domain. Only required when configuring mutual TLS and using an ACM imported or private CA certificate ARN as the regionalCertificateArn.
     public var ownershipVerificationCertificateArn: Swift.String?
+    /// A stringified JSON policy document that applies to the execute-api service for this DomainName regardless of the caller and Method configuration. Supported only for private custom domain names.
+    public var policy: Swift.String?
     /// The reference to an Amazon Web Services-managed certificate that will be used by regional endpoint for this domain name. Certificate Manager is the only supported source.
     public var regionalCertificateArn: Swift.String?
     /// The user-friendly name of the certificate that will be used by regional endpoint for this domain name.
@@ -1342,12 +1354,12 @@ public struct CreateDomainNameInput: Swift.Sendable {
         endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration? = nil,
         mutualTlsAuthentication: APIGatewayClientTypes.MutualTlsAuthenticationInput? = nil,
         ownershipVerificationCertificateArn: Swift.String? = nil,
+        policy: Swift.String? = nil,
         regionalCertificateArn: Swift.String? = nil,
         regionalCertificateName: Swift.String? = nil,
         securityPolicy: APIGatewayClientTypes.SecurityPolicy? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.certificateArn = certificateArn
         self.certificateBody = certificateBody
         self.certificateChain = certificateChain
@@ -1357,6 +1369,7 @@ public struct CreateDomainNameInput: Swift.Sendable {
         self.endpointConfiguration = endpointConfiguration
         self.mutualTlsAuthentication = mutualTlsAuthentication
         self.ownershipVerificationCertificateArn = ownershipVerificationCertificateArn
+        self.policy = policy
         self.regionalCertificateArn = regionalCertificateArn
         self.regionalCertificateName = regionalCertificateName
         self.securityPolicy = securityPolicy
@@ -1417,8 +1430,7 @@ extension APIGatewayClientTypes {
             truststoreUri: Swift.String? = nil,
             truststoreVersion: Swift.String? = nil,
             truststoreWarnings: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.truststoreUri = truststoreUri
             self.truststoreVersion = truststoreVersion
             self.truststoreWarnings = truststoreWarnings
@@ -1428,11 +1440,11 @@ extension APIGatewayClientTypes {
 
 /// Represents a custom domain name as a user-friendly host name of an API (RestApi).
 public struct CreateDomainNameOutput: Swift.Sendable {
-    /// The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint for this domain name. Certificate Manager is the only supported source.
+    /// The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint or private endpoint for this domain name. Certificate Manager is the only supported source.
     public var certificateArn: Swift.String?
-    /// The name of the certificate that will be used by edge-optimized endpoint for this domain name.
+    /// The name of the certificate that will be used by edge-optimized endpoint or private endpoint for this domain name.
     public var certificateName: Swift.String?
-    /// The timestamp when the certificate that was used by edge-optimized endpoint for this domain name was uploaded. API Gateway doesn't change this value if you update the certificate.
+    /// The timestamp when the certificate that was used by edge-optimized endpoint or private endpoint for this domain name was uploaded.
     public var certificateUploadDate: Foundation.Date?
     /// The domain name of the Amazon CloudFront distribution associated with this custom domain name for an edge-optimized endpoint. You set up this association when adding a DNS record pointing the custom domain name to this distribution name. For more information about CloudFront distributions, see the Amazon CloudFront documentation.
     public var distributionDomainName: Swift.String?
@@ -1440,16 +1452,24 @@ public struct CreateDomainNameOutput: Swift.Sendable {
     public var distributionHostedZoneId: Swift.String?
     /// The custom domain name as an API host name, for example, my-api.example.com.
     public var domainName: Swift.String?
+    /// The ARN of the domain name. Supported only for private custom domain names.
+    public var domainNameArn: Swift.String?
+    /// The identifier for the domain name resource. Supported only for private custom domain names.
+    public var domainNameId: Swift.String?
     /// The status of the DomainName migration. The valid values are AVAILABLE and UPDATING. If the status is UPDATING, the domain cannot be modified further until the existing operation is complete. If it is AVAILABLE, the domain can be updated.
     public var domainNameStatus: APIGatewayClientTypes.DomainNameStatus?
     /// An optional text message containing detailed information about status of the DomainName migration.
     public var domainNameStatusMessage: Swift.String?
     /// The endpoint configuration of this DomainName showing the endpoint types of the domain name.
     public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
+    /// A stringified JSON policy document that applies to the API Gateway Management service for this DomainName. This policy document controls access for access association sources to create domain name access associations with this DomainName. Supported only for private custom domain names.
+    public var managementPolicy: Swift.String?
     /// The mutual TLS authentication configuration for a custom domain name. If specified, API Gateway performs two-way authentication between the client and the server. Clients must present a trusted certificate to access your API.
     public var mutualTlsAuthentication: APIGatewayClientTypes.MutualTlsAuthentication?
     /// The ARN of the public certificate issued by ACM to validate ownership of your custom domain. Only required when configuring mutual TLS and using an ACM imported or private CA certificate ARN as the regionalCertificateArn.
     public var ownershipVerificationCertificateArn: Swift.String?
+    /// A stringified JSON policy document that applies to the execute-api service for this DomainName regardless of the caller and Method configuration. Supported only for private custom domain names.
+    public var policy: Swift.String?
     /// The reference to an Amazon Web Services-managed certificate that will be used for validating the regional domain name. Certificate Manager is the only supported source.
     public var regionalCertificateArn: Swift.String?
     /// The name of the certificate that will be used for validating the regional domain name.
@@ -1470,35 +1490,96 @@ public struct CreateDomainNameOutput: Swift.Sendable {
         distributionDomainName: Swift.String? = nil,
         distributionHostedZoneId: Swift.String? = nil,
         domainName: Swift.String? = nil,
+        domainNameArn: Swift.String? = nil,
+        domainNameId: Swift.String? = nil,
         domainNameStatus: APIGatewayClientTypes.DomainNameStatus? = nil,
         domainNameStatusMessage: Swift.String? = nil,
         endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration? = nil,
+        managementPolicy: Swift.String? = nil,
         mutualTlsAuthentication: APIGatewayClientTypes.MutualTlsAuthentication? = nil,
         ownershipVerificationCertificateArn: Swift.String? = nil,
+        policy: Swift.String? = nil,
         regionalCertificateArn: Swift.String? = nil,
         regionalCertificateName: Swift.String? = nil,
         regionalDomainName: Swift.String? = nil,
         regionalHostedZoneId: Swift.String? = nil,
         securityPolicy: APIGatewayClientTypes.SecurityPolicy? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.certificateArn = certificateArn
         self.certificateName = certificateName
         self.certificateUploadDate = certificateUploadDate
         self.distributionDomainName = distributionDomainName
         self.distributionHostedZoneId = distributionHostedZoneId
         self.domainName = domainName
+        self.domainNameArn = domainNameArn
+        self.domainNameId = domainNameId
         self.domainNameStatus = domainNameStatus
         self.domainNameStatusMessage = domainNameStatusMessage
         self.endpointConfiguration = endpointConfiguration
+        self.managementPolicy = managementPolicy
         self.mutualTlsAuthentication = mutualTlsAuthentication
         self.ownershipVerificationCertificateArn = ownershipVerificationCertificateArn
+        self.policy = policy
         self.regionalCertificateArn = regionalCertificateArn
         self.regionalCertificateName = regionalCertificateName
         self.regionalDomainName = regionalDomainName
         self.regionalHostedZoneId = regionalHostedZoneId
         self.securityPolicy = securityPolicy
+        self.tags = tags
+    }
+}
+
+public struct CreateDomainNameAccessAssociationInput: Swift.Sendable {
+    /// The identifier of the domain name access association source. For a VPCE, the value is the VPC endpoint ID.
+    /// This member is required.
+    public var accessAssociationSource: Swift.String?
+    /// The type of the domain name access association source.
+    /// This member is required.
+    public var accessAssociationSourceType: APIGatewayClientTypes.AccessAssociationSourceType?
+    /// The ARN of the domain name.
+    /// This member is required.
+    public var domainNameArn: Swift.String?
+    /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        accessAssociationSource: Swift.String? = nil,
+        accessAssociationSourceType: APIGatewayClientTypes.AccessAssociationSourceType? = nil,
+        domainNameArn: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.accessAssociationSource = accessAssociationSource
+        self.accessAssociationSourceType = accessAssociationSourceType
+        self.domainNameArn = domainNameArn
+        self.tags = tags
+    }
+}
+
+/// Represents a domain name access association between an access association source and a private custom domain name. With a domain name access association, an access association source can invoke a private custom domain name while isolated from the public internet.
+public struct CreateDomainNameAccessAssociationOutput: Swift.Sendable {
+    /// The ARN of the domain name access association source. For a VPCE, the ARN must be a VPC endpoint.
+    public var accessAssociationSource: Swift.String?
+    /// The type of the domain name access association source.
+    public var accessAssociationSourceType: APIGatewayClientTypes.AccessAssociationSourceType?
+    /// The ARN of the domain name access association resource.
+    public var domainNameAccessAssociationArn: Swift.String?
+    /// The ARN of the domain name.
+    public var domainNameArn: Swift.String?
+    /// The collection of tags. Each tag element is associated with a given resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        accessAssociationSource: Swift.String? = nil,
+        accessAssociationSourceType: APIGatewayClientTypes.AccessAssociationSourceType? = nil,
+        domainNameAccessAssociationArn: Swift.String? = nil,
+        domainNameArn: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.accessAssociationSource = accessAssociationSource
+        self.accessAssociationSourceType = accessAssociationSourceType
+        self.domainNameAccessAssociationArn = domainNameAccessAssociationArn
+        self.domainNameArn = domainNameArn
         self.tags = tags
     }
 }
@@ -1525,8 +1606,7 @@ public struct CreateModelInput: Swift.Sendable {
         name: Swift.String? = nil,
         restApiId: Swift.String? = nil,
         schema: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentType = contentType
         self.description = description
         self.name = name
@@ -1554,8 +1634,7 @@ public struct CreateModelOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         schema: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentType = contentType
         self.description = description
         self.id = id
@@ -1581,8 +1660,7 @@ public struct CreateRequestValidatorInput: Swift.Sendable {
         restApiId: Swift.String? = nil,
         validateRequestBody: Swift.Bool? = false,
         validateRequestParameters: Swift.Bool? = false
-    )
-    {
+    ) {
         self.name = name
         self.restApiId = restApiId
         self.validateRequestBody = validateRequestBody
@@ -1606,8 +1684,7 @@ public struct CreateRequestValidatorOutput: Swift.Sendable {
         name: Swift.String? = nil,
         validateRequestBody: Swift.Bool = false,
         validateRequestParameters: Swift.Bool = false
-    )
-    {
+    ) {
         self.id = id
         self.name = name
         self.validateRequestBody = validateRequestBody
@@ -1631,8 +1708,7 @@ public struct CreateResourceInput: Swift.Sendable {
         parentId: Swift.String? = nil,
         pathPart: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.parentId = parentId
         self.pathPart = pathPart
         self.restApiId = restApiId
@@ -1718,8 +1794,7 @@ extension APIGatewayClientTypes {
             responseTemplates: [Swift.String: Swift.String]? = nil,
             selectionPattern: Swift.String? = nil,
             statusCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentHandling = contentHandling
             self.responseParameters = responseParameters
             self.responseTemplates = responseTemplates
@@ -1738,8 +1813,7 @@ extension APIGatewayClientTypes {
 
         public init(
             insecureSkipVerification: Swift.Bool = false
-        )
-        {
+        ) {
             self.insecureSkipVerification = insecureSkipVerification
         }
     }
@@ -1835,8 +1909,7 @@ extension APIGatewayClientTypes {
             tlsConfig: APIGatewayClientTypes.TlsConfig? = nil,
             type: APIGatewayClientTypes.IntegrationType? = nil,
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.cacheKeyParameters = cacheKeyParameters
             self.cacheNamespace = cacheNamespace
             self.connectionId = connectionId
@@ -1871,8 +1944,7 @@ extension APIGatewayClientTypes {
             responseModels: [Swift.String: Swift.String]? = nil,
             responseParameters: [Swift.String: Swift.Bool]? = nil,
             statusCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.responseModels = responseModels
             self.responseParameters = responseParameters
             self.statusCode = statusCode
@@ -1919,8 +1991,7 @@ extension APIGatewayClientTypes {
             requestModels: [Swift.String: Swift.String]? = nil,
             requestParameters: [Swift.String: Swift.Bool]? = nil,
             requestValidatorId: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiKeyRequired = apiKeyRequired
             self.authorizationScopes = authorizationScopes
             self.authorizationType = authorizationType
@@ -1955,8 +2026,7 @@ public struct CreateResourceOutput: Swift.Sendable {
         path: Swift.String? = nil,
         pathPart: Swift.String? = nil,
         resourceMethods: [Swift.String: APIGatewayClientTypes.Method]? = nil
-    )
-    {
+    ) {
         self.id = id
         self.parentId = parentId
         self.path = path
@@ -2003,8 +2073,7 @@ public struct CreateRestApiInput: Swift.Sendable {
         policy: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiKeySource = apiKeySource
         self.binaryMediaTypes = binaryMediaTypes
         self.cloneFrom = cloneFrom
@@ -2065,8 +2134,7 @@ public struct CreateRestApiOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         version: Swift.String? = nil,
         warnings: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.apiKeySource = apiKeySource
         self.binaryMediaTypes = binaryMediaTypes
         self.createdDate = createdDate
@@ -2102,8 +2170,7 @@ extension APIGatewayClientTypes {
             percentTraffic: Swift.Double = 0.0,
             stageVariableOverrides: [Swift.String: Swift.String]? = nil,
             useStageCache: Swift.Bool = false
-        )
-        {
+        ) {
             self.deploymentId = deploymentId
             self.percentTraffic = percentTraffic
             self.stageVariableOverrides = stageVariableOverrides
@@ -2152,8 +2219,7 @@ public struct CreateStageInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         tracingEnabled: Swift.Bool? = false,
         variables: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.cacheClusterEnabled = cacheClusterEnabled
         self.cacheClusterSize = cacheClusterSize
         self.canarySettings = canarySettings
@@ -2275,8 +2341,7 @@ extension APIGatewayClientTypes {
             throttlingBurstLimit: Swift.Int = 0,
             throttlingRateLimit: Swift.Double = 0.0,
             unauthorizedCacheControlHeaderStrategy: APIGatewayClientTypes.UnauthorizedCacheControlHeaderStrategy? = nil
-        )
-        {
+        ) {
             self.cacheDataEncrypted = cacheDataEncrypted
             self.cacheTtlInSeconds = cacheTtlInSeconds
             self.cachingEnabled = cachingEnabled
@@ -2346,8 +2411,7 @@ public struct CreateStageOutput: Swift.Sendable {
         tracingEnabled: Swift.Bool = false,
         variables: [Swift.String: Swift.String]? = nil,
         webAclArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessLogSettings = accessLogSettings
         self.cacheClusterEnabled = cacheClusterEnabled
         self.cacheClusterSize = cacheClusterSize
@@ -2415,8 +2479,7 @@ extension APIGatewayClientTypes {
             limit: Swift.Int = 0,
             offset: Swift.Int = 0,
             period: APIGatewayClientTypes.QuotaPeriodType? = nil
-        )
-        {
+        ) {
             self.limit = limit
             self.offset = offset
             self.period = period
@@ -2447,8 +2510,7 @@ public struct CreateUsagePlanInput: Swift.Sendable {
         quota: APIGatewayClientTypes.QuotaSettings? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         throttle: APIGatewayClientTypes.ThrottleSettings? = nil
-    )
-    {
+    ) {
         self.apiStages = apiStages
         self.description = description
         self.name = name
@@ -2486,8 +2548,7 @@ public struct CreateUsagePlanOutput: Swift.Sendable {
         quota: APIGatewayClientTypes.QuotaSettings? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         throttle: APIGatewayClientTypes.ThrottleSettings? = nil
-    )
-    {
+    ) {
         self.apiStages = apiStages
         self.description = description
         self.id = id
@@ -2515,8 +2576,7 @@ public struct CreateUsagePlanKeyInput: Swift.Sendable {
         keyId: Swift.String? = nil,
         keyType: Swift.String? = nil,
         usagePlanId: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.keyType = keyType
         self.usagePlanId = usagePlanId
@@ -2539,8 +2599,7 @@ public struct CreateUsagePlanKeyOutput: Swift.Sendable {
         name: Swift.String? = nil,
         type: Swift.String? = nil,
         value: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.name = name
         self.type = type
@@ -2566,8 +2625,7 @@ public struct CreateVpcLinkInput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         targetArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.tags = tags
@@ -2635,8 +2693,7 @@ public struct CreateVpcLinkOutput: Swift.Sendable {
         statusMessage: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         targetArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.id = id
         self.name = name
@@ -2655,8 +2712,7 @@ public struct DeleteApiKeyInput: Swift.Sendable {
 
     public init(
         apiKey: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiKey = apiKey
     }
 }
@@ -2673,8 +2729,7 @@ public struct DeleteAuthorizerInput: Swift.Sendable {
     public init(
         authorizerId: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorizerId = authorizerId
         self.restApiId = restApiId
     }
@@ -2688,14 +2743,17 @@ public struct DeleteBasePathMappingInput: Swift.Sendable {
     /// The domain name of the BasePathMapping resource to delete.
     /// This member is required.
     public var domainName: Swift.String?
+    /// The identifier for the domain name resource. Supported only for private custom domain names.
+    public var domainNameId: Swift.String?
 
     public init(
         basePath: Swift.String? = nil,
-        domainName: Swift.String? = nil
-    )
-    {
+        domainName: Swift.String? = nil,
+        domainNameId: Swift.String? = nil
+    ) {
         self.basePath = basePath
         self.domainName = domainName
+        self.domainNameId = domainNameId
     }
 }
 
@@ -2707,8 +2765,7 @@ public struct DeleteClientCertificateInput: Swift.Sendable {
 
     public init(
         clientCertificateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientCertificateId = clientCertificateId
     }
 }
@@ -2725,8 +2782,7 @@ public struct DeleteDeploymentInput: Swift.Sendable {
     public init(
         deploymentId: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deploymentId = deploymentId
         self.restApiId = restApiId
     }
@@ -2744,8 +2800,7 @@ public struct DeleteDocumentationPartInput: Swift.Sendable {
     public init(
         documentationPartId: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.documentationPartId = documentationPartId
         self.restApiId = restApiId
     }
@@ -2763,8 +2818,7 @@ public struct DeleteDocumentationVersionInput: Swift.Sendable {
     public init(
         documentationVersion: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.documentationVersion = documentationVersion
         self.restApiId = restApiId
     }
@@ -2775,12 +2829,27 @@ public struct DeleteDomainNameInput: Swift.Sendable {
     /// The name of the DomainName resource to be deleted.
     /// This member is required.
     public var domainName: Swift.String?
+    /// The identifier for the domain name resource. Supported only for private custom domain names.
+    public var domainNameId: Swift.String?
 
     public init(
-        domainName: Swift.String? = nil
-    )
-    {
+        domainName: Swift.String? = nil,
+        domainNameId: Swift.String? = nil
+    ) {
         self.domainName = domainName
+        self.domainNameId = domainNameId
+    }
+}
+
+public struct DeleteDomainNameAccessAssociationInput: Swift.Sendable {
+    /// The ARN of the domain name access association resource.
+    /// This member is required.
+    public var domainNameAccessAssociationArn: Swift.String?
+
+    public init(
+        domainNameAccessAssociationArn: Swift.String? = nil
+    ) {
+        self.domainNameAccessAssociationArn = domainNameAccessAssociationArn
     }
 }
 
@@ -2882,8 +2951,7 @@ public struct DeleteGatewayResponseInput: Swift.Sendable {
     public init(
         responseType: APIGatewayClientTypes.GatewayResponseType? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.responseType = responseType
         self.restApiId = restApiId
     }
@@ -2905,8 +2973,7 @@ public struct DeleteIntegrationInput: Swift.Sendable {
         httpMethod: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.httpMethod = httpMethod
         self.resourceId = resourceId
         self.restApiId = restApiId
@@ -2933,8 +3000,7 @@ public struct DeleteIntegrationResponseInput: Swift.Sendable {
         resourceId: Swift.String? = nil,
         restApiId: Swift.String? = nil,
         statusCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.httpMethod = httpMethod
         self.resourceId = resourceId
         self.restApiId = restApiId
@@ -2958,8 +3024,7 @@ public struct DeleteMethodInput: Swift.Sendable {
         httpMethod: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.httpMethod = httpMethod
         self.resourceId = resourceId
         self.restApiId = restApiId
@@ -2986,8 +3051,7 @@ public struct DeleteMethodResponseInput: Swift.Sendable {
         resourceId: Swift.String? = nil,
         restApiId: Swift.String? = nil,
         statusCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.httpMethod = httpMethod
         self.resourceId = resourceId
         self.restApiId = restApiId
@@ -3007,8 +3071,7 @@ public struct DeleteModelInput: Swift.Sendable {
     public init(
         modelName: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelName = modelName
         self.restApiId = restApiId
     }
@@ -3026,8 +3089,7 @@ public struct DeleteRequestValidatorInput: Swift.Sendable {
     public init(
         requestValidatorId: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.requestValidatorId = requestValidatorId
         self.restApiId = restApiId
     }
@@ -3045,8 +3107,7 @@ public struct DeleteResourceInput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.restApiId = restApiId
     }
@@ -3060,8 +3121,7 @@ public struct DeleteRestApiInput: Swift.Sendable {
 
     public init(
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.restApiId = restApiId
     }
 }
@@ -3078,8 +3138,7 @@ public struct DeleteStageInput: Swift.Sendable {
     public init(
         restApiId: Swift.String? = nil,
         stageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.restApiId = restApiId
         self.stageName = stageName
     }
@@ -3093,8 +3152,7 @@ public struct DeleteUsagePlanInput: Swift.Sendable {
 
     public init(
         usagePlanId: Swift.String? = nil
-    )
-    {
+    ) {
         self.usagePlanId = usagePlanId
     }
 }
@@ -3111,8 +3169,7 @@ public struct DeleteUsagePlanKeyInput: Swift.Sendable {
     public init(
         keyId: Swift.String? = nil,
         usagePlanId: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.usagePlanId = usagePlanId
     }
@@ -3126,8 +3183,7 @@ public struct DeleteVpcLinkInput: Swift.Sendable {
 
     public init(
         vpcLinkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.vpcLinkId = vpcLinkId
     }
 }
@@ -3144,8 +3200,7 @@ public struct FlushStageAuthorizersCacheInput: Swift.Sendable {
     public init(
         restApiId: Swift.String? = nil,
         stageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.restApiId = restApiId
         self.stageName = stageName
     }
@@ -3163,8 +3218,7 @@ public struct FlushStageCacheInput: Swift.Sendable {
     public init(
         restApiId: Swift.String? = nil,
         stageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.restApiId = restApiId
         self.stageName = stageName
     }
@@ -3180,8 +3234,7 @@ public struct GenerateClientCertificateInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.tags = tags
     }
@@ -3209,8 +3262,7 @@ public struct GenerateClientCertificateOutput: Swift.Sendable {
         expirationDate: Foundation.Date? = nil,
         pemEncodedCertificate: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientCertificateId = clientCertificateId
         self.createdDate = createdDate
         self.description = description
@@ -3242,8 +3294,7 @@ public struct GetAccountOutput: Swift.Sendable {
         cloudwatchRoleArn: Swift.String? = nil,
         features: [Swift.String]? = nil,
         throttleSettings: APIGatewayClientTypes.ThrottleSettings? = nil
-    )
-    {
+    ) {
         self.apiKeyVersion = apiKeyVersion
         self.cloudwatchRoleArn = cloudwatchRoleArn
         self.features = features
@@ -3262,8 +3313,7 @@ public struct GetApiKeyInput: Swift.Sendable {
     public init(
         apiKey: Swift.String? = nil,
         includeValue: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.apiKey = apiKey
         self.includeValue = includeValue
     }
@@ -3303,8 +3353,7 @@ public struct GetApiKeyOutput: Swift.Sendable {
         stageKeys: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         value: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdDate = createdDate
         self.customerId = customerId
         self.description = description
@@ -3337,8 +3386,7 @@ public struct GetApiKeysInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nameQuery: Swift.String? = nil,
         position: Swift.String? = nil
-    )
-    {
+    ) {
         self.customerId = customerId
         self.includeValues = includeValues
         self.limit = limit
@@ -3360,8 +3408,7 @@ public struct GetApiKeysOutput: Swift.Sendable {
         items: [APIGatewayClientTypes.ApiKey]? = nil,
         position: Swift.String? = nil,
         warnings: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.items = items
         self.position = position
         self.warnings = warnings
@@ -3380,8 +3427,7 @@ public struct GetAuthorizerInput: Swift.Sendable {
     public init(
         authorizerId: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorizerId = authorizerId
         self.restApiId = restApiId
     }
@@ -3421,8 +3467,7 @@ public struct GetAuthorizerOutput: Swift.Sendable {
         name: Swift.String? = nil,
         providerARNs: [Swift.String]? = nil,
         type: APIGatewayClientTypes.AuthorizerType? = nil
-    )
-    {
+    ) {
         self.authType = authType
         self.authorizerCredentials = authorizerCredentials
         self.authorizerResultTtlInSeconds = authorizerResultTtlInSeconds
@@ -3450,8 +3495,7 @@ public struct GetAuthorizersInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         position: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.position = position
         self.restApiId = restApiId
@@ -3468,8 +3512,7 @@ public struct GetAuthorizersOutput: Swift.Sendable {
     public init(
         items: [APIGatewayClientTypes.Authorizer]? = nil,
         position: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.position = position
     }
@@ -3483,14 +3526,17 @@ public struct GetBasePathMappingInput: Swift.Sendable {
     /// The domain name of the BasePathMapping resource to be described.
     /// This member is required.
     public var domainName: Swift.String?
+    /// The identifier for the domain name resource. Supported only for private custom domain names.
+    public var domainNameId: Swift.String?
 
     public init(
         basePath: Swift.String? = nil,
-        domainName: Swift.String? = nil
-    )
-    {
+        domainName: Swift.String? = nil,
+        domainNameId: Swift.String? = nil
+    ) {
         self.basePath = basePath
         self.domainName = domainName
+        self.domainNameId = domainNameId
     }
 }
 
@@ -3507,8 +3553,7 @@ public struct GetBasePathMappingOutput: Swift.Sendable {
         basePath: Swift.String? = nil,
         restApiId: Swift.String? = nil,
         stage: Swift.String? = nil
-    )
-    {
+    ) {
         self.basePath = basePath
         self.restApiId = restApiId
         self.stage = stage
@@ -3520,6 +3565,8 @@ public struct GetBasePathMappingsInput: Swift.Sendable {
     /// The domain name of a BasePathMapping resource.
     /// This member is required.
     public var domainName: Swift.String?
+    /// The identifier for the domain name resource. Supported only for private custom domain names.
+    public var domainNameId: Swift.String?
     /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
     public var limit: Swift.Int?
     /// The current pagination position in the paged result set.
@@ -3527,11 +3574,12 @@ public struct GetBasePathMappingsInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil,
+        domainNameId: Swift.String? = nil,
         limit: Swift.Int? = nil,
         position: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
+        self.domainNameId = domainNameId
         self.limit = limit
         self.position = position
     }
@@ -3552,8 +3600,7 @@ extension APIGatewayClientTypes {
             basePath: Swift.String? = nil,
             restApiId: Swift.String? = nil,
             stage: Swift.String? = nil
-        )
-        {
+        ) {
             self.basePath = basePath
             self.restApiId = restApiId
             self.stage = stage
@@ -3571,8 +3618,7 @@ public struct GetBasePathMappingsOutput: Swift.Sendable {
     public init(
         items: [APIGatewayClientTypes.BasePathMapping]? = nil,
         position: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.position = position
     }
@@ -3586,8 +3632,7 @@ public struct GetClientCertificateInput: Swift.Sendable {
 
     public init(
         clientCertificateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientCertificateId = clientCertificateId
     }
 }
@@ -3614,8 +3659,7 @@ public struct GetClientCertificateOutput: Swift.Sendable {
         expirationDate: Foundation.Date? = nil,
         pemEncodedCertificate: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientCertificateId = clientCertificateId
         self.createdDate = createdDate
         self.description = description
@@ -3635,8 +3679,7 @@ public struct GetClientCertificatesInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = nil,
         position: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.position = position
     }
@@ -3666,8 +3709,7 @@ extension APIGatewayClientTypes {
             expirationDate: Foundation.Date? = nil,
             pemEncodedCertificate: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.clientCertificateId = clientCertificateId
             self.createdDate = createdDate
             self.description = description
@@ -3688,8 +3730,7 @@ public struct GetClientCertificatesOutput: Swift.Sendable {
     public init(
         items: [APIGatewayClientTypes.ClientCertificate]? = nil,
         position: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.position = position
     }
@@ -3710,8 +3751,7 @@ public struct GetDeploymentInput: Swift.Sendable {
         deploymentId: Swift.String? = nil,
         embed: [Swift.String]? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deploymentId = deploymentId
         self.embed = embed
         self.restApiId = restApiId
@@ -3734,8 +3774,7 @@ public struct GetDeploymentOutput: Swift.Sendable {
         createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiSummary = apiSummary
         self.createdDate = createdDate
         self.description = description
@@ -3757,8 +3796,7 @@ public struct GetDeploymentsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         position: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.position = position
         self.restApiId = restApiId
@@ -3783,8 +3821,7 @@ extension APIGatewayClientTypes {
             createdDate: Foundation.Date? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiSummary = apiSummary
             self.createdDate = createdDate
             self.description = description
@@ -3803,8 +3840,7 @@ public struct GetDeploymentsOutput: Swift.Sendable {
     public init(
         items: [APIGatewayClientTypes.Deployment]? = nil,
         position: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.position = position
     }
@@ -3822,8 +3858,7 @@ public struct GetDocumentationPartInput: Swift.Sendable {
     public init(
         documentationPartId: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.documentationPartId = documentationPartId
         self.restApiId = restApiId
     }
@@ -3842,8 +3877,7 @@ public struct GetDocumentationPartOutput: Swift.Sendable {
         id: Swift.String? = nil,
         location: APIGatewayClientTypes.DocumentationPartLocation? = nil,
         properties: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.location = location
         self.properties = properties
@@ -3905,8 +3939,7 @@ public struct GetDocumentationPartsInput: Swift.Sendable {
         position: Swift.String? = nil,
         restApiId: Swift.String? = nil,
         type: APIGatewayClientTypes.DocumentationPartType? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.locationStatus = locationStatus
         self.nameQuery = nameQuery
@@ -3932,8 +3965,7 @@ extension APIGatewayClientTypes {
             id: Swift.String? = nil,
             location: APIGatewayClientTypes.DocumentationPartLocation? = nil,
             properties: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.location = location
             self.properties = properties
@@ -3951,8 +3983,7 @@ public struct GetDocumentationPartsOutput: Swift.Sendable {
     public init(
         items: [APIGatewayClientTypes.DocumentationPart]? = nil,
         position: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.position = position
     }
@@ -3970,8 +4001,7 @@ public struct GetDocumentationVersionInput: Swift.Sendable {
     public init(
         documentationVersion: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.documentationVersion = documentationVersion
         self.restApiId = restApiId
     }
@@ -3990,8 +4020,7 @@ public struct GetDocumentationVersionOutput: Swift.Sendable {
         createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdDate = createdDate
         self.description = description
         self.version = version
@@ -4012,8 +4041,7 @@ public struct GetDocumentationVersionsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         position: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.position = position
         self.restApiId = restApiId
@@ -4035,8 +4063,7 @@ extension APIGatewayClientTypes {
             createdDate: Foundation.Date? = nil,
             description: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdDate = createdDate
             self.description = description
             self.version = version
@@ -4054,8 +4081,7 @@ public struct GetDocumentationVersionsOutput: Swift.Sendable {
     public init(
         items: [APIGatewayClientTypes.DocumentationVersion]? = nil,
         position: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.position = position
     }
@@ -4066,22 +4092,25 @@ public struct GetDomainNameInput: Swift.Sendable {
     /// The name of the DomainName resource.
     /// This member is required.
     public var domainName: Swift.String?
+    /// The identifier for the domain name resource. Required for private custom domain names.
+    public var domainNameId: Swift.String?
 
     public init(
-        domainName: Swift.String? = nil
-    )
-    {
+        domainName: Swift.String? = nil,
+        domainNameId: Swift.String? = nil
+    ) {
         self.domainName = domainName
+        self.domainNameId = domainNameId
     }
 }
 
 /// Represents a custom domain name as a user-friendly host name of an API (RestApi).
 public struct GetDomainNameOutput: Swift.Sendable {
-    /// The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint for this domain name. Certificate Manager is the only supported source.
+    /// The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint or private endpoint for this domain name. Certificate Manager is the only supported source.
     public var certificateArn: Swift.String?
-    /// The name of the certificate that will be used by edge-optimized endpoint for this domain name.
+    /// The name of the certificate that will be used by edge-optimized endpoint or private endpoint for this domain name.
     public var certificateName: Swift.String?
-    /// The timestamp when the certificate that was used by edge-optimized endpoint for this domain name was uploaded. API Gateway doesn't change this value if you update the certificate.
+    /// The timestamp when the certificate that was used by edge-optimized endpoint or private endpoint for this domain name was uploaded.
     public var certificateUploadDate: Foundation.Date?
     /// The domain name of the Amazon CloudFront distribution associated with this custom domain name for an edge-optimized endpoint. You set up this association when adding a DNS record pointing the custom domain name to this distribution name. For more information about CloudFront distributions, see the Amazon CloudFront documentation.
     public var distributionDomainName: Swift.String?
@@ -4089,16 +4118,24 @@ public struct GetDomainNameOutput: Swift.Sendable {
     public var distributionHostedZoneId: Swift.String?
     /// The custom domain name as an API host name, for example, my-api.example.com.
     public var domainName: Swift.String?
+    /// The ARN of the domain name. Supported only for private custom domain names.
+    public var domainNameArn: Swift.String?
+    /// The identifier for the domain name resource. Supported only for private custom domain names.
+    public var domainNameId: Swift.String?
     /// The status of the DomainName migration. The valid values are AVAILABLE and UPDATING. If the status is UPDATING, the domain cannot be modified further until the existing operation is complete. If it is AVAILABLE, the domain can be updated.
     public var domainNameStatus: APIGatewayClientTypes.DomainNameStatus?
     /// An optional text message containing detailed information about status of the DomainName migration.
     public var domainNameStatusMessage: Swift.String?
     /// The endpoint configuration of this DomainName showing the endpoint types of the domain name.
     public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
+    /// A stringified JSON policy document that applies to the API Gateway Management service for this DomainName. This policy document controls access for access association sources to create domain name access associations with this DomainName. Supported only for private custom domain names.
+    public var managementPolicy: Swift.String?
     /// The mutual TLS authentication configuration for a custom domain name. If specified, API Gateway performs two-way authentication between the client and the server. Clients must present a trusted certificate to access your API.
     public var mutualTlsAuthentication: APIGatewayClientTypes.MutualTlsAuthentication?
     /// The ARN of the public certificate issued by ACM to validate ownership of your custom domain. Only required when configuring mutual TLS and using an ACM imported or private CA certificate ARN as the regionalCertificateArn.
     public var ownershipVerificationCertificateArn: Swift.String?
+    /// A stringified JSON policy document that applies to the execute-api service for this DomainName regardless of the caller and Method configuration. Supported only for private custom domain names.
+    public var policy: Swift.String?
     /// The reference to an Amazon Web Services-managed certificate that will be used for validating the regional domain name. Certificate Manager is the only supported source.
     public var regionalCertificateArn: Swift.String?
     /// The name of the certificate that will be used for validating the regional domain name.
@@ -4119,30 +4156,37 @@ public struct GetDomainNameOutput: Swift.Sendable {
         distributionDomainName: Swift.String? = nil,
         distributionHostedZoneId: Swift.String? = nil,
         domainName: Swift.String? = nil,
+        domainNameArn: Swift.String? = nil,
+        domainNameId: Swift.String? = nil,
         domainNameStatus: APIGatewayClientTypes.DomainNameStatus? = nil,
         domainNameStatusMessage: Swift.String? = nil,
         endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration? = nil,
+        managementPolicy: Swift.String? = nil,
         mutualTlsAuthentication: APIGatewayClientTypes.MutualTlsAuthentication? = nil,
         ownershipVerificationCertificateArn: Swift.String? = nil,
+        policy: Swift.String? = nil,
         regionalCertificateArn: Swift.String? = nil,
         regionalCertificateName: Swift.String? = nil,
         regionalDomainName: Swift.String? = nil,
         regionalHostedZoneId: Swift.String? = nil,
         securityPolicy: APIGatewayClientTypes.SecurityPolicy? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.certificateArn = certificateArn
         self.certificateName = certificateName
         self.certificateUploadDate = certificateUploadDate
         self.distributionDomainName = distributionDomainName
         self.distributionHostedZoneId = distributionHostedZoneId
         self.domainName = domainName
+        self.domainNameArn = domainNameArn
+        self.domainNameId = domainNameId
         self.domainNameStatus = domainNameStatus
         self.domainNameStatusMessage = domainNameStatusMessage
         self.endpointConfiguration = endpointConfiguration
+        self.managementPolicy = managementPolicy
         self.mutualTlsAuthentication = mutualTlsAuthentication
         self.ownershipVerificationCertificateArn = ownershipVerificationCertificateArn
+        self.policy = policy
         self.regionalCertificateArn = regionalCertificateArn
         self.regionalCertificateName = regionalCertificateName
         self.regionalDomainName = regionalDomainName
@@ -4152,20 +4196,117 @@ public struct GetDomainNameOutput: Swift.Sendable {
     }
 }
 
+extension APIGatewayClientTypes {
+
+    public enum ResourceOwner: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case otherAccounts
+        case `self`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceOwner] {
+            return [
+                .otherAccounts,
+                .self
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .otherAccounts: return "OTHER_ACCOUNTS"
+            case .self: return "SELF"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetDomainNameAccessAssociationsInput: Swift.Sendable {
+    /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+    public var limit: Swift.Int?
+    /// The current pagination position in the paged result set.
+    public var position: Swift.String?
+    /// The owner of the domain name access association. Use SELF to only list the domain name access associations owned by your own account. Use OTHER_ACCOUNTS to list the domain name access associations with your private custom domain names that are owned by other AWS accounts.
+    public var resourceOwner: APIGatewayClientTypes.ResourceOwner?
+
+    public init(
+        limit: Swift.Int? = nil,
+        position: Swift.String? = nil,
+        resourceOwner: APIGatewayClientTypes.ResourceOwner? = nil
+    ) {
+        self.limit = limit
+        self.position = position
+        self.resourceOwner = resourceOwner
+    }
+}
+
+extension APIGatewayClientTypes {
+
+    /// Represents a domain name access association between an access association source and a private custom domain name. With a domain name access association, an access association source can invoke a private custom domain name while isolated from the public internet.
+    public struct DomainNameAccessAssociation: Swift.Sendable {
+        /// The ARN of the domain name access association source. For a VPCE, the ARN must be a VPC endpoint.
+        public var accessAssociationSource: Swift.String?
+        /// The type of the domain name access association source.
+        public var accessAssociationSourceType: APIGatewayClientTypes.AccessAssociationSourceType?
+        /// The ARN of the domain name access association resource.
+        public var domainNameAccessAssociationArn: Swift.String?
+        /// The ARN of the domain name.
+        public var domainNameArn: Swift.String?
+        /// The collection of tags. Each tag element is associated with a given resource.
+        public var tags: [Swift.String: Swift.String]?
+
+        public init(
+            accessAssociationSource: Swift.String? = nil,
+            accessAssociationSourceType: APIGatewayClientTypes.AccessAssociationSourceType? = nil,
+            domainNameAccessAssociationArn: Swift.String? = nil,
+            domainNameArn: Swift.String? = nil,
+            tags: [Swift.String: Swift.String]? = nil
+        ) {
+            self.accessAssociationSource = accessAssociationSource
+            self.accessAssociationSourceType = accessAssociationSourceType
+            self.domainNameAccessAssociationArn = domainNameAccessAssociationArn
+            self.domainNameArn = domainNameArn
+            self.tags = tags
+        }
+    }
+}
+
+public struct GetDomainNameAccessAssociationsOutput: Swift.Sendable {
+    /// The current page of elements from this collection.
+    public var items: [APIGatewayClientTypes.DomainNameAccessAssociation]?
+    /// The current pagination position in the paged result set.
+    public var position: Swift.String?
+
+    public init(
+        items: [APIGatewayClientTypes.DomainNameAccessAssociation]? = nil,
+        position: Swift.String? = nil
+    ) {
+        self.items = items
+        self.position = position
+    }
+}
+
 /// Request to describe a collection of DomainName resources.
 public struct GetDomainNamesInput: Swift.Sendable {
     /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
     public var limit: Swift.Int?
     /// The current pagination position in the paged result set.
     public var position: Swift.String?
+    /// The owner of the domain name access association.
+    public var resourceOwner: APIGatewayClientTypes.ResourceOwner?
 
     public init(
         limit: Swift.Int? = nil,
-        position: Swift.String? = nil
-    )
-    {
+        position: Swift.String? = nil,
+        resourceOwner: APIGatewayClientTypes.ResourceOwner? = nil
+    ) {
         self.limit = limit
         self.position = position
+        self.resourceOwner = resourceOwner
     }
 }
 
@@ -4173,11 +4314,11 @@ extension APIGatewayClientTypes {
 
     /// Represents a custom domain name as a user-friendly host name of an API (RestApi).
     public struct DomainName: Swift.Sendable {
-        /// The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint for this domain name. Certificate Manager is the only supported source.
+        /// The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint or private endpoint for this domain name. Certificate Manager is the only supported source.
         public var certificateArn: Swift.String?
-        /// The name of the certificate that will be used by edge-optimized endpoint for this domain name.
+        /// The name of the certificate that will be used by edge-optimized endpoint or private endpoint for this domain name.
         public var certificateName: Swift.String?
-        /// The timestamp when the certificate that was used by edge-optimized endpoint for this domain name was uploaded. API Gateway doesn't change this value if you update the certificate.
+        /// The timestamp when the certificate that was used by edge-optimized endpoint or private endpoint for this domain name was uploaded.
         public var certificateUploadDate: Foundation.Date?
         /// The domain name of the Amazon CloudFront distribution associated with this custom domain name for an edge-optimized endpoint. You set up this association when adding a DNS record pointing the custom domain name to this distribution name. For more information about CloudFront distributions, see the Amazon CloudFront documentation.
         public var distributionDomainName: Swift.String?
@@ -4185,16 +4326,24 @@ extension APIGatewayClientTypes {
         public var distributionHostedZoneId: Swift.String?
         /// The custom domain name as an API host name, for example, my-api.example.com.
         public var domainName: Swift.String?
+        /// The ARN of the domain name. Supported only for private custom domain names.
+        public var domainNameArn: Swift.String?
+        /// The identifier for the domain name resource. Supported only for private custom domain names.
+        public var domainNameId: Swift.String?
         /// The status of the DomainName migration. The valid values are AVAILABLE and UPDATING. If the status is UPDATING, the domain cannot be modified further until the existing operation is complete. If it is AVAILABLE, the domain can be updated.
         public var domainNameStatus: APIGatewayClientTypes.DomainNameStatus?
         /// An optional text message containing detailed information about status of the DomainName migration.
         public var domainNameStatusMessage: Swift.String?
         /// The endpoint configuration of this DomainName showing the endpoint types of the domain name.
         public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
+        /// A stringified JSON policy document that applies to the API Gateway Management service for this DomainName. This policy document controls access for access association sources to create domain name access associations with this DomainName. Supported only for private custom domain names.
+        public var managementPolicy: Swift.String?
         /// The mutual TLS authentication configuration for a custom domain name. If specified, API Gateway performs two-way authentication between the client and the server. Clients must present a trusted certificate to access your API.
         public var mutualTlsAuthentication: APIGatewayClientTypes.MutualTlsAuthentication?
         /// The ARN of the public certificate issued by ACM to validate ownership of your custom domain. Only required when configuring mutual TLS and using an ACM imported or private CA certificate ARN as the regionalCertificateArn.
         public var ownershipVerificationCertificateArn: Swift.String?
+        /// A stringified JSON policy document that applies to the execute-api service for this DomainName regardless of the caller and Method configuration. Supported only for private custom domain names.
+        public var policy: Swift.String?
         /// The reference to an Amazon Web Services-managed certificate that will be used for validating the regional domain name. Certificate Manager is the only supported source.
         public var regionalCertificateArn: Swift.String?
         /// The name of the certificate that will be used for validating the regional domain name.
@@ -4215,30 +4364,37 @@ extension APIGatewayClientTypes {
             distributionDomainName: Swift.String? = nil,
             distributionHostedZoneId: Swift.String? = nil,
             domainName: Swift.String? = nil,
+            domainNameArn: Swift.String? = nil,
+            domainNameId: Swift.String? = nil,
             domainNameStatus: APIGatewayClientTypes.DomainNameStatus? = nil,
             domainNameStatusMessage: Swift.String? = nil,
             endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration? = nil,
+            managementPolicy: Swift.String? = nil,
             mutualTlsAuthentication: APIGatewayClientTypes.MutualTlsAuthentication? = nil,
             ownershipVerificationCertificateArn: Swift.String? = nil,
+            policy: Swift.String? = nil,
             regionalCertificateArn: Swift.String? = nil,
             regionalCertificateName: Swift.String? = nil,
             regionalDomainName: Swift.String? = nil,
             regionalHostedZoneId: Swift.String? = nil,
             securityPolicy: APIGatewayClientTypes.SecurityPolicy? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.certificateArn = certificateArn
             self.certificateName = certificateName
             self.certificateUploadDate = certificateUploadDate
             self.distributionDomainName = distributionDomainName
             self.distributionHostedZoneId = distributionHostedZoneId
             self.domainName = domainName
+            self.domainNameArn = domainNameArn
+            self.domainNameId = domainNameId
             self.domainNameStatus = domainNameStatus
             self.domainNameStatusMessage = domainNameStatusMessage
             self.endpointConfiguration = endpointConfiguration
+            self.managementPolicy = managementPolicy
             self.mutualTlsAuthentication = mutualTlsAuthentication
             self.ownershipVerificationCertificateArn = ownershipVerificationCertificateArn
+            self.policy = policy
             self.regionalCertificateArn = regionalCertificateArn
             self.regionalCertificateName = regionalCertificateName
             self.regionalDomainName = regionalDomainName
@@ -4259,8 +4415,7 @@ public struct GetDomainNamesOutput: Swift.Sendable {
     public init(
         items: [APIGatewayClientTypes.DomainName]? = nil,
         position: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.position = position
     }
@@ -4288,8 +4443,7 @@ public struct GetExportInput: Swift.Sendable {
         parameters: [Swift.String: Swift.String]? = nil,
         restApiId: Swift.String? = nil,
         stageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accepts = accepts
         self.exportType = exportType
         self.parameters = parameters
@@ -4311,8 +4465,7 @@ public struct GetExportOutput: Swift.Sendable {
         body: Foundation.Data? = nil,
         contentDisposition: Swift.String? = nil,
         contentType: Swift.String? = nil
-    )
-    {
+    ) {
         self.body = body
         self.contentDisposition = contentDisposition
         self.contentType = contentType
@@ -4331,8 +4484,7 @@ public struct GetGatewayResponseInput: Swift.Sendable {
     public init(
         responseType: APIGatewayClientTypes.GatewayResponseType? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.responseType = responseType
         self.restApiId = restApiId
     }
@@ -4357,8 +4509,7 @@ public struct GetGatewayResponseOutput: Swift.Sendable {
         responseTemplates: [Swift.String: Swift.String]? = nil,
         responseType: APIGatewayClientTypes.GatewayResponseType? = nil,
         statusCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultResponse = defaultResponse
         self.responseParameters = responseParameters
         self.responseTemplates = responseTemplates
@@ -4381,8 +4532,7 @@ public struct GetGatewayResponsesInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         position: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.position = position
         self.restApiId = restApiId
@@ -4410,8 +4560,7 @@ extension APIGatewayClientTypes {
             responseTemplates: [Swift.String: Swift.String]? = nil,
             responseType: APIGatewayClientTypes.GatewayResponseType? = nil,
             statusCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultResponse = defaultResponse
             self.responseParameters = responseParameters
             self.responseTemplates = responseTemplates
@@ -4431,8 +4580,7 @@ public struct GetGatewayResponsesOutput: Swift.Sendable {
     public init(
         items: [APIGatewayClientTypes.GatewayResponse]? = nil,
         position: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.position = position
     }
@@ -4454,8 +4602,7 @@ public struct GetIntegrationInput: Swift.Sendable {
         httpMethod: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.httpMethod = httpMethod
         self.resourceId = resourceId
         self.restApiId = restApiId
@@ -4511,8 +4658,7 @@ public struct GetIntegrationOutput: Swift.Sendable {
         tlsConfig: APIGatewayClientTypes.TlsConfig? = nil,
         type: APIGatewayClientTypes.IntegrationType? = nil,
         uri: Swift.String? = nil
-    )
-    {
+    ) {
         self.cacheKeyParameters = cacheKeyParameters
         self.cacheNamespace = cacheNamespace
         self.connectionId = connectionId
@@ -4551,8 +4697,7 @@ public struct GetIntegrationResponseInput: Swift.Sendable {
         resourceId: Swift.String? = nil,
         restApiId: Swift.String? = nil,
         statusCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.httpMethod = httpMethod
         self.resourceId = resourceId
         self.restApiId = restApiId
@@ -4579,8 +4724,7 @@ public struct GetIntegrationResponseOutput: Swift.Sendable {
         responseTemplates: [Swift.String: Swift.String]? = nil,
         selectionPattern: Swift.String? = nil,
         statusCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentHandling = contentHandling
         self.responseParameters = responseParameters
         self.responseTemplates = responseTemplates
@@ -4605,8 +4749,7 @@ public struct GetMethodInput: Swift.Sendable {
         httpMethod: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.httpMethod = httpMethod
         self.resourceId = resourceId
         self.restApiId = restApiId
@@ -4650,8 +4793,7 @@ public struct GetMethodOutput: Swift.Sendable {
         requestModels: [Swift.String: Swift.String]? = nil,
         requestParameters: [Swift.String: Swift.Bool]? = nil,
         requestValidatorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiKeyRequired = apiKeyRequired
         self.authorizationScopes = authorizationScopes
         self.authorizationType = authorizationType
@@ -4686,8 +4828,7 @@ public struct GetMethodResponseInput: Swift.Sendable {
         resourceId: Swift.String? = nil,
         restApiId: Swift.String? = nil,
         statusCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.httpMethod = httpMethod
         self.resourceId = resourceId
         self.restApiId = restApiId
@@ -4708,8 +4849,7 @@ public struct GetMethodResponseOutput: Swift.Sendable {
         responseModels: [Swift.String: Swift.String]? = nil,
         responseParameters: [Swift.String: Swift.Bool]? = nil,
         statusCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.responseModels = responseModels
         self.responseParameters = responseParameters
         self.statusCode = statusCode
@@ -4731,8 +4871,7 @@ public struct GetModelInput: Swift.Sendable {
         flatten: Swift.Bool? = false,
         modelName: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.flatten = flatten
         self.modelName = modelName
         self.restApiId = restApiId
@@ -4758,8 +4897,7 @@ public struct GetModelOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         schema: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentType = contentType
         self.description = description
         self.id = id
@@ -4782,8 +4920,7 @@ public struct GetModelsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         position: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.position = position
         self.restApiId = restApiId
@@ -4811,8 +4948,7 @@ extension APIGatewayClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             schema: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentType = contentType
             self.description = description
             self.id = id
@@ -4832,8 +4968,7 @@ public struct GetModelsOutput: Swift.Sendable {
     public init(
         items: [APIGatewayClientTypes.Model]? = nil,
         position: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.position = position
     }
@@ -4851,8 +4986,7 @@ public struct GetModelTemplateInput: Swift.Sendable {
     public init(
         modelName: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelName = modelName
         self.restApiId = restApiId
     }
@@ -4865,8 +4999,7 @@ public struct GetModelTemplateOutput: Swift.Sendable {
 
     public init(
         value: Swift.String? = nil
-    )
-    {
+    ) {
         self.value = value
     }
 }
@@ -4883,8 +5016,7 @@ public struct GetRequestValidatorInput: Swift.Sendable {
     public init(
         requestValidatorId: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.requestValidatorId = requestValidatorId
         self.restApiId = restApiId
     }
@@ -4906,8 +5038,7 @@ public struct GetRequestValidatorOutput: Swift.Sendable {
         name: Swift.String? = nil,
         validateRequestBody: Swift.Bool = false,
         validateRequestParameters: Swift.Bool = false
-    )
-    {
+    ) {
         self.id = id
         self.name = name
         self.validateRequestBody = validateRequestBody
@@ -4929,8 +5060,7 @@ public struct GetRequestValidatorsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         position: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.position = position
         self.restApiId = restApiId
@@ -4955,8 +5085,7 @@ extension APIGatewayClientTypes {
             name: Swift.String? = nil,
             validateRequestBody: Swift.Bool = false,
             validateRequestParameters: Swift.Bool = false
-        )
-        {
+        ) {
             self.id = id
             self.name = name
             self.validateRequestBody = validateRequestBody
@@ -4975,8 +5104,7 @@ public struct GetRequestValidatorsOutput: Swift.Sendable {
     public init(
         items: [APIGatewayClientTypes.RequestValidator]? = nil,
         position: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.position = position
     }
@@ -4997,8 +5125,7 @@ public struct GetResourceInput: Swift.Sendable {
         embed: [Swift.String]? = nil,
         resourceId: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.embed = embed
         self.resourceId = resourceId
         self.restApiId = restApiId
@@ -5024,8 +5151,7 @@ public struct GetResourceOutput: Swift.Sendable {
         path: Swift.String? = nil,
         pathPart: Swift.String? = nil,
         resourceMethods: [Swift.String: APIGatewayClientTypes.Method]? = nil
-    )
-    {
+    ) {
         self.id = id
         self.parentId = parentId
         self.path = path
@@ -5051,8 +5177,7 @@ public struct GetResourcesInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         position: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.embed = embed
         self.limit = limit
         self.position = position
@@ -5081,8 +5206,7 @@ extension APIGatewayClientTypes {
             path: Swift.String? = nil,
             pathPart: Swift.String? = nil,
             resourceMethods: [Swift.String: APIGatewayClientTypes.Method]? = nil
-        )
-        {
+        ) {
             self.id = id
             self.parentId = parentId
             self.path = path
@@ -5102,8 +5226,7 @@ public struct GetResourcesOutput: Swift.Sendable {
     public init(
         items: [APIGatewayClientTypes.Resource]? = nil,
         position: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.position = position
     }
@@ -5117,8 +5240,7 @@ public struct GetRestApiInput: Swift.Sendable {
 
     public init(
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.restApiId = restApiId
     }
 }
@@ -5169,8 +5291,7 @@ public struct GetRestApiOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         version: Swift.String? = nil,
         warnings: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.apiKeySource = apiKeySource
         self.binaryMediaTypes = binaryMediaTypes
         self.createdDate = createdDate
@@ -5198,8 +5319,7 @@ public struct GetRestApisInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = nil,
         position: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.position = position
     }
@@ -5253,8 +5373,7 @@ extension APIGatewayClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             version: Swift.String? = nil,
             warnings: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.apiKeySource = apiKeySource
             self.binaryMediaTypes = binaryMediaTypes
             self.createdDate = createdDate
@@ -5283,8 +5402,7 @@ public struct GetRestApisOutput: Swift.Sendable {
     public init(
         items: [APIGatewayClientTypes.RestApi]? = nil,
         position: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.position = position
     }
@@ -5309,8 +5427,7 @@ public struct GetSdkInput: Swift.Sendable {
         restApiId: Swift.String? = nil,
         sdkType: Swift.String? = nil,
         stageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.parameters = parameters
         self.restApiId = restApiId
         self.sdkType = sdkType
@@ -5331,8 +5448,7 @@ public struct GetSdkOutput: Swift.Sendable {
         body: Foundation.Data? = nil,
         contentDisposition: Swift.String? = nil,
         contentType: Swift.String? = nil
-    )
-    {
+    ) {
         self.body = body
         self.contentDisposition = contentDisposition
         self.contentType = contentType
@@ -5347,8 +5463,7 @@ public struct GetSdkTypeInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -5374,8 +5489,7 @@ extension APIGatewayClientTypes {
             friendlyName: Swift.String? = nil,
             name: Swift.String? = nil,
             `required`: Swift.Bool = false
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.description = description
             self.friendlyName = friendlyName
@@ -5401,8 +5515,7 @@ public struct GetSdkTypeOutput: Swift.Sendable {
         description: Swift.String? = nil,
         friendlyName: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationProperties = configurationProperties
         self.description = description
         self.friendlyName = friendlyName
@@ -5420,8 +5533,7 @@ public struct GetSdkTypesInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = nil,
         position: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.position = position
     }
@@ -5445,8 +5557,7 @@ extension APIGatewayClientTypes {
             description: Swift.String? = nil,
             friendlyName: Swift.String? = nil,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.configurationProperties = configurationProperties
             self.description = description
             self.friendlyName = friendlyName
@@ -5462,8 +5573,7 @@ public struct GetSdkTypesOutput: Swift.Sendable {
 
     public init(
         items: [APIGatewayClientTypes.SdkType]? = nil
-    )
-    {
+    ) {
         self.items = items
     }
 }
@@ -5480,8 +5590,7 @@ public struct GetStageInput: Swift.Sendable {
     public init(
         restApiId: Swift.String? = nil,
         stageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.restApiId = restApiId
         self.stageName = stageName
     }
@@ -5542,8 +5651,7 @@ public struct GetStageOutput: Swift.Sendable {
         tracingEnabled: Swift.Bool = false,
         variables: [Swift.String: Swift.String]? = nil,
         webAclArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessLogSettings = accessLogSettings
         self.cacheClusterEnabled = cacheClusterEnabled
         self.cacheClusterSize = cacheClusterSize
@@ -5575,8 +5683,7 @@ public struct GetStagesInput: Swift.Sendable {
     public init(
         deploymentId: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deploymentId = deploymentId
         self.restApiId = restApiId
     }
@@ -5639,8 +5746,7 @@ extension APIGatewayClientTypes {
             tracingEnabled: Swift.Bool = false,
             variables: [Swift.String: Swift.String]? = nil,
             webAclArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessLogSettings = accessLogSettings
             self.cacheClusterEnabled = cacheClusterEnabled
             self.cacheClusterSize = cacheClusterSize
@@ -5669,8 +5775,7 @@ public struct GetStagesOutput: Swift.Sendable {
 
     public init(
         item: [APIGatewayClientTypes.Stage]? = nil
-    )
-    {
+    ) {
         self.item = item
     }
 }
@@ -5689,8 +5794,7 @@ public struct GetTagsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         position: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.position = position
         self.resourceArn = resourceArn
@@ -5704,8 +5808,7 @@ public struct GetTagsOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -5735,8 +5838,7 @@ public struct GetUsageInput: Swift.Sendable {
         position: Swift.String? = nil,
         startDate: Swift.String? = nil,
         usagePlanId: Swift.String? = nil
-    )
-    {
+    ) {
         self.endDate = endDate
         self.keyId = keyId
         self.limit = limit
@@ -5765,8 +5867,7 @@ public struct GetUsageOutput: Swift.Sendable {
         position: Swift.String? = nil,
         startDate: Swift.String? = nil,
         usagePlanId: Swift.String? = nil
-    )
-    {
+    ) {
         self.endDate = endDate
         self.items = items
         self.position = position
@@ -5783,8 +5884,7 @@ public struct GetUsagePlanInput: Swift.Sendable {
 
     public init(
         usagePlanId: Swift.String? = nil
-    )
-    {
+    ) {
         self.usagePlanId = usagePlanId
     }
 }
@@ -5817,8 +5917,7 @@ public struct GetUsagePlanOutput: Swift.Sendable {
         quota: APIGatewayClientTypes.QuotaSettings? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         throttle: APIGatewayClientTypes.ThrottleSettings? = nil
-    )
-    {
+    ) {
         self.apiStages = apiStages
         self.description = description
         self.id = id
@@ -5842,8 +5941,7 @@ public struct GetUsagePlanKeyInput: Swift.Sendable {
     public init(
         keyId: Swift.String? = nil,
         usagePlanId: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.usagePlanId = usagePlanId
     }
@@ -5865,8 +5963,7 @@ public struct GetUsagePlanKeyOutput: Swift.Sendable {
         name: Swift.String? = nil,
         type: Swift.String? = nil,
         value: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.name = name
         self.type = type
@@ -5891,8 +5988,7 @@ public struct GetUsagePlanKeysInput: Swift.Sendable {
         nameQuery: Swift.String? = nil,
         position: Swift.String? = nil,
         usagePlanId: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nameQuery = nameQuery
         self.position = position
@@ -5918,8 +6014,7 @@ extension APIGatewayClientTypes {
             name: Swift.String? = nil,
             type: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.name = name
             self.type = type
@@ -5938,8 +6033,7 @@ public struct GetUsagePlanKeysOutput: Swift.Sendable {
     public init(
         items: [APIGatewayClientTypes.UsagePlanKey]? = nil,
         position: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.position = position
     }
@@ -5958,8 +6052,7 @@ public struct GetUsagePlansInput: Swift.Sendable {
         keyId: Swift.String? = nil,
         limit: Swift.Int? = nil,
         position: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.limit = limit
         self.position = position
@@ -5996,8 +6089,7 @@ extension APIGatewayClientTypes {
             quota: APIGatewayClientTypes.QuotaSettings? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             throttle: APIGatewayClientTypes.ThrottleSettings? = nil
-        )
-        {
+        ) {
             self.apiStages = apiStages
             self.description = description
             self.id = id
@@ -6020,8 +6112,7 @@ public struct GetUsagePlansOutput: Swift.Sendable {
     public init(
         items: [APIGatewayClientTypes.UsagePlan]? = nil,
         position: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.position = position
     }
@@ -6035,8 +6126,7 @@ public struct GetVpcLinkInput: Swift.Sendable {
 
     public init(
         vpcLinkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.vpcLinkId = vpcLinkId
     }
 }
@@ -6066,8 +6156,7 @@ public struct GetVpcLinkOutput: Swift.Sendable {
         statusMessage: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         targetArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.id = id
         self.name = name
@@ -6088,8 +6177,7 @@ public struct GetVpcLinksInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = nil,
         position: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.position = position
     }
@@ -6122,8 +6210,7 @@ extension APIGatewayClientTypes {
             statusMessage: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             targetArns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.description = description
             self.id = id
             self.name = name
@@ -6145,8 +6232,7 @@ public struct GetVpcLinksOutput: Swift.Sendable {
     public init(
         items: [APIGatewayClientTypes.VpcLink]? = nil,
         position: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.position = position
     }
@@ -6167,8 +6253,7 @@ public struct ImportApiKeysInput: Swift.Sendable {
         body: Foundation.Data? = nil,
         failOnWarnings: Swift.Bool? = false,
         format: APIGatewayClientTypes.ApiKeysFormat? = nil
-    )
-    {
+    ) {
         self.body = body
         self.failOnWarnings = failOnWarnings
         self.format = format
@@ -6185,8 +6270,7 @@ public struct ImportApiKeysOutput: Swift.Sendable {
     public init(
         ids: [Swift.String]? = nil,
         warnings: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.ids = ids
         self.warnings = warnings
     }
@@ -6239,8 +6323,7 @@ public struct ImportDocumentationPartsInput: Swift.Sendable {
         failOnWarnings: Swift.Bool? = false,
         mode: APIGatewayClientTypes.PutMode? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.body = body
         self.failOnWarnings = failOnWarnings
         self.mode = mode
@@ -6258,8 +6341,7 @@ public struct ImportDocumentationPartsOutput: Swift.Sendable {
     public init(
         ids: [Swift.String]? = nil,
         warnings: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.ids = ids
         self.warnings = warnings
     }
@@ -6279,8 +6361,7 @@ public struct ImportRestApiInput: Swift.Sendable {
         body: Foundation.Data? = nil,
         failOnWarnings: Swift.Bool? = false,
         parameters: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.body = body
         self.failOnWarnings = failOnWarnings
         self.parameters = parameters
@@ -6333,8 +6414,7 @@ public struct ImportRestApiOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         version: Swift.String? = nil,
         warnings: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.apiKeySource = apiKeySource
         self.binaryMediaTypes = binaryMediaTypes
         self.createdDate = createdDate
@@ -6373,8 +6453,7 @@ public struct PutGatewayResponseInput: Swift.Sendable {
         responseType: APIGatewayClientTypes.GatewayResponseType? = nil,
         restApiId: Swift.String? = nil,
         statusCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.responseParameters = responseParameters
         self.responseTemplates = responseTemplates
         self.responseType = responseType
@@ -6402,8 +6481,7 @@ public struct PutGatewayResponseOutput: Swift.Sendable {
         responseTemplates: [Swift.String: Swift.String]? = nil,
         responseType: APIGatewayClientTypes.GatewayResponseType? = nil,
         statusCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultResponse = defaultResponse
         self.responseParameters = responseParameters
         self.responseTemplates = responseTemplates
@@ -6471,8 +6549,7 @@ public struct PutIntegrationInput: Swift.Sendable {
         tlsConfig: APIGatewayClientTypes.TlsConfig? = nil,
         type: APIGatewayClientTypes.IntegrationType? = nil,
         uri: Swift.String? = nil
-    )
-    {
+    ) {
         self.cacheKeyParameters = cacheKeyParameters
         self.cacheNamespace = cacheNamespace
         self.connectionId = connectionId
@@ -6542,8 +6619,7 @@ public struct PutIntegrationOutput: Swift.Sendable {
         tlsConfig: APIGatewayClientTypes.TlsConfig? = nil,
         type: APIGatewayClientTypes.IntegrationType? = nil,
         uri: Swift.String? = nil
-    )
-    {
+    ) {
         self.cacheKeyParameters = cacheKeyParameters
         self.cacheNamespace = cacheNamespace
         self.connectionId = connectionId
@@ -6594,8 +6670,7 @@ public struct PutIntegrationResponseInput: Swift.Sendable {
         restApiId: Swift.String? = nil,
         selectionPattern: Swift.String? = nil,
         statusCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentHandling = contentHandling
         self.httpMethod = httpMethod
         self.resourceId = resourceId
@@ -6626,8 +6701,7 @@ public struct PutIntegrationResponseOutput: Swift.Sendable {
         responseTemplates: [Swift.String: Swift.String]? = nil,
         selectionPattern: Swift.String? = nil,
         statusCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentHandling = contentHandling
         self.responseParameters = responseParameters
         self.responseTemplates = responseTemplates
@@ -6677,8 +6751,7 @@ public struct PutMethodInput: Swift.Sendable {
         requestValidatorId: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiKeyRequired = apiKeyRequired
         self.authorizationScopes = authorizationScopes
         self.authorizationType = authorizationType
@@ -6730,8 +6803,7 @@ public struct PutMethodOutput: Swift.Sendable {
         requestModels: [Swift.String: Swift.String]? = nil,
         requestParameters: [Swift.String: Swift.Bool]? = nil,
         requestValidatorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiKeyRequired = apiKeyRequired
         self.authorizationScopes = authorizationScopes
         self.authorizationType = authorizationType
@@ -6772,8 +6844,7 @@ public struct PutMethodResponseInput: Swift.Sendable {
         responseParameters: [Swift.String: Swift.Bool]? = nil,
         restApiId: Swift.String? = nil,
         statusCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.httpMethod = httpMethod
         self.resourceId = resourceId
         self.responseModels = responseModels
@@ -6796,8 +6867,7 @@ public struct PutMethodResponseOutput: Swift.Sendable {
         responseModels: [Swift.String: Swift.String]? = nil,
         responseParameters: [Swift.String: Swift.Bool]? = nil,
         statusCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.responseModels = responseModels
         self.responseParameters = responseParameters
         self.statusCode = statusCode
@@ -6825,8 +6895,7 @@ public struct PutRestApiInput: Swift.Sendable {
         mode: APIGatewayClientTypes.PutMode? = nil,
         parameters: [Swift.String: Swift.String]? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.body = body
         self.failOnWarnings = failOnWarnings
         self.mode = mode
@@ -6881,8 +6950,7 @@ public struct PutRestApiOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         version: Swift.String? = nil,
         warnings: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.apiKeySource = apiKeySource
         self.binaryMediaTypes = binaryMediaTypes
         self.createdDate = createdDate
@@ -6900,6 +6968,23 @@ public struct PutRestApiOutput: Swift.Sendable {
     }
 }
 
+public struct RejectDomainNameAccessAssociationInput: Swift.Sendable {
+    /// The ARN of the domain name access association resource.
+    /// This member is required.
+    public var domainNameAccessAssociationArn: Swift.String?
+    /// The ARN of the domain name.
+    /// This member is required.
+    public var domainNameArn: Swift.String?
+
+    public init(
+        domainNameAccessAssociationArn: Swift.String? = nil,
+        domainNameArn: Swift.String? = nil
+    ) {
+        self.domainNameAccessAssociationArn = domainNameAccessAssociationArn
+        self.domainNameArn = domainNameArn
+    }
+}
+
 /// Adds or updates a tag on a given resource.
 public struct TagResourceInput: Swift.Sendable {
     /// The ARN of a resource that can be tagged.
@@ -6912,8 +6997,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -6949,8 +7033,7 @@ public struct TestInvokeAuthorizerInput: Swift.Sendable {
         pathWithQueryString: Swift.String? = nil,
         restApiId: Swift.String? = nil,
         stageVariables: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.additionalContext = additionalContext
         self.authorizerId = authorizerId
         self.body = body
@@ -6987,8 +7070,7 @@ public struct TestInvokeAuthorizerOutput: Swift.Sendable {
         log: Swift.String? = nil,
         policy: Swift.String? = nil,
         principalId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorization = authorization
         self.claims = claims
         self.clientStatus = clientStatus
@@ -7033,8 +7115,7 @@ public struct TestInvokeMethodInput: Swift.Sendable {
         resourceId: Swift.String? = nil,
         restApiId: Swift.String? = nil,
         stageVariables: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.body = body
         self.clientCertificateId = clientCertificateId
         self.headers = headers
@@ -7069,8 +7150,7 @@ public struct TestInvokeMethodOutput: Swift.Sendable {
         log: Swift.String? = nil,
         multiValueHeaders: [Swift.String: [Swift.String]]? = nil,
         status: Swift.Int = 0
-    )
-    {
+    ) {
         self.body = body
         self.headers = headers
         self.latency = latency
@@ -7092,8 +7172,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -7158,8 +7237,7 @@ extension APIGatewayClientTypes {
             op: APIGatewayClientTypes.Op? = nil,
             path: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.from = from
             self.op = op
             self.path = path
@@ -7175,8 +7253,7 @@ public struct UpdateAccountInput: Swift.Sendable {
 
     public init(
         patchOperations: [APIGatewayClientTypes.PatchOperation]? = nil
-    )
-    {
+    ) {
         self.patchOperations = patchOperations
     }
 }
@@ -7197,8 +7274,7 @@ public struct UpdateAccountOutput: Swift.Sendable {
         cloudwatchRoleArn: Swift.String? = nil,
         features: [Swift.String]? = nil,
         throttleSettings: APIGatewayClientTypes.ThrottleSettings? = nil
-    )
-    {
+    ) {
         self.apiKeyVersion = apiKeyVersion
         self.cloudwatchRoleArn = cloudwatchRoleArn
         self.features = features
@@ -7217,8 +7293,7 @@ public struct UpdateApiKeyInput: Swift.Sendable {
     public init(
         apiKey: Swift.String? = nil,
         patchOperations: [APIGatewayClientTypes.PatchOperation]? = nil
-    )
-    {
+    ) {
         self.apiKey = apiKey
         self.patchOperations = patchOperations
     }
@@ -7258,8 +7333,7 @@ public struct UpdateApiKeyOutput: Swift.Sendable {
         stageKeys: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         value: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdDate = createdDate
         self.customerId = customerId
         self.description = description
@@ -7288,8 +7362,7 @@ public struct UpdateAuthorizerInput: Swift.Sendable {
         authorizerId: Swift.String? = nil,
         patchOperations: [APIGatewayClientTypes.PatchOperation]? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorizerId = authorizerId
         self.patchOperations = patchOperations
         self.restApiId = restApiId
@@ -7330,8 +7403,7 @@ public struct UpdateAuthorizerOutput: Swift.Sendable {
         name: Swift.String? = nil,
         providerARNs: [Swift.String]? = nil,
         type: APIGatewayClientTypes.AuthorizerType? = nil
-    )
-    {
+    ) {
         self.authType = authType
         self.authorizerCredentials = authorizerCredentials
         self.authorizerResultTtlInSeconds = authorizerResultTtlInSeconds
@@ -7353,17 +7425,20 @@ public struct UpdateBasePathMappingInput: Swift.Sendable {
     /// The domain name of the BasePathMapping resource to change.
     /// This member is required.
     public var domainName: Swift.String?
+    /// The identifier for the domain name resource. Supported only for private custom domain names.
+    public var domainNameId: Swift.String?
     /// For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
     public var patchOperations: [APIGatewayClientTypes.PatchOperation]?
 
     public init(
         basePath: Swift.String? = nil,
         domainName: Swift.String? = nil,
+        domainNameId: Swift.String? = nil,
         patchOperations: [APIGatewayClientTypes.PatchOperation]? = nil
-    )
-    {
+    ) {
         self.basePath = basePath
         self.domainName = domainName
+        self.domainNameId = domainNameId
         self.patchOperations = patchOperations
     }
 }
@@ -7381,8 +7456,7 @@ public struct UpdateBasePathMappingOutput: Swift.Sendable {
         basePath: Swift.String? = nil,
         restApiId: Swift.String? = nil,
         stage: Swift.String? = nil
-    )
-    {
+    ) {
         self.basePath = basePath
         self.restApiId = restApiId
         self.stage = stage
@@ -7400,8 +7474,7 @@ public struct UpdateClientCertificateInput: Swift.Sendable {
     public init(
         clientCertificateId: Swift.String? = nil,
         patchOperations: [APIGatewayClientTypes.PatchOperation]? = nil
-    )
-    {
+    ) {
         self.clientCertificateId = clientCertificateId
         self.patchOperations = patchOperations
     }
@@ -7429,8 +7502,7 @@ public struct UpdateClientCertificateOutput: Swift.Sendable {
         expirationDate: Foundation.Date? = nil,
         pemEncodedCertificate: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientCertificateId = clientCertificateId
         self.createdDate = createdDate
         self.description = description
@@ -7455,8 +7527,7 @@ public struct UpdateDeploymentInput: Swift.Sendable {
         deploymentId: Swift.String? = nil,
         patchOperations: [APIGatewayClientTypes.PatchOperation]? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deploymentId = deploymentId
         self.patchOperations = patchOperations
         self.restApiId = restApiId
@@ -7479,8 +7550,7 @@ public struct UpdateDeploymentOutput: Swift.Sendable {
         createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiSummary = apiSummary
         self.createdDate = createdDate
         self.description = description
@@ -7503,8 +7573,7 @@ public struct UpdateDocumentationPartInput: Swift.Sendable {
         documentationPartId: Swift.String? = nil,
         patchOperations: [APIGatewayClientTypes.PatchOperation]? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.documentationPartId = documentationPartId
         self.patchOperations = patchOperations
         self.restApiId = restApiId
@@ -7524,8 +7593,7 @@ public struct UpdateDocumentationPartOutput: Swift.Sendable {
         id: Swift.String? = nil,
         location: APIGatewayClientTypes.DocumentationPartLocation? = nil,
         properties: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.location = location
         self.properties = properties
@@ -7547,8 +7615,7 @@ public struct UpdateDocumentationVersionInput: Swift.Sendable {
         documentationVersion: Swift.String? = nil,
         patchOperations: [APIGatewayClientTypes.PatchOperation]? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.documentationVersion = documentationVersion
         self.patchOperations = patchOperations
         self.restApiId = restApiId
@@ -7568,8 +7635,7 @@ public struct UpdateDocumentationVersionOutput: Swift.Sendable {
         createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdDate = createdDate
         self.description = description
         self.version = version
@@ -7581,26 +7647,29 @@ public struct UpdateDomainNameInput: Swift.Sendable {
     /// The name of the DomainName resource to be changed.
     /// This member is required.
     public var domainName: Swift.String?
+    /// The identifier for the domain name resource. Supported only for private custom domain names.
+    public var domainNameId: Swift.String?
     /// For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
     public var patchOperations: [APIGatewayClientTypes.PatchOperation]?
 
     public init(
         domainName: Swift.String? = nil,
+        domainNameId: Swift.String? = nil,
         patchOperations: [APIGatewayClientTypes.PatchOperation]? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
+        self.domainNameId = domainNameId
         self.patchOperations = patchOperations
     }
 }
 
 /// Represents a custom domain name as a user-friendly host name of an API (RestApi).
 public struct UpdateDomainNameOutput: Swift.Sendable {
-    /// The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint for this domain name. Certificate Manager is the only supported source.
+    /// The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint or private endpoint for this domain name. Certificate Manager is the only supported source.
     public var certificateArn: Swift.String?
-    /// The name of the certificate that will be used by edge-optimized endpoint for this domain name.
+    /// The name of the certificate that will be used by edge-optimized endpoint or private endpoint for this domain name.
     public var certificateName: Swift.String?
-    /// The timestamp when the certificate that was used by edge-optimized endpoint for this domain name was uploaded. API Gateway doesn't change this value if you update the certificate.
+    /// The timestamp when the certificate that was used by edge-optimized endpoint or private endpoint for this domain name was uploaded.
     public var certificateUploadDate: Foundation.Date?
     /// The domain name of the Amazon CloudFront distribution associated with this custom domain name for an edge-optimized endpoint. You set up this association when adding a DNS record pointing the custom domain name to this distribution name. For more information about CloudFront distributions, see the Amazon CloudFront documentation.
     public var distributionDomainName: Swift.String?
@@ -7608,16 +7677,24 @@ public struct UpdateDomainNameOutput: Swift.Sendable {
     public var distributionHostedZoneId: Swift.String?
     /// The custom domain name as an API host name, for example, my-api.example.com.
     public var domainName: Swift.String?
+    /// The ARN of the domain name. Supported only for private custom domain names.
+    public var domainNameArn: Swift.String?
+    /// The identifier for the domain name resource. Supported only for private custom domain names.
+    public var domainNameId: Swift.String?
     /// The status of the DomainName migration. The valid values are AVAILABLE and UPDATING. If the status is UPDATING, the domain cannot be modified further until the existing operation is complete. If it is AVAILABLE, the domain can be updated.
     public var domainNameStatus: APIGatewayClientTypes.DomainNameStatus?
     /// An optional text message containing detailed information about status of the DomainName migration.
     public var domainNameStatusMessage: Swift.String?
     /// The endpoint configuration of this DomainName showing the endpoint types of the domain name.
     public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
+    /// A stringified JSON policy document that applies to the API Gateway Management service for this DomainName. This policy document controls access for access association sources to create domain name access associations with this DomainName. Supported only for private custom domain names.
+    public var managementPolicy: Swift.String?
     /// The mutual TLS authentication configuration for a custom domain name. If specified, API Gateway performs two-way authentication between the client and the server. Clients must present a trusted certificate to access your API.
     public var mutualTlsAuthentication: APIGatewayClientTypes.MutualTlsAuthentication?
     /// The ARN of the public certificate issued by ACM to validate ownership of your custom domain. Only required when configuring mutual TLS and using an ACM imported or private CA certificate ARN as the regionalCertificateArn.
     public var ownershipVerificationCertificateArn: Swift.String?
+    /// A stringified JSON policy document that applies to the execute-api service for this DomainName regardless of the caller and Method configuration. Supported only for private custom domain names.
+    public var policy: Swift.String?
     /// The reference to an Amazon Web Services-managed certificate that will be used for validating the regional domain name. Certificate Manager is the only supported source.
     public var regionalCertificateArn: Swift.String?
     /// The name of the certificate that will be used for validating the regional domain name.
@@ -7638,30 +7715,37 @@ public struct UpdateDomainNameOutput: Swift.Sendable {
         distributionDomainName: Swift.String? = nil,
         distributionHostedZoneId: Swift.String? = nil,
         domainName: Swift.String? = nil,
+        domainNameArn: Swift.String? = nil,
+        domainNameId: Swift.String? = nil,
         domainNameStatus: APIGatewayClientTypes.DomainNameStatus? = nil,
         domainNameStatusMessage: Swift.String? = nil,
         endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration? = nil,
+        managementPolicy: Swift.String? = nil,
         mutualTlsAuthentication: APIGatewayClientTypes.MutualTlsAuthentication? = nil,
         ownershipVerificationCertificateArn: Swift.String? = nil,
+        policy: Swift.String? = nil,
         regionalCertificateArn: Swift.String? = nil,
         regionalCertificateName: Swift.String? = nil,
         regionalDomainName: Swift.String? = nil,
         regionalHostedZoneId: Swift.String? = nil,
         securityPolicy: APIGatewayClientTypes.SecurityPolicy? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.certificateArn = certificateArn
         self.certificateName = certificateName
         self.certificateUploadDate = certificateUploadDate
         self.distributionDomainName = distributionDomainName
         self.distributionHostedZoneId = distributionHostedZoneId
         self.domainName = domainName
+        self.domainNameArn = domainNameArn
+        self.domainNameId = domainNameId
         self.domainNameStatus = domainNameStatus
         self.domainNameStatusMessage = domainNameStatusMessage
         self.endpointConfiguration = endpointConfiguration
+        self.managementPolicy = managementPolicy
         self.mutualTlsAuthentication = mutualTlsAuthentication
         self.ownershipVerificationCertificateArn = ownershipVerificationCertificateArn
+        self.policy = policy
         self.regionalCertificateArn = regionalCertificateArn
         self.regionalCertificateName = regionalCertificateName
         self.regionalDomainName = regionalDomainName
@@ -7686,8 +7770,7 @@ public struct UpdateGatewayResponseInput: Swift.Sendable {
         patchOperations: [APIGatewayClientTypes.PatchOperation]? = nil,
         responseType: APIGatewayClientTypes.GatewayResponseType? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.patchOperations = patchOperations
         self.responseType = responseType
         self.restApiId = restApiId
@@ -7713,8 +7796,7 @@ public struct UpdateGatewayResponseOutput: Swift.Sendable {
         responseTemplates: [Swift.String: Swift.String]? = nil,
         responseType: APIGatewayClientTypes.GatewayResponseType? = nil,
         statusCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultResponse = defaultResponse
         self.responseParameters = responseParameters
         self.responseTemplates = responseTemplates
@@ -7742,8 +7824,7 @@ public struct UpdateIntegrationInput: Swift.Sendable {
         patchOperations: [APIGatewayClientTypes.PatchOperation]? = nil,
         resourceId: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.httpMethod = httpMethod
         self.patchOperations = patchOperations
         self.resourceId = resourceId
@@ -7800,8 +7881,7 @@ public struct UpdateIntegrationOutput: Swift.Sendable {
         tlsConfig: APIGatewayClientTypes.TlsConfig? = nil,
         type: APIGatewayClientTypes.IntegrationType? = nil,
         uri: Swift.String? = nil
-    )
-    {
+    ) {
         self.cacheKeyParameters = cacheKeyParameters
         self.cacheNamespace = cacheNamespace
         self.connectionId = connectionId
@@ -7843,8 +7923,7 @@ public struct UpdateIntegrationResponseInput: Swift.Sendable {
         resourceId: Swift.String? = nil,
         restApiId: Swift.String? = nil,
         statusCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.httpMethod = httpMethod
         self.patchOperations = patchOperations
         self.resourceId = resourceId
@@ -7872,8 +7951,7 @@ public struct UpdateIntegrationResponseOutput: Swift.Sendable {
         responseTemplates: [Swift.String: Swift.String]? = nil,
         selectionPattern: Swift.String? = nil,
         statusCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentHandling = contentHandling
         self.responseParameters = responseParameters
         self.responseTemplates = responseTemplates
@@ -7901,8 +7979,7 @@ public struct UpdateMethodInput: Swift.Sendable {
         patchOperations: [APIGatewayClientTypes.PatchOperation]? = nil,
         resourceId: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.httpMethod = httpMethod
         self.patchOperations = patchOperations
         self.resourceId = resourceId
@@ -7947,8 +8024,7 @@ public struct UpdateMethodOutput: Swift.Sendable {
         requestModels: [Swift.String: Swift.String]? = nil,
         requestParameters: [Swift.String: Swift.Bool]? = nil,
         requestValidatorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiKeyRequired = apiKeyRequired
         self.authorizationScopes = authorizationScopes
         self.authorizationType = authorizationType
@@ -7986,8 +8062,7 @@ public struct UpdateMethodResponseInput: Swift.Sendable {
         resourceId: Swift.String? = nil,
         restApiId: Swift.String? = nil,
         statusCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.httpMethod = httpMethod
         self.patchOperations = patchOperations
         self.resourceId = resourceId
@@ -8009,8 +8084,7 @@ public struct UpdateMethodResponseOutput: Swift.Sendable {
         responseModels: [Swift.String: Swift.String]? = nil,
         responseParameters: [Swift.String: Swift.Bool]? = nil,
         statusCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.responseModels = responseModels
         self.responseParameters = responseParameters
         self.statusCode = statusCode
@@ -8032,8 +8106,7 @@ public struct UpdateModelInput: Swift.Sendable {
         modelName: Swift.String? = nil,
         patchOperations: [APIGatewayClientTypes.PatchOperation]? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelName = modelName
         self.patchOperations = patchOperations
         self.restApiId = restApiId
@@ -8059,8 +8132,7 @@ public struct UpdateModelOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         schema: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentType = contentType
         self.description = description
         self.id = id
@@ -8084,8 +8156,7 @@ public struct UpdateRequestValidatorInput: Swift.Sendable {
         patchOperations: [APIGatewayClientTypes.PatchOperation]? = nil,
         requestValidatorId: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.patchOperations = patchOperations
         self.requestValidatorId = requestValidatorId
         self.restApiId = restApiId
@@ -8108,8 +8179,7 @@ public struct UpdateRequestValidatorOutput: Swift.Sendable {
         name: Swift.String? = nil,
         validateRequestBody: Swift.Bool = false,
         validateRequestParameters: Swift.Bool = false
-    )
-    {
+    ) {
         self.id = id
         self.name = name
         self.validateRequestBody = validateRequestBody
@@ -8132,8 +8202,7 @@ public struct UpdateResourceInput: Swift.Sendable {
         patchOperations: [APIGatewayClientTypes.PatchOperation]? = nil,
         resourceId: Swift.String? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.patchOperations = patchOperations
         self.resourceId = resourceId
         self.restApiId = restApiId
@@ -8159,8 +8228,7 @@ public struct UpdateResourceOutput: Swift.Sendable {
         path: Swift.String? = nil,
         pathPart: Swift.String? = nil,
         resourceMethods: [Swift.String: APIGatewayClientTypes.Method]? = nil
-    )
-    {
+    ) {
         self.id = id
         self.parentId = parentId
         self.path = path
@@ -8180,8 +8248,7 @@ public struct UpdateRestApiInput: Swift.Sendable {
     public init(
         patchOperations: [APIGatewayClientTypes.PatchOperation]? = nil,
         restApiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.patchOperations = patchOperations
         self.restApiId = restApiId
     }
@@ -8233,8 +8300,7 @@ public struct UpdateRestApiOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         version: Swift.String? = nil,
         warnings: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.apiKeySource = apiKeySource
         self.binaryMediaTypes = binaryMediaTypes
         self.createdDate = createdDate
@@ -8267,8 +8333,7 @@ public struct UpdateStageInput: Swift.Sendable {
         patchOperations: [APIGatewayClientTypes.PatchOperation]? = nil,
         restApiId: Swift.String? = nil,
         stageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.patchOperations = patchOperations
         self.restApiId = restApiId
         self.stageName = stageName
@@ -8330,8 +8395,7 @@ public struct UpdateStageOutput: Swift.Sendable {
         tracingEnabled: Swift.Bool = false,
         variables: [Swift.String: Swift.String]? = nil,
         webAclArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessLogSettings = accessLogSettings
         self.cacheClusterEnabled = cacheClusterEnabled
         self.cacheClusterSize = cacheClusterSize
@@ -8367,8 +8431,7 @@ public struct UpdateUsageInput: Swift.Sendable {
         keyId: Swift.String? = nil,
         patchOperations: [APIGatewayClientTypes.PatchOperation]? = nil,
         usagePlanId: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.patchOperations = patchOperations
         self.usagePlanId = usagePlanId
@@ -8394,8 +8457,7 @@ public struct UpdateUsageOutput: Swift.Sendable {
         position: Swift.String? = nil,
         startDate: Swift.String? = nil,
         usagePlanId: Swift.String? = nil
-    )
-    {
+    ) {
         self.endDate = endDate
         self.items = items
         self.position = position
@@ -8415,8 +8477,7 @@ public struct UpdateUsagePlanInput: Swift.Sendable {
     public init(
         patchOperations: [APIGatewayClientTypes.PatchOperation]? = nil,
         usagePlanId: Swift.String? = nil
-    )
-    {
+    ) {
         self.patchOperations = patchOperations
         self.usagePlanId = usagePlanId
     }
@@ -8450,8 +8511,7 @@ public struct UpdateUsagePlanOutput: Swift.Sendable {
         quota: APIGatewayClientTypes.QuotaSettings? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         throttle: APIGatewayClientTypes.ThrottleSettings? = nil
-    )
-    {
+    ) {
         self.apiStages = apiStages
         self.description = description
         self.id = id
@@ -8474,8 +8534,7 @@ public struct UpdateVpcLinkInput: Swift.Sendable {
     public init(
         patchOperations: [APIGatewayClientTypes.PatchOperation]? = nil,
         vpcLinkId: Swift.String? = nil
-    )
-    {
+    ) {
         self.patchOperations = patchOperations
         self.vpcLinkId = vpcLinkId
     }
@@ -8506,8 +8565,7 @@ public struct UpdateVpcLinkOutput: Swift.Sendable {
         statusMessage: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         targetArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.id = id
         self.name = name
@@ -8545,6 +8603,18 @@ extension CreateBasePathMappingInput {
     }
 }
 
+extension CreateBasePathMappingInput {
+
+    static func queryItemProvider(_ value: CreateBasePathMappingInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let domainNameId = value.domainNameId {
+            let domainNameIdQueryItem = Smithy.URIQueryItem(name: "domainNameId".urlPercentEncoding(), value: Swift.String(domainNameId).urlPercentEncoding())
+            items.append(domainNameIdQueryItem)
+        }
+        return items
+    }
+}
+
 extension CreateDeploymentInput {
 
     static func urlPathProvider(_ value: CreateDeploymentInput) -> Swift.String? {
@@ -8579,6 +8649,13 @@ extension CreateDomainNameInput {
 
     static func urlPathProvider(_ value: CreateDomainNameInput) -> Swift.String? {
         return "/domainnames"
+    }
+}
+
+extension CreateDomainNameAccessAssociationInput {
+
+    static func urlPathProvider(_ value: CreateDomainNameAccessAssociationInput) -> Swift.String? {
+        return "/domainnameaccessassociations"
     }
 }
 
@@ -8692,6 +8769,18 @@ extension DeleteBasePathMappingInput {
     }
 }
 
+extension DeleteBasePathMappingInput {
+
+    static func queryItemProvider(_ value: DeleteBasePathMappingInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let domainNameId = value.domainNameId {
+            let domainNameIdQueryItem = Smithy.URIQueryItem(name: "domainNameId".urlPercentEncoding(), value: Swift.String(domainNameId).urlPercentEncoding())
+            items.append(domainNameIdQueryItem)
+        }
+        return items
+    }
+}
+
 extension DeleteClientCertificateInput {
 
     static func urlPathProvider(_ value: DeleteClientCertificateInput) -> Swift.String? {
@@ -8748,6 +8837,28 @@ extension DeleteDomainNameInput {
             return nil
         }
         return "/domainnames/\(domainName.urlPercentEncoding())"
+    }
+}
+
+extension DeleteDomainNameInput {
+
+    static func queryItemProvider(_ value: DeleteDomainNameInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let domainNameId = value.domainNameId {
+            let domainNameIdQueryItem = Smithy.URIQueryItem(name: "domainNameId".urlPercentEncoding(), value: Swift.String(domainNameId).urlPercentEncoding())
+            items.append(domainNameIdQueryItem)
+        }
+        return items
+    }
+}
+
+extension DeleteDomainNameAccessAssociationInput {
+
+    static func urlPathProvider(_ value: DeleteDomainNameAccessAssociationInput) -> Swift.String? {
+        guard let domainNameAccessAssociationArn = value.domainNameAccessAssociationArn else {
+            return nil
+        }
+        return "/domainnameaccessassociations/\(domainNameAccessAssociationArn.urlPercentEncoding())"
     }
 }
 
@@ -9078,6 +9189,18 @@ extension GetBasePathMappingInput {
     }
 }
 
+extension GetBasePathMappingInput {
+
+    static func queryItemProvider(_ value: GetBasePathMappingInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let domainNameId = value.domainNameId {
+            let domainNameIdQueryItem = Smithy.URIQueryItem(name: "domainNameId".urlPercentEncoding(), value: Swift.String(domainNameId).urlPercentEncoding())
+            items.append(domainNameIdQueryItem)
+        }
+        return items
+    }
+}
+
 extension GetBasePathMappingsInput {
 
     static func urlPathProvider(_ value: GetBasePathMappingsInput) -> Swift.String? {
@@ -9092,6 +9215,10 @@ extension GetBasePathMappingsInput {
 
     static func queryItemProvider(_ value: GetBasePathMappingsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let domainNameId = value.domainNameId {
+            let domainNameIdQueryItem = Smithy.URIQueryItem(name: "domainNameId".urlPercentEncoding(), value: Swift.String(domainNameId).urlPercentEncoding())
+            items.append(domainNameIdQueryItem)
+        }
         if let limit = value.limit {
             let limitQueryItem = Smithy.URIQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
             items.append(limitQueryItem)
@@ -9294,6 +9421,45 @@ extension GetDomainNameInput {
     }
 }
 
+extension GetDomainNameInput {
+
+    static func queryItemProvider(_ value: GetDomainNameInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let domainNameId = value.domainNameId {
+            let domainNameIdQueryItem = Smithy.URIQueryItem(name: "domainNameId".urlPercentEncoding(), value: Swift.String(domainNameId).urlPercentEncoding())
+            items.append(domainNameIdQueryItem)
+        }
+        return items
+    }
+}
+
+extension GetDomainNameAccessAssociationsInput {
+
+    static func urlPathProvider(_ value: GetDomainNameAccessAssociationsInput) -> Swift.String? {
+        return "/domainnameaccessassociations"
+    }
+}
+
+extension GetDomainNameAccessAssociationsInput {
+
+    static func queryItemProvider(_ value: GetDomainNameAccessAssociationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let resourceOwner = value.resourceOwner {
+            let resourceOwnerQueryItem = Smithy.URIQueryItem(name: "resourceOwner".urlPercentEncoding(), value: Swift.String(resourceOwner.rawValue).urlPercentEncoding())
+            items.append(resourceOwnerQueryItem)
+        }
+        if let limit = value.limit {
+            let limitQueryItem = Smithy.URIQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        if let position = value.position {
+            let positionQueryItem = Smithy.URIQueryItem(name: "position".urlPercentEncoding(), value: Swift.String(position).urlPercentEncoding())
+            items.append(positionQueryItem)
+        }
+        return items
+    }
+}
+
 extension GetDomainNamesInput {
 
     static func urlPathProvider(_ value: GetDomainNamesInput) -> Swift.String? {
@@ -9305,6 +9471,10 @@ extension GetDomainNamesInput {
 
     static func queryItemProvider(_ value: GetDomainNamesInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let resourceOwner = value.resourceOwner {
+            let resourceOwnerQueryItem = Smithy.URIQueryItem(name: "resourceOwner".urlPercentEncoding(), value: Swift.String(resourceOwner.rawValue).urlPercentEncoding())
+            items.append(resourceOwnerQueryItem)
+        }
         if let limit = value.limit {
             let limitQueryItem = Smithy.URIQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
             items.append(limitQueryItem)
@@ -10146,6 +10316,33 @@ extension PutRestApiInput {
     }
 }
 
+extension RejectDomainNameAccessAssociationInput {
+
+    static func urlPathProvider(_ value: RejectDomainNameAccessAssociationInput) -> Swift.String? {
+        return "/rejectdomainnameaccessassociations"
+    }
+}
+
+extension RejectDomainNameAccessAssociationInput {
+
+    static func queryItemProvider(_ value: RejectDomainNameAccessAssociationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let domainNameAccessAssociationArn = value.domainNameAccessAssociationArn else {
+            let message = "Creating a URL Query Item failed. domainNameAccessAssociationArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let domainNameAccessAssociationArnQueryItem = Smithy.URIQueryItem(name: "domainNameAccessAssociationArn".urlPercentEncoding(), value: Swift.String(domainNameAccessAssociationArn).urlPercentEncoding())
+        items.append(domainNameAccessAssociationArnQueryItem)
+        guard let domainNameArn = value.domainNameArn else {
+            let message = "Creating a URL Query Item failed. domainNameArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let domainNameArnQueryItem = Smithy.URIQueryItem(name: "domainNameArn".urlPercentEncoding(), value: Swift.String(domainNameArn).urlPercentEncoding())
+        items.append(domainNameArnQueryItem)
+        return items
+    }
+}
+
 extension TagResourceInput {
 
     static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
@@ -10254,6 +10451,18 @@ extension UpdateBasePathMappingInput {
     }
 }
 
+extension UpdateBasePathMappingInput {
+
+    static func queryItemProvider(_ value: UpdateBasePathMappingInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let domainNameId = value.domainNameId {
+            let domainNameIdQueryItem = Smithy.URIQueryItem(name: "domainNameId".urlPercentEncoding(), value: Swift.String(domainNameId).urlPercentEncoding())
+            items.append(domainNameIdQueryItem)
+        }
+        return items
+    }
+}
+
 extension UpdateClientCertificateInput {
 
     static func urlPathProvider(_ value: UpdateClientCertificateInput) -> Swift.String? {
@@ -10310,6 +10519,18 @@ extension UpdateDomainNameInput {
             return nil
         }
         return "/domainnames/\(domainName.urlPercentEncoding())"
+    }
+}
+
+extension UpdateDomainNameInput {
+
+    static func queryItemProvider(_ value: UpdateDomainNameInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let domainNameId = value.domainNameId {
+            let domainNameIdQueryItem = Smithy.URIQueryItem(name: "domainNameId".urlPercentEncoding(), value: Swift.String(domainNameId).urlPercentEncoding())
+            items.append(domainNameIdQueryItem)
+        }
+        return items
     }
 }
 
@@ -10579,9 +10800,21 @@ extension CreateDomainNameInput {
         try writer["endpointConfiguration"].write(value.endpointConfiguration, with: APIGatewayClientTypes.EndpointConfiguration.write(value:to:))
         try writer["mutualTlsAuthentication"].write(value.mutualTlsAuthentication, with: APIGatewayClientTypes.MutualTlsAuthenticationInput.write(value:to:))
         try writer["ownershipVerificationCertificateArn"].write(value.ownershipVerificationCertificateArn)
+        try writer["policy"].write(value.policy)
         try writer["regionalCertificateArn"].write(value.regionalCertificateArn)
         try writer["regionalCertificateName"].write(value.regionalCertificateName)
         try writer["securityPolicy"].write(value.securityPolicy)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateDomainNameAccessAssociationInput {
+
+    static func write(value: CreateDomainNameAccessAssociationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accessAssociationSource"].write(value.accessAssociationSource)
+        try writer["accessAssociationSourceType"].write(value.accessAssociationSourceType)
+        try writer["domainNameArn"].write(value.domainNameArn)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -11112,16 +11345,36 @@ extension CreateDomainNameOutput {
         value.distributionDomainName = try reader["distributionDomainName"].readIfPresent()
         value.distributionHostedZoneId = try reader["distributionHostedZoneId"].readIfPresent()
         value.domainName = try reader["domainName"].readIfPresent()
+        value.domainNameArn = try reader["domainNameArn"].readIfPresent()
+        value.domainNameId = try reader["domainNameId"].readIfPresent()
         value.domainNameStatus = try reader["domainNameStatus"].readIfPresent()
         value.domainNameStatusMessage = try reader["domainNameStatusMessage"].readIfPresent()
         value.endpointConfiguration = try reader["endpointConfiguration"].readIfPresent(with: APIGatewayClientTypes.EndpointConfiguration.read(from:))
+        value.managementPolicy = try reader["managementPolicy"].readIfPresent()
         value.mutualTlsAuthentication = try reader["mutualTlsAuthentication"].readIfPresent(with: APIGatewayClientTypes.MutualTlsAuthentication.read(from:))
         value.ownershipVerificationCertificateArn = try reader["ownershipVerificationCertificateArn"].readIfPresent()
+        value.policy = try reader["policy"].readIfPresent()
         value.regionalCertificateArn = try reader["regionalCertificateArn"].readIfPresent()
         value.regionalCertificateName = try reader["regionalCertificateName"].readIfPresent()
         value.regionalDomainName = try reader["regionalDomainName"].readIfPresent()
         value.regionalHostedZoneId = try reader["regionalHostedZoneId"].readIfPresent()
         value.securityPolicy = try reader["securityPolicy"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension CreateDomainNameAccessAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDomainNameAccessAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateDomainNameAccessAssociationOutput()
+        value.accessAssociationSource = try reader["accessAssociationSource"].readIfPresent()
+        value.accessAssociationSourceType = try reader["accessAssociationSourceType"].readIfPresent()
+        value.domainNameAccessAssociationArn = try reader["domainNameAccessAssociationArn"].readIfPresent()
+        value.domainNameArn = try reader["domainNameArn"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -11332,6 +11585,13 @@ extension DeleteDomainNameOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDomainNameOutput {
         return DeleteDomainNameOutput()
+    }
+}
+
+extension DeleteDomainNameAccessAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDomainNameAccessAssociationOutput {
+        return DeleteDomainNameAccessAssociationOutput()
     }
 }
 
@@ -11693,17 +11953,34 @@ extension GetDomainNameOutput {
         value.distributionDomainName = try reader["distributionDomainName"].readIfPresent()
         value.distributionHostedZoneId = try reader["distributionHostedZoneId"].readIfPresent()
         value.domainName = try reader["domainName"].readIfPresent()
+        value.domainNameArn = try reader["domainNameArn"].readIfPresent()
+        value.domainNameId = try reader["domainNameId"].readIfPresent()
         value.domainNameStatus = try reader["domainNameStatus"].readIfPresent()
         value.domainNameStatusMessage = try reader["domainNameStatusMessage"].readIfPresent()
         value.endpointConfiguration = try reader["endpointConfiguration"].readIfPresent(with: APIGatewayClientTypes.EndpointConfiguration.read(from:))
+        value.managementPolicy = try reader["managementPolicy"].readIfPresent()
         value.mutualTlsAuthentication = try reader["mutualTlsAuthentication"].readIfPresent(with: APIGatewayClientTypes.MutualTlsAuthentication.read(from:))
         value.ownershipVerificationCertificateArn = try reader["ownershipVerificationCertificateArn"].readIfPresent()
+        value.policy = try reader["policy"].readIfPresent()
         value.regionalCertificateArn = try reader["regionalCertificateArn"].readIfPresent()
         value.regionalCertificateName = try reader["regionalCertificateName"].readIfPresent()
         value.regionalDomainName = try reader["regionalDomainName"].readIfPresent()
         value.regionalHostedZoneId = try reader["regionalHostedZoneId"].readIfPresent()
         value.securityPolicy = try reader["securityPolicy"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GetDomainNameAccessAssociationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDomainNameAccessAssociationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDomainNameAccessAssociationsOutput()
+        value.items = try reader["item"].readListIfPresent(memberReadingClosure: APIGatewayClientTypes.DomainNameAccessAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.position = try reader["position"].readIfPresent()
         return value
     }
 }
@@ -12364,6 +12641,13 @@ extension PutRestApiOutput {
     }
 }
 
+extension RejectDomainNameAccessAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RejectDomainNameAccessAssociationOutput {
+        return RejectDomainNameAccessAssociationOutput()
+    }
+}
+
 extension TagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
@@ -12557,11 +12841,15 @@ extension UpdateDomainNameOutput {
         value.distributionDomainName = try reader["distributionDomainName"].readIfPresent()
         value.distributionHostedZoneId = try reader["distributionHostedZoneId"].readIfPresent()
         value.domainName = try reader["domainName"].readIfPresent()
+        value.domainNameArn = try reader["domainNameArn"].readIfPresent()
+        value.domainNameId = try reader["domainNameId"].readIfPresent()
         value.domainNameStatus = try reader["domainNameStatus"].readIfPresent()
         value.domainNameStatusMessage = try reader["domainNameStatusMessage"].readIfPresent()
         value.endpointConfiguration = try reader["endpointConfiguration"].readIfPresent(with: APIGatewayClientTypes.EndpointConfiguration.read(from:))
+        value.managementPolicy = try reader["managementPolicy"].readIfPresent()
         value.mutualTlsAuthentication = try reader["mutualTlsAuthentication"].readIfPresent(with: APIGatewayClientTypes.MutualTlsAuthentication.read(from:))
         value.ownershipVerificationCertificateArn = try reader["ownershipVerificationCertificateArn"].readIfPresent()
+        value.policy = try reader["policy"].readIfPresent()
         value.regionalCertificateArn = try reader["regionalCertificateArn"].readIfPresent()
         value.regionalCertificateName = try reader["regionalCertificateName"].readIfPresent()
         value.regionalDomainName = try reader["regionalDomainName"].readIfPresent()
@@ -12952,6 +13240,24 @@ enum CreateDomainNameOutputError {
     }
 }
 
+enum CreateDomainNameAccessAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateModelOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -13230,6 +13536,24 @@ enum DeleteDocumentationVersionOutputError {
 }
 
 enum DeleteDomainNameOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteDomainNameAccessAssociationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -13794,6 +14118,23 @@ enum GetDocumentationVersionsOutputError {
 }
 
 enum GetDomainNameOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetDomainNameAccessAssociationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -14488,6 +14829,24 @@ enum PutRestApiOutputError {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum RejectDomainNameAccessAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
@@ -15444,12 +15803,28 @@ extension APIGatewayClientTypes.DocumentationVersion {
     }
 }
 
+extension APIGatewayClientTypes.DomainNameAccessAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.DomainNameAccessAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = APIGatewayClientTypes.DomainNameAccessAssociation()
+        value.domainNameAccessAssociationArn = try reader["domainNameAccessAssociationArn"].readIfPresent()
+        value.domainNameArn = try reader["domainNameArn"].readIfPresent()
+        value.accessAssociationSourceType = try reader["accessAssociationSourceType"].readIfPresent()
+        value.accessAssociationSource = try reader["accessAssociationSource"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension APIGatewayClientTypes.DomainName {
 
     static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.DomainName {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = APIGatewayClientTypes.DomainName()
         value.domainName = try reader["domainName"].readIfPresent()
+        value.domainNameId = try reader["domainNameId"].readIfPresent()
+        value.domainNameArn = try reader["domainNameArn"].readIfPresent()
         value.certificateName = try reader["certificateName"].readIfPresent()
         value.certificateArn = try reader["certificateArn"].readIfPresent()
         value.certificateUploadDate = try reader["certificateUploadDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -15466,6 +15841,8 @@ extension APIGatewayClientTypes.DomainName {
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.mutualTlsAuthentication = try reader["mutualTlsAuthentication"].readIfPresent(with: APIGatewayClientTypes.MutualTlsAuthentication.read(from:))
         value.ownershipVerificationCertificateArn = try reader["ownershipVerificationCertificateArn"].readIfPresent()
+        value.managementPolicy = try reader["managementPolicy"].readIfPresent()
+        value.policy = try reader["policy"].readIfPresent()
         return value
     }
 }

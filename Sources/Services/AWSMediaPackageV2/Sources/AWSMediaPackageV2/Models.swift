@@ -44,9 +44,9 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 /// You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -61,8 +61,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -158,9 +157,9 @@ extension MediaPackageV2ClientTypes {
 }
 
 /// Updating or deleting this resource can cause an inconsistent state.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The type of ConflictException.
         public internal(set) var conflictExceptionType: MediaPackageV2ClientTypes.ConflictExceptionType? = nil
         public internal(set) var message: Swift.String? = nil
@@ -178,17 +177,16 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         conflictExceptionType: MediaPackageV2ClientTypes.ConflictExceptionType? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.conflictExceptionType = conflictExceptionType
         self.properties.message = message
     }
 }
 
 /// Indicates that an error from the service occurred while trying to process a request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -203,8 +201,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -245,9 +242,9 @@ extension MediaPackageV2ClientTypes {
 }
 
 /// The specified resource doesn't exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The specified resource type wasn't found.
         public internal(set) var resourceTypeNotFound: MediaPackageV2ClientTypes.ResourceTypeNotFound? = nil
@@ -265,17 +262,16 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         resourceTypeNotFound: MediaPackageV2ClientTypes.ResourceTypeNotFound? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceTypeNotFound = resourceTypeNotFound
     }
 }
 
 /// The request throughput limit was exceeded.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -290,8 +286,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -337,6 +332,8 @@ extension MediaPackageV2ClientTypes {
         case numManifestsHigh
         case numManifestsLow
         case onlyCmafInputTypeAllowForceEndpointErrorConfiguration
+        case onlyCmafInputTypeAllowMqcsInputSwitching
+        case onlyCmafInputTypeAllowMqcsOutputConfiguration
         case periodTriggersNoneSpecifiedWithAdditionalValues
         case roleArnInvalidFormat
         case roleArnLengthOutOfRange
@@ -398,6 +395,8 @@ extension MediaPackageV2ClientTypes {
                 .numManifestsHigh,
                 .numManifestsLow,
                 .onlyCmafInputTypeAllowForceEndpointErrorConfiguration,
+                .onlyCmafInputTypeAllowMqcsInputSwitching,
+                .onlyCmafInputTypeAllowMqcsOutputConfiguration,
                 .periodTriggersNoneSpecifiedWithAdditionalValues,
                 .roleArnInvalidFormat,
                 .roleArnLengthOutOfRange,
@@ -465,6 +464,8 @@ extension MediaPackageV2ClientTypes {
             case .numManifestsHigh: return "NUM_MANIFESTS_HIGH"
             case .numManifestsLow: return "NUM_MANIFESTS_LOW"
             case .onlyCmafInputTypeAllowForceEndpointErrorConfiguration: return "ONLY_CMAF_INPUT_TYPE_ALLOW_FORCE_ENDPOINT_ERROR_CONFIGURATION"
+            case .onlyCmafInputTypeAllowMqcsInputSwitching: return "ONLY_CMAF_INPUT_TYPE_ALLOW_MQCS_INPUT_SWITCHING"
+            case .onlyCmafInputTypeAllowMqcsOutputConfiguration: return "ONLY_CMAF_INPUT_TYPE_ALLOW_MQCS_OUTPUT_CONFIGURATION"
             case .periodTriggersNoneSpecifiedWithAdditionalValues: return "PERIOD_TRIGGERS_NONE_SPECIFIED_WITH_ADDITIONAL_VALUES"
             case .roleArnInvalidFormat: return "ROLE_ARN_INVALID_FORMAT"
             case .roleArnLengthOutOfRange: return "ROLE_ARN_LENGTH_OUT_OF_RANGE"
@@ -491,9 +492,9 @@ extension MediaPackageV2ClientTypes {
 }
 
 /// The input failed to meet the constraints specified by the AWS service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The type of ValidationException.
         public internal(set) var validationExceptionType: MediaPackageV2ClientTypes.ValidationExceptionType? = nil
@@ -511,8 +512,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         validationExceptionType: MediaPackageV2ClientTypes.ValidationExceptionType? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.validationExceptionType = validationExceptionType
     }
@@ -540,8 +540,7 @@ public struct CancelHarvestJobInput: Swift.Sendable {
         eTag: Swift.String? = nil,
         harvestJobName: Swift.String? = nil,
         originEndpointName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.eTag = eTag
@@ -580,8 +579,7 @@ extension MediaPackageV2ClientTypes {
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             modifiedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.createdAt = createdAt
@@ -602,8 +600,7 @@ public struct DeleteChannelPolicyInput: Swift.Sendable {
     public init(
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
     }
@@ -625,8 +622,7 @@ public struct GetChannelPolicyInput: Swift.Sendable {
     public init(
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
     }
@@ -647,8 +643,7 @@ public struct GetChannelPolicyOutput: Swift.Sendable {
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.policy = policy
@@ -670,8 +665,7 @@ public struct PutChannelPolicyInput: Swift.Sendable {
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.policy = policy
@@ -684,9 +678,9 @@ public struct PutChannelPolicyOutput: Swift.Sendable {
 }
 
 /// The request would cause a service quota to be exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -701,9 +695,23 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
+    /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive.
+    public struct InputSwitchConfiguration: Swift.Sendable {
+        /// When true, AWS Elemental MediaPackage performs input switching based on the MQCS. Default is true. This setting is valid only when InputType is CMAF.
+        public var mqcsInputSwitching: Swift.Bool?
+
+        public init(
+            mqcsInputSwitching: Swift.Bool? = nil
+        ) {
+            self.mqcsInputSwitching = mqcsInputSwitching
+        }
     }
 }
 
@@ -736,6 +744,21 @@ extension MediaPackageV2ClientTypes {
     }
 }
 
+extension MediaPackageV2ClientTypes {
+
+    /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN.
+    public struct OutputHeaderConfiguration: Swift.Sendable {
+        /// When true, AWS Elemental MediaPackage includes the MQCS in responses to the CDN. This setting is valid only when InputType is CMAF.
+        public var publishMQCS: Swift.Bool?
+
+        public init(
+            publishMQCS: Swift.Bool? = nil
+        ) {
+            self.publishMQCS = publishMQCS
+        }
+    }
+}
+
 public struct CreateChannelInput: Swift.Sendable {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
@@ -747,12 +770,16 @@ public struct CreateChannelInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// Enter any descriptive text that helps you to identify the channel.
     public var description: Swift.String?
+    /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF.
+    public var inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration?
     /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:
     ///
     /// * HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).
     ///
     /// * CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).
     public var inputType: MediaPackageV2ClientTypes.InputType?
+    /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
+    public var outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration?
     /// A comma-separated list of tag key:value pairs that you define. For example: "Key1": "Value1",
     ///     "Key2": "Value2"
     public var tags: [Swift.String: Swift.String]?
@@ -762,15 +789,18 @@ public struct CreateChannelInput: Swift.Sendable {
         channelName: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
+        inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration? = nil,
         inputType: MediaPackageV2ClientTypes.InputType? = nil,
+        outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.clientToken = clientToken
         self.description = description
+        self.inputSwitchConfiguration = inputSwitchConfiguration
         self.inputType = inputType
+        self.outputHeaderConfiguration = outputHeaderConfiguration
         self.tags = tags
     }
 }
@@ -787,8 +817,7 @@ extension MediaPackageV2ClientTypes {
         public init(
             id: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.url = url
         }
@@ -814,6 +843,8 @@ public struct CreateChannelOutput: Swift.Sendable {
     public var eTag: Swift.String?
     /// The list of ingest endpoints.
     public var ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]?
+    /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF.
+    public var inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration?
     /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:
     ///
     /// * HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).
@@ -823,6 +854,8 @@ public struct CreateChannelOutput: Swift.Sendable {
     /// The date and time the channel was modified.
     /// This member is required.
     public var modifiedAt: Foundation.Date?
+    /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
+    public var outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration?
     /// The comma-separated list of tag key:value pairs assigned to the channel.
     public var tags: [Swift.String: Swift.String]?
 
@@ -834,11 +867,12 @@ public struct CreateChannelOutput: Swift.Sendable {
         description: Swift.String? = nil,
         eTag: Swift.String? = nil,
         ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]? = nil,
+        inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration? = nil,
         inputType: MediaPackageV2ClientTypes.InputType? = nil,
         modifiedAt: Foundation.Date? = nil,
+        outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.channelGroupName = channelGroupName
         self.channelName = channelName
@@ -846,8 +880,10 @@ public struct CreateChannelOutput: Swift.Sendable {
         self.description = description
         self.eTag = eTag
         self.ingestEndpoints = ingestEndpoints
+        self.inputSwitchConfiguration = inputSwitchConfiguration
         self.inputType = inputType
         self.modifiedAt = modifiedAt
+        self.outputHeaderConfiguration = outputHeaderConfiguration
         self.tags = tags
     }
 }
@@ -863,8 +899,7 @@ public struct DeleteChannelInput: Swift.Sendable {
     public init(
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
     }
@@ -886,8 +921,7 @@ public struct GetChannelInput: Swift.Sendable {
     public init(
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
     }
@@ -912,6 +946,8 @@ public struct GetChannelOutput: Swift.Sendable {
     public var eTag: Swift.String?
     /// The list of ingest endpoints.
     public var ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]?
+    /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF.
+    public var inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration?
     /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:
     ///
     /// * HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).
@@ -921,6 +957,8 @@ public struct GetChannelOutput: Swift.Sendable {
     /// The date and time the channel was modified.
     /// This member is required.
     public var modifiedAt: Foundation.Date?
+    /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
+    public var outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration?
     /// The comma-separated list of tag key:value pairs assigned to the channel.
     public var tags: [Swift.String: Swift.String]?
 
@@ -932,11 +970,12 @@ public struct GetChannelOutput: Swift.Sendable {
         description: Swift.String? = nil,
         eTag: Swift.String? = nil,
         ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]? = nil,
+        inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration? = nil,
         inputType: MediaPackageV2ClientTypes.InputType? = nil,
         modifiedAt: Foundation.Date? = nil,
+        outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.channelGroupName = channelGroupName
         self.channelName = channelName
@@ -944,8 +983,10 @@ public struct GetChannelOutput: Swift.Sendable {
         self.description = description
         self.eTag = eTag
         self.ingestEndpoints = ingestEndpoints
+        self.inputSwitchConfiguration = inputSwitchConfiguration
         self.inputType = inputType
         self.modifiedAt = modifiedAt
+        self.outputHeaderConfiguration = outputHeaderConfiguration
         self.tags = tags
     }
 }
@@ -963,8 +1004,7 @@ public struct ListChannelsInput: Swift.Sendable {
         channelGroupName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1007,8 +1047,7 @@ extension MediaPackageV2ClientTypes {
             description: Swift.String? = nil,
             inputType: MediaPackageV2ClientTypes.InputType? = nil,
             modifiedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -1029,8 +1068,7 @@ public struct ListChannelsOutput: Swift.Sendable {
     public init(
         items: [MediaPackageV2ClientTypes.ChannelListConfiguration]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -1115,8 +1153,7 @@ extension MediaPackageV2ClientTypes {
             manifestFilter: Swift.String? = nil,
             start: Foundation.Date? = nil,
             timeDelaySeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.clipStartTime = clipStartTime
             self.end = end
             self.manifestFilter = manifestFilter
@@ -1177,8 +1214,7 @@ extension MediaPackageV2ClientTypes {
 
         public init(
             adMarkerDash: MediaPackageV2ClientTypes.AdMarkerDash? = nil
-        )
-        {
+        ) {
             self.adMarkerDash = adMarkerDash
         }
     }
@@ -1257,8 +1293,7 @@ extension MediaPackageV2ClientTypes {
         public init(
             timingMode: MediaPackageV2ClientTypes.DashUtcTimingMode? = nil,
             timingSource: Swift.String? = nil
-        )
-        {
+        ) {
             self.timingMode = timingMode
             self.timingSource = timingSource
         }
@@ -1307,8 +1342,7 @@ extension MediaPackageV2ClientTypes {
             segmentTemplateFormat: MediaPackageV2ClientTypes.DashSegmentTemplateFormat? = nil,
             suggestedPresentationDelaySeconds: Swift.Int? = nil,
             utcTiming: MediaPackageV2ClientTypes.DashUtcTiming? = nil
-        )
-        {
+        ) {
             self.drmSignaling = drmSignaling
             self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
@@ -1376,8 +1410,7 @@ extension MediaPackageV2ClientTypes {
 
         public init(
             endpointErrorConditions: [MediaPackageV2ClientTypes.EndpointErrorCondition]? = nil
-        )
-        {
+        ) {
             self.endpointErrorConditions = endpointErrorConditions
         }
     }
@@ -1394,8 +1427,7 @@ extension MediaPackageV2ClientTypes {
 
         public init(
             adMarkerHls: MediaPackageV2ClientTypes.AdMarkerHls? = nil
-        )
-        {
+        ) {
             self.adMarkerHls = adMarkerHls
         }
     }
@@ -1414,8 +1446,7 @@ extension MediaPackageV2ClientTypes {
         public init(
             precise: Swift.Bool? = nil,
             timeOffset: Swift.Float? = nil
-        )
-        {
+        ) {
             self.precise = precise
             self.timeOffset = timeOffset
         }
@@ -1435,7 +1466,7 @@ extension MediaPackageV2ClientTypes {
         public var manifestName: Swift.String?
         /// The total duration (in seconds) of the manifest's content.
         public var manifestWindowSeconds: Swift.Int?
-        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval, EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest. The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player. ID3Timed metadata messages generate every 5 seconds whenever the content is ingested. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
+        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval, EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest. The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
         public var programDateTimeIntervalSeconds: Swift.Int?
         /// The SCTE configuration.
         public var scteHls: MediaPackageV2ClientTypes.ScteHls?
@@ -1450,8 +1481,7 @@ extension MediaPackageV2ClientTypes {
             programDateTimeIntervalSeconds: Swift.Int? = nil,
             scteHls: MediaPackageV2ClientTypes.ScteHls? = nil,
             startTag: MediaPackageV2ClientTypes.StartTag? = nil
-        )
-        {
+        ) {
             self.childManifestName = childManifestName
             self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
@@ -1476,7 +1506,7 @@ extension MediaPackageV2ClientTypes {
         public var manifestName: Swift.String?
         /// The total duration (in seconds) of the manifest's content.
         public var manifestWindowSeconds: Swift.Int?
-        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval, EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest. The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player. ID3Timed metadata messages generate every 5 seconds whenever the content is ingested. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
+        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval, EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest. The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
         public var programDateTimeIntervalSeconds: Swift.Int?
         /// The SCTE configuration.
         public var scteHls: MediaPackageV2ClientTypes.ScteHls?
@@ -1491,8 +1521,7 @@ extension MediaPackageV2ClientTypes {
             programDateTimeIntervalSeconds: Swift.Int? = nil,
             scteHls: MediaPackageV2ClientTypes.ScteHls? = nil,
             startTag: MediaPackageV2ClientTypes.StartTag? = nil
-        )
-        {
+        ) {
             self.childManifestName = childManifestName
             self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
@@ -1574,8 +1603,7 @@ extension MediaPackageV2ClientTypes {
         public init(
             cmafEncryptionMethod: MediaPackageV2ClientTypes.CmafEncryptionMethod? = nil,
             tsEncryptionMethod: MediaPackageV2ClientTypes.TsEncryptionMethod? = nil
-        )
-        {
+        ) {
             self.cmafEncryptionMethod = cmafEncryptionMethod
             self.tsEncryptionMethod = tsEncryptionMethod
         }
@@ -1755,8 +1783,7 @@ extension MediaPackageV2ClientTypes {
         public init(
             presetSpeke20Audio: MediaPackageV2ClientTypes.PresetSpeke20Audio? = nil,
             presetSpeke20Video: MediaPackageV2ClientTypes.PresetSpeke20Video? = nil
-        )
-        {
+        ) {
             self.presetSpeke20Audio = presetSpeke20Audio
             self.presetSpeke20Video = presetSpeke20Video
         }
@@ -1789,8 +1816,7 @@ extension MediaPackageV2ClientTypes {
             resourceId: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.drmSystems = drmSystems
             self.encryptionContractConfiguration = encryptionContractConfiguration
             self.resourceId = resourceId
@@ -1820,8 +1846,7 @@ extension MediaPackageV2ClientTypes {
             encryptionMethod: MediaPackageV2ClientTypes.EncryptionMethod? = nil,
             keyRotationIntervalSeconds: Swift.Int? = nil,
             spekeKeyProvider: MediaPackageV2ClientTypes.SpekeKeyProvider? = nil
-        )
-        {
+        ) {
             self.constantInitializationVector = constantInitializationVector
             self.encryptionMethod = encryptionMethod
             self.keyRotationIntervalSeconds = keyRotationIntervalSeconds
@@ -1889,8 +1914,7 @@ extension MediaPackageV2ClientTypes {
 
         public init(
             scteFilter: [MediaPackageV2ClientTypes.ScteFilter]? = nil
-        )
-        {
+        ) {
             self.scteFilter = scteFilter
         }
     }
@@ -1923,8 +1947,7 @@ extension MediaPackageV2ClientTypes {
             segmentName: Swift.String? = nil,
             tsIncludeDvbSubtitles: Swift.Bool? = nil,
             tsUseAudioRenditionGroup: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.encryption = encryption
             self.includeIframeOnlyStreams = includeIframeOnlyStreams
             self.scte = scte
@@ -1983,8 +2006,7 @@ public struct CreateOriginEndpointInput: Swift.Sendable {
         segment: MediaPackageV2ClientTypes.Segment? = nil,
         startoverWindowSeconds: Swift.Int? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.clientToken = clientToken
@@ -2047,8 +2069,7 @@ extension MediaPackageV2ClientTypes {
             suggestedPresentationDelaySeconds: Swift.Int? = nil,
             url: Swift.String? = nil,
             utcTiming: MediaPackageV2ClientTypes.DashUtcTiming? = nil
-        )
-        {
+        ) {
             self.drmSignaling = drmSignaling
             self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
@@ -2078,7 +2099,7 @@ extension MediaPackageV2ClientTypes {
         public var manifestName: Swift.String?
         /// The total duration (in seconds) of the manifest's content.
         public var manifestWindowSeconds: Swift.Int?
-        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval, EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest. The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player. ID3Timed metadata messages generate every 5 seconds whenever the content is ingested. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
+        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval, EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest. The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
         public var programDateTimeIntervalSeconds: Swift.Int?
         /// The SCTE configuration.
         public var scteHls: MediaPackageV2ClientTypes.ScteHls?
@@ -2097,8 +2118,7 @@ extension MediaPackageV2ClientTypes {
             scteHls: MediaPackageV2ClientTypes.ScteHls? = nil,
             startTag: MediaPackageV2ClientTypes.StartTag? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.childManifestName = childManifestName
             self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
@@ -2124,7 +2144,7 @@ extension MediaPackageV2ClientTypes {
         public var manifestName: Swift.String?
         /// The total duration (in seconds) of the manifest's content.
         public var manifestWindowSeconds: Swift.Int?
-        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval, EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest. The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player. ID3Timed metadata messages generate every 5 seconds whenever the content is ingested. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
+        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval, EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest. The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
         public var programDateTimeIntervalSeconds: Swift.Int?
         /// The SCTE configuration.
         public var scteHls: MediaPackageV2ClientTypes.ScteHls?
@@ -2143,8 +2163,7 @@ extension MediaPackageV2ClientTypes {
             scteHls: MediaPackageV2ClientTypes.ScteHls? = nil,
             startTag: MediaPackageV2ClientTypes.StartTag? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.childManifestName = childManifestName
             self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
@@ -2216,8 +2235,7 @@ public struct CreateOriginEndpointOutput: Swift.Sendable {
         segment: MediaPackageV2ClientTypes.Segment? = nil,
         startoverWindowSeconds: Swift.Int? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.channelGroupName = channelGroupName
         self.channelName = channelName
@@ -2252,8 +2270,7 @@ public struct DeleteOriginEndpointInput: Swift.Sendable {
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil,
         originEndpointName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.originEndpointName = originEndpointName
@@ -2280,8 +2297,7 @@ public struct GetOriginEndpointInput: Swift.Sendable {
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil,
         originEndpointName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.originEndpointName = originEndpointName
@@ -2347,8 +2363,7 @@ public struct GetOriginEndpointOutput: Swift.Sendable {
         segment: MediaPackageV2ClientTypes.Segment? = nil,
         startoverWindowSeconds: Swift.Int? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.channelGroupName = channelGroupName
         self.channelName = channelName
@@ -2385,8 +2400,7 @@ public struct ListOriginEndpointsInput: Swift.Sendable {
         channelName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.maxResults = maxResults
@@ -2407,8 +2421,7 @@ extension MediaPackageV2ClientTypes {
         public init(
             manifestName: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.manifestName = manifestName
             self.url = url
         }
@@ -2431,8 +2444,7 @@ extension MediaPackageV2ClientTypes {
             childManifestName: Swift.String? = nil,
             manifestName: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.childManifestName = childManifestName
             self.manifestName = manifestName
             self.url = url
@@ -2456,8 +2468,7 @@ extension MediaPackageV2ClientTypes {
             childManifestName: Swift.String? = nil,
             manifestName: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.childManifestName = childManifestName
             self.manifestName = manifestName
             self.url = url
@@ -2512,8 +2523,7 @@ extension MediaPackageV2ClientTypes {
             lowLatencyHlsManifests: [MediaPackageV2ClientTypes.ListLowLatencyHlsManifestConfiguration]? = nil,
             modifiedAt: Foundation.Date? = nil,
             originEndpointName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -2539,8 +2549,7 @@ public struct ListOriginEndpointsOutput: Swift.Sendable {
     public init(
         items: [MediaPackageV2ClientTypes.OriginEndpointListConfiguration]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -2561,8 +2570,7 @@ public struct DeleteOriginEndpointPolicyInput: Swift.Sendable {
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil,
         originEndpointName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.originEndpointName = originEndpointName
@@ -2589,8 +2597,7 @@ public struct GetOriginEndpointPolicyInput: Swift.Sendable {
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil,
         originEndpointName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.originEndpointName = originEndpointName
@@ -2616,8 +2623,7 @@ public struct GetOriginEndpointPolicyOutput: Swift.Sendable {
         channelName: Swift.String? = nil,
         originEndpointName: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.originEndpointName = originEndpointName
@@ -2644,8 +2650,7 @@ public struct PutOriginEndpointPolicyInput: Swift.Sendable {
         channelName: Swift.String? = nil,
         originEndpointName: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.originEndpointName = originEndpointName
@@ -2701,8 +2706,7 @@ public struct UpdateOriginEndpointInput: Swift.Sendable {
         originEndpointName: Swift.String? = nil,
         segment: MediaPackageV2ClientTypes.Segment? = nil,
         startoverWindowSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.containerType = containerType
@@ -2777,8 +2781,7 @@ public struct UpdateOriginEndpointOutput: Swift.Sendable {
         segment: MediaPackageV2ClientTypes.Segment? = nil,
         startoverWindowSeconds: Swift.Int? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.channelGroupName = channelGroupName
         self.channelName = channelName
@@ -2809,18 +2812,25 @@ public struct UpdateChannelInput: Swift.Sendable {
     public var description: Swift.String?
     /// The expected current Entity Tag (ETag) for the resource. If the specified ETag does not match the resource's current entity tag, the update request will be rejected.
     public var eTag: Swift.String?
+    /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF.
+    public var inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration?
+    /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
+    public var outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration?
 
     public init(
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil,
         description: Swift.String? = nil,
-        eTag: Swift.String? = nil
-    )
-    {
+        eTag: Swift.String? = nil,
+        inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration? = nil,
+        outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration? = nil
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.description = description
         self.eTag = eTag
+        self.inputSwitchConfiguration = inputSwitchConfiguration
+        self.outputHeaderConfiguration = outputHeaderConfiguration
     }
 }
 
@@ -2843,6 +2853,8 @@ public struct UpdateChannelOutput: Swift.Sendable {
     public var eTag: Swift.String?
     /// The list of ingest endpoints.
     public var ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]?
+    /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF.
+    public var inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration?
     /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:
     ///
     /// * HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).
@@ -2852,6 +2864,8 @@ public struct UpdateChannelOutput: Swift.Sendable {
     /// The date and time the channel was modified.
     /// This member is required.
     public var modifiedAt: Foundation.Date?
+    /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
+    public var outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration?
     /// The comma-separated list of tag key:value pairs assigned to the channel.
     public var tags: [Swift.String: Swift.String]?
 
@@ -2863,11 +2877,12 @@ public struct UpdateChannelOutput: Swift.Sendable {
         description: Swift.String? = nil,
         eTag: Swift.String? = nil,
         ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]? = nil,
+        inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration? = nil,
         inputType: MediaPackageV2ClientTypes.InputType? = nil,
         modifiedAt: Foundation.Date? = nil,
+        outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.channelGroupName = channelGroupName
         self.channelName = channelName
@@ -2875,8 +2890,10 @@ public struct UpdateChannelOutput: Swift.Sendable {
         self.description = description
         self.eTag = eTag
         self.ingestEndpoints = ingestEndpoints
+        self.inputSwitchConfiguration = inputSwitchConfiguration
         self.inputType = inputType
         self.modifiedAt = modifiedAt
+        self.outputHeaderConfiguration = outputHeaderConfiguration
         self.tags = tags
     }
 }
@@ -2898,8 +2915,7 @@ public struct CreateChannelGroupInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.clientToken = clientToken
         self.description = description
@@ -2939,8 +2955,7 @@ public struct CreateChannelGroupOutput: Swift.Sendable {
         egressDomain: Swift.String? = nil,
         modifiedAt: Foundation.Date? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.channelGroupName = channelGroupName
         self.createdAt = createdAt
@@ -2959,8 +2974,7 @@ public struct DeleteChannelGroupInput: Swift.Sendable {
 
     public init(
         channelGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
     }
 }
@@ -2977,8 +2991,7 @@ public struct GetChannelGroupInput: Swift.Sendable {
 
     public init(
         channelGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
     }
 }
@@ -3015,8 +3028,7 @@ public struct GetChannelGroupOutput: Swift.Sendable {
         egressDomain: Swift.String? = nil,
         modifiedAt: Foundation.Date? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.channelGroupName = channelGroupName
         self.createdAt = createdAt
@@ -3042,8 +3054,7 @@ extension MediaPackageV2ClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             destinationPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.destinationPath = destinationPath
         }
@@ -3060,8 +3071,7 @@ extension MediaPackageV2ClientTypes {
 
         public init(
             s3Destination: MediaPackageV2ClientTypes.S3DestinationConfig? = nil
-        )
-        {
+        ) {
             self.s3Destination = s3Destination
         }
     }
@@ -3077,8 +3087,7 @@ extension MediaPackageV2ClientTypes {
 
         public init(
             manifestName: Swift.String? = nil
-        )
-        {
+        ) {
             self.manifestName = manifestName
         }
     }
@@ -3094,8 +3103,7 @@ extension MediaPackageV2ClientTypes {
 
         public init(
             manifestName: Swift.String? = nil
-        )
-        {
+        ) {
             self.manifestName = manifestName
         }
     }
@@ -3111,8 +3119,7 @@ extension MediaPackageV2ClientTypes {
 
         public init(
             manifestName: Swift.String? = nil
-        )
-        {
+        ) {
             self.manifestName = manifestName
         }
     }
@@ -3133,8 +3140,7 @@ extension MediaPackageV2ClientTypes {
             dashManifests: [MediaPackageV2ClientTypes.HarvestedDashManifest]? = nil,
             hlsManifests: [MediaPackageV2ClientTypes.HarvestedHlsManifest]? = nil,
             lowLatencyHlsManifests: [MediaPackageV2ClientTypes.HarvestedLowLatencyHlsManifest]? = nil
-        )
-        {
+        ) {
             self.dashManifests = dashManifests
             self.hlsManifests = hlsManifests
             self.lowLatencyHlsManifests = lowLatencyHlsManifests
@@ -3156,8 +3162,7 @@ extension MediaPackageV2ClientTypes {
         public init(
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -3204,8 +3209,7 @@ public struct CreateHarvestJobInput: Swift.Sendable {
         originEndpointName: Swift.String? = nil,
         scheduleConfiguration: MediaPackageV2ClientTypes.HarvesterScheduleConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.clientToken = clientToken
@@ -3317,8 +3321,7 @@ public struct CreateHarvestJobOutput: Swift.Sendable {
         scheduleConfiguration: MediaPackageV2ClientTypes.HarvesterScheduleConfiguration? = nil,
         status: MediaPackageV2ClientTypes.HarvestJobStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.channelGroupName = channelGroupName
         self.channelName = channelName
@@ -3357,8 +3360,7 @@ public struct GetHarvestJobInput: Swift.Sendable {
         channelName: Swift.String? = nil,
         harvestJobName: Swift.String? = nil,
         originEndpointName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.harvestJobName = harvestJobName
@@ -3426,8 +3428,7 @@ public struct GetHarvestJobOutput: Swift.Sendable {
         scheduleConfiguration: MediaPackageV2ClientTypes.HarvesterScheduleConfiguration? = nil,
         status: MediaPackageV2ClientTypes.HarvestJobStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.channelGroupName = channelGroupName
         self.channelName = channelName
@@ -3469,8 +3470,7 @@ public struct ListHarvestJobsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         originEndpointName: Swift.String? = nil,
         status: MediaPackageV2ClientTypes.HarvestJobStatus? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.maxResults = maxResults
@@ -3539,8 +3539,7 @@ extension MediaPackageV2ClientTypes {
             originEndpointName: Swift.String? = nil,
             scheduleConfiguration: MediaPackageV2ClientTypes.HarvesterScheduleConfiguration? = nil,
             status: MediaPackageV2ClientTypes.HarvestJobStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -3569,8 +3568,7 @@ public struct ListHarvestJobsOutput: Swift.Sendable {
     public init(
         items: [MediaPackageV2ClientTypes.HarvestJob]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3585,8 +3583,7 @@ public struct ListChannelGroupsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3601,8 +3598,7 @@ public struct ListChannelGroupsOutput: Swift.Sendable {
     public init(
         items: [MediaPackageV2ClientTypes.ChannelGroupListConfiguration]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3621,8 +3617,7 @@ public struct UpdateChannelGroupInput: Swift.Sendable {
         channelGroupName: Swift.String? = nil,
         description: Swift.String? = nil,
         eTag: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelGroupName = channelGroupName
         self.description = description
         self.eTag = eTag
@@ -3661,8 +3656,7 @@ public struct UpdateChannelGroupOutput: Swift.Sendable {
         egressDomain: Swift.String? = nil,
         modifiedAt: Foundation.Date? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.channelGroupName = channelGroupName
         self.createdAt = createdAt
@@ -3681,8 +3675,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3693,8 +3686,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -3710,8 +3702,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -3728,8 +3719,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -4279,7 +4269,9 @@ extension CreateChannelInput {
         guard let value else { return }
         try writer["ChannelName"].write(value.channelName)
         try writer["Description"].write(value.description)
+        try writer["InputSwitchConfiguration"].write(value.inputSwitchConfiguration, with: MediaPackageV2ClientTypes.InputSwitchConfiguration.write(value:to:))
         try writer["InputType"].write(value.inputType)
+        try writer["OutputHeaderConfiguration"].write(value.outputHeaderConfiguration, with: MediaPackageV2ClientTypes.OutputHeaderConfiguration.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -4353,6 +4345,8 @@ extension UpdateChannelInput {
     static func write(value: UpdateChannelInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Description"].write(value.description)
+        try writer["InputSwitchConfiguration"].write(value.inputSwitchConfiguration, with: MediaPackageV2ClientTypes.InputSwitchConfiguration.write(value:to:))
+        try writer["OutputHeaderConfiguration"].write(value.outputHeaderConfiguration, with: MediaPackageV2ClientTypes.OutputHeaderConfiguration.write(value:to:))
     }
 }
 
@@ -4400,8 +4394,10 @@ extension CreateChannelOutput {
         value.description = try reader["Description"].readIfPresent()
         value.eTag = try reader["ETag"].readIfPresent()
         value.ingestEndpoints = try reader["IngestEndpoints"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.IngestEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inputSwitchConfiguration = try reader["InputSwitchConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.InputSwitchConfiguration.read(from:))
         value.inputType = try reader["InputType"].readIfPresent()
         value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.outputHeaderConfiguration = try reader["OutputHeaderConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.OutputHeaderConfiguration.read(from:))
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -4528,8 +4524,10 @@ extension GetChannelOutput {
         value.description = try reader["Description"].readIfPresent()
         value.eTag = try reader["ETag"].readIfPresent()
         value.ingestEndpoints = try reader["IngestEndpoints"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.IngestEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inputSwitchConfiguration = try reader["InputSwitchConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.InputSwitchConfiguration.read(from:))
         value.inputType = try reader["InputType"].readIfPresent()
         value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.outputHeaderConfiguration = try reader["OutputHeaderConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.OutputHeaderConfiguration.read(from:))
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -4742,8 +4740,10 @@ extension UpdateChannelOutput {
         value.description = try reader["Description"].readIfPresent()
         value.eTag = try reader["ETag"].readIfPresent()
         value.ingestEndpoints = try reader["IngestEndpoints"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.IngestEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inputSwitchConfiguration = try reader["InputSwitchConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.InputSwitchConfiguration.read(from:))
         value.inputType = try reader["InputType"].readIfPresent()
         value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.outputHeaderConfiguration = try reader["OutputHeaderConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.OutputHeaderConfiguration.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -5401,6 +5401,36 @@ extension MediaPackageV2ClientTypes.IngestEndpoint {
         var value = MediaPackageV2ClientTypes.IngestEndpoint()
         value.id = try reader["Id"].readIfPresent()
         value.url = try reader["Url"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.InputSwitchConfiguration {
+
+    static func write(value: MediaPackageV2ClientTypes.InputSwitchConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MQCSInputSwitching"].write(value.mqcsInputSwitching)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.InputSwitchConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.InputSwitchConfiguration()
+        value.mqcsInputSwitching = try reader["MQCSInputSwitching"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.OutputHeaderConfiguration {
+
+    static func write(value: MediaPackageV2ClientTypes.OutputHeaderConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PublishMQCS"].write(value.publishMQCS)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.OutputHeaderConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.OutputHeaderConfiguration()
+        value.publishMQCS = try reader["PublishMQCS"].readIfPresent()
         return value
     }
 }

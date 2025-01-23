@@ -17,12 +17,15 @@ import class ClientRuntime.HttpClientConfiguration
 import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
+import class Smithy.Context
 import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
+import enum AWSClientRuntime.AccountIDEndpointMode
+import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
@@ -41,8 +44,8 @@ import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
+@_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
-import struct AWSClientRuntime.EndpointResolverMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
@@ -65,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DynamoDBClient: ClientRuntime.Client {
     public static let clientName = "DynamoDBClient"
-    public static let version = "1.0.40"
+    public static let version = "1.2.1"
     let client: ClientRuntime.SdkHttpClient
     let config: DynamoDBClient.DynamoDBClientConfiguration
     let serviceName = "DynamoDB"
@@ -87,65 +90,73 @@ public class DynamoDBClient: ClientRuntime.Client {
 }
 
 extension DynamoDBClient {
+
     public class DynamoDBClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
         public var useFIPS: Swift.Bool?
-
         public var useDualStack: Swift.Bool?
-
         public var appID: Swift.String?
-
         public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
-
         public var awsRetryMode: AWSClientRuntime.AWSRetryMode
-
         public var maxAttempts: Swift.Int?
-
+        public var requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var ignoreConfiguredEndpointURLs: Swift.Bool?
         public var region: Swift.String?
-
         public var signingRegion: Swift.String?
-
-        public var accountId: Swift.String?
-
-        public var accountIdEndpointMode: Swift.String?
-
+        public var accountIdEndpointMode: AWSClientRuntime.AccountIDEndpointMode?
         public var endpointResolver: EndpointResolver
-
         public var telemetryProvider: ClientRuntime.TelemetryProvider
-
         public var retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions
-
         public var clientLogMode: ClientRuntime.ClientLogMode
-
         public var endpoint: Swift.String?
-
         public var idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator
-
         public var httpClientEngine: SmithyHTTPAPI.HTTPClient
-
         public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
-
         public var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
-
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
-
         public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
-
         public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
-
         public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-
         internal let logger: Smithy.LogAgent
 
-        private init(_ useFIPS: Swift.Bool?, _ useDualStack: Swift.Bool?, _ appID: Swift.String?, _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver, _ awsRetryMode: AWSClientRuntime.AWSRetryMode, _ maxAttempts: Swift.Int?, _ region: Swift.String?, _ signingRegion: Swift.String?, _ accountId: Swift.String?, _ accountIdEndpointMode: Swift.String?, _ endpointResolver: EndpointResolver, _ telemetryProvider: ClientRuntime.TelemetryProvider, _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions, _ clientLogMode: ClientRuntime.ClientLogMode, _ endpoint: Swift.String?, _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator, _ httpClientEngine: SmithyHTTPAPI.HTTPClient, _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration, _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?, _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver, _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver, _ interceptorProviders: [ClientRuntime.InterceptorProvider], _ httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]) {
+        private init(
+            _ useFIPS: Swift.Bool?,
+            _ useDualStack: Swift.Bool?,
+            _ appID: Swift.String?,
+            _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver,
+            _ awsRetryMode: AWSClientRuntime.AWSRetryMode,
+            _ maxAttempts: Swift.Int?,
+            _ requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode,
+            _ responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode,
+            _ ignoreConfiguredEndpointURLs: Swift.Bool?,
+            _ region: Swift.String?,
+            _ signingRegion: Swift.String?,
+            _ accountIdEndpointMode: AWSClientRuntime.AccountIDEndpointMode?,
+            _ endpointResolver: EndpointResolver,
+            _ telemetryProvider: ClientRuntime.TelemetryProvider,
+            _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions,
+            _ clientLogMode: ClientRuntime.ClientLogMode,
+            _ endpoint: Swift.String?,
+            _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator,
+            _ httpClientEngine: SmithyHTTPAPI.HTTPClient,
+            _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration,
+            _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?,
+            _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver,
+            _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver,
+            _ interceptorProviders: [ClientRuntime.InterceptorProvider],
+            _ httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
+        ) {
             self.useFIPS = useFIPS
             self.useDualStack = useDualStack
             self.appID = appID
             self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
             self.awsRetryMode = awsRetryMode
             self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = requestChecksumCalculation
+            self.responseChecksumValidation = responseChecksumValidation
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
             self.region = region
             self.signingRegion = signingRegion
-            self.accountId = accountId
             self.accountIdEndpointMode = accountIdEndpointMode
             self.endpointResolver = endpointResolver
             self.telemetryProvider = telemetryProvider
@@ -163,25 +174,182 @@ extension DynamoDBClient {
             self.logger = telemetryProvider.loggerProvider.getLogger(name: DynamoDBClient.clientName)
         }
 
-        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, maxAttempts: Swift.Int? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, accountId: Swift.String? = nil, accountIdEndpointMode: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil, interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil, httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil) throws {
-            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), maxAttempts, region, signingRegion, accountId, accountIdEndpointMode, try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(), endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(), httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(), authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()], authSchemeResolver ?? DefaultDynamoDBAuthSchemeResolver(), bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")), interceptorProviders ?? [], httpInterceptorProviders ?? [])
+        public convenience init(
+            useFIPS: Swift.Bool? = nil,
+            useDualStack: Swift.Bool? = nil,
+            appID: Swift.String? = nil,
+            awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
+            awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
+            maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            region: Swift.String? = nil,
+            signingRegion: Swift.String? = nil,
+            accountIdEndpointMode: AWSClientRuntime.AccountIDEndpointMode? = nil,
+            endpointResolver: EndpointResolver? = nil,
+            telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
+            retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
+            clientLogMode: ClientRuntime.ClientLogMode? = nil,
+            endpoint: Swift.String? = nil,
+            idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
+            httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
+            httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
+            authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
+        ) throws {
+            self.init(
+                useFIPS,
+                useDualStack,
+                try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
+                try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                maxAttempts,
+                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
+                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
+                ignoreConfiguredEndpointURLs,
+                region,
+                signingRegion,
+                try accountIdEndpointMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.accountIDEndpointMode(),
+                try endpointResolver ?? DefaultEndpointResolver(),
+                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
+                try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
+                clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
+                endpoint,
+                idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemeResolver ?? DefaultDynamoDBAuthSchemeResolver(),
+                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                interceptorProviders ?? [],
+                httpInterceptorProviders ?? []
+            )
         }
 
-        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, maxAttempts: Swift.Int? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, accountId: Swift.String? = nil, accountIdEndpointMode: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil, interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil, httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil) async throws {
-            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), maxAttempts, try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), accountId, accountIdEndpointMode, try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(), endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(), httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(), authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()], authSchemeResolver ?? DefaultDynamoDBAuthSchemeResolver(), bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")), interceptorProviders ?? [], httpInterceptorProviders ?? [])
+        public convenience init(
+            useFIPS: Swift.Bool? = nil,
+            useDualStack: Swift.Bool? = nil,
+            appID: Swift.String? = nil,
+            awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
+            awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
+            maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            region: Swift.String? = nil,
+            signingRegion: Swift.String? = nil,
+            accountIdEndpointMode: AWSClientRuntime.AccountIDEndpointMode? = nil,
+            endpointResolver: EndpointResolver? = nil,
+            telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
+            retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
+            clientLogMode: ClientRuntime.ClientLogMode? = nil,
+            endpoint: Swift.String? = nil,
+            idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
+            httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
+            httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
+            authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
+        ) async throws {
+            self.init(
+                useFIPS,
+                useDualStack,
+                try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
+                try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                maxAttempts,
+                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
+                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
+                ignoreConfiguredEndpointURLs,
+                try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
+                try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
+                try accountIdEndpointMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.accountIDEndpointMode(),
+                try endpointResolver ?? DefaultEndpointResolver(),
+                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
+                try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
+                clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
+                endpoint,
+                idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemeResolver ?? DefaultDynamoDBAuthSchemeResolver(),
+                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                interceptorProviders ?? [],
+                httpInterceptorProviders ?? []
+            )
         }
 
         public convenience required init() async throws {
-            try await self.init(useFIPS: nil, useDualStack: nil, appID: nil, awsCredentialIdentityResolver: nil, awsRetryMode: nil, maxAttempts: nil, region: nil, signingRegion: nil, accountId: nil, accountIdEndpointMode: nil, endpointResolver: nil, telemetryProvider: nil, retryStrategyOptions: nil, clientLogMode: nil, endpoint: nil, idempotencyTokenGenerator: nil, httpClientEngine: nil, httpClientConfiguration: nil, authSchemes: nil, authSchemeResolver: nil, bearerTokenIdentityResolver: nil, interceptorProviders: nil, httpInterceptorProviders: nil)
+            try await self.init(
+                useFIPS: nil,
+                useDualStack: nil,
+                appID: nil,
+                awsCredentialIdentityResolver: nil,
+                awsRetryMode: nil,
+                maxAttempts: nil,
+                requestChecksumCalculation: nil,
+                responseChecksumValidation: nil,
+                ignoreConfiguredEndpointURLs: nil,
+                region: nil,
+                signingRegion: nil,
+                accountIdEndpointMode: nil,
+                endpointResolver: nil,
+                telemetryProvider: nil,
+                retryStrategyOptions: nil,
+                clientLogMode: nil,
+                endpoint: nil,
+                idempotencyTokenGenerator: nil,
+                httpClientEngine: nil,
+                httpClientConfiguration: nil,
+                authSchemes: nil,
+                authSchemeResolver: nil,
+                bearerTokenIdentityResolver: nil,
+                interceptorProviders: nil,
+                httpInterceptorProviders: nil
+            )
         }
 
-        public convenience init(region: String) throws {
-            self.init(nil, nil, try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(), try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), nil, region, region, nil, nil, try DefaultEndpointResolver(), ClientRuntime.DefaultTelemetry.provider, try AWSClientConfigDefaultsProvider.retryStrategyOptions(), AWSClientConfigDefaultsProvider.clientLogMode(), nil, AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), AWSClientConfigDefaultsProvider.httpClientEngine(), AWSClientConfigDefaultsProvider.httpClientConfiguration(), [AWSSDKHTTPAuth.SigV4AuthScheme()], DefaultDynamoDBAuthSchemeResolver(), SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")), [], [])
+        public convenience init(region: Swift.String) throws {
+            self.init(
+                nil,
+                nil,
+                try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(),
+                try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                nil,
+                try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
+                try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
+                nil,
+                region,
+                region,
+                try AWSClientRuntime.AWSClientConfigDefaultsProvider.accountIDEndpointMode(),
+                try DefaultEndpointResolver(),
+                ClientRuntime.DefaultTelemetry.provider,
+                try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                AWSClientConfigDefaultsProvider.clientLogMode(),
+                nil,
+                AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                AWSClientConfigDefaultsProvider.httpClientEngine(),
+                AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                DefaultDynamoDBAuthSchemeResolver(),
+                SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                [],
+                []
+            )
         }
 
         public var partitionID: String? {
             return "\(DynamoDBClient.clientName) - \(region ?? "")"
         }
+
         public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
             self.interceptorProviders.append(provider)
         }
@@ -202,7 +370,7 @@ extension DynamoDBClient {
 }
 
 extension DynamoDBClient {
-    /// Performs the `BatchExecuteStatement` operation on the `DynamoDB_20120810` service.
+    /// Performs the `BatchExecuteStatement` operation on the `DynamoDB` service.
     ///
     /// This operation allows you to perform batch reads or writes on data stored in DynamoDB, using PartiQL. Each read statement in a BatchExecuteStatement must specify an equality condition on all key attributes. This enforces that each SELECT statement in a batch returns at most a single item. For more information, see [Running batch operations with PartiQL for DynamoDB ](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ql-reference.multiplestatements.batching.html). The entire batch must consist of either read statements or write statements, you cannot mix both in one batch. A HTTP 200 response does not mean that all statements in the BatchExecuteStatement succeeded. Error details for individual statements can be found under the [Error](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchStatementResponse.html#DDB-Type-BatchStatementResponse-Error) field of the BatchStatementResponse for each statement.
     ///
@@ -228,9 +396,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -249,15 +420,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchExecuteStatementOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<BatchExecuteStatementOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchExecuteStatementInput, BatchExecuteStatementOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchExecuteStatementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchExecuteStatementInput, BatchExecuteStatementOutput>(xAmzTarget: "DynamoDB_20120810.BatchExecuteStatement"))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchExecuteStatementInput, BatchExecuteStatementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchExecuteStatementInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchExecuteStatementInput, BatchExecuteStatementOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchExecuteStatementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchExecuteStatementInput, BatchExecuteStatementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchExecuteStatementInput, BatchExecuteStatementOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchExecuteStatementInput, BatchExecuteStatementOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchExecuteStatement")
@@ -273,7 +447,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetItem` operation on the `DynamoDB_20120810` service.
+    /// Performs the `BatchGetItem` operation on the `DynamoDB` service.
     ///
     /// The BatchGetItem operation returns the attributes of one or more items from one or more tables. You identify requested items by primary key. A single operation can retrieve up to 16 MB of data, which can contain as many as 100 items. BatchGetItem returns a partial result if the response size limit is exceeded, the table's provisioned throughput is exceeded, more than 1MB per partition is requested, or an internal processing failure occurs. If a partial result is returned, the operation returns a value for UnprocessedKeys. You can use this value to retry the operation starting with the next item to get. If you request more than 100 items, BatchGetItem returns a ValidationException with the message "Too many items requested for the BatchGetItem call." For example, if you ask to retrieve 100 items, but each individual item is 300 KB in size, the system returns 52 items (so as not to exceed the 16 MB limit). It also returns an appropriate UnprocessedKeys value so you can get the next page of results. If desired, your application can include its own logic to assemble the pages of results into one dataset. If none of the items can be processed due to insufficient provisioned throughput on all of the tables in the request, then BatchGetItem returns a ProvisionedThroughputExceededException. If at least one of the items is successfully processed, then BatchGetItem completes successfully, while returning the keys of the unread items in UnprocessedKeys. If DynamoDB returns any unprocessed items, you should retry the batch operation on those items. However, we strongly recommend that you use an exponential backoff algorithm. If you retry the batch operation immediately, the underlying read or write requests can still fail due to throttling on the individual tables. If you delay the batch operation using exponential backoff, the individual requests in the batch are much more likely to succeed. For more information, see [Batch Operations and Error Handling](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#BatchOperations) in the Amazon DynamoDB Developer Guide. By default, BatchGetItem performs eventually consistent reads on every table in the request. If you want strongly consistent reads instead, you can set ConsistentRead to true for any or all tables. In order to minimize response latency, BatchGetItem may retrieve items in parallel. When designing your application, keep in mind that DynamoDB does not return items in any particular order. To help parse the response by item, include the primary key values for the items in your request in the ProjectionExpression parameter. If a requested item does not exist, it is not returned in the result. Requests for nonexistent items consume the minimum read capacity units according to the type of read. For more information, see [Working with Tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithTables.html#CapacityUnitCalculations) in the Amazon DynamoDB Developer Guide.
     ///
@@ -302,9 +476,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -323,15 +500,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetItemOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<BatchGetItemOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetItemInput, BatchGetItemOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetItemOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchGetItemInput, BatchGetItemOutput>(xAmzTarget: "DynamoDB_20120810.BatchGetItem"))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchGetItemInput, BatchGetItemOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetItemInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetItemInput, BatchGetItemOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetItemOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetItemInput, BatchGetItemOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetItemInput, BatchGetItemOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetItemInput, BatchGetItemOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetItem")
@@ -347,7 +527,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchWriteItem` operation on the `DynamoDB_20120810` service.
+    /// Performs the `BatchWriteItem` operation on the `DynamoDB` service.
     ///
     /// The BatchWriteItem operation puts or deletes multiple items in one or more tables. A single call to BatchWriteItem can transmit up to 16MB of data over the network, consisting of up to 25 item put or delete operations. While individual items can be up to 400 KB once stored, it's important to note that an item's representation might be greater than 400KB while being sent in DynamoDB's JSON format for the API call. For more details on this distinction, see [Naming Rules and Data Types](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html). BatchWriteItem cannot update items. If you perform a BatchWriteItem operation on an existing item, that item's values will be overwritten by the operation and it will appear like it was updated. To update items, we recommend you use the UpdateItem action. The individual PutItem and DeleteItem operations specified in BatchWriteItem are atomic; however BatchWriteItem as a whole is not. If any requested operations fail because the table's provisioned throughput is exceeded or an internal processing failure occurs, the failed operations are returned in the UnprocessedItems response parameter. You can investigate and optionally resend the requests. Typically, you would call BatchWriteItem in a loop. Each iteration would check for unprocessed items and submit a new BatchWriteItem request with those unprocessed items until all items have been processed. For tables and indexes with provisioned capacity, if none of the items can be processed due to insufficient provisioned throughput on all of the tables in the request, then BatchWriteItem returns a ProvisionedThroughputExceededException. For all tables and indexes, if none of the items can be processed due to other throttling scenarios (such as exceeding partition level limits), then BatchWriteItem returns a ThrottlingException. If DynamoDB returns any unprocessed items, you should retry the batch operation on those items. However, we strongly recommend that you use an exponential backoff algorithm. If you retry the batch operation immediately, the underlying read or write requests can still fail due to throttling on the individual tables. If you delay the batch operation using exponential backoff, the individual requests in the batch are much more likely to succeed. For more information, see [Batch Operations and Error Handling](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#Programming.Errors.BatchOperations) in the Amazon DynamoDB Developer Guide. With BatchWriteItem, you can efficiently write or delete large amounts of data, such as from Amazon EMR, or copy data from another database into DynamoDB. In order to improve performance with these large-scale operations, BatchWriteItem does not behave in the same way as individual PutItem and DeleteItem calls would. For example, you cannot specify conditions on individual put and delete requests, and BatchWriteItem does not return deleted items in the response. If you use a programming language that supports concurrency, you can use threads to write items in parallel. Your application must include the necessary logic to manage the threads. With languages that don't support threading, you must update or delete the specified items one at a time. In both situations, BatchWriteItem performs the specified put and delete operations in parallel, giving you the power of the thread pool approach without having to introduce complexity into your application. Parallel processing reduces latency, but each specified put and delete request consumes the same number of write capacity units whether it is processed in parallel or not. Delete operations on nonexistent items consume one write capacity unit. If one or more of the following is true, DynamoDB rejects the entire batch write operation:
     ///
@@ -393,9 +573,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -414,15 +597,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchWriteItemOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<BatchWriteItemOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchWriteItemInput, BatchWriteItemOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchWriteItemOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchWriteItemInput, BatchWriteItemOutput>(xAmzTarget: "DynamoDB_20120810.BatchWriteItem"))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchWriteItemInput, BatchWriteItemOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchWriteItemInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchWriteItemInput, BatchWriteItemOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchWriteItemOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchWriteItemInput, BatchWriteItemOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchWriteItemInput, BatchWriteItemOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchWriteItemInput, BatchWriteItemOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchWriteItem")
@@ -438,7 +624,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateBackup` operation on the `DynamoDB_20120810` service.
+    /// Performs the `CreateBackup` operation on the `DynamoDB` service.
     ///
     /// Creates a backup for an existing table. Each time you create an on-demand backup, the entire table data is backed up. There is no limit to the number of on-demand backups that can be taken. When you create an on-demand backup, a time marker of the request is cataloged, and the backup is created asynchronously, by applying all changes until the time of the request to the last full table snapshot. Backup requests are processed instantaneously and become available for restore within minutes. You can call CreateBackup at a maximum rate of 50 times per second. All backups in DynamoDB work without consuming any provisioned throughput on the table. If you submit a backup request on 2018-12-14 at 14:25:00, the backup is guaranteed to contain all data committed to the table up to 14:24:00, and data committed after 14:26:00 will not be. The backup might contain data modifications made between 14:24:00 and 14:26:00. On-demand backup does not support causal consistency. Along with data, the following are also included on the backups:
     ///
@@ -477,9 +663,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -498,15 +687,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBackupOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateBackupOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateBackupInput, CreateBackupOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateBackupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateBackupInput, CreateBackupOutput>(xAmzTarget: "DynamoDB_20120810.CreateBackup"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateBackupInput, CreateBackupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateBackupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBackupInput, CreateBackupOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateBackupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateBackupInput, CreateBackupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateBackupInput, CreateBackupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateBackupInput, CreateBackupOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateBackup")
@@ -522,7 +714,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateGlobalTable` operation on the `DynamoDB_20120810` service.
+    /// Performs the `CreateGlobalTable` operation on the `DynamoDB` service.
     ///
     /// Creates a global table from an existing table. A global table creates a replication relationship between two or more DynamoDB tables with the same table name in the provided Regions. This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use [Global Tables version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy). To determine which version you're using, see [Determining the global table version you are using](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html). To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see [Upgrading global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html). If you want to add a new replica table to a global table, each of the following conditions must be true:
     ///
@@ -576,9 +768,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -597,15 +792,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGlobalTableOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateGlobalTableOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateGlobalTableInput, CreateGlobalTableOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateGlobalTableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateGlobalTableInput, CreateGlobalTableOutput>(xAmzTarget: "DynamoDB_20120810.CreateGlobalTable"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateGlobalTableInput, CreateGlobalTableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateGlobalTableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateGlobalTableInput, CreateGlobalTableOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateGlobalTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateGlobalTableInput, CreateGlobalTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateGlobalTableInput, CreateGlobalTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateGlobalTableInput, CreateGlobalTableOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateGlobalTable")
@@ -621,7 +819,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateTable` operation on the `DynamoDB_20120810` service.
+    /// Performs the `CreateTable` operation on the `DynamoDB` service.
     ///
     /// The CreateTable operation adds a new table to your account. In an Amazon Web Services account, table names must be unique within each Region. That is, you can have two tables with same name if you create the tables in different Regions. CreateTable is an asynchronous operation. Upon receiving a CreateTable request, DynamoDB immediately returns a response with a TableStatus of CREATING. After the table is created, DynamoDB sets the TableStatus to ACTIVE. You can perform read and write operations only on an ACTIVE table. You can optionally define secondary indexes on the new table, as part of the CreateTable operation. If you want to create multiple tables with secondary indexes on them, you must create the tables sequentially. Only one table with secondary indexes can be in the CREATING state at any given time. You can use the DescribeTable action to check the table status.
     ///
@@ -658,9 +856,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -679,15 +880,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTableOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateTableOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateTableInput, CreateTableOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateTableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateTableInput, CreateTableOutput>(xAmzTarget: "DynamoDB_20120810.CreateTable"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateTableInput, CreateTableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTableInput, CreateTableOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateTableInput, CreateTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateTableInput, CreateTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateTableInput, CreateTableOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateTable")
@@ -703,7 +907,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteBackup` operation on the `DynamoDB_20120810` service.
+    /// Performs the `DeleteBackup` operation on the `DynamoDB` service.
     ///
     /// Deletes an existing backup of a table. You can call DeleteBackup at a maximum rate of 10 times per second.
     ///
@@ -732,9 +936,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -753,15 +960,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBackupOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteBackupOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteBackupInput, DeleteBackupOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteBackupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteBackupInput, DeleteBackupOutput>(xAmzTarget: "DynamoDB_20120810.DeleteBackup"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteBackupInput, DeleteBackupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteBackupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBackupInput, DeleteBackupOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteBackupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteBackupInput, DeleteBackupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteBackupInput, DeleteBackupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteBackupInput, DeleteBackupOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteBackup")
@@ -777,7 +987,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteItem` operation on the `DynamoDB_20120810` service.
+    /// Performs the `DeleteItem` operation on the `DynamoDB` service.
     ///
     /// Deletes a single item in a table by primary key. You can perform a conditional delete operation that deletes the item if it exists, or if it has an expected attribute value. In addition to deleting an item, you can also return the item's attribute values in the same operation, using the ReturnValues parameter. Unless you specify conditions, the DeleteItem is an idempotent operation; running it multiple times on the same item or attribute does not result in an error response. Conditional deletes are useful for deleting items only if specific conditions are met. If those conditions are met, DynamoDB performs the delete. Otherwise, the item is not deleted.
     ///
@@ -793,6 +1003,7 @@ extension DynamoDBClient {
     /// - `InvalidEndpointException` : [no documentation found]
     /// - `ItemCollectionSizeLimitExceededException` : An item collection is too large. This exception is only returned for tables that have one or more local secondary indexes.
     /// - `ProvisionedThroughputExceededException` : Your request rate is too high. The Amazon Web Services SDKs for DynamoDB automatically retry requests that receive this exception. Your request is eventually successful, unless your retry queue is too large to finish. Reduce the frequency of requests and use exponential backoff. For more information, go to [Error Retries and Exponential Backoff](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff) in the Amazon DynamoDB Developer Guide.
+    /// - `ReplicatedWriteConflictException` : The request was rejected because one or more items in the request are being modified by a request in another Region.
     /// - `RequestLimitExceeded` : Throughput exceeds the current throughput quota for your account. Please contact [Amazon Web Services Support](https://aws.amazon.com/support) to request a quota increase.
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent table or index. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `TransactionConflictException` : Operation was rejected because there is an ongoing transaction for the item.
@@ -809,9 +1020,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -830,15 +1044,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteItemOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteItemOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteItemInput, DeleteItemOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteItemOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteItemInput, DeleteItemOutput>(xAmzTarget: "DynamoDB_20120810.DeleteItem"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteItemInput, DeleteItemOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteItemInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteItemInput, DeleteItemOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteItemOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteItemInput, DeleteItemOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteItemInput, DeleteItemOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteItemInput, DeleteItemOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteItem")
@@ -854,7 +1071,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteResourcePolicy` operation on the `DynamoDB_20120810` service.
+    /// Performs the `DeleteResourcePolicy` operation on the `DynamoDB` service.
     ///
     /// Deletes the resource-based policy attached to the resource, which can be a table or stream. DeleteResourcePolicy is an idempotent operation; running it multiple times on the same resource doesn't result in an error response, unless you specify an ExpectedRevisionId, which will then return a PolicyNotFoundException. To make sure that you don't inadvertently lock yourself out of your own resources, the root principal in your Amazon Web Services account can perform DeleteResourcePolicy requests, even if your resource-based policy explicitly denies the root principal's access. DeleteResourcePolicy is an asynchronous operation. If you issue a GetResourcePolicy request immediately after running the DeleteResourcePolicy request, DynamoDB might still return the deleted policy. This is because the policy for your resource might not have been deleted yet. Wait for a few seconds, and then try the GetResourcePolicy request again.
     ///
@@ -893,9 +1110,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -914,15 +1134,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteResourcePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(xAmzTarget: "DynamoDB_20120810.DeleteResourcePolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteResourcePolicy")
@@ -938,7 +1161,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteTable` operation on the `DynamoDB_20120810` service.
+    /// Performs the `DeleteTable` operation on the `DynamoDB` service.
     ///
     /// The DeleteTable operation deletes a table and all of its items. After a DeleteTable request, the specified table is in the DELETING state until DynamoDB completes the deletion. If the table is in the ACTIVE state, you can delete it. If a table is in CREATING or UPDATING states, then DynamoDB returns a ResourceInUseException. If the specified table does not exist, DynamoDB returns a ResourceNotFoundException. If table is already in the DELETING state, no error is returned. For global tables, this operation only applies to global tables using Version 2019.11.21 (Current version). DynamoDB might continue to accept data read and write operations, such as GetItem and PutItem, on a table in the DELETING state until the table deletion is complete. For the full list of table states, see [TableStatus](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_TableDescription.html#DDB-Type-TableDescription-TableStatus). When you delete a table, any indexes on that table are also deleted. If you have DynamoDB Streams enabled on the table, then the corresponding stream on that table goes into the DISABLED state, and the stream is automatically deleted after 24 hours. Use the DescribeTable action to check the status of the table.
     ///
@@ -976,9 +1199,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -997,15 +1223,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTableOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteTableOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteTableInput, DeleteTableOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteTableInput, DeleteTableOutput>(xAmzTarget: "DynamoDB_20120810.DeleteTable"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteTableInput, DeleteTableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTableInput, DeleteTableOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTableInput, DeleteTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteTableInput, DeleteTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteTableInput, DeleteTableOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTable")
@@ -1021,7 +1250,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeBackup` operation on the `DynamoDB_20120810` service.
+    /// Performs the `DescribeBackup` operation on the `DynamoDB` service.
     ///
     /// Describes an existing backup of a table. You can call DescribeBackup at a maximum rate of 10 times per second.
     ///
@@ -1048,9 +1277,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1069,15 +1301,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBackupOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeBackupOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeBackupInput, DescribeBackupOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeBackupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeBackupInput, DescribeBackupOutput>(xAmzTarget: "DynamoDB_20120810.DescribeBackup"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeBackupInput, DescribeBackupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeBackupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeBackupInput, DescribeBackupOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeBackupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeBackupInput, DescribeBackupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeBackupInput, DescribeBackupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeBackupInput, DescribeBackupOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeBackup")
@@ -1093,9 +1328,9 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeContinuousBackups` operation on the `DynamoDB_20120810` service.
+    /// Performs the `DescribeContinuousBackups` operation on the `DynamoDB` service.
     ///
-    /// Checks the status of continuous backups and point in time recovery on the specified table. Continuous backups are ENABLED on all tables at table creation. If point in time recovery is enabled, PointInTimeRecoveryStatus will be set to ENABLED. After continuous backups and point in time recovery are enabled, you can restore to any point in time within EarliestRestorableDateTime and LatestRestorableDateTime. LatestRestorableDateTime is typically 5 minutes before the current time. You can restore your table to any point in time during the last 35 days. You can call DescribeContinuousBackups at a maximum rate of 10 times per second.
+    /// Checks the status of continuous backups and point in time recovery on the specified table. Continuous backups are ENABLED on all tables at table creation. If point in time recovery is enabled, PointInTimeRecoveryStatus will be set to ENABLED. After continuous backups and point in time recovery are enabled, you can restore to any point in time within EarliestRestorableDateTime and LatestRestorableDateTime. LatestRestorableDateTime is typically 5 minutes before the current time. You can restore your table to any point in time in the last 35 days. You can set the recovery period to any value between 1 and 35 days. You can call DescribeContinuousBackups at a maximum rate of 10 times per second.
     ///
     /// - Parameter DescribeContinuousBackupsInput : [no documentation found]
     ///
@@ -1120,9 +1355,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1141,15 +1379,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeContinuousBackupsOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeContinuousBackupsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeContinuousBackupsInput, DescribeContinuousBackupsOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeContinuousBackupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeContinuousBackupsInput, DescribeContinuousBackupsOutput>(xAmzTarget: "DynamoDB_20120810.DescribeContinuousBackups"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeContinuousBackupsInput, DescribeContinuousBackupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeContinuousBackupsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeContinuousBackupsInput, DescribeContinuousBackupsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeContinuousBackupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeContinuousBackupsInput, DescribeContinuousBackupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeContinuousBackupsInput, DescribeContinuousBackupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeContinuousBackupsInput, DescribeContinuousBackupsOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeContinuousBackups")
@@ -1165,7 +1406,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeContributorInsights` operation on the `DynamoDB_20120810` service.
+    /// Performs the `DescribeContributorInsights` operation on the `DynamoDB` service.
     ///
     /// Returns information about contributor insights for a given table or global secondary index.
     ///
@@ -1191,9 +1432,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1212,15 +1456,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeContributorInsightsOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeContributorInsightsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeContributorInsightsInput, DescribeContributorInsightsOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeContributorInsightsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeContributorInsightsInput, DescribeContributorInsightsOutput>(xAmzTarget: "DynamoDB_20120810.DescribeContributorInsights"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeContributorInsightsInput, DescribeContributorInsightsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeContributorInsightsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeContributorInsightsInput, DescribeContributorInsightsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeContributorInsightsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeContributorInsightsInput, DescribeContributorInsightsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeContributorInsightsInput, DescribeContributorInsightsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeContributorInsightsInput, DescribeContributorInsightsOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeContributorInsights")
@@ -1236,7 +1483,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeEndpoints` operation on the `DynamoDB_20120810` service.
+    /// Performs the `DescribeEndpoints` operation on the `DynamoDB` service.
     ///
     /// Returns the regional endpoint information. For more information on policy permissions, please see [Internetwork traffic privacy](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/inter-network-traffic-privacy.html#inter-network-traffic-DescribeEndpoints).
     ///
@@ -1256,9 +1503,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1277,15 +1527,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEndpointsOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeEndpointsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeEndpointsInput, DescribeEndpointsOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeEndpointsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeEndpointsInput, DescribeEndpointsOutput>(xAmzTarget: "DynamoDB_20120810.DescribeEndpoints"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeEndpointsInput, DescribeEndpointsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEndpointsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEndpointsInput, DescribeEndpointsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEndpointsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeEndpointsInput, DescribeEndpointsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeEndpointsInput, DescribeEndpointsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeEndpointsInput, DescribeEndpointsOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeEndpoints")
@@ -1301,7 +1554,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeExport` operation on the `DynamoDB_20120810` service.
+    /// Performs the `DescribeExport` operation on the `DynamoDB` service.
     ///
     /// Describes an existing table export.
     ///
@@ -1328,9 +1581,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1349,15 +1605,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeExportOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeExportOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeExportInput, DescribeExportOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeExportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeExportInput, DescribeExportOutput>(xAmzTarget: "DynamoDB_20120810.DescribeExport"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeExportInput, DescribeExportOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeExportInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeExportInput, DescribeExportOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeExportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeExportInput, DescribeExportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeExportInput, DescribeExportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeExportInput, DescribeExportOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeExport")
@@ -1373,7 +1632,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeGlobalTable` operation on the `DynamoDB_20120810` service.
+    /// Performs the `DescribeGlobalTable` operation on the `DynamoDB` service.
     ///
     /// Returns information about the specified global table. This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use [Global Tables version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy). To determine which version you're using, see [Determining the global table version you are using](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html). To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see [Upgrading global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
     ///
@@ -1400,9 +1659,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1421,15 +1683,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGlobalTableOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeGlobalTableOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeGlobalTableInput, DescribeGlobalTableOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeGlobalTableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeGlobalTableInput, DescribeGlobalTableOutput>(xAmzTarget: "DynamoDB_20120810.DescribeGlobalTable"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeGlobalTableInput, DescribeGlobalTableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeGlobalTableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeGlobalTableInput, DescribeGlobalTableOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeGlobalTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeGlobalTableInput, DescribeGlobalTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeGlobalTableInput, DescribeGlobalTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeGlobalTableInput, DescribeGlobalTableOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeGlobalTable")
@@ -1445,7 +1710,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeGlobalTableSettings` operation on the `DynamoDB_20120810` service.
+    /// Performs the `DescribeGlobalTableSettings` operation on the `DynamoDB` service.
     ///
     /// Describes Region-specific settings for a global table. This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use [Global Tables version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy). To determine which version you're using, see [Determining the global table version you are using](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html). To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see [Upgrading global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
     ///
@@ -1472,9 +1737,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1493,15 +1761,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGlobalTableSettingsOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeGlobalTableSettingsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeGlobalTableSettingsInput, DescribeGlobalTableSettingsOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeGlobalTableSettingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeGlobalTableSettingsInput, DescribeGlobalTableSettingsOutput>(xAmzTarget: "DynamoDB_20120810.DescribeGlobalTableSettings"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeGlobalTableSettingsInput, DescribeGlobalTableSettingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeGlobalTableSettingsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeGlobalTableSettingsInput, DescribeGlobalTableSettingsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeGlobalTableSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeGlobalTableSettingsInput, DescribeGlobalTableSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeGlobalTableSettingsInput, DescribeGlobalTableSettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeGlobalTableSettingsInput, DescribeGlobalTableSettingsOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeGlobalTableSettings")
@@ -1517,7 +1788,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeImport` operation on the `DynamoDB_20120810` service.
+    /// Performs the `DescribeImport` operation on the `DynamoDB` service.
     ///
     /// Represents the properties of the import.
     ///
@@ -1542,9 +1813,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1563,15 +1837,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeImportOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeImportOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeImportInput, DescribeImportOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeImportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeImportInput, DescribeImportOutput>(xAmzTarget: "DynamoDB_20120810.DescribeImport"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeImportInput, DescribeImportOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeImportInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeImportInput, DescribeImportOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeImportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeImportInput, DescribeImportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeImportInput, DescribeImportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeImportInput, DescribeImportOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeImport")
@@ -1587,7 +1864,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeKinesisStreamingDestination` operation on the `DynamoDB_20120810` service.
+    /// Performs the `DescribeKinesisStreamingDestination` operation on the `DynamoDB` service.
     ///
     /// Returns information about the status of Kinesis streaming.
     ///
@@ -1614,9 +1891,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1635,15 +1915,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeKinesisStreamingDestinationOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeKinesisStreamingDestinationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeKinesisStreamingDestinationInput, DescribeKinesisStreamingDestinationOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeKinesisStreamingDestinationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeKinesisStreamingDestinationInput, DescribeKinesisStreamingDestinationOutput>(xAmzTarget: "DynamoDB_20120810.DescribeKinesisStreamingDestination"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeKinesisStreamingDestinationInput, DescribeKinesisStreamingDestinationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeKinesisStreamingDestinationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeKinesisStreamingDestinationInput, DescribeKinesisStreamingDestinationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeKinesisStreamingDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeKinesisStreamingDestinationInput, DescribeKinesisStreamingDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeKinesisStreamingDestinationInput, DescribeKinesisStreamingDestinationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeKinesisStreamingDestinationInput, DescribeKinesisStreamingDestinationOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeKinesisStreamingDestination")
@@ -1659,7 +1942,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeLimits` operation on the `DynamoDB_20120810` service.
+    /// Performs the `DescribeLimits` operation on the `DynamoDB` service.
     ///
     /// Returns the current provisioned-capacity quotas for your Amazon Web Services account in a Region, both for the Region as a whole and for any one DynamoDB table that you create there. When you establish an Amazon Web Services account, the account has initial quotas on the maximum read capacity units and write capacity units that you can provision across all of your DynamoDB tables in a given Region. Also, there are per-table quotas that apply when you create a table there. For more information, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) page in the Amazon DynamoDB Developer Guide. Although you can increase these quotas by filing a case at [Amazon Web Services Support Center](https://console.aws.amazon.com/support/home#/), obtaining the increase is not instantaneous. The DescribeLimits action lets you write code to compare the capacity you are currently using to those quotas imposed by your account so that you have enough time to apply for an increase before you hit a quota. For example, you could use one of the Amazon Web Services SDKs to do the following:
     ///
@@ -1707,9 +1990,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1728,15 +2014,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLimitsOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeLimitsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeLimitsInput, DescribeLimitsOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLimitsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeLimitsInput, DescribeLimitsOutput>(xAmzTarget: "DynamoDB_20120810.DescribeLimits"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeLimitsInput, DescribeLimitsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeLimitsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLimitsInput, DescribeLimitsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLimitsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeLimitsInput, DescribeLimitsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeLimitsInput, DescribeLimitsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeLimitsInput, DescribeLimitsOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeLimits")
@@ -1752,7 +2041,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTable` operation on the `DynamoDB_20120810` service.
+    /// Performs the `DescribeTable` operation on the `DynamoDB` service.
     ///
     /// Returns information about the table, including the current status of the table, when it was created, the primary key schema, and any indexes on the table. For global tables, this operation only applies to global tables using Version 2019.11.21 (Current version). If you issue a DescribeTable request immediately after a CreateTable request, DynamoDB might return a ResourceNotFoundException. This is because DescribeTable uses an eventually consistent query, and the metadata for your table might not be available at that moment. Wait for a few seconds, and then try the DescribeTable request again.
     ///
@@ -1779,9 +2068,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1800,15 +2092,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTableOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeTableOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeTableInput, DescribeTableOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTableInput, DescribeTableOutput>(xAmzTarget: "DynamoDB_20120810.DescribeTable"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeTableInput, DescribeTableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTableInput, DescribeTableOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeTableInput, DescribeTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeTableInput, DescribeTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeTableInput, DescribeTableOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeTable")
@@ -1824,7 +2119,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTableReplicaAutoScaling` operation on the `DynamoDB_20120810` service.
+    /// Performs the `DescribeTableReplicaAutoScaling` operation on the `DynamoDB` service.
     ///
     /// Describes auto scaling settings across replicas of the global table at once. For global tables, this operation only applies to global tables using Version 2019.11.21 (Current version).
     ///
@@ -1850,9 +2145,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1871,15 +2169,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTableReplicaAutoScalingOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeTableReplicaAutoScalingOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeTableReplicaAutoScalingInput, DescribeTableReplicaAutoScalingOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTableReplicaAutoScalingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTableReplicaAutoScalingInput, DescribeTableReplicaAutoScalingOutput>(xAmzTarget: "DynamoDB_20120810.DescribeTableReplicaAutoScaling"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeTableReplicaAutoScalingInput, DescribeTableReplicaAutoScalingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTableReplicaAutoScalingInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTableReplicaAutoScalingInput, DescribeTableReplicaAutoScalingOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTableReplicaAutoScalingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeTableReplicaAutoScalingInput, DescribeTableReplicaAutoScalingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeTableReplicaAutoScalingInput, DescribeTableReplicaAutoScalingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeTableReplicaAutoScalingInput, DescribeTableReplicaAutoScalingOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeTableReplicaAutoScaling")
@@ -1895,7 +2196,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTimeToLive` operation on the `DynamoDB_20120810` service.
+    /// Performs the `DescribeTimeToLive` operation on the `DynamoDB` service.
     ///
     /// Gives a description of the Time to Live (TTL) status on the specified table.
     ///
@@ -1922,9 +2223,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1943,15 +2247,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTimeToLiveOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeTimeToLiveOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeTimeToLiveInput, DescribeTimeToLiveOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTimeToLiveOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeTimeToLiveInput, DescribeTimeToLiveOutput>(xAmzTarget: "DynamoDB_20120810.DescribeTimeToLive"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeTimeToLiveInput, DescribeTimeToLiveOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTimeToLiveInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTimeToLiveInput, DescribeTimeToLiveOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTimeToLiveOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeTimeToLiveInput, DescribeTimeToLiveOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeTimeToLiveInput, DescribeTimeToLiveOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeTimeToLiveInput, DescribeTimeToLiveOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeTimeToLive")
@@ -1967,7 +2274,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DisableKinesisStreamingDestination` operation on the `DynamoDB_20120810` service.
+    /// Performs the `DisableKinesisStreamingDestination` operation on the `DynamoDB` service.
     ///
     /// Stops replication from the DynamoDB table to the Kinesis data stream. This is done without deleting either of the resources.
     ///
@@ -2005,9 +2312,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2026,15 +2336,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableKinesisStreamingDestinationOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DisableKinesisStreamingDestinationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisableKinesisStreamingDestinationInput, DisableKinesisStreamingDestinationOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisableKinesisStreamingDestinationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisableKinesisStreamingDestinationInput, DisableKinesisStreamingDestinationOutput>(xAmzTarget: "DynamoDB_20120810.DisableKinesisStreamingDestination"))
         builder.serialize(ClientRuntime.BodyMiddleware<DisableKinesisStreamingDestinationInput, DisableKinesisStreamingDestinationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisableKinesisStreamingDestinationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableKinesisStreamingDestinationInput, DisableKinesisStreamingDestinationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableKinesisStreamingDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisableKinesisStreamingDestinationInput, DisableKinesisStreamingDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisableKinesisStreamingDestinationInput, DisableKinesisStreamingDestinationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisableKinesisStreamingDestinationInput, DisableKinesisStreamingDestinationOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableKinesisStreamingDestination")
@@ -2050,7 +2363,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `EnableKinesisStreamingDestination` operation on the `DynamoDB_20120810` service.
+    /// Performs the `EnableKinesisStreamingDestination` operation on the `DynamoDB` service.
     ///
     /// Starts table data replication to the specified Kinesis data stream at a timestamp chosen during the enable workflow. If this operation doesn't return results immediately, use DescribeKinesisStreamingDestination to check if streaming to the Kinesis data stream is ACTIVE.
     ///
@@ -2088,9 +2401,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2109,15 +2425,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableKinesisStreamingDestinationOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<EnableKinesisStreamingDestinationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnableKinesisStreamingDestinationInput, EnableKinesisStreamingDestinationOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<EnableKinesisStreamingDestinationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<EnableKinesisStreamingDestinationInput, EnableKinesisStreamingDestinationOutput>(xAmzTarget: "DynamoDB_20120810.EnableKinesisStreamingDestination"))
         builder.serialize(ClientRuntime.BodyMiddleware<EnableKinesisStreamingDestinationInput, EnableKinesisStreamingDestinationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: EnableKinesisStreamingDestinationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableKinesisStreamingDestinationInput, EnableKinesisStreamingDestinationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableKinesisStreamingDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EnableKinesisStreamingDestinationInput, EnableKinesisStreamingDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EnableKinesisStreamingDestinationInput, EnableKinesisStreamingDestinationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnableKinesisStreamingDestinationInput, EnableKinesisStreamingDestinationOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableKinesisStreamingDestination")
@@ -2133,7 +2452,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExecuteStatement` operation on the `DynamoDB_20120810` service.
+    /// Performs the `ExecuteStatement` operation on the `DynamoDB` service.
     ///
     /// This operation allows you to perform reads and singleton writes on data stored in DynamoDB, using PartiQL. For PartiQL reads (SELECT statement), if the total number of processed items exceeds the maximum dataset size limit of 1 MB, the read stops and results are returned to the user as a LastEvaluatedKey value to continue the read in a subsequent operation. If the filter criteria in WHERE clause does not match any data, the read will return an empty result set. A single SELECT statement response can return up to the maximum number of items (if using the Limit parameter) or a maximum of 1 MB of data (and then apply any filtering to the results using WHERE clause). If LastEvaluatedKey is present in the response, you need to paginate the result set. If NextToken is present, you need to paginate the result set and include NextToken.
     ///
@@ -2165,9 +2484,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2186,15 +2508,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExecuteStatementOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ExecuteStatementOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ExecuteStatementInput, ExecuteStatementOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ExecuteStatementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ExecuteStatementInput, ExecuteStatementOutput>(xAmzTarget: "DynamoDB_20120810.ExecuteStatement"))
         builder.serialize(ClientRuntime.BodyMiddleware<ExecuteStatementInput, ExecuteStatementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ExecuteStatementInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExecuteStatementInput, ExecuteStatementOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ExecuteStatementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ExecuteStatementInput, ExecuteStatementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ExecuteStatementInput, ExecuteStatementOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ExecuteStatementInput, ExecuteStatementOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ExecuteStatement")
@@ -2210,7 +2535,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExecuteTransaction` operation on the `DynamoDB_20120810` service.
+    /// Performs the `ExecuteTransaction` operation on the `DynamoDB` service.
     ///
     /// This operation allows you to perform transactional reads or writes on data stored in DynamoDB, using PartiQL. The entire transaction must consist of either read statements or write statements, you cannot mix both in one transaction. The EXISTS function is an exception and can be used to check the condition of specific attributes of the item in a similar manner to ConditionCheck in the [TransactWriteItems](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/transaction-apis.html#transaction-apis-txwriteitems) API.
     ///
@@ -2394,9 +2719,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2416,15 +2744,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExecuteTransactionOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ExecuteTransactionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ExecuteTransactionInput, ExecuteTransactionOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ExecuteTransactionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ExecuteTransactionInput, ExecuteTransactionOutput>(xAmzTarget: "DynamoDB_20120810.ExecuteTransaction"))
         builder.serialize(ClientRuntime.BodyMiddleware<ExecuteTransactionInput, ExecuteTransactionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ExecuteTransactionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExecuteTransactionInput, ExecuteTransactionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ExecuteTransactionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ExecuteTransactionInput, ExecuteTransactionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ExecuteTransactionInput, ExecuteTransactionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ExecuteTransactionInput, ExecuteTransactionOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ExecuteTransaction")
@@ -2440,7 +2771,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ExportTableToPointInTime` operation on the `DynamoDB_20120810` service.
+    /// Performs the `ExportTableToPointInTime` operation on the `DynamoDB` service.
     ///
     /// Exports table data to an S3 bucket. The table must have point in time recovery enabled, and you can export data from any time within the point in time recovery window.
     ///
@@ -2470,9 +2801,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2492,15 +2826,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExportTableToPointInTimeOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ExportTableToPointInTimeOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ExportTableToPointInTimeInput, ExportTableToPointInTimeOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ExportTableToPointInTimeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ExportTableToPointInTimeInput, ExportTableToPointInTimeOutput>(xAmzTarget: "DynamoDB_20120810.ExportTableToPointInTime"))
         builder.serialize(ClientRuntime.BodyMiddleware<ExportTableToPointInTimeInput, ExportTableToPointInTimeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ExportTableToPointInTimeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExportTableToPointInTimeInput, ExportTableToPointInTimeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ExportTableToPointInTimeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ExportTableToPointInTimeInput, ExportTableToPointInTimeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ExportTableToPointInTimeInput, ExportTableToPointInTimeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ExportTableToPointInTimeInput, ExportTableToPointInTimeOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ExportTableToPointInTime")
@@ -2516,7 +2853,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetItem` operation on the `DynamoDB_20120810` service.
+    /// Performs the `GetItem` operation on the `DynamoDB` service.
     ///
     /// The GetItem operation returns a set of attributes for the item with the given primary key. If there is no matching item, GetItem does not return any data and there will be no Item element in the response. GetItem provides an eventually consistent read by default. If your application requires a strongly consistent read, set ConsistentRead to true. Although a strongly consistent read might take more time than an eventually consistent read, it always returns the last updated value.
     ///
@@ -2545,9 +2882,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2566,15 +2906,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetItemOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetItemOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetItemInput, GetItemOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetItemOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetItemInput, GetItemOutput>(xAmzTarget: "DynamoDB_20120810.GetItem"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetItemInput, GetItemOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetItemInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetItemInput, GetItemOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetItemOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetItemInput, GetItemOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetItemInput, GetItemOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetItemInput, GetItemOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetItem")
@@ -2590,7 +2933,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResourcePolicy` operation on the `DynamoDB_20120810` service.
+    /// Performs the `GetResourcePolicy` operation on the `DynamoDB` service.
     ///
     /// Returns the resource-based policy document attached to the resource, which can be a table or stream, in JSON format. GetResourcePolicy follows an [ eventually consistent ](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html) model. The following list describes the outcomes when you issue the GetResourcePolicy request immediately after issuing another request:
     ///
@@ -2627,9 +2970,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2648,15 +2994,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePolicyOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetResourcePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(xAmzTarget: "DynamoDB_20120810.GetResourcePolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetResourcePolicy")
@@ -2672,7 +3021,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ImportTable` operation on the `DynamoDB_20120810` service.
+    /// Performs the `ImportTable` operation on the `DynamoDB` service.
     ///
     /// Imports table data from an S3 bucket.
     ///
@@ -2708,9 +3057,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2730,15 +3082,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportTableOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ImportTableOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ImportTableInput, ImportTableOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ImportTableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ImportTableInput, ImportTableOutput>(xAmzTarget: "DynamoDB_20120810.ImportTable"))
         builder.serialize(ClientRuntime.BodyMiddleware<ImportTableInput, ImportTableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ImportTableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ImportTableInput, ImportTableOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ImportTableInput, ImportTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ImportTableInput, ImportTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ImportTableInput, ImportTableOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ImportTable")
@@ -2754,7 +3109,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListBackups` operation on the `DynamoDB_20120810` service.
+    /// Performs the `ListBackups` operation on the `DynamoDB` service.
     ///
     /// List DynamoDB backups that are associated with an Amazon Web Services account and weren't made with Amazon Web Services Backup. To list these backups for a given table, specify TableName. ListBackups returns a paginated list of results with at most 1 MB worth of items in a page. You can also specify a maximum number of entries to be returned in a page. In the request, start time is inclusive, but end time is exclusive. Note that these boundaries are for the time at which the original backup was requested. You can call ListBackups a maximum of five times per second. If you want to retrieve the complete list of backups made with Amazon Web Services Backup, use the [Amazon Web Services Backup list API.](https://docs.aws.amazon.com/aws-backup/latest/devguide/API_ListBackupJobs.html)
     ///
@@ -2780,9 +3135,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2801,15 +3159,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBackupsOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListBackupsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListBackupsInput, ListBackupsOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBackupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListBackupsInput, ListBackupsOutput>(xAmzTarget: "DynamoDB_20120810.ListBackups"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListBackupsInput, ListBackupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListBackupsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBackupsInput, ListBackupsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBackupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBackupsInput, ListBackupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBackupsInput, ListBackupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListBackupsInput, ListBackupsOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListBackups")
@@ -2825,7 +3186,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListContributorInsights` operation on the `DynamoDB_20120810` service.
+    /// Performs the `ListContributorInsights` operation on the `DynamoDB` service.
     ///
     /// Returns a list of ContributorInsightsSummary for a table and all its global secondary indexes.
     ///
@@ -2851,9 +3212,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2872,15 +3236,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListContributorInsightsOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListContributorInsightsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListContributorInsightsInput, ListContributorInsightsOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListContributorInsightsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListContributorInsightsInput, ListContributorInsightsOutput>(xAmzTarget: "DynamoDB_20120810.ListContributorInsights"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListContributorInsightsInput, ListContributorInsightsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListContributorInsightsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListContributorInsightsInput, ListContributorInsightsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListContributorInsightsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListContributorInsightsInput, ListContributorInsightsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListContributorInsightsInput, ListContributorInsightsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListContributorInsightsInput, ListContributorInsightsOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListContributorInsights")
@@ -2896,7 +3263,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListExports` operation on the `DynamoDB_20120810` service.
+    /// Performs the `ListExports` operation on the `DynamoDB` service.
     ///
     /// Lists completed exports within the past 90 days.
     ///
@@ -2922,9 +3289,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2943,15 +3313,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListExportsOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListExportsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListExportsInput, ListExportsOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListExportsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListExportsInput, ListExportsOutput>(xAmzTarget: "DynamoDB_20120810.ListExports"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListExportsInput, ListExportsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListExportsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListExportsInput, ListExportsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListExportsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListExportsInput, ListExportsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListExportsInput, ListExportsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListExportsInput, ListExportsOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListExports")
@@ -2967,7 +3340,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListGlobalTables` operation on the `DynamoDB_20120810` service.
+    /// Performs the `ListGlobalTables` operation on the `DynamoDB` service.
     ///
     /// Lists all global tables that have a replica in the specified Region. This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use [Global Tables version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy). To determine which version you're using, see [Determining the global table version you are using](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html). To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see [Upgrading global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
     ///
@@ -2993,9 +3366,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3014,15 +3390,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGlobalTablesOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListGlobalTablesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListGlobalTablesInput, ListGlobalTablesOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListGlobalTablesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListGlobalTablesInput, ListGlobalTablesOutput>(xAmzTarget: "DynamoDB_20120810.ListGlobalTables"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListGlobalTablesInput, ListGlobalTablesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListGlobalTablesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListGlobalTablesInput, ListGlobalTablesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListGlobalTablesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListGlobalTablesInput, ListGlobalTablesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListGlobalTablesInput, ListGlobalTablesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListGlobalTablesInput, ListGlobalTablesOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListGlobalTables")
@@ -3038,7 +3417,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListImports` operation on the `DynamoDB_20120810` service.
+    /// Performs the `ListImports` operation on the `DynamoDB` service.
     ///
     /// Lists completed imports within the past 90 days.
     ///
@@ -3063,9 +3442,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3084,15 +3466,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListImportsOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListImportsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListImportsInput, ListImportsOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListImportsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListImportsInput, ListImportsOutput>(xAmzTarget: "DynamoDB_20120810.ListImports"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListImportsInput, ListImportsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListImportsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListImportsInput, ListImportsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListImportsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListImportsInput, ListImportsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListImportsInput, ListImportsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListImportsInput, ListImportsOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListImports")
@@ -3108,7 +3493,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTables` operation on the `DynamoDB_20120810` service.
+    /// Performs the `ListTables` operation on the `DynamoDB` service.
     ///
     /// Returns an array of table names associated with the current account and endpoint. The output from ListTables is paginated, with each page returning a maximum of 100 table names.
     ///
@@ -3134,9 +3519,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3155,15 +3543,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTablesOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTablesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTablesInput, ListTablesOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTablesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTablesInput, ListTablesOutput>(xAmzTarget: "DynamoDB_20120810.ListTables"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTablesInput, ListTablesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTablesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTablesInput, ListTablesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTablesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTablesInput, ListTablesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTablesInput, ListTablesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTablesInput, ListTablesOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTables")
@@ -3179,7 +3570,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsOfResource` operation on the `DynamoDB_20120810` service.
+    /// Performs the `ListTagsOfResource` operation on the `DynamoDB` service.
     ///
     /// List all tags on an Amazon DynamoDB resource. You can call ListTagsOfResource up to 10 times per second, per account. For an overview on tagging DynamoDB resources, see [Tagging for DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html) in the Amazon DynamoDB Developer Guide.
     ///
@@ -3206,9 +3597,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3227,15 +3621,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsOfResourceOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTagsOfResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsOfResourceInput, ListTagsOfResourceOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsOfResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsOfResourceInput, ListTagsOfResourceOutput>(xAmzTarget: "DynamoDB_20120810.ListTagsOfResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsOfResourceInput, ListTagsOfResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsOfResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsOfResourceInput, ListTagsOfResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsOfResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsOfResourceInput, ListTagsOfResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsOfResourceInput, ListTagsOfResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsOfResourceInput, ListTagsOfResourceOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsOfResource")
@@ -3251,7 +3648,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutItem` operation on the `DynamoDB_20120810` service.
+    /// Performs the `PutItem` operation on the `DynamoDB` service.
     ///
     /// Creates a new item, or replaces an old item with a new item. If an item that has the same primary key as the new item already exists in the specified table, the new item completely replaces the existing item. You can perform a conditional put operation (add a new item if one with the specified primary key doesn't exist), or replace an existing item if it has certain attribute values. You can return the item's attribute values in the same operation, using the ReturnValues parameter. When you add an item, the primary key attributes are the only required attributes. Empty String and Binary attribute values are allowed. Attribute values of type String and Binary must have a length greater than zero if the attribute is used as a key attribute for a table or index. Set type attributes cannot be empty. Invalid Requests with empty values will be rejected with a ValidationException exception. To prevent a new item from replacing an existing item, use a conditional expression that contains the attribute_not_exists function with the name of the attribute being used as the partition key for the table. Since every record must contain that attribute, the attribute_not_exists function will only succeed if no matching item exists. For more information about PutItem, see [Working with Items](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithItems.html) in the Amazon DynamoDB Developer Guide.
     ///
@@ -3267,6 +3664,7 @@ extension DynamoDBClient {
     /// - `InvalidEndpointException` : [no documentation found]
     /// - `ItemCollectionSizeLimitExceededException` : An item collection is too large. This exception is only returned for tables that have one or more local secondary indexes.
     /// - `ProvisionedThroughputExceededException` : Your request rate is too high. The Amazon Web Services SDKs for DynamoDB automatically retry requests that receive this exception. Your request is eventually successful, unless your retry queue is too large to finish. Reduce the frequency of requests and use exponential backoff. For more information, go to [Error Retries and Exponential Backoff](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff) in the Amazon DynamoDB Developer Guide.
+    /// - `ReplicatedWriteConflictException` : The request was rejected because one or more items in the request are being modified by a request in another Region.
     /// - `RequestLimitExceeded` : Throughput exceeds the current throughput quota for your account. Please contact [Amazon Web Services Support](https://aws.amazon.com/support) to request a quota increase.
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent table or index. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `TransactionConflictException` : Operation was rejected because there is an ongoing transaction for the item.
@@ -3283,9 +3681,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3304,15 +3705,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutItemOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutItemOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutItemInput, PutItemOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutItemOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutItemInput, PutItemOutput>(xAmzTarget: "DynamoDB_20120810.PutItem"))
         builder.serialize(ClientRuntime.BodyMiddleware<PutItemInput, PutItemOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutItemInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutItemInput, PutItemOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutItemOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutItemInput, PutItemOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutItemInput, PutItemOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutItemInput, PutItemOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutItem")
@@ -3328,7 +3732,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutResourcePolicy` operation on the `DynamoDB_20120810` service.
+    /// Performs the `PutResourcePolicy` operation on the `DynamoDB` service.
     ///
     /// Attaches a resource-based policy document to the resource, which can be a table or stream. When you attach a resource-based policy using this API, the policy application is [ eventually consistent ](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html). PutResourcePolicy is an idempotent operation; running it multiple times on the same resource using the same policy document will return the same revision ID. If you specify an ExpectedRevisionId that doesn't match the current policy's RevisionId, the PolicyNotFoundException will be returned. PutResourcePolicy is an asynchronous operation. If you issue a GetResourcePolicy request immediately after a PutResourcePolicy request, DynamoDB might return your previous policy, if there was one, or return the PolicyNotFoundException. This is because GetResourcePolicy uses an eventually consistent query, and the metadata for your policy or table might not be available at that moment. Wait for a few seconds, and then try the GetResourcePolicy request again.
     ///
@@ -3367,9 +3771,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3388,15 +3795,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutResourcePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(xAmzTarget: "DynamoDB_20120810.PutResourcePolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutResourcePolicy")
@@ -3412,7 +3822,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `Query` operation on the `DynamoDB_20120810` service.
+    /// Performs the `Query` operation on the `DynamoDB` service.
     ///
     /// You must provide the name of the partition key attribute and a single value for that attribute. Query returns all items with that partition key value. Optionally, you can provide a sort key attribute and use a comparison operator to refine the search results. Use the KeyConditionExpression parameter to provide a specific value for the partition key. The Query operation will return all of the items from the table or index with that partition key value. You can optionally narrow the scope of the Query operation by specifying a sort key value and a comparison operator in KeyConditionExpression. To further refine the Query results, you can optionally provide a FilterExpression. A FilterExpression determines which items within the results should be returned to you. All of the other results are discarded. A Query operation always returns a result set. If no matching items are found, the result set will be empty. Queries that do not return results consume the minimum number of read capacity units for that type of read operation. DynamoDB calculates the number of read capacity units consumed based on item size, not on the amount of data that is returned to an application. The number of capacity units consumed will be the same whether you request all of the attributes (the default behavior) or just some of them (using a projection expression). The number will also be the same whether or not you use a FilterExpression. Query results are always sorted by the sort key value. If the data type of the sort key is Number, the results are returned in numeric order; otherwise, the results are returned in order of UTF-8 bytes. By default, the sort order is ascending. To reverse the order, set the ScanIndexForward parameter to false. A single Query operation will read up to the maximum number of items set (if using the Limit parameter) or a maximum of 1 MB of data and then apply any filtering to the results using FilterExpression. If LastEvaluatedKey is present in the response, you will need to paginate the result set. For more information, see [Paginating the Results](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Query.html#Query.Pagination) in the Amazon DynamoDB Developer Guide. FilterExpression is applied after a Query finishes, but before the results are returned. A FilterExpression cannot contain partition key or sort key attributes. You need to specify those attributes in the KeyConditionExpression. A Query operation can return an empty result set and a LastEvaluatedKey if all the items read for the page of results are filtered out. You can query a table, a local secondary index, or a global secondary index. For a query on a table or on a local secondary index, you can set the ConsistentRead parameter to true and obtain a strongly consistent result. Global secondary indexes support eventually consistent reads only, so do not specify ConsistentRead when querying a global secondary index.
     ///
@@ -3441,9 +3851,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3462,15 +3875,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<QueryOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<QueryOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<QueryInput, QueryOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<QueryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<QueryInput, QueryOutput>(xAmzTarget: "DynamoDB_20120810.Query"))
         builder.serialize(ClientRuntime.BodyMiddleware<QueryInput, QueryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: QueryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<QueryInput, QueryOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<QueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<QueryInput, QueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<QueryInput, QueryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<QueryInput, QueryOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "Query")
@@ -3486,7 +3902,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RestoreTableFromBackup` operation on the `DynamoDB_20120810` service.
+    /// Performs the `RestoreTableFromBackup` operation on the `DynamoDB` service.
     ///
     /// Creates a new table from an existing backup. Any number of users can execute up to 50 concurrent restores (any type of restore) in a given account. You can call RestoreTableFromBackup at a maximum rate of 10 times per second. You must manually set up the following on the restored table:
     ///
@@ -3529,9 +3945,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3550,15 +3969,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreTableFromBackupOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<RestoreTableFromBackupOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RestoreTableFromBackupInput, RestoreTableFromBackupOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RestoreTableFromBackupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RestoreTableFromBackupInput, RestoreTableFromBackupOutput>(xAmzTarget: "DynamoDB_20120810.RestoreTableFromBackup"))
         builder.serialize(ClientRuntime.BodyMiddleware<RestoreTableFromBackupInput, RestoreTableFromBackupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RestoreTableFromBackupInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RestoreTableFromBackupInput, RestoreTableFromBackupOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RestoreTableFromBackupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RestoreTableFromBackupInput, RestoreTableFromBackupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RestoreTableFromBackupInput, RestoreTableFromBackupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RestoreTableFromBackupInput, RestoreTableFromBackupOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RestoreTableFromBackup")
@@ -3574,9 +3996,9 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RestoreTableToPointInTime` operation on the `DynamoDB_20120810` service.
+    /// Performs the `RestoreTableToPointInTime` operation on the `DynamoDB` service.
     ///
-    /// Restores the specified table to the specified point in time within EarliestRestorableDateTime and LatestRestorableDateTime. You can restore your table to any point in time during the last 35 days. Any number of users can execute up to 50 concurrent restores (any type of restore) in a given account. When you restore using point in time recovery, DynamoDB restores your table data to the state based on the selected date and time (day:hour:minute:second) to a new table. Along with data, the following are also included on the new restored table using point in time recovery:
+    /// Restores the specified table to the specified point in time within EarliestRestorableDateTime and LatestRestorableDateTime. You can restore your table to any point in time in the last 35 days. You can set the recovery period to any value between 1 and 35 days. Any number of users can execute up to 50 concurrent restores (any type of restore) in a given account. When you restore using point in time recovery, DynamoDB restores your table data to the state based on the selected date and time (day:hour:minute:second) to a new table. Along with data, the following are also included on the new restored table using point in time recovery:
     ///
     /// * Global secondary indexes (GSIs)
     ///
@@ -3631,9 +4053,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3652,15 +4077,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreTableToPointInTimeOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<RestoreTableToPointInTimeOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RestoreTableToPointInTimeInput, RestoreTableToPointInTimeOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RestoreTableToPointInTimeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RestoreTableToPointInTimeInput, RestoreTableToPointInTimeOutput>(xAmzTarget: "DynamoDB_20120810.RestoreTableToPointInTime"))
         builder.serialize(ClientRuntime.BodyMiddleware<RestoreTableToPointInTimeInput, RestoreTableToPointInTimeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RestoreTableToPointInTimeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RestoreTableToPointInTimeInput, RestoreTableToPointInTimeOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RestoreTableToPointInTimeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RestoreTableToPointInTimeInput, RestoreTableToPointInTimeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RestoreTableToPointInTimeInput, RestoreTableToPointInTimeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RestoreTableToPointInTimeInput, RestoreTableToPointInTimeOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RestoreTableToPointInTime")
@@ -3676,7 +4104,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `Scan` operation on the `DynamoDB_20120810` service.
+    /// Performs the `Scan` operation on the `DynamoDB` service.
     ///
     /// The Scan operation returns one or more items and item attributes by accessing every item in a table or a secondary index. To have DynamoDB return fewer items, you can provide a FilterExpression operation. If the total size of scanned items exceeds the maximum dataset size limit of 1 MB, the scan completes and results are returned to the user. The LastEvaluatedKey value is also returned and the requestor can use the LastEvaluatedKey to continue the scan in a subsequent operation. Each scan response also includes number of items that were scanned (ScannedCount) as part of the request. If using a FilterExpression, a scan result can result in no items meeting the criteria and the Count will result in zero. If you did not use a FilterExpression in the scan request, then Count is the same as ScannedCount. Count and ScannedCount only return the count of items specific to a single scan request and, unless the table is less than 1MB, do not represent the total number of items in the table. A single Scan operation first reads up to the maximum number of items set (if using the Limit parameter) or a maximum of 1 MB of data and then applies any filtering to the results if a FilterExpression is provided. If LastEvaluatedKey is present in the response, pagination is required to complete the full table scan. For more information, see [Paginating the Results](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html#Scan.Pagination) in the Amazon DynamoDB Developer Guide. Scan operations proceed sequentially; however, for faster performance on a large table or secondary index, applications can request a parallel Scan operation by providing the Segment and TotalSegments parameters. For more information, see [Parallel Scan](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html#Scan.ParallelScan) in the Amazon DynamoDB Developer Guide. By default, a Scan uses eventually consistent reads when accessing the items in a table. Therefore, the results from an eventually consistent Scan may not include the latest item changes at the time the scan iterates through each item in the table. If you require a strongly consistent read of each item as the scan iterates through the items in the table, you can set the ConsistentRead parameter to true. Strong consistency only relates to the consistency of the read at the item level. DynamoDB does not provide snapshot isolation for a scan operation when the ConsistentRead parameter is set to true. Thus, a DynamoDB scan operation does not guarantee that all reads in a scan see a consistent snapshot of the table when the scan operation was requested.
     ///
@@ -3705,9 +4133,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3726,15 +4157,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ScanOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ScanOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ScanInput, ScanOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ScanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ScanInput, ScanOutput>(xAmzTarget: "DynamoDB_20120810.Scan"))
         builder.serialize(ClientRuntime.BodyMiddleware<ScanInput, ScanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ScanInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ScanInput, ScanOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ScanOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ScanInput, ScanOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ScanInput, ScanOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ScanInput, ScanOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "Scan")
@@ -3750,7 +4184,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `DynamoDB_20120810` service.
+    /// Performs the `TagResource` operation on the `DynamoDB` service.
     ///
     /// Associate a set of tags with an Amazon DynamoDB resource. You can then activate these user-defined tags so that they appear on the Billing and Cost Management console for cost allocation tracking. You can call TagResource up to five times per second, per account.
     ///
@@ -3795,9 +4229,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3816,15 +4253,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<TagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "DynamoDB_20120810.TagResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TagResource")
@@ -3840,7 +4280,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TransactGetItems` operation on the `DynamoDB_20120810` service.
+    /// Performs the `TransactGetItems` operation on the `DynamoDB` service.
     ///
     /// TransactGetItems is a synchronous operation that atomically retrieves multiple items from one or more tables (but not from indexes) in a single account and Region. A TransactGetItems call can contain up to 100 TransactGetItem objects, each of which contains a Get structure that specifies an item to retrieve from a table in the account and Region. A call to TransactGetItems cannot retrieve items from tables in more than one Amazon Web Services account or Region. The aggregate size of the items in the transaction cannot exceed 4 MB. DynamoDB rejects the entire TransactGetItems request if any of the following is true:
     ///
@@ -4000,9 +4440,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4021,15 +4464,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TransactGetItemsOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<TransactGetItemsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TransactGetItemsInput, TransactGetItemsOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TransactGetItemsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TransactGetItemsInput, TransactGetItemsOutput>(xAmzTarget: "DynamoDB_20120810.TransactGetItems"))
         builder.serialize(ClientRuntime.BodyMiddleware<TransactGetItemsInput, TransactGetItemsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TransactGetItemsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TransactGetItemsInput, TransactGetItemsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TransactGetItemsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TransactGetItemsInput, TransactGetItemsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TransactGetItemsInput, TransactGetItemsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TransactGetItemsInput, TransactGetItemsOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TransactGetItems")
@@ -4045,7 +4491,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TransactWriteItems` operation on the `DynamoDB_20120810` service.
+    /// Performs the `TransactWriteItems` operation on the `DynamoDB` service.
     ///
     /// TransactWriteItems is a synchronous write operation that groups up to 100 action requests. These actions can target items in different tables, but not in different Amazon Web Services accounts or Regions, and no two actions can target the same item. For example, you cannot both ConditionCheck and Update the same item. The aggregate size of the items in the transaction cannot exceed 4 MB. The actions are completed atomically so that either all of them succeed, or all of them fail. They are defined by the following objects:
     ///
@@ -4253,9 +4699,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4275,15 +4724,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TransactWriteItemsOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<TransactWriteItemsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TransactWriteItemsInput, TransactWriteItemsOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TransactWriteItemsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TransactWriteItemsInput, TransactWriteItemsOutput>(xAmzTarget: "DynamoDB_20120810.TransactWriteItems"))
         builder.serialize(ClientRuntime.BodyMiddleware<TransactWriteItemsInput, TransactWriteItemsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TransactWriteItemsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TransactWriteItemsInput, TransactWriteItemsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TransactWriteItemsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TransactWriteItemsInput, TransactWriteItemsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TransactWriteItemsInput, TransactWriteItemsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TransactWriteItemsInput, TransactWriteItemsOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TransactWriteItems")
@@ -4299,7 +4751,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `DynamoDB_20120810` service.
+    /// Performs the `UntagResource` operation on the `DynamoDB` service.
     ///
     /// Removes the association of tags from an Amazon DynamoDB resource. You can call UntagResource up to five times per second, per account.
     ///
@@ -4344,9 +4796,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4365,15 +4820,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "DynamoDB_20120810.UntagResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
@@ -4389,9 +4847,9 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateContinuousBackups` operation on the `DynamoDB_20120810` service.
+    /// Performs the `UpdateContinuousBackups` operation on the `DynamoDB` service.
     ///
-    /// UpdateContinuousBackups enables or disables point in time recovery for the specified table. A successful UpdateContinuousBackups call returns the current ContinuousBackupsDescription. Continuous backups are ENABLED on all tables at table creation. If point in time recovery is enabled, PointInTimeRecoveryStatus will be set to ENABLED. Once continuous backups and point in time recovery are enabled, you can restore to any point in time within EarliestRestorableDateTime and LatestRestorableDateTime. LatestRestorableDateTime is typically 5 minutes before the current time. You can restore your table to any point in time during the last 35 days.
+    /// UpdateContinuousBackups enables or disables point in time recovery for the specified table. A successful UpdateContinuousBackups call returns the current ContinuousBackupsDescription. Continuous backups are ENABLED on all tables at table creation. If point in time recovery is enabled, PointInTimeRecoveryStatus will be set to ENABLED. Once continuous backups and point in time recovery are enabled, you can restore to any point in time within EarliestRestorableDateTime and LatestRestorableDateTime. LatestRestorableDateTime is typically 5 minutes before the current time. You can restore your table to any point in time in the last 35 days. You can set the recovery period to any value between 1 and 35 days.
     ///
     /// - Parameter UpdateContinuousBackupsInput : [no documentation found]
     ///
@@ -4417,9 +4875,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4438,15 +4899,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContinuousBackupsOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateContinuousBackupsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateContinuousBackupsInput, UpdateContinuousBackupsOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateContinuousBackupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateContinuousBackupsInput, UpdateContinuousBackupsOutput>(xAmzTarget: "DynamoDB_20120810.UpdateContinuousBackups"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateContinuousBackupsInput, UpdateContinuousBackupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateContinuousBackupsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateContinuousBackupsInput, UpdateContinuousBackupsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateContinuousBackupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateContinuousBackupsInput, UpdateContinuousBackupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateContinuousBackupsInput, UpdateContinuousBackupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateContinuousBackupsInput, UpdateContinuousBackupsOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateContinuousBackups")
@@ -4462,7 +4926,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateContributorInsights` operation on the `DynamoDB_20120810` service.
+    /// Performs the `UpdateContributorInsights` operation on the `DynamoDB` service.
     ///
     /// Updates the status for contributor insights for a specific table or index. CloudWatch Contributor Insights for DynamoDB graphs display the partition key and (if applicable) sort key of frequently accessed items and frequently throttled items in plaintext. If you require the use of Amazon Web Services Key Management Service (KMS) to encrypt this table’s partition key and sort key data with an Amazon Web Services managed key or customer managed key, you should not enable CloudWatch Contributor Insights for DynamoDB for this table.
     ///
@@ -4488,9 +4952,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4509,15 +4976,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContributorInsightsOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateContributorInsightsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateContributorInsightsInput, UpdateContributorInsightsOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateContributorInsightsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateContributorInsightsInput, UpdateContributorInsightsOutput>(xAmzTarget: "DynamoDB_20120810.UpdateContributorInsights"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateContributorInsightsInput, UpdateContributorInsightsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateContributorInsightsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateContributorInsightsInput, UpdateContributorInsightsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateContributorInsightsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateContributorInsightsInput, UpdateContributorInsightsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateContributorInsightsInput, UpdateContributorInsightsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateContributorInsightsInput, UpdateContributorInsightsOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateContributorInsights")
@@ -4533,7 +5003,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateGlobalTable` operation on the `DynamoDB_20120810` service.
+    /// Performs the `UpdateGlobalTable` operation on the `DynamoDB` service.
     ///
     /// Adds or removes replicas in the specified global table. The global table must already exist to be able to use this operation. Any replica to be added must be empty, have the same name as the global table, have the same key schema, have DynamoDB Streams enabled, and have the same provisioned and maximum write capacity units. This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use [Global Tables version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy). To determine which version you're using, see [Determining the global table version you are using](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html). To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see [Upgrading global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html). For global tables, this operation only applies to global tables using Version 2019.11.21 (Current version). If you are using global tables [Version 2019.11.21](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html) you can use [UpdateTable](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_UpdateTable.html) instead. Although you can use UpdateGlobalTable to add replicas and remove replicas in a single request, for simplicity we recommend that you issue separate requests for adding or removing replicas. If global secondary indexes are specified, then the following conditions must also be met:
     ///
@@ -4569,9 +5039,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4590,15 +5063,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGlobalTableOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateGlobalTableOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateGlobalTableInput, UpdateGlobalTableOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateGlobalTableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateGlobalTableInput, UpdateGlobalTableOutput>(xAmzTarget: "DynamoDB_20120810.UpdateGlobalTable"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateGlobalTableInput, UpdateGlobalTableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateGlobalTableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateGlobalTableInput, UpdateGlobalTableOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateGlobalTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateGlobalTableInput, UpdateGlobalTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateGlobalTableInput, UpdateGlobalTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateGlobalTableInput, UpdateGlobalTableOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateGlobalTable")
@@ -4614,7 +5090,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateGlobalTableSettings` operation on the `DynamoDB_20120810` service.
+    /// Performs the `UpdateGlobalTableSettings` operation on the `DynamoDB` service.
     ///
     /// Updates settings for a global table. This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use [Global Tables version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy). To determine which version you're using, see [Determining the global table version you are using](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html). To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see [Upgrading global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html).
     ///
@@ -4654,9 +5130,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4675,15 +5154,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGlobalTableSettingsOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateGlobalTableSettingsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateGlobalTableSettingsInput, UpdateGlobalTableSettingsOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateGlobalTableSettingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateGlobalTableSettingsInput, UpdateGlobalTableSettingsOutput>(xAmzTarget: "DynamoDB_20120810.UpdateGlobalTableSettings"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateGlobalTableSettingsInput, UpdateGlobalTableSettingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateGlobalTableSettingsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateGlobalTableSettingsInput, UpdateGlobalTableSettingsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateGlobalTableSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateGlobalTableSettingsInput, UpdateGlobalTableSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateGlobalTableSettingsInput, UpdateGlobalTableSettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateGlobalTableSettingsInput, UpdateGlobalTableSettingsOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateGlobalTableSettings")
@@ -4699,7 +5181,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateItem` operation on the `DynamoDB_20120810` service.
+    /// Performs the `UpdateItem` operation on the `DynamoDB` service.
     ///
     /// Edits an existing item's attributes, or adds a new item to the table if it does not already exist. You can put, delete, or add attribute values. You can also perform a conditional update on an existing item (insert a new attribute name-value pair if it doesn't exist, or replace an existing name-value pair if it has certain expected attribute values). You can also return the item's attribute values in the same UpdateItem operation using the ReturnValues parameter.
     ///
@@ -4715,6 +5197,7 @@ extension DynamoDBClient {
     /// - `InvalidEndpointException` : [no documentation found]
     /// - `ItemCollectionSizeLimitExceededException` : An item collection is too large. This exception is only returned for tables that have one or more local secondary indexes.
     /// - `ProvisionedThroughputExceededException` : Your request rate is too high. The Amazon Web Services SDKs for DynamoDB automatically retry requests that receive this exception. Your request is eventually successful, unless your retry queue is too large to finish. Reduce the frequency of requests and use exponential backoff. For more information, go to [Error Retries and Exponential Backoff](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff) in the Amazon DynamoDB Developer Guide.
+    /// - `ReplicatedWriteConflictException` : The request was rejected because one or more items in the request are being modified by a request in another Region.
     /// - `RequestLimitExceeded` : Throughput exceeds the current throughput quota for your account. Please contact [Amazon Web Services Support](https://aws.amazon.com/support) to request a quota increase.
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent table or index. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `TransactionConflictException` : Operation was rejected because there is an ongoing transaction for the item.
@@ -4731,9 +5214,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4752,15 +5238,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateItemOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateItemOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateItemInput, UpdateItemOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateItemOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateItemInput, UpdateItemOutput>(xAmzTarget: "DynamoDB_20120810.UpdateItem"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateItemInput, UpdateItemOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateItemInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateItemInput, UpdateItemOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateItemOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateItemInput, UpdateItemOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateItemInput, UpdateItemOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateItemInput, UpdateItemOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateItem")
@@ -4776,7 +5265,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateKinesisStreamingDestination` operation on the `DynamoDB_20120810` service.
+    /// Performs the `UpdateKinesisStreamingDestination` operation on the `DynamoDB` service.
     ///
     /// The command to update the Kinesis stream destination.
     ///
@@ -4814,9 +5303,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4835,15 +5327,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateKinesisStreamingDestinationOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateKinesisStreamingDestinationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateKinesisStreamingDestinationInput, UpdateKinesisStreamingDestinationOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateKinesisStreamingDestinationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateKinesisStreamingDestinationInput, UpdateKinesisStreamingDestinationOutput>(xAmzTarget: "DynamoDB_20120810.UpdateKinesisStreamingDestination"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateKinesisStreamingDestinationInput, UpdateKinesisStreamingDestinationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateKinesisStreamingDestinationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateKinesisStreamingDestinationInput, UpdateKinesisStreamingDestinationOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateKinesisStreamingDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateKinesisStreamingDestinationInput, UpdateKinesisStreamingDestinationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateKinesisStreamingDestinationInput, UpdateKinesisStreamingDestinationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateKinesisStreamingDestinationInput, UpdateKinesisStreamingDestinationOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateKinesisStreamingDestination")
@@ -4859,7 +5354,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTable` operation on the `DynamoDB_20120810` service.
+    /// Performs the `UpdateTable` operation on the `DynamoDB` service.
     ///
     /// Modifies the provisioned throughput settings, global secondary indexes, or DynamoDB Streams settings for a given table. For global tables, this operation only applies to global tables using Version 2019.11.21 (Current version). You can only perform one of the following operations at once:
     ///
@@ -4906,9 +5401,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4927,15 +5425,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTableOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateTableOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateTableInput, UpdateTableOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateTableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateTableInput, UpdateTableOutput>(xAmzTarget: "DynamoDB_20120810.UpdateTable"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateTableInput, UpdateTableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTableInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTableInput, UpdateTableOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateTableInput, UpdateTableOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateTableInput, UpdateTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateTableInput, UpdateTableOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateTable")
@@ -4951,7 +5452,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTableReplicaAutoScaling` operation on the `DynamoDB_20120810` service.
+    /// Performs the `UpdateTableReplicaAutoScaling` operation on the `DynamoDB` service.
     ///
     /// Updates auto scaling settings on your global tables at once. For global tables, this operation only applies to global tables using Version 2019.11.21 (Current version).
     ///
@@ -4988,9 +5489,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -5009,15 +5513,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTableReplicaAutoScalingOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateTableReplicaAutoScalingOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateTableReplicaAutoScalingInput, UpdateTableReplicaAutoScalingOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateTableReplicaAutoScalingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateTableReplicaAutoScalingInput, UpdateTableReplicaAutoScalingOutput>(xAmzTarget: "DynamoDB_20120810.UpdateTableReplicaAutoScaling"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateTableReplicaAutoScalingInput, UpdateTableReplicaAutoScalingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTableReplicaAutoScalingInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTableReplicaAutoScalingInput, UpdateTableReplicaAutoScalingOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTableReplicaAutoScalingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateTableReplicaAutoScalingInput, UpdateTableReplicaAutoScalingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateTableReplicaAutoScalingInput, UpdateTableReplicaAutoScalingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateTableReplicaAutoScalingInput, UpdateTableReplicaAutoScalingOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateTableReplicaAutoScaling")
@@ -5033,7 +5540,7 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTimeToLive` operation on the `DynamoDB_20120810` service.
+    /// Performs the `UpdateTimeToLive` operation on the `DynamoDB` service.
     ///
     /// The UpdateTimeToLive method enables or disables Time to Live (TTL) for the specified table. A successful UpdateTimeToLive call returns the current TimeToLiveSpecification. It can take up to one hour for the change to fully process. Any additional UpdateTimeToLive calls for the same table during this one hour duration result in a ValidationException. TTL compares the current time in epoch time format to the time stored in the TTL attribute of an item. If the epoch time value stored in the attribute is less than the current time, the item is marked as expired and subsequently deleted. The epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC. DynamoDB deletes expired items on a best-effort basis to ensure availability of throughput for other data operations. DynamoDB typically deletes expired items within two days of expiration. The exact duration within which an item gets deleted after expiration is specific to the nature of the workload. Items that have expired and not been deleted will still show up in reads, queries, and scans. As items are deleted, they are removed from any local secondary index and global secondary index immediately in the same eventually consistent way as a standard delete operation. For more information, see [Time To Live](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/TTL.html) in the Amazon DynamoDB Developer Guide.
     ///
@@ -5071,9 +5578,12 @@ extension DynamoDBClient {
                       .withUnsignedPayloadTrait(value: false)
                       .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "dynamodb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -5092,15 +5602,18 @@ extension DynamoDBClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTimeToLiveOutput>())
-        let endpointParams = EndpointParams(accountId: config.accountId, accountIdEndpointMode: config.accountIdEndpointMode, endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateTimeToLiveOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateTimeToLiveInput, UpdateTimeToLiveOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateTimeToLiveOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateTimeToLiveInput, UpdateTimeToLiveOutput>(xAmzTarget: "DynamoDB_20120810.UpdateTimeToLive"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateTimeToLiveInput, UpdateTimeToLiveOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTimeToLiveInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTimeToLiveInput, UpdateTimeToLiveOutput>(contentType: "application/x-amz-json-1.0"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTimeToLiveOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateTimeToLiveInput, UpdateTimeToLiveOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateTimeToLiveInput, UpdateTimeToLiveOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateTimeToLiveInput, UpdateTimeToLiveOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateTimeToLive")

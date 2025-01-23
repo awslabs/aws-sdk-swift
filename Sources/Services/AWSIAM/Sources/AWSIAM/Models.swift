@@ -474,8 +474,7 @@ extension IAMClientTypes {
             serviceName: Swift.String? = nil,
             serviceNamespace: Swift.String? = nil,
             totalAuthenticatedEntities: Swift.Int? = nil
-        )
-        {
+        ) {
             self.entityPath = entityPath
             self.lastAuthenticatedTime = lastAuthenticatedTime
             self.region = region
@@ -540,8 +539,7 @@ extension IAMClientTypes {
             secretAccessKey: Swift.String? = nil,
             status: IAMClientTypes.StatusType? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessKeyId = accessKeyId
             self.createDate = createDate
             self.secretAccessKey = secretAccessKey
@@ -594,8 +592,7 @@ extension IAMClientTypes {
             lastUsedDate: Foundation.Date? = nil,
             region: Swift.String? = nil,
             serviceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastUsedDate = lastUsedDate
             self.region = region
             self.serviceName = serviceName
@@ -621,8 +618,7 @@ extension IAMClientTypes {
             createDate: Foundation.Date? = nil,
             status: IAMClientTypes.StatusType? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessKeyId = accessKeyId
             self.createDate = createDate
             self.status = status
@@ -632,9 +628,9 @@ extension IAMClientTypes {
 }
 
 /// The request was rejected because the account making the request is not the management account or delegated administrator account for [centralized root access](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html#id_root-user-access-management).
-public struct AccountNotManagementOrDelegatedAdministratorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccountNotManagementOrDelegatedAdministratorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -649,16 +645,15 @@ public struct AccountNotManagementOrDelegatedAdministratorException: ClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
-public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -673,16 +668,15 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -697,16 +691,15 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
-public struct NoSuchEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -721,16 +714,15 @@ public struct NoSuchEntityException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request processing has failed because of an unknown error, exception or failure.
-public struct ServiceFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -745,8 +737,7 @@ public struct ServiceFailureException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -762,17 +753,16 @@ public struct AddClientIDToOpenIDConnectProviderInput: Swift.Sendable {
     public init(
         clientID: Swift.String? = nil,
         openIDConnectProviderArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientID = clientID
         self.openIDConnectProviderArn = openIDConnectProviderArn
     }
 }
 
 /// The request was rejected because it attempted to create a resource that already exists.
-public struct EntityAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EntityAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -787,16 +777,15 @@ public struct EntityAlreadyExistsException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because service-linked roles are protected Amazon Web Services resources. Only the service that depends on the service-linked role can modify or delete the role on your behalf. The error message includes the name of the service that depends on this service-linked role. You must request the change through that service.
-public struct UnmodifiableEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnmodifiableEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -811,8 +800,7 @@ public struct UnmodifiableEntityException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -828,8 +816,7 @@ public struct AddRoleToInstanceProfileInput: Swift.Sendable {
     public init(
         instanceProfileName: Swift.String? = nil,
         roleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceProfileName = instanceProfileName
         self.roleName = roleName
     }
@@ -846,8 +833,7 @@ public struct AddUserToGroupInput: Swift.Sendable {
     public init(
         groupName: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupName = groupName
         self.userName = userName
     }
@@ -923,8 +909,7 @@ extension IAMClientTypes {
         public init(
             permissionsBoundaryArn: Swift.String? = nil,
             permissionsBoundaryType: IAMClientTypes.PermissionsBoundaryAttachmentType? = nil
-        )
-        {
+        ) {
             self.permissionsBoundaryArn = permissionsBoundaryArn
             self.permissionsBoundaryType = permissionsBoundaryType
         }
@@ -943,8 +928,7 @@ extension IAMClientTypes {
         public init(
             policyArn: Swift.String? = nil,
             policyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.policyArn = policyArn
             self.policyName = policyName
         }
@@ -952,9 +936,9 @@ extension IAMClientTypes {
 }
 
 /// The request failed because Amazon Web Services service role policies can only be attached to the service-linked role for that service.
-public struct PolicyNotAttachableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PolicyNotAttachableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -969,8 +953,7 @@ public struct PolicyNotAttachableException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -986,8 +969,7 @@ public struct AttachGroupPolicyInput: Swift.Sendable {
     public init(
         groupName: Swift.String? = nil,
         policyArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupName = groupName
         self.policyArn = policyArn
     }
@@ -1004,8 +986,7 @@ public struct AttachRolePolicyInput: Swift.Sendable {
     public init(
         policyArn: Swift.String? = nil,
         roleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyArn = policyArn
         self.roleName = roleName
     }
@@ -1022,17 +1003,16 @@ public struct AttachUserPolicyInput: Swift.Sendable {
     public init(
         policyArn: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyArn = policyArn
         self.userName = userName
     }
 }
 
 /// The request was rejected because it referenced an entity that is temporarily unmodifiable, such as a user name that was deleted and then recreated. The error indicates that the request is likely to succeed if you try again after waiting several minutes. The error message describes the entity.
-public struct EntityTemporarilyUnmodifiableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EntityTemporarilyUnmodifiableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1047,16 +1027,15 @@ public struct EntityTemporarilyUnmodifiableException: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the type of user for the transaction was incorrect.
-public struct InvalidUserTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidUserTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1071,16 +1050,15 @@ public struct InvalidUserTypeException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the provided password did not meet the requirements imposed by the account password policy.
-public struct PasswordPolicyViolationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PasswordPolicyViolationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1095,8 +1073,7 @@ public struct PasswordPolicyViolationException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1112,8 +1089,7 @@ public struct ChangePasswordInput: Swift.Sendable {
     public init(
         newPassword: Swift.String? = nil,
         oldPassword: Swift.String? = nil
-    )
-    {
+    ) {
         self.newPassword = newPassword
         self.oldPassword = oldPassword
     }
@@ -1130,8 +1106,7 @@ public struct CreateAccessKeyInput: Swift.Sendable {
 
     public init(
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.userName = userName
     }
 }
@@ -1144,16 +1119,15 @@ public struct CreateAccessKeyOutput: Swift.Sendable {
 
     public init(
         accessKey: IAMClientTypes.AccessKey? = nil
-    )
-    {
+    ) {
         self.accessKey = accessKey
     }
 }
 
 /// The request was rejected because multiple requests to change this object were submitted simultaneously. Wait a few minutes and submit your request again.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1168,8 +1142,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1181,8 +1154,7 @@ public struct CreateAccountAliasInput: Swift.Sendable {
 
     public init(
         accountAlias: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountAlias = accountAlias
     }
 }
@@ -1197,8 +1169,7 @@ public struct CreateGroupInput: Swift.Sendable {
     public init(
         groupName: Swift.String? = nil,
         path: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupName = groupName
         self.path = path
     }
@@ -1236,8 +1207,7 @@ extension IAMClientTypes {
             groupId: Swift.String? = nil,
             groupName: Swift.String? = nil,
             path: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createDate = createDate
             self.groupId = groupId
@@ -1255,8 +1225,7 @@ public struct CreateGroupOutput: Swift.Sendable {
 
     public init(
         group: IAMClientTypes.Group? = nil
-    )
-    {
+    ) {
         self.group = group
     }
 }
@@ -1275,8 +1244,7 @@ extension IAMClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1296,8 +1264,7 @@ public struct CreateInstanceProfileInput: Swift.Sendable {
         instanceProfileName: Swift.String? = nil,
         path: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.instanceProfileName = instanceProfileName
         self.path = path
         self.tags = tags
@@ -1316,8 +1283,7 @@ extension IAMClientTypes {
         public init(
             lastUsedDate: Foundation.Date? = nil,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastUsedDate = lastUsedDate
             self.region = region
         }
@@ -1368,8 +1334,7 @@ extension IAMClientTypes {
             roleLastUsed: IAMClientTypes.RoleLastUsed? = nil,
             roleName: Swift.String? = nil,
             tags: [IAMClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.assumeRolePolicyDocument = assumeRolePolicyDocument
             self.createDate = createDate
@@ -1426,8 +1391,7 @@ extension IAMClientTypes {
             path: Swift.String? = nil,
             roles: [IAMClientTypes.Role]? = nil,
             tags: [IAMClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createDate = createDate
             self.instanceProfileId = instanceProfileId
@@ -1447,8 +1411,7 @@ public struct CreateInstanceProfileOutput: Swift.Sendable {
 
     public init(
         instanceProfile: IAMClientTypes.InstanceProfile? = nil
-    )
-    {
+    ) {
         self.instanceProfile = instanceProfile
     }
 }
@@ -1465,8 +1428,7 @@ public struct CreateLoginProfileInput: Swift.Sendable {
         password: Swift.String? = nil,
         passwordResetRequired: Swift.Bool? = false,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.password = password
         self.passwordResetRequired = passwordResetRequired
         self.userName = userName
@@ -1495,8 +1457,7 @@ extension IAMClientTypes {
             createDate: Foundation.Date? = nil,
             passwordResetRequired: Swift.Bool = false,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.createDate = createDate
             self.passwordResetRequired = passwordResetRequired
             self.userName = userName
@@ -1512,16 +1473,15 @@ public struct CreateLoginProfileOutput: Swift.Sendable {
 
     public init(
         loginProfile: IAMClientTypes.LoginProfile? = nil
-    )
-    {
+    ) {
         self.loginProfile = loginProfile
     }
 }
 
 /// The request failed because IAM cannot connect to the OpenID Connect identity provider URL.
-public struct OpenIdIdpCommunicationErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OpenIdIdpCommunicationErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1536,8 +1496,7 @@ public struct OpenIdIdpCommunicationErrorException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1558,8 +1517,7 @@ public struct CreateOpenIDConnectProviderInput: Swift.Sendable {
         tags: [IAMClientTypes.Tag]? = nil,
         thumbprintList: [Swift.String]? = nil,
         url: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientIDList = clientIDList
         self.tags = tags
         self.thumbprintList = thumbprintList
@@ -1577,17 +1535,16 @@ public struct CreateOpenIDConnectProviderOutput: Swift.Sendable {
     public init(
         openIDConnectProviderArn: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.openIDConnectProviderArn = openIDConnectProviderArn
         self.tags = tags
     }
 }
 
 /// The request was rejected because the policy document was malformed. The error message describes the specific error.
-public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1602,8 +1559,7 @@ public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1634,8 +1590,7 @@ public struct CreatePolicyInput: Swift.Sendable {
         policyDocument: Swift.String? = nil,
         policyName: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.path = path
         self.policyDocument = policyDocument
@@ -1686,8 +1641,7 @@ extension IAMClientTypes {
             policyName: Swift.String? = nil,
             tags: [IAMClientTypes.Tag]? = nil,
             updateDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.attachmentCount = attachmentCount
             self.createDate = createDate
@@ -1711,8 +1665,7 @@ public struct CreatePolicyOutput: Swift.Sendable {
 
     public init(
         policy: IAMClientTypes.Policy? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -1737,8 +1690,7 @@ public struct CreatePolicyVersionInput: Swift.Sendable {
         policyArn: Swift.String? = nil,
         policyDocument: Swift.String? = nil,
         setAsDefault: Swift.Bool? = false
-    )
-    {
+    ) {
         self.policyArn = policyArn
         self.policyDocument = policyDocument
         self.setAsDefault = setAsDefault
@@ -1763,8 +1715,7 @@ extension IAMClientTypes {
             document: Swift.String? = nil,
             isDefaultVersion: Swift.Bool = false,
             versionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createDate = createDate
             self.document = document
             self.isDefaultVersion = isDefaultVersion
@@ -1780,8 +1731,7 @@ public struct CreatePolicyVersionOutput: Swift.Sendable {
 
     public init(
         policyVersion: IAMClientTypes.PolicyVersion? = nil
-    )
-    {
+    ) {
         self.policyVersion = policyVersion
     }
 }
@@ -1821,8 +1771,7 @@ public struct CreateRoleInput: Swift.Sendable {
         permissionsBoundary: Swift.String? = nil,
         roleName: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.assumeRolePolicyDocument = assumeRolePolicyDocument
         self.description = description
         self.maxSessionDuration = maxSessionDuration
@@ -1841,8 +1790,7 @@ public struct CreateRoleOutput: Swift.Sendable {
 
     public init(
         role: IAMClientTypes.Role? = nil
-    )
-    {
+    ) {
         self.role = role
     }
 }
@@ -1861,8 +1809,7 @@ public struct CreateSAMLProviderInput: Swift.Sendable {
         name: Swift.String? = nil,
         samlMetadataDocument: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.name = name
         self.samlMetadataDocument = samlMetadataDocument
         self.tags = tags
@@ -1879,8 +1826,7 @@ public struct CreateSAMLProviderOutput: Swift.Sendable {
     public init(
         samlProviderArn: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.samlProviderArn = samlProviderArn
         self.tags = tags
     }
@@ -1899,8 +1845,7 @@ public struct CreateServiceLinkedRoleInput: Swift.Sendable {
         awsServiceName: Swift.String? = nil,
         customSuffix: Swift.String? = nil,
         description: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsServiceName = awsServiceName
         self.customSuffix = customSuffix
         self.description = description
@@ -1913,16 +1858,15 @@ public struct CreateServiceLinkedRoleOutput: Swift.Sendable {
 
     public init(
         role: IAMClientTypes.Role? = nil
-    )
-    {
+    ) {
         self.role = role
     }
 }
 
 /// The specified service does not support service-specific credentials.
-public struct ServiceNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1937,8 +1881,7 @@ public struct ServiceNotSupportedException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1954,8 +1897,7 @@ public struct CreateServiceSpecificCredentialInput: Swift.Sendable {
     public init(
         serviceName: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceName = serviceName
         self.userName = userName
     }
@@ -1995,8 +1937,7 @@ extension IAMClientTypes {
             serviceUserName: Swift.String? = nil,
             status: IAMClientTypes.StatusType? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.createDate = createDate
             self.serviceName = serviceName
             self.servicePassword = servicePassword
@@ -2019,8 +1960,7 @@ public struct CreateServiceSpecificCredentialOutput: Swift.Sendable {
 
     public init(
         serviceSpecificCredential: IAMClientTypes.ServiceSpecificCredential? = nil
-    )
-    {
+    ) {
         self.serviceSpecificCredential = serviceSpecificCredential
     }
 }
@@ -2041,8 +1981,7 @@ public struct CreateUserInput: Swift.Sendable {
         permissionsBoundary: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.path = path
         self.permissionsBoundary = permissionsBoundary
         self.tags = tags
@@ -2098,8 +2037,7 @@ extension IAMClientTypes {
             tags: [IAMClientTypes.Tag]? = nil,
             userId: Swift.String? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createDate = createDate
             self.passwordLastUsed = passwordLastUsed
@@ -2119,8 +2057,7 @@ public struct CreateUserOutput: Swift.Sendable {
 
     public init(
         user: IAMClientTypes.User? = nil
-    )
-    {
+    ) {
         self.user = user
     }
 }
@@ -2138,8 +2075,7 @@ public struct CreateVirtualMFADeviceInput: Swift.Sendable {
         path: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil,
         virtualMFADeviceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.path = path
         self.tags = tags
         self.virtualMFADeviceName = virtualMFADeviceName
@@ -2171,8 +2107,7 @@ extension IAMClientTypes {
             serialNumber: Swift.String? = nil,
             tags: [IAMClientTypes.Tag]? = nil,
             user: IAMClientTypes.User? = nil
-        )
-        {
+        ) {
             self.base32StringSeed = base32StringSeed
             self.enableDate = enableDate
             self.qrCodePNG = qrCodePNG
@@ -2196,8 +2131,7 @@ public struct CreateVirtualMFADeviceOutput: Swift.Sendable {
 
     public init(
         virtualMFADevice: IAMClientTypes.VirtualMFADevice? = nil
-    )
-    {
+    ) {
         self.virtualMFADevice = virtualMFADevice
     }
 }
@@ -2212,8 +2146,7 @@ public struct DeactivateMFADeviceInput: Swift.Sendable {
     public init(
         serialNumber: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.serialNumber = serialNumber
         self.userName = userName
     }
@@ -2229,8 +2162,7 @@ public struct DeleteAccessKeyInput: Swift.Sendable {
     public init(
         accessKeyId: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessKeyId = accessKeyId
         self.userName = userName
     }
@@ -2243,16 +2175,15 @@ public struct DeleteAccountAliasInput: Swift.Sendable {
 
     public init(
         accountAlias: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountAlias = accountAlias
     }
 }
 
 /// The request was rejected because it attempted to delete a resource that has attached subordinate entities. The error message describes these entities.
-public struct DeleteConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DeleteConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2267,8 +2198,7 @@ public struct DeleteConflictException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2280,8 +2210,7 @@ public struct DeleteGroupInput: Swift.Sendable {
 
     public init(
         groupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupName = groupName
     }
 }
@@ -2297,8 +2226,7 @@ public struct DeleteGroupPolicyInput: Swift.Sendable {
     public init(
         groupName: Swift.String? = nil,
         policyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupName = groupName
         self.policyName = policyName
     }
@@ -2311,8 +2239,7 @@ public struct DeleteInstanceProfileInput: Swift.Sendable {
 
     public init(
         instanceProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceProfileName = instanceProfileName
     }
 }
@@ -2323,8 +2250,7 @@ public struct DeleteLoginProfileInput: Swift.Sendable {
 
     public init(
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.userName = userName
     }
 }
@@ -2336,8 +2262,7 @@ public struct DeleteOpenIDConnectProviderInput: Swift.Sendable {
 
     public init(
         openIDConnectProviderArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.openIDConnectProviderArn = openIDConnectProviderArn
     }
 }
@@ -2349,8 +2274,7 @@ public struct DeletePolicyInput: Swift.Sendable {
 
     public init(
         policyArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyArn = policyArn
     }
 }
@@ -2366,8 +2290,7 @@ public struct DeletePolicyVersionInput: Swift.Sendable {
     public init(
         policyArn: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyArn = policyArn
         self.versionId = versionId
     }
@@ -2380,8 +2303,7 @@ public struct DeleteRoleInput: Swift.Sendable {
 
     public init(
         roleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.roleName = roleName
     }
 }
@@ -2393,8 +2315,7 @@ public struct DeleteRolePermissionsBoundaryInput: Swift.Sendable {
 
     public init(
         roleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.roleName = roleName
     }
 }
@@ -2410,8 +2331,7 @@ public struct DeleteRolePolicyInput: Swift.Sendable {
     public init(
         policyName: Swift.String? = nil,
         roleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyName = policyName
         self.roleName = roleName
     }
@@ -2424,8 +2344,7 @@ public struct DeleteSAMLProviderInput: Swift.Sendable {
 
     public init(
         samlProviderArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.samlProviderArn = samlProviderArn
     }
 }
@@ -2437,8 +2356,7 @@ public struct DeleteServerCertificateInput: Swift.Sendable {
 
     public init(
         serverCertificateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.serverCertificateName = serverCertificateName
     }
 }
@@ -2450,8 +2368,7 @@ public struct DeleteServiceLinkedRoleInput: Swift.Sendable {
 
     public init(
         roleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.roleName = roleName
     }
 }
@@ -2463,8 +2380,7 @@ public struct DeleteServiceLinkedRoleOutput: Swift.Sendable {
 
     public init(
         deletionTaskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deletionTaskId = deletionTaskId
     }
 }
@@ -2479,8 +2395,7 @@ public struct DeleteServiceSpecificCredentialInput: Swift.Sendable {
     public init(
         serviceSpecificCredentialId: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceSpecificCredentialId = serviceSpecificCredentialId
         self.userName = userName
     }
@@ -2496,8 +2411,7 @@ public struct DeleteSigningCertificateInput: Swift.Sendable {
     public init(
         certificateId: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateId = certificateId
         self.userName = userName
     }
@@ -2514,8 +2428,7 @@ public struct DeleteSSHPublicKeyInput: Swift.Sendable {
     public init(
         sshPublicKeyId: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.sshPublicKeyId = sshPublicKeyId
         self.userName = userName
     }
@@ -2528,8 +2441,7 @@ public struct DeleteUserInput: Swift.Sendable {
 
     public init(
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.userName = userName
     }
 }
@@ -2541,8 +2453,7 @@ public struct DeleteUserPermissionsBoundaryInput: Swift.Sendable {
 
     public init(
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.userName = userName
     }
 }
@@ -2558,8 +2469,7 @@ public struct DeleteUserPolicyInput: Swift.Sendable {
     public init(
         policyName: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyName = policyName
         self.userName = userName
     }
@@ -2572,8 +2482,7 @@ public struct DeleteVirtualMFADeviceInput: Swift.Sendable {
 
     public init(
         serialNumber: Swift.String? = nil
-    )
-    {
+    ) {
         self.serialNumber = serialNumber
     }
 }
@@ -2589,8 +2498,7 @@ public struct DetachGroupPolicyInput: Swift.Sendable {
     public init(
         groupName: Swift.String? = nil,
         policyArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupName = groupName
         self.policyArn = policyArn
     }
@@ -2607,8 +2515,7 @@ public struct DetachRolePolicyInput: Swift.Sendable {
     public init(
         policyArn: Swift.String? = nil,
         roleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyArn = policyArn
         self.roleName = roleName
     }
@@ -2625,17 +2532,16 @@ public struct DetachUserPolicyInput: Swift.Sendable {
     public init(
         policyArn: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyArn = policyArn
         self.userName = userName
     }
 }
 
 /// The request was rejected because no organization is associated with your account.
-public struct OrganizationNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OrganizationNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2650,16 +2556,15 @@ public struct OrganizationNotFoundException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because your organization does not have All features enabled. For more information, see [Available feature sets](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#feature-set) in the Organizations User Guide.
-public struct OrganizationNotInAllFeaturesModeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OrganizationNotInAllFeaturesModeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2674,16 +2579,15 @@ public struct OrganizationNotInAllFeaturesModeException: ClientRuntime.ModeledEr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because trusted access is not enabled for IAM in Organizations. For details, see IAM and Organizations in the Organizations User Guide.
-public struct ServiceAccessNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceAccessNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2698,8 +2602,7 @@ public struct ServiceAccessNotEnabledException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2747,8 +2650,7 @@ public struct DisableOrganizationsRootCredentialsManagementOutput: Swift.Sendabl
     public init(
         enabledFeatures: [IAMClientTypes.FeatureType]? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.enabledFeatures = enabledFeatures
         self.organizationId = organizationId
     }
@@ -2768,17 +2670,16 @@ public struct DisableOrganizationsRootSessionsOutput: Swift.Sendable {
     public init(
         enabledFeatures: [IAMClientTypes.FeatureType]? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.enabledFeatures = enabledFeatures
         self.organizationId = organizationId
     }
 }
 
 /// The request was rejected because the authentication code was not recognized. The error message describes the specific error.
-public struct InvalidAuthenticationCodeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidAuthenticationCodeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2793,8 +2694,7 @@ public struct InvalidAuthenticationCodeException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2818,8 +2718,7 @@ public struct EnableMFADeviceInput: Swift.Sendable {
         authenticationCode2: Swift.String? = nil,
         serialNumber: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationCode1 = authenticationCode1
         self.authenticationCode2 = authenticationCode2
         self.serialNumber = serialNumber
@@ -2828,9 +2727,9 @@ public struct EnableMFADeviceInput: Swift.Sendable {
 }
 
 /// The request was rejected because the account making the request is not the management account for the organization.
-public struct CallerIsNotManagementAccountException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CallerIsNotManagementAccountException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2845,8 +2744,7 @@ public struct CallerIsNotManagementAccountException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2865,8 +2763,7 @@ public struct EnableOrganizationsRootCredentialsManagementOutput: Swift.Sendable
     public init(
         enabledFeatures: [IAMClientTypes.FeatureType]? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.enabledFeatures = enabledFeatures
         self.organizationId = organizationId
     }
@@ -2886,8 +2783,7 @@ public struct EnableOrganizationsRootSessionsOutput: Swift.Sendable {
     public init(
         enabledFeatures: [IAMClientTypes.FeatureType]? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.enabledFeatures = enabledFeatures
         self.organizationId = organizationId
     }
@@ -2935,17 +2831,16 @@ public struct GenerateCredentialReportOutput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         state: IAMClientTypes.ReportStateType? = nil
-    )
-    {
+    ) {
         self.description = description
         self.state = state
     }
 }
 
 /// The request failed because the maximum number of concurrent requests for this account are already running.
-public struct ReportGenerationLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReportGenerationLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2960,8 +2855,7 @@ public struct ReportGenerationLimitExceededException: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2976,8 +2870,7 @@ public struct GenerateOrganizationsAccessReportInput: Swift.Sendable {
     public init(
         entityPath: Swift.String? = nil,
         organizationsPolicyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.entityPath = entityPath
         self.organizationsPolicyId = organizationsPolicyId
     }
@@ -2989,8 +2882,7 @@ public struct GenerateOrganizationsAccessReportOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -3005,8 +2897,7 @@ public struct GenerateServiceLastAccessedDetailsInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         granularity: IAMClientTypes.AccessAdvisorUsageGranularityType? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.granularity = granularity
     }
@@ -3018,8 +2909,7 @@ public struct GenerateServiceLastAccessedDetailsOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -3031,8 +2921,7 @@ public struct GetAccessKeyLastUsedInput: Swift.Sendable {
 
     public init(
         accessKeyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessKeyId = accessKeyId
     }
 }
@@ -3047,8 +2936,7 @@ public struct GetAccessKeyLastUsedOutput: Swift.Sendable {
     public init(
         accessKeyLastUsed: IAMClientTypes.AccessKeyLastUsed? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessKeyLastUsed = accessKeyLastUsed
         self.userName = userName
     }
@@ -3104,8 +2992,7 @@ public struct GetAccountAuthorizationDetailsInput: Swift.Sendable {
         filter: [IAMClientTypes.EntityType]? = nil,
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.marker = marker
         self.maxItems = maxItems
@@ -3124,8 +3011,7 @@ extension IAMClientTypes {
         public init(
             policyDocument: Swift.String? = nil,
             policyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.policyDocument = policyDocument
             self.policyName = policyName
         }
@@ -3159,8 +3045,7 @@ extension IAMClientTypes {
             groupName: Swift.String? = nil,
             groupPolicyList: [IAMClientTypes.PolicyDetail]? = nil,
             path: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.attachedManagedPolicies = attachedManagedPolicies
             self.createDate = createDate
@@ -3214,8 +3099,7 @@ extension IAMClientTypes {
             policyName: Swift.String? = nil,
             policyVersionList: [IAMClientTypes.PolicyVersion]? = nil,
             updateDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.attachmentCount = attachmentCount
             self.createDate = createDate
@@ -3274,8 +3158,7 @@ extension IAMClientTypes {
             roleName: Swift.String? = nil,
             rolePolicyList: [IAMClientTypes.PolicyDetail]? = nil,
             tags: [IAMClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.assumeRolePolicyDocument = assumeRolePolicyDocument
             self.attachedManagedPolicies = attachedManagedPolicies
@@ -3328,8 +3211,7 @@ extension IAMClientTypes {
             userId: Swift.String? = nil,
             userName: Swift.String? = nil,
             userPolicyList: [IAMClientTypes.PolicyDetail]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.attachedManagedPolicies = attachedManagedPolicies
             self.createDate = createDate
@@ -3366,8 +3248,7 @@ public struct GetAccountAuthorizationDetailsOutput: Swift.Sendable {
         policies: [IAMClientTypes.ManagedPolicyDetail]? = nil,
         roleDetailList: [IAMClientTypes.RoleDetail]? = nil,
         userDetailList: [IAMClientTypes.UserDetail]? = nil
-    )
-    {
+    ) {
         self.groupDetailList = groupDetailList
         self.isTruncated = isTruncated
         self.marker = marker
@@ -3413,8 +3294,7 @@ extension IAMClientTypes {
             requireNumbers: Swift.Bool = false,
             requireSymbols: Swift.Bool = false,
             requireUppercaseCharacters: Swift.Bool = false
-        )
-        {
+        ) {
             self.allowUsersToChangePassword = allowUsersToChangePassword
             self.expirePasswords = expirePasswords
             self.hardExpiry = hardExpiry
@@ -3437,8 +3317,7 @@ public struct GetAccountPasswordPolicyOutput: Swift.Sendable {
 
     public init(
         passwordPolicy: IAMClientTypes.PasswordPolicy? = nil
-    )
-    {
+    ) {
         self.passwordPolicy = passwordPolicy
     }
 }
@@ -3554,8 +3433,7 @@ public struct GetAccountSummaryOutput: Swift.Sendable {
 
     public init(
         summaryMap: [Swift.String: Swift.Int]? = nil
-    )
-    {
+    ) {
         self.summaryMap = summaryMap
     }
 }
@@ -3573,8 +3451,7 @@ public struct GetContextKeysForCustomPolicyInput: Swift.Sendable {
 
     public init(
         policyInputList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.policyInputList = policyInputList
     }
 }
@@ -3586,8 +3463,7 @@ public struct GetContextKeysForCustomPolicyOutput: Swift.Sendable {
 
     public init(
         contextKeyNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.contextKeyNames = contextKeyNames
     }
 }
@@ -3608,8 +3484,7 @@ public struct GetContextKeysForPrincipalPolicyInput: Swift.Sendable {
     public init(
         policyInputList: [Swift.String]? = nil,
         policySourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyInputList = policyInputList
         self.policySourceArn = policySourceArn
     }
@@ -3622,16 +3497,15 @@ public struct GetContextKeysForPrincipalPolicyOutput: Swift.Sendable {
 
     public init(
         contextKeyNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.contextKeyNames = contextKeyNames
     }
 }
 
 /// The request was rejected because the most recent credential report has expired. To generate a new credential report, use [GenerateCredentialReport]. For more information about credential report expiration, see [Getting credential reports](https://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html) in the IAM User Guide.
-public struct CredentialReportExpiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CredentialReportExpiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3646,16 +3520,15 @@ public struct CredentialReportExpiredException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the credential report does not exist. To generate a credential report, use [GenerateCredentialReport].
-public struct CredentialReportNotPresentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CredentialReportNotPresentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3670,16 +3543,15 @@ public struct CredentialReportNotPresentException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the credential report is still being generated.
-public struct CredentialReportNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CredentialReportNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3694,8 +3566,7 @@ public struct CredentialReportNotReadyException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3739,8 +3610,7 @@ public struct GetCredentialReportOutput: Swift.Sendable {
         content: Foundation.Data? = nil,
         generatedTime: Foundation.Date? = nil,
         reportFormat: IAMClientTypes.ReportFormatType? = nil
-    )
-    {
+    ) {
         self.content = content
         self.generatedTime = generatedTime
         self.reportFormat = reportFormat
@@ -3760,8 +3630,7 @@ public struct GetGroupInput: Swift.Sendable {
         groupName: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.groupName = groupName
         self.marker = marker
         self.maxItems = maxItems
@@ -3786,8 +3655,7 @@ public struct GetGroupOutput: Swift.Sendable {
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil,
         users: [IAMClientTypes.User]? = nil
-    )
-    {
+    ) {
         self.group = group
         self.isTruncated = isTruncated
         self.marker = marker
@@ -3806,8 +3674,7 @@ public struct GetGroupPolicyInput: Swift.Sendable {
     public init(
         groupName: Swift.String? = nil,
         policyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupName = groupName
         self.policyName = policyName
     }
@@ -3829,8 +3696,7 @@ public struct GetGroupPolicyOutput: Swift.Sendable {
         groupName: Swift.String? = nil,
         policyDocument: Swift.String? = nil,
         policyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupName = groupName
         self.policyDocument = policyDocument
         self.policyName = policyName
@@ -3844,8 +3710,7 @@ public struct GetInstanceProfileInput: Swift.Sendable {
 
     public init(
         instanceProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceProfileName = instanceProfileName
     }
 }
@@ -3858,8 +3723,7 @@ public struct GetInstanceProfileOutput: Swift.Sendable {
 
     public init(
         instanceProfile: IAMClientTypes.InstanceProfile? = nil
-    )
-    {
+    ) {
         self.instanceProfile = instanceProfile
     }
 }
@@ -3870,8 +3734,7 @@ public struct GetLoginProfileInput: Swift.Sendable {
 
     public init(
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.userName = userName
     }
 }
@@ -3884,8 +3747,7 @@ public struct GetLoginProfileOutput: Swift.Sendable {
 
     public init(
         loginProfile: IAMClientTypes.LoginProfile? = nil
-    )
-    {
+    ) {
         self.loginProfile = loginProfile
     }
 }
@@ -3900,8 +3762,7 @@ public struct GetMFADeviceInput: Swift.Sendable {
     public init(
         serialNumber: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.serialNumber = serialNumber
         self.userName = userName
     }
@@ -3923,8 +3784,7 @@ public struct GetMFADeviceOutput: Swift.Sendable {
         enableDate: Foundation.Date? = nil,
         serialNumber: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.certifications = certifications
         self.enableDate = enableDate
         self.serialNumber = serialNumber
@@ -3939,8 +3799,7 @@ public struct GetOpenIDConnectProviderInput: Swift.Sendable {
 
     public init(
         openIDConnectProviderArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.openIDConnectProviderArn = openIDConnectProviderArn
     }
 }
@@ -3964,8 +3823,7 @@ public struct GetOpenIDConnectProviderOutput: Swift.Sendable {
         tags: [IAMClientTypes.Tag]? = nil,
         thumbprintList: [Swift.String]? = nil,
         url: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientIDList = clientIDList
         self.createDate = createDate
         self.tags = tags
@@ -4025,8 +3883,7 @@ public struct GetOrganizationsAccessReportInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         sortKey: IAMClientTypes.SortKeyType? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.marker = marker
         self.maxItems = maxItems
@@ -4048,8 +3905,7 @@ extension IAMClientTypes {
         public init(
             code: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -4120,8 +3976,7 @@ public struct GetOrganizationsAccessReportOutput: Swift.Sendable {
         marker: Swift.String? = nil,
         numberOfServicesAccessible: Swift.Int? = nil,
         numberOfServicesNotAccessed: Swift.Int? = nil
-    )
-    {
+    ) {
         self.accessDetails = accessDetails
         self.errorDetails = errorDetails
         self.isTruncated = isTruncated
@@ -4141,8 +3996,7 @@ public struct GetPolicyInput: Swift.Sendable {
 
     public init(
         policyArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyArn = policyArn
     }
 }
@@ -4154,8 +4008,7 @@ public struct GetPolicyOutput: Swift.Sendable {
 
     public init(
         policy: IAMClientTypes.Policy? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -4171,8 +4024,7 @@ public struct GetPolicyVersionInput: Swift.Sendable {
     public init(
         policyArn: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyArn = policyArn
         self.versionId = versionId
     }
@@ -4185,8 +4037,7 @@ public struct GetPolicyVersionOutput: Swift.Sendable {
 
     public init(
         policyVersion: IAMClientTypes.PolicyVersion? = nil
-    )
-    {
+    ) {
         self.policyVersion = policyVersion
     }
 }
@@ -4198,8 +4049,7 @@ public struct GetRoleInput: Swift.Sendable {
 
     public init(
         roleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.roleName = roleName
     }
 }
@@ -4212,8 +4062,7 @@ public struct GetRoleOutput: Swift.Sendable {
 
     public init(
         role: IAMClientTypes.Role? = nil
-    )
-    {
+    ) {
         self.role = role
     }
 }
@@ -4229,8 +4078,7 @@ public struct GetRolePolicyInput: Swift.Sendable {
     public init(
         policyName: Swift.String? = nil,
         roleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyName = policyName
         self.roleName = roleName
     }
@@ -4252,8 +4100,7 @@ public struct GetRolePolicyOutput: Swift.Sendable {
         policyDocument: Swift.String? = nil,
         policyName: Swift.String? = nil,
         roleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyDocument = policyDocument
         self.policyName = policyName
         self.roleName = roleName
@@ -4267,8 +4114,7 @@ public struct GetSAMLProviderInput: Swift.Sendable {
 
     public init(
         samlProviderArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.samlProviderArn = samlProviderArn
     }
 }
@@ -4289,8 +4135,7 @@ public struct GetSAMLProviderOutput: Swift.Sendable {
         samlMetadataDocument: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil,
         validUntil: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createDate = createDate
         self.samlMetadataDocument = samlMetadataDocument
         self.tags = tags
@@ -4305,8 +4150,7 @@ public struct GetServerCertificateInput: Swift.Sendable {
 
     public init(
         serverCertificateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.serverCertificateName = serverCertificateName
     }
 }
@@ -4339,8 +4183,7 @@ extension IAMClientTypes {
             serverCertificateId: Swift.String? = nil,
             serverCertificateName: Swift.String? = nil,
             uploadDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.expiration = expiration
             self.path = path
@@ -4371,8 +4214,7 @@ extension IAMClientTypes {
             certificateChain: Swift.String? = nil,
             serverCertificateMetadata: IAMClientTypes.ServerCertificateMetadata? = nil,
             tags: [IAMClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.certificateBody = certificateBody
             self.certificateChain = certificateChain
             self.serverCertificateMetadata = serverCertificateMetadata
@@ -4389,8 +4231,7 @@ public struct GetServerCertificateOutput: Swift.Sendable {
 
     public init(
         serverCertificate: IAMClientTypes.ServerCertificate? = nil
-    )
-    {
+    ) {
         self.serverCertificate = serverCertificate
     }
 }
@@ -4408,8 +4249,7 @@ public struct GetServiceLastAccessedDetailsInput: Swift.Sendable {
         jobId: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.marker = marker
         self.maxItems = maxItems
@@ -4434,8 +4274,7 @@ extension IAMClientTypes {
             lastAccessedEntity: Swift.String? = nil,
             lastAccessedRegion: Swift.String? = nil,
             lastAccessedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.actionName = actionName
             self.lastAccessedEntity = lastAccessedEntity
             self.lastAccessedRegion = lastAccessedRegion
@@ -4473,8 +4312,7 @@ extension IAMClientTypes {
             serviceNamespace: Swift.String? = nil,
             totalAuthenticatedEntities: Swift.Int? = nil,
             trackedActionsLastAccessed: [IAMClientTypes.TrackedActionLastAccessed]? = nil
-        )
-        {
+        ) {
             self.lastAuthenticated = lastAuthenticated
             self.lastAuthenticatedEntity = lastAuthenticatedEntity
             self.lastAuthenticatedRegion = lastAuthenticatedRegion
@@ -4517,8 +4355,7 @@ public struct GetServiceLastAccessedDetailsOutput: Swift.Sendable {
         jobType: IAMClientTypes.AccessAdvisorUsageGranularityType? = nil,
         marker: Swift.String? = nil,
         servicesLastAccessed: [IAMClientTypes.ServiceLastAccessed]? = nil
-    )
-    {
+    ) {
         self.error = error
         self.isTruncated = isTruncated
         self.jobCompletionDate = jobCompletionDate
@@ -4547,8 +4384,7 @@ public struct GetServiceLastAccessedDetailsWithEntitiesInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         serviceNamespace: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.marker = marker
         self.maxItems = maxItems
@@ -4613,8 +4449,7 @@ extension IAMClientTypes {
             name: Swift.String? = nil,
             path: Swift.String? = nil,
             type: IAMClientTypes.PolicyOwnerEntityType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.name = name
@@ -4637,8 +4472,7 @@ extension IAMClientTypes {
         public init(
             entityInfo: IAMClientTypes.EntityInfo? = nil,
             lastAuthenticated: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.entityInfo = entityInfo
             self.lastAuthenticated = lastAuthenticated
         }
@@ -4673,8 +4507,7 @@ public struct GetServiceLastAccessedDetailsWithEntitiesOutput: Swift.Sendable {
         jobCreationDate: Foundation.Date? = nil,
         jobStatus: IAMClientTypes.JobStatusType? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.entityDetailsList = entityDetailsList
         self.error = error
         self.isTruncated = isTruncated
@@ -4692,8 +4525,7 @@ public struct GetServiceLinkedRoleDeletionStatusInput: Swift.Sendable {
 
     public init(
         deletionTaskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deletionTaskId = deletionTaskId
     }
 }
@@ -4710,8 +4542,7 @@ extension IAMClientTypes {
         public init(
             region: Swift.String? = nil,
             resources: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.region = region
             self.resources = resources
         }
@@ -4730,8 +4561,7 @@ extension IAMClientTypes {
         public init(
             reason: Swift.String? = nil,
             roleUsageList: [IAMClientTypes.RoleUsageType]? = nil
-        )
-        {
+        ) {
             self.reason = reason
             self.roleUsageList = roleUsageList
         }
@@ -4783,17 +4613,16 @@ public struct GetServiceLinkedRoleDeletionStatusOutput: Swift.Sendable {
     public init(
         reason: IAMClientTypes.DeletionTaskFailureReasonType? = nil,
         status: IAMClientTypes.DeletionTaskStatusType? = nil
-    )
-    {
+    ) {
         self.reason = reason
         self.status = status
     }
 }
 
 /// The request was rejected because the public key encoding format is unsupported or unrecognized.
-public struct UnrecognizedPublicKeyEncodingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnrecognizedPublicKeyEncodingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4808,8 +4637,7 @@ public struct UnrecognizedPublicKeyEncodingException: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4858,8 +4686,7 @@ public struct GetSSHPublicKeyInput: Swift.Sendable {
         encoding: IAMClientTypes.EncodingType? = nil,
         sshPublicKeyId: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.encoding = encoding
         self.sshPublicKeyId = sshPublicKeyId
         self.userName = userName
@@ -4895,8 +4722,7 @@ extension IAMClientTypes {
             status: IAMClientTypes.StatusType? = nil,
             uploadDate: Foundation.Date? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.fingerprint = fingerprint
             self.sshPublicKeyBody = sshPublicKeyBody
             self.sshPublicKeyId = sshPublicKeyId
@@ -4914,8 +4740,7 @@ public struct GetSSHPublicKeyOutput: Swift.Sendable {
 
     public init(
         sshPublicKey: IAMClientTypes.SSHPublicKey? = nil
-    )
-    {
+    ) {
         self.sshPublicKey = sshPublicKey
     }
 }
@@ -4926,8 +4751,7 @@ public struct GetUserInput: Swift.Sendable {
 
     public init(
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.userName = userName
     }
 }
@@ -4940,8 +4764,7 @@ public struct GetUserOutput: Swift.Sendable {
 
     public init(
         user: IAMClientTypes.User? = nil
-    )
-    {
+    ) {
         self.user = user
     }
 }
@@ -4957,8 +4780,7 @@ public struct GetUserPolicyInput: Swift.Sendable {
     public init(
         policyName: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyName = policyName
         self.userName = userName
     }
@@ -4980,8 +4802,7 @@ public struct GetUserPolicyOutput: Swift.Sendable {
         policyDocument: Swift.String? = nil,
         policyName: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyDocument = policyDocument
         self.policyName = policyName
         self.userName = userName
@@ -5000,8 +4821,7 @@ public struct ListAccessKeysInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.userName = userName
@@ -5022,8 +4842,7 @@ public struct ListAccessKeysOutput: Swift.Sendable {
         accessKeyMetadata: [IAMClientTypes.AccessKeyMetadata]? = nil,
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessKeyMetadata = accessKeyMetadata
         self.isTruncated = isTruncated
         self.marker = marker
@@ -5039,8 +4858,7 @@ public struct ListAccountAliasesInput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
     }
@@ -5060,8 +4878,7 @@ public struct ListAccountAliasesOutput: Swift.Sendable {
         accountAliases: [Swift.String]? = nil,
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountAliases = accountAliases
         self.isTruncated = isTruncated
         self.marker = marker
@@ -5084,8 +4901,7 @@ public struct ListAttachedGroupPoliciesInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         pathPrefix: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupName = groupName
         self.marker = marker
         self.maxItems = maxItems
@@ -5106,8 +4922,7 @@ public struct ListAttachedGroupPoliciesOutput: Swift.Sendable {
         attachedPolicies: [IAMClientTypes.AttachedPolicy]? = nil,
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachedPolicies = attachedPolicies
         self.isTruncated = isTruncated
         self.marker = marker
@@ -5130,8 +4945,7 @@ public struct ListAttachedRolePoliciesInput: Swift.Sendable {
         maxItems: Swift.Int? = nil,
         pathPrefix: Swift.String? = nil,
         roleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.pathPrefix = pathPrefix
@@ -5152,8 +4966,7 @@ public struct ListAttachedRolePoliciesOutput: Swift.Sendable {
         attachedPolicies: [IAMClientTypes.AttachedPolicy]? = nil,
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachedPolicies = attachedPolicies
         self.isTruncated = isTruncated
         self.marker = marker
@@ -5176,8 +4989,7 @@ public struct ListAttachedUserPoliciesInput: Swift.Sendable {
         maxItems: Swift.Int? = nil,
         pathPrefix: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.pathPrefix = pathPrefix
@@ -5198,8 +5010,7 @@ public struct ListAttachedUserPoliciesOutput: Swift.Sendable {
         attachedPolicies: [IAMClientTypes.AttachedPolicy]? = nil,
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.attachedPolicies = attachedPolicies
         self.isTruncated = isTruncated
         self.marker = marker
@@ -5258,8 +5069,7 @@ public struct ListEntitiesForPolicyInput: Swift.Sendable {
         pathPrefix: Swift.String? = nil,
         policyArn: Swift.String? = nil,
         policyUsageFilter: IAMClientTypes.PolicyUsageType? = nil
-    )
-    {
+    ) {
         self.entityFilter = entityFilter
         self.marker = marker
         self.maxItems = maxItems
@@ -5281,8 +5091,7 @@ extension IAMClientTypes {
         public init(
             groupId: Swift.String? = nil,
             groupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupId = groupId
             self.groupName = groupName
         }
@@ -5301,8 +5110,7 @@ extension IAMClientTypes {
         public init(
             roleId: Swift.String? = nil,
             roleName: Swift.String? = nil
-        )
-        {
+        ) {
             self.roleId = roleId
             self.roleName = roleName
         }
@@ -5321,8 +5129,7 @@ extension IAMClientTypes {
         public init(
             userId: Swift.String? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.userId = userId
             self.userName = userName
         }
@@ -5348,8 +5155,7 @@ public struct ListEntitiesForPolicyOutput: Swift.Sendable {
         policyGroups: [IAMClientTypes.PolicyGroup]? = nil,
         policyRoles: [IAMClientTypes.PolicyRole]? = nil,
         policyUsers: [IAMClientTypes.PolicyUser]? = nil
-    )
-    {
+    ) {
         self.isTruncated = isTruncated
         self.marker = marker
         self.policyGroups = policyGroups
@@ -5371,8 +5177,7 @@ public struct ListGroupPoliciesInput: Swift.Sendable {
         groupName: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.groupName = groupName
         self.marker = marker
         self.maxItems = maxItems
@@ -5393,8 +5198,7 @@ public struct ListGroupPoliciesOutput: Swift.Sendable {
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil,
         policyNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.isTruncated = isTruncated
         self.marker = marker
         self.policyNames = policyNames
@@ -5413,8 +5217,7 @@ public struct ListGroupsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         pathPrefix: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.pathPrefix = pathPrefix
@@ -5435,8 +5238,7 @@ public struct ListGroupsOutput: Swift.Sendable {
         groups: [IAMClientTypes.Group]? = nil,
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.groups = groups
         self.isTruncated = isTruncated
         self.marker = marker
@@ -5456,8 +5258,7 @@ public struct ListGroupsForUserInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.userName = userName
@@ -5478,8 +5279,7 @@ public struct ListGroupsForUserOutput: Swift.Sendable {
         groups: [IAMClientTypes.Group]? = nil,
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.groups = groups
         self.isTruncated = isTruncated
         self.marker = marker
@@ -5498,8 +5298,7 @@ public struct ListInstanceProfilesInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         pathPrefix: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.pathPrefix = pathPrefix
@@ -5520,8 +5319,7 @@ public struct ListInstanceProfilesOutput: Swift.Sendable {
         instanceProfiles: [IAMClientTypes.InstanceProfile]? = nil,
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceProfiles = instanceProfiles
         self.isTruncated = isTruncated
         self.marker = marker
@@ -5541,8 +5339,7 @@ public struct ListInstanceProfilesForRoleInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         roleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.roleName = roleName
@@ -5563,8 +5360,7 @@ public struct ListInstanceProfilesForRoleOutput: Swift.Sendable {
         instanceProfiles: [IAMClientTypes.InstanceProfile]? = nil,
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceProfiles = instanceProfiles
         self.isTruncated = isTruncated
         self.marker = marker
@@ -5584,8 +5380,7 @@ public struct ListInstanceProfileTagsInput: Swift.Sendable {
         instanceProfileName: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.instanceProfileName = instanceProfileName
         self.marker = marker
         self.maxItems = maxItems
@@ -5605,8 +5400,7 @@ public struct ListInstanceProfileTagsOutput: Swift.Sendable {
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.isTruncated = isTruncated
         self.marker = marker
         self.tags = tags
@@ -5625,8 +5419,7 @@ public struct ListMFADevicesInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.userName = userName
@@ -5651,8 +5444,7 @@ extension IAMClientTypes {
             enableDate: Foundation.Date? = nil,
             serialNumber: Swift.String? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.enableDate = enableDate
             self.serialNumber = serialNumber
             self.userName = userName
@@ -5674,8 +5466,7 @@ public struct ListMFADevicesOutput: Swift.Sendable {
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil,
         mfaDevices: [IAMClientTypes.MFADevice]? = nil
-    )
-    {
+    ) {
         self.isTruncated = isTruncated
         self.marker = marker
         self.mfaDevices = mfaDevices
@@ -5695,8 +5486,7 @@ public struct ListMFADeviceTagsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         serialNumber: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.serialNumber = serialNumber
@@ -5716,8 +5506,7 @@ public struct ListMFADeviceTagsOutput: Swift.Sendable {
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.isTruncated = isTruncated
         self.marker = marker
         self.tags = tags
@@ -5738,8 +5527,7 @@ extension IAMClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -5752,8 +5540,7 @@ public struct ListOpenIDConnectProvidersOutput: Swift.Sendable {
 
     public init(
         openIDConnectProviderList: [IAMClientTypes.OpenIDConnectProviderListEntry]? = nil
-    )
-    {
+    ) {
         self.openIDConnectProviderList = openIDConnectProviderList
     }
 }
@@ -5771,8 +5558,7 @@ public struct ListOpenIDConnectProviderTagsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         openIDConnectProviderArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.openIDConnectProviderArn = openIDConnectProviderArn
@@ -5792,8 +5578,7 @@ public struct ListOpenIDConnectProviderTagsOutput: Swift.Sendable {
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.isTruncated = isTruncated
         self.marker = marker
         self.tags = tags
@@ -5814,8 +5599,7 @@ public struct ListOrganizationsFeaturesOutput: Swift.Sendable {
     public init(
         enabledFeatures: [IAMClientTypes.FeatureType]? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.enabledFeatures = enabledFeatures
         self.organizationId = organizationId
     }
@@ -5874,8 +5658,7 @@ public struct ListPoliciesInput: Swift.Sendable {
         pathPrefix: Swift.String? = nil,
         policyUsageFilter: IAMClientTypes.PolicyUsageType? = nil,
         scope: IAMClientTypes.PolicyScopeType? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.onlyAttached = onlyAttached
@@ -5898,8 +5681,7 @@ public struct ListPoliciesOutput: Swift.Sendable {
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil,
         policies: [IAMClientTypes.Policy]? = nil
-    )
-    {
+    ) {
         self.isTruncated = isTruncated
         self.marker = marker
         self.policies = policies
@@ -5920,8 +5702,7 @@ public struct ListPoliciesGrantingServiceAccessInput: Swift.Sendable {
         arn: Swift.String? = nil,
         marker: Swift.String? = nil,
         serviceNamespaces: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.marker = marker
         self.serviceNamespaces = serviceNamespaces
@@ -5980,8 +5761,7 @@ extension IAMClientTypes {
             policyArn: Swift.String? = nil,
             policyName: Swift.String? = nil,
             policyType: IAMClientTypes.PolicyType? = nil
-        )
-        {
+        ) {
             self.entityName = entityName
             self.entityType = entityType
             self.policyArn = policyArn
@@ -6003,8 +5783,7 @@ extension IAMClientTypes {
         public init(
             policies: [IAMClientTypes.PolicyGrantingServiceAccess]? = nil,
             serviceNamespace: Swift.String? = nil
-        )
-        {
+        ) {
             self.policies = policies
             self.serviceNamespace = serviceNamespace
         }
@@ -6024,8 +5803,7 @@ public struct ListPoliciesGrantingServiceAccessOutput: Swift.Sendable {
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil,
         policiesGrantingServiceAccess: [IAMClientTypes.ListPoliciesGrantingServiceAccessEntry]? = nil
-    )
-    {
+    ) {
         self.isTruncated = isTruncated
         self.marker = marker
         self.policiesGrantingServiceAccess = policiesGrantingServiceAccess
@@ -6045,8 +5823,7 @@ public struct ListPolicyTagsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         policyArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.policyArn = policyArn
@@ -6066,8 +5843,7 @@ public struct ListPolicyTagsOutput: Swift.Sendable {
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.isTruncated = isTruncated
         self.marker = marker
         self.tags = tags
@@ -6087,8 +5863,7 @@ public struct ListPolicyVersionsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         policyArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.policyArn = policyArn
@@ -6108,8 +5883,7 @@ public struct ListPolicyVersionsOutput: Swift.Sendable {
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil,
         versions: [IAMClientTypes.PolicyVersion]? = nil
-    )
-    {
+    ) {
         self.isTruncated = isTruncated
         self.marker = marker
         self.versions = versions
@@ -6129,8 +5903,7 @@ public struct ListRolePoliciesInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         roleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.roleName = roleName
@@ -6151,8 +5924,7 @@ public struct ListRolePoliciesOutput: Swift.Sendable {
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil,
         policyNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.isTruncated = isTruncated
         self.marker = marker
         self.policyNames = policyNames
@@ -6171,8 +5943,7 @@ public struct ListRolesInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         pathPrefix: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.pathPrefix = pathPrefix
@@ -6193,8 +5964,7 @@ public struct ListRolesOutput: Swift.Sendable {
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil,
         roles: [IAMClientTypes.Role]? = nil
-    )
-    {
+    ) {
         self.isTruncated = isTruncated
         self.marker = marker
         self.roles = roles
@@ -6214,8 +5984,7 @@ public struct ListRoleTagsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         roleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.roleName = roleName
@@ -6235,8 +6004,7 @@ public struct ListRoleTagsOutput: Swift.Sendable {
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.isTruncated = isTruncated
         self.marker = marker
         self.tags = tags
@@ -6263,8 +6031,7 @@ extension IAMClientTypes {
             arn: Swift.String? = nil,
             createDate: Foundation.Date? = nil,
             validUntil: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createDate = createDate
             self.validUntil = validUntil
@@ -6279,8 +6046,7 @@ public struct ListSAMLProvidersOutput: Swift.Sendable {
 
     public init(
         samlProviderList: [IAMClientTypes.SAMLProviderListEntry]? = nil
-    )
-    {
+    ) {
         self.samlProviderList = samlProviderList
     }
 }
@@ -6298,8 +6064,7 @@ public struct ListSAMLProviderTagsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         samlProviderArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.samlProviderArn = samlProviderArn
@@ -6319,8 +6084,7 @@ public struct ListSAMLProviderTagsOutput: Swift.Sendable {
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.isTruncated = isTruncated
         self.marker = marker
         self.tags = tags
@@ -6339,8 +6103,7 @@ public struct ListServerCertificatesInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         pathPrefix: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.pathPrefix = pathPrefix
@@ -6361,8 +6124,7 @@ public struct ListServerCertificatesOutput: Swift.Sendable {
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil,
         serverCertificateMetadataList: [IAMClientTypes.ServerCertificateMetadata]? = nil
-    )
-    {
+    ) {
         self.isTruncated = isTruncated
         self.marker = marker
         self.serverCertificateMetadataList = serverCertificateMetadataList
@@ -6382,8 +6144,7 @@ public struct ListServerCertificateTagsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         serverCertificateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.serverCertificateName = serverCertificateName
@@ -6403,8 +6164,7 @@ public struct ListServerCertificateTagsOutput: Swift.Sendable {
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.isTruncated = isTruncated
         self.marker = marker
         self.tags = tags
@@ -6420,8 +6180,7 @@ public struct ListServiceSpecificCredentialsInput: Swift.Sendable {
     public init(
         serviceName: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceName = serviceName
         self.userName = userName
     }
@@ -6457,8 +6216,7 @@ extension IAMClientTypes {
             serviceUserName: Swift.String? = nil,
             status: IAMClientTypes.StatusType? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.createDate = createDate
             self.serviceName = serviceName
             self.serviceSpecificCredentialId = serviceSpecificCredentialId
@@ -6475,8 +6233,7 @@ public struct ListServiceSpecificCredentialsOutput: Swift.Sendable {
 
     public init(
         serviceSpecificCredentials: [IAMClientTypes.ServiceSpecificCredentialMetadata]? = nil
-    )
-    {
+    ) {
         self.serviceSpecificCredentials = serviceSpecificCredentials
     }
 }
@@ -6493,8 +6250,7 @@ public struct ListSigningCertificatesInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.userName = userName
@@ -6526,8 +6282,7 @@ extension IAMClientTypes {
             status: IAMClientTypes.StatusType? = nil,
             uploadDate: Foundation.Date? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateBody = certificateBody
             self.certificateId = certificateId
             self.status = status
@@ -6551,8 +6306,7 @@ public struct ListSigningCertificatesOutput: Swift.Sendable {
         certificates: [IAMClientTypes.SigningCertificate]? = nil,
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificates = certificates
         self.isTruncated = isTruncated
         self.marker = marker
@@ -6571,8 +6325,7 @@ public struct ListSSHPublicKeysInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.userName = userName
@@ -6601,8 +6354,7 @@ extension IAMClientTypes {
             status: IAMClientTypes.StatusType? = nil,
             uploadDate: Foundation.Date? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.sshPublicKeyId = sshPublicKeyId
             self.status = status
             self.uploadDate = uploadDate
@@ -6624,8 +6376,7 @@ public struct ListSSHPublicKeysOutput: Swift.Sendable {
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil,
         sshPublicKeys: [IAMClientTypes.SSHPublicKeyMetadata]? = nil
-    )
-    {
+    ) {
         self.isTruncated = isTruncated
         self.marker = marker
         self.sshPublicKeys = sshPublicKeys
@@ -6645,8 +6396,7 @@ public struct ListUserPoliciesInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.userName = userName
@@ -6667,8 +6417,7 @@ public struct ListUserPoliciesOutput: Swift.Sendable {
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil,
         policyNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.isTruncated = isTruncated
         self.marker = marker
         self.policyNames = policyNames
@@ -6687,8 +6436,7 @@ public struct ListUsersInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         pathPrefix: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.pathPrefix = pathPrefix
@@ -6709,8 +6457,7 @@ public struct ListUsersOutput: Swift.Sendable {
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil,
         users: [IAMClientTypes.User]? = nil
-    )
-    {
+    ) {
         self.isTruncated = isTruncated
         self.marker = marker
         self.users = users
@@ -6730,8 +6477,7 @@ public struct ListUserTagsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.maxItems = maxItems
         self.userName = userName
@@ -6751,8 +6497,7 @@ public struct ListUserTagsOutput: Swift.Sendable {
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.isTruncated = isTruncated
         self.marker = marker
         self.tags = tags
@@ -6771,8 +6516,7 @@ public struct ListVirtualMFADevicesInput: Swift.Sendable {
         assignmentStatus: IAMClientTypes.AssignmentStatusType? = nil,
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil
-    )
-    {
+    ) {
         self.assignmentStatus = assignmentStatus
         self.marker = marker
         self.maxItems = maxItems
@@ -6793,8 +6537,7 @@ public struct ListVirtualMFADevicesOutput: Swift.Sendable {
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil,
         virtualMFADevices: [IAMClientTypes.VirtualMFADevice]? = nil
-    )
-    {
+    ) {
         self.isTruncated = isTruncated
         self.marker = marker
         self.virtualMFADevices = virtualMFADevices
@@ -6822,8 +6565,7 @@ public struct PutGroupPolicyInput: Swift.Sendable {
         groupName: Swift.String? = nil,
         policyDocument: Swift.String? = nil,
         policyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupName = groupName
         self.policyDocument = policyDocument
         self.policyName = policyName
@@ -6841,8 +6583,7 @@ public struct PutRolePermissionsBoundaryInput: Swift.Sendable {
     public init(
         permissionsBoundary: Swift.String? = nil,
         roleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.permissionsBoundary = permissionsBoundary
         self.roleName = roleName
     }
@@ -6869,8 +6610,7 @@ public struct PutRolePolicyInput: Swift.Sendable {
         policyDocument: Swift.String? = nil,
         policyName: Swift.String? = nil,
         roleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyDocument = policyDocument
         self.policyName = policyName
         self.roleName = roleName
@@ -6888,8 +6628,7 @@ public struct PutUserPermissionsBoundaryInput: Swift.Sendable {
     public init(
         permissionsBoundary: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.permissionsBoundary = permissionsBoundary
         self.userName = userName
     }
@@ -6916,8 +6655,7 @@ public struct PutUserPolicyInput: Swift.Sendable {
         policyDocument: Swift.String? = nil,
         policyName: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyDocument = policyDocument
         self.policyName = policyName
         self.userName = userName
@@ -6935,8 +6673,7 @@ public struct RemoveClientIDFromOpenIDConnectProviderInput: Swift.Sendable {
     public init(
         clientID: Swift.String? = nil,
         openIDConnectProviderArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientID = clientID
         self.openIDConnectProviderArn = openIDConnectProviderArn
     }
@@ -6953,8 +6690,7 @@ public struct RemoveRoleFromInstanceProfileInput: Swift.Sendable {
     public init(
         instanceProfileName: Swift.String? = nil,
         roleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceProfileName = instanceProfileName
         self.roleName = roleName
     }
@@ -6971,8 +6707,7 @@ public struct RemoveUserFromGroupInput: Swift.Sendable {
     public init(
         groupName: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupName = groupName
         self.userName = userName
     }
@@ -6988,8 +6723,7 @@ public struct ResetServiceSpecificCredentialInput: Swift.Sendable {
     public init(
         serviceSpecificCredentialId: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceSpecificCredentialId = serviceSpecificCredentialId
         self.userName = userName
     }
@@ -7001,8 +6735,7 @@ public struct ResetServiceSpecificCredentialOutput: Swift.Sendable {
 
     public init(
         serviceSpecificCredential: IAMClientTypes.ServiceSpecificCredential? = nil
-    )
-    {
+    ) {
         self.serviceSpecificCredential = serviceSpecificCredential
     }
 }
@@ -7026,8 +6759,7 @@ public struct ResyncMFADeviceInput: Swift.Sendable {
         authenticationCode2: Swift.String? = nil,
         serialNumber: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationCode1 = authenticationCode1
         self.authenticationCode2 = authenticationCode2
         self.serialNumber = serialNumber
@@ -7046,8 +6778,7 @@ public struct SetDefaultPolicyVersionInput: Swift.Sendable {
     public init(
         policyArn: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyArn = policyArn
         self.versionId = versionId
     }
@@ -7089,16 +6820,15 @@ public struct SetSecurityTokenServicePreferencesInput: Swift.Sendable {
 
     public init(
         globalEndpointTokenVersion: IAMClientTypes.GlobalEndpointTokenVersion? = nil
-    )
-    {
+    ) {
         self.globalEndpointTokenVersion = globalEndpointTokenVersion
     }
 }
 
 /// The request failed because a provided policy could not be successfully evaluated. An additional detailed message indicates the source of the failure.
-public struct PolicyEvaluationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PolicyEvaluationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7113,8 +6843,7 @@ public struct PolicyEvaluationException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7193,8 +6922,7 @@ extension IAMClientTypes {
             contextKeyName: Swift.String? = nil,
             contextKeyType: IAMClientTypes.ContextKeyTypeEnum? = nil,
             contextKeyValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.contextKeyName = contextKeyName
             self.contextKeyType = contextKeyType
             self.contextKeyValues = contextKeyValues
@@ -7269,8 +6997,7 @@ public struct SimulateCustomPolicyInput: Swift.Sendable {
         resourceHandlingOption: Swift.String? = nil,
         resourceOwner: Swift.String? = nil,
         resourcePolicy: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionNames = actionNames
         self.callerArn = callerArn
         self.contextEntries = contextEntries
@@ -7329,8 +7056,7 @@ extension IAMClientTypes {
         public init(
             column: Swift.Int = 0,
             line: Swift.Int = 0
-        )
-        {
+        ) {
             self.column = column
             self.line = line
         }
@@ -7399,8 +7125,7 @@ extension IAMClientTypes {
             sourcePolicyId: Swift.String? = nil,
             sourcePolicyType: IAMClientTypes.PolicySourceType? = nil,
             startPosition: IAMClientTypes.Position? = nil
-        )
-        {
+        ) {
             self.endPosition = endPosition
             self.sourcePolicyId = sourcePolicyId
             self.sourcePolicyType = sourcePolicyType
@@ -7418,8 +7143,7 @@ extension IAMClientTypes {
 
         public init(
             allowedByOrganizations: Swift.Bool = false
-        )
-        {
+        ) {
             self.allowedByOrganizations = allowedByOrganizations
         }
     }
@@ -7434,8 +7158,7 @@ extension IAMClientTypes {
 
         public init(
             allowedByPermissionsBoundary: Swift.Bool = false
-        )
-        {
+        ) {
             self.allowedByPermissionsBoundary = allowedByPermissionsBoundary
         }
     }
@@ -7467,8 +7190,7 @@ extension IAMClientTypes {
             matchedStatements: [IAMClientTypes.Statement]? = nil,
             missingContextValues: [Swift.String]? = nil,
             permissionsBoundaryDecisionDetail: IAMClientTypes.PermissionsBoundaryDecisionDetail? = nil
-        )
-        {
+        ) {
             self.evalDecisionDetails = evalDecisionDetails
             self.evalResourceDecision = evalResourceDecision
             self.evalResourceName = evalResourceName
@@ -7514,8 +7236,7 @@ extension IAMClientTypes {
             organizationsDecisionDetail: IAMClientTypes.OrganizationsDecisionDetail? = nil,
             permissionsBoundaryDecisionDetail: IAMClientTypes.PermissionsBoundaryDecisionDetail? = nil,
             resourceSpecificResults: [IAMClientTypes.ResourceSpecificResult]? = nil
-        )
-        {
+        ) {
             self.evalActionName = evalActionName
             self.evalDecision = evalDecision
             self.evalDecisionDetails = evalDecisionDetails
@@ -7542,8 +7263,7 @@ public struct SimulateCustomPolicyOutput: Swift.Sendable {
         evaluationResults: [IAMClientTypes.EvaluationResult]? = nil,
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationResults = evaluationResults
         self.isTruncated = isTruncated
         self.marker = marker
@@ -7620,8 +7340,7 @@ public struct SimulatePrincipalPolicyInput: Swift.Sendable {
         resourceHandlingOption: Swift.String? = nil,
         resourceOwner: Swift.String? = nil,
         resourcePolicy: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionNames = actionNames
         self.callerArn = callerArn
         self.contextEntries = contextEntries
@@ -7650,8 +7369,7 @@ public struct SimulatePrincipalPolicyOutput: Swift.Sendable {
         evaluationResults: [IAMClientTypes.EvaluationResult]? = nil,
         isTruncated: Swift.Bool = false,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationResults = evaluationResults
         self.isTruncated = isTruncated
         self.marker = marker
@@ -7669,8 +7387,7 @@ public struct TagInstanceProfileInput: Swift.Sendable {
     public init(
         instanceProfileName: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.instanceProfileName = instanceProfileName
         self.tags = tags
     }
@@ -7687,8 +7404,7 @@ public struct TagMFADeviceInput: Swift.Sendable {
     public init(
         serialNumber: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.serialNumber = serialNumber
         self.tags = tags
     }
@@ -7705,8 +7421,7 @@ public struct TagOpenIDConnectProviderInput: Swift.Sendable {
     public init(
         openIDConnectProviderArn: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.openIDConnectProviderArn = openIDConnectProviderArn
         self.tags = tags
     }
@@ -7723,8 +7438,7 @@ public struct TagPolicyInput: Swift.Sendable {
     public init(
         policyArn: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.policyArn = policyArn
         self.tags = tags
     }
@@ -7741,8 +7455,7 @@ public struct TagRoleInput: Swift.Sendable {
     public init(
         roleName: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.roleName = roleName
         self.tags = tags
     }
@@ -7759,8 +7472,7 @@ public struct TagSAMLProviderInput: Swift.Sendable {
     public init(
         samlProviderArn: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.samlProviderArn = samlProviderArn
         self.tags = tags
     }
@@ -7777,8 +7489,7 @@ public struct TagServerCertificateInput: Swift.Sendable {
     public init(
         serverCertificateName: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.serverCertificateName = serverCertificateName
         self.tags = tags
     }
@@ -7795,8 +7506,7 @@ public struct TagUserInput: Swift.Sendable {
     public init(
         tags: [IAMClientTypes.Tag]? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.tags = tags
         self.userName = userName
     }
@@ -7813,8 +7523,7 @@ public struct UntagInstanceProfileInput: Swift.Sendable {
     public init(
         instanceProfileName: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.instanceProfileName = instanceProfileName
         self.tagKeys = tagKeys
     }
@@ -7831,8 +7540,7 @@ public struct UntagMFADeviceInput: Swift.Sendable {
     public init(
         serialNumber: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.serialNumber = serialNumber
         self.tagKeys = tagKeys
     }
@@ -7849,8 +7557,7 @@ public struct UntagOpenIDConnectProviderInput: Swift.Sendable {
     public init(
         openIDConnectProviderArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.openIDConnectProviderArn = openIDConnectProviderArn
         self.tagKeys = tagKeys
     }
@@ -7867,8 +7574,7 @@ public struct UntagPolicyInput: Swift.Sendable {
     public init(
         policyArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.policyArn = policyArn
         self.tagKeys = tagKeys
     }
@@ -7885,8 +7591,7 @@ public struct UntagRoleInput: Swift.Sendable {
     public init(
         roleName: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.roleName = roleName
         self.tagKeys = tagKeys
     }
@@ -7903,8 +7608,7 @@ public struct UntagSAMLProviderInput: Swift.Sendable {
     public init(
         samlProviderArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.samlProviderArn = samlProviderArn
         self.tagKeys = tagKeys
     }
@@ -7921,8 +7625,7 @@ public struct UntagServerCertificateInput: Swift.Sendable {
     public init(
         serverCertificateName: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.serverCertificateName = serverCertificateName
         self.tagKeys = tagKeys
     }
@@ -7939,8 +7642,7 @@ public struct UntagUserInput: Swift.Sendable {
     public init(
         tagKeys: [Swift.String]? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.tagKeys = tagKeys
         self.userName = userName
     }
@@ -7960,8 +7662,7 @@ public struct UpdateAccessKeyInput: Swift.Sendable {
         accessKeyId: Swift.String? = nil,
         status: IAMClientTypes.StatusType? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessKeyId = accessKeyId
         self.status = status
         self.userName = userName
@@ -7998,8 +7699,7 @@ public struct UpdateAccountPasswordPolicyInput: Swift.Sendable {
         requireNumbers: Swift.Bool? = false,
         requireSymbols: Swift.Bool? = false,
         requireUppercaseCharacters: Swift.Bool? = false
-    )
-    {
+    ) {
         self.allowUsersToChangePassword = allowUsersToChangePassword
         self.hardExpiry = hardExpiry
         self.maxPasswordAge = maxPasswordAge
@@ -8029,8 +7729,7 @@ public struct UpdateAssumeRolePolicyInput: Swift.Sendable {
     public init(
         policyDocument: Swift.String? = nil,
         roleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyDocument = policyDocument
         self.roleName = roleName
     }
@@ -8049,8 +7748,7 @@ public struct UpdateGroupInput: Swift.Sendable {
         groupName: Swift.String? = nil,
         newGroupName: Swift.String? = nil,
         newPath: Swift.String? = nil
-    )
-    {
+    ) {
         self.groupName = groupName
         self.newGroupName = newGroupName
         self.newPath = newPath
@@ -8079,8 +7777,7 @@ public struct UpdateLoginProfileInput: Swift.Sendable {
         password: Swift.String? = nil,
         passwordResetRequired: Swift.Bool? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.password = password
         self.passwordResetRequired = passwordResetRequired
         self.userName = userName
@@ -8103,8 +7800,7 @@ public struct UpdateOpenIDConnectProviderThumbprintInput: Swift.Sendable {
     public init(
         openIDConnectProviderArn: Swift.String? = nil,
         thumbprintList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.openIDConnectProviderArn = openIDConnectProviderArn
         self.thumbprintList = thumbprintList
     }
@@ -8123,8 +7819,7 @@ public struct UpdateRoleInput: Swift.Sendable {
         description: Swift.String? = nil,
         maxSessionDuration: Swift.Int? = nil,
         roleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.maxSessionDuration = maxSessionDuration
         self.roleName = roleName
@@ -8147,8 +7842,7 @@ public struct UpdateRoleDescriptionInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         roleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.roleName = roleName
     }
@@ -8160,8 +7854,7 @@ public struct UpdateRoleDescriptionOutput: Swift.Sendable {
 
     public init(
         role: IAMClientTypes.Role? = nil
-    )
-    {
+    ) {
         self.role = role
     }
 }
@@ -8177,8 +7870,7 @@ public struct UpdateSAMLProviderInput: Swift.Sendable {
     public init(
         samlMetadataDocument: Swift.String? = nil,
         samlProviderArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.samlMetadataDocument = samlMetadataDocument
         self.samlProviderArn = samlProviderArn
     }
@@ -8191,8 +7883,7 @@ public struct UpdateSAMLProviderOutput: Swift.Sendable {
 
     public init(
         samlProviderArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.samlProviderArn = samlProviderArn
     }
 }
@@ -8210,8 +7901,7 @@ public struct UpdateServerCertificateInput: Swift.Sendable {
         newPath: Swift.String? = nil,
         newServerCertificateName: Swift.String? = nil,
         serverCertificateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.newPath = newPath
         self.newServerCertificateName = newServerCertificateName
         self.serverCertificateName = serverCertificateName
@@ -8232,8 +7922,7 @@ public struct UpdateServiceSpecificCredentialInput: Swift.Sendable {
         serviceSpecificCredentialId: Swift.String? = nil,
         status: IAMClientTypes.StatusType? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceSpecificCredentialId = serviceSpecificCredentialId
         self.status = status
         self.userName = userName
@@ -8254,8 +7943,7 @@ public struct UpdateSigningCertificateInput: Swift.Sendable {
         certificateId: Swift.String? = nil,
         status: IAMClientTypes.StatusType? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateId = certificateId
         self.status = status
         self.userName = userName
@@ -8277,8 +7965,7 @@ public struct UpdateSSHPublicKeyInput: Swift.Sendable {
         sshPublicKeyId: Swift.String? = nil,
         status: IAMClientTypes.StatusType? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.sshPublicKeyId = sshPublicKeyId
         self.status = status
         self.userName = userName
@@ -8298,8 +7985,7 @@ public struct UpdateUserInput: Swift.Sendable {
         newPath: Swift.String? = nil,
         newUserName: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.newPath = newPath
         self.newUserName = newUserName
         self.userName = userName
@@ -8307,9 +7993,9 @@ public struct UpdateUserInput: Swift.Sendable {
 }
 
 /// The request was rejected because the public key certificate and the private key do not match.
-public struct KeyPairMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KeyPairMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8324,16 +8010,15 @@ public struct KeyPairMismatchException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the certificate was malformed or expired. The error message describes the specific error.
-public struct MalformedCertificateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MalformedCertificateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8348,8 +8033,7 @@ public struct MalformedCertificateException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8396,8 +8080,7 @@ public struct UploadServerCertificateInput: Swift.Sendable {
         privateKey: Swift.String? = nil,
         serverCertificateName: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.certificateBody = certificateBody
         self.certificateChain = certificateChain
         self.path = path
@@ -8422,17 +8105,16 @@ public struct UploadServerCertificateOutput: Swift.Sendable {
     public init(
         serverCertificateMetadata: IAMClientTypes.ServerCertificateMetadata? = nil,
         tags: [IAMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.serverCertificateMetadata = serverCertificateMetadata
         self.tags = tags
     }
 }
 
 /// The request was rejected because the same certificate is associated with an IAM user in the account.
-public struct DuplicateCertificateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DuplicateCertificateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8447,16 +8129,15 @@ public struct DuplicateCertificateException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the certificate is invalid.
-public struct InvalidCertificateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidCertificateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8471,8 +8152,7 @@ public struct InvalidCertificateException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8493,8 +8173,7 @@ public struct UploadSigningCertificateInput: Swift.Sendable {
     public init(
         certificateBody: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateBody = certificateBody
         self.userName = userName
     }
@@ -8508,16 +8187,15 @@ public struct UploadSigningCertificateOutput: Swift.Sendable {
 
     public init(
         certificate: IAMClientTypes.SigningCertificate? = nil
-    )
-    {
+    ) {
         self.certificate = certificate
     }
 }
 
 /// The request was rejected because the SSH public key is already associated with the specified IAM user.
-public struct DuplicateSSHPublicKeyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DuplicateSSHPublicKeyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8532,16 +8210,15 @@ public struct DuplicateSSHPublicKeyException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the public key is malformed or otherwise invalid.
-public struct InvalidPublicKeyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPublicKeyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8556,8 +8233,7 @@ public struct InvalidPublicKeyException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8579,8 +8255,7 @@ public struct UploadSSHPublicKeyInput: Swift.Sendable {
     public init(
         sshPublicKeyBody: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.sshPublicKeyBody = sshPublicKeyBody
         self.userName = userName
     }
@@ -8593,8 +8268,7 @@ public struct UploadSSHPublicKeyOutput: Swift.Sendable {
 
     public init(
         sshPublicKey: IAMClientTypes.SSHPublicKey? = nil
-    )
-    {
+    ) {
         self.sshPublicKey = sshPublicKey
     }
 }

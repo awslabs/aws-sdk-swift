@@ -162,8 +162,7 @@ extension ChimeSDKMessagingClientTypes {
             readMarkerTimestamp: Foundation.Date? = nil,
             subChannelId: Swift.String? = nil,
             type: ChimeSDKMessagingClientTypes.ChannelMembershipType? = nil
-        )
-        {
+        ) {
             self.readMarkerTimestamp = readMarkerTimestamp
             self.subChannelId = subChannelId
             self.type = type
@@ -240,9 +239,9 @@ extension ChimeSDKMessagingClientTypes {
 }
 
 /// The input parameters don't match the service's restrictions.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKMessagingClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -259,17 +258,16 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         code: ChimeSDKMessagingClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
 /// The request could not be processed because of conflict in the current state of the resource.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKMessagingClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -286,17 +284,16 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         code: ChimeSDKMessagingClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
 /// The client is permanently forbidden from making the request.
-public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKMessagingClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -313,17 +310,16 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     public init(
         code: ChimeSDKMessagingClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
 /// One or more of the resources in the request does not exist in the system.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKMessagingClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -340,17 +336,16 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         code: ChimeSDKMessagingClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
 /// The service encountered an unexpected error.
-public struct ServiceFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKMessagingClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -367,17 +362,16 @@ public struct ServiceFailureException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         code: ChimeSDKMessagingClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
 /// The service is currently unavailable.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKMessagingClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -394,17 +388,16 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     public init(
         code: ChimeSDKMessagingClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
 /// The client exceeded its request rate limit.
-public struct ThrottledClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottledClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKMessagingClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -421,17 +414,16 @@ public struct ThrottledClientException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         code: ChimeSDKMessagingClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
 /// The client is not currently authorized to make the request.
-public struct UnauthorizedClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnauthorizedClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKMessagingClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -448,8 +440,7 @@ public struct UnauthorizedClientException: ClientRuntime.ModeledError, AWSClient
     public init(
         code: ChimeSDKMessagingClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -470,8 +461,7 @@ public struct AssociateChannelFlowInput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         channelFlowArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.channelFlowArn = channelFlowArn
         self.chimeBearer = chimeBearer
@@ -490,8 +480,7 @@ extension ChimeSDKMessagingClientTypes {
         public init(
             arn: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
         }
@@ -524,8 +513,7 @@ extension ChimeSDKMessagingClientTypes {
             members: [ChimeSDKMessagingClientTypes.Identity]? = nil,
             subChannelId: Swift.String? = nil,
             type: ChimeSDKMessagingClientTypes.ChannelMembershipType? = nil
-        )
-        {
+        ) {
             self.channelArn = channelArn
             self.invitedBy = invitedBy
             self.members = members
@@ -536,9 +524,9 @@ extension ChimeSDKMessagingClientTypes {
 }
 
 /// The request exceeds the resource limit.
-public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKMessagingClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -555,8 +543,7 @@ public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSCli
     public init(
         code: ChimeSDKMessagingClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -583,8 +570,7 @@ public struct BatchCreateChannelMembershipInput: Swift.Sendable {
         memberArns: [Swift.String]? = nil,
         subChannelId: Swift.String? = nil,
         type: ChimeSDKMessagingClientTypes.ChannelMembershipType? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.memberArns = memberArns
@@ -608,8 +594,7 @@ extension ChimeSDKMessagingClientTypes {
             errorCode: ChimeSDKMessagingClientTypes.ErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             memberArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.memberArn = memberArn
@@ -626,8 +611,7 @@ public struct BatchCreateChannelMembershipOutput: Swift.Sendable {
     public init(
         batchChannelMemberships: ChimeSDKMessagingClientTypes.BatchChannelMemberships? = nil,
         errors: [ChimeSDKMessagingClientTypes.BatchCreateChannelMembershipError]? = nil
-    )
-    {
+    ) {
         self.batchChannelMemberships = batchChannelMemberships
         self.errors = errors
     }
@@ -651,8 +635,7 @@ extension ChimeSDKMessagingClientTypes {
             maximumSubChannels: Swift.Int? = nil,
             minimumMembershipPercentage: Swift.Int? = nil,
             targetMembershipsPerSubChannel: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maximumSubChannels = maximumSubChannels
             self.minimumMembershipPercentage = minimumMembershipPercentage
             self.targetMembershipsPerSubChannel = targetMembershipsPerSubChannel
@@ -703,8 +686,7 @@ extension ChimeSDKMessagingClientTypes {
         public init(
             expirationCriterion: ChimeSDKMessagingClientTypes.ExpirationCriterion? = nil,
             expirationDays: Swift.Int? = nil
-        )
-        {
+        ) {
             self.expirationCriterion = expirationCriterion
             self.expirationDays = expirationDays
         }
@@ -811,8 +793,7 @@ extension ChimeSDKMessagingClientTypes {
             mode: ChimeSDKMessagingClientTypes.ChannelMode? = nil,
             name: Swift.String? = nil,
             privacy: ChimeSDKMessagingClientTypes.ChannelPrivacy? = nil
-        )
-        {
+        ) {
             self.channelArn = channelArn
             self.channelFlowArn = channelFlowArn
             self.createdBy = createdBy
@@ -855,8 +836,7 @@ extension ChimeSDKMessagingClientTypes {
             mode: ChimeSDKMessagingClientTypes.ChannelMode? = nil,
             name: Swift.String? = nil,
             privacy: ChimeSDKMessagingClientTypes.ChannelPrivacy? = nil
-        )
-        {
+        ) {
             self.channelArn = channelArn
             self.metadata = metadata
             self.mode = mode
@@ -889,8 +869,7 @@ extension ChimeSDKMessagingClientTypes {
             createdBy: ChimeSDKMessagingClientTypes.Identity? = nil,
             createdTimestamp: Foundation.Date? = nil,
             member: ChimeSDKMessagingClientTypes.Identity? = nil
-        )
-        {
+        ) {
             self.channelArn = channelArn
             self.createdBy = createdBy
             self.createdTimestamp = createdTimestamp
@@ -908,8 +887,7 @@ extension ChimeSDKMessagingClientTypes {
 
         public init(
             member: ChimeSDKMessagingClientTypes.Identity? = nil
-        )
-        {
+        ) {
             self.member = member
         }
     }
@@ -955,8 +933,7 @@ extension ChimeSDKMessagingClientTypes {
         public init(
             invocationType: ChimeSDKMessagingClientTypes.InvocationType? = nil,
             resourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.invocationType = invocationType
             self.resourceArn = resourceArn
         }
@@ -973,8 +950,7 @@ extension ChimeSDKMessagingClientTypes {
 
         public init(
             lambda: ChimeSDKMessagingClientTypes.LambdaConfiguration? = nil
-        )
-        {
+        ) {
             self.lambda = lambda
         }
     }
@@ -1031,8 +1007,7 @@ extension ChimeSDKMessagingClientTypes {
             executionOrder: Swift.Int? = nil,
             fallbackAction: ChimeSDKMessagingClientTypes.FallbackAction? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.executionOrder = executionOrder
             self.fallbackAction = fallbackAction
@@ -1067,8 +1042,7 @@ extension ChimeSDKMessagingClientTypes {
             lastUpdatedTimestamp: Foundation.Date? = nil,
             name: Swift.String? = nil,
             processors: [ChimeSDKMessagingClientTypes.Processor]? = nil
-        )
-        {
+        ) {
             self.channelFlowArn = channelFlowArn
             self.createdTimestamp = createdTimestamp
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
@@ -1092,8 +1066,7 @@ extension ChimeSDKMessagingClientTypes {
 
         public init(
             stringValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.stringValues = stringValues
         }
     }
@@ -1148,8 +1121,7 @@ extension ChimeSDKMessagingClientTypes {
             body: Swift.String? = nil,
             title: Swift.String? = nil,
             type: ChimeSDKMessagingClientTypes.PushNotificationType? = nil
-        )
-        {
+        ) {
             self.body = body
             self.title = title
             self.type = type
@@ -1190,8 +1162,7 @@ extension ChimeSDKMessagingClientTypes {
             metadata: Swift.String? = nil,
             pushNotification: ChimeSDKMessagingClientTypes.PushNotificationConfiguration? = nil,
             subChannelId: Swift.String? = nil
-        )
-        {
+        ) {
             self.content = content
             self.contentType = contentType
             self.messageAttributes = messageAttributes
@@ -1226,8 +1197,7 @@ public struct ChannelFlowCallbackInput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         channelMessage: ChimeSDKMessagingClientTypes.ChannelMessageCallback? = nil,
         deleteResource: Swift.Bool? = false
-    )
-    {
+    ) {
         self.callbackId = callbackId
         self.channelArn = channelArn
         self.channelMessage = channelMessage
@@ -1244,8 +1214,7 @@ public struct ChannelFlowCallbackOutput: Swift.Sendable {
     public init(
         callbackId: Swift.String? = nil,
         channelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.callbackId = callbackId
         self.channelArn = channelArn
     }
@@ -1266,8 +1235,7 @@ extension ChimeSDKMessagingClientTypes {
             channelFlowArn: Swift.String? = nil,
             name: Swift.String? = nil,
             processors: [ChimeSDKMessagingClientTypes.Processor]? = nil
-        )
-        {
+        ) {
             self.channelFlowArn = channelFlowArn
             self.name = name
             self.processors = processors
@@ -1307,8 +1275,7 @@ extension ChimeSDKMessagingClientTypes {
             member: ChimeSDKMessagingClientTypes.Identity? = nil,
             subChannelId: Swift.String? = nil,
             type: ChimeSDKMessagingClientTypes.ChannelMembershipType? = nil
-        )
-        {
+        ) {
             self.channelArn = channelArn
             self.createdTimestamp = createdTimestamp
             self.invitedBy = invitedBy
@@ -1344,8 +1311,7 @@ extension ChimeSDKMessagingClientTypes {
             mode: ChimeSDKMessagingClientTypes.ChannelMode? = nil,
             name: Swift.String? = nil,
             privacy: ChimeSDKMessagingClientTypes.ChannelPrivacy? = nil
-        )
-        {
+        ) {
             self.channelArn = channelArn
             self.lastMessageTimestamp = lastMessageTimestamp
             self.metadata = metadata
@@ -1373,8 +1339,7 @@ extension ChimeSDKMessagingClientTypes {
         public init(
             appInstanceUserMembershipSummary: ChimeSDKMessagingClientTypes.AppInstanceUserMembershipSummary? = nil,
             channelSummary: ChimeSDKMessagingClientTypes.ChannelSummary? = nil
-        )
-        {
+        ) {
             self.appInstanceUserMembershipSummary = appInstanceUserMembershipSummary
             self.channelSummary = channelSummary
         }
@@ -1394,8 +1359,7 @@ extension ChimeSDKMessagingClientTypes {
         public init(
             allowNotifications: ChimeSDKMessagingClientTypes.AllowNotifications? = nil,
             filterRule: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowNotifications = allowNotifications
             self.filterRule = filterRule
         }
@@ -1416,8 +1380,7 @@ extension ChimeSDKMessagingClientTypes {
 
         public init(
             pushNotifications: ChimeSDKMessagingClientTypes.PushNotificationPreferences? = nil
-        )
-        {
+        ) {
             self.pushNotifications = pushNotifications
         }
     }
@@ -1432,8 +1395,7 @@ extension ChimeSDKMessagingClientTypes {
 
         public init(
             member: ChimeSDKMessagingClientTypes.Identity? = nil
-        )
-        {
+        ) {
             self.member = member
         }
     }
@@ -1515,8 +1477,7 @@ extension ChimeSDKMessagingClientTypes {
         public init(
             detail: Swift.String? = nil,
             value: ChimeSDKMessagingClientTypes.ChannelMessageStatus? = nil
-        )
-        {
+        ) {
             self.detail = detail
             self.value = value
         }
@@ -1532,8 +1493,7 @@ extension ChimeSDKMessagingClientTypes {
 
         public init(
             memberArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.memberArn = memberArn
         }
     }
@@ -1622,8 +1582,7 @@ extension ChimeSDKMessagingClientTypes {
             subChannelId: Swift.String? = nil,
             target: [ChimeSDKMessagingClientTypes.Target]? = nil,
             type: ChimeSDKMessagingClientTypes.ChannelMessageType? = nil
-        )
-        {
+        ) {
             self.channelArn = channelArn
             self.content = content
             self.contentType = contentType
@@ -1694,8 +1653,7 @@ extension ChimeSDKMessagingClientTypes {
             status: ChimeSDKMessagingClientTypes.ChannelMessageStatusStructure? = nil,
             target: [ChimeSDKMessagingClientTypes.Target]? = nil,
             type: ChimeSDKMessagingClientTypes.ChannelMessageType? = nil
-        )
-        {
+        ) {
             self.content = content
             self.contentType = contentType
             self.createdTimestamp = createdTimestamp
@@ -1727,8 +1685,7 @@ extension ChimeSDKMessagingClientTypes {
 
         public init(
             channelSummary: ChimeSDKMessagingClientTypes.ChannelSummary? = nil
-        )
-        {
+        ) {
             self.channelSummary = channelSummary
         }
     }
@@ -1752,8 +1709,7 @@ extension ChimeSDKMessagingClientTypes {
             createdBy: ChimeSDKMessagingClientTypes.Identity? = nil,
             createdTimestamp: Foundation.Date? = nil,
             moderator: ChimeSDKMessagingClientTypes.Identity? = nil
-        )
-        {
+        ) {
             self.channelArn = channelArn
             self.createdBy = createdBy
             self.createdTimestamp = createdTimestamp
@@ -1771,8 +1727,7 @@ extension ChimeSDKMessagingClientTypes {
 
         public init(
             moderator: ChimeSDKMessagingClientTypes.Identity? = nil
-        )
-        {
+        ) {
             self.moderator = moderator
         }
     }
@@ -1792,8 +1747,7 @@ extension ChimeSDKMessagingClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1851,8 +1805,7 @@ public struct CreateChannelInput: Swift.Sendable {
         name: Swift.String? = nil,
         privacy: ChimeSDKMessagingClientTypes.ChannelPrivacy? = nil,
         tags: [ChimeSDKMessagingClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
         self.channelId = channelId
         self.chimeBearer = chimeBearer
@@ -1880,8 +1833,7 @@ public struct CreateChannelOutput: Swift.Sendable {
 
     public init(
         channelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
     }
 }
@@ -1901,8 +1853,7 @@ public struct CreateChannelBanInput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil,
         memberArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.memberArn = memberArn
@@ -1918,8 +1869,7 @@ public struct CreateChannelBanOutput: Swift.Sendable {
     public init(
         channelArn: Swift.String? = nil,
         member: ChimeSDKMessagingClientTypes.Identity? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.member = member
     }
@@ -1947,8 +1897,7 @@ public struct CreateChannelFlowInput: Swift.Sendable {
         name: Swift.String? = nil,
         processors: [ChimeSDKMessagingClientTypes.Processor]? = nil,
         tags: [ChimeSDKMessagingClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
         self.clientRequestToken = clientRequestToken
         self.name = name
@@ -1968,8 +1917,7 @@ public struct CreateChannelFlowOutput: Swift.Sendable {
 
     public init(
         channelFlowArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelFlowArn = channelFlowArn
     }
 }
@@ -1996,8 +1944,7 @@ public struct CreateChannelMembershipInput: Swift.Sendable {
         memberArn: Swift.String? = nil,
         subChannelId: Swift.String? = nil,
         type: ChimeSDKMessagingClientTypes.ChannelMembershipType? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.memberArn = memberArn
@@ -2018,8 +1965,7 @@ public struct CreateChannelMembershipOutput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         member: ChimeSDKMessagingClientTypes.Identity? = nil,
         subChannelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.member = member
         self.subChannelId = subChannelId
@@ -2041,8 +1987,7 @@ public struct CreateChannelModeratorInput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         channelModeratorArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.channelModeratorArn = channelModeratorArn
         self.chimeBearer = chimeBearer
@@ -2058,8 +2003,7 @@ public struct CreateChannelModeratorOutput: Swift.Sendable {
     public init(
         channelArn: Swift.String? = nil,
         channelModerator: ChimeSDKMessagingClientTypes.Identity? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.channelModerator = channelModerator
     }
@@ -2076,8 +2020,7 @@ public struct DeleteChannelInput: Swift.Sendable {
     public init(
         channelArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
     }
@@ -2098,8 +2041,7 @@ public struct DeleteChannelBanInput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil,
         memberArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.memberArn = memberArn
@@ -2113,8 +2055,7 @@ public struct DeleteChannelFlowInput: Swift.Sendable {
 
     public init(
         channelFlowArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelFlowArn = channelFlowArn
     }
 }
@@ -2137,8 +2078,7 @@ public struct DeleteChannelMembershipInput: Swift.Sendable {
         chimeBearer: Swift.String? = nil,
         memberArn: Swift.String? = nil,
         subChannelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.memberArn = memberArn
@@ -2164,8 +2104,7 @@ public struct DeleteChannelMessageInput: Swift.Sendable {
         chimeBearer: Swift.String? = nil,
         messageId: Swift.String? = nil,
         subChannelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.messageId = messageId
@@ -2188,8 +2127,7 @@ public struct DeleteChannelModeratorInput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         channelModeratorArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.channelModeratorArn = channelModeratorArn
         self.chimeBearer = chimeBearer
@@ -2203,8 +2141,7 @@ public struct DeleteMessagingStreamingConfigurationsInput: Swift.Sendable {
 
     public init(
         appInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
     }
 }
@@ -2220,8 +2157,7 @@ public struct DescribeChannelInput: Swift.Sendable {
     public init(
         channelArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
     }
@@ -2233,8 +2169,7 @@ public struct DescribeChannelOutput: Swift.Sendable {
 
     public init(
         channel: ChimeSDKMessagingClientTypes.Channel? = nil
-    )
-    {
+    ) {
         self.channel = channel
     }
 }
@@ -2254,8 +2189,7 @@ public struct DescribeChannelBanInput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil,
         memberArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.memberArn = memberArn
@@ -2268,8 +2202,7 @@ public struct DescribeChannelBanOutput: Swift.Sendable {
 
     public init(
         channelBan: ChimeSDKMessagingClientTypes.ChannelBan? = nil
-    )
-    {
+    ) {
         self.channelBan = channelBan
     }
 }
@@ -2281,8 +2214,7 @@ public struct DescribeChannelFlowInput: Swift.Sendable {
 
     public init(
         channelFlowArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelFlowArn = channelFlowArn
     }
 }
@@ -2293,8 +2225,7 @@ public struct DescribeChannelFlowOutput: Swift.Sendable {
 
     public init(
         channelFlow: ChimeSDKMessagingClientTypes.ChannelFlow? = nil
-    )
-    {
+    ) {
         self.channelFlow = channelFlow
     }
 }
@@ -2317,8 +2248,7 @@ public struct DescribeChannelMembershipInput: Swift.Sendable {
         chimeBearer: Swift.String? = nil,
         memberArn: Swift.String? = nil,
         subChannelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.memberArn = memberArn
@@ -2332,8 +2262,7 @@ public struct DescribeChannelMembershipOutput: Swift.Sendable {
 
     public init(
         channelMembership: ChimeSDKMessagingClientTypes.ChannelMembership? = nil
-    )
-    {
+    ) {
         self.channelMembership = channelMembership
     }
 }
@@ -2353,8 +2282,7 @@ public struct DescribeChannelMembershipForAppInstanceUserInput: Swift.Sendable {
         appInstanceUserArn: Swift.String? = nil,
         channelArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceUserArn = appInstanceUserArn
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
@@ -2367,8 +2295,7 @@ public struct DescribeChannelMembershipForAppInstanceUserOutput: Swift.Sendable 
 
     public init(
         channelMembership: ChimeSDKMessagingClientTypes.ChannelMembershipForAppInstanceUserSummary? = nil
-    )
-    {
+    ) {
         self.channelMembership = channelMembership
     }
 }
@@ -2388,8 +2315,7 @@ public struct DescribeChannelModeratedByAppInstanceUserInput: Swift.Sendable {
         appInstanceUserArn: Swift.String? = nil,
         channelArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceUserArn = appInstanceUserArn
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
@@ -2402,8 +2328,7 @@ public struct DescribeChannelModeratedByAppInstanceUserOutput: Swift.Sendable {
 
     public init(
         channel: ChimeSDKMessagingClientTypes.ChannelModeratedByAppInstanceUserSummary? = nil
-    )
-    {
+    ) {
         self.channel = channel
     }
 }
@@ -2423,8 +2348,7 @@ public struct DescribeChannelModeratorInput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         channelModeratorArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.channelModeratorArn = channelModeratorArn
         self.chimeBearer = chimeBearer
@@ -2437,8 +2361,7 @@ public struct DescribeChannelModeratorOutput: Swift.Sendable {
 
     public init(
         channelModerator: ChimeSDKMessagingClientTypes.ChannelModerator? = nil
-    )
-    {
+    ) {
         self.channelModerator = channelModerator
     }
 }
@@ -2458,8 +2381,7 @@ public struct DisassociateChannelFlowInput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         channelFlowArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.channelFlowArn = channelFlowArn
         self.chimeBearer = chimeBearer
@@ -2481,8 +2403,7 @@ public struct GetChannelMembershipPreferencesInput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil,
         memberArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.memberArn = memberArn
@@ -2501,8 +2422,7 @@ public struct GetChannelMembershipPreferencesOutput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         member: ChimeSDKMessagingClientTypes.Identity? = nil,
         preferences: ChimeSDKMessagingClientTypes.ChannelMembershipPreferences? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.member = member
         self.preferences = preferences
@@ -2527,8 +2447,7 @@ public struct GetChannelMessageInput: Swift.Sendable {
         chimeBearer: Swift.String? = nil,
         messageId: Swift.String? = nil,
         subChannelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.messageId = messageId
@@ -2542,8 +2461,7 @@ public struct GetChannelMessageOutput: Swift.Sendable {
 
     public init(
         channelMessage: ChimeSDKMessagingClientTypes.ChannelMessage? = nil
-    )
-    {
+    ) {
         self.channelMessage = channelMessage
     }
 }
@@ -2566,8 +2484,7 @@ public struct GetChannelMessageStatusInput: Swift.Sendable {
         chimeBearer: Swift.String? = nil,
         messageId: Swift.String? = nil,
         subChannelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.messageId = messageId
@@ -2581,8 +2498,7 @@ public struct GetChannelMessageStatusOutput: Swift.Sendable {
 
     public init(
         status: ChimeSDKMessagingClientTypes.ChannelMessageStatusStructure? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -2601,8 +2517,7 @@ extension ChimeSDKMessagingClientTypes {
 
         public init(
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.url = url
         }
     }
@@ -2614,8 +2529,7 @@ public struct GetMessagingSessionEndpointOutput: Swift.Sendable {
 
     public init(
         endpoint: ChimeSDKMessagingClientTypes.MessagingSessionEndpoint? = nil
-    )
-    {
+    ) {
         self.endpoint = endpoint
     }
 }
@@ -2627,8 +2541,7 @@ public struct GetMessagingStreamingConfigurationsInput: Swift.Sendable {
 
     public init(
         appInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
     }
 }
@@ -2676,8 +2589,7 @@ extension ChimeSDKMessagingClientTypes {
         public init(
             dataType: ChimeSDKMessagingClientTypes.MessagingDataType? = nil,
             resourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataType = dataType
             self.resourceArn = resourceArn
         }
@@ -2690,8 +2602,7 @@ public struct GetMessagingStreamingConfigurationsOutput: Swift.Sendable {
 
     public init(
         streamingConfigurations: [ChimeSDKMessagingClientTypes.StreamingConfiguration]? = nil
-    )
-    {
+    ) {
         self.streamingConfigurations = streamingConfigurations
     }
 }
@@ -2713,8 +2624,7 @@ public struct ListChannelBansInput: Swift.Sendable {
         chimeBearer: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.maxResults = maxResults
@@ -2739,8 +2649,7 @@ public struct ListChannelBansOutput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         channelBans: [ChimeSDKMessagingClientTypes.ChannelBanSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.channelBans = channelBans
         self.nextToken = nextToken
@@ -2765,8 +2674,7 @@ public struct ListChannelFlowsInput: Swift.Sendable {
         appInstanceArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2787,8 +2695,7 @@ public struct ListChannelFlowsOutput: Swift.Sendable {
     public init(
         channelFlows: [ChimeSDKMessagingClientTypes.ChannelFlowSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelFlows = channelFlows
         self.nextToken = nextToken
     }
@@ -2822,8 +2729,7 @@ public struct ListChannelMembershipsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         subChannelId: Swift.String? = nil,
         type: ChimeSDKMessagingClientTypes.ChannelMembershipType? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.maxResults = maxResults
@@ -2850,8 +2756,7 @@ public struct ListChannelMembershipsOutput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         channelMemberships: [ChimeSDKMessagingClientTypes.ChannelMembershipSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.channelMemberships = channelMemberships
         self.nextToken = nextToken
@@ -2879,8 +2784,7 @@ public struct ListChannelMembershipsForAppInstanceUserInput: Swift.Sendable {
         chimeBearer: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceUserArn = appInstanceUserArn
         self.chimeBearer = chimeBearer
         self.maxResults = maxResults
@@ -2902,8 +2806,7 @@ public struct ListChannelMembershipsForAppInstanceUserOutput: Swift.Sendable {
     public init(
         channelMemberships: [ChimeSDKMessagingClientTypes.ChannelMembershipForAppInstanceUserSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelMemberships = channelMemberships
         self.nextToken = nextToken
     }
@@ -2972,8 +2875,7 @@ public struct ListChannelMessagesInput: Swift.Sendable {
         notBefore: Foundation.Date? = nil,
         sortOrder: ChimeSDKMessagingClientTypes.SortOrder? = nil,
         subChannelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.maxResults = maxResults
@@ -3005,8 +2907,7 @@ public struct ListChannelMessagesOutput: Swift.Sendable {
         channelMessages: [ChimeSDKMessagingClientTypes.ChannelMessageSummary]? = nil,
         nextToken: Swift.String? = nil,
         subChannelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.channelMessages = channelMessages
         self.nextToken = nextToken
@@ -3036,8 +2937,7 @@ public struct ListChannelModeratorsInput: Swift.Sendable {
         chimeBearer: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.maxResults = maxResults
@@ -3062,8 +2962,7 @@ public struct ListChannelModeratorsOutput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         channelModerators: [ChimeSDKMessagingClientTypes.ChannelModeratorSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.channelModerators = channelModerators
         self.nextToken = nextToken
@@ -3095,8 +2994,7 @@ public struct ListChannelsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         privacy: ChimeSDKMessagingClientTypes.ChannelPrivacy? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
         self.chimeBearer = chimeBearer
         self.maxResults = maxResults
@@ -3119,8 +3017,7 @@ public struct ListChannelsOutput: Swift.Sendable {
     public init(
         channels: [ChimeSDKMessagingClientTypes.ChannelSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channels = channels
         self.nextToken = nextToken
     }
@@ -3144,8 +3041,7 @@ public struct ListChannelsAssociatedWithChannelFlowInput: Swift.Sendable {
         channelFlowArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelFlowArn = channelFlowArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3166,8 +3062,7 @@ public struct ListChannelsAssociatedWithChannelFlowOutput: Swift.Sendable {
     public init(
         channels: [ChimeSDKMessagingClientTypes.ChannelAssociatedWithFlowSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channels = channels
         self.nextToken = nextToken
     }
@@ -3194,8 +3089,7 @@ public struct ListChannelsModeratedByAppInstanceUserInput: Swift.Sendable {
         chimeBearer: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appInstanceUserArn = appInstanceUserArn
         self.chimeBearer = chimeBearer
         self.maxResults = maxResults
@@ -3217,8 +3111,7 @@ public struct ListChannelsModeratedByAppInstanceUserOutput: Swift.Sendable {
     public init(
         channels: [ChimeSDKMessagingClientTypes.ChannelModeratedByAppInstanceUserSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channels = channels
         self.nextToken = nextToken
     }
@@ -3246,8 +3139,7 @@ public struct ListSubChannelsInput: Swift.Sendable {
         chimeBearer: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.maxResults = maxResults
@@ -3272,8 +3164,7 @@ extension ChimeSDKMessagingClientTypes {
         public init(
             membershipCount: Swift.Int? = nil,
             subChannelId: Swift.String? = nil
-        )
-        {
+        ) {
             self.membershipCount = membershipCount
             self.subChannelId = subChannelId
         }
@@ -3292,8 +3183,7 @@ public struct ListSubChannelsOutput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         subChannels: [ChimeSDKMessagingClientTypes.SubChannelSummary]? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.nextToken = nextToken
         self.subChannels = subChannels
@@ -3312,8 +3202,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -3324,8 +3213,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [ChimeSDKMessagingClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -3343,8 +3231,7 @@ public struct PutChannelExpirationSettingsInput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil,
         expirationSettings: ChimeSDKMessagingClientTypes.ExpirationSettings? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.expirationSettings = expirationSettings
@@ -3360,8 +3247,7 @@ public struct PutChannelExpirationSettingsOutput: Swift.Sendable {
     public init(
         channelArn: Swift.String? = nil,
         expirationSettings: ChimeSDKMessagingClientTypes.ExpirationSettings? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.expirationSettings = expirationSettings
     }
@@ -3386,8 +3272,7 @@ public struct PutChannelMembershipPreferencesInput: Swift.Sendable {
         chimeBearer: Swift.String? = nil,
         memberArn: Swift.String? = nil,
         preferences: ChimeSDKMessagingClientTypes.ChannelMembershipPreferences? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.memberArn = memberArn
@@ -3407,8 +3292,7 @@ public struct PutChannelMembershipPreferencesOutput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         member: ChimeSDKMessagingClientTypes.Identity? = nil,
         preferences: ChimeSDKMessagingClientTypes.ChannelMembershipPreferences? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.member = member
         self.preferences = preferences
@@ -3426,8 +3310,7 @@ public struct PutMessagingStreamingConfigurationsInput: Swift.Sendable {
     public init(
         appInstanceArn: Swift.String? = nil,
         streamingConfigurations: [ChimeSDKMessagingClientTypes.StreamingConfiguration]? = nil
-    )
-    {
+    ) {
         self.appInstanceArn = appInstanceArn
         self.streamingConfigurations = streamingConfigurations
     }
@@ -3439,8 +3322,7 @@ public struct PutMessagingStreamingConfigurationsOutput: Swift.Sendable {
 
     public init(
         streamingConfigurations: [ChimeSDKMessagingClientTypes.StreamingConfiguration]? = nil
-    )
-    {
+    ) {
         self.streamingConfigurations = streamingConfigurations
     }
 }
@@ -3463,8 +3345,7 @@ public struct RedactChannelMessageInput: Swift.Sendable {
         chimeBearer: Swift.String? = nil,
         messageId: Swift.String? = nil,
         subChannelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.messageId = messageId
@@ -3484,8 +3365,7 @@ public struct RedactChannelMessageOutput: Swift.Sendable {
         channelArn: Swift.String? = nil,
         messageId: Swift.String? = nil,
         subChannelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.messageId = messageId
         self.subChannelId = subChannelId
@@ -3565,8 +3445,7 @@ extension ChimeSDKMessagingClientTypes {
             key: ChimeSDKMessagingClientTypes.SearchFieldKey? = nil,
             `operator`: ChimeSDKMessagingClientTypes.SearchFieldOperator? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.`operator` = `operator`
             self.values = values
@@ -3590,8 +3469,7 @@ public struct SearchChannelsInput: Swift.Sendable {
         fields: [ChimeSDKMessagingClientTypes.SearchField]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.chimeBearer = chimeBearer
         self.fields = fields
         self.maxResults = maxResults
@@ -3613,8 +3491,7 @@ public struct SearchChannelsOutput: Swift.Sendable {
     public init(
         channels: [ChimeSDKMessagingClientTypes.ChannelSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channels = channels
         self.nextToken = nextToken
     }
@@ -3670,8 +3547,7 @@ public struct SendChannelMessageInput: Swift.Sendable {
         subChannelId: Swift.String? = nil,
         target: [ChimeSDKMessagingClientTypes.Target]? = nil,
         type: ChimeSDKMessagingClientTypes.ChannelMessageType? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.clientRequestToken = clientRequestToken
@@ -3707,8 +3583,7 @@ public struct SendChannelMessageOutput: Swift.Sendable {
         messageId: Swift.String? = nil,
         status: ChimeSDKMessagingClientTypes.ChannelMessageStatusStructure? = nil,
         subChannelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.messageId = messageId
         self.status = status
@@ -3727,8 +3602,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [ChimeSDKMessagingClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -3745,8 +3619,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -3777,8 +3650,7 @@ public struct UpdateChannelInput: Swift.Sendable {
         metadata: Swift.String? = nil,
         mode: ChimeSDKMessagingClientTypes.ChannelMode? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.metadata = metadata
@@ -3798,8 +3670,7 @@ public struct UpdateChannelOutput: Swift.Sendable {
 
     public init(
         channelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
     }
 }
@@ -3819,8 +3690,7 @@ public struct UpdateChannelFlowInput: Swift.Sendable {
         channelFlowArn: Swift.String? = nil,
         name: Swift.String? = nil,
         processors: [ChimeSDKMessagingClientTypes.Processor]? = nil
-    )
-    {
+    ) {
         self.channelFlowArn = channelFlowArn
         self.name = name
         self.processors = processors
@@ -3838,8 +3708,7 @@ public struct UpdateChannelFlowOutput: Swift.Sendable {
 
     public init(
         channelFlowArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelFlowArn = channelFlowArn
     }
 }
@@ -3872,8 +3741,7 @@ public struct UpdateChannelMessageInput: Swift.Sendable {
         messageId: Swift.String? = nil,
         metadata: Swift.String? = nil,
         subChannelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.content = content
@@ -3904,8 +3772,7 @@ public struct UpdateChannelMessageOutput: Swift.Sendable {
         messageId: Swift.String? = nil,
         status: ChimeSDKMessagingClientTypes.ChannelMessageStatusStructure? = nil,
         subChannelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.messageId = messageId
         self.status = status
@@ -3924,8 +3791,7 @@ public struct UpdateChannelReadMarkerInput: Swift.Sendable {
     public init(
         channelArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
     }
@@ -3937,8 +3803,7 @@ public struct UpdateChannelReadMarkerOutput: Swift.Sendable {
 
     public init(
         channelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelArn = channelArn
     }
 }

@@ -181,8 +181,7 @@ extension CloudWatchClientTypes {
             historyItemType: CloudWatchClientTypes.HistoryItemType? = nil,
             historySummary: Swift.String? = nil,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.alarmName = alarmName
             self.alarmType = alarmType
             self.historyData = historyData
@@ -207,8 +206,7 @@ extension CloudWatchClientTypes {
         public init(
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -227,8 +225,7 @@ extension CloudWatchClientTypes {
         public init(
             excludedTimeRanges: [CloudWatchClientTypes.Range]? = nil,
             metricTimezone: Swift.String? = nil
-        )
-        {
+        ) {
             self.excludedTimeRanges = excludedTimeRanges
             self.metricTimezone = metricTimezone
         }
@@ -249,8 +246,7 @@ extension CloudWatchClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -266,8 +262,7 @@ extension CloudWatchClientTypes {
 
         public init(
             periodicSpikes: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.periodicSpikes = periodicSpikes
         }
     }
@@ -288,8 +283,7 @@ extension CloudWatchClientTypes {
             dimensions: [CloudWatchClientTypes.Dimension]? = nil,
             metricName: Swift.String? = nil,
             namespace: Swift.String? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.metricName = metricName
             self.namespace = namespace
@@ -428,8 +422,7 @@ extension CloudWatchClientTypes {
             period: Swift.Int? = nil,
             stat: Swift.String? = nil,
             unit: CloudWatchClientTypes.StandardUnit? = nil
-        )
-        {
+        ) {
             self.metric = metric
             self.period = period
             self.stat = stat
@@ -466,8 +459,7 @@ extension CloudWatchClientTypes {
             metricStat: CloudWatchClientTypes.MetricStat? = nil,
             period: Swift.Int? = nil,
             returnData: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.expression = expression
             self.id = id
@@ -488,8 +480,7 @@ extension CloudWatchClientTypes {
 
         public init(
             metricDataQueries: [CloudWatchClientTypes.MetricDataQuery]? = nil
-        )
-        {
+        ) {
             self.metricDataQueries = metricDataQueries
         }
     }
@@ -516,8 +507,7 @@ extension CloudWatchClientTypes {
             metricName: Swift.String? = nil,
             namespace: Swift.String? = nil,
             stat: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.dimensions = dimensions
             self.metricName = metricName
@@ -596,8 +586,7 @@ extension CloudWatchClientTypes {
             singleMetricAnomalyDetector: CloudWatchClientTypes.SingleMetricAnomalyDetector? = nil,
             stat: Swift.String? = nil,
             stateValue: CloudWatchClientTypes.AnomalyDetectorStateValue? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.dimensions = dimensions
             self.metricCharacteristics = metricCharacteristics
@@ -658,8 +647,7 @@ extension CloudWatchClientTypes {
             failureCode: Swift.String? = nil,
             failureDescription: Swift.String? = nil,
             failureResource: Swift.String? = nil
-        )
-        {
+        ) {
             self.exceptionType = exceptionType
             self.failureCode = failureCode
             self.failureDescription = failureDescription
@@ -807,8 +795,7 @@ extension CloudWatchClientTypes {
             stateTransitionedTimestamp: Foundation.Date? = nil,
             stateUpdatedTimestamp: Foundation.Date? = nil,
             stateValue: CloudWatchClientTypes.StateValue? = nil
-        )
-        {
+        ) {
             self.actionsEnabled = actionsEnabled
             self.actionsSuppressedBy = actionsSuppressedBy
             self.actionsSuppressedReason = actionsSuppressedReason
@@ -833,9 +820,9 @@ extension CloudWatchClientTypes {
 }
 
 /// More than one process tried to modify a resource at the same time.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -850,8 +837,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -874,8 +860,7 @@ extension CloudWatchClientTypes {
             dashboardName: Swift.String? = nil,
             lastModified: Foundation.Date? = nil,
             size: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dashboardArn = dashboardArn
             self.dashboardName = dashboardName
             self.lastModified = lastModified
@@ -896,8 +881,7 @@ extension CloudWatchClientTypes {
         public init(
             dataPath: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataPath = dataPath
             self.message = message
         }
@@ -905,9 +889,9 @@ extension CloudWatchClientTypes {
 }
 
 /// Some part of the dashboard data is invalid.
-public struct DashboardInvalidInputError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DashboardInvalidInputError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var dashboardValidationMessages: [CloudWatchClientTypes.DashboardValidationMessage]? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -924,17 +908,16 @@ public struct DashboardInvalidInputError: ClientRuntime.ModeledError, AWSClientR
     public init(
         dashboardValidationMessages: [CloudWatchClientTypes.DashboardValidationMessage]? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.dashboardValidationMessages = dashboardValidationMessages
         self.properties.message = message
     }
 }
 
 /// The specified dashboard does not exist.
-public struct DashboardNotFoundError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DashboardNotFoundError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -949,8 +932,7 @@ public struct DashboardNotFoundError: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -985,8 +967,7 @@ extension CloudWatchClientTypes {
             sum: Swift.Double? = nil,
             timestamp: Foundation.Date? = nil,
             unit: CloudWatchClientTypes.StandardUnit? = nil
-        )
-        {
+        ) {
             self.average = average
             self.extendedStatistics = extendedStatistics
             self.maximum = maximum
@@ -1000,9 +981,9 @@ extension CloudWatchClientTypes {
 }
 
 /// The named resource does not exist.
-public struct ResourceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -1018,8 +999,7 @@ public struct ResourceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1031,16 +1011,15 @@ public struct DeleteAlarmsInput: Swift.Sendable {
 
     public init(
         alarmNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.alarmNames = alarmNames
     }
 }
 
 /// Request processing has failed due to some unknown error, exception, or failure.
-public struct InternalServiceFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServiceFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -1056,16 +1035,15 @@ public struct InternalServiceFault: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Parameters were used together that cannot be used together.
-public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -1081,16 +1059,15 @@ public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The value of an input parameter is bad or out-of-range.
-public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -1106,16 +1083,15 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An input parameter that is required is missing.
-public struct MissingRequiredParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MissingRequiredParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -1131,16 +1107,15 @@ public struct MissingRequiredParameterException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The named resource does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var resourceId: Swift.String? = nil
         public internal(set) var resourceType: Swift.String? = nil
@@ -1159,8 +1134,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -1218,8 +1192,7 @@ public struct DeleteAnomalyDetectorInput: Swift.Sendable {
         namespace: Swift.String? = nil,
         singleMetricAnomalyDetector: CloudWatchClientTypes.SingleMetricAnomalyDetector? = nil,
         stat: Swift.String? = nil
-    )
-    {
+    ) {
         self.dimensions = dimensions
         self.metricMathAnomalyDetector = metricMathAnomalyDetector
         self.metricName = metricName
@@ -1241,8 +1214,7 @@ public struct DeleteDashboardsInput: Swift.Sendable {
 
     public init(
         dashboardNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.dashboardNames = dashboardNames
     }
 }
@@ -1259,8 +1231,7 @@ public struct DeleteInsightRulesInput: Swift.Sendable {
 
     public init(
         ruleNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.ruleNames = ruleNames
     }
 }
@@ -1271,8 +1242,7 @@ public struct DeleteInsightRulesOutput: Swift.Sendable {
 
     public init(
         failures: [CloudWatchClientTypes.PartialFailure]? = nil
-    )
-    {
+    ) {
         self.failures = failures
     }
 }
@@ -1284,8 +1254,7 @@ public struct DeleteMetricStreamInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1296,9 +1265,9 @@ public struct DeleteMetricStreamOutput: Swift.Sendable {
 }
 
 /// The next token specified is invalid.
-public struct InvalidNextToken: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNextToken: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -1314,8 +1283,7 @@ public struct InvalidNextToken: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1376,8 +1344,7 @@ public struct DescribeAlarmHistoryInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         scanBy: CloudWatchClientTypes.ScanBy? = nil,
         startDate: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.alarmName = alarmName
         self.alarmTypes = alarmTypes
         self.endDate = endDate
@@ -1398,8 +1365,7 @@ public struct DescribeAlarmHistoryOutput: Swift.Sendable {
     public init(
         alarmHistoryItems: [CloudWatchClientTypes.AlarmHistoryItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.alarmHistoryItems = alarmHistoryItems
         self.nextToken = nextToken
     }
@@ -1435,8 +1401,7 @@ public struct DescribeAlarmsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         parentsOfAlarmName: Swift.String? = nil,
         stateValue: CloudWatchClientTypes.StateValue? = nil
-    )
-    {
+    ) {
         self.actionPrefix = actionPrefix
         self.alarmNamePrefix = alarmNamePrefix
         self.alarmNames = alarmNames
@@ -1606,8 +1571,7 @@ extension CloudWatchClientTypes {
             thresholdMetricId: Swift.String? = nil,
             treatMissingData: Swift.String? = nil,
             unit: CloudWatchClientTypes.StandardUnit? = nil
-        )
-        {
+        ) {
             self.actionsEnabled = actionsEnabled
             self.alarmActions = alarmActions
             self.alarmArn = alarmArn
@@ -1653,8 +1617,7 @@ public struct DescribeAlarmsOutput: Swift.Sendable {
         compositeAlarms: [CloudWatchClientTypes.CompositeAlarm]? = nil,
         metricAlarms: [CloudWatchClientTypes.MetricAlarm]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.compositeAlarms = compositeAlarms
         self.metricAlarms = metricAlarms
         self.nextToken = nextToken
@@ -1687,8 +1650,7 @@ public struct DescribeAlarmsForMetricInput: Swift.Sendable {
         period: Swift.Int? = nil,
         statistic: CloudWatchClientTypes.Statistic? = nil,
         unit: CloudWatchClientTypes.StandardUnit? = nil
-    )
-    {
+    ) {
         self.dimensions = dimensions
         self.extendedStatistic = extendedStatistic
         self.metricName = metricName
@@ -1705,8 +1667,7 @@ public struct DescribeAlarmsForMetricOutput: Swift.Sendable {
 
     public init(
         metricAlarms: [CloudWatchClientTypes.MetricAlarm]? = nil
-    )
-    {
+    ) {
         self.metricAlarms = metricAlarms
     }
 }
@@ -1732,8 +1693,7 @@ public struct DescribeAnomalyDetectorsInput: Swift.Sendable {
         metricName: Swift.String? = nil,
         namespace: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalyDetectorTypes = anomalyDetectorTypes
         self.dimensions = dimensions
         self.maxResults = maxResults
@@ -1752,8 +1712,7 @@ public struct DescribeAnomalyDetectorsOutput: Swift.Sendable {
     public init(
         anomalyDetectors: [CloudWatchClientTypes.AnomalyDetector]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.anomalyDetectors = anomalyDetectors
         self.nextToken = nextToken
     }
@@ -1768,8 +1727,7 @@ public struct DescribeInsightRulesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1800,8 +1758,7 @@ extension CloudWatchClientTypes {
             name: Swift.String? = nil,
             schema: Swift.String? = nil,
             state: Swift.String? = nil
-        )
-        {
+        ) {
             self.definition = definition
             self.managedRule = managedRule
             self.name = name
@@ -1820,8 +1777,7 @@ public struct DescribeInsightRulesOutput: Swift.Sendable {
     public init(
         insightRules: [CloudWatchClientTypes.InsightRule]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.insightRules = insightRules
         self.nextToken = nextToken
     }
@@ -1840,8 +1796,7 @@ extension CloudWatchClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -1855,8 +1810,7 @@ public struct DisableAlarmActionsInput: Swift.Sendable {
 
     public init(
         alarmNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.alarmNames = alarmNames
     }
 }
@@ -1868,8 +1822,7 @@ public struct DisableInsightRulesInput: Swift.Sendable {
 
     public init(
         ruleNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.ruleNames = ruleNames
     }
 }
@@ -1880,8 +1833,7 @@ public struct DisableInsightRulesOutput: Swift.Sendable {
 
     public init(
         failures: [CloudWatchClientTypes.PartialFailure]? = nil
-    )
-    {
+    ) {
         self.failures = failures
     }
 }
@@ -1893,16 +1845,15 @@ public struct EnableAlarmActionsInput: Swift.Sendable {
 
     public init(
         alarmNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.alarmNames = alarmNames
     }
 }
 
 /// The operation exceeded one or more limits.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1917,8 +1868,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1930,8 +1880,7 @@ public struct EnableInsightRulesInput: Swift.Sendable {
 
     public init(
         ruleNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.ruleNames = ruleNames
     }
 }
@@ -1942,9 +1891,125 @@ public struct EnableInsightRulesOutput: Swift.Sendable {
 
     public init(
         failures: [CloudWatchClientTypes.PartialFailure]? = nil
-    )
-    {
+    ) {
         self.failures = failures
+    }
+}
+
+extension CloudWatchClientTypes {
+
+    /// An entity associated with metrics, to allow for finding related telemetry. An entity is typically a resource or service within your system. For example, metrics from an Amazon EC2 instance could be associated with that instance as the entity. Similarly, metrics from a service that you own could be associated with that service as the entity.
+    public struct Entity: Swift.Sendable {
+        /// Additional attributes of the entity that are not used to specify the identity of the entity. A list of key-value pairs. For details about how to use the attributes, see [How to add related information to telemetry](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/adding-your-own-related-telemetry.html) in the CloudWatch User Guide.
+        public var attributes: [Swift.String: Swift.String]?
+        /// The attributes of the entity which identify the specific entity, as a list of key-value pairs. Entities with the same KeyAttributes are considered to be the same entity. For an entity to be valid, the KeyAttributes must exist and be formatted correctly. There are five allowed attributes (key names): Type, ResourceType, Identifier, Name, and Environment. For details about how to use the key attributes to specify an entity, see [How to add related information to telemetry](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/adding-your-own-related-telemetry.html) in the CloudWatch User Guide.
+        public var keyAttributes: [Swift.String: Swift.String]?
+
+        public init(
+            attributes: [Swift.String: Swift.String]? = nil,
+            keyAttributes: [Swift.String: Swift.String]? = nil
+        ) {
+            self.attributes = attributes
+            self.keyAttributes = keyAttributes
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+
+    /// Represents a set of statistics that describes a specific metric.
+    public struct StatisticSet: Swift.Sendable {
+        /// The maximum value of the sample set.
+        /// This member is required.
+        public var maximum: Swift.Double?
+        /// The minimum value of the sample set.
+        /// This member is required.
+        public var minimum: Swift.Double?
+        /// The number of samples used for the statistic set.
+        /// This member is required.
+        public var sampleCount: Swift.Double?
+        /// The sum of values for the sample set.
+        /// This member is required.
+        public var sum: Swift.Double?
+
+        public init(
+            maximum: Swift.Double? = nil,
+            minimum: Swift.Double? = nil,
+            sampleCount: Swift.Double? = nil,
+            sum: Swift.Double? = nil
+        ) {
+            self.maximum = maximum
+            self.minimum = minimum
+            self.sampleCount = sampleCount
+            self.sum = sum
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+
+    /// Encapsulates the information sent to either create a metric or add new values to be aggregated into an existing metric.
+    public struct MetricDatum: Swift.Sendable {
+        /// Array of numbers that is used along with the Values array. Each number in the Count array is the number of times the corresponding value in the Values array occurred during the period. If you omit the Counts array, the default of 1 is used as the value for each count. If you include a Counts array, it must include the same amount of values as the Values array.
+        public var counts: [Swift.Double]?
+        /// The dimensions associated with the metric.
+        public var dimensions: [CloudWatchClientTypes.Dimension]?
+        /// The name of the metric.
+        /// This member is required.
+        public var metricName: Swift.String?
+        /// The statistical values for the metric.
+        public var statisticValues: CloudWatchClientTypes.StatisticSet?
+        /// Valid values are 1 and 60. Setting this to 1 specifies this metric as a high-resolution metric, so that CloudWatch stores the metric with sub-minute resolution down to one second. Setting this to 60 specifies this metric as a regular-resolution metric, which CloudWatch stores at 1-minute resolution. Currently, high resolution is available only for custom metrics. For more information about high-resolution metrics, see [High-Resolution Metrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html#high-resolution-metrics) in the Amazon CloudWatch User Guide. This field is optional, if you do not specify it the default of 60 is used.
+        public var storageResolution: Swift.Int?
+        /// The time the metric data was received, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
+        public var timestamp: Foundation.Date?
+        /// When you are using a Put operation, this defines what unit you want to use when storing the metric. In a Get operation, this displays the unit that is used for the metric.
+        public var unit: CloudWatchClientTypes.StandardUnit?
+        /// The value for the metric. Although the parameter accepts numbers of type Double, CloudWatch rejects values that are either too small or too large. Values must be in the range of -2^360 to 2^360. In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported.
+        public var value: Swift.Double?
+        /// Array of numbers representing the values for the metric during the period. Each unique value is listed just once in this array, and the corresponding number in the Counts array specifies the number of times that value occurred during the period. You can include up to 150 unique values in each PutMetricData action that specifies a Values array. Although the Values array accepts numbers of type Double, CloudWatch rejects values that are either too small or too large. Values must be in the range of -2^360 to 2^360. In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported.
+        public var values: [Swift.Double]?
+
+        public init(
+            counts: [Swift.Double]? = nil,
+            dimensions: [CloudWatchClientTypes.Dimension]? = nil,
+            metricName: Swift.String? = nil,
+            statisticValues: CloudWatchClientTypes.StatisticSet? = nil,
+            storageResolution: Swift.Int? = nil,
+            timestamp: Foundation.Date? = nil,
+            unit: CloudWatchClientTypes.StandardUnit? = nil,
+            value: Swift.Double? = nil,
+            values: [Swift.Double]? = nil
+        ) {
+            self.counts = counts
+            self.dimensions = dimensions
+            self.metricName = metricName
+            self.statisticValues = statisticValues
+            self.storageResolution = storageResolution
+            self.timestamp = timestamp
+            self.unit = unit
+            self.value = value
+            self.values = values
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+
+    /// A set of metrics that are associated with an entity, such as a specific service or resource. Contains the entity and the list of metric data associated with it.
+    public struct EntityMetricData: Swift.Sendable {
+        /// The entity associated with the metrics.
+        public var entity: CloudWatchClientTypes.Entity?
+        /// The metric data.
+        public var metricData: [CloudWatchClientTypes.MetricDatum]?
+
+        public init(
+            entity: CloudWatchClientTypes.Entity? = nil,
+            metricData: [CloudWatchClientTypes.MetricDatum]? = nil
+        ) {
+            self.entity = entity
+            self.metricData = metricData
+        }
     }
 }
 
@@ -1955,8 +2020,7 @@ public struct GetDashboardInput: Swift.Sendable {
 
     public init(
         dashboardName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dashboardName = dashboardName
     }
 }
@@ -1973,8 +2037,7 @@ public struct GetDashboardOutput: Swift.Sendable {
         dashboardArn: Swift.String? = nil,
         dashboardBody: Swift.String? = nil,
         dashboardName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dashboardArn = dashboardArn
         self.dashboardBody = dashboardBody
         self.dashboardName = dashboardName
@@ -2023,8 +2086,7 @@ public struct GetInsightRuleReportInput: Swift.Sendable {
         period: Swift.Int? = nil,
         ruleName: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.maxContributorCount = maxContributorCount
         self.metrics = metrics
@@ -2049,8 +2111,7 @@ extension CloudWatchClientTypes {
         public init(
             approximateValue: Swift.Double? = nil,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.approximateValue = approximateValue
             self.timestamp = timestamp
         }
@@ -2075,8 +2136,7 @@ extension CloudWatchClientTypes {
             approximateAggregateValue: Swift.Double? = nil,
             datapoints: [CloudWatchClientTypes.InsightRuleContributorDatapoint]? = nil,
             keys: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.approximateAggregateValue = approximateAggregateValue
             self.datapoints = datapoints
             self.keys = keys
@@ -2115,8 +2175,7 @@ extension CloudWatchClientTypes {
             sum: Swift.Double? = nil,
             timestamp: Foundation.Date? = nil,
             uniqueContributors: Swift.Double? = nil
-        )
-        {
+        ) {
             self.average = average
             self.maxContributorValue = maxContributorValue
             self.maximum = maximum
@@ -2150,8 +2209,7 @@ public struct GetInsightRuleReportOutput: Swift.Sendable {
         contributors: [CloudWatchClientTypes.InsightRuleContributor]? = nil,
         keyLabels: [Swift.String]? = nil,
         metricDatapoints: [CloudWatchClientTypes.InsightRuleMetricDatapoint]? = nil
-    )
-    {
+    ) {
         self.aggregateValue = aggregateValue
         self.aggregationStatistic = aggregationStatistic
         self.approximateUniqueCount = approximateUniqueCount
@@ -2170,8 +2228,7 @@ extension CloudWatchClientTypes {
 
         public init(
             timezone: Swift.String? = nil
-        )
-        {
+        ) {
             self.timezone = timezone
         }
     }
@@ -2213,8 +2270,7 @@ public struct GetMetricDataInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         scanBy: CloudWatchClientTypes.ScanBy? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.labelOptions = labelOptions
         self.maxDatapoints = maxDatapoints
@@ -2237,8 +2293,7 @@ extension CloudWatchClientTypes {
         public init(
             code: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.value = value
         }
@@ -2304,8 +2359,7 @@ extension CloudWatchClientTypes {
             statusCode: CloudWatchClientTypes.StatusCode? = nil,
             timestamps: [Foundation.Date]? = nil,
             values: [Swift.Double]? = nil
-        )
-        {
+        ) {
             self.id = id
             self.label = label
             self.messages = messages
@@ -2328,8 +2382,7 @@ public struct GetMetricDataOutput: Swift.Sendable {
         messages: [CloudWatchClientTypes.MessageData]? = nil,
         metricDataResults: [CloudWatchClientTypes.MetricDataResult]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.messages = messages
         self.metricDataResults = metricDataResults
         self.nextToken = nextToken
@@ -2386,8 +2439,7 @@ public struct GetMetricStatisticsInput: Swift.Sendable {
         startTime: Foundation.Date? = nil,
         statistics: [CloudWatchClientTypes.Statistic]? = nil,
         unit: CloudWatchClientTypes.StandardUnit? = nil
-    )
-    {
+    ) {
         self.dimensions = dimensions
         self.endTime = endTime
         self.extendedStatistics = extendedStatistics
@@ -2409,8 +2461,7 @@ public struct GetMetricStatisticsOutput: Swift.Sendable {
     public init(
         datapoints: [CloudWatchClientTypes.Datapoint]? = nil,
         label: Swift.String? = nil
-    )
-    {
+    ) {
         self.datapoints = datapoints
         self.label = label
     }
@@ -2423,8 +2474,7 @@ public struct GetMetricStreamInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2441,8 +2491,7 @@ extension CloudWatchClientTypes {
         public init(
             metricNames: [Swift.String]? = nil,
             namespace: Swift.String? = nil
-        )
-        {
+        ) {
             self.metricNames = metricNames
             self.namespace = namespace
         }
@@ -2495,8 +2544,7 @@ extension CloudWatchClientTypes {
         public init(
             metricName: Swift.String? = nil,
             namespace: Swift.String? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
             self.namespace = namespace
         }
@@ -2517,8 +2565,7 @@ extension CloudWatchClientTypes {
         public init(
             additionalStatistics: [Swift.String]? = nil,
             includeMetrics: [CloudWatchClientTypes.MetricStreamStatisticsMetric]? = nil
-        )
-        {
+        ) {
             self.additionalStatistics = additionalStatistics
             self.includeMetrics = includeMetrics
         }
@@ -2564,8 +2611,7 @@ public struct GetMetricStreamOutput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         state: Swift.String? = nil,
         statisticsConfigurations: [CloudWatchClientTypes.MetricStreamStatisticsConfiguration]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationDate = creationDate
         self.excludeFilters = excludeFilters
@@ -2615,8 +2661,7 @@ public struct GetMetricWidgetImageInput: Swift.Sendable {
     public init(
         metricWidget: Swift.String? = nil,
         outputFormat: Swift.String? = nil
-    )
-    {
+    ) {
         self.metricWidget = metricWidget
         self.outputFormat = outputFormat
     }
@@ -2628,8 +2673,7 @@ public struct GetMetricWidgetImageOutput: Swift.Sendable {
 
     public init(
         metricWidgetImage: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.metricWidgetImage = metricWidgetImage
     }
 }
@@ -2643,8 +2687,7 @@ public struct ListDashboardsInput: Swift.Sendable {
     public init(
         dashboardNamePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dashboardNamePrefix = dashboardNamePrefix
         self.nextToken = nextToken
     }
@@ -2659,8 +2702,7 @@ public struct ListDashboardsOutput: Swift.Sendable {
     public init(
         dashboardEntries: [CloudWatchClientTypes.DashboardEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dashboardEntries = dashboardEntries
         self.nextToken = nextToken
     }
@@ -2679,8 +2721,7 @@ public struct ListManagedInsightRulesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceARN = resourceARN
@@ -2701,8 +2742,7 @@ extension CloudWatchClientTypes {
         public init(
             ruleName: Swift.String? = nil,
             state: Swift.String? = nil
-        )
-        {
+        ) {
             self.ruleName = ruleName
             self.state = state
         }
@@ -2724,8 +2764,7 @@ extension CloudWatchClientTypes {
             resourceARN: Swift.String? = nil,
             ruleState: CloudWatchClientTypes.ManagedRuleState? = nil,
             templateName: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceARN = resourceARN
             self.ruleState = ruleState
             self.templateName = templateName
@@ -2742,8 +2781,7 @@ public struct ListManagedInsightRulesOutput: Swift.Sendable {
     public init(
         managedRules: [CloudWatchClientTypes.ManagedRuleDescription]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.managedRules = managedRules
         self.nextToken = nextToken
     }
@@ -2788,7 +2826,7 @@ public struct ListMetricsInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// When you use this operation in a monitoring account, use this field to return metrics only from one source account. To do so, specify that source account ID in this field, and also specify true for IncludeLinkedAccounts.
     public var owningAccount: Swift.String?
-    /// To filter the results to show only metrics that have had data points published in the past three hours, specify this parameter with a value of PT3H. This is the only valid value for this parameter. The results that are returned are an approximation of the value you specify. There is a low probability that the returned results include metrics with last published data as much as 40 minutes more than the specified time interval.
+    /// To filter the results to show only metrics that have had data points published in the past three hours, specify this parameter with a value of PT3H. This is the only valid value for this parameter. The results that are returned are an approximation of the value you specify. There is a low probability that the returned results include metrics with last published data as much as 50 minutes more than the specified time interval.
     public var recentlyActive: CloudWatchClientTypes.RecentlyActive?
 
     public init(
@@ -2799,8 +2837,7 @@ public struct ListMetricsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         owningAccount: Swift.String? = nil,
         recentlyActive: CloudWatchClientTypes.RecentlyActive? = nil
-    )
-    {
+    ) {
         self.dimensions = dimensions
         self.includeLinkedAccounts = includeLinkedAccounts
         self.metricName = metricName
@@ -2823,8 +2860,7 @@ public struct ListMetricsOutput: Swift.Sendable {
         metrics: [CloudWatchClientTypes.Metric]? = nil,
         nextToken: Swift.String? = nil,
         owningAccounts: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.metrics = metrics
         self.nextToken = nextToken
         self.owningAccounts = owningAccounts
@@ -2840,8 +2876,7 @@ public struct ListMetricStreamsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2874,8 +2909,7 @@ extension CloudWatchClientTypes {
             name: Swift.String? = nil,
             outputFormat: CloudWatchClientTypes.MetricStreamOutputFormat? = nil,
             state: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationDate = creationDate
             self.firehoseArn = firehoseArn
@@ -2896,8 +2930,7 @@ public struct ListMetricStreamsOutput: Swift.Sendable {
     public init(
         entries: [CloudWatchClientTypes.MetricStreamEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entries = entries
         self.nextToken = nextToken
     }
@@ -2910,8 +2943,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -2930,8 +2962,7 @@ extension CloudWatchClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -2944,8 +2975,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [CloudWatchClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -3007,8 +3037,7 @@ public struct PutAnomalyDetectorInput: Swift.Sendable {
         namespace: Swift.String? = nil,
         singleMetricAnomalyDetector: CloudWatchClientTypes.SingleMetricAnomalyDetector? = nil,
         stat: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.dimensions = dimensions
         self.metricCharacteristics = metricCharacteristics
@@ -3026,9 +3055,9 @@ public struct PutAnomalyDetectorOutput: Swift.Sendable {
 }
 
 /// The quota for alarms for this customer has already been reached.
-public struct LimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -3044,8 +3073,7 @@ public struct LimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3068,7 +3096,7 @@ public struct PutCompositeAlarmInput: Swift.Sendable {
     /// * Invoke a function by using an alias Lambda function: arn:aws:lambda:region:account-id:function:function-name:alias-name
     ///
     ///
-    /// Systems Manager actions: arn:aws:ssm:region:account-id:opsitem:severity
+    /// Systems Manager actions: arn:aws:ssm:region:account-id:opsitem:severity  Start a Amazon Q Developer operational investigation arn:aws:aiops:region:account-id:investigation-group:ingestigation-group-id
     public var alarmActions: [Swift.String]?
     /// The description for the composite alarm.
     public var alarmDescription: Swift.String?
@@ -3131,8 +3159,7 @@ public struct PutCompositeAlarmInput: Swift.Sendable {
         insufficientDataActions: [Swift.String]? = nil,
         okActions: [Swift.String]? = nil,
         tags: [CloudWatchClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.actionsEnabled = actionsEnabled
         self.actionsSuppressor = actionsSuppressor
         self.actionsSuppressorExtensionPeriod = actionsSuppressorExtensionPeriod
@@ -3158,8 +3185,7 @@ public struct PutDashboardInput: Swift.Sendable {
     public init(
         dashboardBody: Swift.String? = nil,
         dashboardName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dashboardBody = dashboardBody
         self.dashboardName = dashboardName
     }
@@ -3171,8 +3197,7 @@ public struct PutDashboardOutput: Swift.Sendable {
 
     public init(
         dashboardValidationMessages: [CloudWatchClientTypes.DashboardValidationMessage]? = nil
-    )
-    {
+    ) {
         self.dashboardValidationMessages = dashboardValidationMessages
     }
 }
@@ -3194,8 +3219,7 @@ public struct PutInsightRuleInput: Swift.Sendable {
         ruleName: Swift.String? = nil,
         ruleState: Swift.String? = nil,
         tags: [CloudWatchClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.ruleDefinition = ruleDefinition
         self.ruleName = ruleName
         self.ruleState = ruleState
@@ -3225,8 +3249,7 @@ extension CloudWatchClientTypes {
             resourceARN: Swift.String? = nil,
             tags: [CloudWatchClientTypes.Tag]? = nil,
             templateName: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceARN = resourceARN
             self.tags = tags
             self.templateName = templateName
@@ -3241,8 +3264,7 @@ public struct PutManagedInsightRulesInput: Swift.Sendable {
 
     public init(
         managedRules: [CloudWatchClientTypes.ManagedRule]? = nil
-    )
-    {
+    ) {
         self.managedRules = managedRules
     }
 }
@@ -3253,8 +3275,7 @@ public struct PutManagedInsightRulesOutput: Swift.Sendable {
 
     public init(
         failures: [CloudWatchClientTypes.PartialFailure]? = nil
-    )
-    {
+    ) {
         self.failures = failures
     }
 }
@@ -3305,6 +3326,9 @@ public struct PutMetricAlarmInput: Swift.Sendable {
     /// * arn:aws:ssm:region:account-id:opsitem:severity#CATEGORY=category-name
     ///
     /// * arn:aws:ssm-incidents::account-id:responseplan/response-plan-name
+    ///
+    ///
+    /// Start a Amazon Q Developer operational investigation arn:aws:aiops:region:account-id:investigation-group:ingestigation-group-id
     public var alarmActions: [Swift.String]?
     /// The description for the alarm.
     public var alarmDescription: Swift.String?
@@ -3448,7 +3472,7 @@ public struct PutMetricAlarmInput: Swift.Sendable {
     public var period: Swift.Int?
     /// The statistic for the metric specified in MetricName, other than percentile. For percentile statistics, use ExtendedStatistic. When you call PutMetricAlarm and specify a MetricName, you must specify either Statistic or ExtendedStatistic, but not both.
     public var statistic: CloudWatchClientTypes.Statistic?
-    /// A list of key-value pairs to associate with the alarm. You can associate as many as 50 tags with an alarm. To be able to associate tags with the alarm when you create the alarm, you must have the cloudwatch:TagResource permission. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. If you are using this operation to update an existing alarm, any tags you specify in this parameter are ignored. To change the tags of an existing alarm, use [TagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_TagResource.html) or [UntagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_UntagResource.html).
+    /// A list of key-value pairs to associate with the alarm. You can associate as many as 50 tags with an alarm. To be able to associate tags with the alarm when you create the alarm, you must have the cloudwatch:TagResource permission. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. If you are using this operation to update an existing alarm, any tags you specify in this parameter are ignored. To change the tags of an existing alarm, use [TagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_TagResource.html) or [UntagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_UntagResource.html). To use this field to set tags for an alarm when you create it, you must be signed on with both the cloudwatch:PutMetricAlarm and cloudwatch:TagResource permissions.
     public var tags: [CloudWatchClientTypes.Tag]?
     /// The value against which the specified statistic is compared. This parameter is required for alarms based on static thresholds, but should not be used for alarms based on anomaly detection models.
     public var threshold: Swift.Double?
@@ -3482,8 +3506,7 @@ public struct PutMetricAlarmInput: Swift.Sendable {
         thresholdMetricId: Swift.String? = nil,
         treatMissingData: Swift.String? = nil,
         unit: CloudWatchClientTypes.StandardUnit? = nil
-    )
-    {
+    ) {
         self.actionsEnabled = actionsEnabled
         self.alarmActions = alarmActions
         self.alarmDescription = alarmDescription
@@ -3509,102 +3532,49 @@ public struct PutMetricAlarmInput: Swift.Sendable {
     }
 }
 
-extension CloudWatchClientTypes {
-
-    /// Represents a set of statistics that describes a specific metric.
-    public struct StatisticSet: Swift.Sendable {
-        /// The maximum value of the sample set.
-        /// This member is required.
-        public var maximum: Swift.Double?
-        /// The minimum value of the sample set.
-        /// This member is required.
-        public var minimum: Swift.Double?
-        /// The number of samples used for the statistic set.
-        /// This member is required.
-        public var sampleCount: Swift.Double?
-        /// The sum of values for the sample set.
-        /// This member is required.
-        public var sum: Swift.Double?
-
-        public init(
-            maximum: Swift.Double? = nil,
-            minimum: Swift.Double? = nil,
-            sampleCount: Swift.Double? = nil,
-            sum: Swift.Double? = nil
-        )
-        {
-            self.maximum = maximum
-            self.minimum = minimum
-            self.sampleCount = sampleCount
-            self.sum = sum
-        }
-    }
-}
-
-extension CloudWatchClientTypes {
-
-    /// Encapsulates the information sent to either create a metric or add new values to be aggregated into an existing metric.
-    public struct MetricDatum: Swift.Sendable {
-        /// Array of numbers that is used along with the Values array. Each number in the Count array is the number of times the corresponding value in the Values array occurred during the period. If you omit the Counts array, the default of 1 is used as the value for each count. If you include a Counts array, it must include the same amount of values as the Values array.
-        public var counts: [Swift.Double]?
-        /// The dimensions associated with the metric.
-        public var dimensions: [CloudWatchClientTypes.Dimension]?
-        /// The name of the metric.
-        /// This member is required.
-        public var metricName: Swift.String?
-        /// The statistical values for the metric.
-        public var statisticValues: CloudWatchClientTypes.StatisticSet?
-        /// Valid values are 1 and 60. Setting this to 1 specifies this metric as a high-resolution metric, so that CloudWatch stores the metric with sub-minute resolution down to one second. Setting this to 60 specifies this metric as a regular-resolution metric, which CloudWatch stores at 1-minute resolution. Currently, high resolution is available only for custom metrics. For more information about high-resolution metrics, see [High-Resolution Metrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html#high-resolution-metrics) in the Amazon CloudWatch User Guide. This field is optional, if you do not specify it the default of 60 is used.
-        public var storageResolution: Swift.Int?
-        /// The time the metric data was received, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
-        public var timestamp: Foundation.Date?
-        /// When you are using a Put operation, this defines what unit you want to use when storing the metric. In a Get operation, this displays the unit that is used for the metric.
-        public var unit: CloudWatchClientTypes.StandardUnit?
-        /// The value for the metric. Although the parameter accepts numbers of type Double, CloudWatch rejects values that are either too small or too large. Values must be in the range of -2^360 to 2^360. In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported.
-        public var value: Swift.Double?
-        /// Array of numbers representing the values for the metric during the period. Each unique value is listed just once in this array, and the corresponding number in the Counts array specifies the number of times that value occurred during the period. You can include up to 150 unique values in each PutMetricData action that specifies a Values array. Although the Values array accepts numbers of type Double, CloudWatch rejects values that are either too small or too large. Values must be in the range of -2^360 to 2^360. In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported.
-        public var values: [Swift.Double]?
-
-        public init(
-            counts: [Swift.Double]? = nil,
-            dimensions: [CloudWatchClientTypes.Dimension]? = nil,
-            metricName: Swift.String? = nil,
-            statisticValues: CloudWatchClientTypes.StatisticSet? = nil,
-            storageResolution: Swift.Int? = nil,
-            timestamp: Foundation.Date? = nil,
-            unit: CloudWatchClientTypes.StandardUnit? = nil,
-            value: Swift.Double? = nil,
-            values: [Swift.Double]? = nil
-        )
-        {
-            self.counts = counts
-            self.dimensions = dimensions
-            self.metricName = metricName
-            self.statisticValues = statisticValues
-            self.storageResolution = storageResolution
-            self.timestamp = timestamp
-            self.unit = unit
-            self.value = value
-            self.values = values
-        }
-    }
-}
-
 public struct PutMetricDataInput: Swift.Sendable {
-    /// The data for the metric. The array can include no more than 1000 metrics per call.
-    /// This member is required.
+    /// Data for metrics that contain associated entity information. You can include up to two EntityMetricData objects, each of which can contain a single Entity and associated metrics. The limit of metrics allowed, 1000, is the sum of both EntityMetricData and MetricData metrics.
+    public var entityMetricData: [CloudWatchClientTypes.EntityMetricData]?
+    /// The data for the metrics. Use this parameter if your metrics do not contain associated entities. The array can include no more than 1000 metrics per call. The limit of metrics allowed, 1000, is the sum of both EntityMetricData and MetricData metrics.
     public var metricData: [CloudWatchClientTypes.MetricDatum]?
     /// The namespace for the metric data. You can use ASCII characters for the namespace, except for control characters which are not supported. To avoid conflicts with Amazon Web Services service namespaces, you should not specify a namespace that begins with AWS/
     /// This member is required.
     public var namespace: Swift.String?
+    /// Whether to accept valid metric data when an invalid entity is sent.
+    ///
+    /// * When set to true: Any validation error (for entity or metric data) will fail the entire request, and no data will be ingested. The failed operation will return a 400 result with the error.
+    ///
+    /// * When set to false: Validation errors in the entity will not associate the metric with the entity, but the metric data will still be accepted and ingested. Validation errors in the metric data will fail the entire request, and no data will be ingested. In the case of an invalid entity, the operation will return a 200 status, but an additional response header will contain information about the validation errors. The new header, X-Amzn-Failure-Message is an enumeration of the following values:
+    ///
+    /// * InvalidEntity - The provided entity is invalid.
+    ///
+    /// * InvalidKeyAttributes - The provided KeyAttributes of an entity is invalid.
+    ///
+    /// * InvalidAttributes - The provided Attributes of an entity is invalid.
+    ///
+    /// * InvalidTypeValue - The provided Type in the KeyAttributes of an entity is invalid.
+    ///
+    /// * EntitySizeTooLarge - The number of EntityMetricData objects allowed is 2.
+    ///
+    /// * MissingRequiredFields - There are missing required fields in the KeyAttributes for the provided Type.
+    ///
+    ///
+    /// For details of the requirements for specifying an entity, see [How to add related information to telemetry](https://docs.aws.amazon.com/adding-your-own-related-telemetry.html) in the CloudWatch User Guide.
+    ///
+    ///
+    /// This parameter is required when EntityMetricData is included.
+    public var strictEntityValidation: Swift.Bool?
 
     public init(
+        entityMetricData: [CloudWatchClientTypes.EntityMetricData]? = nil,
         metricData: [CloudWatchClientTypes.MetricDatum]? = nil,
-        namespace: Swift.String? = nil
-    )
-    {
+        namespace: Swift.String? = nil,
+        strictEntityValidation: Swift.Bool? = nil
+    ) {
+        self.entityMetricData = entityMetricData
         self.metricData = metricData
         self.namespace = namespace
+        self.strictEntityValidation = strictEntityValidation
     }
 }
 
@@ -3646,8 +3616,7 @@ public struct PutMetricStreamInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         statisticsConfigurations: [CloudWatchClientTypes.MetricStreamStatisticsConfiguration]? = nil,
         tags: [CloudWatchClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.excludeFilters = excludeFilters
         self.firehoseArn = firehoseArn
         self.includeFilters = includeFilters
@@ -3666,16 +3635,15 @@ public struct PutMetricStreamOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
 
 /// Data was not syntactically valid JSON.
-public struct InvalidFormatFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidFormatFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -3691,8 +3659,7 @@ public struct InvalidFormatFault: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3715,8 +3682,7 @@ public struct SetAlarmStateInput: Swift.Sendable {
         stateReason: Swift.String? = nil,
         stateReasonData: Swift.String? = nil,
         stateValue: CloudWatchClientTypes.StateValue? = nil
-    )
-    {
+    ) {
         self.alarmName = alarmName
         self.stateReason = stateReason
         self.stateReasonData = stateReasonData
@@ -3731,8 +3697,7 @@ public struct StartMetricStreamsInput: Swift.Sendable {
 
     public init(
         names: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.names = names
     }
 }
@@ -3749,8 +3714,7 @@ public struct StopMetricStreamsInput: Swift.Sendable {
 
     public init(
         names: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.names = names
     }
 }
@@ -3771,8 +3735,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [CloudWatchClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -3794,8 +3757,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -4491,8 +4453,10 @@ extension PutMetricDataInput {
 
     static func write(value: PutMetricDataInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["EntityMetricData"].writeList(value.entityMetricData, memberWritingClosure: CloudWatchClientTypes.EntityMetricData.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["MetricData"].writeList(value.metricData, memberWritingClosure: CloudWatchClientTypes.MetricDatum.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Namespace"].write(value.namespace)
+        try writer["StrictEntityValidation"].write(value.strictEntityValidation)
         try writer["Action"].write("PutMetricData")
         try writer["Version"].write("2010-08-01")
     }
@@ -6301,6 +6265,24 @@ extension CloudWatchClientTypes.StatisticSet {
         try writer["Minimum"].write(value.minimum)
         try writer["SampleCount"].write(value.sampleCount)
         try writer["Sum"].write(value.sum)
+    }
+}
+
+extension CloudWatchClientTypes.EntityMetricData {
+
+    static func write(value: CloudWatchClientTypes.EntityMetricData?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Entity"].write(value.entity, with: CloudWatchClientTypes.Entity.write(value:to:))
+        try writer["MetricData"].writeList(value.metricData, memberWritingClosure: CloudWatchClientTypes.MetricDatum.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CloudWatchClientTypes.Entity {
+
+    static func write(value: CloudWatchClientTypes.Entity?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["KeyAttributes"].writeMap(value.keyAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 

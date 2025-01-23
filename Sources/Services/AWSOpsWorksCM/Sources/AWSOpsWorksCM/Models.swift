@@ -44,8 +44,7 @@ extension OpsWorksCMClientTypes {
             maximum: Swift.Int? = nil,
             name: Swift.String? = nil,
             used: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maximum = maximum
             self.name = name
             self.used = used
@@ -54,9 +53,9 @@ extension OpsWorksCMClientTypes {
 }
 
 /// The resource is in a state that does not allow you to perform a specified action.
-public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error or informational message that provides more detail if a resource is in a state that is not valid for performing a specified action.
         public internal(set) var message: Swift.String? = nil
     }
@@ -72,16 +71,15 @@ public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The requested resource does not exist, or access was denied.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error or informational message that can contain more detail about problems locating or accessing a resource.
         public internal(set) var message: Swift.String? = nil
     }
@@ -97,16 +95,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// One or more of the provided request parameters are not valid.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error or informational message that can contain more detail about a validation failure.
         public internal(set) var message: Swift.String? = nil
     }
@@ -122,8 +119,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -140,8 +136,7 @@ extension OpsWorksCMClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -177,8 +172,7 @@ public struct AssociateNodeInput: Swift.Sendable {
         engineAttributes: [OpsWorksCMClientTypes.EngineAttribute]? = nil,
         nodeName: Swift.String? = nil,
         serverName: Swift.String? = nil
-    )
-    {
+    ) {
         self.engineAttributes = engineAttributes
         self.nodeName = nodeName
         self.serverName = serverName
@@ -191,8 +185,7 @@ public struct AssociateNodeOutput: Swift.Sendable {
 
     public init(
         nodeAssociationStatusToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nodeAssociationStatusToken = nodeAssociationStatusToken
     }
 }
@@ -341,8 +334,7 @@ extension OpsWorksCMClientTypes {
             subnetIds: [Swift.String]? = nil,
             toolsVersion: Swift.String? = nil,
             userArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.backupArn = backupArn
             self.backupId = backupId
             self.backupType = backupType
@@ -372,9 +364,9 @@ extension OpsWorksCMClientTypes {
 }
 
 /// The limit of servers or backups has been reached.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error or informational message that the maximum allowed number of servers or backups has been exceeded.
         public internal(set) var message: Swift.String? = nil
     }
@@ -390,8 +382,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -410,8 +401,7 @@ extension OpsWorksCMClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -441,8 +431,7 @@ public struct CreateBackupInput: Swift.Sendable {
         description: Swift.String? = nil,
         serverName: Swift.String? = nil,
         tags: [OpsWorksCMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.serverName = serverName
         self.tags = tags
@@ -455,16 +444,15 @@ public struct CreateBackupOutput: Swift.Sendable {
 
     public init(
         backup: OpsWorksCMClientTypes.Backup? = nil
-    )
-    {
+    ) {
         self.backup = backup
     }
 }
 
 /// The requested resource cannot be created because it already exists.
-public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error or informational message in response to a CreateServer request that a resource cannot be created because it already exists.
         public internal(set) var message: Swift.String? = nil
     }
@@ -480,8 +468,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -597,8 +584,7 @@ public struct CreateServerInput: Swift.Sendable {
         serviceRoleArn: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil,
         tags: [OpsWorksCMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.associatePublicIpAddress = associatePublicIpAddress
         self.backupId = backupId
         self.backupRetentionCount = backupRetentionCount
@@ -808,8 +794,7 @@ extension OpsWorksCMClientTypes {
             status: OpsWorksCMClientTypes.ServerStatus? = nil,
             statusReason: Swift.String? = nil,
             subnetIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.associatePublicIpAddress = associatePublicIpAddress
             self.backupRetentionCount = backupRetentionCount
             self.cloudFormationStackArn = cloudFormationStackArn
@@ -844,8 +829,7 @@ public struct CreateServerOutput: Swift.Sendable {
 
     public init(
         server: OpsWorksCMClientTypes.Server? = nil
-    )
-    {
+    ) {
         self.server = server
     }
 }
@@ -857,8 +841,7 @@ public struct DeleteBackupInput: Swift.Sendable {
 
     public init(
         backupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupId = backupId
     }
 }
@@ -875,8 +858,7 @@ public struct DeleteServerInput: Swift.Sendable {
 
     public init(
         serverName: Swift.String? = nil
-    )
-    {
+    ) {
         self.serverName = serverName
     }
 }
@@ -897,16 +879,15 @@ public struct DescribeAccountAttributesOutput: Swift.Sendable {
 
     public init(
         attributes: [OpsWorksCMClientTypes.AccountAttribute]? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
     }
 }
 
 /// This occurs when the provided nextToken is not valid.
-public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error or informational message that can contain more detail about a nextToken failure.
         public internal(set) var message: Swift.String? = nil
     }
@@ -922,8 +903,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -943,8 +923,7 @@ public struct DescribeBackupsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         serverName: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupId = backupId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -961,8 +940,7 @@ public struct DescribeBackupsOutput: Swift.Sendable {
     public init(
         backups: [OpsWorksCMClientTypes.Backup]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.backups = backups
         self.nextToken = nextToken
     }
@@ -981,8 +959,7 @@ public struct DescribeEventsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         serverName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.serverName = serverName
@@ -1007,8 +984,7 @@ extension OpsWorksCMClientTypes {
             logUrl: Swift.String? = nil,
             message: Swift.String? = nil,
             serverName: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.logUrl = logUrl
             self.message = message
@@ -1026,8 +1002,7 @@ public struct DescribeEventsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         serverEvents: [OpsWorksCMClientTypes.ServerEvent]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.serverEvents = serverEvents
     }
@@ -1044,8 +1019,7 @@ public struct DescribeNodeAssociationStatusInput: Swift.Sendable {
     public init(
         nodeAssociationStatusToken: Swift.String? = nil,
         serverName: Swift.String? = nil
-    )
-    {
+    ) {
         self.nodeAssociationStatusToken = nodeAssociationStatusToken
         self.serverName = serverName
     }
@@ -1105,8 +1079,7 @@ public struct DescribeNodeAssociationStatusOutput: Swift.Sendable {
     public init(
         engineAttributes: [OpsWorksCMClientTypes.EngineAttribute]? = nil,
         nodeAssociationStatus: OpsWorksCMClientTypes.NodeAssociationStatus? = nil
-    )
-    {
+    ) {
         self.engineAttributes = engineAttributes
         self.nodeAssociationStatus = nodeAssociationStatus
     }
@@ -1124,8 +1097,7 @@ public struct DescribeServersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         serverName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.serverName = serverName
@@ -1145,8 +1117,7 @@ public struct DescribeServersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         servers: [OpsWorksCMClientTypes.Server]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.servers = servers
     }
@@ -1168,8 +1139,7 @@ public struct DisassociateNodeInput: Swift.Sendable {
         engineAttributes: [OpsWorksCMClientTypes.EngineAttribute]? = nil,
         nodeName: Swift.String? = nil,
         serverName: Swift.String? = nil
-    )
-    {
+    ) {
         self.engineAttributes = engineAttributes
         self.nodeName = nodeName
         self.serverName = serverName
@@ -1182,8 +1152,7 @@ public struct DisassociateNodeOutput: Swift.Sendable {
 
     public init(
         nodeAssociationStatusToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nodeAssociationStatusToken = nodeAssociationStatusToken
     }
 }
@@ -1210,8 +1179,7 @@ public struct ExportServerEngineAttributeInput: Swift.Sendable {
         exportAttributeName: Swift.String? = nil,
         inputAttributes: [OpsWorksCMClientTypes.EngineAttribute]? = nil,
         serverName: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportAttributeName = exportAttributeName
         self.inputAttributes = inputAttributes
         self.serverName = serverName
@@ -1227,8 +1195,7 @@ public struct ExportServerEngineAttributeOutput: Swift.Sendable {
     public init(
         engineAttribute: OpsWorksCMClientTypes.EngineAttribute? = nil,
         serverName: Swift.String? = nil
-    )
-    {
+    ) {
         self.engineAttribute = engineAttribute
         self.serverName = serverName
     }
@@ -1247,8 +1214,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceArn = resourceArn
@@ -1264,8 +1230,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [OpsWorksCMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -1288,8 +1253,7 @@ public struct RestoreServerInput: Swift.Sendable {
         instanceType: Swift.String? = nil,
         keyPair: Swift.String? = nil,
         serverName: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupId = backupId
         self.instanceType = instanceType
         self.keyPair = keyPair
@@ -1303,8 +1267,7 @@ public struct RestoreServerOutput: Swift.Sendable {
 
     public init(
         server: OpsWorksCMClientTypes.Server? = nil
-    )
-    {
+    ) {
         self.server = server
     }
 }
@@ -1321,8 +1284,7 @@ public struct StartMaintenanceInput: Swift.Sendable {
     public init(
         engineAttributes: [OpsWorksCMClientTypes.EngineAttribute]? = nil,
         serverName: Swift.String? = nil
-    )
-    {
+    ) {
         self.engineAttributes = engineAttributes
         self.serverName = serverName
     }
@@ -1334,8 +1296,7 @@ public struct StartMaintenanceOutput: Swift.Sendable {
 
     public init(
         server: OpsWorksCMClientTypes.Server? = nil
-    )
-    {
+    ) {
         self.server = server
     }
 }
@@ -1361,8 +1322,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [OpsWorksCMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1384,8 +1344,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1415,8 +1374,7 @@ public struct UpdateServerInput: Swift.Sendable {
         preferredBackupWindow: Swift.String? = nil,
         preferredMaintenanceWindow: Swift.String? = nil,
         serverName: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupRetentionCount = backupRetentionCount
         self.disableAutomatedBackup = disableAutomatedBackup
         self.preferredBackupWindow = preferredBackupWindow
@@ -1431,8 +1389,7 @@ public struct UpdateServerOutput: Swift.Sendable {
 
     public init(
         server: OpsWorksCMClientTypes.Server? = nil
-    )
-    {
+    ) {
         self.server = server
     }
 }
@@ -1451,8 +1408,7 @@ public struct UpdateServerEngineAttributesInput: Swift.Sendable {
         attributeName: Swift.String? = nil,
         attributeValue: Swift.String? = nil,
         serverName: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributeName = attributeName
         self.attributeValue = attributeValue
         self.serverName = serverName
@@ -1465,8 +1421,7 @@ public struct UpdateServerEngineAttributesOutput: Swift.Sendable {
 
     public init(
         server: OpsWorksCMClientTypes.Server? = nil
-    )
-    {
+    ) {
         self.server = server
     }
 }

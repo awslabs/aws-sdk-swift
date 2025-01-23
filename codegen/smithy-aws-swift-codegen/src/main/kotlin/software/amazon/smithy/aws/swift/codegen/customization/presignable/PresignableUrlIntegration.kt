@@ -22,6 +22,7 @@ import software.amazon.smithy.swift.codegen.core.SwiftCodegenContext
 import software.amazon.smithy.swift.codegen.core.toProtocolGenerationContext
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
+import software.amazon.smithy.swift.codegen.integration.middlewares.OperationInputQueryItemMiddleware
 import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.MiddlewareShapeUtils
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenerator
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenerator.Companion.ContextAttributeCodegenFlowType.PRESIGN_URL
@@ -40,6 +41,7 @@ internal val PRESIGNABLE_URL_OPERATIONS: Map<String, Set<String>> = mapOf(
     "com.amazonaws.s3#AmazonS3" to setOf(
         "com.amazonaws.s3#GetObject",
         "com.amazonaws.s3#PutObject",
+        "com.amazonaws.s3#UploadPart"
     )
 )
 
@@ -135,10 +137,7 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
                     operationStackName,
                     ::overrideHttpMethod
                 )
-                generator.render(serviceShape, op, PRESIGN_URL) { writer, _ ->
-                    writer.write("return nil")
-                }
-
+                generator.render(serviceShape, op, PRESIGN_URL)
                 writer.write("return try await op.presignRequest(input: input).endpoint.url")
             }
         }
@@ -203,6 +202,10 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
             "com.amazonaws.s3#PutObject" -> {
                 operationMiddlewareCopy.removeMiddleware(op, "OperationInputBodyMiddleware")
                 operationMiddlewareCopy.appendMiddleware(op, PutObjectPresignedURLMiddlewareRenderable())
+            }
+            "com.amazonaws.s3#UploadPart" -> {
+                operationMiddlewareCopy.removeMiddleware(op, "OperationInputBodyMiddleware")
+                operationMiddlewareCopy.appendMiddleware(op, OperationInputQueryItemMiddleware(context.model, context.symbolProvider))
             }
         }
 
@@ -269,7 +272,7 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
 
     private fun overrideHttpMethod(operation: OperationShape): String {
         return when (operation.id.toString()) {
-            "com.amazonaws.s3#PutObject" -> "put"
+            "com.amazonaws.s3#PutObject", "com.amazonaws.s3#UploadPart" -> "put"
             else -> "get"
         }
     }

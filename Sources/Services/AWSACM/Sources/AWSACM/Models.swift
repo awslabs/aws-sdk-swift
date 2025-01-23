@@ -70,9 +70,9 @@ public struct UpdateCertificateOptionsOutput: Swift.Sendable {
 }
 
 /// You do not have access required to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -87,16 +87,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The requested Amazon Resource Name (ARN) does not refer to an existing resource.
-public struct InvalidArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -111,16 +110,15 @@ public struct InvalidArnException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An input parameter was invalid.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -135,16 +133,15 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// One or both of the values that make up the key-value pair is not valid. For example, you cannot specify a tag value that begins with aws:.
-public struct InvalidTagException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTagException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -159,16 +156,15 @@ public struct InvalidTagException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified certificate cannot be found in the caller's account or the caller's account cannot be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -183,16 +179,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A specified tag did not comply with an existing tag policy and was rejected.
-public struct TagPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TagPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -207,16 +202,15 @@ public struct TagPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was denied because it exceeded a quota.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -231,16 +225,15 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request contains too many tags. Try the request again with fewer tags.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -255,8 +248,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -274,8 +266,7 @@ extension ACMClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -293,8 +284,7 @@ public struct AddTagsToCertificateInput: Swift.Sendable {
     public init(
         certificateArn: Swift.String? = nil,
         tags: [ACMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.certificateArn = certificateArn
         self.tags = tags
     }
@@ -344,8 +334,7 @@ extension ACMClientTypes {
             name: Swift.String? = nil,
             type: ACMClientTypes.RecordType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
             self.value = value
@@ -445,8 +434,7 @@ extension ACMClientTypes {
             validationEmails: [Swift.String]? = nil,
             validationMethod: ACMClientTypes.ValidationMethod? = nil,
             validationStatus: ACMClientTypes.DomainStatus? = nil
-        )
-        {
+        ) {
             self.domainName = domainName
             self.resourceRecord = resourceRecord
             self.validationDomain = validationDomain
@@ -546,8 +534,7 @@ extension ACMClientTypes {
         public init(
             name: ACMClientTypes.ExtendedKeyUsageName? = nil,
             oid: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.oid = oid
         }
@@ -737,8 +724,7 @@ extension ACMClientTypes {
 
         public init(
             name: ACMClientTypes.KeyUsageName? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -782,8 +768,7 @@ extension ACMClientTypes {
 
         public init(
             certificateTransparencyLoggingPreference: ACMClientTypes.CertificateTransparencyLoggingPreference? = nil
-        )
-        {
+        ) {
             self.certificateTransparencyLoggingPreference = certificateTransparencyLoggingPreference
         }
     }
@@ -874,8 +859,7 @@ extension ACMClientTypes {
             renewalStatus: ACMClientTypes.RenewalStatus? = nil,
             renewalStatusReason: ACMClientTypes.FailureReason? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.domainValidationOptions = domainValidationOptions
             self.renewalStatus = renewalStatus
             self.renewalStatusReason = renewalStatusReason
@@ -1097,8 +1081,7 @@ extension ACMClientTypes {
             subject: Swift.String? = nil,
             subjectAlternativeNames: [Swift.String]? = nil,
             type: ACMClientTypes.CertificateType? = nil
-        )
-        {
+        ) {
             self.certificateArn = certificateArn
             self.certificateAuthorityArn = certificateAuthorityArn
             self.createdAt = createdAt
@@ -1130,9 +1113,9 @@ extension ACMClientTypes {
 }
 
 /// You are trying to update a resource or configuration that is already being created or updated. Wait for the previous operation to finish and try again.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1147,16 +1130,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The certificate is in use by another Amazon Web Services service in the caller's account. Remove the association and try again.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1171,8 +1153,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1184,8 +1165,7 @@ public struct DeleteCertificateInput: Swift.Sendable {
 
     public init(
         certificateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateArn = certificateArn
     }
 }
@@ -1197,8 +1177,7 @@ public struct DescribeCertificateInput: Swift.Sendable {
 
     public init(
         certificateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateArn = certificateArn
     }
 }
@@ -1209,16 +1188,15 @@ public struct DescribeCertificateOutput: Swift.Sendable {
 
     public init(
         certificate: ACMClientTypes.CertificateDetail? = nil
-    )
-    {
+    ) {
         self.certificate = certificate
     }
 }
 
 /// The certificate request is in process and the certificate in your account has not yet been issued.
-public struct RequestInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RequestInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1233,8 +1211,7 @@ public struct RequestInProgressException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1250,8 +1227,7 @@ public struct ExportCertificateInput: Swift.Sendable {
     public init(
         certificateArn: Swift.String? = nil,
         passphrase: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.certificateArn = certificateArn
         self.passphrase = passphrase
     }
@@ -1274,8 +1250,7 @@ public struct ExportCertificateOutput: Swift.Sendable {
         certificate: Swift.String? = nil,
         certificateChain: Swift.String? = nil,
         privateKey: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificate = certificate
         self.certificateChain = certificateChain
         self.privateKey = privateKey
@@ -1296,8 +1271,7 @@ extension ACMClientTypes {
 
         public init(
             daysBeforeExpiry: Swift.Int? = nil
-        )
-        {
+        ) {
             self.daysBeforeExpiry = daysBeforeExpiry
         }
     }
@@ -1309,8 +1283,7 @@ public struct GetAccountConfigurationOutput: Swift.Sendable {
 
     public init(
         expiryEvents: ACMClientTypes.ExpiryEventsConfiguration? = nil
-    )
-    {
+    ) {
         self.expiryEvents = expiryEvents
     }
 }
@@ -1322,8 +1295,7 @@ public struct GetCertificateInput: Swift.Sendable {
 
     public init(
         certificateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateArn = certificateArn
     }
 }
@@ -1337,17 +1309,16 @@ public struct GetCertificateOutput: Swift.Sendable {
     public init(
         certificate: Swift.String? = nil,
         certificateChain: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificate = certificate
         self.certificateChain = certificateChain
     }
 }
 
 /// An ACM quota has been exceeded.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1362,8 +1333,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1388,8 +1358,7 @@ public struct ImportCertificateInput: Swift.Sendable {
         certificateChain: Foundation.Data? = nil,
         privateKey: Foundation.Data? = nil,
         tags: [ACMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.certificate = certificate
         self.certificateArn = certificateArn
         self.certificateChain = certificateChain
@@ -1409,16 +1378,15 @@ public struct ImportCertificateOutput: Swift.Sendable {
 
     public init(
         certificateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateArn = certificateArn
     }
 }
 
 /// One or more of of request parameters specified is not valid.
-public struct InvalidArgsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidArgsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1433,16 +1401,15 @@ public struct InvalidArgsException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The supplied input failed to satisfy constraints of an Amazon Web Services service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1457,8 +1424,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1478,8 +1444,7 @@ extension ACMClientTypes {
             extendedKeyUsage: [ACMClientTypes.ExtendedKeyUsageName]? = nil,
             keyTypes: [ACMClientTypes.KeyAlgorithm]? = nil,
             keyUsage: [ACMClientTypes.KeyUsageName]? = nil
-        )
-        {
+        ) {
             self.extendedKeyUsage = extendedKeyUsage
             self.keyTypes = keyTypes
             self.keyUsage = keyUsage
@@ -1563,8 +1528,7 @@ public struct ListCertificatesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: ACMClientTypes.SortBy? = nil,
         sortOrder: ACMClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.certificateStatuses = certificateStatuses
         self.includes = includes
         self.maxItems = maxItems
@@ -1634,8 +1598,7 @@ extension ACMClientTypes {
             status: ACMClientTypes.CertificateStatus? = nil,
             subjectAlternativeNameSummaries: [Swift.String]? = nil,
             type: ACMClientTypes.CertificateType? = nil
-        )
-        {
+        ) {
             self.certificateArn = certificateArn
             self.createdAt = createdAt
             self.domainName = domainName
@@ -1667,8 +1630,7 @@ public struct ListCertificatesOutput: Swift.Sendable {
     public init(
         certificateSummaryList: [ACMClientTypes.CertificateSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateSummaryList = certificateSummaryList
         self.nextToken = nextToken
     }
@@ -1681,8 +1643,7 @@ public struct ListTagsForCertificateInput: Swift.Sendable {
 
     public init(
         certificateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateArn = certificateArn
     }
 }
@@ -1693,8 +1654,7 @@ public struct ListTagsForCertificateOutput: Swift.Sendable {
 
     public init(
         tags: [ACMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1709,8 +1669,7 @@ public struct PutAccountConfigurationInput: Swift.Sendable {
     public init(
         expiryEvents: ACMClientTypes.ExpiryEventsConfiguration? = nil,
         idempotencyToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.expiryEvents = expiryEvents
         self.idempotencyToken = idempotencyToken
     }
@@ -1727,8 +1686,7 @@ public struct RemoveTagsFromCertificateInput: Swift.Sendable {
     public init(
         certificateArn: Swift.String? = nil,
         tags: [ACMClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.certificateArn = certificateArn
         self.tags = tags
     }
@@ -1741,16 +1699,15 @@ public struct RenewCertificateInput: Swift.Sendable {
 
     public init(
         certificateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateArn = certificateArn
     }
 }
 
 /// One or more values in the [DomainValidationOption] structure is incorrect.
-public struct InvalidDomainValidationOptionsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDomainValidationOptionsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1765,8 +1722,7 @@ public struct InvalidDomainValidationOptionsException: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1795,8 +1751,7 @@ extension ACMClientTypes {
         public init(
             domainName: Swift.String? = nil,
             validationDomain: Swift.String? = nil
-        )
-        {
+        ) {
             self.domainName = domainName
             self.validationDomain = validationDomain
         }
@@ -1849,8 +1804,7 @@ public struct RequestCertificateInput: Swift.Sendable {
         subjectAlternativeNames: [Swift.String]? = nil,
         tags: [ACMClientTypes.Tag]? = nil,
         validationMethod: ACMClientTypes.ValidationMethod? = nil
-    )
-    {
+    ) {
         self.certificateAuthorityArn = certificateAuthorityArn
         self.domainName = domainName
         self.domainValidationOptions = domainValidationOptions
@@ -1869,16 +1823,15 @@ public struct RequestCertificateOutput: Swift.Sendable {
 
     public init(
         certificateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateArn = certificateArn
     }
 }
 
 /// Processing has reached an invalid state.
-public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1893,8 +1846,7 @@ public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1924,8 +1876,7 @@ public struct ResendValidationEmailInput: Swift.Sendable {
         certificateArn: Swift.String? = nil,
         domain: Swift.String? = nil,
         validationDomain: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateArn = certificateArn
         self.domain = domain
         self.validationDomain = validationDomain
@@ -1943,8 +1894,7 @@ public struct UpdateCertificateOptionsInput: Swift.Sendable {
     public init(
         certificateArn: Swift.String? = nil,
         options: ACMClientTypes.CertificateOptions? = nil
-    )
-    {
+    ) {
         self.certificateArn = certificateArn
         self.options = options
     }

@@ -61,9 +61,9 @@ extension AmplifyBackendClientTypes {
 }
 
 /// An error returned if a request is not formed properly.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// An error message to inform that the request failed.
         public internal(set) var message: Swift.String? = nil
     }
@@ -79,16 +79,15 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An error returned if there's a temporary issue with the service.
-public struct GatewayTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GatewayTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// An error message to inform that the request failed.
         public internal(set) var message: Swift.String? = nil
     }
@@ -104,16 +103,15 @@ public struct GatewayTimeoutException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An error returned when a specific resource type is not found.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// An error message to inform that the request has failed.
         public internal(set) var message: Swift.String? = nil
         /// The type of resource that is not found.
@@ -132,17 +130,16 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         message: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceType = resourceType
     }
 }
 
 /// An error that is returned when a limit of a specific type has been exceeded.
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The type of limit that was exceeded.
         public internal(set) var limitType: Swift.String? = nil
         /// An error message to inform that the request has failed.
@@ -161,8 +158,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         limitType: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.limitType = limitType
         self.properties.message = message
     }
@@ -184,8 +180,7 @@ public struct CloneBackendInput: Swift.Sendable {
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         targetEnvironmentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.targetEnvironmentName = targetEnvironmentName
@@ -213,8 +208,7 @@ public struct CloneBackendOutput: Swift.Sendable {
         jobId: Swift.String? = nil,
         operation: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.error = error
@@ -255,8 +249,7 @@ public struct CreateBackendInput: Swift.Sendable {
         backendEnvironmentName: Swift.String? = nil,
         resourceConfig: AmplifyBackendClientTypes.ResourceConfig? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.appName = appName
         self.backendEnvironmentName = backendEnvironmentName
@@ -286,8 +279,7 @@ public struct CreateBackendOutput: Swift.Sendable {
         jobId: Swift.String? = nil,
         operation: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.error = error
@@ -362,8 +354,7 @@ extension AmplifyBackendClientTypes {
             openIDIatTTL: Swift.String? = nil,
             openIDIssueURL: Swift.String? = nil,
             openIDProviderName: Swift.String? = nil
-        )
-        {
+        ) {
             self.cognitoUserPoolId = cognitoUserPoolId
             self.description = description
             self.expirationTime = expirationTime
@@ -388,8 +379,7 @@ extension AmplifyBackendClientTypes {
         public init(
             mode: AmplifyBackendClientTypes.Mode? = nil,
             settings: AmplifyBackendClientTypes.BackendAPIAppSyncAuthSettings? = nil
-        )
-        {
+        ) {
             self.mode = mode
             self.settings = settings
         }
@@ -440,8 +430,7 @@ extension AmplifyBackendClientTypes {
 
         public init(
             resolutionStrategy: AmplifyBackendClientTypes.ResolutionStrategy? = nil
-        )
-        {
+        ) {
             self.resolutionStrategy = resolutionStrategy
         }
     }
@@ -471,8 +460,7 @@ extension AmplifyBackendClientTypes {
             defaultAuthType: AmplifyBackendClientTypes.BackendAPIAuthType? = nil,
             service: Swift.String? = nil,
             transformSchema: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalAuthTypes = additionalAuthTypes
             self.apiName = apiName
             self.conflictResolution = conflictResolution
@@ -503,8 +491,7 @@ public struct CreateBackendAPIInput: Swift.Sendable {
         backendEnvironmentName: Swift.String? = nil,
         resourceConfig: AmplifyBackendClientTypes.BackendAPIResourceConfig? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.resourceConfig = resourceConfig
@@ -533,8 +520,7 @@ public struct CreateBackendAPIOutput: Swift.Sendable {
         jobId: Swift.String? = nil,
         operation: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.error = error
@@ -587,8 +573,7 @@ extension AmplifyBackendClientTypes {
         public init(
             identityPoolName: Swift.String? = nil,
             unauthenticatedLogin: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.identityPoolName = identityPoolName
             self.unauthenticatedLogin = unauthenticatedLogin
         }
@@ -663,8 +648,7 @@ extension AmplifyBackendClientTypes {
         public init(
             emailMessage: Swift.String? = nil,
             emailSubject: Swift.String? = nil
-        )
-        {
+        ) {
             self.emailMessage = emailMessage
             self.emailSubject = emailSubject
         }
@@ -686,8 +670,7 @@ extension AmplifyBackendClientTypes {
 
         public init(
             smsMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.smsMessage = smsMessage
         }
     }
@@ -715,8 +698,7 @@ extension AmplifyBackendClientTypes {
             deliveryMethod: AmplifyBackendClientTypes.DeliveryMethod? = nil,
             emailSettings: AmplifyBackendClientTypes.EmailSettings? = nil,
             smsSettings: AmplifyBackendClientTypes.SmsSettings? = nil
-        )
-        {
+        ) {
             self.deliveryMethod = deliveryMethod
             self.emailSettings = emailSettings
             self.smsSettings = smsSettings
@@ -802,8 +784,7 @@ extension AmplifyBackendClientTypes {
         public init(
             mfaTypes: [AmplifyBackendClientTypes.MfaTypesElement]? = nil,
             smsMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.mfaTypes = mfaTypes
             self.smsMessage = smsMessage
         }
@@ -823,8 +804,7 @@ extension AmplifyBackendClientTypes {
         public init(
             mfaMode: AmplifyBackendClientTypes.MFAMode? = nil,
             settings: AmplifyBackendClientTypes.Settings? = nil
-        )
-        {
+        ) {
             self.mfaMode = mfaMode
             self.settings = settings
         }
@@ -910,8 +890,7 @@ extension AmplifyBackendClientTypes {
         public init(
             clientId: Swift.String? = nil,
             clientSecret: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientId = clientId
             self.clientSecret = clientSecret
         }
@@ -942,8 +921,7 @@ extension AmplifyBackendClientTypes {
             keyId: Swift.String? = nil,
             privateKey: Swift.String? = nil,
             teamId: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientId = clientId
             self.keyId = keyId
             self.privateKey = privateKey
@@ -976,8 +954,7 @@ extension AmplifyBackendClientTypes {
             google: AmplifyBackendClientTypes.BackendAuthSocialProviderConfig? = nil,
             loginWithAmazon: AmplifyBackendClientTypes.BackendAuthSocialProviderConfig? = nil,
             signInWithApple: AmplifyBackendClientTypes.BackendAuthAppleProviderConfig? = nil
-        )
-        {
+        ) {
             self.facebook = facebook
             self.google = google
             self.loginWithAmazon = loginWithAmazon
@@ -1019,8 +996,7 @@ extension AmplifyBackendClientTypes {
             redirectSignInURIs: [Swift.String]? = nil,
             redirectSignOutURIs: [Swift.String]? = nil,
             socialProviderSettings: AmplifyBackendClientTypes.SocialProviderSettings? = nil
-        )
-        {
+        ) {
             self.domainPrefix = domainPrefix
             self.oAuthGrantType = oAuthGrantType
             self.oAuthScopes = oAuthScopes
@@ -1044,8 +1020,7 @@ extension AmplifyBackendClientTypes {
         public init(
             additionalConstraints: [AmplifyBackendClientTypes.AdditionalConstraintsElement]? = nil,
             minimumLength: Swift.Double? = nil
-        )
-        {
+        ) {
             self.additionalConstraints = additionalConstraints
             self.minimumLength = minimumLength
         }
@@ -1177,8 +1152,7 @@ extension AmplifyBackendClientTypes {
             deliveryMethod: AmplifyBackendClientTypes.DeliveryMethod? = nil,
             emailSettings: AmplifyBackendClientTypes.EmailSettings? = nil,
             smsSettings: AmplifyBackendClientTypes.SmsSettings? = nil
-        )
-        {
+        ) {
             self.deliveryMethod = deliveryMethod
             self.emailSettings = emailSettings
             self.smsSettings = smsSettings
@@ -1224,8 +1198,7 @@ extension AmplifyBackendClientTypes {
             signInMethod: AmplifyBackendClientTypes.SignInMethod? = nil,
             userPoolName: Swift.String? = nil,
             verificationMessage: AmplifyBackendClientTypes.CreateBackendAuthVerificationMessageConfig? = nil
-        )
-        {
+        ) {
             self.forgotPassword = forgotPassword
             self.mfa = mfa
             self.oAuth = oAuth
@@ -1259,8 +1232,7 @@ extension AmplifyBackendClientTypes {
             identityPoolConfigs: AmplifyBackendClientTypes.CreateBackendAuthIdentityPoolConfig? = nil,
             service: AmplifyBackendClientTypes.Service? = nil,
             userPoolConfigs: AmplifyBackendClientTypes.CreateBackendAuthUserPoolConfig? = nil
-        )
-        {
+        ) {
             self.authResources = authResources
             self.identityPoolConfigs = identityPoolConfigs
             self.service = service
@@ -1289,8 +1261,7 @@ public struct CreateBackendAuthInput: Swift.Sendable {
         backendEnvironmentName: Swift.String? = nil,
         resourceConfig: AmplifyBackendClientTypes.CreateBackendAuthResourceConfig? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.resourceConfig = resourceConfig
@@ -1319,8 +1290,7 @@ public struct CreateBackendAuthOutput: Swift.Sendable {
         jobId: Swift.String? = nil,
         operation: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.error = error
@@ -1341,8 +1311,7 @@ public struct CreateBackendConfigInput: Swift.Sendable {
     public init(
         appId: Swift.String? = nil,
         backendManagerAppId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendManagerAppId = backendManagerAppId
     }
@@ -1363,8 +1332,7 @@ public struct CreateBackendConfigOutput: Swift.Sendable {
         backendEnvironmentName: Swift.String? = nil,
         jobId: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.jobId = jobId
@@ -1449,8 +1417,7 @@ extension AmplifyBackendClientTypes {
         public init(
             authenticated: [AmplifyBackendClientTypes.AuthenticatedElement]? = nil,
             unAuthenticated: [AmplifyBackendClientTypes.UnAuthenticatedElement]? = nil
-        )
-        {
+        ) {
             self.authenticated = authenticated
             self.unAuthenticated = unAuthenticated
         }
@@ -1500,8 +1467,7 @@ extension AmplifyBackendClientTypes {
             bucketName: Swift.String? = nil,
             permissions: AmplifyBackendClientTypes.BackendStoragePermissions? = nil,
             serviceName: AmplifyBackendClientTypes.ServiceName? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.permissions = permissions
             self.serviceName = serviceName
@@ -1529,8 +1495,7 @@ public struct CreateBackendStorageInput: Swift.Sendable {
         backendEnvironmentName: Swift.String? = nil,
         resourceConfig: AmplifyBackendClientTypes.CreateBackendStorageResourceConfig? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.resourceConfig = resourceConfig
@@ -1553,8 +1518,7 @@ public struct CreateBackendStorageOutput: Swift.Sendable {
         backendEnvironmentName: Swift.String? = nil,
         jobId: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.jobId = jobId
@@ -1569,8 +1533,7 @@ public struct CreateTokenInput: Swift.Sendable {
 
     public init(
         appId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
     }
 }
@@ -1590,8 +1553,7 @@ public struct CreateTokenOutput: Swift.Sendable {
         challengeCode: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         ttl: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.challengeCode = challengeCode
         self.sessionId = sessionId
@@ -1610,8 +1572,7 @@ public struct DeleteBackendInput: Swift.Sendable {
     public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
     }
@@ -1638,8 +1599,7 @@ public struct DeleteBackendOutput: Swift.Sendable {
         jobId: Swift.String? = nil,
         operation: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.error = error
@@ -1668,8 +1628,7 @@ public struct DeleteBackendAPIInput: Swift.Sendable {
         backendEnvironmentName: Swift.String? = nil,
         resourceConfig: AmplifyBackendClientTypes.BackendAPIResourceConfig? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.resourceConfig = resourceConfig
@@ -1698,8 +1657,7 @@ public struct DeleteBackendAPIOutput: Swift.Sendable {
         jobId: Swift.String? = nil,
         operation: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.error = error
@@ -1725,8 +1683,7 @@ public struct DeleteBackendAuthInput: Swift.Sendable {
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.resourceName = resourceName
@@ -1754,8 +1711,7 @@ public struct DeleteBackendAuthOutput: Swift.Sendable {
         jobId: Swift.String? = nil,
         operation: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.error = error
@@ -1785,8 +1741,7 @@ public struct DeleteBackendStorageInput: Swift.Sendable {
         backendEnvironmentName: Swift.String? = nil,
         resourceName: Swift.String? = nil,
         serviceName: AmplifyBackendClientTypes.ServiceName? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.resourceName = resourceName
@@ -1809,8 +1764,7 @@ public struct DeleteBackendStorageOutput: Swift.Sendable {
         backendEnvironmentName: Swift.String? = nil,
         jobId: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.jobId = jobId
@@ -1829,8 +1783,7 @@ public struct DeleteTokenInput: Swift.Sendable {
     public init(
         appId: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.sessionId = sessionId
     }
@@ -1842,8 +1795,7 @@ public struct DeleteTokenOutput: Swift.Sendable {
 
     public init(
         isSuccess: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.isSuccess = isSuccess
     }
 }
@@ -1864,8 +1816,7 @@ public struct GenerateBackendAPIModelsInput: Swift.Sendable {
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.resourceName = resourceName
@@ -1893,8 +1844,7 @@ public struct GenerateBackendAPIModelsOutput: Swift.Sendable {
         jobId: Swift.String? = nil,
         operation: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.error = error
@@ -1915,8 +1865,7 @@ public struct GetBackendInput: Swift.Sendable {
     public init(
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
     }
@@ -1946,8 +1895,7 @@ public struct GetBackendOutput: Swift.Sendable {
         backendEnvironmentList: [Swift.String]? = nil,
         backendEnvironmentName: Swift.String? = nil,
         error: Swift.String? = nil
-    )
-    {
+    ) {
         self.amplifyFeatureFlags = amplifyFeatureFlags
         self.amplifyMetaConfig = amplifyMetaConfig
         self.appId = appId
@@ -1977,8 +1925,7 @@ public struct GetBackendAPIInput: Swift.Sendable {
         backendEnvironmentName: Swift.String? = nil,
         resourceConfig: AmplifyBackendClientTypes.BackendAPIResourceConfig? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.resourceConfig = resourceConfig
@@ -2004,8 +1951,7 @@ public struct GetBackendAPIOutput: Swift.Sendable {
         error: Swift.String? = nil,
         resourceConfig: AmplifyBackendClientTypes.BackendAPIResourceConfig? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.error = error
@@ -2030,8 +1976,7 @@ public struct GetBackendAPIModelsInput: Swift.Sendable {
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.resourceName = resourceName
@@ -2079,8 +2024,7 @@ public struct GetBackendAPIModelsOutput: Swift.Sendable {
         modelIntrospectionSchema: Swift.String? = nil,
         models: Swift.String? = nil,
         status: AmplifyBackendClientTypes.Status? = nil
-    )
-    {
+    ) {
         self.modelIntrospectionSchema = modelIntrospectionSchema
         self.models = models
         self.status = status
@@ -2103,8 +2047,7 @@ public struct GetBackendAuthInput: Swift.Sendable {
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.resourceName = resourceName
@@ -2129,8 +2072,7 @@ public struct GetBackendAuthOutput: Swift.Sendable {
         error: Swift.String? = nil,
         resourceConfig: AmplifyBackendClientTypes.CreateBackendAuthResourceConfig? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.error = error
@@ -2154,8 +2096,7 @@ public struct GetBackendJobInput: Swift.Sendable {
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.jobId = jobId
@@ -2189,8 +2130,7 @@ public struct GetBackendJobOutput: Swift.Sendable {
         operation: Swift.String? = nil,
         status: Swift.String? = nil,
         updateTime: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.createTime = createTime
@@ -2218,8 +2158,7 @@ public struct GetBackendStorageInput: Swift.Sendable {
         appId: Swift.String? = nil,
         backendEnvironmentName: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.resourceName = resourceName
@@ -2246,8 +2185,7 @@ extension AmplifyBackendClientTypes {
             imported: Swift.Bool? = nil,
             permissions: AmplifyBackendClientTypes.BackendStoragePermissions? = nil,
             serviceName: AmplifyBackendClientTypes.ServiceName? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.imported = imported
             self.permissions = permissions
@@ -2271,8 +2209,7 @@ public struct GetBackendStorageOutput: Swift.Sendable {
         backendEnvironmentName: Swift.String? = nil,
         resourceConfig: AmplifyBackendClientTypes.GetBackendStorageResourceConfig? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.resourceConfig = resourceConfig
@@ -2291,8 +2228,7 @@ public struct GetTokenInput: Swift.Sendable {
     public init(
         appId: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.sessionId = sessionId
     }
@@ -2313,8 +2249,7 @@ public struct GetTokenOutput: Swift.Sendable {
         challengeCode: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         ttl: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.challengeCode = challengeCode
         self.sessionId = sessionId
@@ -2349,8 +2284,7 @@ public struct ImportBackendAuthInput: Swift.Sendable {
         nativeClientId: Swift.String? = nil,
         userPoolId: Swift.String? = nil,
         webClientId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.identityPoolId = identityPoolId
@@ -2381,8 +2315,7 @@ public struct ImportBackendAuthOutput: Swift.Sendable {
         jobId: Swift.String? = nil,
         operation: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.error = error
@@ -2411,8 +2344,7 @@ public struct ImportBackendStorageInput: Swift.Sendable {
         backendEnvironmentName: Swift.String? = nil,
         bucketName: Swift.String? = nil,
         serviceName: AmplifyBackendClientTypes.ServiceName? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.bucketName = bucketName
@@ -2435,8 +2367,7 @@ public struct ImportBackendStorageOutput: Swift.Sendable {
         backendEnvironmentName: Swift.String? = nil,
         jobId: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.jobId = jobId
@@ -2471,8 +2402,7 @@ public struct ListBackendJobsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         operation: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.jobId = jobId
@@ -2515,8 +2445,7 @@ extension AmplifyBackendClientTypes {
             operation: Swift.String? = nil,
             status: Swift.String? = nil,
             updateTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.appId = appId
             self.backendEnvironmentName = backendEnvironmentName
             self.createTime = createTime
@@ -2538,8 +2467,7 @@ public struct ListBackendJobsOutput: Swift.Sendable {
     public init(
         jobs: [AmplifyBackendClientTypes.BackendJobRespObj]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobs = jobs
         self.nextToken = nextToken
     }
@@ -2552,8 +2480,7 @@ public struct ListS3BucketsInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -2570,8 +2497,7 @@ extension AmplifyBackendClientTypes {
         public init(
             creationDate: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.name = name
         }
@@ -2587,8 +2513,7 @@ public struct ListS3BucketsOutput: Swift.Sendable {
     public init(
         buckets: [AmplifyBackendClientTypes.S3BucketInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.buckets = buckets
         self.nextToken = nextToken
     }
@@ -2605,8 +2530,7 @@ public struct RemoveAllBackendsInput: Swift.Sendable {
     public init(
         appId: Swift.String? = nil,
         cleanAmplifyApp: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.cleanAmplifyApp = cleanAmplifyApp
     }
@@ -2630,8 +2554,7 @@ public struct RemoveAllBackendsOutput: Swift.Sendable {
         jobId: Swift.String? = nil,
         operation: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.error = error
         self.jobId = jobId
@@ -2647,8 +2570,7 @@ public struct RemoveBackendConfigInput: Swift.Sendable {
 
     public init(
         appId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
     }
 }
@@ -2659,8 +2581,7 @@ public struct RemoveBackendConfigOutput: Swift.Sendable {
 
     public init(
         error: Swift.String? = nil
-    )
-    {
+    ) {
         self.error = error
     }
 }
@@ -2684,8 +2605,7 @@ public struct UpdateBackendAPIInput: Swift.Sendable {
         backendEnvironmentName: Swift.String? = nil,
         resourceConfig: AmplifyBackendClientTypes.BackendAPIResourceConfig? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.resourceConfig = resourceConfig
@@ -2714,8 +2634,7 @@ public struct UpdateBackendAPIOutput: Swift.Sendable {
         jobId: Swift.String? = nil,
         operation: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.error = error
@@ -2734,8 +2653,7 @@ extension AmplifyBackendClientTypes {
 
         public init(
             unauthenticatedLogin: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.unauthenticatedLogin = unauthenticatedLogin
         }
     }
@@ -2756,8 +2674,7 @@ extension AmplifyBackendClientTypes {
             deliveryMethod: AmplifyBackendClientTypes.DeliveryMethod? = nil,
             emailSettings: AmplifyBackendClientTypes.EmailSettings? = nil,
             smsSettings: AmplifyBackendClientTypes.SmsSettings? = nil
-        )
-        {
+        ) {
             self.deliveryMethod = deliveryMethod
             self.emailSettings = emailSettings
             self.smsSettings = smsSettings
@@ -2782,8 +2699,7 @@ extension AmplifyBackendClientTypes {
         public init(
             mfaMode: AmplifyBackendClientTypes.MFAMode? = nil,
             settings: AmplifyBackendClientTypes.Settings? = nil
-        )
-        {
+        ) {
             self.mfaMode = mfaMode
             self.settings = settings
         }
@@ -2814,8 +2730,7 @@ extension AmplifyBackendClientTypes {
             redirectSignInURIs: [Swift.String]? = nil,
             redirectSignOutURIs: [Swift.String]? = nil,
             socialProviderSettings: AmplifyBackendClientTypes.SocialProviderSettings? = nil
-        )
-        {
+        ) {
             self.domainPrefix = domainPrefix
             self.oAuthGrantType = oAuthGrantType
             self.oAuthScopes = oAuthScopes
@@ -2838,8 +2753,7 @@ extension AmplifyBackendClientTypes {
         public init(
             additionalConstraints: [AmplifyBackendClientTypes.AdditionalConstraintsElement]? = nil,
             minimumLength: Swift.Double? = nil
-        )
-        {
+        ) {
             self.additionalConstraints = additionalConstraints
             self.minimumLength = minimumLength
         }
@@ -2862,8 +2776,7 @@ extension AmplifyBackendClientTypes {
             deliveryMethod: AmplifyBackendClientTypes.DeliveryMethod? = nil,
             emailSettings: AmplifyBackendClientTypes.EmailSettings? = nil,
             smsSettings: AmplifyBackendClientTypes.SmsSettings? = nil
-        )
-        {
+        ) {
             self.deliveryMethod = deliveryMethod
             self.emailSettings = emailSettings
             self.smsSettings = smsSettings
@@ -2897,8 +2810,7 @@ extension AmplifyBackendClientTypes {
             oAuth: AmplifyBackendClientTypes.UpdateBackendAuthOAuthConfig? = nil,
             passwordPolicy: AmplifyBackendClientTypes.UpdateBackendAuthPasswordPolicyConfig? = nil,
             verificationMessage: AmplifyBackendClientTypes.UpdateBackendAuthVerificationMessageConfig? = nil
-        )
-        {
+        ) {
             self.forgotPassword = forgotPassword
             self.mfa = mfa
             self.oAuth = oAuth
@@ -2929,8 +2841,7 @@ extension AmplifyBackendClientTypes {
             identityPoolConfigs: AmplifyBackendClientTypes.UpdateBackendAuthIdentityPoolConfig? = nil,
             service: AmplifyBackendClientTypes.Service? = nil,
             userPoolConfigs: AmplifyBackendClientTypes.UpdateBackendAuthUserPoolConfig? = nil
-        )
-        {
+        ) {
             self.authResources = authResources
             self.identityPoolConfigs = identityPoolConfigs
             self.service = service
@@ -2959,8 +2870,7 @@ public struct UpdateBackendAuthInput: Swift.Sendable {
         backendEnvironmentName: Swift.String? = nil,
         resourceConfig: AmplifyBackendClientTypes.UpdateBackendAuthResourceConfig? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.resourceConfig = resourceConfig
@@ -2989,8 +2899,7 @@ public struct UpdateBackendAuthOutput: Swift.Sendable {
         jobId: Swift.String? = nil,
         operation: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.error = error
@@ -3018,8 +2927,7 @@ extension AmplifyBackendClientTypes {
             awsCognitoRegion: Swift.String? = nil,
             awsUserPoolsId: Swift.String? = nil,
             awsUserPoolsWebClientId: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsCognitoIdentityPoolId = awsCognitoIdentityPoolId
             self.awsCognitoRegion = awsCognitoRegion
             self.awsUserPoolsId = awsUserPoolsId
@@ -3039,8 +2947,7 @@ public struct UpdateBackendConfigInput: Swift.Sendable {
     public init(
         appId: Swift.String? = nil,
         loginAuthConfig: AmplifyBackendClientTypes.LoginAuthConfigReqObj? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.loginAuthConfig = loginAuthConfig
     }
@@ -3061,8 +2968,7 @@ public struct UpdateBackendConfigOutput: Swift.Sendable {
         backendManagerAppId: Swift.String? = nil,
         error: Swift.String? = nil,
         loginAuthConfig: AmplifyBackendClientTypes.LoginAuthConfigReqObj? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendManagerAppId = backendManagerAppId
         self.error = error
@@ -3092,8 +2998,7 @@ public struct UpdateBackendJobInput: Swift.Sendable {
         jobId: Swift.String? = nil,
         operation: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.jobId = jobId
@@ -3129,8 +3034,7 @@ public struct UpdateBackendJobOutput: Swift.Sendable {
         operation: Swift.String? = nil,
         status: Swift.String? = nil,
         updateTime: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.createTime = createTime
@@ -3156,8 +3060,7 @@ extension AmplifyBackendClientTypes {
         public init(
             permissions: AmplifyBackendClientTypes.BackendStoragePermissions? = nil,
             serviceName: AmplifyBackendClientTypes.ServiceName? = nil
-        )
-        {
+        ) {
             self.permissions = permissions
             self.serviceName = serviceName
         }
@@ -3184,8 +3087,7 @@ public struct UpdateBackendStorageInput: Swift.Sendable {
         backendEnvironmentName: Swift.String? = nil,
         resourceConfig: AmplifyBackendClientTypes.UpdateBackendStorageResourceConfig? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.resourceConfig = resourceConfig
@@ -3208,8 +3110,7 @@ public struct UpdateBackendStorageOutput: Swift.Sendable {
         backendEnvironmentName: Swift.String? = nil,
         jobId: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backendEnvironmentName = backendEnvironmentName
         self.jobId = jobId

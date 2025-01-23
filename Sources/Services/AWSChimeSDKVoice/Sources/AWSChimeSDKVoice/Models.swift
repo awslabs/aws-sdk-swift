@@ -55,6 +55,11 @@ public struct DeleteVoiceConnectorEmergencyCallingConfigurationOutput: Swift.Sen
     public init() { }
 }
 
+public struct DeleteVoiceConnectorExternalSystemsConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteVoiceConnectorGroupOutput: Swift.Sendable {
 
     public init() { }
@@ -222,9 +227,9 @@ extension ChimeSDKVoiceClientTypes {
 }
 
 /// You don't have the permissions needed to run this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -241,8 +246,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         code: ChimeSDKVoiceClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -284,8 +288,7 @@ extension ChimeSDKVoiceClientTypes {
             streetName: Swift.String? = nil,
             streetNumber: Swift.String? = nil,
             streetSuffix: Swift.String? = nil
-        )
-        {
+        ) {
             self.city = city
             self.country = country
             self.postDirectional = postDirectional
@@ -335,9 +338,9 @@ extension ChimeSDKVoiceClientTypes {
 }
 
 /// The input parameters don't match the service's restrictions.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -354,17 +357,16 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         code: ChimeSDKVoiceClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
 /// The client is permanently forbidden from making the request.
-public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -381,17 +383,16 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     public init(
         code: ChimeSDKVoiceClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
 /// The requested resource couldn't be found.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -408,17 +409,16 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         code: ChimeSDKVoiceClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
 /// The service encountered an unexpected error.
-public struct ServiceFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -435,17 +435,16 @@ public struct ServiceFailureException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         code: ChimeSDKVoiceClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
 /// The service is currently unavailable.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -462,17 +461,16 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     public init(
         code: ChimeSDKVoiceClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
 /// The number of customer requests exceeds the request rate limit.
-public struct ThrottledClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottledClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -489,17 +487,16 @@ public struct ThrottledClientException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         code: ChimeSDKVoiceClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
 /// The client isn't authorized to request a resource.
-public struct UnauthorizedClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnauthorizedClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -516,8 +513,7 @@ public struct UnauthorizedClientException: ClientRuntime.ModeledError, AWSClient
     public init(
         code: ChimeSDKVoiceClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -537,8 +533,7 @@ public struct AssociatePhoneNumbersWithVoiceConnectorInput: Swift.Sendable {
         e164PhoneNumbers: [Swift.String]? = nil,
         forceAssociate: Swift.Bool? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.e164PhoneNumbers = e164PhoneNumbers
         self.forceAssociate = forceAssociate
         self.voiceConnectorId = voiceConnectorId
@@ -565,8 +560,7 @@ extension ChimeSDKVoiceClientTypes {
             errorCode: ChimeSDKVoiceClientTypes.ErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             phoneNumberId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.phoneNumberId = phoneNumberId
@@ -585,8 +579,7 @@ public struct AssociatePhoneNumbersWithVoiceConnectorOutput: Swift.Sendable {
 
     public init(
         phoneNumberErrors: [ChimeSDKVoiceClientTypes.PhoneNumberError]? = nil
-    )
-    {
+    ) {
         self.phoneNumberErrors = phoneNumberErrors
     }
 }
@@ -605,8 +598,7 @@ public struct AssociatePhoneNumbersWithVoiceConnectorGroupInput: Swift.Sendable 
         e164PhoneNumbers: [Swift.String]? = nil,
         forceAssociate: Swift.Bool? = nil,
         voiceConnectorGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.e164PhoneNumbers = e164PhoneNumbers
         self.forceAssociate = forceAssociate
         self.voiceConnectorGroupId = voiceConnectorGroupId
@@ -624,8 +616,7 @@ public struct AssociatePhoneNumbersWithVoiceConnectorGroupOutput: Swift.Sendable
 
     public init(
         phoneNumberErrors: [ChimeSDKVoiceClientTypes.PhoneNumberError]? = nil
-    )
-    {
+    ) {
         self.phoneNumberErrors = phoneNumberErrors
     }
 }
@@ -637,8 +628,7 @@ public struct BatchDeletePhoneNumberInput: Swift.Sendable {
 
     public init(
         phoneNumberIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.phoneNumberIds = phoneNumberIds
     }
 }
@@ -649,8 +639,7 @@ public struct BatchDeletePhoneNumberOutput: Swift.Sendable {
 
     public init(
         phoneNumberErrors: [ChimeSDKVoiceClientTypes.PhoneNumberError]? = nil
-    )
-    {
+    ) {
         self.phoneNumberErrors = phoneNumberErrors
     }
 }
@@ -703,8 +692,7 @@ extension ChimeSDKVoiceClientTypes {
             name: Swift.String? = nil,
             phoneNumberId: Swift.String? = nil,
             productType: ChimeSDKVoiceClientTypes.PhoneNumberProductType? = nil
-        )
-        {
+        ) {
             self.callingName = callingName
             self.name = name
             self.phoneNumberId = phoneNumberId
@@ -725,8 +713,7 @@ public struct BatchUpdatePhoneNumberInput: Swift.Sendable {
 
     public init(
         updatePhoneNumberRequestItems: [ChimeSDKVoiceClientTypes.UpdatePhoneNumberRequestItem]? = nil
-    )
-    {
+    ) {
         self.updatePhoneNumberRequestItems = updatePhoneNumberRequestItems
     }
 }
@@ -737,8 +724,7 @@ public struct BatchUpdatePhoneNumberOutput: Swift.Sendable {
 
     public init(
         phoneNumberErrors: [ChimeSDKVoiceClientTypes.PhoneNumberError]? = nil
-    )
-    {
+    ) {
         self.phoneNumberErrors = phoneNumberErrors
     }
 }
@@ -758,8 +744,7 @@ extension ChimeSDKVoiceClientTypes {
             isCaller: Swift.Bool? = nil,
             transactionId: Swift.String? = nil,
             voiceConnectorId: Swift.String? = nil
-        )
-        {
+        ) {
             self.isCaller = isCaller
             self.transactionId = transactionId
             self.voiceConnectorId = voiceConnectorId
@@ -858,8 +843,7 @@ extension ChimeSDKVoiceClientTypes {
             state: Swift.String? = nil,
             streetInfo: Swift.String? = nil,
             streetNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.city = city
             self.country = country
             self.postalCode = postalCode
@@ -906,9 +890,9 @@ extension ChimeSDKVoiceClientTypes {
 }
 
 /// The request exceeds the resource limit.
-public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -925,8 +909,7 @@ public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSCli
     public init(
         code: ChimeSDKVoiceClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -946,8 +929,7 @@ public struct CreatePhoneNumberOrderInput: Swift.Sendable {
         e164PhoneNumbers: [Swift.String]? = nil,
         name: Swift.String? = nil,
         productType: ChimeSDKVoiceClientTypes.PhoneNumberProductType? = nil
-    )
-    {
+    ) {
         self.e164PhoneNumbers = e164PhoneNumbers
         self.name = name
         self.productType = productType
@@ -1003,8 +985,7 @@ extension ChimeSDKVoiceClientTypes {
         public init(
             e164PhoneNumber: Swift.String? = nil,
             status: ChimeSDKVoiceClientTypes.OrderedPhoneNumberStatus? = nil
-        )
-        {
+        ) {
             self.e164PhoneNumber = e164PhoneNumber
             self.status = status
         }
@@ -1128,8 +1109,7 @@ extension ChimeSDKVoiceClientTypes {
             productType: ChimeSDKVoiceClientTypes.PhoneNumberProductType? = nil,
             status: ChimeSDKVoiceClientTypes.PhoneNumberOrderStatus? = nil,
             updatedTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdTimestamp = createdTimestamp
             self.orderType = orderType
             self.orderedPhoneNumbers = orderedPhoneNumbers
@@ -1147,8 +1127,7 @@ public struct CreatePhoneNumberOrderOutput: Swift.Sendable {
 
     public init(
         phoneNumberOrder: ChimeSDKVoiceClientTypes.PhoneNumberOrder? = nil
-    )
-    {
+    ) {
         self.phoneNumberOrder = phoneNumberOrder
     }
 }
@@ -1196,8 +1175,7 @@ extension ChimeSDKVoiceClientTypes {
         public init(
             areaCode: Swift.String? = nil,
             country: Swift.String? = nil
-        )
-        {
+        ) {
             self.areaCode = areaCode
             self.country = country
         }
@@ -1263,8 +1241,7 @@ public struct CreateProxySessionInput: Swift.Sendable {
         numberSelectionBehavior: ChimeSDKVoiceClientTypes.NumberSelectionBehavior? = nil,
         participantPhoneNumbers: [Swift.String]? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.capabilities = capabilities
         self.expiryMinutes = expiryMinutes
         self.geoMatchLevel = geoMatchLevel
@@ -1293,8 +1270,7 @@ extension ChimeSDKVoiceClientTypes {
         public init(
             phoneNumber: Swift.String? = nil,
             proxyPhoneNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.phoneNumber = phoneNumber
             self.proxyPhoneNumber = proxyPhoneNumber
         }
@@ -1383,8 +1359,7 @@ extension ChimeSDKVoiceClientTypes {
             status: ChimeSDKVoiceClientTypes.ProxySessionStatus? = nil,
             updatedTimestamp: Foundation.Date? = nil,
             voiceConnectorId: Swift.String? = nil
-        )
-        {
+        ) {
             self.capabilities = capabilities
             self.createdTimestamp = createdTimestamp
             self.endedTimestamp = endedTimestamp
@@ -1408,16 +1383,15 @@ public struct CreateProxySessionOutput: Swift.Sendable {
 
     public init(
         proxySession: ChimeSDKVoiceClientTypes.ProxySession? = nil
-    )
-    {
+    ) {
         self.proxySession = proxySession
     }
 }
 
 /// Multiple instances of the same request were made simultaneously.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -1434,8 +1408,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         code: ChimeSDKVoiceClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -1450,8 +1423,7 @@ extension ChimeSDKVoiceClientTypes {
 
         public init(
             lambdaArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.lambdaArn = lambdaArn
         }
     }
@@ -1476,8 +1448,7 @@ extension ChimeSDKVoiceClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1507,8 +1478,7 @@ public struct CreateSipMediaApplicationInput: Swift.Sendable {
         endpoints: [ChimeSDKVoiceClientTypes.SipMediaApplicationEndpoint]? = nil,
         name: Swift.String? = nil,
         tags: [ChimeSDKVoiceClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.awsRegion = awsRegion
         self.endpoints = endpoints
         self.name = name
@@ -1543,8 +1513,7 @@ extension ChimeSDKVoiceClientTypes {
             sipMediaApplicationArn: Swift.String? = nil,
             sipMediaApplicationId: Swift.String? = nil,
             updatedTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.awsRegion = awsRegion
             self.createdTimestamp = createdTimestamp
             self.endpoints = endpoints
@@ -1562,8 +1531,7 @@ public struct CreateSipMediaApplicationOutput: Swift.Sendable {
 
     public init(
         sipMediaApplication: ChimeSDKVoiceClientTypes.SipMediaApplication? = nil
-    )
-    {
+    ) {
         self.sipMediaApplication = sipMediaApplication
     }
 }
@@ -1589,8 +1557,7 @@ public struct CreateSipMediaApplicationCallInput: Swift.Sendable {
         sipHeaders: [Swift.String: Swift.String]? = nil,
         sipMediaApplicationId: Swift.String? = nil,
         toPhoneNumber: Swift.String? = nil
-    )
-    {
+    ) {
         self.argumentsMap = argumentsMap
         self.fromPhoneNumber = fromPhoneNumber
         self.sipHeaders = sipHeaders
@@ -1613,8 +1580,7 @@ extension ChimeSDKVoiceClientTypes {
 
         public init(
             transactionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.transactionId = transactionId
         }
     }
@@ -1626,8 +1592,7 @@ public struct CreateSipMediaApplicationCallOutput: Swift.Sendable {
 
     public init(
         sipMediaApplicationCall: ChimeSDKVoiceClientTypes.SipMediaApplicationCall? = nil
-    )
-    {
+    ) {
         self.sipMediaApplicationCall = sipMediaApplicationCall
     }
 }
@@ -1647,8 +1612,7 @@ extension ChimeSDKVoiceClientTypes {
             awsRegion: Swift.String? = nil,
             priority: Swift.Int? = nil,
             sipMediaApplicationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsRegion = awsRegion
             self.priority = priority
             self.sipMediaApplicationId = sipMediaApplicationId
@@ -1706,8 +1670,7 @@ public struct CreateSipRuleInput: Swift.Sendable {
         targetApplications: [ChimeSDKVoiceClientTypes.SipRuleTargetApplication]? = nil,
         triggerType: ChimeSDKVoiceClientTypes.SipRuleTriggerType? = nil,
         triggerValue: Swift.String? = nil
-    )
-    {
+    ) {
         self.disabled = disabled
         self.name = name
         self.targetApplications = targetApplications
@@ -1746,8 +1709,7 @@ extension ChimeSDKVoiceClientTypes {
             triggerType: ChimeSDKVoiceClientTypes.SipRuleTriggerType? = nil,
             triggerValue: Swift.String? = nil,
             updatedTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createdTimestamp = createdTimestamp
             self.disabled = disabled
             self.name = name
@@ -1766,8 +1728,7 @@ public struct CreateSipRuleOutput: Swift.Sendable {
 
     public init(
         sipRule: ChimeSDKVoiceClientTypes.SipRule? = nil
-    )
-    {
+    ) {
         self.sipRule = sipRule
     }
 }
@@ -1825,9 +1786,44 @@ extension ChimeSDKVoiceClientTypes {
     }
 }
 
+extension ChimeSDKVoiceClientTypes {
+
+    public enum VoiceConnectorIntegrationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case connectAnalyticsConnector
+        case connectCallTransferConnector
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VoiceConnectorIntegrationType] {
+            return [
+                .connectAnalyticsConnector,
+                .connectCallTransferConnector
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .connectAnalyticsConnector: return "CONNECT_ANALYTICS_CONNECTOR"
+            case .connectCallTransferConnector: return "CONNECT_CALL_TRANSFER_CONNECTOR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateVoiceConnectorInput: Swift.Sendable {
     /// The AWS Region in which the Amazon Chime SDK Voice Connector is created. Default value: us-east-1 .
     public var awsRegion: ChimeSDKVoiceClientTypes.VoiceConnectorAwsRegion?
+    /// The connectors for use with Amazon Connect. The following options are available:
+    ///
+    /// * CONNECT_CALL_TRANSFER_CONNECTOR - Enables enterprises to integrate Amazon Connect with other voice systems to directly transfer voice calls and metadata without using the public telephone network. They can use Amazon Connect telephony and Interactive Voice Response (IVR) with their existing voice systems to modernize the IVR experience of their existing contact center and their enterprise and branch voice systems. Additionally, enterprises migrating their contact center to Amazon Connect can start with Connect telephony and IVR for immediate modernization ahead of agent migration.
+    ///
+    /// * CONNECT_ANALYTICS_CONNECTOR - Enables enterprises to integrate Amazon Connect with other voice systems for real-time and post-call analytics. They can use Amazon Connect Contact Lens with their existing voice systems to provides call recordings, conversational analytics (including contact transcript, sensitive data redaction, content categorization, theme detection, sentiment analysis, real-time alerts, and post-contact summary), and agent performance evaluations (including evaluation forms, automated evaluation, supervisor review) with a rich user experience to display, search and filter customer interactions, and programmatic access to data streams and the data lake. Additionally, enterprises migrating their contact center to Amazon Connect can start with Contact Lens analytics and performance insights ahead of agent migration.
+    public var integrationType: ChimeSDKVoiceClientTypes.VoiceConnectorIntegrationType?
     /// The name of the Voice Connector.
     /// This member is required.
     public var name: Swift.String?
@@ -1839,12 +1835,13 @@ public struct CreateVoiceConnectorInput: Swift.Sendable {
 
     public init(
         awsRegion: ChimeSDKVoiceClientTypes.VoiceConnectorAwsRegion? = nil,
+        integrationType: ChimeSDKVoiceClientTypes.VoiceConnectorIntegrationType? = nil,
         name: Swift.String? = nil,
         requireEncryption: Swift.Bool? = nil,
         tags: [ChimeSDKVoiceClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.awsRegion = awsRegion
+        self.integrationType = integrationType
         self.name = name
         self.requireEncryption = requireEncryption
         self.tags = tags
@@ -1859,6 +1856,8 @@ extension ChimeSDKVoiceClientTypes {
         public var awsRegion: ChimeSDKVoiceClientTypes.VoiceConnectorAwsRegion?
         /// The Voice Connector's creation timestamp, in ISO 8601 format.
         public var createdTimestamp: Foundation.Date?
+        /// The connectors for use with Amazon Connect.
+        public var integrationType: ChimeSDKVoiceClientTypes.VoiceConnectorIntegrationType?
         /// The Voice Connector's name.
         public var name: Swift.String?
         /// The outbound host name for the Voice Connector.
@@ -1875,16 +1874,17 @@ extension ChimeSDKVoiceClientTypes {
         public init(
             awsRegion: ChimeSDKVoiceClientTypes.VoiceConnectorAwsRegion? = nil,
             createdTimestamp: Foundation.Date? = nil,
+            integrationType: ChimeSDKVoiceClientTypes.VoiceConnectorIntegrationType? = nil,
             name: Swift.String? = nil,
             outboundHostName: Swift.String? = nil,
             requireEncryption: Swift.Bool? = nil,
             updatedTimestamp: Foundation.Date? = nil,
             voiceConnectorArn: Swift.String? = nil,
             voiceConnectorId: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsRegion = awsRegion
             self.createdTimestamp = createdTimestamp
+            self.integrationType = integrationType
             self.name = name
             self.outboundHostName = outboundHostName
             self.requireEncryption = requireEncryption
@@ -1901,8 +1901,7 @@ public struct CreateVoiceConnectorOutput: Swift.Sendable {
 
     public init(
         voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnector? = nil
-    )
-    {
+    ) {
         self.voiceConnector = voiceConnector
     }
 }
@@ -1921,8 +1920,7 @@ extension ChimeSDKVoiceClientTypes {
         public init(
             priority: Swift.Int? = nil,
             voiceConnectorId: Swift.String? = nil
-        )
-        {
+        ) {
             self.priority = priority
             self.voiceConnectorId = voiceConnectorId
         }
@@ -1939,8 +1937,7 @@ public struct CreateVoiceConnectorGroupInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         voiceConnectorItems: [ChimeSDKVoiceClientTypes.VoiceConnectorItem]? = nil
-    )
-    {
+    ) {
         self.name = name
         self.voiceConnectorItems = voiceConnectorItems
     }
@@ -1970,8 +1967,7 @@ extension ChimeSDKVoiceClientTypes {
             voiceConnectorGroupArn: Swift.String? = nil,
             voiceConnectorGroupId: Swift.String? = nil,
             voiceConnectorItems: [ChimeSDKVoiceClientTypes.VoiceConnectorItem]? = nil
-        )
-        {
+        ) {
             self.createdTimestamp = createdTimestamp
             self.name = name
             self.updatedTimestamp = updatedTimestamp
@@ -1988,16 +1984,15 @@ public struct CreateVoiceConnectorGroupOutput: Swift.Sendable {
 
     public init(
         voiceConnectorGroup: ChimeSDKVoiceClientTypes.VoiceConnectorGroup? = nil
-    )
-    {
+    ) {
         self.voiceConnectorGroup = voiceConnectorGroup
     }
 }
 
 /// Access to the target resource is no longer available at the origin server. This condition is likely to be permanent.
-public struct GoneException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GoneException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -2014,8 +2009,7 @@ public struct GoneException: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
     public init(
         code: ChimeSDKVoiceClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -2028,8 +2022,7 @@ public struct CreateVoiceProfileInput: Swift.Sendable {
 
     public init(
         speakerSearchTaskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.speakerSearchTaskId = speakerSearchTaskId
     }
 }
@@ -2058,8 +2051,7 @@ extension ChimeSDKVoiceClientTypes {
             voiceProfileArn: Swift.String? = nil,
             voiceProfileDomainId: Swift.String? = nil,
             voiceProfileId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdTimestamp = createdTimestamp
             self.expirationTimestamp = expirationTimestamp
             self.updatedTimestamp = updatedTimestamp
@@ -2081,8 +2073,7 @@ public struct CreateVoiceProfileOutput: Swift.Sendable {
 
     public init(
         voiceProfile: ChimeSDKVoiceClientTypes.VoiceProfile? = nil
-    )
-    {
+    ) {
         self.voiceProfile = voiceProfile
     }
 }
@@ -2097,8 +2088,7 @@ extension ChimeSDKVoiceClientTypes {
 
         public init(
             kmsKeyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyArn = kmsKeyArn
         }
     }
@@ -2129,8 +2119,7 @@ public struct CreateVoiceProfileDomainInput: Swift.Sendable {
         name: Swift.String? = nil,
         serverSideEncryptionConfiguration: ChimeSDKVoiceClientTypes.ServerSideEncryptionConfiguration? = nil,
         tags: [ChimeSDKVoiceClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.description = description
         self.name = name
@@ -2166,8 +2155,7 @@ extension ChimeSDKVoiceClientTypes {
             updatedTimestamp: Foundation.Date? = nil,
             voiceProfileDomainArn: Swift.String? = nil,
             voiceProfileDomainId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdTimestamp = createdTimestamp
             self.description = description
             self.name = name
@@ -2190,8 +2178,7 @@ public struct CreateVoiceProfileDomainOutput: Swift.Sendable {
 
     public init(
         voiceProfileDomain: ChimeSDKVoiceClientTypes.VoiceProfileDomain? = nil
-    )
-    {
+    ) {
         self.voiceProfileDomain = voiceProfileDomain
     }
 }
@@ -2203,8 +2190,7 @@ public struct DeletePhoneNumberInput: Swift.Sendable {
 
     public init(
         phoneNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.phoneNumberId = phoneNumberId
     }
 }
@@ -2225,8 +2211,7 @@ public struct DeleteProxySessionInput: Swift.Sendable {
     public init(
         proxySessionId: Swift.String? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.proxySessionId = proxySessionId
         self.voiceConnectorId = voiceConnectorId
     }
@@ -2239,8 +2224,7 @@ public struct DeleteSipMediaApplicationInput: Swift.Sendable {
 
     public init(
         sipMediaApplicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sipMediaApplicationId = sipMediaApplicationId
     }
 }
@@ -2252,8 +2236,7 @@ public struct DeleteSipRuleInput: Swift.Sendable {
 
     public init(
         sipRuleId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sipRuleId = sipRuleId
     }
 }
@@ -2265,8 +2248,7 @@ public struct DeleteVoiceConnectorInput: Swift.Sendable {
 
     public init(
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorId = voiceConnectorId
     }
 }
@@ -2278,8 +2260,19 @@ public struct DeleteVoiceConnectorEmergencyCallingConfigurationInput: Swift.Send
 
     public init(
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
+        self.voiceConnectorId = voiceConnectorId
+    }
+}
+
+public struct DeleteVoiceConnectorExternalSystemsConfigurationInput: Swift.Sendable {
+    /// The ID of the Voice Connector for which to delete the external system configuration.
+    /// This member is required.
+    public var voiceConnectorId: Swift.String?
+
+    public init(
+        voiceConnectorId: Swift.String? = nil
+    ) {
         self.voiceConnectorId = voiceConnectorId
     }
 }
@@ -2291,8 +2284,7 @@ public struct DeleteVoiceConnectorGroupInput: Swift.Sendable {
 
     public init(
         voiceConnectorGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorGroupId = voiceConnectorGroupId
     }
 }
@@ -2304,8 +2296,7 @@ public struct DeleteVoiceConnectorOriginationInput: Swift.Sendable {
 
     public init(
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorId = voiceConnectorId
     }
 }
@@ -2317,8 +2308,7 @@ public struct DeleteVoiceConnectorProxyInput: Swift.Sendable {
 
     public init(
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorId = voiceConnectorId
     }
 }
@@ -2330,8 +2320,7 @@ public struct DeleteVoiceConnectorStreamingConfigurationInput: Swift.Sendable {
 
     public init(
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorId = voiceConnectorId
     }
 }
@@ -2343,8 +2332,7 @@ public struct DeleteVoiceConnectorTerminationInput: Swift.Sendable {
 
     public init(
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorId = voiceConnectorId
     }
 }
@@ -2360,8 +2348,7 @@ public struct DeleteVoiceConnectorTerminationCredentialsInput: Swift.Sendable {
     public init(
         usernames: [Swift.String]? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.usernames = usernames
         self.voiceConnectorId = voiceConnectorId
     }
@@ -2379,8 +2366,7 @@ public struct DeleteVoiceProfileInput: Swift.Sendable {
 
     public init(
         voiceProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceProfileId = voiceProfileId
     }
 }
@@ -2392,8 +2378,7 @@ public struct DeleteVoiceProfileDomainInput: Swift.Sendable {
 
     public init(
         voiceProfileDomainId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceProfileDomainId = voiceProfileDomainId
     }
 }
@@ -2409,8 +2394,7 @@ public struct DisassociatePhoneNumbersFromVoiceConnectorInput: Swift.Sendable {
     public init(
         e164PhoneNumbers: [Swift.String]? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.e164PhoneNumbers = e164PhoneNumbers
         self.voiceConnectorId = voiceConnectorId
     }
@@ -2427,8 +2411,7 @@ public struct DisassociatePhoneNumbersFromVoiceConnectorOutput: Swift.Sendable {
 
     public init(
         phoneNumberErrors: [ChimeSDKVoiceClientTypes.PhoneNumberError]? = nil
-    )
-    {
+    ) {
         self.phoneNumberErrors = phoneNumberErrors
     }
 }
@@ -2444,8 +2427,7 @@ public struct DisassociatePhoneNumbersFromVoiceConnectorGroupInput: Swift.Sendab
     public init(
         e164PhoneNumbers: [Swift.String]? = nil,
         voiceConnectorGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.e164PhoneNumbers = e164PhoneNumbers
         self.voiceConnectorGroupId = voiceConnectorGroupId
     }
@@ -2462,8 +2444,7 @@ public struct DisassociatePhoneNumbersFromVoiceConnectorGroupOutput: Swift.Senda
 
     public init(
         phoneNumberErrors: [ChimeSDKVoiceClientTypes.PhoneNumberError]? = nil
-    )
-    {
+    ) {
         self.phoneNumberErrors = phoneNumberErrors
     }
 }
@@ -2477,8 +2458,7 @@ extension ChimeSDKVoiceClientTypes {
 
         public init(
             cdrBucket: Swift.String? = nil
-        )
-        {
+        ) {
             self.cdrBucket = cdrBucket
         }
     }
@@ -2490,8 +2470,7 @@ public struct GetGlobalSettingsOutput: Swift.Sendable {
 
     public init(
         voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnectorSettings? = nil
-    )
-    {
+    ) {
         self.voiceConnector = voiceConnector
     }
 }
@@ -2503,8 +2482,7 @@ public struct GetPhoneNumberInput: Swift.Sendable {
 
     public init(
         phoneNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.phoneNumberId = phoneNumberId
     }
 }
@@ -2561,8 +2539,7 @@ extension ChimeSDKVoiceClientTypes {
             associatedTimestamp: Foundation.Date? = nil,
             name: ChimeSDKVoiceClientTypes.PhoneNumberAssociationName? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.associatedTimestamp = associatedTimestamp
             self.name = name
             self.value = value
@@ -2594,8 +2571,7 @@ extension ChimeSDKVoiceClientTypes {
             outboundCall: Swift.Bool? = nil,
             outboundMMS: Swift.Bool? = nil,
             outboundSMS: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.inboundCall = inboundCall
             self.inboundMMS = inboundMMS
             self.inboundSMS = inboundSMS
@@ -2742,8 +2718,7 @@ extension ChimeSDKVoiceClientTypes {
             status: ChimeSDKVoiceClientTypes.PhoneNumberStatus? = nil,
             type: ChimeSDKVoiceClientTypes.PhoneNumberType? = nil,
             updatedTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.associations = associations
             self.callingName = callingName
             self.callingNameStatus = callingNameStatus
@@ -2774,8 +2749,7 @@ public struct GetPhoneNumberOutput: Swift.Sendable {
 
     public init(
         phoneNumber: ChimeSDKVoiceClientTypes.PhoneNumber? = nil
-    )
-    {
+    ) {
         self.phoneNumber = phoneNumber
     }
 }
@@ -2787,8 +2761,7 @@ public struct GetPhoneNumberOrderInput: Swift.Sendable {
 
     public init(
         phoneNumberOrderId: Swift.String? = nil
-    )
-    {
+    ) {
         self.phoneNumberOrderId = phoneNumberOrderId
     }
 }
@@ -2799,8 +2772,7 @@ public struct GetPhoneNumberOrderOutput: Swift.Sendable {
 
     public init(
         phoneNumberOrder: ChimeSDKVoiceClientTypes.PhoneNumberOrder? = nil
-    )
-    {
+    ) {
         self.phoneNumberOrder = phoneNumberOrder
     }
 }
@@ -2814,8 +2786,7 @@ public struct GetPhoneNumberSettingsOutput: Swift.Sendable {
     public init(
         callingName: Swift.String? = nil,
         callingNameUpdatedTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.callingName = callingName
         self.callingNameUpdatedTimestamp = callingNameUpdatedTimestamp
     }
@@ -2837,8 +2808,7 @@ public struct GetProxySessionInput: Swift.Sendable {
     public init(
         proxySessionId: Swift.String? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.proxySessionId = proxySessionId
         self.voiceConnectorId = voiceConnectorId
     }
@@ -2850,8 +2820,7 @@ public struct GetProxySessionOutput: Swift.Sendable {
 
     public init(
         proxySession: ChimeSDKVoiceClientTypes.ProxySession? = nil
-    )
-    {
+    ) {
         self.proxySession = proxySession
     }
 }
@@ -2863,8 +2832,7 @@ public struct GetSipMediaApplicationInput: Swift.Sendable {
 
     public init(
         sipMediaApplicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sipMediaApplicationId = sipMediaApplicationId
     }
 }
@@ -2875,8 +2843,7 @@ public struct GetSipMediaApplicationOutput: Swift.Sendable {
 
     public init(
         sipMediaApplication: ChimeSDKVoiceClientTypes.SipMediaApplication? = nil
-    )
-    {
+    ) {
         self.sipMediaApplication = sipMediaApplication
     }
 }
@@ -2888,8 +2855,7 @@ public struct GetSipMediaApplicationAlexaSkillConfigurationInput: Swift.Sendable
 
     public init(
         sipMediaApplicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sipMediaApplicationId = sipMediaApplicationId
     }
 }
@@ -2908,8 +2874,7 @@ extension ChimeSDKVoiceClientTypes {
         public init(
             alexaSkillIds: [Swift.String]? = nil,
             alexaSkillStatus: ChimeSDKVoiceClientTypes.AlexaSkillStatus? = nil
-        )
-        {
+        ) {
             self.alexaSkillIds = alexaSkillIds
             self.alexaSkillStatus = alexaSkillStatus
         }
@@ -2927,8 +2892,7 @@ public struct GetSipMediaApplicationAlexaSkillConfigurationOutput: Swift.Sendabl
 
     public init(
         sipMediaApplicationAlexaSkillConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationAlexaSkillConfiguration? = nil
-    )
-    {
+    ) {
         self.sipMediaApplicationAlexaSkillConfiguration = sipMediaApplicationAlexaSkillConfiguration
     }
 }
@@ -2940,8 +2904,7 @@ public struct GetSipMediaApplicationLoggingConfigurationInput: Swift.Sendable {
 
     public init(
         sipMediaApplicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sipMediaApplicationId = sipMediaApplicationId
     }
 }
@@ -2955,8 +2918,7 @@ extension ChimeSDKVoiceClientTypes {
 
         public init(
             enableSipMediaApplicationMessageLogs: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enableSipMediaApplicationMessageLogs = enableSipMediaApplicationMessageLogs
         }
     }
@@ -2968,8 +2930,7 @@ public struct GetSipMediaApplicationLoggingConfigurationOutput: Swift.Sendable {
 
     public init(
         sipMediaApplicationLoggingConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationLoggingConfiguration? = nil
-    )
-    {
+    ) {
         self.sipMediaApplicationLoggingConfiguration = sipMediaApplicationLoggingConfiguration
     }
 }
@@ -2981,8 +2942,7 @@ public struct GetSipRuleInput: Swift.Sendable {
 
     public init(
         sipRuleId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sipRuleId = sipRuleId
     }
 }
@@ -2993,8 +2953,7 @@ public struct GetSipRuleOutput: Swift.Sendable {
 
     public init(
         sipRule: ChimeSDKVoiceClientTypes.SipRule? = nil
-    )
-    {
+    ) {
         self.sipRule = sipRule
     }
 }
@@ -3010,8 +2969,7 @@ public struct GetSpeakerSearchTaskInput: Swift.Sendable {
     public init(
         speakerSearchTaskId: Swift.String? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.speakerSearchTaskId = speakerSearchTaskId
         self.voiceConnectorId = voiceConnectorId
     }
@@ -3029,8 +2987,7 @@ extension ChimeSDKVoiceClientTypes {
         public init(
             confidenceScore: Swift.Float = 0.0,
             voiceProfileId: Swift.String? = nil
-        )
-        {
+        ) {
             self.confidenceScore = confidenceScore
             self.voiceProfileId = voiceProfileId
         }
@@ -3049,8 +3006,7 @@ extension ChimeSDKVoiceClientTypes {
         public init(
             results: [ChimeSDKVoiceClientTypes.SpeakerSearchResult]? = nil,
             voiceprintGenerationStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.results = results
             self.voiceprintGenerationStatus = voiceprintGenerationStatus
         }
@@ -3087,8 +3043,7 @@ extension ChimeSDKVoiceClientTypes {
             startedTimestamp: Foundation.Date? = nil,
             statusMessage: Swift.String? = nil,
             updatedTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.callDetails = callDetails
             self.createdTimestamp = createdTimestamp
             self.speakerSearchDetails = speakerSearchDetails
@@ -3107,8 +3062,7 @@ public struct GetSpeakerSearchTaskOutput: Swift.Sendable {
 
     public init(
         speakerSearchTask: ChimeSDKVoiceClientTypes.SpeakerSearchTask? = nil
-    )
-    {
+    ) {
         self.speakerSearchTask = speakerSearchTask
     }
 }
@@ -3120,8 +3074,7 @@ public struct GetVoiceConnectorInput: Swift.Sendable {
 
     public init(
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorId = voiceConnectorId
     }
 }
@@ -3132,8 +3085,7 @@ public struct GetVoiceConnectorOutput: Swift.Sendable {
 
     public init(
         voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnector? = nil
-    )
-    {
+    ) {
         self.voiceConnector = voiceConnector
     }
 }
@@ -3145,8 +3097,7 @@ public struct GetVoiceConnectorEmergencyCallingConfigurationInput: Swift.Sendabl
 
     public init(
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorId = voiceConnectorId
     }
 }
@@ -3168,8 +3119,7 @@ extension ChimeSDKVoiceClientTypes {
             callingCountry: Swift.String? = nil,
             emergencyPhoneNumber: Swift.String? = nil,
             testPhoneNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.callingCountry = callingCountry
             self.emergencyPhoneNumber = emergencyPhoneNumber
             self.testPhoneNumber = testPhoneNumber
@@ -3191,8 +3141,7 @@ extension ChimeSDKVoiceClientTypes {
 
         public init(
             dnis: [ChimeSDKVoiceClientTypes.DNISEmergencyCallingConfiguration]? = nil
-        )
-        {
+        ) {
             self.dnis = dnis
         }
     }
@@ -3204,9 +3153,123 @@ public struct GetVoiceConnectorEmergencyCallingConfigurationOutput: Swift.Sendab
 
     public init(
         emergencyCallingConfiguration: ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration? = nil
-    )
-    {
+    ) {
         self.emergencyCallingConfiguration = emergencyCallingConfiguration
+    }
+}
+
+public struct GetVoiceConnectorExternalSystemsConfigurationInput: Swift.Sendable {
+    /// The ID of the Voice Connector for which to return information about the external system configuration.
+    /// This member is required.
+    public var voiceConnectorId: Swift.String?
+
+    public init(
+        voiceConnectorId: Swift.String? = nil
+    ) {
+        self.voiceConnectorId = voiceConnectorId
+    }
+}
+
+extension ChimeSDKVoiceClientTypes {
+
+    public enum ContactCenterSystemType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case avayaAuraCallCenterElite
+        case avayaAuraContactCenter
+        case ciscoUnifiedContactCenterEnterprise
+        case genesysEngageOnPremises
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContactCenterSystemType] {
+            return [
+                .avayaAuraCallCenterElite,
+                .avayaAuraContactCenter,
+                .ciscoUnifiedContactCenterEnterprise,
+                .genesysEngageOnPremises
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .avayaAuraCallCenterElite: return "AVAYA_AURA_CALL_CENTER_ELITE"
+            case .avayaAuraContactCenter: return "AVAYA_AURA_CONTACT_CENTER"
+            case .ciscoUnifiedContactCenterEnterprise: return "CISCO_UNIFIED_CONTACT_CENTER_ENTERPRISE"
+            case .genesysEngageOnPremises: return "GENESYS_ENGAGE_ON_PREMISES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ChimeSDKVoiceClientTypes {
+
+    public enum SessionBorderControllerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case audiocodesMediantSbc
+        case avayaSbce
+        case ciscoUnifiedBorderElement
+        case oracleAcmePacketSbc
+        case ribbonSbc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SessionBorderControllerType] {
+            return [
+                .audiocodesMediantSbc,
+                .avayaSbce,
+                .ciscoUnifiedBorderElement,
+                .oracleAcmePacketSbc,
+                .ribbonSbc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .audiocodesMediantSbc: return "AUDIOCODES_MEDIANT_SBC"
+            case .avayaSbce: return "AVAYA_SBCE"
+            case .ciscoUnifiedBorderElement: return "CISCO_UNIFIED_BORDER_ELEMENT"
+            case .oracleAcmePacketSbc: return "ORACLE_ACME_PACKET_SBC"
+            case .ribbonSbc: return "RIBBON_SBC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ChimeSDKVoiceClientTypes {
+
+    /// Contains information about an external systems configuration for a Voice Connector.
+    public struct ExternalSystemsConfiguration: Swift.Sendable {
+        /// The contact center system.
+        public var contactCenterSystemTypes: [ChimeSDKVoiceClientTypes.ContactCenterSystemType]?
+        /// The session border controllers.
+        public var sessionBorderControllerTypes: [ChimeSDKVoiceClientTypes.SessionBorderControllerType]?
+
+        public init(
+            contactCenterSystemTypes: [ChimeSDKVoiceClientTypes.ContactCenterSystemType]? = nil,
+            sessionBorderControllerTypes: [ChimeSDKVoiceClientTypes.SessionBorderControllerType]? = nil
+        ) {
+            self.contactCenterSystemTypes = contactCenterSystemTypes
+            self.sessionBorderControllerTypes = sessionBorderControllerTypes
+        }
+    }
+}
+
+public struct GetVoiceConnectorExternalSystemsConfigurationOutput: Swift.Sendable {
+    /// An object that contains information about an external systems configuration for a Voice Connector.
+    public var externalSystemsConfiguration: ChimeSDKVoiceClientTypes.ExternalSystemsConfiguration?
+
+    public init(
+        externalSystemsConfiguration: ChimeSDKVoiceClientTypes.ExternalSystemsConfiguration? = nil
+    ) {
+        self.externalSystemsConfiguration = externalSystemsConfiguration
     }
 }
 
@@ -3217,8 +3280,7 @@ public struct GetVoiceConnectorGroupInput: Swift.Sendable {
 
     public init(
         voiceConnectorGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorGroupId = voiceConnectorGroupId
     }
 }
@@ -3229,8 +3291,7 @@ public struct GetVoiceConnectorGroupOutput: Swift.Sendable {
 
     public init(
         voiceConnectorGroup: ChimeSDKVoiceClientTypes.VoiceConnectorGroup? = nil
-    )
-    {
+    ) {
         self.voiceConnectorGroup = voiceConnectorGroup
     }
 }
@@ -3242,8 +3303,7 @@ public struct GetVoiceConnectorLoggingConfigurationInput: Swift.Sendable {
 
     public init(
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorId = voiceConnectorId
     }
 }
@@ -3260,8 +3320,7 @@ extension ChimeSDKVoiceClientTypes {
         public init(
             enableMediaMetricLogs: Swift.Bool? = nil,
             enableSIPLogs: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enableMediaMetricLogs = enableMediaMetricLogs
             self.enableSIPLogs = enableSIPLogs
         }
@@ -3274,8 +3333,7 @@ public struct GetVoiceConnectorLoggingConfigurationOutput: Swift.Sendable {
 
     public init(
         loggingConfiguration: ChimeSDKVoiceClientTypes.LoggingConfiguration? = nil
-    )
-    {
+    ) {
         self.loggingConfiguration = loggingConfiguration
     }
 }
@@ -3287,8 +3345,7 @@ public struct GetVoiceConnectorOriginationInput: Swift.Sendable {
 
     public init(
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorId = voiceConnectorId
     }
 }
@@ -3343,8 +3400,7 @@ extension ChimeSDKVoiceClientTypes {
             priority: Swift.Int? = nil,
             `protocol`: ChimeSDKVoiceClientTypes.OriginationRouteProtocol? = nil,
             weight: Swift.Int? = nil
-        )
-        {
+        ) {
             self.host = host
             self.port = port
             self.priority = priority
@@ -3366,8 +3422,7 @@ extension ChimeSDKVoiceClientTypes {
         public init(
             disabled: Swift.Bool? = nil,
             routes: [ChimeSDKVoiceClientTypes.OriginationRoute]? = nil
-        )
-        {
+        ) {
             self.disabled = disabled
             self.routes = routes
         }
@@ -3380,8 +3435,7 @@ public struct GetVoiceConnectorOriginationOutput: Swift.Sendable {
 
     public init(
         origination: ChimeSDKVoiceClientTypes.Origination? = nil
-    )
-    {
+    ) {
         self.origination = origination
     }
 }
@@ -3393,8 +3447,7 @@ public struct GetVoiceConnectorProxyInput: Swift.Sendable {
 
     public init(
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorId = voiceConnectorId
     }
 }
@@ -3417,8 +3470,7 @@ extension ChimeSDKVoiceClientTypes {
             disabled: Swift.Bool? = nil,
             fallBackPhoneNumber: Swift.String? = nil,
             phoneNumberCountries: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.defaultSessionExpiryMinutes = defaultSessionExpiryMinutes
             self.disabled = disabled
             self.fallBackPhoneNumber = fallBackPhoneNumber
@@ -3438,8 +3490,7 @@ public struct GetVoiceConnectorProxyOutput: Swift.Sendable {
 
     public init(
         proxy: ChimeSDKVoiceClientTypes.Proxy? = nil
-    )
-    {
+    ) {
         self.proxy = proxy
     }
 }
@@ -3451,8 +3502,7 @@ public struct GetVoiceConnectorStreamingConfigurationInput: Swift.Sendable {
 
     public init(
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorId = voiceConnectorId
     }
 }
@@ -3469,8 +3519,7 @@ extension ChimeSDKVoiceClientTypes {
         public init(
             configurationArn: Swift.String? = nil,
             disabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.configurationArn = configurationArn
             self.disabled = disabled
         }
@@ -3523,8 +3572,7 @@ extension ChimeSDKVoiceClientTypes {
 
         public init(
             notificationTarget: ChimeSDKVoiceClientTypes.NotificationTarget? = nil
-        )
-        {
+        ) {
             self.notificationTarget = notificationTarget
         }
     }
@@ -3550,8 +3598,7 @@ extension ChimeSDKVoiceClientTypes {
             disabled: Swift.Bool? = nil,
             mediaInsightsConfiguration: ChimeSDKVoiceClientTypes.MediaInsightsConfiguration? = nil,
             streamingNotificationTargets: [ChimeSDKVoiceClientTypes.StreamingNotificationTarget]? = nil
-        )
-        {
+        ) {
             self.dataRetentionInHours = dataRetentionInHours
             self.disabled = disabled
             self.mediaInsightsConfiguration = mediaInsightsConfiguration
@@ -3566,8 +3613,7 @@ public struct GetVoiceConnectorStreamingConfigurationOutput: Swift.Sendable {
 
     public init(
         streamingConfiguration: ChimeSDKVoiceClientTypes.StreamingConfiguration? = nil
-    )
-    {
+    ) {
         self.streamingConfiguration = streamingConfiguration
     }
 }
@@ -3579,8 +3625,7 @@ public struct GetVoiceConnectorTerminationInput: Swift.Sendable {
 
     public init(
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorId = voiceConnectorId
     }
 }
@@ -3606,8 +3651,7 @@ extension ChimeSDKVoiceClientTypes {
             cpsLimit: Swift.Int? = nil,
             defaultPhoneNumber: Swift.String? = nil,
             disabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.callingRegions = callingRegions
             self.cidrAllowedList = cidrAllowedList
             self.cpsLimit = cpsLimit
@@ -3628,8 +3672,7 @@ public struct GetVoiceConnectorTerminationOutput: Swift.Sendable {
 
     public init(
         termination: ChimeSDKVoiceClientTypes.Termination? = nil
-    )
-    {
+    ) {
         self.termination = termination
     }
 }
@@ -3641,8 +3684,7 @@ public struct GetVoiceConnectorTerminationHealthInput: Swift.Sendable {
 
     public init(
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorId = voiceConnectorId
     }
 }
@@ -3659,8 +3701,7 @@ extension ChimeSDKVoiceClientTypes {
         public init(
             source: Swift.String? = nil,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.source = source
             self.timestamp = timestamp
         }
@@ -3673,8 +3714,7 @@ public struct GetVoiceConnectorTerminationHealthOutput: Swift.Sendable {
 
     public init(
         terminationHealth: ChimeSDKVoiceClientTypes.TerminationHealth? = nil
-    )
-    {
+    ) {
         self.terminationHealth = terminationHealth
     }
 }
@@ -3686,8 +3726,7 @@ public struct GetVoiceProfileInput: Swift.Sendable {
 
     public init(
         voiceProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceProfileId = voiceProfileId
     }
 }
@@ -3698,8 +3737,7 @@ public struct GetVoiceProfileOutput: Swift.Sendable {
 
     public init(
         voiceProfile: ChimeSDKVoiceClientTypes.VoiceProfile? = nil
-    )
-    {
+    ) {
         self.voiceProfile = voiceProfile
     }
 }
@@ -3711,8 +3749,7 @@ public struct GetVoiceProfileDomainInput: Swift.Sendable {
 
     public init(
         voiceProfileDomainId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceProfileDomainId = voiceProfileDomainId
     }
 }
@@ -3723,8 +3760,7 @@ public struct GetVoiceProfileDomainOutput: Swift.Sendable {
 
     public init(
         voiceProfileDomain: ChimeSDKVoiceClientTypes.VoiceProfileDomain? = nil
-    )
-    {
+    ) {
         self.voiceProfileDomain = voiceProfileDomain
     }
 }
@@ -3744,8 +3780,7 @@ public struct GetVoiceToneAnalysisTaskInput: Swift.Sendable {
         isCaller: Swift.Bool? = nil,
         voiceConnectorId: Swift.String? = nil,
         voiceToneAnalysisTaskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.isCaller = isCaller
         self.voiceConnectorId = voiceConnectorId
         self.voiceToneAnalysisTaskId = voiceToneAnalysisTaskId
@@ -3779,8 +3814,7 @@ extension ChimeSDKVoiceClientTypes {
             updatedTimestamp: Foundation.Date? = nil,
             voiceToneAnalysisTaskId: Swift.String? = nil,
             voiceToneAnalysisTaskStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.callDetails = callDetails
             self.createdTimestamp = createdTimestamp
             self.startedTimestamp = startedTimestamp
@@ -3798,8 +3832,7 @@ public struct GetVoiceToneAnalysisTaskOutput: Swift.Sendable {
 
     public init(
         voiceToneAnalysisTask: ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask? = nil
-    )
-    {
+    ) {
         self.voiceToneAnalysisTask = voiceToneAnalysisTask
     }
 }
@@ -3810,8 +3843,7 @@ public struct ListAvailableVoiceConnectorRegionsOutput: Swift.Sendable {
 
     public init(
         voiceConnectorRegions: [ChimeSDKVoiceClientTypes.VoiceConnectorAwsRegion]? = nil
-    )
-    {
+    ) {
         self.voiceConnectorRegions = voiceConnectorRegions
     }
 }
@@ -3825,8 +3857,7 @@ public struct ListPhoneNumberOrdersInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3841,8 +3872,7 @@ public struct ListPhoneNumberOrdersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         phoneNumberOrders: [ChimeSDKVoiceClientTypes.PhoneNumberOrder]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.phoneNumberOrders = phoneNumberOrders
     }
@@ -3869,8 +3899,7 @@ public struct ListPhoneNumbersInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         productType: ChimeSDKVoiceClientTypes.PhoneNumberProductType? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.filterName = filterName
         self.filterValue = filterValue
         self.maxResults = maxResults
@@ -3889,8 +3918,7 @@ public struct ListPhoneNumbersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         phoneNumbers: [ChimeSDKVoiceClientTypes.PhoneNumber]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.phoneNumbers = phoneNumbers
     }
@@ -3912,8 +3940,7 @@ public struct ListProxySessionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         status: ChimeSDKVoiceClientTypes.ProxySessionStatus? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.status = status
@@ -3930,8 +3957,7 @@ public struct ListProxySessionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         proxySessions: [ChimeSDKVoiceClientTypes.ProxySession]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.proxySessions = proxySessions
     }
@@ -3946,8 +3972,7 @@ public struct ListSipMediaApplicationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3962,8 +3987,7 @@ public struct ListSipMediaApplicationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sipMediaApplications: [ChimeSDKVoiceClientTypes.SipMediaApplication]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sipMediaApplications = sipMediaApplications
     }
@@ -3981,8 +4005,7 @@ public struct ListSipRulesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sipMediaApplicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.sipMediaApplicationId = sipMediaApplicationId
@@ -3998,8 +4021,7 @@ public struct ListSipRulesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sipRules: [ChimeSDKVoiceClientTypes.SipRule]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sipRules = sipRules
     }
@@ -4012,8 +4034,7 @@ public struct ListSupportedPhoneNumberCountriesInput: Swift.Sendable {
 
     public init(
         productType: ChimeSDKVoiceClientTypes.PhoneNumberProductType? = nil
-    )
-    {
+    ) {
         self.productType = productType
     }
 }
@@ -4030,8 +4051,7 @@ extension ChimeSDKVoiceClientTypes {
         public init(
             countryCode: Swift.String? = nil,
             supportedPhoneNumberTypes: [ChimeSDKVoiceClientTypes.PhoneNumberType]? = nil
-        )
-        {
+        ) {
             self.countryCode = countryCode
             self.supportedPhoneNumberTypes = supportedPhoneNumberTypes
         }
@@ -4044,8 +4064,7 @@ public struct ListSupportedPhoneNumberCountriesOutput: Swift.Sendable {
 
     public init(
         phoneNumberCountries: [ChimeSDKVoiceClientTypes.PhoneNumberCountry]? = nil
-    )
-    {
+    ) {
         self.phoneNumberCountries = phoneNumberCountries
     }
 }
@@ -4057,8 +4076,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -4074,8 +4092,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [ChimeSDKVoiceClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -4089,8 +4106,7 @@ public struct ListVoiceConnectorGroupsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4105,8 +4121,7 @@ public struct ListVoiceConnectorGroupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         voiceConnectorGroups: [ChimeSDKVoiceClientTypes.VoiceConnectorGroup]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.voiceConnectorGroups = voiceConnectorGroups
     }
@@ -4121,8 +4136,7 @@ public struct ListVoiceConnectorsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4137,8 +4151,7 @@ public struct ListVoiceConnectorsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         voiceConnectors: [ChimeSDKVoiceClientTypes.VoiceConnector]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.voiceConnectors = voiceConnectors
     }
@@ -4151,8 +4164,7 @@ public struct ListVoiceConnectorTerminationCredentialsInput: Swift.Sendable {
 
     public init(
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorId = voiceConnectorId
     }
 }
@@ -4163,8 +4175,7 @@ public struct ListVoiceConnectorTerminationCredentialsOutput: Swift.Sendable {
 
     public init(
         usernames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.usernames = usernames
     }
 }
@@ -4183,8 +4194,7 @@ public struct ListVoiceProfileDomainsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4214,8 +4224,7 @@ extension ChimeSDKVoiceClientTypes {
             updatedTimestamp: Foundation.Date? = nil,
             voiceProfileDomainArn: Swift.String? = nil,
             voiceProfileDomainId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdTimestamp = createdTimestamp
             self.description = description
             self.name = name
@@ -4240,8 +4249,7 @@ public struct ListVoiceProfileDomainsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         voiceProfileDomains: [ChimeSDKVoiceClientTypes.VoiceProfileDomainSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.voiceProfileDomains = voiceProfileDomains
     }
@@ -4260,8 +4268,7 @@ public struct ListVoiceProfilesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         voiceProfileDomainId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.voiceProfileDomainId = voiceProfileDomainId
@@ -4292,8 +4299,7 @@ extension ChimeSDKVoiceClientTypes {
             voiceProfileArn: Swift.String? = nil,
             voiceProfileDomainId: Swift.String? = nil,
             voiceProfileId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdTimestamp = createdTimestamp
             self.expirationTimestamp = expirationTimestamp
             self.updatedTimestamp = updatedTimestamp
@@ -4318,8 +4324,7 @@ public struct ListVoiceProfilesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         voiceProfiles: [ChimeSDKVoiceClientTypes.VoiceProfileSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.voiceProfiles = voiceProfiles
     }
@@ -4335,8 +4340,7 @@ public struct PutSipMediaApplicationAlexaSkillConfigurationInput: Swift.Sendable
     public init(
         sipMediaApplicationAlexaSkillConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationAlexaSkillConfiguration? = nil,
         sipMediaApplicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sipMediaApplicationAlexaSkillConfiguration = sipMediaApplicationAlexaSkillConfiguration
         self.sipMediaApplicationId = sipMediaApplicationId
     }
@@ -4348,8 +4352,7 @@ public struct PutSipMediaApplicationAlexaSkillConfigurationOutput: Swift.Sendabl
 
     public init(
         sipMediaApplicationAlexaSkillConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationAlexaSkillConfiguration? = nil
-    )
-    {
+    ) {
         self.sipMediaApplicationAlexaSkillConfiguration = sipMediaApplicationAlexaSkillConfiguration
     }
 }
@@ -4364,8 +4367,7 @@ public struct PutSipMediaApplicationLoggingConfigurationInput: Swift.Sendable {
     public init(
         sipMediaApplicationId: Swift.String? = nil,
         sipMediaApplicationLoggingConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationLoggingConfiguration? = nil
-    )
-    {
+    ) {
         self.sipMediaApplicationId = sipMediaApplicationId
         self.sipMediaApplicationLoggingConfiguration = sipMediaApplicationLoggingConfiguration
     }
@@ -4377,8 +4379,7 @@ public struct PutSipMediaApplicationLoggingConfigurationOutput: Swift.Sendable {
 
     public init(
         sipMediaApplicationLoggingConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationLoggingConfiguration? = nil
-    )
-    {
+    ) {
         self.sipMediaApplicationLoggingConfiguration = sipMediaApplicationLoggingConfiguration
     }
 }
@@ -4394,8 +4395,7 @@ public struct PutVoiceConnectorEmergencyCallingConfigurationInput: Swift.Sendabl
     public init(
         emergencyCallingConfiguration: ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.emergencyCallingConfiguration = emergencyCallingConfiguration
         self.voiceConnectorId = voiceConnectorId
     }
@@ -4407,9 +4407,39 @@ public struct PutVoiceConnectorEmergencyCallingConfigurationOutput: Swift.Sendab
 
     public init(
         emergencyCallingConfiguration: ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration? = nil
-    )
-    {
+    ) {
         self.emergencyCallingConfiguration = emergencyCallingConfiguration
+    }
+}
+
+public struct PutVoiceConnectorExternalSystemsConfigurationInput: Swift.Sendable {
+    /// The contact center system to use.
+    public var contactCenterSystemTypes: [ChimeSDKVoiceClientTypes.ContactCenterSystemType]?
+    /// The session border controllers to use.
+    public var sessionBorderControllerTypes: [ChimeSDKVoiceClientTypes.SessionBorderControllerType]?
+    /// The ID of the Voice Connector for which to add the external system configuration.
+    /// This member is required.
+    public var voiceConnectorId: Swift.String?
+
+    public init(
+        contactCenterSystemTypes: [ChimeSDKVoiceClientTypes.ContactCenterSystemType]? = nil,
+        sessionBorderControllerTypes: [ChimeSDKVoiceClientTypes.SessionBorderControllerType]? = nil,
+        voiceConnectorId: Swift.String? = nil
+    ) {
+        self.contactCenterSystemTypes = contactCenterSystemTypes
+        self.sessionBorderControllerTypes = sessionBorderControllerTypes
+        self.voiceConnectorId = voiceConnectorId
+    }
+}
+
+public struct PutVoiceConnectorExternalSystemsConfigurationOutput: Swift.Sendable {
+    /// An object that contains information about an external systems configuration for a Voice Connector.
+    public var externalSystemsConfiguration: ChimeSDKVoiceClientTypes.ExternalSystemsConfiguration?
+
+    public init(
+        externalSystemsConfiguration: ChimeSDKVoiceClientTypes.ExternalSystemsConfiguration? = nil
+    ) {
+        self.externalSystemsConfiguration = externalSystemsConfiguration
     }
 }
 
@@ -4424,8 +4454,7 @@ public struct PutVoiceConnectorLoggingConfigurationInput: Swift.Sendable {
     public init(
         loggingConfiguration: ChimeSDKVoiceClientTypes.LoggingConfiguration? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.loggingConfiguration = loggingConfiguration
         self.voiceConnectorId = voiceConnectorId
     }
@@ -4437,8 +4466,7 @@ public struct PutVoiceConnectorLoggingConfigurationOutput: Swift.Sendable {
 
     public init(
         loggingConfiguration: ChimeSDKVoiceClientTypes.LoggingConfiguration? = nil
-    )
-    {
+    ) {
         self.loggingConfiguration = loggingConfiguration
     }
 }
@@ -4454,8 +4482,7 @@ public struct PutVoiceConnectorOriginationInput: Swift.Sendable {
     public init(
         origination: ChimeSDKVoiceClientTypes.Origination? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.origination = origination
         self.voiceConnectorId = voiceConnectorId
     }
@@ -4467,8 +4494,7 @@ public struct PutVoiceConnectorOriginationOutput: Swift.Sendable {
 
     public init(
         origination: ChimeSDKVoiceClientTypes.Origination? = nil
-    )
-    {
+    ) {
         self.origination = origination
     }
 }
@@ -4494,8 +4520,7 @@ public struct PutVoiceConnectorProxyInput: Swift.Sendable {
         fallBackPhoneNumber: Swift.String? = nil,
         phoneNumberPoolCountries: [Swift.String]? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultSessionExpiryMinutes = defaultSessionExpiryMinutes
         self.disabled = disabled
         self.fallBackPhoneNumber = fallBackPhoneNumber
@@ -4515,8 +4540,7 @@ public struct PutVoiceConnectorProxyOutput: Swift.Sendable {
 
     public init(
         proxy: ChimeSDKVoiceClientTypes.Proxy? = nil
-    )
-    {
+    ) {
         self.proxy = proxy
     }
 }
@@ -4532,8 +4556,7 @@ public struct PutVoiceConnectorStreamingConfigurationInput: Swift.Sendable {
     public init(
         streamingConfiguration: ChimeSDKVoiceClientTypes.StreamingConfiguration? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.streamingConfiguration = streamingConfiguration
         self.voiceConnectorId = voiceConnectorId
     }
@@ -4545,8 +4568,7 @@ public struct PutVoiceConnectorStreamingConfigurationOutput: Swift.Sendable {
 
     public init(
         streamingConfiguration: ChimeSDKVoiceClientTypes.StreamingConfiguration? = nil
-    )
-    {
+    ) {
         self.streamingConfiguration = streamingConfiguration
     }
 }
@@ -4562,8 +4584,7 @@ public struct PutVoiceConnectorTerminationInput: Swift.Sendable {
     public init(
         termination: ChimeSDKVoiceClientTypes.Termination? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.termination = termination
         self.voiceConnectorId = voiceConnectorId
     }
@@ -4575,8 +4596,7 @@ public struct PutVoiceConnectorTerminationOutput: Swift.Sendable {
 
     public init(
         termination: ChimeSDKVoiceClientTypes.Termination? = nil
-    )
-    {
+    ) {
         self.termination = termination
     }
 }
@@ -4593,8 +4613,7 @@ extension ChimeSDKVoiceClientTypes {
         public init(
             password: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.password = password
             self.username = username
         }
@@ -4616,8 +4635,7 @@ public struct PutVoiceConnectorTerminationCredentialsInput: Swift.Sendable {
     public init(
         credentials: [ChimeSDKVoiceClientTypes.Credential]? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.credentials = credentials
         self.voiceConnectorId = voiceConnectorId
     }
@@ -4630,8 +4648,7 @@ public struct RestorePhoneNumberInput: Swift.Sendable {
 
     public init(
         phoneNumberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.phoneNumberId = phoneNumberId
     }
 }
@@ -4647,8 +4664,7 @@ public struct RestorePhoneNumberOutput: Swift.Sendable {
 
     public init(
         phoneNumber: ChimeSDKVoiceClientTypes.PhoneNumber? = nil
-    )
-    {
+    ) {
         self.phoneNumber = phoneNumber
     }
 }
@@ -4680,8 +4696,7 @@ public struct SearchAvailablePhoneNumbersInput: Swift.Sendable {
         phoneNumberType: ChimeSDKVoiceClientTypes.PhoneNumberType? = nil,
         state: Swift.String? = nil,
         tollFreePrefix: Swift.String? = nil
-    )
-    {
+    ) {
         self.areaCode = areaCode
         self.city = city
         self.country = country
@@ -4702,8 +4717,7 @@ public struct SearchAvailablePhoneNumbersOutput: Swift.Sendable {
     public init(
         e164PhoneNumbers: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.e164PhoneNumbers = e164PhoneNumbers
         self.nextToken = nextToken
     }
@@ -4715,9 +4729,9 @@ extension SearchAvailablePhoneNumbersOutput: Swift.CustomDebugStringConvertible 
 }
 
 /// A well-formed request couldn't be followed due to semantic errors.
-public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: ChimeSDKVoiceClientTypes.ErrorCode? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -4734,8 +4748,7 @@ public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClien
     public init(
         code: ChimeSDKVoiceClientTypes.ErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -4762,8 +4775,7 @@ public struct StartSpeakerSearchTaskInput: Swift.Sendable {
         transactionId: Swift.String? = nil,
         voiceConnectorId: Swift.String? = nil,
         voiceProfileDomainId: Swift.String? = nil
-    )
-    {
+    ) {
         self.callLeg = callLeg
         self.clientRequestToken = clientRequestToken
         self.transactionId = transactionId
@@ -4778,8 +4790,7 @@ public struct StartSpeakerSearchTaskOutput: Swift.Sendable {
 
     public init(
         speakerSearchTask: ChimeSDKVoiceClientTypes.SpeakerSearchTask? = nil
-    )
-    {
+    ) {
         self.speakerSearchTask = speakerSearchTask
     }
 }
@@ -4828,8 +4839,7 @@ public struct StartVoiceToneAnalysisTaskInput: Swift.Sendable {
         languageCode: ChimeSDKVoiceClientTypes.LanguageCode? = nil,
         transactionId: Swift.String? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.languageCode = languageCode
         self.transactionId = transactionId
@@ -4843,8 +4853,7 @@ public struct StartVoiceToneAnalysisTaskOutput: Swift.Sendable {
 
     public init(
         voiceToneAnalysisTask: ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask? = nil
-    )
-    {
+    ) {
         self.voiceToneAnalysisTask = voiceToneAnalysisTask
     }
 }
@@ -4860,8 +4869,7 @@ public struct StopSpeakerSearchTaskInput: Swift.Sendable {
     public init(
         speakerSearchTaskId: Swift.String? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.speakerSearchTaskId = speakerSearchTaskId
         self.voiceConnectorId = voiceConnectorId
     }
@@ -4878,8 +4886,7 @@ public struct StopVoiceToneAnalysisTaskInput: Swift.Sendable {
     public init(
         voiceConnectorId: Swift.String? = nil,
         voiceToneAnalysisTaskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.voiceConnectorId = voiceConnectorId
         self.voiceToneAnalysisTaskId = voiceToneAnalysisTaskId
     }
@@ -4896,8 +4903,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [ChimeSDKVoiceClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -4919,8 +4925,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -4937,8 +4942,7 @@ public struct UpdateGlobalSettingsInput: Swift.Sendable {
 
     public init(
         voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnectorSettings? = nil
-    )
-    {
+    ) {
         self.voiceConnector = voiceConnector
     }
 }
@@ -4959,8 +4963,7 @@ public struct UpdatePhoneNumberInput: Swift.Sendable {
         name: Swift.String? = nil,
         phoneNumberId: Swift.String? = nil,
         productType: ChimeSDKVoiceClientTypes.PhoneNumberProductType? = nil
-    )
-    {
+    ) {
         self.callingName = callingName
         self.name = name
         self.phoneNumberId = phoneNumberId
@@ -4979,8 +4982,7 @@ public struct UpdatePhoneNumberOutput: Swift.Sendable {
 
     public init(
         phoneNumber: ChimeSDKVoiceClientTypes.PhoneNumber? = nil
-    )
-    {
+    ) {
         self.phoneNumber = phoneNumber
     }
 }
@@ -4992,8 +4994,7 @@ public struct UpdatePhoneNumberSettingsInput: Swift.Sendable {
 
     public init(
         callingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.callingName = callingName
     }
 }
@@ -5021,8 +5022,7 @@ public struct UpdateProxySessionInput: Swift.Sendable {
         expiryMinutes: Swift.Int? = nil,
         proxySessionId: Swift.String? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.capabilities = capabilities
         self.expiryMinutes = expiryMinutes
         self.proxySessionId = proxySessionId
@@ -5036,8 +5036,7 @@ public struct UpdateProxySessionOutput: Swift.Sendable {
 
     public init(
         proxySession: ChimeSDKVoiceClientTypes.ProxySession? = nil
-    )
-    {
+    ) {
         self.proxySession = proxySession
     }
 }
@@ -5055,8 +5054,7 @@ public struct UpdateSipMediaApplicationInput: Swift.Sendable {
         endpoints: [ChimeSDKVoiceClientTypes.SipMediaApplicationEndpoint]? = nil,
         name: Swift.String? = nil,
         sipMediaApplicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpoints = endpoints
         self.name = name
         self.sipMediaApplicationId = sipMediaApplicationId
@@ -5069,8 +5067,7 @@ public struct UpdateSipMediaApplicationOutput: Swift.Sendable {
 
     public init(
         sipMediaApplication: ChimeSDKVoiceClientTypes.SipMediaApplication? = nil
-    )
-    {
+    ) {
         self.sipMediaApplication = sipMediaApplication
     }
 }
@@ -5090,8 +5087,7 @@ public struct UpdateSipMediaApplicationCallInput: Swift.Sendable {
         arguments: [Swift.String: Swift.String]? = nil,
         sipMediaApplicationId: Swift.String? = nil,
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arguments = arguments
         self.sipMediaApplicationId = sipMediaApplicationId
         self.transactionId = transactionId
@@ -5109,8 +5105,7 @@ public struct UpdateSipMediaApplicationCallOutput: Swift.Sendable {
 
     public init(
         sipMediaApplicationCall: ChimeSDKVoiceClientTypes.SipMediaApplicationCall? = nil
-    )
-    {
+    ) {
         self.sipMediaApplicationCall = sipMediaApplicationCall
     }
 }
@@ -5132,8 +5127,7 @@ public struct UpdateSipRuleInput: Swift.Sendable {
         name: Swift.String? = nil,
         sipRuleId: Swift.String? = nil,
         targetApplications: [ChimeSDKVoiceClientTypes.SipRuleTargetApplication]? = nil
-    )
-    {
+    ) {
         self.disabled = disabled
         self.name = name
         self.sipRuleId = sipRuleId
@@ -5147,8 +5141,7 @@ public struct UpdateSipRuleOutput: Swift.Sendable {
 
     public init(
         sipRule: ChimeSDKVoiceClientTypes.SipRule? = nil
-    )
-    {
+    ) {
         self.sipRule = sipRule
     }
 }
@@ -5168,8 +5161,7 @@ public struct UpdateVoiceConnectorInput: Swift.Sendable {
         name: Swift.String? = nil,
         requireEncryption: Swift.Bool? = nil,
         voiceConnectorId: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.requireEncryption = requireEncryption
         self.voiceConnectorId = voiceConnectorId
@@ -5182,8 +5174,7 @@ public struct UpdateVoiceConnectorOutput: Swift.Sendable {
 
     public init(
         voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnector? = nil
-    )
-    {
+    ) {
         self.voiceConnector = voiceConnector
     }
 }
@@ -5203,8 +5194,7 @@ public struct UpdateVoiceConnectorGroupInput: Swift.Sendable {
         name: Swift.String? = nil,
         voiceConnectorGroupId: Swift.String? = nil,
         voiceConnectorItems: [ChimeSDKVoiceClientTypes.VoiceConnectorItem]? = nil
-    )
-    {
+    ) {
         self.name = name
         self.voiceConnectorGroupId = voiceConnectorGroupId
         self.voiceConnectorItems = voiceConnectorItems
@@ -5217,8 +5207,7 @@ public struct UpdateVoiceConnectorGroupOutput: Swift.Sendable {
 
     public init(
         voiceConnectorGroup: ChimeSDKVoiceClientTypes.VoiceConnectorGroup? = nil
-    )
-    {
+    ) {
         self.voiceConnectorGroup = voiceConnectorGroup
     }
 }
@@ -5234,8 +5223,7 @@ public struct UpdateVoiceProfileInput: Swift.Sendable {
     public init(
         speakerSearchTaskId: Swift.String? = nil,
         voiceProfileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.speakerSearchTaskId = speakerSearchTaskId
         self.voiceProfileId = voiceProfileId
     }
@@ -5247,8 +5235,7 @@ public struct UpdateVoiceProfileOutput: Swift.Sendable {
 
     public init(
         voiceProfile: ChimeSDKVoiceClientTypes.VoiceProfile? = nil
-    )
-    {
+    ) {
         self.voiceProfile = voiceProfile
     }
 }
@@ -5266,8 +5253,7 @@ public struct UpdateVoiceProfileDomainInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         voiceProfileDomainId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.voiceProfileDomainId = voiceProfileDomainId
@@ -5280,8 +5266,7 @@ public struct UpdateVoiceProfileDomainOutput: Swift.Sendable {
 
     public init(
         voiceProfileDomain: ChimeSDKVoiceClientTypes.VoiceProfileDomain? = nil
-    )
-    {
+    ) {
         self.voiceProfileDomain = voiceProfileDomain
     }
 }
@@ -5317,8 +5302,7 @@ public struct ValidateE911AddressInput: Swift.Sendable {
         state: Swift.String? = nil,
         streetInfo: Swift.String? = nil,
         streetNumber: Swift.String? = nil
-    )
-    {
+    ) {
         self.awsAccountId = awsAccountId
         self.city = city
         self.country = country
@@ -5355,8 +5339,7 @@ public struct ValidateE911AddressOutput: Swift.Sendable {
         addressExternalId: Swift.String? = nil,
         candidateAddressList: [ChimeSDKVoiceClientTypes.CandidateAddress]? = nil,
         validationResult: Swift.Int = 0
-    )
-    {
+    ) {
         self.address = address
         self.addressExternalId = addressExternalId
         self.candidateAddressList = candidateAddressList
@@ -5563,6 +5546,16 @@ extension DeleteVoiceConnectorEmergencyCallingConfigurationInput {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/emergency-calling-configuration"
+    }
+}
+
+extension DeleteVoiceConnectorExternalSystemsConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteVoiceConnectorExternalSystemsConfigurationInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
+            return nil
+        }
+        return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/external-systems-configuration"
     }
 }
 
@@ -5810,6 +5803,16 @@ extension GetVoiceConnectorEmergencyCallingConfigurationInput {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/emergency-calling-configuration"
+    }
+}
+
+extension GetVoiceConnectorExternalSystemsConfigurationInput {
+
+    static func urlPathProvider(_ value: GetVoiceConnectorExternalSystemsConfigurationInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
+            return nil
+        }
+        return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/external-systems-configuration"
     }
 }
 
@@ -6259,6 +6262,16 @@ extension PutVoiceConnectorEmergencyCallingConfigurationInput {
     }
 }
 
+extension PutVoiceConnectorExternalSystemsConfigurationInput {
+
+    static func urlPathProvider(_ value: PutVoiceConnectorExternalSystemsConfigurationInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
+            return nil
+        }
+        return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/external-systems-configuration"
+    }
+}
+
 extension PutVoiceConnectorLoggingConfigurationInput {
 
     static func urlPathProvider(_ value: PutVoiceConnectorLoggingConfigurationInput) -> Swift.String? {
@@ -6705,6 +6718,7 @@ extension CreateVoiceConnectorInput {
     static func write(value: CreateVoiceConnectorInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AwsRegion"].write(value.awsRegion)
+        try writer["IntegrationType"].write(value.integrationType)
         try writer["Name"].write(value.name)
         try writer["RequireEncryption"].write(value.requireEncryption)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: ChimeSDKVoiceClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -6785,6 +6799,15 @@ extension PutVoiceConnectorEmergencyCallingConfigurationInput {
     static func write(value: PutVoiceConnectorEmergencyCallingConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["EmergencyCallingConfiguration"].write(value.emergencyCallingConfiguration, with: ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration.write(value:to:))
+    }
+}
+
+extension PutVoiceConnectorExternalSystemsConfigurationInput {
+
+    static func write(value: PutVoiceConnectorExternalSystemsConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContactCenterSystemTypes"].writeList(value.contactCenterSystemTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ChimeSDKVoiceClientTypes.ContactCenterSystemType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SessionBorderControllerTypes"].writeList(value.sessionBorderControllerTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ChimeSDKVoiceClientTypes.SessionBorderControllerType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -7187,6 +7210,13 @@ extension DeleteVoiceConnectorEmergencyCallingConfigurationOutput {
     }
 }
 
+extension DeleteVoiceConnectorExternalSystemsConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteVoiceConnectorExternalSystemsConfigurationOutput {
+        return DeleteVoiceConnectorExternalSystemsConfigurationOutput()
+    }
+}
+
 extension DeleteVoiceConnectorGroupOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteVoiceConnectorGroupOutput {
@@ -7408,6 +7438,18 @@ extension GetVoiceConnectorEmergencyCallingConfigurationOutput {
         let reader = responseReader
         var value = GetVoiceConnectorEmergencyCallingConfigurationOutput()
         value.emergencyCallingConfiguration = try reader["EmergencyCallingConfiguration"].readIfPresent(with: ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration.read(from:))
+        return value
+    }
+}
+
+extension GetVoiceConnectorExternalSystemsConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetVoiceConnectorExternalSystemsConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetVoiceConnectorExternalSystemsConfigurationOutput()
+        value.externalSystemsConfiguration = try reader["ExternalSystemsConfiguration"].readIfPresent(with: ChimeSDKVoiceClientTypes.ExternalSystemsConfiguration.read(from:))
         return value
     }
 }
@@ -7729,6 +7771,18 @@ extension PutVoiceConnectorEmergencyCallingConfigurationOutput {
         let reader = responseReader
         var value = PutVoiceConnectorEmergencyCallingConfigurationOutput()
         value.emergencyCallingConfiguration = try reader["EmergencyCallingConfiguration"].readIfPresent(with: ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration.read(from:))
+        return value
+    }
+}
+
+extension PutVoiceConnectorExternalSystemsConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutVoiceConnectorExternalSystemsConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutVoiceConnectorExternalSystemsConfigurationOutput()
+        value.externalSystemsConfiguration = try reader["ExternalSystemsConfiguration"].readIfPresent(with: ChimeSDKVoiceClientTypes.ExternalSystemsConfiguration.read(from:))
         return value
     }
 }
@@ -8413,6 +8467,26 @@ enum DeleteVoiceConnectorEmergencyCallingConfigurationOutputError {
     }
 }
 
+enum DeleteVoiceConnectorExternalSystemsConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceFailureException": return try ServiceFailureException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottledClientException": return try ThrottledClientException.makeError(baseError: baseError)
+            case "UnauthorizedClientException": return try UnauthorizedClientException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteVoiceConnectorGroupOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8839,6 +8913,26 @@ enum GetVoiceConnectorOutputError {
 }
 
 enum GetVoiceConnectorEmergencyCallingConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceFailureException": return try ServiceFailureException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottledClientException": return try ThrottledClientException.makeError(baseError: baseError)
+            case "UnauthorizedClientException": return try UnauthorizedClientException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetVoiceConnectorExternalSystemsConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -9364,6 +9458,27 @@ enum PutVoiceConnectorEmergencyCallingConfigurationOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceFailureException": return try ServiceFailureException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottledClientException": return try ThrottledClientException.makeError(baseError: baseError)
+            case "UnauthorizedClientException": return try UnauthorizedClientException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutVoiceConnectorExternalSystemsConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "ServiceFailureException": return try ServiceFailureException.makeError(baseError: baseError)
@@ -10268,6 +10383,7 @@ extension ChimeSDKVoiceClientTypes.VoiceConnector {
         value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.voiceConnectorArn = try reader["VoiceConnectorArn"].readIfPresent()
+        value.integrationType = try reader["IntegrationType"].readIfPresent()
         return value
     }
 }
@@ -10529,6 +10645,17 @@ extension ChimeSDKVoiceClientTypes.DNISEmergencyCallingConfiguration {
         value.emergencyPhoneNumber = try reader["EmergencyPhoneNumber"].readIfPresent() ?? ""
         value.testPhoneNumber = try reader["TestPhoneNumber"].readIfPresent()
         value.callingCountry = try reader["CallingCountry"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.ExternalSystemsConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.ExternalSystemsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKVoiceClientTypes.ExternalSystemsConfiguration()
+        value.sessionBorderControllerTypes = try reader["SessionBorderControllerTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ChimeSDKVoiceClientTypes.SessionBorderControllerType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.contactCenterSystemTypes = try reader["ContactCenterSystemTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ChimeSDKVoiceClientTypes.ContactCenterSystemType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

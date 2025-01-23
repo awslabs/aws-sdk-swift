@@ -23,9 +23,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// Your request was throttled because you have exceeded the limit of allowed client calls. Try making the call later.
-public struct ClientLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClientLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -40,16 +40,15 @@ public struct ClientLimitExceededException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The value for this input parameter is invalid.
-public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -64,16 +63,15 @@ public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified client is invalid.
-public struct InvalidClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -88,16 +86,15 @@ public struct InvalidClientException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The caller is not authorized to perform this operation.
-public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -112,16 +109,15 @@ public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified resource is not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -136,16 +132,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// If the client session is expired. Once the client is connected, the session is valid for 45 minutes. Client should reconnect to the channel to continue sending/receiving messages.
-public struct SessionExpiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SessionExpiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -160,8 +155,7 @@ public struct SessionExpiredException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -208,8 +202,7 @@ public struct GetIceServerConfigInput: Swift.Sendable {
         clientId: Swift.String? = nil,
         service: KinesisVideoSignalingClientTypes.Service? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelARN = channelARN
         self.clientId = clientId
         self.service = service
@@ -235,8 +228,7 @@ extension KinesisVideoSignalingClientTypes {
             ttl: Swift.Int? = nil,
             uris: [Swift.String]? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.password = password
             self.ttl = ttl
             self.uris = uris
@@ -251,8 +243,7 @@ public struct GetIceServerConfigOutput: Swift.Sendable {
 
     public init(
         iceServerList: [KinesisVideoSignalingClientTypes.IceServer]? = nil
-    )
-    {
+    ) {
         self.iceServerList = iceServerList
     }
 }
@@ -272,8 +263,7 @@ public struct SendAlexaOfferToMasterInput: Swift.Sendable {
         channelARN: Swift.String? = nil,
         messagePayload: Swift.String? = nil,
         senderClientId: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelARN = channelARN
         self.messagePayload = messagePayload
         self.senderClientId = senderClientId
@@ -286,8 +276,7 @@ public struct SendAlexaOfferToMasterOutput: Swift.Sendable {
 
     public init(
         answer: Swift.String? = nil
-    )
-    {
+    ) {
         self.answer = answer
     }
 }

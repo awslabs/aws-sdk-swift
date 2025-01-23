@@ -108,9 +108,9 @@ public struct UpdateFolderOutput: Swift.Sendable {
 }
 
 /// The resource hierarchy is changing.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -125,16 +125,15 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The resource does not exist.
-public struct EntityNotExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EntityNotExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The IDs of the non-existent resources.
         public internal(set) var entityIds: [Swift.String]? = nil
         public internal(set) var message: Swift.String? = nil
@@ -152,17 +151,16 @@ public struct EntityNotExistsException: ClientRuntime.ModeledError, AWSClientRun
     public init(
         entityIds: [Swift.String]? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.entityIds = entityIds
         self.properties.message = message
     }
 }
 
 /// The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
-public struct FailedDependencyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FailedDependencyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -177,16 +175,15 @@ public struct FailedDependencyException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified document version is not in the INITIALIZED state.
-public struct ProhibitedStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ProhibitedStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -201,16 +198,15 @@ public struct ProhibitedStateException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// One or more of the dependencies is unavailable.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -225,16 +221,15 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation is not permitted.
-public struct UnauthorizedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnauthorizedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -251,17 +246,16 @@ public struct UnauthorizedOperationException: ClientRuntime.ModeledError, AWSCli
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
 /// The caller does not have access to perform the action on the resource.
-public struct UnauthorizedResourceAccessException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnauthorizedResourceAccessException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -276,8 +270,7 @@ public struct UnauthorizedResourceAccessException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -296,8 +289,7 @@ public struct AbortDocumentVersionUploadInput: Swift.Sendable {
         authenticationToken: Swift.String? = nil,
         documentId: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.documentId = documentId
         self.versionId = versionId
@@ -319,8 +311,7 @@ public struct ActivateUserInput: Swift.Sendable {
     public init(
         authenticationToken: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.userId = userId
     }
@@ -460,8 +451,7 @@ extension WorkDocsClientTypes {
         public init(
             storageAllocatedInBytes: Swift.Int? = nil,
             storageType: WorkDocsClientTypes.StorageType? = nil
-        )
-        {
+        ) {
             self.storageAllocatedInBytes = storageAllocatedInBytes
             self.storageType = storageType
         }
@@ -480,8 +470,7 @@ extension WorkDocsClientTypes {
         public init(
             storageRule: WorkDocsClientTypes.StorageRuleType? = nil,
             storageUtilizedInBytes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.storageRule = storageRule
             self.storageUtilizedInBytes = storageUtilizedInBytes
         }
@@ -577,8 +566,7 @@ extension WorkDocsClientTypes {
             timeZoneId: Swift.String? = nil,
             type: WorkDocsClientTypes.UserType? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdTimestamp = createdTimestamp
             self.emailAddress = emailAddress
             self.givenName = givenName
@@ -609,8 +597,7 @@ public struct ActivateUserOutput: Swift.Sendable {
 
     public init(
         user: WorkDocsClientTypes.User? = nil
-    )
-    {
+    ) {
         self.user = user
     }
 }
@@ -671,8 +658,7 @@ extension WorkDocsClientTypes {
             contributorId: Swift.String? = nil,
             createdTimestamp: Foundation.Date? = nil,
             recipientId: Swift.String? = nil
-        )
-        {
+        ) {
             self.commentId = commentId
             self.commentStatus = commentStatus
             self.contributor = contributor
@@ -704,8 +690,7 @@ extension WorkDocsClientTypes {
             id: Swift.String? = nil,
             surname: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.emailAddress = emailAddress
             self.givenName = givenName
             self.id = id
@@ -776,8 +761,7 @@ extension WorkDocsClientTypes {
             parentId: Swift.String? = nil,
             type: WorkDocsClientTypes.ResourceType? = nil,
             versionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.name = name
             self.originalName = originalName
@@ -806,8 +790,7 @@ extension WorkDocsClientTypes {
         public init(
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.name = name
         }
@@ -826,8 +809,7 @@ extension WorkDocsClientTypes {
         public init(
             groups: [WorkDocsClientTypes.GroupMetadata]? = nil,
             users: [WorkDocsClientTypes.UserMetadata]? = nil
-        )
-        {
+        ) {
             self.groups = groups
             self.users = users
         }
@@ -989,8 +971,7 @@ extension WorkDocsClientTypes {
             resourceMetadata: WorkDocsClientTypes.ResourceMetadata? = nil,
             timeStamp: Foundation.Date? = nil,
             type: WorkDocsClientTypes.ActivityType? = nil
-        )
-        {
+        ) {
             self.commentMetadata = commentMetadata
             self.initiator = initiator
             self.isIndirectActivity = isIndirectActivity
@@ -1042,8 +1023,7 @@ extension WorkDocsClientTypes {
         public init(
             emailMessage: Swift.String? = nil,
             sendEmail: Swift.Bool = false
-        )
-        {
+        ) {
             self.emailMessage = emailMessage
             self.sendEmail = sendEmail
         }
@@ -1146,8 +1126,7 @@ extension WorkDocsClientTypes {
             id: Swift.String? = nil,
             role: WorkDocsClientTypes.RoleType? = nil,
             type: WorkDocsClientTypes.PrincipalType? = nil
-        )
-        {
+        ) {
             self.id = id
             self.role = role
             self.type = type
@@ -1172,8 +1151,7 @@ public struct AddResourcePermissionsInput: Swift.Sendable {
         notificationOptions: WorkDocsClientTypes.NotificationOptions? = nil,
         principals: [WorkDocsClientTypes.SharePrincipal]? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.notificationOptions = notificationOptions
         self.principals = principals
@@ -1239,8 +1217,7 @@ extension WorkDocsClientTypes {
             shareId: Swift.String? = nil,
             status: WorkDocsClientTypes.ShareStatusType? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.inviteePrincipalId = inviteePrincipalId
             self.principalId = principalId
             self.role = role
@@ -1262,16 +1239,15 @@ public struct AddResourcePermissionsOutput: Swift.Sendable {
 
     public init(
         shareResults: [WorkDocsClientTypes.ShareResult]? = nil
-    )
-    {
+    ) {
         self.shareResults = shareResults
     }
 }
 
 /// This exception is thrown when the document is locked for comments and user tries to create or delete a comment on that document.
-public struct DocumentLockedForCommentsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DocumentLockedForCommentsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1286,16 +1262,15 @@ public struct DocumentLockedForCommentsException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The requested operation is not allowed on the specified comment object.
-public struct InvalidCommentOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidCommentOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1310,8 +1285,7 @@ public struct InvalidCommentOperationException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1375,8 +1349,7 @@ public struct CreateCommentInput: Swift.Sendable {
         threadId: Swift.String? = nil,
         versionId: Swift.String? = nil,
         visibility: WorkDocsClientTypes.CommentVisibilityType? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.documentId = documentId
         self.notifyCollaborators = notifyCollaborators
@@ -1427,8 +1400,7 @@ extension WorkDocsClientTypes {
             text: Swift.String? = nil,
             threadId: Swift.String? = nil,
             visibility: WorkDocsClientTypes.CommentVisibilityType? = nil
-        )
-        {
+        ) {
             self.commentId = commentId
             self.contributor = contributor
             self.createdTimestamp = createdTimestamp
@@ -1453,16 +1425,15 @@ public struct CreateCommentOutput: Swift.Sendable {
 
     public init(
         comment: WorkDocsClientTypes.Comment? = nil
-    )
-    {
+    ) {
         self.comment = comment
     }
 }
 
 /// The limit has been reached on the number of custom properties for the specified resource.
-public struct CustomMetadataLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CustomMetadataLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1477,8 +1448,7 @@ public struct CustomMetadataLimitExceededException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1500,8 +1470,7 @@ public struct CreateCustomMetadataInput: Swift.Sendable {
         customMetadata: [Swift.String: Swift.String]? = nil,
         resourceId: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.customMetadata = customMetadata
         self.resourceId = resourceId
@@ -1520,9 +1489,9 @@ public struct CreateCustomMetadataOutput: Swift.Sendable {
 }
 
 /// Another operation is in progress on the resource that conflicts with the current operation.
-public struct ConflictingOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictingOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1537,16 +1506,15 @@ public struct ConflictingOperationException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The resource already exists.
-public struct EntityAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EntityAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1561,16 +1529,15 @@ public struct EntityAlreadyExistsException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The maximum of 100,000 files and folders under the parent folder has been exceeded.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1585,8 +1552,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1604,8 +1570,7 @@ public struct CreateFolderInput: Swift.Sendable {
         authenticationToken: Swift.String? = nil,
         name: Swift.String? = nil,
         parentFolderId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.name = name
         self.parentFolderId = parentFolderId
@@ -1691,8 +1656,7 @@ extension WorkDocsClientTypes {
             resourceState: WorkDocsClientTypes.ResourceStateType? = nil,
             signature: Swift.String? = nil,
             size: Swift.Int? = nil
-        )
-        {
+        ) {
             self.createdTimestamp = createdTimestamp
             self.creatorId = creatorId
             self.id = id
@@ -1719,16 +1683,15 @@ public struct CreateFolderOutput: Swift.Sendable {
 
     public init(
         metadata: WorkDocsClientTypes.FolderMetadata? = nil
-    )
-    {
+    ) {
         self.metadata = metadata
     }
 }
 
 /// The limit has been reached on the number of labels for the specified resource.
-public struct TooManyLabelsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyLabelsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1743,8 +1706,7 @@ public struct TooManyLabelsException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1763,8 +1725,7 @@ public struct CreateLabelsInput: Swift.Sendable {
         authenticationToken: Swift.String? = nil,
         labels: [Swift.String]? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.labels = labels
         self.resourceId = resourceId
@@ -1782,9 +1743,9 @@ public struct CreateLabelsOutput: Swift.Sendable {
 }
 
 /// The pagination marker or limit fields are not valid.
-public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1799,16 +1760,15 @@ public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You've reached the limit on the number of subscriptions for the WorkDocs instance.
-public struct TooManySubscriptionsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManySubscriptionsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1823,8 +1783,7 @@ public struct TooManySubscriptionsException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1903,8 +1862,7 @@ public struct CreateNotificationSubscriptionInput: Swift.Sendable {
         organizationId: Swift.String? = nil,
         `protocol`: WorkDocsClientTypes.SubscriptionProtocolType? = nil,
         subscriptionType: WorkDocsClientTypes.SubscriptionType? = nil
-    )
-    {
+    ) {
         self.endpoint = endpoint
         self.organizationId = organizationId
         self.`protocol` = `protocol`
@@ -1927,8 +1885,7 @@ extension WorkDocsClientTypes {
             endPoint: Swift.String? = nil,
             `protocol`: WorkDocsClientTypes.SubscriptionProtocolType? = nil,
             subscriptionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.endPoint = endPoint
             self.`protocol` = `protocol`
             self.subscriptionId = subscriptionId
@@ -1942,8 +1899,7 @@ public struct CreateNotificationSubscriptionOutput: Swift.Sendable {
 
     public init(
         subscription: WorkDocsClientTypes.Subscription? = nil
-    )
-    {
+    ) {
         self.subscription = subscription
     }
 }
@@ -1982,8 +1938,7 @@ public struct CreateUserInput: Swift.Sendable {
         surname: Swift.String? = nil,
         timeZoneId: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.emailAddress = emailAddress
         self.givenName = givenName
@@ -2007,8 +1962,7 @@ public struct CreateUserOutput: Swift.Sendable {
 
     public init(
         user: WorkDocsClientTypes.User? = nil
-    )
-    {
+    ) {
         self.user = user
     }
 }
@@ -2023,8 +1977,7 @@ public struct DeactivateUserInput: Swift.Sendable {
     public init(
         authenticationToken: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.userId = userId
     }
@@ -2053,8 +2006,7 @@ public struct DeleteCommentInput: Swift.Sendable {
         commentId: Swift.String? = nil,
         documentId: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.commentId = commentId
         self.documentId = documentId
@@ -2086,8 +2038,7 @@ public struct DeleteCustomMetadataInput: Swift.Sendable {
         keys: [Swift.String]? = nil,
         resourceId: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.deleteAll = deleteAll
         self.keys = keys
@@ -2116,8 +2067,7 @@ public struct DeleteDocumentInput: Swift.Sendable {
     public init(
         authenticationToken: Swift.String? = nil,
         documentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.documentId = documentId
     }
@@ -2129,9 +2079,9 @@ extension DeleteDocumentInput: Swift.CustomDebugStringConvertible {
 }
 
 /// The operation is invalid.
-public struct InvalidOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2146,8 +2096,7 @@ public struct InvalidOperationException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2170,8 +2119,7 @@ public struct DeleteDocumentVersionInput: Swift.Sendable {
         deletePriorVersions: Swift.Bool? = false,
         documentId: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.deletePriorVersions = deletePriorVersions
         self.documentId = documentId
@@ -2194,8 +2142,7 @@ public struct DeleteFolderInput: Swift.Sendable {
     public init(
         authenticationToken: Swift.String? = nil,
         folderId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.folderId = folderId
     }
@@ -2216,8 +2163,7 @@ public struct DeleteFolderContentsInput: Swift.Sendable {
     public init(
         authenticationToken: Swift.String? = nil,
         folderId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.folderId = folderId
     }
@@ -2244,8 +2190,7 @@ public struct DeleteLabelsInput: Swift.Sendable {
         deleteAll: Swift.Bool? = false,
         labels: [Swift.String]? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.deleteAll = deleteAll
         self.labels = labels
@@ -2274,8 +2219,7 @@ public struct DeleteNotificationSubscriptionInput: Swift.Sendable {
     public init(
         organizationId: Swift.String? = nil,
         subscriptionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.organizationId = organizationId
         self.subscriptionId = subscriptionId
     }
@@ -2291,8 +2235,7 @@ public struct DeleteUserInput: Swift.Sendable {
     public init(
         authenticationToken: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.userId = userId
     }
@@ -2336,8 +2279,7 @@ public struct DescribeActivitiesInput: Swift.Sendable {
         resourceId: Swift.String? = nil,
         startTime: Foundation.Date? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.activityTypes = activityTypes
         self.authenticationToken = authenticationToken
         self.endTime = endTime
@@ -2365,8 +2307,7 @@ public struct DescribeActivitiesOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         userActivities: [WorkDocsClientTypes.Activity]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.userActivities = userActivities
     }
@@ -2392,8 +2333,7 @@ public struct DescribeCommentsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.documentId = documentId
         self.limit = limit
@@ -2416,17 +2356,16 @@ public struct DescribeCommentsOutput: Swift.Sendable {
     public init(
         comments: [WorkDocsClientTypes.Comment]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.comments = comments
         self.marker = marker
     }
 }
 
 /// The password is invalid.
-public struct InvalidPasswordException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPasswordException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2441,8 +2380,7 @@ public struct InvalidPasswordException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2469,8 +2407,7 @@ public struct DescribeDocumentVersionsInput: Swift.Sendable {
         include: Swift.String? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.documentId = documentId
         self.fields = fields
@@ -2620,8 +2557,7 @@ extension WorkDocsClientTypes {
             source: [Swift.String: Swift.String]? = nil,
             status: WorkDocsClientTypes.DocumentStatusType? = nil,
             thumbnail: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.contentCreatedTimestamp = contentCreatedTimestamp
             self.contentModifiedTimestamp = contentModifiedTimestamp
             self.contentType = contentType
@@ -2653,8 +2589,7 @@ public struct DescribeDocumentVersionsOutput: Swift.Sendable {
     public init(
         documentVersions: [WorkDocsClientTypes.DocumentVersionMetadata]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.documentVersions = documentVersions
         self.marker = marker
     }
@@ -2778,8 +2713,7 @@ public struct DescribeFolderContentsInput: Swift.Sendable {
         order: WorkDocsClientTypes.OrderType? = nil,
         sort: WorkDocsClientTypes.ResourceSortType? = nil,
         type: WorkDocsClientTypes.FolderContentType? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.folderId = folderId
         self.include = include
@@ -2826,8 +2760,7 @@ extension WorkDocsClientTypes {
             modifiedTimestamp: Foundation.Date? = nil,
             parentFolderId: Swift.String? = nil,
             resourceState: WorkDocsClientTypes.ResourceStateType? = nil
-        )
-        {
+        ) {
             self.createdTimestamp = createdTimestamp
             self.creatorId = creatorId
             self.id = id
@@ -2852,8 +2785,7 @@ public struct DescribeFolderContentsOutput: Swift.Sendable {
         documents: [WorkDocsClientTypes.DocumentMetadata]? = nil,
         folders: [WorkDocsClientTypes.FolderMetadata]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.documents = documents
         self.folders = folders
         self.marker = marker
@@ -2879,8 +2811,7 @@ public struct DescribeGroupsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         organizationId: Swift.String? = nil,
         searchQuery: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.limit = limit
         self.marker = marker
@@ -2903,8 +2834,7 @@ public struct DescribeGroupsOutput: Swift.Sendable {
     public init(
         groups: [WorkDocsClientTypes.GroupMetadata]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.groups = groups
         self.marker = marker
     }
@@ -2923,8 +2853,7 @@ public struct DescribeNotificationSubscriptionsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil,
         organizationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.marker = marker
         self.organizationId = organizationId
@@ -2940,8 +2869,7 @@ public struct DescribeNotificationSubscriptionsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         subscriptions: [WorkDocsClientTypes.Subscription]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.subscriptions = subscriptions
     }
@@ -2966,8 +2894,7 @@ public struct DescribeResourcePermissionsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         principalId: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.limit = limit
         self.marker = marker
@@ -3022,8 +2949,7 @@ extension WorkDocsClientTypes {
         public init(
             role: WorkDocsClientTypes.RoleType? = nil,
             type: WorkDocsClientTypes.RolePermissionType? = nil
-        )
-        {
+        ) {
             self.role = role
             self.type = type
         }
@@ -3045,8 +2971,7 @@ extension WorkDocsClientTypes {
             id: Swift.String? = nil,
             roles: [WorkDocsClientTypes.PermissionInfo]? = nil,
             type: WorkDocsClientTypes.PrincipalType? = nil
-        )
-        {
+        ) {
             self.id = id
             self.roles = roles
             self.type = type
@@ -3063,8 +2988,7 @@ public struct DescribeResourcePermissionsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         principals: [WorkDocsClientTypes.Principal]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.principals = principals
     }
@@ -3083,8 +3007,7 @@ public struct DescribeRootFoldersInput: Swift.Sendable {
         authenticationToken: Swift.String? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.limit = limit
         self.marker = marker
@@ -3105,17 +3028,16 @@ public struct DescribeRootFoldersOutput: Swift.Sendable {
     public init(
         folders: [WorkDocsClientTypes.FolderMetadata]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.folders = folders
         self.marker = marker
     }
 }
 
 /// The response is too large to return. The request must include a filter to reduce the size of the response.
-public struct RequestedEntityTooLargeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RequestedEntityTooLargeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3130,8 +3052,7 @@ public struct RequestedEntityTooLargeException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3244,8 +3165,7 @@ public struct DescribeUsersInput: Swift.Sendable {
         query: Swift.String? = nil,
         sort: WorkDocsClientTypes.UserSortType? = nil,
         userIds: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.fields = fields
         self.include = include
@@ -3277,8 +3197,7 @@ public struct DescribeUsersOutput: Swift.Sendable {
         marker: Swift.String? = nil,
         totalNumberOfUsers: Swift.Int? = nil,
         users: [WorkDocsClientTypes.User]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.totalNumberOfUsers = totalNumberOfUsers
         self.users = users
@@ -3292,8 +3211,7 @@ public struct GetCurrentUserInput: Swift.Sendable {
 
     public init(
         authenticationToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
     }
 }
@@ -3309,8 +3227,7 @@ public struct GetCurrentUserOutput: Swift.Sendable {
 
     public init(
         user: WorkDocsClientTypes.User? = nil
-    )
-    {
+    ) {
         self.user = user
     }
 }
@@ -3328,8 +3245,7 @@ public struct GetDocumentInput: Swift.Sendable {
         authenticationToken: Swift.String? = nil,
         documentId: Swift.String? = nil,
         includeCustomMetadata: Swift.Bool? = false
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.documentId = documentId
         self.includeCustomMetadata = includeCustomMetadata
@@ -3350,8 +3266,7 @@ public struct GetDocumentOutput: Swift.Sendable {
     public init(
         customMetadata: [Swift.String: Swift.String]? = nil,
         metadata: WorkDocsClientTypes.DocumentMetadata? = nil
-    )
-    {
+    ) {
         self.customMetadata = customMetadata
         self.metadata = metadata
     }
@@ -3376,8 +3291,7 @@ public struct GetDocumentPathInput: Swift.Sendable {
         fields: Swift.String? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.documentId = documentId
         self.fields = fields
@@ -3403,8 +3317,7 @@ extension WorkDocsClientTypes {
         public init(
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.name = name
         }
@@ -3425,8 +3338,7 @@ extension WorkDocsClientTypes {
 
         public init(
             components: [WorkDocsClientTypes.ResourcePathComponent]? = nil
-        )
-        {
+        ) {
             self.components = components
         }
     }
@@ -3438,8 +3350,7 @@ public struct GetDocumentPathOutput: Swift.Sendable {
 
     public init(
         path: WorkDocsClientTypes.ResourcePath? = nil
-    )
-    {
+    ) {
         self.path = path
     }
 }
@@ -3464,8 +3375,7 @@ public struct GetDocumentVersionInput: Swift.Sendable {
         fields: Swift.String? = nil,
         includeCustomMetadata: Swift.Bool? = false,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.documentId = documentId
         self.fields = fields
@@ -3488,8 +3398,7 @@ public struct GetDocumentVersionOutput: Swift.Sendable {
     public init(
         customMetadata: [Swift.String: Swift.String]? = nil,
         metadata: WorkDocsClientTypes.DocumentVersionMetadata? = nil
-    )
-    {
+    ) {
         self.customMetadata = customMetadata
         self.metadata = metadata
     }
@@ -3508,8 +3417,7 @@ public struct GetFolderInput: Swift.Sendable {
         authenticationToken: Swift.String? = nil,
         folderId: Swift.String? = nil,
         includeCustomMetadata: Swift.Bool? = false
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.folderId = folderId
         self.includeCustomMetadata = includeCustomMetadata
@@ -3530,8 +3438,7 @@ public struct GetFolderOutput: Swift.Sendable {
     public init(
         customMetadata: [Swift.String: Swift.String]? = nil,
         metadata: WorkDocsClientTypes.FolderMetadata? = nil
-    )
-    {
+    ) {
         self.customMetadata = customMetadata
         self.metadata = metadata
     }
@@ -3556,8 +3463,7 @@ public struct GetFolderPathInput: Swift.Sendable {
         folderId: Swift.String? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.fields = fields
         self.folderId = folderId
@@ -3577,8 +3483,7 @@ public struct GetFolderPathOutput: Swift.Sendable {
 
     public init(
         path: WorkDocsClientTypes.ResourcePath? = nil
-    )
-    {
+    ) {
         self.path = path
     }
 }
@@ -3627,8 +3532,7 @@ public struct GetResourcesInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.collectionType = collectionType
         self.limit = limit
@@ -3654,8 +3558,7 @@ public struct GetResourcesOutput: Swift.Sendable {
         documents: [WorkDocsClientTypes.DocumentMetadata]? = nil,
         folders: [WorkDocsClientTypes.FolderMetadata]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.documents = documents
         self.folders = folders
         self.marker = marker
@@ -3663,9 +3566,9 @@ public struct GetResourcesOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when a valid checkout ID is not presented on document version upload calls for a document that has been checked out from Web client.
-public struct DraftUploadOutOfSyncException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DraftUploadOutOfSyncException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3680,16 +3583,15 @@ public struct DraftUploadOutOfSyncException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The resource is already checked out.
-public struct ResourceAlreadyCheckedOutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceAlreadyCheckedOutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3704,16 +3606,15 @@ public struct ResourceAlreadyCheckedOutException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The storage limit has been exceeded.
-public struct StorageLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StorageLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3728,16 +3629,15 @@ public struct StorageLimitExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The storage limit will be exceeded.
-public struct StorageLimitWillExceedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StorageLimitWillExceedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3752,8 +3652,7 @@ public struct StorageLimitWillExceedException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3785,8 +3684,7 @@ public struct InitiateDocumentVersionUploadInput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         parentFolderId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.contentCreatedTimestamp = contentCreatedTimestamp
         self.contentModifiedTimestamp = contentModifiedTimestamp
@@ -3815,8 +3713,7 @@ extension WorkDocsClientTypes {
         public init(
             signedHeaders: [Swift.String: Swift.String]? = nil,
             uploadUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.signedHeaders = signedHeaders
             self.uploadUrl = uploadUrl
         }
@@ -3837,8 +3734,7 @@ public struct InitiateDocumentVersionUploadOutput: Swift.Sendable {
     public init(
         metadata: WorkDocsClientTypes.DocumentMetadata? = nil,
         uploadMetadata: WorkDocsClientTypes.UploadMetadata? = nil
-    )
-    {
+    ) {
         self.metadata = metadata
         self.uploadMetadata = uploadMetadata
     }
@@ -3854,8 +3750,7 @@ public struct RemoveAllResourcePermissionsInput: Swift.Sendable {
     public init(
         authenticationToken: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.resourceId = resourceId
     }
@@ -3883,8 +3778,7 @@ public struct RemoveResourcePermissionInput: Swift.Sendable {
         principalId: Swift.String? = nil,
         principalType: WorkDocsClientTypes.PrincipalType? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.principalId = principalId
         self.principalType = principalType
@@ -3907,8 +3801,7 @@ public struct RestoreDocumentVersionsInput: Swift.Sendable {
     public init(
         authenticationToken: Swift.String? = nil,
         documentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.documentId = documentId
     }
@@ -3981,8 +3874,7 @@ extension WorkDocsClientTypes {
         public init(
             endValue: Foundation.Date? = nil,
             startValue: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endValue = endValue
             self.startValue = startValue
         }
@@ -4037,8 +3929,7 @@ extension WorkDocsClientTypes {
         public init(
             id: Swift.String? = nil,
             roles: [WorkDocsClientTypes.PrincipalRoleType]? = nil
-        )
-        {
+        ) {
             self.id = id
             self.roles = roles
         }
@@ -4121,8 +4012,7 @@ extension WorkDocsClientTypes {
         public init(
             endValue: Swift.Int? = nil,
             startValue: Swift.Int? = nil
-        )
-        {
+        ) {
             self.endValue = endValue
             self.startValue = startValue
         }
@@ -4281,8 +4171,7 @@ extension WorkDocsClientTypes {
             searchCollectionTypes: [WorkDocsClientTypes.SearchCollectionType]? = nil,
             sizeRange: WorkDocsClientTypes.LongRangeType? = nil,
             textLocales: [WorkDocsClientTypes.LanguageCodeType]? = nil
-        )
-        {
+        ) {
             self.ancestorIds = ancestorIds
             self.contentCategories = contentCategories
             self.createdRange = createdRange
@@ -4376,8 +4265,7 @@ extension WorkDocsClientTypes {
         public init(
             field: WorkDocsClientTypes.OrderByFieldType? = nil,
             order: WorkDocsClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.field = field
             self.order = order
         }
@@ -4443,8 +4331,7 @@ public struct SearchResourcesInput: Swift.Sendable {
         organizationId: Swift.String? = nil,
         queryScopes: [WorkDocsClientTypes.SearchQueryScopeType]? = nil,
         queryText: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalResponseFields = additionalResponseFields
         self.authenticationToken = authenticationToken
         self.filters = filters
@@ -4521,8 +4408,7 @@ extension WorkDocsClientTypes {
             folderMetadata: WorkDocsClientTypes.FolderMetadata? = nil,
             resourceType: WorkDocsClientTypes.ResponseItemType? = nil,
             webUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.commentMetadata = commentMetadata
             self.documentMetadata = documentMetadata
             self.documentVersionMetadata = documentVersionMetadata
@@ -4547,8 +4433,7 @@ public struct SearchResourcesOutput: Swift.Sendable {
     public init(
         items: [WorkDocsClientTypes.ResponseItem]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.marker = marker
     }
@@ -4573,8 +4458,7 @@ public struct UpdateDocumentInput: Swift.Sendable {
         name: Swift.String? = nil,
         parentFolderId: Swift.String? = nil,
         resourceState: WorkDocsClientTypes.ResourceStateType? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.documentId = documentId
         self.name = name
@@ -4631,8 +4515,7 @@ public struct UpdateDocumentVersionInput: Swift.Sendable {
         documentId: Swift.String? = nil,
         versionId: Swift.String? = nil,
         versionStatus: WorkDocsClientTypes.DocumentVersionStatus? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.documentId = documentId
         self.versionId = versionId
@@ -4664,8 +4547,7 @@ public struct UpdateFolderInput: Swift.Sendable {
         name: Swift.String? = nil,
         parentFolderId: Swift.String? = nil,
         resourceState: WorkDocsClientTypes.ResourceStateType? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.folderId = folderId
         self.name = name
@@ -4680,9 +4562,9 @@ extension UpdateFolderInput: Swift.CustomDebugStringConvertible {
 }
 
 /// The last user in the organization is being deactivated.
-public struct DeactivatingLastSystemUserException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DeactivatingLastSystemUserException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -4699,17 +4581,16 @@ public struct DeactivatingLastSystemUserException: ClientRuntime.ModeledError, A
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
 /// The user is undergoing transfer of ownership.
-public struct IllegalUserStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IllegalUserStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4724,8 +4605,7 @@ public struct IllegalUserStateException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4790,8 +4670,7 @@ public struct UpdateUserInput: Swift.Sendable {
         timeZoneId: Swift.String? = nil,
         type: WorkDocsClientTypes.UserType? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationToken = authenticationToken
         self.givenName = givenName
         self.grantPoweruserPrivileges = grantPoweruserPrivileges
@@ -4815,8 +4694,7 @@ public struct UpdateUserOutput: Swift.Sendable {
 
     public init(
         user: WorkDocsClientTypes.User? = nil
-    )
-    {
+    ) {
         self.user = user
     }
 }

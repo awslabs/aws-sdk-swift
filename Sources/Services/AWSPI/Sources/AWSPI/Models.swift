@@ -71,8 +71,7 @@ extension PIClientTypes {
             displayName: Swift.String? = nil,
             metric: Swift.String? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.displayName = displayName
             self.metric = metric
@@ -90,8 +89,7 @@ extension PIClientTypes {
 
         public init(
             performanceInsightsMetric: PIClientTypes.PerformanceInsightsMetric? = nil
-        )
-        {
+        ) {
             self.performanceInsightsMetric = performanceInsightsMetric
         }
     }
@@ -138,8 +136,7 @@ extension PIClientTypes {
         public init(
             recommendationDescription: Swift.String? = nil,
             recommendationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.recommendationDescription = recommendationDescription
             self.recommendationId = recommendationId
         }
@@ -258,8 +255,7 @@ extension PIClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -290,8 +286,7 @@ extension PIClientTypes {
             startTime: Foundation.Date? = nil,
             status: PIClientTypes.AnalysisStatus? = nil,
             tags: [PIClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.analysisReportId = analysisReportId
             self.createTime = createTime
             self.endTime = endTime
@@ -335,9 +330,9 @@ extension PIClientTypes {
 }
 
 /// The request failed due to an unknown error.
-public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -352,16 +347,15 @@ public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// One of the arguments provided is invalid for this request.
-public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -376,16 +370,15 @@ public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The user is not authorized to perform this request.
-public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -400,8 +393,7 @@ public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -428,8 +420,7 @@ public struct CreatePerformanceAnalysisReportInput: Swift.Sendable {
         serviceType: PIClientTypes.ServiceType? = nil,
         startTime: Foundation.Date? = nil,
         tags: [PIClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.identifier = identifier
         self.serviceType = serviceType
@@ -444,8 +435,7 @@ public struct CreatePerformanceAnalysisReportOutput: Swift.Sendable {
 
     public init(
         analysisReportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.analysisReportId = analysisReportId
     }
 }
@@ -464,8 +454,7 @@ extension PIClientTypes {
         public init(
             timestamp: Foundation.Date? = nil,
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.timestamp = timestamp
             self.value = value
         }
@@ -487,8 +476,7 @@ public struct DeletePerformanceAnalysisReportInput: Swift.Sendable {
         analysisReportId: Swift.String? = nil,
         identifier: Swift.String? = nil,
         serviceType: PIClientTypes.ServiceType? = nil
-    )
-    {
+    ) {
         self.analysisReportId = analysisReportId
         self.identifier = identifier
         self.serviceType = serviceType
@@ -649,8 +637,7 @@ extension PIClientTypes {
             dimensions: [Swift.String]? = nil,
             group: Swift.String? = nil,
             limit: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.group = group
             self.limit = limit
@@ -734,8 +721,7 @@ public struct DescribeDimensionKeysInput: Swift.Sendable {
         periodInSeconds: Swift.Int? = nil,
         serviceType: PIClientTypes.ServiceType? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.additionalMetrics = additionalMetrics
         self.endTime = endTime
         self.filter = filter
@@ -769,8 +755,7 @@ extension PIClientTypes {
             dimensions: [Swift.String: Swift.String]? = nil,
             partitions: [Swift.Double]? = nil,
             total: Swift.Double? = nil
-        )
-        {
+        ) {
             self.additionalMetrics = additionalMetrics
             self.dimensions = dimensions
             self.partitions = partitions
@@ -789,8 +774,7 @@ extension PIClientTypes {
 
         public init(
             dimensions: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
         }
     }
@@ -814,8 +798,7 @@ public struct DescribeDimensionKeysOutput: Swift.Sendable {
         keys: [PIClientTypes.DimensionKeyDescription]? = nil,
         nextToken: Swift.String? = nil,
         partitionKeys: [PIClientTypes.ResponsePartitionKey]? = nil
-    )
-    {
+    ) {
         self.alignedEndTime = alignedEndTime
         self.alignedStartTime = alignedStartTime
         self.keys = keys
@@ -865,8 +848,7 @@ extension PIClientTypes {
 
         public init(
             identifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.identifier = identifier
         }
     }
@@ -884,8 +866,7 @@ extension PIClientTypes {
         public init(
             dimensions: [PIClientTypes.DimensionDetail]? = nil,
             group: Swift.String? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.group = group
         }
@@ -921,8 +902,7 @@ extension PIClientTypes {
             dimension: Swift.String? = nil,
             status: PIClientTypes.DetailStatus? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.dimension = dimension
             self.status = status
             self.value = value
@@ -992,8 +972,7 @@ extension PIClientTypes {
 
         public init(
             status: PIClientTypes.FeatureStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -1033,8 +1012,7 @@ public struct GetDimensionKeyDetailsInput: Swift.Sendable {
         identifier: Swift.String? = nil,
         requestedDimensions: [Swift.String]? = nil,
         serviceType: PIClientTypes.ServiceType? = nil
-    )
-    {
+    ) {
         self.group = group
         self.groupIdentifier = groupIdentifier
         self.identifier = identifier
@@ -1049,8 +1027,7 @@ public struct GetDimensionKeyDetailsOutput: Swift.Sendable {
 
     public init(
         dimensions: [PIClientTypes.DimensionKeyDetail]? = nil
-    )
-    {
+    ) {
         self.dimensions = dimensions
     }
 }
@@ -1105,8 +1082,7 @@ public struct GetPerformanceAnalysisReportInput: Swift.Sendable {
         identifier: Swift.String? = nil,
         serviceType: PIClientTypes.ServiceType? = nil,
         textFormat: PIClientTypes.TextFormat? = nil
-    )
-    {
+    ) {
         self.acceptLanguage = acceptLanguage
         self.analysisReportId = analysisReportId
         self.identifier = identifier
@@ -1126,8 +1102,7 @@ public struct GetResourceMetadataInput: Swift.Sendable {
     public init(
         identifier: Swift.String? = nil,
         serviceType: PIClientTypes.ServiceType? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
         self.serviceType = serviceType
     }
@@ -1142,8 +1117,7 @@ public struct GetResourceMetadataOutput: Swift.Sendable {
     public init(
         features: [Swift.String: PIClientTypes.FeatureMetadata]? = nil,
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.features = features
         self.identifier = identifier
     }
@@ -1183,8 +1157,7 @@ extension PIClientTypes {
             filter: [Swift.String: Swift.String]? = nil,
             groupBy: PIClientTypes.DimensionGroup? = nil,
             metric: Swift.String? = nil
-        )
-        {
+        ) {
             self.filter = filter
             self.groupBy = groupBy
             self.metric = metric
@@ -1273,8 +1246,7 @@ public struct GetResourceMetricsInput: Swift.Sendable {
         periodInSeconds: Swift.Int? = nil,
         serviceType: PIClientTypes.ServiceType? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.identifier = identifier
         self.maxResults = maxResults
@@ -1311,8 +1283,7 @@ extension PIClientTypes {
         public init(
             dimensions: [Swift.String: Swift.String]? = nil,
             metric: Swift.String? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.metric = metric
         }
@@ -1331,8 +1302,7 @@ extension PIClientTypes {
         public init(
             dataPoints: [PIClientTypes.DataPoint]? = nil,
             key: PIClientTypes.ResponseResourceMetricKey? = nil
-        )
-        {
+        ) {
             self.dataPoints = dataPoints
             self.key = key
         }
@@ -1357,8 +1327,7 @@ public struct GetResourceMetricsOutput: Swift.Sendable {
         identifier: Swift.String? = nil,
         metricList: [PIClientTypes.MetricKeyDataPoints]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.alignedEndTime = alignedEndTime
         self.alignedStartTime = alignedStartTime
         self.identifier = identifier
@@ -1391,8 +1360,7 @@ public struct ListAvailableResourceDimensionsInput: Swift.Sendable {
         metrics: [Swift.String]? = nil,
         nextToken: Swift.String? = nil,
         serviceType: PIClientTypes.ServiceType? = nil
-    )
-    {
+    ) {
         self.authorizedActions = authorizedActions
         self.identifier = identifier
         self.maxResults = maxResults
@@ -1414,8 +1382,7 @@ extension PIClientTypes {
         public init(
             groups: [PIClientTypes.DimensionGroupDetail]? = nil,
             metric: Swift.String? = nil
-        )
-        {
+        ) {
             self.groups = groups
             self.metric = metric
         }
@@ -1431,8 +1398,7 @@ public struct ListAvailableResourceDimensionsOutput: Swift.Sendable {
     public init(
         metricDimensions: [PIClientTypes.MetricDimensionGroups]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.metricDimensions = metricDimensions
         self.nextToken = nextToken
     }
@@ -1467,8 +1433,7 @@ public struct ListAvailableResourceMetricsInput: Swift.Sendable {
         metricTypes: [Swift.String]? = nil,
         nextToken: Swift.String? = nil,
         serviceType: PIClientTypes.ServiceType? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
         self.maxResults = maxResults
         self.metricTypes = metricTypes
@@ -1492,8 +1457,7 @@ extension PIClientTypes {
             description: Swift.String? = nil,
             metric: Swift.String? = nil,
             unit: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.metric = metric
             self.unit = unit
@@ -1510,8 +1474,7 @@ public struct ListAvailableResourceMetricsOutput: Swift.Sendable {
     public init(
         metrics: [PIClientTypes.ResponseResourceMetric]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.metrics = metrics
         self.nextToken = nextToken
     }
@@ -1537,8 +1500,7 @@ public struct ListPerformanceAnalysisReportsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         serviceType: PIClientTypes.ServiceType? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
         self.listTags = listTags
         self.maxResults = maxResults
@@ -1556,8 +1518,7 @@ public struct ListPerformanceAnalysisReportsOutput: Swift.Sendable {
     public init(
         analysisReports: [PIClientTypes.AnalysisReportSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.analysisReports = analysisReports
         self.nextToken = nextToken
     }
@@ -1574,8 +1535,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         serviceType: PIClientTypes.ServiceType? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.serviceType = serviceType
     }
@@ -1587,8 +1547,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [PIClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1608,8 +1567,7 @@ public struct TagResourceInput: Swift.Sendable {
         resourceARN: Swift.String? = nil,
         serviceType: PIClientTypes.ServiceType? = nil,
         tags: [PIClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.serviceType = serviceType
         self.tags = tags
@@ -1636,8 +1594,7 @@ public struct UntagResourceInput: Swift.Sendable {
         resourceARN: Swift.String? = nil,
         serviceType: PIClientTypes.ServiceType? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.serviceType = serviceType
         self.tagKeys = tagKeys
@@ -1689,8 +1646,7 @@ extension PIClientTypes {
             severity: PIClientTypes.Severity? = nil,
             startTime: Foundation.Date? = nil,
             supportingInsights: [PIClientTypes.Insight]? = nil
-        )
-        {
+        ) {
             self.baselineData = baselineData
             self.context = context
             self.description = description
@@ -1746,8 +1702,7 @@ extension PIClientTypes {
             serviceType: PIClientTypes.ServiceType? = nil,
             startTime: Foundation.Date? = nil,
             status: PIClientTypes.AnalysisStatus? = nil
-        )
-        {
+        ) {
             self.analysisReportId = analysisReportId
             self.createTime = createTime
             self.endTime = endTime
@@ -1766,8 +1721,7 @@ public struct GetPerformanceAnalysisReportOutput: Swift.Sendable {
 
     public init(
         analysisReport: PIClientTypes.AnalysisReport? = nil
-    )
-    {
+    ) {
         self.analysisReport = analysisReport
     }
 }

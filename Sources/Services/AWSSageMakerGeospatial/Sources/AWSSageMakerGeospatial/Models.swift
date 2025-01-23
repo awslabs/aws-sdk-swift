@@ -34,9 +34,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -52,8 +52,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -253,8 +252,7 @@ extension SageMakerGeospatialClientTypes {
 
         public init(
             coordinates: [[[[Swift.Double]]]]? = nil
-        )
-        {
+        ) {
             self.coordinates = coordinates
         }
     }
@@ -275,8 +273,7 @@ extension SageMakerGeospatialClientTypes {
 
         public init(
             coordinates: [[[Swift.Double]]]? = nil
-        )
-        {
+        ) {
             self.coordinates = coordinates
         }
     }
@@ -318,8 +315,7 @@ extension SageMakerGeospatialClientTypes {
 
         public init(
             href: Swift.String? = nil
-        )
-        {
+        ) {
             self.href = href
         }
     }
@@ -385,8 +381,7 @@ extension SageMakerGeospatialClientTypes {
             equation: Swift.String? = nil,
             name: Swift.String? = nil,
             outputType: SageMakerGeospatialClientTypes.OutputType? = nil
-        )
-        {
+        ) {
             self.equation = equation
             self.name = name
             self.outputType = outputType
@@ -403,8 +398,7 @@ extension SageMakerGeospatialClientTypes {
 
         public init(
             operations: [SageMakerGeospatialClientTypes.Operation]? = nil
-        )
-        {
+        ) {
             self.operations = operations
         }
     }
@@ -422,8 +416,7 @@ extension SageMakerGeospatialClientTypes {
         public init(
             customIndices: SageMakerGeospatialClientTypes.CustomIndicesInput? = nil,
             predefinedIndices: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.customIndices = customIndices
             self.predefinedIndices = predefinedIndices
         }
@@ -454,8 +447,7 @@ extension SageMakerGeospatialClientTypes {
             algorithmName: SageMakerGeospatialClientTypes.AlgorithmNameCloudRemoval? = nil,
             interpolationValue: Swift.String? = nil,
             targetBands: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.algorithmName = algorithmName
             self.interpolationValue = interpolationValue
             self.targetBands = targetBands
@@ -499,9 +491,9 @@ extension SageMakerGeospatialClientTypes {
 }
 
 /// Updating or deleting a resource can cause an inconsistent state.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Identifier of the resource affected.
@@ -520,8 +512,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
     }
@@ -547,8 +538,7 @@ extension SageMakerGeospatialClientTypes {
             minimum: Swift.Float? = nil,
             name: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.maximum = maximum
             self.minimum = minimum
             self.name = name
@@ -624,8 +614,7 @@ extension SageMakerGeospatialClientTypes {
             supportedFilters: [SageMakerGeospatialClientTypes.Filter]? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             type: SageMakerGeospatialClientTypes.DataCollectionType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.descriptionPageUrl = descriptionPageUrl
@@ -638,9 +627,9 @@ extension SageMakerGeospatialClientTypes {
 }
 
 /// The request processing has failed because of an unknown error, exception, or failure.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         ///
@@ -659,17 +648,16 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
     }
 }
 
 /// The request references a resource which does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Identifier of the resource that was not found.
@@ -688,17 +676,16 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
     }
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         ///
@@ -717,17 +704,16 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
     }
 }
 
 /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         ///
@@ -746,8 +732,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
     }
@@ -760,8 +745,7 @@ public struct DeleteEarthObservationJobInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -778,8 +762,7 @@ public struct DeleteVectorEnrichmentJobInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -790,9 +773,9 @@ public struct DeleteVectorEnrichmentJobOutput: Swift.Sendable {
 }
 
 /// You have exceeded the service quota.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Identifier of the resource affected.
@@ -811,8 +794,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public init(
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
     }
@@ -831,8 +813,7 @@ extension SageMakerGeospatialClientTypes {
         public init(
             kmsKeyId: Swift.String? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.s3Uri = s3Uri
         }
@@ -849,8 +830,7 @@ extension SageMakerGeospatialClientTypes {
 
         public init(
             s3Data: SageMakerGeospatialClientTypes.ExportS3DataInput? = nil
-        )
-        {
+        ) {
             self.s3Data = s3Data
         }
     }
@@ -877,8 +857,7 @@ public struct ExportEarthObservationJobInput: Swift.Sendable {
         executionRoleArn: Swift.String? = nil,
         exportSourceImages: Swift.Bool? = nil,
         outputConfig: SageMakerGeospatialClientTypes.OutputConfigInput? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.clientToken = clientToken
         self.executionRoleArn = executionRoleArn
@@ -948,8 +927,7 @@ public struct ExportEarthObservationJobOutput: Swift.Sendable {
         exportSourceImages: Swift.Bool? = nil,
         exportStatus: SageMakerGeospatialClientTypes.EarthObservationJobExportStatus? = nil,
         outputConfig: SageMakerGeospatialClientTypes.OutputConfigInput? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.executionRoleArn = executionRoleArn
@@ -966,8 +944,7 @@ public struct GetEarthObservationJobInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -1015,8 +992,7 @@ extension SageMakerGeospatialClientTypes {
         public init(
             message: Swift.String? = nil,
             type: SageMakerGeospatialClientTypes.EarthObservationJobErrorType? = nil
-        )
-        {
+        ) {
             self.message = message
             self.type = type
         }
@@ -1066,8 +1042,7 @@ extension SageMakerGeospatialClientTypes {
         public init(
             message: Swift.String? = nil,
             type: SageMakerGeospatialClientTypes.ExportErrorType? = nil
-        )
-        {
+        ) {
             self.message = message
             self.type = type
         }
@@ -1086,8 +1061,7 @@ extension SageMakerGeospatialClientTypes {
         public init(
             exportResults: SageMakerGeospatialClientTypes.ExportErrorDetailsOutput? = nil,
             exportSourceImages: SageMakerGeospatialClientTypes.ExportErrorDetailsOutput? = nil
-        )
-        {
+        ) {
             self.exportResults = exportResults
             self.exportSourceImages = exportSourceImages
         }
@@ -1135,8 +1109,7 @@ extension SageMakerGeospatialClientTypes {
         public init(
             lowerBound: Swift.Float? = nil,
             upperBound: Swift.Float? = nil
-        )
-        {
+        ) {
             self.lowerBound = lowerBound
             self.upperBound = upperBound
         }
@@ -1157,8 +1130,7 @@ extension SageMakerGeospatialClientTypes {
         public init(
             lowerBound: Swift.Float? = nil,
             upperBound: Swift.Float? = nil
-        )
-        {
+        ) {
             self.lowerBound = lowerBound
             self.upperBound = upperBound
         }
@@ -1178,8 +1150,7 @@ extension SageMakerGeospatialClientTypes {
         public init(
             comparisonOperator: SageMakerGeospatialClientTypes.ComparisonOperator? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.comparisonOperator = comparisonOperator
             self.value = value
         }
@@ -1200,8 +1171,7 @@ extension SageMakerGeospatialClientTypes {
         public init(
             lowerBound: Swift.Float? = nil,
             upperBound: Swift.Float? = nil
-        )
-        {
+        ) {
             self.lowerBound = lowerBound
             self.upperBound = upperBound
         }
@@ -1222,8 +1192,7 @@ extension SageMakerGeospatialClientTypes {
         public init(
             lowerBound: Swift.Float? = nil,
             upperBound: Swift.Float? = nil
-        )
-        {
+        ) {
             self.lowerBound = lowerBound
             self.upperBound = upperBound
         }
@@ -1244,8 +1213,7 @@ extension SageMakerGeospatialClientTypes {
         public init(
             lowerBound: Swift.Float? = nil,
             upperBound: Swift.Float? = nil
-        )
-        {
+        ) {
             self.lowerBound = lowerBound
             self.upperBound = upperBound
         }
@@ -1282,8 +1250,7 @@ extension SageMakerGeospatialClientTypes {
 
         public init(
             property: SageMakerGeospatialClientTypes.Property? = nil
-        )
-        {
+        ) {
             self.property = property
         }
     }
@@ -1301,8 +1268,7 @@ extension SageMakerGeospatialClientTypes {
         public init(
             logicalOperator: SageMakerGeospatialClientTypes.LogicalOperator? = nil,
             properties: [SageMakerGeospatialClientTypes.PropertyFilter]? = nil
-        )
-        {
+        ) {
             self.logicalOperator = logicalOperator
             self.properties = properties
         }
@@ -1323,8 +1289,7 @@ extension SageMakerGeospatialClientTypes {
         public init(
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -1361,8 +1326,7 @@ extension SageMakerGeospatialClientTypes {
             rasterDataCollectionArn: Swift.String? = nil,
             rasterDataCollectionName: Swift.String? = nil,
             timeRangeFilter: SageMakerGeospatialClientTypes.TimeRangeFilterOutput? = nil
-        )
-        {
+        ) {
             self.areaOfInterest = areaOfInterest
             self.propertyFilters = propertyFilters
             self.rasterDataCollectionArn = rasterDataCollectionArn
@@ -1389,8 +1353,7 @@ extension SageMakerGeospatialClientTypes {
         public init(
             previousEarthObservationJobArn: Swift.String? = nil,
             rasterDataCollectionQuery: SageMakerGeospatialClientTypes.RasterDataCollectionQueryOutput? = nil
-        )
-        {
+        ) {
             self.previousEarthObservationJobArn = previousEarthObservationJobArn
             self.rasterDataCollectionQuery = rasterDataCollectionQuery
         }
@@ -1409,8 +1372,7 @@ extension SageMakerGeospatialClientTypes {
         public init(
             algorithmName: SageMakerGeospatialClientTypes.AlgorithmNameGeoMosaic? = nil,
             targetBands: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.algorithmName = algorithmName
             self.targetBands = targetBands
         }
@@ -1467,8 +1429,7 @@ extension SageMakerGeospatialClientTypes {
         public init(
             unit: SageMakerGeospatialClientTypes.Unit? = nil,
             value: Swift.Float? = nil
-        )
-        {
+        ) {
             self.unit = unit
             self.value = value
         }
@@ -1485,8 +1446,7 @@ extension SageMakerGeospatialClientTypes {
 
         public init(
             userDefined: SageMakerGeospatialClientTypes.UserDefined? = nil
-        )
-        {
+        ) {
             self.userDefined = userDefined
         }
     }
@@ -1508,8 +1468,7 @@ extension SageMakerGeospatialClientTypes {
             algorithmName: SageMakerGeospatialClientTypes.AlgorithmNameResampling? = nil,
             outputResolution: SageMakerGeospatialClientTypes.OutputResolutionResamplingInput? = nil,
             targetBands: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.algorithmName = algorithmName
             self.outputResolution = outputResolution
             self.targetBands = targetBands
@@ -1564,8 +1523,7 @@ extension SageMakerGeospatialClientTypes {
         public init(
             predefined: SageMakerGeospatialClientTypes.PredefinedResolution? = nil,
             userDefined: SageMakerGeospatialClientTypes.UserDefined? = nil
-        )
-        {
+        ) {
             self.predefined = predefined
             self.userDefined = userDefined
         }
@@ -1584,8 +1542,7 @@ extension SageMakerGeospatialClientTypes {
         public init(
             outputResolution: SageMakerGeospatialClientTypes.OutputResolutionStackInput? = nil,
             targetBands: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.outputResolution = outputResolution
             self.targetBands = targetBands
         }
@@ -1674,8 +1631,7 @@ extension SageMakerGeospatialClientTypes {
             groupBy: SageMakerGeospatialClientTypes.GroupBy? = nil,
             statistics: [SageMakerGeospatialClientTypes.TemporalStatistics]? = nil,
             targetBands: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.groupBy = groupBy
             self.statistics = statistics
             self.targetBands = targetBands
@@ -1757,8 +1713,7 @@ extension SageMakerGeospatialClientTypes {
             targetBands: [Swift.String]? = nil,
             zoneS3Path: Swift.String? = nil,
             zoneS3PathKmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.statistics = statistics
             self.targetBands = targetBands
             self.zoneS3Path = zoneS3Path
@@ -1807,8 +1762,7 @@ extension SageMakerGeospatialClientTypes {
         public init(
             bandName: Swift.String? = nil,
             outputDataType: SageMakerGeospatialClientTypes.OutputType? = nil
-        )
-        {
+        ) {
             self.bandName = bandName
             self.outputDataType = outputDataType
         }
@@ -1922,8 +1876,7 @@ public struct GetEarthObservationJobOutput: Swift.Sendable {
         outputBands: [SageMakerGeospatialClientTypes.OutputBand]? = nil,
         status: SageMakerGeospatialClientTypes.EarthObservationJobStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.durationInSeconds = durationInSeconds
@@ -2017,8 +1970,7 @@ public struct GetTileInput: Swift.Sendable {
         x: Swift.Int? = nil,
         y: Swift.Int? = nil,
         z: Swift.Int? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.executionRoleArn = executionRoleArn
         self.imageAssets = imageAssets
@@ -2039,9 +1991,8 @@ public struct GetTileOutput: Swift.Sendable {
     public var binaryFile: Smithy.ByteStream?
 
     public init(
-        binaryFile: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8))
-    )
-    {
+        binaryFile: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: ""))
+    ) {
         self.binaryFile = binaryFile
     }
 }
@@ -2095,8 +2046,7 @@ public struct ListEarthObservationJobsInput: Swift.Sendable {
         sortBy: Swift.String? = nil,
         sortOrder: SageMakerGeospatialClientTypes.SortOrder? = nil,
         statusEquals: SageMakerGeospatialClientTypes.EarthObservationJobStatus? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.sortBy = sortBy
@@ -2143,8 +2093,7 @@ extension SageMakerGeospatialClientTypes {
             operationType: Swift.String? = nil,
             status: SageMakerGeospatialClientTypes.EarthObservationJobStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.durationInSeconds = durationInSeconds
@@ -2166,8 +2115,7 @@ public struct ListEarthObservationJobsOutput: Swift.Sendable {
     public init(
         earthObservationJobSummaries: [SageMakerGeospatialClientTypes.ListEarthObservationJobOutputConfig]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.earthObservationJobSummaries = earthObservationJobSummaries
         self.nextToken = nextToken
     }
@@ -2192,8 +2140,7 @@ extension SageMakerGeospatialClientTypes {
         public init(
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -2226,8 +2173,7 @@ extension SageMakerGeospatialClientTypes {
             propertyFilters: SageMakerGeospatialClientTypes.PropertyFilters? = nil,
             rasterDataCollectionArn: Swift.String? = nil,
             timeRangeFilter: SageMakerGeospatialClientTypes.TimeRangeFilterInput? = nil
-        )
-        {
+        ) {
             self.areaOfInterest = areaOfInterest
             self.propertyFilters = propertyFilters
             self.rasterDataCollectionArn = rasterDataCollectionArn
@@ -2253,8 +2199,7 @@ extension SageMakerGeospatialClientTypes {
         public init(
             previousEarthObservationJobArn: Swift.String? = nil,
             rasterDataCollectionQuery: SageMakerGeospatialClientTypes.RasterDataCollectionQueryInput? = nil
-        )
-        {
+        ) {
             self.previousEarthObservationJobArn = previousEarthObservationJobArn
             self.rasterDataCollectionQuery = rasterDataCollectionQuery
         }
@@ -2289,8 +2234,7 @@ public struct StartEarthObservationJobInput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.executionRoleArn = executionRoleArn
         self.inputConfig = inputConfig
@@ -2341,8 +2285,7 @@ public struct StartEarthObservationJobOutput: Swift.Sendable {
         name: Swift.String? = nil,
         status: SageMakerGeospatialClientTypes.EarthObservationJobStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.durationInSeconds = durationInSeconds
@@ -2363,8 +2306,7 @@ public struct StopEarthObservationJobInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -2387,8 +2329,7 @@ extension SageMakerGeospatialClientTypes {
         public init(
             kmsKeyId: Swift.String? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.s3Uri = s3Uri
         }
@@ -2405,8 +2346,7 @@ extension SageMakerGeospatialClientTypes {
 
         public init(
             s3Data: SageMakerGeospatialClientTypes.VectorEnrichmentJobS3Data? = nil
-        )
-        {
+        ) {
             self.s3Data = s3Data
         }
     }
@@ -2430,8 +2370,7 @@ public struct ExportVectorEnrichmentJobInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         executionRoleArn: Swift.String? = nil,
         outputConfig: SageMakerGeospatialClientTypes.ExportVectorEnrichmentJobOutputConfig? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.clientToken = clientToken
         self.executionRoleArn = executionRoleArn
@@ -2494,8 +2433,7 @@ public struct ExportVectorEnrichmentJobOutput: Swift.Sendable {
         executionRoleArn: Swift.String? = nil,
         exportStatus: SageMakerGeospatialClientTypes.VectorEnrichmentJobExportStatus? = nil,
         outputConfig: SageMakerGeospatialClientTypes.ExportVectorEnrichmentJobOutputConfig? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.executionRoleArn = executionRoleArn
@@ -2518,8 +2456,7 @@ extension SageMakerGeospatialClientTypes {
         public init(
             coordinates: [[[Swift.Double]]]? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.coordinates = coordinates
             self.type = type
         }
@@ -2538,8 +2475,7 @@ public struct GetRasterDataCollectionInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -2578,8 +2514,7 @@ public struct GetRasterDataCollectionOutput: Swift.Sendable {
         supportedFilters: [SageMakerGeospatialClientTypes.Filter]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         type: SageMakerGeospatialClientTypes.DataCollectionType? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.description = description
         self.descriptionPageUrl = descriptionPageUrl
@@ -2598,8 +2533,7 @@ public struct GetVectorEnrichmentJobInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -2647,8 +2581,7 @@ extension SageMakerGeospatialClientTypes {
         public init(
             errorMessage: Swift.String? = nil,
             errorType: SageMakerGeospatialClientTypes.VectorEnrichmentJobErrorType? = nil
-        )
-        {
+        ) {
             self.errorMessage = errorMessage
             self.errorType = errorType
         }
@@ -2696,8 +2629,7 @@ extension SageMakerGeospatialClientTypes {
         public init(
             message: Swift.String? = nil,
             type: SageMakerGeospatialClientTypes.VectorEnrichmentJobExportErrorType? = nil
-        )
-        {
+        ) {
             self.message = message
             self.type = type
         }
@@ -2754,8 +2686,7 @@ extension SageMakerGeospatialClientTypes {
         public init(
             dataSourceConfig: SageMakerGeospatialClientTypes.VectorEnrichmentJobDataSourceConfigInput? = nil,
             documentType: SageMakerGeospatialClientTypes.VectorEnrichmentJobDocumentType? = nil
-        )
-        {
+        ) {
             self.dataSourceConfig = dataSourceConfig
             self.documentType = documentType
         }
@@ -2784,8 +2715,7 @@ extension SageMakerGeospatialClientTypes {
             timestampAttributeName: Swift.String? = nil,
             xAttributeName: Swift.String? = nil,
             yAttributeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.idAttributeName = idAttributeName
             self.timestampAttributeName = timestampAttributeName
             self.xAttributeName = xAttributeName
@@ -2808,8 +2738,7 @@ extension SageMakerGeospatialClientTypes {
         public init(
             xAttributeName: Swift.String? = nil,
             yAttributeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.xAttributeName = xAttributeName
             self.yAttributeName = yAttributeName
         }
@@ -2958,8 +2887,7 @@ public struct GetVectorEnrichmentJobOutput: Swift.Sendable {
         status: SageMakerGeospatialClientTypes.VectorEnrichmentJobStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         type: SageMakerGeospatialClientTypes.VectorEnrichmentJobType? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.durationInSeconds = durationInSeconds
@@ -3001,8 +2929,7 @@ extension SageMakerGeospatialClientTypes {
             viewOffNadir: Swift.Float? = nil,
             viewSunAzimuth: Swift.Float? = nil,
             viewSunElevation: Swift.Float? = nil
-        )
-        {
+        ) {
             self.eoCloudCover = eoCloudCover
             self.landsatCloudCoverLand = landsatCloudCoverLand
             self.platform = platform
@@ -3037,8 +2964,7 @@ extension SageMakerGeospatialClientTypes {
             geometry: SageMakerGeospatialClientTypes.Geometry? = nil,
             id: Swift.String? = nil,
             properties: SageMakerGeospatialClientTypes.Properties? = nil
-        )
-        {
+        ) {
             self.assets = assets
             self.dateTime = dateTime
             self.geometry = geometry
@@ -3057,8 +2983,7 @@ public struct ListRasterDataCollectionsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3079,8 +3004,7 @@ public struct ListRasterDataCollectionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         rasterDataCollectionSummaries: [SageMakerGeospatialClientTypes.RasterDataCollectionMetadata]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.rasterDataCollectionSummaries = rasterDataCollectionSummaries
     }
@@ -3098,8 +3022,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3110,8 +3033,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -3149,8 +3071,7 @@ extension SageMakerGeospatialClientTypes {
             status: SageMakerGeospatialClientTypes.VectorEnrichmentJobStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             type: SageMakerGeospatialClientTypes.VectorEnrichmentJobType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.durationInSeconds = durationInSeconds
@@ -3180,8 +3101,7 @@ public struct ListVectorEnrichmentJobsInput: Swift.Sendable {
         sortBy: Swift.String? = nil,
         sortOrder: SageMakerGeospatialClientTypes.SortOrder? = nil,
         statusEquals: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.sortBy = sortBy
@@ -3205,8 +3125,7 @@ public struct ListVectorEnrichmentJobsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         vectorEnrichmentJobSummaries: [SageMakerGeospatialClientTypes.ListVectorEnrichmentJobOutputConfig]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.vectorEnrichmentJobSummaries = vectorEnrichmentJobSummaries
     }
@@ -3236,8 +3155,7 @@ extension SageMakerGeospatialClientTypes {
             bandFilter: [Swift.String]? = nil,
             propertyFilters: SageMakerGeospatialClientTypes.PropertyFilters? = nil,
             timeRangeFilter: SageMakerGeospatialClientTypes.TimeRangeFilterInput? = nil
-        )
-        {
+        ) {
             self.areaOfInterest = areaOfInterest
             self.bandFilter = bandFilter
             self.propertyFilters = propertyFilters
@@ -3265,8 +3183,7 @@ public struct SearchRasterDataCollectionInput: Swift.Sendable {
         arn: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         rasterDataCollectionQuery: SageMakerGeospatialClientTypes.RasterDataCollectionQueryWithBandFilterInput? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.nextToken = nextToken
         self.rasterDataCollectionQuery = rasterDataCollectionQuery
@@ -3291,8 +3208,7 @@ public struct SearchRasterDataCollectionOutput: Swift.Sendable {
         approximateResultCount: Swift.Int? = nil,
         items: [SageMakerGeospatialClientTypes.ItemSource]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.approximateResultCount = approximateResultCount
         self.items = items
         self.nextToken = nextToken
@@ -3315,8 +3231,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -3338,8 +3253,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -3378,8 +3292,7 @@ public struct StartVectorEnrichmentJobInput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.executionRoleArn = executionRoleArn
         self.inputConfig = inputConfig
@@ -3435,8 +3348,7 @@ public struct StartVectorEnrichmentJobOutput: Swift.Sendable {
         status: SageMakerGeospatialClientTypes.VectorEnrichmentJobStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         type: SageMakerGeospatialClientTypes.VectorEnrichmentJobType? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.durationInSeconds = durationInSeconds
@@ -3458,8 +3370,7 @@ public struct StopVectorEnrichmentJobInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }

@@ -29,9 +29,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// A request contains unexpected data.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -46,16 +46,15 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An operation failed because a dependent service threw an exception.
-public struct DependentServiceFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DependentServiceFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -70,16 +69,15 @@ public struct DependentServiceFailureException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The service failed to perform an operation due to an internal issue.
-public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -94,16 +92,15 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A resource could not be created because service quotas were exceeded.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -118,16 +115,15 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An operation failed due to a lack of access.
-public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -142,8 +138,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -222,8 +217,7 @@ extension AmplifyClientTypes {
             framework: Swift.String? = nil,
             pullRequestEnvironmentName: Swift.String? = nil,
             stage: AmplifyClientTypes.Stage? = nil
-        )
-        {
+        ) {
             self.basicAuthCredentials = basicAuthCredentials
             self.buildSpec = buildSpec
             self.enableAutoBuild = enableAutoBuild
@@ -282,8 +276,7 @@ extension AmplifyClientTypes {
 
         public init(
             type: AmplifyClientTypes.CacheConfigType? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -309,8 +302,7 @@ extension AmplifyClientTypes {
             source: Swift.String? = nil,
             status: Swift.String? = nil,
             target: Swift.String? = nil
-        )
-        {
+        ) {
             self.condition = condition
             self.source = source
             self.status = status
@@ -416,8 +408,7 @@ public struct CreateAppInput: Swift.Sendable {
         platform: AmplifyClientTypes.Platform? = nil,
         repository: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
         self.autoBranchCreationConfig = autoBranchCreationConfig
         self.autoBranchCreationPatterns = autoBranchCreationPatterns
@@ -464,8 +455,7 @@ extension AmplifyClientTypes {
             lastDeployTime: Foundation.Date? = nil,
             status: Swift.String? = nil,
             thumbnailUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.branchName = branchName
             self.lastDeployTime = lastDeployTime
             self.status = status
@@ -508,6 +498,67 @@ extension AmplifyClientTypes {
 
 extension AmplifyClientTypes {
 
+    public enum WafStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case associating
+        case associationFailed
+        case associationSuccess
+        case disassociating
+        case disassociationFailed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WafStatus] {
+            return [
+                .associating,
+                .associationFailed,
+                .associationSuccess,
+                .disassociating,
+                .disassociationFailed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .associating: return "ASSOCIATING"
+            case .associationFailed: return "ASSOCIATION_FAILED"
+            case .associationSuccess: return "ASSOCIATION_SUCCESS"
+            case .disassociating: return "DISASSOCIATING"
+            case .disassociationFailed: return "DISASSOCIATION_FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AmplifyClientTypes {
+
+    /// Describes the Firewall configuration for a hosted Amplify application. Firewall support enables you to protect your web applications with a direct integration with WAF. For more information about using WAF protections for an Amplify application, see [Firewall support for hosted sites](https://docs.aws.amazon.com/amplify/latest/userguide/WAF-integration.html) in the Amplify User Guide.
+    public struct WafConfiguration: Swift.Sendable {
+        /// The reason for the current status of the Firewall configuration.
+        public var statusReason: Swift.String?
+        /// The status of the process to associate or disassociate a web ACL to an Amplify app.
+        public var wafStatus: AmplifyClientTypes.WafStatus?
+        /// The Amazon Resource Name (ARN) for the web ACL associated with an Amplify app.
+        public var webAclArn: Swift.String?
+
+        public init(
+            statusReason: Swift.String? = nil,
+            wafStatus: AmplifyClientTypes.WafStatus? = nil,
+            webAclArn: Swift.String? = nil
+        ) {
+            self.statusReason = statusReason
+            self.wafStatus = wafStatus
+            self.webAclArn = webAclArn
+        }
+    }
+}
+
+extension AmplifyClientTypes {
+
     /// Represents the different branches of a repository for building, deploying, and hosting an Amplify app.
     public struct App: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the Amplify app.
@@ -526,7 +577,7 @@ extension AmplifyClientTypes {
         public var buildSpec: Swift.String?
         /// The cache configuration for the Amplify app. If you don't specify the cache configuration type, Amplify uses the default AMPLIFY_MANAGED setting.
         public var cacheConfig: AmplifyClientTypes.CacheConfig?
-        /// Creates a date and time for the Amplify app.
+        /// A timestamp of when Amplify created the application.
         /// This member is required.
         public var createTime: Foundation.Date?
         /// Describes the custom HTTP headers for the Amplify app.
@@ -569,9 +620,13 @@ extension AmplifyClientTypes {
         public var repositoryCloneMethod: AmplifyClientTypes.RepositoryCloneMethod?
         /// The tag for the Amplify app.
         public var tags: [Swift.String: Swift.String]?
-        /// Updates the date and time for the Amplify app.
+        /// A timestamp of when Amplify updated the application.
         /// This member is required.
         public var updateTime: Foundation.Date?
+        /// Describes the Firewall configuration for the Amplify app. Firewall support enables you to protect your hosted applications with a direct integration with WAF.
+        public var wafConfiguration: AmplifyClientTypes.WafConfiguration?
+        /// A timestamp of when Amplify created the webhook in your Git repository.
+        public var webhookCreateTime: Foundation.Date?
 
         public init(
             appArn: Swift.String? = nil,
@@ -598,9 +653,10 @@ extension AmplifyClientTypes {
             repository: Swift.String? = nil,
             repositoryCloneMethod: AmplifyClientTypes.RepositoryCloneMethod? = nil,
             tags: [Swift.String: Swift.String]? = nil,
-            updateTime: Foundation.Date? = nil
-        )
-        {
+            updateTime: Foundation.Date? = nil,
+            wafConfiguration: AmplifyClientTypes.WafConfiguration? = nil,
+            webhookCreateTime: Foundation.Date? = nil
+        ) {
             self.appArn = appArn
             self.appId = appId
             self.autoBranchCreationConfig = autoBranchCreationConfig
@@ -626,13 +682,15 @@ extension AmplifyClientTypes {
             self.repositoryCloneMethod = repositoryCloneMethod
             self.tags = tags
             self.updateTime = updateTime
+            self.wafConfiguration = wafConfiguration
+            self.webhookCreateTime = webhookCreateTime
         }
     }
 }
 
 extension AmplifyClientTypes.App: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "App(appArn: \(Swift.String(describing: appArn)), appId: \(Swift.String(describing: appId)), autoBranchCreationConfig: \(Swift.String(describing: autoBranchCreationConfig)), autoBranchCreationPatterns: \(Swift.String(describing: autoBranchCreationPatterns)), cacheConfig: \(Swift.String(describing: cacheConfig)), createTime: \(Swift.String(describing: createTime)), customHeaders: \(Swift.String(describing: customHeaders)), customRules: \(Swift.String(describing: customRules)), defaultDomain: \(Swift.String(describing: defaultDomain)), description: \(Swift.String(describing: description)), enableAutoBranchCreation: \(Swift.String(describing: enableAutoBranchCreation)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableBranchAutoBuild: \(Swift.String(describing: enableBranchAutoBuild)), enableBranchAutoDeletion: \(Swift.String(describing: enableBranchAutoDeletion)), environmentVariables: \(Swift.String(describing: environmentVariables)), iamServiceRoleArn: \(Swift.String(describing: iamServiceRoleArn)), name: \(Swift.String(describing: name)), platform: \(Swift.String(describing: platform)), productionBranch: \(Swift.String(describing: productionBranch)), repository: \(Swift.String(describing: repository)), repositoryCloneMethod: \(Swift.String(describing: repositoryCloneMethod)), tags: \(Swift.String(describing: tags)), updateTime: \(Swift.String(describing: updateTime)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
+        "App(appArn: \(Swift.String(describing: appArn)), appId: \(Swift.String(describing: appId)), autoBranchCreationConfig: \(Swift.String(describing: autoBranchCreationConfig)), autoBranchCreationPatterns: \(Swift.String(describing: autoBranchCreationPatterns)), cacheConfig: \(Swift.String(describing: cacheConfig)), createTime: \(Swift.String(describing: createTime)), customHeaders: \(Swift.String(describing: customHeaders)), customRules: \(Swift.String(describing: customRules)), defaultDomain: \(Swift.String(describing: defaultDomain)), description: \(Swift.String(describing: description)), enableAutoBranchCreation: \(Swift.String(describing: enableAutoBranchCreation)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableBranchAutoBuild: \(Swift.String(describing: enableBranchAutoBuild)), enableBranchAutoDeletion: \(Swift.String(describing: enableBranchAutoDeletion)), environmentVariables: \(Swift.String(describing: environmentVariables)), iamServiceRoleArn: \(Swift.String(describing: iamServiceRoleArn)), name: \(Swift.String(describing: name)), platform: \(Swift.String(describing: platform)), productionBranch: \(Swift.String(describing: productionBranch)), repository: \(Swift.String(describing: repository)), repositoryCloneMethod: \(Swift.String(describing: repositoryCloneMethod)), tags: \(Swift.String(describing: tags)), updateTime: \(Swift.String(describing: updateTime)), wafConfiguration: \(Swift.String(describing: wafConfiguration)), webhookCreateTime: \(Swift.String(describing: webhookCreateTime)), basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateAppOutput: Swift.Sendable {
@@ -642,16 +700,15 @@ public struct CreateAppOutput: Swift.Sendable {
 
     public init(
         app: AmplifyClientTypes.App? = nil
-    )
-    {
+    ) {
         self.app = app
     }
 }
 
 /// An entity was not found during an operation.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -666,8 +723,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -690,8 +746,7 @@ public struct CreateBackendEnvironmentInput: Swift.Sendable {
         deploymentArtifacts: Swift.String? = nil,
         environmentName: Swift.String? = nil,
         stackName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.deploymentArtifacts = deploymentArtifacts
         self.environmentName = environmentName
@@ -727,8 +782,7 @@ extension AmplifyClientTypes {
             environmentName: Swift.String? = nil,
             stackName: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.backendEnvironmentArn = backendEnvironmentArn
             self.createTime = createTime
             self.deploymentArtifacts = deploymentArtifacts
@@ -747,8 +801,7 @@ public struct CreateBackendEnvironmentOutput: Swift.Sendable {
 
     public init(
         backendEnvironment: AmplifyClientTypes.BackendEnvironment? = nil
-    )
-    {
+    ) {
         self.backendEnvironment = backendEnvironment
     }
 }
@@ -762,8 +815,7 @@ extension AmplifyClientTypes {
 
         public init(
             stackArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.stackArn = stackArn
         }
     }
@@ -832,8 +884,7 @@ public struct CreateBranchInput: Swift.Sendable {
         stage: AmplifyClientTypes.Stage? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         ttl: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backend = backend
         self.backendEnvironmentArn = backendEnvironmentArn
@@ -884,7 +935,7 @@ extension AmplifyClientTypes {
         public var branchName: Swift.String?
         /// The build specification (build spec) content for the branch of an Amplify app.
         public var buildSpec: Swift.String?
-        /// The creation date and time for a branch that is part of an Amplify app.
+        /// A timestamp of when Amplify created the branch.
         /// This member is required.
         public var createTime: Foundation.Date?
         /// The custom domains for a branch of an Amplify app.
@@ -935,7 +986,7 @@ extension AmplifyClientTypes {
         /// The content Time to Live (TTL) for the website in seconds.
         /// This member is required.
         public var ttl: Swift.String?
-        /// The last updated date and time for a branch that is part of an Amplify app.
+        /// A timestamp for the last updated time for a branch.
         /// This member is required.
         public var updateTime: Foundation.Date?
 
@@ -968,8 +1019,7 @@ extension AmplifyClientTypes {
             totalNumberOfJobs: Swift.String? = nil,
             ttl: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.activeJobId = activeJobId
             self.associatedResources = associatedResources
             self.backend = backend
@@ -1015,8 +1065,7 @@ public struct CreateBranchOutput: Swift.Sendable {
 
     public init(
         branch: AmplifyClientTypes.Branch? = nil
-    )
-    {
+    ) {
         self.branch = branch
     }
 }
@@ -1036,8 +1085,7 @@ public struct CreateDeploymentInput: Swift.Sendable {
         appId: Swift.String? = nil,
         branchName: Swift.String? = nil,
         fileMap: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.branchName = branchName
         self.fileMap = fileMap
@@ -1059,8 +1107,7 @@ public struct CreateDeploymentOutput: Swift.Sendable {
         fileUploadUrls: [Swift.String: Swift.String]? = nil,
         jobId: Swift.String? = nil,
         zipUploadUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileUploadUrls = fileUploadUrls
         self.jobId = jobId
         self.zipUploadUrl = zipUploadUrl
@@ -1109,8 +1156,7 @@ extension AmplifyClientTypes {
         public init(
             customCertificateArn: Swift.String? = nil,
             type: AmplifyClientTypes.CertificateType? = nil
-        )
-        {
+        ) {
             self.customCertificateArn = customCertificateArn
             self.type = type
         }
@@ -1131,8 +1177,7 @@ extension AmplifyClientTypes {
         public init(
             branchName: Swift.String? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.branchName = branchName
             self.`prefix` = `prefix`
         }
@@ -1167,8 +1212,7 @@ public struct CreateDomainAssociationInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         enableAutoSubDomain: Swift.Bool? = nil,
         subDomainSettings: [AmplifyClientTypes.SubDomainSetting]? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.autoSubDomainCreationPatterns = autoSubDomainCreationPatterns
         self.autoSubDomainIAMRole = autoSubDomainIAMRole
@@ -1195,8 +1239,7 @@ extension AmplifyClientTypes {
             certificateVerificationDNSRecord: Swift.String? = nil,
             customCertificateArn: Swift.String? = nil,
             type: AmplifyClientTypes.CertificateType? = nil
-        )
-        {
+        ) {
             self.certificateVerificationDNSRecord = certificateVerificationDNSRecord
             self.customCertificateArn = customCertificateArn
             self.type = type
@@ -1275,8 +1318,7 @@ extension AmplifyClientTypes {
             dnsRecord: Swift.String? = nil,
             subDomainSetting: AmplifyClientTypes.SubDomainSetting? = nil,
             verified: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.dnsRecord = dnsRecord
             self.subDomainSetting = subDomainSetting
             self.verified = verified
@@ -1373,8 +1415,7 @@ extension AmplifyClientTypes {
             statusReason: Swift.String? = nil,
             subDomains: [AmplifyClientTypes.SubDomain]? = nil,
             updateStatus: AmplifyClientTypes.UpdateStatus? = nil
-        )
-        {
+        ) {
             self.autoSubDomainCreationPatterns = autoSubDomainCreationPatterns
             self.autoSubDomainIAMRole = autoSubDomainIAMRole
             self.certificate = certificate
@@ -1398,8 +1439,7 @@ public struct CreateDomainAssociationOutput: Swift.Sendable {
 
     public init(
         domainAssociation: AmplifyClientTypes.DomainAssociation? = nil
-    )
-    {
+    ) {
         self.domainAssociation = domainAssociation
     }
 }
@@ -1419,8 +1459,7 @@ public struct CreateWebhookInput: Swift.Sendable {
         appId: Swift.String? = nil,
         branchName: Swift.String? = nil,
         description: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.branchName = branchName
         self.description = description
@@ -1434,13 +1473,13 @@ extension AmplifyClientTypes {
         /// The name for a branch that is part of an Amplify app.
         /// This member is required.
         public var branchName: Swift.String?
-        /// The create date and time for a webhook.
+        /// A timestamp of when Amplify created the webhook in your Git repository.
         /// This member is required.
         public var createTime: Foundation.Date?
         /// The description for a webhook.
         /// This member is required.
         public var description: Swift.String?
-        /// Updates the date and time for a webhook.
+        /// A timestamp of when Amplify updated the webhook in your Git repository.
         /// This member is required.
         public var updateTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) for the webhook.
@@ -1461,8 +1500,7 @@ extension AmplifyClientTypes {
             webhookArn: Swift.String? = nil,
             webhookId: Swift.String? = nil,
             webhookUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.branchName = branchName
             self.createTime = createTime
             self.description = description
@@ -1482,8 +1520,7 @@ public struct CreateWebhookOutput: Swift.Sendable {
 
     public init(
         webhook: AmplifyClientTypes.Webhook? = nil
-    )
-    {
+    ) {
         self.webhook = webhook
     }
 }
@@ -1496,8 +1533,7 @@ public struct DeleteAppInput: Swift.Sendable {
 
     public init(
         appId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
     }
 }
@@ -1510,8 +1546,7 @@ public struct DeleteAppOutput: Swift.Sendable {
 
     public init(
         app: AmplifyClientTypes.App? = nil
-    )
-    {
+    ) {
         self.app = app
     }
 }
@@ -1528,8 +1563,7 @@ public struct DeleteBackendEnvironmentInput: Swift.Sendable {
     public init(
         appId: Swift.String? = nil,
         environmentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.environmentName = environmentName
     }
@@ -1543,8 +1577,7 @@ public struct DeleteBackendEnvironmentOutput: Swift.Sendable {
 
     public init(
         backendEnvironment: AmplifyClientTypes.BackendEnvironment? = nil
-    )
-    {
+    ) {
         self.backendEnvironment = backendEnvironment
     }
 }
@@ -1561,8 +1594,7 @@ public struct DeleteBranchInput: Swift.Sendable {
     public init(
         appId: Swift.String? = nil,
         branchName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.branchName = branchName
     }
@@ -1576,8 +1608,7 @@ public struct DeleteBranchOutput: Swift.Sendable {
 
     public init(
         branch: AmplifyClientTypes.Branch? = nil
-    )
-    {
+    ) {
         self.branch = branch
     }
 }
@@ -1594,8 +1625,7 @@ public struct DeleteDomainAssociationInput: Swift.Sendable {
     public init(
         appId: Swift.String? = nil,
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.domainName = domainName
     }
@@ -1608,8 +1638,7 @@ public struct DeleteDomainAssociationOutput: Swift.Sendable {
 
     public init(
         domainAssociation: AmplifyClientTypes.DomainAssociation? = nil
-    )
-    {
+    ) {
         self.domainAssociation = domainAssociation
     }
 }
@@ -1630,8 +1659,7 @@ public struct DeleteJobInput: Swift.Sendable {
         appId: Swift.String? = nil,
         branchName: Swift.String? = nil,
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.branchName = branchName
         self.jobId = jobId
@@ -1707,6 +1735,7 @@ extension AmplifyClientTypes {
     public enum JobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cancelled
         case cancelling
+        case created
         case failed
         case pending
         case provisioning
@@ -1718,6 +1747,7 @@ extension AmplifyClientTypes {
             return [
                 .cancelled,
                 .cancelling,
+                .created,
                 .failed,
                 .pending,
                 .provisioning,
@@ -1735,6 +1765,7 @@ extension AmplifyClientTypes {
             switch self {
             case .cancelled: return "CANCELLED"
             case .cancelling: return "CANCELLING"
+            case .created: return "CREATED"
             case .failed: return "FAILED"
             case .pending: return "PENDING"
             case .provisioning: return "PROVISIONING"
@@ -1793,8 +1824,7 @@ extension AmplifyClientTypes {
             sourceUrlType: AmplifyClientTypes.SourceUrlType? = nil,
             startTime: Foundation.Date? = nil,
             status: AmplifyClientTypes.JobStatus? = nil
-        )
-        {
+        ) {
             self.commitId = commitId
             self.commitMessage = commitMessage
             self.commitTime = commitTime
@@ -1818,8 +1848,7 @@ public struct DeleteJobOutput: Swift.Sendable {
 
     public init(
         jobSummary: AmplifyClientTypes.JobSummary? = nil
-    )
-    {
+    ) {
         self.jobSummary = jobSummary
     }
 }
@@ -1832,8 +1861,7 @@ public struct DeleteWebhookInput: Swift.Sendable {
 
     public init(
         webhookId: Swift.String? = nil
-    )
-    {
+    ) {
         self.webhookId = webhookId
     }
 }
@@ -1846,8 +1874,7 @@ public struct DeleteWebhookOutput: Swift.Sendable {
 
     public init(
         webhook: AmplifyClientTypes.Webhook? = nil
-    )
-    {
+    ) {
         self.webhook = webhook
     }
 }
@@ -1870,8 +1897,7 @@ public struct GenerateAccessLogsInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         endTime: Foundation.Date? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.domainName = domainName
         self.endTime = endTime
@@ -1886,8 +1912,7 @@ public struct GenerateAccessLogsOutput: Swift.Sendable {
 
     public init(
         logUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.logUrl = logUrl
     }
 }
@@ -1900,8 +1925,7 @@ public struct GetAppInput: Swift.Sendable {
 
     public init(
         appId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
     }
 }
@@ -1913,8 +1937,7 @@ public struct GetAppOutput: Swift.Sendable {
 
     public init(
         app: AmplifyClientTypes.App? = nil
-    )
-    {
+    ) {
         self.app = app
     }
 }
@@ -1927,8 +1950,7 @@ public struct GetArtifactUrlInput: Swift.Sendable {
 
     public init(
         artifactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.artifactId = artifactId
     }
 }
@@ -1945,8 +1967,7 @@ public struct GetArtifactUrlOutput: Swift.Sendable {
     public init(
         artifactId: Swift.String? = nil,
         artifactUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.artifactId = artifactId
         self.artifactUrl = artifactUrl
     }
@@ -1964,8 +1985,7 @@ public struct GetBackendEnvironmentInput: Swift.Sendable {
     public init(
         appId: Swift.String? = nil,
         environmentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.environmentName = environmentName
     }
@@ -1979,8 +1999,7 @@ public struct GetBackendEnvironmentOutput: Swift.Sendable {
 
     public init(
         backendEnvironment: AmplifyClientTypes.BackendEnvironment? = nil
-    )
-    {
+    ) {
         self.backendEnvironment = backendEnvironment
     }
 }
@@ -1997,8 +2016,7 @@ public struct GetBranchInput: Swift.Sendable {
     public init(
         appId: Swift.String? = nil,
         branchName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.branchName = branchName
     }
@@ -2011,8 +2029,7 @@ public struct GetBranchOutput: Swift.Sendable {
 
     public init(
         branch: AmplifyClientTypes.Branch? = nil
-    )
-    {
+    ) {
         self.branch = branch
     }
 }
@@ -2029,8 +2046,7 @@ public struct GetDomainAssociationInput: Swift.Sendable {
     public init(
         appId: Swift.String? = nil,
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.domainName = domainName
     }
@@ -2044,8 +2060,7 @@ public struct GetDomainAssociationOutput: Swift.Sendable {
 
     public init(
         domainAssociation: AmplifyClientTypes.DomainAssociation? = nil
-    )
-    {
+    ) {
         self.domainAssociation = domainAssociation
     }
 }
@@ -2066,8 +2081,7 @@ public struct GetJobInput: Swift.Sendable {
         appId: Swift.String? = nil,
         branchName: Swift.String? = nil,
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.branchName = branchName
         self.jobId = jobId
@@ -2117,8 +2131,7 @@ extension AmplifyClientTypes {
             stepName: Swift.String? = nil,
             testArtifactsUrl: Swift.String? = nil,
             testConfigUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.artifactsUrl = artifactsUrl
             self.context = context
             self.endTime = endTime
@@ -2148,8 +2161,7 @@ extension AmplifyClientTypes {
         public init(
             steps: [AmplifyClientTypes.Step]? = nil,
             summary: AmplifyClientTypes.JobSummary? = nil
-        )
-        {
+        ) {
             self.steps = steps
             self.summary = summary
         }
@@ -2163,8 +2175,7 @@ public struct GetJobOutput: Swift.Sendable {
 
     public init(
         job: AmplifyClientTypes.Job? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -2177,8 +2188,7 @@ public struct GetWebhookInput: Swift.Sendable {
 
     public init(
         webhookId: Swift.String? = nil
-    )
-    {
+    ) {
         self.webhookId = webhookId
     }
 }
@@ -2191,8 +2201,7 @@ public struct GetWebhookOutput: Swift.Sendable {
 
     public init(
         webhook: AmplifyClientTypes.Webhook? = nil
-    )
-    {
+    ) {
         self.webhook = webhook
     }
 }
@@ -2207,8 +2216,7 @@ public struct ListAppsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2225,8 +2233,7 @@ public struct ListAppsOutput: Swift.Sendable {
     public init(
         apps: [AmplifyClientTypes.App]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.apps = apps
         self.nextToken = nextToken
     }
@@ -2254,8 +2261,7 @@ public struct ListArtifactsInput: Swift.Sendable {
         jobId: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.branchName = branchName
         self.jobId = jobId
@@ -2278,8 +2284,7 @@ extension AmplifyClientTypes {
         public init(
             artifactFileName: Swift.String? = nil,
             artifactId: Swift.String? = nil
-        )
-        {
+        ) {
             self.artifactFileName = artifactFileName
             self.artifactId = artifactId
         }
@@ -2297,8 +2302,7 @@ public struct ListArtifactsOutput: Swift.Sendable {
     public init(
         artifacts: [AmplifyClientTypes.Artifact]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.artifacts = artifacts
         self.nextToken = nextToken
     }
@@ -2321,8 +2325,7 @@ public struct ListBackendEnvironmentsInput: Swift.Sendable {
         environmentName: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.environmentName = environmentName
         self.maxResults = maxResults
@@ -2341,8 +2344,7 @@ public struct ListBackendEnvironmentsOutput: Swift.Sendable {
     public init(
         backendEnvironments: [AmplifyClientTypes.BackendEnvironment]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.backendEnvironments = backendEnvironments
         self.nextToken = nextToken
     }
@@ -2362,8 +2364,7 @@ public struct ListBranchesInput: Swift.Sendable {
         appId: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2381,8 +2382,7 @@ public struct ListBranchesOutput: Swift.Sendable {
     public init(
         branches: [AmplifyClientTypes.Branch]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.branches = branches
         self.nextToken = nextToken
     }
@@ -2402,8 +2402,7 @@ public struct ListDomainAssociationsInput: Swift.Sendable {
         appId: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2421,8 +2420,7 @@ public struct ListDomainAssociationsOutput: Swift.Sendable {
     public init(
         domainAssociations: [AmplifyClientTypes.DomainAssociation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainAssociations = domainAssociations
         self.nextToken = nextToken
     }
@@ -2446,8 +2444,7 @@ public struct ListJobsInput: Swift.Sendable {
         branchName: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.branchName = branchName
         self.maxResults = maxResults
@@ -2466,17 +2463,16 @@ public struct ListJobsOutput: Swift.Sendable {
     public init(
         jobSummaries: [AmplifyClientTypes.JobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobSummaries = jobSummaries
         self.nextToken = nextToken
     }
 }
 
 /// An operation failed due to a non-existent resource.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
         /// This member is required.
@@ -2495,8 +2491,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -2510,8 +2505,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2523,8 +2517,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2543,8 +2536,7 @@ public struct ListWebhooksInput: Swift.Sendable {
         appId: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2562,8 +2554,7 @@ public struct ListWebhooksOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         webhooks: [AmplifyClientTypes.Webhook]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.webhooks = webhooks
     }
@@ -2590,8 +2581,7 @@ public struct StartDeploymentInput: Swift.Sendable {
         jobId: Swift.String? = nil,
         sourceUrl: Swift.String? = nil,
         sourceUrlType: AmplifyClientTypes.SourceUrlType? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.branchName = branchName
         self.jobId = jobId
@@ -2608,8 +2598,7 @@ public struct StartDeploymentOutput: Swift.Sendable {
 
     public init(
         jobSummary: AmplifyClientTypes.JobSummary? = nil
-    )
-    {
+    ) {
         self.jobSummary = jobSummary
     }
 }
@@ -2645,8 +2634,7 @@ public struct StartJobInput: Swift.Sendable {
         jobId: Swift.String? = nil,
         jobReason: Swift.String? = nil,
         jobType: AmplifyClientTypes.JobType? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.branchName = branchName
         self.commitId = commitId
@@ -2666,8 +2654,7 @@ public struct StartJobOutput: Swift.Sendable {
 
     public init(
         jobSummary: AmplifyClientTypes.JobSummary? = nil
-    )
-    {
+    ) {
         self.jobSummary = jobSummary
     }
 }
@@ -2688,8 +2675,7 @@ public struct StopJobInput: Swift.Sendable {
         appId: Swift.String? = nil,
         branchName: Swift.String? = nil,
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.branchName = branchName
         self.jobId = jobId
@@ -2704,8 +2690,7 @@ public struct StopJobOutput: Swift.Sendable {
 
     public init(
         jobSummary: AmplifyClientTypes.JobSummary? = nil
-    )
-    {
+    ) {
         self.jobSummary = jobSummary
     }
 }
@@ -2722,8 +2707,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -2747,8 +2731,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -2825,8 +2808,7 @@ public struct UpdateAppInput: Swift.Sendable {
         oauthToken: Swift.String? = nil,
         platform: AmplifyClientTypes.Platform? = nil,
         repository: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
         self.appId = appId
         self.autoBranchCreationConfig = autoBranchCreationConfig
@@ -2863,8 +2845,7 @@ public struct UpdateAppOutput: Swift.Sendable {
 
     public init(
         app: AmplifyClientTypes.App? = nil
-    )
-    {
+    ) {
         self.app = app
     }
 }
@@ -2929,8 +2910,7 @@ public struct UpdateBranchInput: Swift.Sendable {
         pullRequestEnvironmentName: Swift.String? = nil,
         stage: AmplifyClientTypes.Stage? = nil,
         ttl: Swift.String? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.backend = backend
         self.backendEnvironmentArn = backendEnvironmentArn
@@ -2965,8 +2945,7 @@ public struct UpdateBranchOutput: Swift.Sendable {
 
     public init(
         branch: AmplifyClientTypes.Branch? = nil
-    )
-    {
+    ) {
         self.branch = branch
     }
 }
@@ -2998,8 +2977,7 @@ public struct UpdateDomainAssociationInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         enableAutoSubDomain: Swift.Bool? = nil,
         subDomainSettings: [AmplifyClientTypes.SubDomainSetting]? = nil
-    )
-    {
+    ) {
         self.appId = appId
         self.autoSubDomainCreationPatterns = autoSubDomainCreationPatterns
         self.autoSubDomainIAMRole = autoSubDomainIAMRole
@@ -3018,8 +2996,7 @@ public struct UpdateDomainAssociationOutput: Swift.Sendable {
 
     public init(
         domainAssociation: AmplifyClientTypes.DomainAssociation? = nil
-    )
-    {
+    ) {
         self.domainAssociation = domainAssociation
     }
 }
@@ -3038,8 +3015,7 @@ public struct UpdateWebhookInput: Swift.Sendable {
         branchName: Swift.String? = nil,
         description: Swift.String? = nil,
         webhookId: Swift.String? = nil
-    )
-    {
+    ) {
         self.branchName = branchName
         self.description = description
         self.webhookId = webhookId
@@ -3054,8 +3030,7 @@ public struct UpdateWebhookOutput: Swift.Sendable {
 
     public init(
         webhook: AmplifyClientTypes.Webhook? = nil
-    )
-    {
+    ) {
         self.webhook = webhook
     }
 }
@@ -5030,6 +5005,20 @@ extension AmplifyClientTypes.App {
         value.autoBranchCreationConfig = try reader["autoBranchCreationConfig"].readIfPresent(with: AmplifyClientTypes.AutoBranchCreationConfig.read(from:))
         value.repositoryCloneMethod = try reader["repositoryCloneMethod"].readIfPresent()
         value.cacheConfig = try reader["cacheConfig"].readIfPresent(with: AmplifyClientTypes.CacheConfig.read(from:))
+        value.webhookCreateTime = try reader["webhookCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.wafConfiguration = try reader["wafConfiguration"].readIfPresent(with: AmplifyClientTypes.WafConfiguration.read(from:))
+        return value
+    }
+}
+
+extension AmplifyClientTypes.WafConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmplifyClientTypes.WafConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmplifyClientTypes.WafConfiguration()
+        value.webAclArn = try reader["webAclArn"].readIfPresent()
+        value.wafStatus = try reader["wafStatus"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
         return value
     }
 }

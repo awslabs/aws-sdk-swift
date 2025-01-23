@@ -5,6 +5,7 @@
 
 package software.amazon.smithy.aws.swift.codegen.middleware
 
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.jmespath.JmespathExpression
 import software.amazon.smithy.model.node.Node
@@ -52,7 +53,10 @@ class OperationEndpointResolverMiddleware(
 
         // Write code that saves endpoint params to middleware context for use in auth scheme middleware when using rules-based auth scheme resolvers
         if (AuthSchemeResolverGenerator.usesRulesBasedAuthResolver(ctx)) {
-            writer.write("context.set(key: \$N<EndpointParams>(name: \"EndpointParams\"), value: endpointParams)", SmithyTypes.AttributeKey)
+            writer.write(
+                "context.set(key: \$N<EndpointParams>(name: \"EndpointParams\"), value: endpointParamsBlock(context))",
+                SmithyTypes.AttributeKey
+            )
         }
 
         super.renderSpecific(ctx, writer, op, operationStackName, "applyEndpoint")
@@ -65,14 +69,13 @@ class OperationEndpointResolverMiddleware(
     ) {
         val output = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, ctx.model, op)
         writer.write(
-            "\$N<\$N, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: \$\$0) }, endpointParams: endpointParams)",
+            "\$N<\$N, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: \$\$0) })",
             endpointResolverMiddlewareSymbol,
             output
         )
     }
 
     private fun renderEndpointParams(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape) {
-        val outputError = MiddlewareShapeUtils.outputErrorSymbol(op)
         val params = mutableListOf<String>()
         ctx.service.getTrait<EndpointRuleSetTrait>()?.ruleSet?.let { node ->
             val ruleSet = EndpointRuleSet.fromNode(node)
@@ -96,7 +99,6 @@ class OperationEndpointResolverMiddleware(
                         operationContextParams[param.name.toString()],
                         clientContextParams[param.name.toString()],
                         writer,
-                        outputError
                     )
                     value?.let {
                         params.add("$memberName: $it")
@@ -104,7 +106,9 @@ class OperationEndpointResolverMiddleware(
                 }
         }
 
-        writer.write("let endpointParams = EndpointParams(${params.joinToString(separator = ", ")})")
+        writer.openBlock("let endpointParamsBlock = { [config] (context: \$N) in", "}", SmithyTypes.Context) {
+            writer.write("EndpointParams(\$L)", params.joinToString(", "))
+        }
     }
 
     /**
@@ -125,7 +129,6 @@ class OperationEndpointResolverMiddleware(
         operationContextParam: OperationContextParamDefinition?,
         clientContextParam: ClientContextParamDefinition?,
         writer: SwiftWriter,
-        outputError: Symbol
     ): String? {
         return when {
             staticContextParam != null -> {
@@ -169,6 +172,12 @@ class OperationEndpointResolverMiddleware(
             }
             clientContextParam != null -> {
                 when {
+                    param.name.toString() == "AccountId" -> {
+                        writer.format("context.resolvedAccountID")
+                    }
+                    param.name.toString() == "AccountIdEndpointMode" -> {
+                        "config.accountIdEndpointMode?.rawValue"
+                    }
                     param.default.isPresent -> {
                         "config.${param.name.toString().toLowerCamelCase()} ?? ${param.defaultValueLiteral}"
                     }
@@ -195,6 +204,14 @@ class OperationEndpointResolverMiddleware(
                     }
                     param.default.isPresent -> {
                         "config.${getBuiltInName(param)} ?? ${param.defaultValueLiteral}"
+                    }
+                    getBuiltInName(param).equals("endpoint") -> {
+                        writer.write(
+                            "let configuredEndpoint = try config.${getBuiltInName(param)} ?? \$N.configuredEndpoint(\$S, config.ignoreConfiguredEndpointURLs)",
+                            AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider,
+                            ctx.settings.sdkId
+                        )
+                        "configuredEndpoint"
                     }
                     else -> {
                         "config.${getBuiltInName(param)}"

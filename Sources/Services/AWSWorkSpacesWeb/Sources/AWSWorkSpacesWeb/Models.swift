@@ -28,9 +28,9 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 
 /// Access is denied.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -45,16 +45,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// There is a conflict.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// Identifier of the resource affected.
         public internal(set) var resourceId: Swift.String? = nil
@@ -75,8 +74,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -84,9 +82,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// There is an internal server error.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// Advice to clients on when the call can be safely retried.
         public internal(set) var retryAfterSeconds: Swift.Int = 0
@@ -104,17 +102,16 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int = 0
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
 }
 
 /// The resource cannot be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// Hypothetical identifier of the resource affected.
         public internal(set) var resourceId: Swift.String? = nil
@@ -135,8 +132,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -144,9 +140,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// There is a throttling error.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The originating quota.
         public internal(set) var quotaCode: Swift.String? = nil
@@ -170,8 +166,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int = 0,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -193,8 +188,7 @@ extension WorkSpacesWebClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -237,9 +231,9 @@ extension WorkSpacesWebClientTypes {
 }
 
 /// There is a validation error.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The field that caused the error.
         public internal(set) var fieldList: [WorkSpacesWebClientTypes.ValidationExceptionField]? = nil
         public internal(set) var message: Swift.String? = nil
@@ -260,8 +254,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [WorkSpacesWebClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: WorkSpacesWebClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -279,8 +272,7 @@ public struct AssociateBrowserSettingsInput: Swift.Sendable {
     public init(
         browserSettingsArn: Swift.String? = nil,
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.browserSettingsArn = browserSettingsArn
         self.portalArn = portalArn
     }
@@ -297,9 +289,42 @@ public struct AssociateBrowserSettingsOutput: Swift.Sendable {
     public init(
         browserSettingsArn: Swift.String? = nil,
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.browserSettingsArn = browserSettingsArn
+        self.portalArn = portalArn
+    }
+}
+
+public struct AssociateDataProtectionSettingsInput: Swift.Sendable {
+    /// The ARN of the data protection settings.
+    /// This member is required.
+    public var dataProtectionSettingsArn: Swift.String?
+    /// The ARN of the web portal.
+    /// This member is required.
+    public var portalArn: Swift.String?
+
+    public init(
+        dataProtectionSettingsArn: Swift.String? = nil,
+        portalArn: Swift.String? = nil
+    ) {
+        self.dataProtectionSettingsArn = dataProtectionSettingsArn
+        self.portalArn = portalArn
+    }
+}
+
+public struct AssociateDataProtectionSettingsOutput: Swift.Sendable {
+    /// The ARN of the data protection settings resource.
+    /// This member is required.
+    public var dataProtectionSettingsArn: Swift.String?
+    /// The ARN of the web portal.
+    /// This member is required.
+    public var portalArn: Swift.String?
+
+    public init(
+        dataProtectionSettingsArn: Swift.String? = nil,
+        portalArn: Swift.String? = nil
+    ) {
+        self.dataProtectionSettingsArn = dataProtectionSettingsArn
         self.portalArn = portalArn
     }
 }
@@ -315,8 +340,7 @@ public struct AssociateIpAccessSettingsInput: Swift.Sendable {
     public init(
         ipAccessSettingsArn: Swift.String? = nil,
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.ipAccessSettingsArn = ipAccessSettingsArn
         self.portalArn = portalArn
     }
@@ -333,8 +357,7 @@ public struct AssociateIpAccessSettingsOutput: Swift.Sendable {
     public init(
         ipAccessSettingsArn: Swift.String? = nil,
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.ipAccessSettingsArn = ipAccessSettingsArn
         self.portalArn = portalArn
     }
@@ -351,8 +374,7 @@ public struct AssociateNetworkSettingsInput: Swift.Sendable {
     public init(
         networkSettingsArn: Swift.String? = nil,
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.networkSettingsArn = networkSettingsArn
         self.portalArn = portalArn
     }
@@ -369,8 +391,7 @@ public struct AssociateNetworkSettingsOutput: Swift.Sendable {
     public init(
         networkSettingsArn: Swift.String? = nil,
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.networkSettingsArn = networkSettingsArn
         self.portalArn = portalArn
     }
@@ -387,8 +408,7 @@ public struct AssociateTrustStoreInput: Swift.Sendable {
     public init(
         portalArn: Swift.String? = nil,
         trustStoreArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
         self.trustStoreArn = trustStoreArn
     }
@@ -405,8 +425,7 @@ public struct AssociateTrustStoreOutput: Swift.Sendable {
     public init(
         portalArn: Swift.String? = nil,
         trustStoreArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
         self.trustStoreArn = trustStoreArn
     }
@@ -423,8 +442,7 @@ public struct AssociateUserAccessLoggingSettingsInput: Swift.Sendable {
     public init(
         portalArn: Swift.String? = nil,
         userAccessLoggingSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
         self.userAccessLoggingSettingsArn = userAccessLoggingSettingsArn
     }
@@ -441,8 +459,7 @@ public struct AssociateUserAccessLoggingSettingsOutput: Swift.Sendable {
     public init(
         portalArn: Swift.String? = nil,
         userAccessLoggingSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
         self.userAccessLoggingSettingsArn = userAccessLoggingSettingsArn
     }
@@ -459,8 +476,7 @@ public struct AssociateUserSettingsInput: Swift.Sendable {
     public init(
         portalArn: Swift.String? = nil,
         userSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
         self.userSettingsArn = userSettingsArn
     }
@@ -477,8 +493,7 @@ public struct AssociateUserSettingsOutput: Swift.Sendable {
     public init(
         portalArn: Swift.String? = nil,
         userSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
         self.userSettingsArn = userSettingsArn
     }
@@ -514,9 +529,9 @@ extension WorkSpacesWebClientTypes {
 }
 
 /// The service quota has been exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The originating quota.
         public internal(set) var quotaCode: Swift.String? = nil
@@ -543,8 +558,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -567,8 +581,7 @@ extension WorkSpacesWebClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -600,8 +613,7 @@ public struct CreateBrowserSettingsInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         customerManagedKey: Swift.String? = nil,
         tags: [WorkSpacesWebClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.additionalEncryptionContext = additionalEncryptionContext
         self.browserPolicy = browserPolicy
         self.clientToken = clientToken
@@ -622,8 +634,7 @@ public struct CreateBrowserSettingsOutput: Swift.Sendable {
 
     public init(
         browserSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.browserSettingsArn = browserSettingsArn
     }
 }
@@ -635,8 +646,7 @@ public struct DeleteBrowserSettingsInput: Swift.Sendable {
 
     public init(
         browserSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.browserSettingsArn = browserSettingsArn
     }
 }
@@ -653,8 +663,7 @@ public struct GetBrowserSettingsInput: Swift.Sendable {
 
     public init(
         browserSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.browserSettingsArn = browserSettingsArn
     }
 }
@@ -681,8 +690,7 @@ extension WorkSpacesWebClientTypes {
             browserPolicy: Swift.String? = nil,
             browserSettingsArn: Swift.String? = nil,
             customerManagedKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.associatedPortalArns = associatedPortalArns
             self.browserPolicy = browserPolicy
@@ -703,8 +711,7 @@ public struct GetBrowserSettingsOutput: Swift.Sendable {
 
     public init(
         browserSettings: WorkSpacesWebClientTypes.BrowserSettings? = nil
-    )
-    {
+    ) {
         self.browserSettings = browserSettings
     }
 }
@@ -718,8 +725,7 @@ public struct ListBrowserSettingsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -735,8 +741,7 @@ extension WorkSpacesWebClientTypes {
 
         public init(
             browserSettingsArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.browserSettingsArn = browserSettingsArn
         }
     }
@@ -751,8 +756,7 @@ public struct ListBrowserSettingsOutput: Swift.Sendable {
     public init(
         browserSettings: [WorkSpacesWebClientTypes.BrowserSettingsSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.browserSettings = browserSettings
         self.nextToken = nextToken
     }
@@ -771,8 +775,7 @@ public struct UpdateBrowserSettingsInput: Swift.Sendable {
         browserPolicy: Swift.String? = nil,
         browserSettingsArn: Swift.String? = nil,
         clientToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.browserPolicy = browserPolicy
         self.browserSettingsArn = browserSettingsArn
         self.clientToken = clientToken
@@ -791,9 +794,416 @@ public struct UpdateBrowserSettingsOutput: Swift.Sendable {
 
     public init(
         browserSettings: WorkSpacesWebClientTypes.BrowserSettings? = nil
-    )
-    {
+    ) {
         self.browserSettings = browserSettings
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+
+    /// The pattern configuration for redacting custom data types in session.
+    public struct CustomPattern: Swift.Sendable {
+        /// The keyword regex for the customer pattern. After there is a match to the pattern regex, the keyword regex is used to search within the proximity of the match. If there is a keyword match, then the match is confirmed. If no keyword regex is provided, the pattern regex match will automatically be confirmed. The format must follow JavaScript regex format. The pattern must be enclosed between slashes, and can have flags behind the second slash. For example, “/ab+c/gi”
+        public var keywordRegex: Swift.String?
+        /// The pattern description for the customer pattern.
+        public var patternDescription: Swift.String?
+        /// The pattern name for the custom pattern.
+        /// This member is required.
+        public var patternName: Swift.String?
+        /// The pattern regex for the customer pattern. The format must follow JavaScript regex format. The pattern must be enclosed between slashes, and can have flags behind the second slash. For example: “/ab+c/gi”.
+        /// This member is required.
+        public var patternRegex: Swift.String?
+
+        public init(
+            keywordRegex: Swift.String? = nil,
+            patternDescription: Swift.String? = nil,
+            patternName: Swift.String? = nil,
+            patternRegex: Swift.String? = nil
+        ) {
+            self.keywordRegex = keywordRegex
+            self.patternDescription = patternDescription
+            self.patternName = patternName
+            self.patternRegex = patternRegex
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes.CustomPattern: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CustomPattern(keywordRegex: \"CONTENT_REDACTED\", patternDescription: \"CONTENT_REDACTED\", patternName: \"CONTENT_REDACTED\", patternRegex: \"CONTENT_REDACTED\")"}
+}
+
+extension WorkSpacesWebClientTypes {
+
+    public enum RedactionPlaceHolderType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case customText
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RedactionPlaceHolderType] {
+            return [
+                .customText
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .customText: return "CustomText"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+
+    /// The redaction placeholder that will replace the redacted text in session.
+    public struct RedactionPlaceHolder: Swift.Sendable {
+        /// The redaction placeholder text that will replace the redacted text in session for the custom text redaction placeholder type.
+        public var redactionPlaceHolderText: Swift.String?
+        /// The redaction placeholder type that will replace the redacted text in session.
+        /// This member is required.
+        public var redactionPlaceHolderType: WorkSpacesWebClientTypes.RedactionPlaceHolderType?
+
+        public init(
+            redactionPlaceHolderText: Swift.String? = nil,
+            redactionPlaceHolderType: WorkSpacesWebClientTypes.RedactionPlaceHolderType? = nil
+        ) {
+            self.redactionPlaceHolderText = redactionPlaceHolderText
+            self.redactionPlaceHolderType = redactionPlaceHolderType
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes.RedactionPlaceHolder: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RedactionPlaceHolder(redactionPlaceHolderType: \(Swift.String(describing: redactionPlaceHolderType)), redactionPlaceHolderText: \"CONTENT_REDACTED\")"}
+}
+
+extension WorkSpacesWebClientTypes {
+
+    /// The set of patterns that determine the data types redacted in session.
+    public struct InlineRedactionPattern: Swift.Sendable {
+        /// The built-in pattern from the list of preconfigured patterns. Either a customPattern or builtInPatternId is required.
+        public var builtInPatternId: Swift.String?
+        /// The confidence level for inline redaction pattern. This indicates the certainty of data type matches in the redaction process. Confidence level 3 means high confidence, and requires a formatted text pattern match in order for content to be redacted. Confidence level 2 means medium confidence, and redaction considers both formatted and unformatted text, and adds keyword associate to the logic. Confidence level 1 means low confidence, and redaction is enforced for both formatted pattern + unformatted pattern without keyword. This overrides the global confidence level.
+        public var confidenceLevel: Swift.Int?
+        /// >The configuration for a custom pattern. Either a customPattern or builtInPatternId is required.
+        public var customPattern: WorkSpacesWebClientTypes.CustomPattern?
+        /// The enforced URL configuration for the inline redaction pattern. This will override the global enforced URL configuration.
+        public var enforcedUrls: [Swift.String]?
+        /// The exempt URL configuration for the inline redaction pattern. This will override the global exempt URL configuration for the inline redaction pattern.
+        public var exemptUrls: [Swift.String]?
+        /// The redaction placeholder that will replace the redacted text in session for the inline redaction pattern.
+        /// This member is required.
+        public var redactionPlaceHolder: WorkSpacesWebClientTypes.RedactionPlaceHolder?
+
+        public init(
+            builtInPatternId: Swift.String? = nil,
+            confidenceLevel: Swift.Int? = nil,
+            customPattern: WorkSpacesWebClientTypes.CustomPattern? = nil,
+            enforcedUrls: [Swift.String]? = nil,
+            exemptUrls: [Swift.String]? = nil,
+            redactionPlaceHolder: WorkSpacesWebClientTypes.RedactionPlaceHolder? = nil
+        ) {
+            self.builtInPatternId = builtInPatternId
+            self.confidenceLevel = confidenceLevel
+            self.customPattern = customPattern
+            self.enforcedUrls = enforcedUrls
+            self.exemptUrls = exemptUrls
+            self.redactionPlaceHolder = redactionPlaceHolder
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes.InlineRedactionPattern: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InlineRedactionPattern(confidenceLevel: \(Swift.String(describing: confidenceLevel)), customPattern: \(Swift.String(describing: customPattern)), redactionPlaceHolder: \(Swift.String(describing: redactionPlaceHolder)), builtInPatternId: \"CONTENT_REDACTED\", enforcedUrls: \"CONTENT_REDACTED\", exemptUrls: \"CONTENT_REDACTED\")"}
+}
+
+extension WorkSpacesWebClientTypes {
+
+    /// The configuration for in-session inline redaction.
+    public struct InlineRedactionConfiguration: Swift.Sendable {
+        /// The global confidence level for the inline redaction configuration. This indicates the certainty of data type matches in the redaction process. Confidence level 3 means high confidence, and requires a formatted text pattern match in order for content to be redacted. Confidence level 2 means medium confidence, and redaction considers both formatted and unformatted text, and adds keyword associate to the logic. Confidence level 1 means low confidence, and redaction is enforced for both formatted pattern + unformatted pattern without keyword. This is applied to patterns that do not have a pattern-level confidence level. Defaults to confidence level 2.
+        public var globalConfidenceLevel: Swift.Int?
+        /// The global enforced URL configuration for the inline redaction configuration. This is applied to patterns that do not have a pattern-level enforced URL list.
+        public var globalEnforcedUrls: [Swift.String]?
+        /// The global exempt URL configuration for the inline redaction configuration. This is applied to patterns that do not have a pattern-level exempt URL list.
+        public var globalExemptUrls: [Swift.String]?
+        /// The inline redaction patterns to be enabled for the inline redaction configuration.
+        /// This member is required.
+        public var inlineRedactionPatterns: [WorkSpacesWebClientTypes.InlineRedactionPattern]?
+
+        public init(
+            globalConfidenceLevel: Swift.Int? = nil,
+            globalEnforcedUrls: [Swift.String]? = nil,
+            globalExemptUrls: [Swift.String]? = nil,
+            inlineRedactionPatterns: [WorkSpacesWebClientTypes.InlineRedactionPattern]? = nil
+        ) {
+            self.globalConfidenceLevel = globalConfidenceLevel
+            self.globalEnforcedUrls = globalEnforcedUrls
+            self.globalExemptUrls = globalExemptUrls
+            self.inlineRedactionPatterns = inlineRedactionPatterns
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes.InlineRedactionConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InlineRedactionConfiguration(globalConfidenceLevel: \(Swift.String(describing: globalConfidenceLevel)), inlineRedactionPatterns: \(Swift.String(describing: inlineRedactionPatterns)), globalEnforcedUrls: \"CONTENT_REDACTED\", globalExemptUrls: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateDataProtectionSettingsInput: Swift.Sendable {
+    /// Additional encryption context of the data protection settings.
+    public var additionalEncryptionContext: [Swift.String: Swift.String]?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
+    public var clientToken: Swift.String?
+    /// The custom managed key of the data protection settings.
+    public var customerManagedKey: Swift.String?
+    /// The description of the data protection settings.
+    public var description: Swift.String?
+    /// The display name of the data protection settings.
+    public var displayName: Swift.String?
+    /// The inline redaction configuration of the data protection settings that will be applied to all sessions.
+    public var inlineRedactionConfiguration: WorkSpacesWebClientTypes.InlineRedactionConfiguration?
+    /// The tags to add to the data protection settings resource. A tag is a key-value pair.
+    public var tags: [WorkSpacesWebClientTypes.Tag]?
+
+    public init(
+        additionalEncryptionContext: [Swift.String: Swift.String]? = nil,
+        clientToken: Swift.String? = nil,
+        customerManagedKey: Swift.String? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        inlineRedactionConfiguration: WorkSpacesWebClientTypes.InlineRedactionConfiguration? = nil,
+        tags: [WorkSpacesWebClientTypes.Tag]? = nil
+    ) {
+        self.additionalEncryptionContext = additionalEncryptionContext
+        self.clientToken = clientToken
+        self.customerManagedKey = customerManagedKey
+        self.description = description
+        self.displayName = displayName
+        self.inlineRedactionConfiguration = inlineRedactionConfiguration
+        self.tags = tags
+    }
+}
+
+extension CreateDataProtectionSettingsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateDataProtectionSettingsInput(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), clientToken: \(Swift.String(describing: clientToken)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), inlineRedactionConfiguration: \(Swift.String(describing: inlineRedactionConfiguration)), description: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateDataProtectionSettingsOutput: Swift.Sendable {
+    /// The ARN of the data protection settings resource.
+    /// This member is required.
+    public var dataProtectionSettingsArn: Swift.String?
+
+    public init(
+        dataProtectionSettingsArn: Swift.String? = nil
+    ) {
+        self.dataProtectionSettingsArn = dataProtectionSettingsArn
+    }
+}
+
+public struct DeleteDataProtectionSettingsInput: Swift.Sendable {
+    /// The ARN of the data protection settings.
+    /// This member is required.
+    public var dataProtectionSettingsArn: Swift.String?
+
+    public init(
+        dataProtectionSettingsArn: Swift.String? = nil
+    ) {
+        self.dataProtectionSettingsArn = dataProtectionSettingsArn
+    }
+}
+
+public struct DeleteDataProtectionSettingsOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetDataProtectionSettingsInput: Swift.Sendable {
+    /// The ARN of the data protection settings.
+    /// This member is required.
+    public var dataProtectionSettingsArn: Swift.String?
+
+    public init(
+        dataProtectionSettingsArn: Swift.String? = nil
+    ) {
+        self.dataProtectionSettingsArn = dataProtectionSettingsArn
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+
+    /// The data protection settings resource that can be associated with a web portal.
+    public struct DataProtectionSettings: Swift.Sendable {
+        /// The additional encryption context of the data protection settings.
+        public var additionalEncryptionContext: [Swift.String: Swift.String]?
+        /// A list of web portal ARNs that this data protection settings resource is associated with.
+        public var associatedPortalArns: [Swift.String]?
+        /// The creation date timestamp of the data protection settings.
+        public var creationDate: Foundation.Date?
+        /// The customer managed key used to encrypt sensitive information in the data protection settings.
+        public var customerManagedKey: Swift.String?
+        /// The ARN of the data protection settings resource.
+        /// This member is required.
+        public var dataProtectionSettingsArn: Swift.String?
+        /// The description of the data protection settings.
+        public var description: Swift.String?
+        /// The display name of the data protection settings.
+        public var displayName: Swift.String?
+        /// The inline redaction configuration for the data protection settings.
+        public var inlineRedactionConfiguration: WorkSpacesWebClientTypes.InlineRedactionConfiguration?
+
+        public init(
+            additionalEncryptionContext: [Swift.String: Swift.String]? = nil,
+            associatedPortalArns: [Swift.String]? = nil,
+            creationDate: Foundation.Date? = nil,
+            customerManagedKey: Swift.String? = nil,
+            dataProtectionSettingsArn: Swift.String? = nil,
+            description: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            inlineRedactionConfiguration: WorkSpacesWebClientTypes.InlineRedactionConfiguration? = nil
+        ) {
+            self.additionalEncryptionContext = additionalEncryptionContext
+            self.associatedPortalArns = associatedPortalArns
+            self.creationDate = creationDate
+            self.customerManagedKey = customerManagedKey
+            self.dataProtectionSettingsArn = dataProtectionSettingsArn
+            self.description = description
+            self.displayName = displayName
+            self.inlineRedactionConfiguration = inlineRedactionConfiguration
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes.DataProtectionSettings: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DataProtectionSettings(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), associatedPortalArns: \(Swift.String(describing: associatedPortalArns)), creationDate: \(Swift.String(describing: creationDate)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), dataProtectionSettingsArn: \(Swift.String(describing: dataProtectionSettingsArn)), inlineRedactionConfiguration: \(Swift.String(describing: inlineRedactionConfiguration)), description: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetDataProtectionSettingsOutput: Swift.Sendable {
+    /// The data protection settings.
+    public var dataProtectionSettings: WorkSpacesWebClientTypes.DataProtectionSettings?
+
+    public init(
+        dataProtectionSettings: WorkSpacesWebClientTypes.DataProtectionSettings? = nil
+    ) {
+        self.dataProtectionSettings = dataProtectionSettings
+    }
+}
+
+public struct ListDataProtectionSettingsInput: Swift.Sendable {
+    /// The maximum number of results to be included in the next page.
+    public var maxResults: Swift.Int?
+    /// The pagination token used to retrieve the next page of results for this operation.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+
+    /// The summary of the data protection settings.
+    public struct DataProtectionSettingsSummary: Swift.Sendable {
+        /// The creation date timestamp of the data protection settings.
+        public var creationDate: Foundation.Date?
+        /// The ARN of the data protection settings.
+        /// This member is required.
+        public var dataProtectionSettingsArn: Swift.String?
+        /// The description of the data protection settings.
+        public var description: Swift.String?
+        /// The display name of the data protection settings.
+        public var displayName: Swift.String?
+
+        public init(
+            creationDate: Foundation.Date? = nil,
+            dataProtectionSettingsArn: Swift.String? = nil,
+            description: Swift.String? = nil,
+            displayName: Swift.String? = nil
+        ) {
+            self.creationDate = creationDate
+            self.dataProtectionSettingsArn = dataProtectionSettingsArn
+            self.description = description
+            self.displayName = displayName
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes.DataProtectionSettingsSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DataProtectionSettingsSummary(creationDate: \(Swift.String(describing: creationDate)), dataProtectionSettingsArn: \(Swift.String(describing: dataProtectionSettingsArn)), description: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListDataProtectionSettingsOutput: Swift.Sendable {
+    /// The data protection settings.
+    public var dataProtectionSettings: [WorkSpacesWebClientTypes.DataProtectionSettingsSummary]?
+    /// The pagination token used to retrieve the next page of results for this operation.
+    public var nextToken: Swift.String?
+
+    public init(
+        dataProtectionSettings: [WorkSpacesWebClientTypes.DataProtectionSettingsSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.dataProtectionSettings = dataProtectionSettings
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdateDataProtectionSettingsInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
+    public var clientToken: Swift.String?
+    /// The ARN of the data protection settings.
+    /// This member is required.
+    public var dataProtectionSettingsArn: Swift.String?
+    /// The description of the data protection settings.
+    public var description: Swift.String?
+    /// The display name of the data protection settings.
+    public var displayName: Swift.String?
+    /// The inline redaction configuration of the data protection settings that will be applied to all sessions.
+    public var inlineRedactionConfiguration: WorkSpacesWebClientTypes.InlineRedactionConfiguration?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        dataProtectionSettingsArn: Swift.String? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        inlineRedactionConfiguration: WorkSpacesWebClientTypes.InlineRedactionConfiguration? = nil
+    ) {
+        self.clientToken = clientToken
+        self.dataProtectionSettingsArn = dataProtectionSettingsArn
+        self.description = description
+        self.displayName = displayName
+        self.inlineRedactionConfiguration = inlineRedactionConfiguration
+    }
+}
+
+extension UpdateDataProtectionSettingsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateDataProtectionSettingsInput(clientToken: \(Swift.String(describing: clientToken)), dataProtectionSettingsArn: \(Swift.String(describing: dataProtectionSettingsArn)), inlineRedactionConfiguration: \(Swift.String(describing: inlineRedactionConfiguration)), description: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateDataProtectionSettingsOutput: Swift.Sendable {
+    /// The data protection settings.
+    /// This member is required.
+    public var dataProtectionSettings: WorkSpacesWebClientTypes.DataProtectionSettings?
+
+    public init(
+        dataProtectionSettings: WorkSpacesWebClientTypes.DataProtectionSettings? = nil
+    ) {
+        self.dataProtectionSettings = dataProtectionSettings
     }
 }
 
@@ -808,8 +1218,7 @@ public struct ExpireSessionInput: Swift.Sendable {
     public init(
         portalId: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalId = portalId
         self.sessionId = sessionId
     }
@@ -831,8 +1240,7 @@ public struct GetSessionInput: Swift.Sendable {
     public init(
         portalId: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalId = portalId
         self.sessionId = sessionId
     }
@@ -894,8 +1302,7 @@ extension WorkSpacesWebClientTypes {
             startTime: Foundation.Date? = nil,
             status: WorkSpacesWebClientTypes.SessionStatus? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientIpAddresses = clientIpAddresses
             self.endTime = endTime
             self.portalArn = portalArn
@@ -918,8 +1325,7 @@ public struct GetSessionOutput: Swift.Sendable {
 
     public init(
         session: WorkSpacesWebClientTypes.Session? = nil
-    )
-    {
+    ) {
         self.session = session
     }
 }
@@ -1064,8 +1470,7 @@ public struct CreateIdentityProviderInput: Swift.Sendable {
         identityProviderType: WorkSpacesWebClientTypes.IdentityProviderType? = nil,
         portalArn: Swift.String? = nil,
         tags: [WorkSpacesWebClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.identityProviderDetails = identityProviderDetails
         self.identityProviderName = identityProviderName
@@ -1087,8 +1492,7 @@ public struct CreateIdentityProviderOutput: Swift.Sendable {
 
     public init(
         identityProviderArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityProviderArn = identityProviderArn
     }
 }
@@ -1100,8 +1504,7 @@ public struct DeleteIdentityProviderInput: Swift.Sendable {
 
     public init(
         identityProviderArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityProviderArn = identityProviderArn
     }
 }
@@ -1118,8 +1521,7 @@ public struct GetIdentityProviderInput: Swift.Sendable {
 
     public init(
         identityProviderArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityProviderArn = identityProviderArn
     }
 }
@@ -1217,8 +1619,7 @@ extension WorkSpacesWebClientTypes {
             identityProviderDetails: [Swift.String: Swift.String]? = nil,
             identityProviderName: Swift.String? = nil,
             identityProviderType: WorkSpacesWebClientTypes.IdentityProviderType? = nil
-        )
-        {
+        ) {
             self.identityProviderArn = identityProviderArn
             self.identityProviderDetails = identityProviderDetails
             self.identityProviderName = identityProviderName
@@ -1238,8 +1639,7 @@ public struct GetIdentityProviderOutput: Swift.Sendable {
 
     public init(
         identityProvider: WorkSpacesWebClientTypes.IdentityProvider? = nil
-    )
-    {
+    ) {
         self.identityProvider = identityProvider
     }
 }
@@ -1257,8 +1657,7 @@ public struct ListIdentityProvidersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.portalArn = portalArn
@@ -1281,8 +1680,7 @@ extension WorkSpacesWebClientTypes {
             identityProviderArn: Swift.String? = nil,
             identityProviderName: Swift.String? = nil,
             identityProviderType: WorkSpacesWebClientTypes.IdentityProviderType? = nil
-        )
-        {
+        ) {
             self.identityProviderArn = identityProviderArn
             self.identityProviderName = identityProviderName
             self.identityProviderType = identityProviderType
@@ -1304,8 +1702,7 @@ public struct ListIdentityProvidersOutput: Swift.Sendable {
     public init(
         identityProviders: [WorkSpacesWebClientTypes.IdentityProviderSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.identityProviders = identityProviders
         self.nextToken = nextToken
     }
@@ -1404,8 +1801,7 @@ public struct UpdateIdentityProviderInput: Swift.Sendable {
         identityProviderDetails: [Swift.String: Swift.String]? = nil,
         identityProviderName: Swift.String? = nil,
         identityProviderType: WorkSpacesWebClientTypes.IdentityProviderType? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.identityProviderArn = identityProviderArn
         self.identityProviderDetails = identityProviderDetails
@@ -1426,8 +1822,7 @@ public struct UpdateIdentityProviderOutput: Swift.Sendable {
 
     public init(
         identityProvider: WorkSpacesWebClientTypes.IdentityProvider? = nil
-    )
-    {
+    ) {
         self.identityProvider = identityProvider
     }
 }
@@ -1445,8 +1840,7 @@ extension WorkSpacesWebClientTypes {
         public init(
             description: Swift.String? = nil,
             ipRange: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.ipRange = ipRange
         }
@@ -1483,8 +1877,7 @@ public struct CreateIpAccessSettingsInput: Swift.Sendable {
         displayName: Swift.String? = nil,
         ipRules: [WorkSpacesWebClientTypes.IpRule]? = nil,
         tags: [WorkSpacesWebClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.additionalEncryptionContext = additionalEncryptionContext
         self.clientToken = clientToken
         self.customerManagedKey = customerManagedKey
@@ -1507,8 +1900,7 @@ public struct CreateIpAccessSettingsOutput: Swift.Sendable {
 
     public init(
         ipAccessSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.ipAccessSettingsArn = ipAccessSettingsArn
     }
 }
@@ -1520,8 +1912,7 @@ public struct DeleteIpAccessSettingsInput: Swift.Sendable {
 
     public init(
         ipAccessSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.ipAccessSettingsArn = ipAccessSettingsArn
     }
 }
@@ -1538,8 +1929,7 @@ public struct GetIpAccessSettingsInput: Swift.Sendable {
 
     public init(
         ipAccessSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.ipAccessSettingsArn = ipAccessSettingsArn
     }
 }
@@ -1575,8 +1965,7 @@ extension WorkSpacesWebClientTypes {
             displayName: Swift.String? = nil,
             ipAccessSettingsArn: Swift.String? = nil,
             ipRules: [WorkSpacesWebClientTypes.IpRule]? = nil
-        )
-        {
+        ) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.associatedPortalArns = associatedPortalArns
             self.creationDate = creationDate
@@ -1600,8 +1989,7 @@ public struct GetIpAccessSettingsOutput: Swift.Sendable {
 
     public init(
         ipAccessSettings: WorkSpacesWebClientTypes.IpAccessSettings? = nil
-    )
-    {
+    ) {
         self.ipAccessSettings = ipAccessSettings
     }
 }
@@ -1615,8 +2003,7 @@ public struct ListIpAccessSettingsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1641,8 +2028,7 @@ extension WorkSpacesWebClientTypes {
             description: Swift.String? = nil,
             displayName: Swift.String? = nil,
             ipAccessSettingsArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.description = description
             self.displayName = displayName
@@ -1665,8 +2051,7 @@ public struct ListIpAccessSettingsOutput: Swift.Sendable {
     public init(
         ipAccessSettings: [WorkSpacesWebClientTypes.IpAccessSettingsSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.ipAccessSettings = ipAccessSettings
         self.nextToken = nextToken
     }
@@ -1691,8 +2076,7 @@ public struct UpdateIpAccessSettingsInput: Swift.Sendable {
         displayName: Swift.String? = nil,
         ipAccessSettingsArn: Swift.String? = nil,
         ipRules: [WorkSpacesWebClientTypes.IpRule]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.displayName = displayName
@@ -1713,8 +2097,7 @@ public struct UpdateIpAccessSettingsOutput: Swift.Sendable {
 
     public init(
         ipAccessSettings: WorkSpacesWebClientTypes.IpAccessSettings? = nil
-    )
-    {
+    ) {
         self.ipAccessSettings = ipAccessSettings
     }
 }
@@ -1773,8 +2156,7 @@ public struct ListSessionsInput: Swift.Sendable {
         sortBy: WorkSpacesWebClientTypes.SessionSortBy? = nil,
         status: WorkSpacesWebClientTypes.SessionStatus? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.portalId = portalId
@@ -1814,8 +2196,7 @@ extension WorkSpacesWebClientTypes {
             startTime: Foundation.Date? = nil,
             status: WorkSpacesWebClientTypes.SessionStatus? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.portalArn = portalArn
             self.sessionId = sessionId
@@ -1841,8 +2222,7 @@ public struct ListSessionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sessions: [WorkSpacesWebClientTypes.SessionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sessions = sessions
     }
@@ -1855,8 +2235,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1867,8 +2246,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [WorkSpacesWebClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1899,8 +2277,7 @@ public struct CreateNetworkSettingsInput: Swift.Sendable {
         subnetIds: [Swift.String]? = nil,
         tags: [WorkSpacesWebClientTypes.Tag]? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.securityGroupIds = securityGroupIds
         self.subnetIds = subnetIds
@@ -1921,8 +2298,7 @@ public struct CreateNetworkSettingsOutput: Swift.Sendable {
 
     public init(
         networkSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.networkSettingsArn = networkSettingsArn
     }
 }
@@ -1934,8 +2310,7 @@ public struct DeleteNetworkSettingsInput: Swift.Sendable {
 
     public init(
         networkSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.networkSettingsArn = networkSettingsArn
     }
 }
@@ -1952,8 +2327,7 @@ public struct GetNetworkSettingsInput: Swift.Sendable {
 
     public init(
         networkSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.networkSettingsArn = networkSettingsArn
     }
 }
@@ -1980,8 +2354,7 @@ extension WorkSpacesWebClientTypes {
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.associatedPortalArns = associatedPortalArns
             self.networkSettingsArn = networkSettingsArn
             self.securityGroupIds = securityGroupIds
@@ -1997,8 +2370,7 @@ public struct GetNetworkSettingsOutput: Swift.Sendable {
 
     public init(
         networkSettings: WorkSpacesWebClientTypes.NetworkSettings? = nil
-    )
-    {
+    ) {
         self.networkSettings = networkSettings
     }
 }
@@ -2012,8 +2384,7 @@ public struct ListNetworkSettingsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2032,8 +2403,7 @@ extension WorkSpacesWebClientTypes {
         public init(
             networkSettingsArn: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.networkSettingsArn = networkSettingsArn
             self.vpcId = vpcId
         }
@@ -2049,8 +2419,7 @@ public struct ListNetworkSettingsOutput: Swift.Sendable {
     public init(
         networkSettings: [WorkSpacesWebClientTypes.NetworkSettingsSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.networkSettings = networkSettings
         self.nextToken = nextToken
     }
@@ -2075,8 +2444,7 @@ public struct UpdateNetworkSettingsInput: Swift.Sendable {
         securityGroupIds: [Swift.String]? = nil,
         subnetIds: [Swift.String]? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.networkSettingsArn = networkSettingsArn
         self.securityGroupIds = securityGroupIds
@@ -2092,8 +2460,7 @@ public struct UpdateNetworkSettingsOutput: Swift.Sendable {
 
     public init(
         networkSettings: WorkSpacesWebClientTypes.NetworkSettings? = nil
-    )
-    {
+    ) {
         self.networkSettings = networkSettings
     }
 }
@@ -2183,8 +2550,7 @@ public struct CreatePortalInput: Swift.Sendable {
         instanceType: WorkSpacesWebClientTypes.InstanceType? = nil,
         maxConcurrentSessions: Swift.Int? = nil,
         tags: [WorkSpacesWebClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.additionalEncryptionContext = additionalEncryptionContext
         self.authenticationType = authenticationType
         self.clientToken = clientToken
@@ -2212,8 +2578,7 @@ public struct CreatePortalOutput: Swift.Sendable {
     public init(
         portalArn: Swift.String? = nil,
         portalEndpoint: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
         self.portalEndpoint = portalEndpoint
     }
@@ -2226,8 +2591,7 @@ public struct DeletePortalInput: Swift.Sendable {
 
     public init(
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
     }
 }
@@ -2244,13 +2608,29 @@ public struct DisassociateBrowserSettingsInput: Swift.Sendable {
 
     public init(
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
     }
 }
 
 public struct DisassociateBrowserSettingsOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DisassociateDataProtectionSettingsInput: Swift.Sendable {
+    /// The ARN of the web portal.
+    /// This member is required.
+    public var portalArn: Swift.String?
+
+    public init(
+        portalArn: Swift.String? = nil
+    ) {
+        self.portalArn = portalArn
+    }
+}
+
+public struct DisassociateDataProtectionSettingsOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -2262,8 +2642,7 @@ public struct DisassociateIpAccessSettingsInput: Swift.Sendable {
 
     public init(
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
     }
 }
@@ -2280,8 +2659,7 @@ public struct DisassociateNetworkSettingsInput: Swift.Sendable {
 
     public init(
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
     }
 }
@@ -2298,8 +2676,7 @@ public struct DisassociateTrustStoreInput: Swift.Sendable {
 
     public init(
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
     }
 }
@@ -2316,8 +2693,7 @@ public struct DisassociateUserAccessLoggingSettingsInput: Swift.Sendable {
 
     public init(
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
     }
 }
@@ -2334,8 +2710,7 @@ public struct DisassociateUserSettingsInput: Swift.Sendable {
 
     public init(
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
     }
 }
@@ -2352,8 +2727,7 @@ public struct GetPortalInput: Swift.Sendable {
 
     public init(
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
     }
 }
@@ -2432,6 +2806,8 @@ extension WorkSpacesWebClientTypes {
         public var creationDate: Foundation.Date?
         /// The customer managed key used to encrypt sensitive information in the portal.
         public var customerManagedKey: Swift.String?
+        /// The ARN of the data protection settings.
+        public var dataProtectionSettingsArn: Swift.String?
         /// The name of the web portal.
         public var displayName: Swift.String?
         /// The type and resources of the underlying instance.
@@ -2467,6 +2843,7 @@ extension WorkSpacesWebClientTypes {
             browserType: WorkSpacesWebClientTypes.BrowserType? = nil,
             creationDate: Foundation.Date? = nil,
             customerManagedKey: Swift.String? = nil,
+            dataProtectionSettingsArn: Swift.String? = nil,
             displayName: Swift.String? = nil,
             instanceType: WorkSpacesWebClientTypes.InstanceType? = nil,
             ipAccessSettingsArn: Swift.String? = nil,
@@ -2480,14 +2857,14 @@ extension WorkSpacesWebClientTypes {
             trustStoreArn: Swift.String? = nil,
             userAccessLoggingSettingsArn: Swift.String? = nil,
             userSettingsArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.authenticationType = authenticationType
             self.browserSettingsArn = browserSettingsArn
             self.browserType = browserType
             self.creationDate = creationDate
             self.customerManagedKey = customerManagedKey
+            self.dataProtectionSettingsArn = dataProtectionSettingsArn
             self.displayName = displayName
             self.instanceType = instanceType
             self.ipAccessSettingsArn = ipAccessSettingsArn
@@ -2507,7 +2884,7 @@ extension WorkSpacesWebClientTypes {
 
 extension WorkSpacesWebClientTypes.Portal: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Portal(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), authenticationType: \(Swift.String(describing: authenticationType)), browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), browserType: \(Swift.String(describing: browserType)), creationDate: \(Swift.String(describing: creationDate)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), instanceType: \(Swift.String(describing: instanceType)), ipAccessSettingsArn: \(Swift.String(describing: ipAccessSettingsArn)), maxConcurrentSessions: \(Swift.String(describing: maxConcurrentSessions)), networkSettingsArn: \(Swift.String(describing: networkSettingsArn)), portalArn: \(Swift.String(describing: portalArn)), portalEndpoint: \(Swift.String(describing: portalEndpoint)), portalStatus: \(Swift.String(describing: portalStatus)), rendererType: \(Swift.String(describing: rendererType)), statusReason: \(Swift.String(describing: statusReason)), trustStoreArn: \(Swift.String(describing: trustStoreArn)), userAccessLoggingSettingsArn: \(Swift.String(describing: userAccessLoggingSettingsArn)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), displayName: \"CONTENT_REDACTED\")"}
+        "Portal(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), authenticationType: \(Swift.String(describing: authenticationType)), browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), browserType: \(Swift.String(describing: browserType)), creationDate: \(Swift.String(describing: creationDate)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), dataProtectionSettingsArn: \(Swift.String(describing: dataProtectionSettingsArn)), instanceType: \(Swift.String(describing: instanceType)), ipAccessSettingsArn: \(Swift.String(describing: ipAccessSettingsArn)), maxConcurrentSessions: \(Swift.String(describing: maxConcurrentSessions)), networkSettingsArn: \(Swift.String(describing: networkSettingsArn)), portalArn: \(Swift.String(describing: portalArn)), portalEndpoint: \(Swift.String(describing: portalEndpoint)), portalStatus: \(Swift.String(describing: portalStatus)), rendererType: \(Swift.String(describing: rendererType)), statusReason: \(Swift.String(describing: statusReason)), trustStoreArn: \(Swift.String(describing: trustStoreArn)), userAccessLoggingSettingsArn: \(Swift.String(describing: userAccessLoggingSettingsArn)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), displayName: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetPortalOutput: Swift.Sendable {
@@ -2516,8 +2893,7 @@ public struct GetPortalOutput: Swift.Sendable {
 
     public init(
         portal: WorkSpacesWebClientTypes.Portal? = nil
-    )
-    {
+    ) {
         self.portal = portal
     }
 }
@@ -2529,8 +2905,7 @@ public struct GetPortalServiceProviderMetadataInput: Swift.Sendable {
 
     public init(
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
     }
 }
@@ -2545,8 +2920,7 @@ public struct GetPortalServiceProviderMetadataOutput: Swift.Sendable {
     public init(
         portalArn: Swift.String? = nil,
         serviceProviderSamlMetadata: Swift.String? = nil
-    )
-    {
+    ) {
         self.portalArn = portalArn
         self.serviceProviderSamlMetadata = serviceProviderSamlMetadata
     }
@@ -2561,8 +2935,7 @@ public struct ListPortalsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2580,6 +2953,8 @@ extension WorkSpacesWebClientTypes {
         public var browserType: WorkSpacesWebClientTypes.BrowserType?
         /// The creation date of the web portal.
         public var creationDate: Foundation.Date?
+        /// The ARN of the data protection settings.
+        public var dataProtectionSettingsArn: Swift.String?
         /// The name of the web portal.
         public var displayName: Swift.String?
         /// The type and resources of the underlying instance.
@@ -2611,6 +2986,7 @@ extension WorkSpacesWebClientTypes {
             browserSettingsArn: Swift.String? = nil,
             browserType: WorkSpacesWebClientTypes.BrowserType? = nil,
             creationDate: Foundation.Date? = nil,
+            dataProtectionSettingsArn: Swift.String? = nil,
             displayName: Swift.String? = nil,
             instanceType: WorkSpacesWebClientTypes.InstanceType? = nil,
             ipAccessSettingsArn: Swift.String? = nil,
@@ -2623,12 +2999,12 @@ extension WorkSpacesWebClientTypes {
             trustStoreArn: Swift.String? = nil,
             userAccessLoggingSettingsArn: Swift.String? = nil,
             userSettingsArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.authenticationType = authenticationType
             self.browserSettingsArn = browserSettingsArn
             self.browserType = browserType
             self.creationDate = creationDate
+            self.dataProtectionSettingsArn = dataProtectionSettingsArn
             self.displayName = displayName
             self.instanceType = instanceType
             self.ipAccessSettingsArn = ipAccessSettingsArn
@@ -2647,7 +3023,7 @@ extension WorkSpacesWebClientTypes {
 
 extension WorkSpacesWebClientTypes.PortalSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PortalSummary(authenticationType: \(Swift.String(describing: authenticationType)), browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), browserType: \(Swift.String(describing: browserType)), creationDate: \(Swift.String(describing: creationDate)), instanceType: \(Swift.String(describing: instanceType)), ipAccessSettingsArn: \(Swift.String(describing: ipAccessSettingsArn)), maxConcurrentSessions: \(Swift.String(describing: maxConcurrentSessions)), networkSettingsArn: \(Swift.String(describing: networkSettingsArn)), portalArn: \(Swift.String(describing: portalArn)), portalEndpoint: \(Swift.String(describing: portalEndpoint)), portalStatus: \(Swift.String(describing: portalStatus)), rendererType: \(Swift.String(describing: rendererType)), trustStoreArn: \(Swift.String(describing: trustStoreArn)), userAccessLoggingSettingsArn: \(Swift.String(describing: userAccessLoggingSettingsArn)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), displayName: \"CONTENT_REDACTED\")"}
+        "PortalSummary(authenticationType: \(Swift.String(describing: authenticationType)), browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), browserType: \(Swift.String(describing: browserType)), creationDate: \(Swift.String(describing: creationDate)), dataProtectionSettingsArn: \(Swift.String(describing: dataProtectionSettingsArn)), instanceType: \(Swift.String(describing: instanceType)), ipAccessSettingsArn: \(Swift.String(describing: ipAccessSettingsArn)), maxConcurrentSessions: \(Swift.String(describing: maxConcurrentSessions)), networkSettingsArn: \(Swift.String(describing: networkSettingsArn)), portalArn: \(Swift.String(describing: portalArn)), portalEndpoint: \(Swift.String(describing: portalEndpoint)), portalStatus: \(Swift.String(describing: portalStatus)), rendererType: \(Swift.String(describing: rendererType)), trustStoreArn: \(Swift.String(describing: trustStoreArn)), userAccessLoggingSettingsArn: \(Swift.String(describing: userAccessLoggingSettingsArn)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), displayName: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListPortalsOutput: Swift.Sendable {
@@ -2659,8 +3035,7 @@ public struct ListPortalsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         portals: [WorkSpacesWebClientTypes.PortalSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.portals = portals
     }
@@ -2685,8 +3060,7 @@ public struct UpdatePortalInput: Swift.Sendable {
         instanceType: WorkSpacesWebClientTypes.InstanceType? = nil,
         maxConcurrentSessions: Swift.Int? = nil,
         portalArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationType = authenticationType
         self.displayName = displayName
         self.instanceType = instanceType
@@ -2706,16 +3080,15 @@ public struct UpdatePortalOutput: Swift.Sendable {
 
     public init(
         portal: WorkSpacesWebClientTypes.Portal? = nil
-    )
-    {
+    ) {
         self.portal = portal
     }
 }
 
 /// There are too many tags.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// Name of the resource affected.
         public internal(set) var resourceName: Swift.String? = nil
@@ -2733,8 +3106,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     public init(
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
     }
@@ -2754,8 +3126,7 @@ public struct TagResourceInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         tags: [WorkSpacesWebClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.resourceArn = resourceArn
         self.tags = tags
@@ -2793,8 +3164,7 @@ extension WorkSpacesWebClientTypes {
             notValidBefore: Foundation.Date? = nil,
             subject: Swift.String? = nil,
             thumbprint: Swift.String? = nil
-        )
-        {
+        ) {
             self.issuer = issuer
             self.notValidAfter = notValidAfter
             self.notValidBefore = notValidBefore
@@ -2817,8 +3187,7 @@ public struct CreateTrustStoreInput: Swift.Sendable {
         certificateList: [Foundation.Data]? = nil,
         clientToken: Swift.String? = nil,
         tags: [WorkSpacesWebClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.certificateList = certificateList
         self.clientToken = clientToken
         self.tags = tags
@@ -2837,8 +3206,7 @@ public struct CreateTrustStoreOutput: Swift.Sendable {
 
     public init(
         trustStoreArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trustStoreArn = trustStoreArn
     }
 }
@@ -2850,8 +3218,7 @@ public struct DeleteTrustStoreInput: Swift.Sendable {
 
     public init(
         trustStoreArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trustStoreArn = trustStoreArn
     }
 }
@@ -2868,8 +3235,7 @@ public struct GetTrustStoreInput: Swift.Sendable {
 
     public init(
         trustStoreArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trustStoreArn = trustStoreArn
     }
 }
@@ -2887,8 +3253,7 @@ extension WorkSpacesWebClientTypes {
         public init(
             associatedPortalArns: [Swift.String]? = nil,
             trustStoreArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.associatedPortalArns = associatedPortalArns
             self.trustStoreArn = trustStoreArn
         }
@@ -2901,8 +3266,7 @@ public struct GetTrustStoreOutput: Swift.Sendable {
 
     public init(
         trustStore: WorkSpacesWebClientTypes.TrustStore? = nil
-    )
-    {
+    ) {
         self.trustStore = trustStore
     }
 }
@@ -2918,8 +3282,7 @@ public struct GetTrustStoreCertificateInput: Swift.Sendable {
     public init(
         thumbprint: Swift.String? = nil,
         trustStoreArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.thumbprint = thumbprint
         self.trustStoreArn = trustStoreArn
     }
@@ -2949,8 +3312,7 @@ extension WorkSpacesWebClientTypes {
             notValidBefore: Foundation.Date? = nil,
             subject: Swift.String? = nil,
             thumbprint: Swift.String? = nil
-        )
-        {
+        ) {
             self.body = body
             self.issuer = issuer
             self.notValidAfter = notValidAfter
@@ -2971,8 +3333,7 @@ public struct GetTrustStoreCertificateOutput: Swift.Sendable {
     public init(
         certificate: WorkSpacesWebClientTypes.Certificate? = nil,
         trustStoreArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificate = certificate
         self.trustStoreArn = trustStoreArn
     }
@@ -2991,8 +3352,7 @@ public struct ListTrustStoreCertificatesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         trustStoreArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.trustStoreArn = trustStoreArn
@@ -3012,8 +3372,7 @@ public struct ListTrustStoreCertificatesOutput: Swift.Sendable {
         certificateList: [WorkSpacesWebClientTypes.CertificateSummary]? = nil,
         nextToken: Swift.String? = nil,
         trustStoreArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateList = certificateList
         self.nextToken = nextToken
         self.trustStoreArn = trustStoreArn
@@ -3029,8 +3388,7 @@ public struct ListTrustStoresInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3045,8 +3403,7 @@ extension WorkSpacesWebClientTypes {
 
         public init(
             trustStoreArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.trustStoreArn = trustStoreArn
         }
     }
@@ -3061,8 +3418,7 @@ public struct ListTrustStoresOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         trustStores: [WorkSpacesWebClientTypes.TrustStoreSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.trustStores = trustStores
     }
@@ -3084,8 +3440,7 @@ public struct UpdateTrustStoreInput: Swift.Sendable {
         certificatesToDelete: [Swift.String]? = nil,
         clientToken: Swift.String? = nil,
         trustStoreArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificatesToAdd = certificatesToAdd
         self.certificatesToDelete = certificatesToDelete
         self.clientToken = clientToken
@@ -3100,8 +3455,7 @@ public struct UpdateTrustStoreOutput: Swift.Sendable {
 
     public init(
         trustStoreArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trustStoreArn = trustStoreArn
     }
 }
@@ -3117,8 +3471,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -3147,8 +3500,7 @@ public struct CreateUserAccessLoggingSettingsInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         kinesisStreamArn: Swift.String? = nil,
         tags: [WorkSpacesWebClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.kinesisStreamArn = kinesisStreamArn
         self.tags = tags
@@ -3167,8 +3519,7 @@ public struct CreateUserAccessLoggingSettingsOutput: Swift.Sendable {
 
     public init(
         userAccessLoggingSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.userAccessLoggingSettingsArn = userAccessLoggingSettingsArn
     }
 }
@@ -3180,8 +3531,7 @@ public struct DeleteUserAccessLoggingSettingsInput: Swift.Sendable {
 
     public init(
         userAccessLoggingSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.userAccessLoggingSettingsArn = userAccessLoggingSettingsArn
     }
 }
@@ -3198,8 +3548,7 @@ public struct GetUserAccessLoggingSettingsInput: Swift.Sendable {
 
     public init(
         userAccessLoggingSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.userAccessLoggingSettingsArn = userAccessLoggingSettingsArn
     }
 }
@@ -3220,8 +3569,7 @@ extension WorkSpacesWebClientTypes {
             associatedPortalArns: [Swift.String]? = nil,
             kinesisStreamArn: Swift.String? = nil,
             userAccessLoggingSettingsArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.associatedPortalArns = associatedPortalArns
             self.kinesisStreamArn = kinesisStreamArn
             self.userAccessLoggingSettingsArn = userAccessLoggingSettingsArn
@@ -3235,8 +3583,7 @@ public struct GetUserAccessLoggingSettingsOutput: Swift.Sendable {
 
     public init(
         userAccessLoggingSettings: WorkSpacesWebClientTypes.UserAccessLoggingSettings? = nil
-    )
-    {
+    ) {
         self.userAccessLoggingSettings = userAccessLoggingSettings
     }
 }
@@ -3250,8 +3597,7 @@ public struct ListUserAccessLoggingSettingsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3270,8 +3616,7 @@ extension WorkSpacesWebClientTypes {
         public init(
             kinesisStreamArn: Swift.String? = nil,
             userAccessLoggingSettingsArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.kinesisStreamArn = kinesisStreamArn
             self.userAccessLoggingSettingsArn = userAccessLoggingSettingsArn
         }
@@ -3287,8 +3632,7 @@ public struct ListUserAccessLoggingSettingsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         userAccessLoggingSettings: [WorkSpacesWebClientTypes.UserAccessLoggingSettingsSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.userAccessLoggingSettings = userAccessLoggingSettings
     }
@@ -3307,8 +3651,7 @@ public struct UpdateUserAccessLoggingSettingsInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         kinesisStreamArn: Swift.String? = nil,
         userAccessLoggingSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.kinesisStreamArn = kinesisStreamArn
         self.userAccessLoggingSettingsArn = userAccessLoggingSettingsArn
@@ -3322,8 +3665,7 @@ public struct UpdateUserAccessLoggingSettingsOutput: Swift.Sendable {
 
     public init(
         userAccessLoggingSettings: WorkSpacesWebClientTypes.UserAccessLoggingSettings? = nil
-    )
-    {
+    ) {
         self.userAccessLoggingSettings = userAccessLoggingSettings
     }
 }
@@ -3344,8 +3686,7 @@ extension WorkSpacesWebClientTypes {
             domain: Swift.String? = nil,
             name: Swift.String? = nil,
             path: Swift.String? = nil
-        )
-        {
+        ) {
             self.domain = domain
             self.name = name
             self.path = path
@@ -3371,8 +3712,7 @@ extension WorkSpacesWebClientTypes {
         public init(
             allowlist: [WorkSpacesWebClientTypes.CookieSpecification]? = nil,
             blocklist: [WorkSpacesWebClientTypes.CookieSpecification]? = nil
-        )
-        {
+        ) {
             self.allowlist = allowlist
             self.blocklist = blocklist
         }
@@ -3461,8 +3801,7 @@ public struct CreateUserSettingsInput: Swift.Sendable {
         printAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
         tags: [WorkSpacesWebClientTypes.Tag]? = nil,
         uploadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil
-    )
-    {
+    ) {
         self.additionalEncryptionContext = additionalEncryptionContext
         self.clientToken = clientToken
         self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
@@ -3491,8 +3830,7 @@ public struct CreateUserSettingsOutput: Swift.Sendable {
 
     public init(
         userSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.userSettingsArn = userSettingsArn
     }
 }
@@ -3504,8 +3842,7 @@ public struct DeleteUserSettingsInput: Swift.Sendable {
 
     public init(
         userSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.userSettingsArn = userSettingsArn
     }
 }
@@ -3522,8 +3859,7 @@ public struct GetUserSettingsInput: Swift.Sendable {
 
     public init(
         userSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.userSettingsArn = userSettingsArn
     }
 }
@@ -3574,8 +3910,7 @@ extension WorkSpacesWebClientTypes {
             printAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
             uploadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
             userSettingsArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.associatedPortalArns = associatedPortalArns
             self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
@@ -3604,8 +3939,7 @@ public struct GetUserSettingsOutput: Swift.Sendable {
 
     public init(
         userSettings: WorkSpacesWebClientTypes.UserSettings? = nil
-    )
-    {
+    ) {
         self.userSettings = userSettings
     }
 }
@@ -3619,8 +3953,7 @@ public struct ListUserSettingsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3663,8 +3996,7 @@ extension WorkSpacesWebClientTypes {
             printAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
             uploadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
             userSettingsArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
             self.copyAllowed = copyAllowed
             self.deepLinkAllowed = deepLinkAllowed
@@ -3693,8 +4025,7 @@ public struct ListUserSettingsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         userSettings: [WorkSpacesWebClientTypes.UserSettingsSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.userSettings = userSettings
     }
@@ -3737,8 +4068,7 @@ public struct UpdateUserSettingsInput: Swift.Sendable {
         printAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
         uploadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
         userSettingsArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
         self.copyAllowed = copyAllowed
@@ -3765,8 +4095,7 @@ public struct UpdateUserSettingsOutput: Swift.Sendable {
 
     public init(
         userSettings: WorkSpacesWebClientTypes.UserSettings? = nil
-    )
-    {
+    ) {
         self.userSettings = userSettings
     }
 }
@@ -3791,6 +4120,30 @@ extension AssociateBrowserSettingsInput {
         }
         let browserSettingsArnQueryItem = Smithy.URIQueryItem(name: "browserSettingsArn".urlPercentEncoding(), value: Swift.String(browserSettingsArn).urlPercentEncoding())
         items.append(browserSettingsArnQueryItem)
+        return items
+    }
+}
+
+extension AssociateDataProtectionSettingsInput {
+
+    static func urlPathProvider(_ value: AssociateDataProtectionSettingsInput) -> Swift.String? {
+        guard let portalArn = value.portalArn else {
+            return nil
+        }
+        return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/dataProtectionSettings"
+    }
+}
+
+extension AssociateDataProtectionSettingsInput {
+
+    static func queryItemProvider(_ value: AssociateDataProtectionSettingsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let dataProtectionSettingsArn = value.dataProtectionSettingsArn else {
+            let message = "Creating a URL Query Item failed. dataProtectionSettingsArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let dataProtectionSettingsArnQueryItem = Smithy.URIQueryItem(name: "dataProtectionSettingsArn".urlPercentEncoding(), value: Swift.String(dataProtectionSettingsArn).urlPercentEncoding())
+        items.append(dataProtectionSettingsArnQueryItem)
         return items
     }
 }
@@ -3922,6 +4275,13 @@ extension CreateBrowserSettingsInput {
     }
 }
 
+extension CreateDataProtectionSettingsInput {
+
+    static func urlPathProvider(_ value: CreateDataProtectionSettingsInput) -> Swift.String? {
+        return "/dataProtectionSettings"
+    }
+}
+
 extension CreateIdentityProviderInput {
 
     static func urlPathProvider(_ value: CreateIdentityProviderInput) -> Swift.String? {
@@ -3978,6 +4338,16 @@ extension DeleteBrowserSettingsInput {
             return nil
         }
         return "/browserSettings/\(browserSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
+extension DeleteDataProtectionSettingsInput {
+
+    static func urlPathProvider(_ value: DeleteDataProtectionSettingsInput) -> Swift.String? {
+        guard let dataProtectionSettingsArn = value.dataProtectionSettingsArn else {
+            return nil
+        }
+        return "/dataProtectionSettings/\(dataProtectionSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -4061,6 +4431,16 @@ extension DisassociateBrowserSettingsInput {
     }
 }
 
+extension DisassociateDataProtectionSettingsInput {
+
+    static func urlPathProvider(_ value: DisassociateDataProtectionSettingsInput) -> Swift.String? {
+        guard let portalArn = value.portalArn else {
+            return nil
+        }
+        return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/dataProtectionSettings"
+    }
+}
+
 extension DisassociateIpAccessSettingsInput {
 
     static func urlPathProvider(_ value: DisassociateIpAccessSettingsInput) -> Swift.String? {
@@ -4131,6 +4511,16 @@ extension GetBrowserSettingsInput {
             return nil
         }
         return "/browserSettings/\(browserSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
+extension GetDataProtectionSettingsInput {
+
+    static func urlPathProvider(_ value: GetDataProtectionSettingsInput) -> Swift.String? {
+        guard let dataProtectionSettingsArn = value.dataProtectionSettingsArn else {
+            return nil
+        }
+        return "/dataProtectionSettings/\(dataProtectionSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -4261,6 +4651,29 @@ extension ListBrowserSettingsInput {
 extension ListBrowserSettingsInput {
 
     static func queryItemProvider(_ value: ListBrowserSettingsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListDataProtectionSettingsInput {
+
+    static func urlPathProvider(_ value: ListDataProtectionSettingsInput) -> Swift.String? {
+        return "/dataProtectionSettings"
+    }
+}
+
+extension ListDataProtectionSettingsInput {
+
+    static func queryItemProvider(_ value: ListDataProtectionSettingsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -4562,6 +4975,16 @@ extension UpdateBrowserSettingsInput {
     }
 }
 
+extension UpdateDataProtectionSettingsInput {
+
+    static func urlPathProvider(_ value: UpdateDataProtectionSettingsInput) -> Swift.String? {
+        guard let dataProtectionSettingsArn = value.dataProtectionSettingsArn else {
+            return nil
+        }
+        return "/dataProtectionSettings/\(dataProtectionSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
 extension UpdateIdentityProviderInput {
 
     static func urlPathProvider(_ value: UpdateIdentityProviderInput) -> Swift.String? {
@@ -4640,6 +5063,20 @@ extension CreateBrowserSettingsInput {
         try writer["browserPolicy"].write(value.browserPolicy)
         try writer["clientToken"].write(value.clientToken)
         try writer["customerManagedKey"].write(value.customerManagedKey)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: WorkSpacesWebClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CreateDataProtectionSettingsInput {
+
+    static func write(value: CreateDataProtectionSettingsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalEncryptionContext"].writeMap(value.additionalEncryptionContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["customerManagedKey"].write(value.customerManagedKey)
+        try writer["description"].write(value.description)
+        try writer["displayName"].write(value.displayName)
+        try writer["inlineRedactionConfiguration"].write(value.inlineRedactionConfiguration, with: WorkSpacesWebClientTypes.InlineRedactionConfiguration.write(value:to:))
         try writer["tags"].writeList(value.tags, memberWritingClosure: WorkSpacesWebClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -4756,6 +5193,17 @@ extension UpdateBrowserSettingsInput {
     }
 }
 
+extension UpdateDataProtectionSettingsInput {
+
+    static func write(value: UpdateDataProtectionSettingsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["displayName"].write(value.displayName)
+        try writer["inlineRedactionConfiguration"].write(value.inlineRedactionConfiguration, with: WorkSpacesWebClientTypes.InlineRedactionConfiguration.write(value:to:))
+    }
+}
+
 extension UpdateIdentityProviderInput {
 
     static func write(value: UpdateIdentityProviderInput?, to writer: SmithyJSON.Writer) throws {
@@ -4849,6 +5297,19 @@ extension AssociateBrowserSettingsOutput {
     }
 }
 
+extension AssociateDataProtectionSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateDataProtectionSettingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = AssociateDataProtectionSettingsOutput()
+        value.dataProtectionSettingsArn = try reader["dataProtectionSettingsArn"].readIfPresent() ?? ""
+        value.portalArn = try reader["portalArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension AssociateIpAccessSettingsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateIpAccessSettingsOutput {
@@ -4922,6 +5383,18 @@ extension CreateBrowserSettingsOutput {
         let reader = responseReader
         var value = CreateBrowserSettingsOutput()
         value.browserSettingsArn = try reader["browserSettingsArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateDataProtectionSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDataProtectionSettingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateDataProtectionSettingsOutput()
+        value.dataProtectionSettingsArn = try reader["dataProtectionSettingsArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5018,6 +5491,13 @@ extension DeleteBrowserSettingsOutput {
     }
 }
 
+extension DeleteDataProtectionSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDataProtectionSettingsOutput {
+        return DeleteDataProtectionSettingsOutput()
+    }
+}
+
 extension DeleteIdentityProviderOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteIdentityProviderOutput {
@@ -5074,6 +5554,13 @@ extension DisassociateBrowserSettingsOutput {
     }
 }
 
+extension DisassociateDataProtectionSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateDataProtectionSettingsOutput {
+        return DisassociateDataProtectionSettingsOutput()
+    }
+}
+
 extension DisassociateIpAccessSettingsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateIpAccessSettingsOutput {
@@ -5124,6 +5611,18 @@ extension GetBrowserSettingsOutput {
         let reader = responseReader
         var value = GetBrowserSettingsOutput()
         value.browserSettings = try reader["browserSettings"].readIfPresent(with: WorkSpacesWebClientTypes.BrowserSettings.read(from:))
+        return value
+    }
+}
+
+extension GetDataProtectionSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDataProtectionSettingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDataProtectionSettingsOutput()
+        value.dataProtectionSettings = try reader["dataProtectionSettings"].readIfPresent(with: WorkSpacesWebClientTypes.DataProtectionSettings.read(from:))
         return value
     }
 }
@@ -5258,6 +5757,19 @@ extension ListBrowserSettingsOutput {
         let reader = responseReader
         var value = ListBrowserSettingsOutput()
         value.browserSettings = try reader["browserSettings"].readListIfPresent(memberReadingClosure: WorkSpacesWebClientTypes.BrowserSettingsSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListDataProtectionSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDataProtectionSettingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDataProtectionSettingsOutput()
+        value.dataProtectionSettings = try reader["dataProtectionSettings"].readListIfPresent(memberReadingClosure: WorkSpacesWebClientTypes.DataProtectionSettingsSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -5419,6 +5931,18 @@ extension UpdateBrowserSettingsOutput {
     }
 }
 
+extension UpdateDataProtectionSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDataProtectionSettingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateDataProtectionSettingsOutput()
+        value.dataProtectionSettings = try reader["dataProtectionSettings"].readIfPresent(with: WorkSpacesWebClientTypes.DataProtectionSettings.read(from:))
+        return value
+    }
+}
+
 extension UpdateIdentityProviderOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateIdentityProviderOutput {
@@ -5504,6 +6028,25 @@ extension UpdateUserSettingsOutput {
 }
 
 enum AssociateBrowserSettingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum AssociateDataProtectionSettingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -5618,6 +6161,26 @@ enum AssociateUserSettingsOutputError {
 }
 
 enum CreateBrowserSettingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateDataProtectionSettingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -5790,6 +6353,24 @@ enum DeleteBrowserSettingsOutputError {
     }
 }
 
+enum DeleteDataProtectionSettingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteIdentityProviderOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5935,6 +6516,25 @@ enum DisassociateBrowserSettingsOutputError {
     }
 }
 
+enum DisassociateDataProtectionSettingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DisassociateIpAccessSettingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6049,6 +6649,24 @@ enum ExpireSessionOutputError {
 }
 
 enum GetBrowserSettingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetDataProtectionSettingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -6247,6 +6865,23 @@ enum GetUserSettingsOutputError {
 }
 
 enum ListBrowserSettingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDataProtectionSettingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -6474,6 +7109,24 @@ enum UntagResourceOutputError {
 }
 
 enum UpdateBrowserSettingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateDataProtectionSettingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -6759,6 +7412,107 @@ extension WorkSpacesWebClientTypes.BrowserSettings {
     }
 }
 
+extension WorkSpacesWebClientTypes.DataProtectionSettings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.DataProtectionSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesWebClientTypes.DataProtectionSettings()
+        value.dataProtectionSettingsArn = try reader["dataProtectionSettingsArn"].readIfPresent() ?? ""
+        value.inlineRedactionConfiguration = try reader["inlineRedactionConfiguration"].readIfPresent(with: WorkSpacesWebClientTypes.InlineRedactionConfiguration.read(from:))
+        value.associatedPortalArns = try reader["associatedPortalArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.customerManagedKey = try reader["customerManagedKey"].readIfPresent()
+        value.additionalEncryptionContext = try reader["additionalEncryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension WorkSpacesWebClientTypes.InlineRedactionConfiguration {
+
+    static func write(value: WorkSpacesWebClientTypes.InlineRedactionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["globalConfidenceLevel"].write(value.globalConfidenceLevel)
+        try writer["globalEnforcedUrls"].writeList(value.globalEnforcedUrls, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["globalExemptUrls"].writeList(value.globalExemptUrls, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["inlineRedactionPatterns"].writeList(value.inlineRedactionPatterns, memberWritingClosure: WorkSpacesWebClientTypes.InlineRedactionPattern.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.InlineRedactionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesWebClientTypes.InlineRedactionConfiguration()
+        value.inlineRedactionPatterns = try reader["inlineRedactionPatterns"].readListIfPresent(memberReadingClosure: WorkSpacesWebClientTypes.InlineRedactionPattern.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.globalEnforcedUrls = try reader["globalEnforcedUrls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.globalExemptUrls = try reader["globalExemptUrls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.globalConfidenceLevel = try reader["globalConfidenceLevel"].readIfPresent()
+        return value
+    }
+}
+
+extension WorkSpacesWebClientTypes.InlineRedactionPattern {
+
+    static func write(value: WorkSpacesWebClientTypes.InlineRedactionPattern?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["builtInPatternId"].write(value.builtInPatternId)
+        try writer["confidenceLevel"].write(value.confidenceLevel)
+        try writer["customPattern"].write(value.customPattern, with: WorkSpacesWebClientTypes.CustomPattern.write(value:to:))
+        try writer["enforcedUrls"].writeList(value.enforcedUrls, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["exemptUrls"].writeList(value.exemptUrls, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["redactionPlaceHolder"].write(value.redactionPlaceHolder, with: WorkSpacesWebClientTypes.RedactionPlaceHolder.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.InlineRedactionPattern {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesWebClientTypes.InlineRedactionPattern()
+        value.builtInPatternId = try reader["builtInPatternId"].readIfPresent()
+        value.customPattern = try reader["customPattern"].readIfPresent(with: WorkSpacesWebClientTypes.CustomPattern.read(from:))
+        value.redactionPlaceHolder = try reader["redactionPlaceHolder"].readIfPresent(with: WorkSpacesWebClientTypes.RedactionPlaceHolder.read(from:))
+        value.enforcedUrls = try reader["enforcedUrls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.exemptUrls = try reader["exemptUrls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.confidenceLevel = try reader["confidenceLevel"].readIfPresent()
+        return value
+    }
+}
+
+extension WorkSpacesWebClientTypes.RedactionPlaceHolder {
+
+    static func write(value: WorkSpacesWebClientTypes.RedactionPlaceHolder?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["redactionPlaceHolderText"].write(value.redactionPlaceHolderText)
+        try writer["redactionPlaceHolderType"].write(value.redactionPlaceHolderType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.RedactionPlaceHolder {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesWebClientTypes.RedactionPlaceHolder()
+        value.redactionPlaceHolderType = try reader["redactionPlaceHolderType"].readIfPresent() ?? .sdkUnknown("")
+        value.redactionPlaceHolderText = try reader["redactionPlaceHolderText"].readIfPresent()
+        return value
+    }
+}
+
+extension WorkSpacesWebClientTypes.CustomPattern {
+
+    static func write(value: WorkSpacesWebClientTypes.CustomPattern?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["keywordRegex"].write(value.keywordRegex)
+        try writer["patternDescription"].write(value.patternDescription)
+        try writer["patternName"].write(value.patternName)
+        try writer["patternRegex"].write(value.patternRegex)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.CustomPattern {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesWebClientTypes.CustomPattern()
+        value.patternName = try reader["patternName"].readIfPresent() ?? ""
+        value.patternRegex = try reader["patternRegex"].readIfPresent() ?? ""
+        value.patternDescription = try reader["patternDescription"].readIfPresent()
+        value.keywordRegex = try reader["keywordRegex"].readIfPresent()
+        return value
+    }
+}
+
 extension WorkSpacesWebClientTypes.IdentityProvider {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.IdentityProvider {
@@ -6833,6 +7587,7 @@ extension WorkSpacesWebClientTypes.Portal {
         value.displayName = try reader["displayName"].readIfPresent()
         value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.browserSettingsArn = try reader["browserSettingsArn"].readIfPresent()
+        value.dataProtectionSettingsArn = try reader["dataProtectionSettingsArn"].readIfPresent()
         value.userSettingsArn = try reader["userSettingsArn"].readIfPresent()
         value.networkSettingsArn = try reader["networkSettingsArn"].readIfPresent()
         value.trustStoreArn = try reader["trustStoreArn"].readIfPresent()
@@ -6970,6 +7725,19 @@ extension WorkSpacesWebClientTypes.BrowserSettingsSummary {
     }
 }
 
+extension WorkSpacesWebClientTypes.DataProtectionSettingsSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.DataProtectionSettingsSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesWebClientTypes.DataProtectionSettingsSummary()
+        value.dataProtectionSettingsArn = try reader["dataProtectionSettingsArn"].readIfPresent() ?? ""
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension WorkSpacesWebClientTypes.IdentityProviderSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.IdentityProviderSummary {
@@ -7019,6 +7787,7 @@ extension WorkSpacesWebClientTypes.PortalSummary {
         value.displayName = try reader["displayName"].readIfPresent()
         value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.browserSettingsArn = try reader["browserSettingsArn"].readIfPresent()
+        value.dataProtectionSettingsArn = try reader["dataProtectionSettingsArn"].readIfPresent()
         value.userSettingsArn = try reader["userSettingsArn"].readIfPresent()
         value.networkSettingsArn = try reader["networkSettingsArn"].readIfPresent()
         value.trustStoreArn = try reader["trustStoreArn"].readIfPresent()

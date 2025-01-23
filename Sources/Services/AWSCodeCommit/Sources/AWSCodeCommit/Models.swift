@@ -84,9 +84,9 @@ public struct UpdateRepositoryNameOutput: Swift.Sendable {
 }
 
 /// The specified Amazon Resource Name (ARN) does not exist in the Amazon Web Services account.
-public struct ActorDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ActorDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -102,8 +102,7 @@ public struct ActorDoesNotExistException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -149,8 +148,7 @@ extension CodeCommitClientTypes {
         public init(
             approvalState: CodeCommitClientTypes.ApprovalState? = nil,
             userArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.approvalState = approvalState
             self.userArn = userArn
         }
@@ -169,8 +167,7 @@ extension CodeCommitClientTypes {
         public init(
             approvalRuleTemplateId: Swift.String? = nil,
             approvalRuleTemplateName: Swift.String? = nil
-        )
-        {
+        ) {
             self.approvalRuleTemplateId = approvalRuleTemplateId
             self.approvalRuleTemplateName = approvalRuleTemplateName
         }
@@ -207,8 +204,7 @@ extension CodeCommitClientTypes {
             lastModifiedUser: Swift.String? = nil,
             originApprovalRuleTemplate: CodeCommitClientTypes.OriginApprovalRuleTemplate? = nil,
             ruleContentSha256: Swift.String? = nil
-        )
-        {
+        ) {
             self.approvalRuleContent = approvalRuleContent
             self.approvalRuleId = approvalRuleId
             self.approvalRuleName = approvalRuleName
@@ -222,9 +218,9 @@ extension CodeCommitClientTypes {
 }
 
 /// The content for the approval rule is empty. You must provide some content for an approval rule. The content cannot be null.
-public struct ApprovalRuleContentRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ApprovalRuleContentRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -240,16 +236,15 @@ public struct ApprovalRuleContentRequiredException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified approval rule does not exist.
-public struct ApprovalRuleDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ApprovalRuleDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -265,8 +260,7 @@ public struct ApprovalRuleDoesNotExistException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -286,8 +280,7 @@ extension CodeCommitClientTypes {
             approvalRuleContent: Swift.String? = nil,
             approvalRuleId: Swift.String? = nil,
             approvalRuleName: Swift.String? = nil
-        )
-        {
+        ) {
             self.approvalRuleContent = approvalRuleContent
             self.approvalRuleId = approvalRuleId
             self.approvalRuleName = approvalRuleName
@@ -296,9 +289,9 @@ extension CodeCommitClientTypes {
 }
 
 /// An approval rule with that name already exists. Approval rule names must be unique within the scope of a pull request.
-public struct ApprovalRuleNameAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ApprovalRuleNameAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -314,16 +307,15 @@ public struct ApprovalRuleNameAlreadyExistsException: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An approval rule name is required, but was not specified.
-public struct ApprovalRuleNameRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ApprovalRuleNameRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -339,8 +331,7 @@ public struct ApprovalRuleNameRequiredException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -386,8 +377,7 @@ extension CodeCommitClientTypes {
         public init(
             overrideStatus: CodeCommitClientTypes.OverrideStatus? = nil,
             revisionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.overrideStatus = overrideStatus
             self.revisionId = revisionId
         }
@@ -424,8 +414,7 @@ extension CodeCommitClientTypes {
             lastModifiedDate: Foundation.Date? = nil,
             lastModifiedUser: Swift.String? = nil,
             ruleContentSha256: Swift.String? = nil
-        )
-        {
+        ) {
             self.approvalRuleTemplateContent = approvalRuleTemplateContent
             self.approvalRuleTemplateDescription = approvalRuleTemplateDescription
             self.approvalRuleTemplateId = approvalRuleTemplateId
@@ -439,9 +428,9 @@ extension CodeCommitClientTypes {
 }
 
 /// The content for the approval rule template is empty. You must provide some content for an approval rule template. The content cannot be null.
-public struct ApprovalRuleTemplateContentRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ApprovalRuleTemplateContentRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -457,16 +446,15 @@ public struct ApprovalRuleTemplateContentRequiredException: ClientRuntime.Modele
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the Amazon Web Services Region where the template was created, and then try again.
-public struct ApprovalRuleTemplateDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ApprovalRuleTemplateDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -482,16 +470,15 @@ public struct ApprovalRuleTemplateDoesNotExistException: ClientRuntime.ModeledEr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The approval rule template is associated with one or more repositories. You cannot delete a template that is associated with a repository. Remove all associations, and then try again.
-public struct ApprovalRuleTemplateInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ApprovalRuleTemplateInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -507,16 +494,15 @@ public struct ApprovalRuleTemplateInUseException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You cannot create an approval rule template with that name because a template with that name already exists in this Amazon Web Services Region for your Amazon Web Services account. Approval rule template names must be unique.
-public struct ApprovalRuleTemplateNameAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ApprovalRuleTemplateNameAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -532,16 +518,15 @@ public struct ApprovalRuleTemplateNameAlreadyExistsException: ClientRuntime.Mode
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An approval rule template name is required, but was not specified.
-public struct ApprovalRuleTemplateNameRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ApprovalRuleTemplateNameRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -557,8 +542,7 @@ public struct ApprovalRuleTemplateNameRequiredException: ClientRuntime.ModeledEr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -575,8 +559,7 @@ extension CodeCommitClientTypes {
         public init(
             approvalStatus: CodeCommitClientTypes.ApprovalState? = nil,
             revisionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.approvalStatus = approvalStatus
             self.revisionId = revisionId
         }
@@ -584,9 +567,9 @@ extension CodeCommitClientTypes {
 }
 
 /// An approval state is required, but was not specified.
-public struct ApprovalStateRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ApprovalStateRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -602,16 +585,15 @@ public struct ApprovalStateRequiredException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An encryption integrity check failed.
-public struct EncryptionIntegrityChecksFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EncryptionIntegrityChecksFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -627,16 +609,15 @@ public struct EncryptionIntegrityChecksFailedException: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An encryption key could not be accessed.
-public struct EncryptionKeyAccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EncryptionKeyAccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -652,16 +633,15 @@ public struct EncryptionKeyAccessDeniedException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The encryption key is disabled.
-public struct EncryptionKeyDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EncryptionKeyDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -677,16 +657,15 @@ public struct EncryptionKeyDisabledException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// No encryption key was found.
-public struct EncryptionKeyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EncryptionKeyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -702,16 +681,15 @@ public struct EncryptionKeyNotFoundException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The encryption key is not available.
-public struct EncryptionKeyUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EncryptionKeyUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -727,16 +705,15 @@ public struct EncryptionKeyUnavailableException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
-public struct InvalidApprovalRuleTemplateNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidApprovalRuleTemplateNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -752,16 +729,15 @@ public struct InvalidApprovalRuleTemplateNameException: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
-public struct InvalidRepositoryNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRepositoryNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -777,16 +753,15 @@ public struct InvalidRepositoryNameException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The maximum number of approval rule templates for a repository has been exceeded. You cannot associate more than 25 approval rule templates with a repository.
-public struct MaximumRuleTemplatesAssociatedWithRepositoryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MaximumRuleTemplatesAssociatedWithRepositoryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -802,16 +777,15 @@ public struct MaximumRuleTemplatesAssociatedWithRepositoryException: ClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified repository does not exist.
-public struct RepositoryDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RepositoryDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -827,16 +801,15 @@ public struct RepositoryDoesNotExistException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A repository name is required, but was not specified.
-public struct RepositoryNameRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RepositoryNameRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -852,8 +825,7 @@ public struct RepositoryNameRequiredException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -869,17 +841,16 @@ public struct AssociateApprovalRuleTemplateWithRepositoryInput: Swift.Sendable {
     public init(
         approvalRuleTemplateName: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.approvalRuleTemplateName = approvalRuleTemplateName
         self.repositoryName = repositoryName
     }
 }
 
 /// The specified Amazon Resource Name (ARN) does not exist in the Amazon Web Services account.
-public struct AuthorDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AuthorDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -895,16 +866,15 @@ public struct AuthorDoesNotExistException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The maximum number of allowed repository names was exceeded. Currently, this number is 100.
-public struct MaximumRepositoryNamesExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MaximumRepositoryNamesExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -920,16 +890,15 @@ public struct MaximumRepositoryNamesExceededException: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// At least one repository name object is required, but was not specified.
-public struct RepositoryNamesRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RepositoryNamesRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -945,8 +914,7 @@ public struct RepositoryNamesRequiredException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -962,8 +930,7 @@ public struct BatchAssociateApprovalRuleTemplateWithRepositoriesInput: Swift.Sen
     public init(
         approvalRuleTemplateName: Swift.String? = nil,
         repositoryNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.approvalRuleTemplateName = approvalRuleTemplateName
         self.repositoryNames = repositoryNames
     }
@@ -984,8 +951,7 @@ extension CodeCommitClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             repositoryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.repositoryName = repositoryName
@@ -1004,17 +970,16 @@ public struct BatchAssociateApprovalRuleTemplateWithRepositoriesOutput: Swift.Se
     public init(
         associatedRepositoryNames: [Swift.String]? = nil,
         errors: [CodeCommitClientTypes.BatchAssociateApprovalRuleTemplateWithRepositoriesError]? = nil
-    )
-    {
+    ) {
         self.associatedRepositoryNames = associatedRepositoryNames
         self.errors = errors
     }
 }
 
 /// The specified commit does not exist or no commit was specified, and the specified repository has no default branch.
-public struct CommitDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CommitDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1030,16 +995,15 @@ public struct CommitDoesNotExistException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A commit was not specified.
-public struct CommitRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CommitRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1055,16 +1019,15 @@ public struct CommitRequiredException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified commit is not valid.
-public struct InvalidCommitException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidCommitException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1080,16 +1043,15 @@ public struct InvalidCommitException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified conflict detail level is not valid.
-public struct InvalidConflictDetailLevelException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidConflictDetailLevelException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1105,16 +1067,15 @@ public struct InvalidConflictDetailLevelException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified conflict resolution strategy is not valid.
-public struct InvalidConflictResolutionStrategyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidConflictResolutionStrategyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1130,16 +1091,15 @@ public struct InvalidConflictResolutionStrategyException: ClientRuntime.ModeledE
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified continuation token is not valid.
-public struct InvalidContinuationTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidContinuationTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1155,16 +1115,15 @@ public struct InvalidContinuationTokenException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified value for the number of conflict files to return is not valid.
-public struct InvalidMaxConflictFilesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidMaxConflictFilesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1180,16 +1139,15 @@ public struct InvalidMaxConflictFilesException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified value for the number of merge hunks to return is not valid.
-public struct InvalidMaxMergeHunksException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidMaxMergeHunksException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1205,16 +1163,15 @@ public struct InvalidMaxMergeHunksException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified merge option is not valid for this operation. Not all merge strategies are supported for all operations.
-public struct InvalidMergeOptionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidMergeOptionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1230,16 +1187,15 @@ public struct InvalidMergeOptionException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The number of files to load exceeds the allowed limit.
-public struct MaximumFileContentToLoadExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MaximumFileContentToLoadExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1255,16 +1211,15 @@ public struct MaximumFileContentToLoadExceededException: ClientRuntime.ModeledEr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The number of items to compare between the source or destination branches and the merge base has exceeded the maximum allowed.
-public struct MaximumItemsToCompareExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MaximumItemsToCompareExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1280,16 +1235,15 @@ public struct MaximumItemsToCompareExceededException: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A merge option or stategy is required, and none was provided.
-public struct MergeOptionRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MergeOptionRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1305,16 +1259,15 @@ public struct MergeOptionRequiredException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The divergence between the tips of the provided commit specifiers is too great to determine whether there might be any merge conflicts. Locally compare the specifiers using git diff or a diff tool.
-public struct TipsDivergenceExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TipsDivergenceExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1330,8 +1283,7 @@ public struct TipsDivergenceExceededException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1469,8 +1421,7 @@ public struct BatchDescribeMergeConflictsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         repositoryName: Swift.String? = nil,
         sourceCommitSpecifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.conflictDetailLevel = conflictDetailLevel
         self.conflictResolutionStrategy = conflictResolutionStrategy
         self.destinationCommitSpecifier = destinationCommitSpecifier
@@ -1531,8 +1482,7 @@ extension CodeCommitClientTypes {
             base: CodeCommitClientTypes.FileModeTypeEnum? = nil,
             destination: CodeCommitClientTypes.FileModeTypeEnum? = nil,
             source: CodeCommitClientTypes.FileModeTypeEnum? = nil
-        )
-        {
+        ) {
             self.base = base
             self.destination = destination
             self.source = source
@@ -1555,8 +1505,7 @@ extension CodeCommitClientTypes {
             base: Swift.Int = 0,
             destination: Swift.Int = 0,
             source: Swift.Int = 0
-        )
-        {
+        ) {
             self.base = base
             self.destination = destination
             self.source = source
@@ -1579,8 +1528,7 @@ extension CodeCommitClientTypes {
             base: Swift.Bool? = nil,
             destination: Swift.Bool? = nil,
             source: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.base = base
             self.destination = destination
             self.source = source
@@ -1632,8 +1580,7 @@ extension CodeCommitClientTypes {
         public init(
             destination: CodeCommitClientTypes.ChangeTypeEnum? = nil,
             source: CodeCommitClientTypes.ChangeTypeEnum? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.source = source
         }
@@ -1690,8 +1637,7 @@ extension CodeCommitClientTypes {
             base: CodeCommitClientTypes.ObjectTypeEnum? = nil,
             destination: CodeCommitClientTypes.ObjectTypeEnum? = nil,
             source: CodeCommitClientTypes.ObjectTypeEnum? = nil
-        )
-        {
+        ) {
             self.base = base
             self.destination = destination
             self.source = source
@@ -1735,8 +1681,7 @@ extension CodeCommitClientTypes {
             numberOfConflicts: Swift.Int = 0,
             objectTypeConflict: Swift.Bool = false,
             objectTypes: CodeCommitClientTypes.ObjectTypes? = nil
-        )
-        {
+        ) {
             self.contentConflict = contentConflict
             self.fileModeConflict = fileModeConflict
             self.fileModes = fileModes
@@ -1766,8 +1711,7 @@ extension CodeCommitClientTypes {
             endLine: Swift.Int? = nil,
             hunkContent: Swift.String? = nil,
             startLine: Swift.Int? = nil
-        )
-        {
+        ) {
             self.endLine = endLine
             self.hunkContent = hunkContent
             self.startLine = startLine
@@ -1793,8 +1737,7 @@ extension CodeCommitClientTypes {
             destination: CodeCommitClientTypes.MergeHunkDetail? = nil,
             isConflict: Swift.Bool = false,
             source: CodeCommitClientTypes.MergeHunkDetail? = nil
-        )
-        {
+        ) {
             self.base = base
             self.destination = destination
             self.isConflict = isConflict
@@ -1815,8 +1758,7 @@ extension CodeCommitClientTypes {
         public init(
             conflictMetadata: CodeCommitClientTypes.ConflictMetadata? = nil,
             mergeHunks: [CodeCommitClientTypes.MergeHunk]? = nil
-        )
-        {
+        ) {
             self.conflictMetadata = conflictMetadata
             self.mergeHunks = mergeHunks
         }
@@ -1841,8 +1783,7 @@ extension CodeCommitClientTypes {
             exceptionName: Swift.String? = nil,
             filePath: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.exceptionName = exceptionName
             self.filePath = filePath
             self.message = message
@@ -1874,8 +1815,7 @@ public struct BatchDescribeMergeConflictsOutput: Swift.Sendable {
         errors: [CodeCommitClientTypes.BatchDescribeMergeConflictsError]? = nil,
         nextToken: Swift.String? = nil,
         sourceCommitId: Swift.String? = nil
-    )
-    {
+    ) {
         self.baseCommitId = baseCommitId
         self.conflicts = conflicts
         self.destinationCommitId = destinationCommitId
@@ -1896,8 +1836,7 @@ public struct BatchDisassociateApprovalRuleTemplateFromRepositoriesInput: Swift.
     public init(
         approvalRuleTemplateName: Swift.String? = nil,
         repositoryNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.approvalRuleTemplateName = approvalRuleTemplateName
         self.repositoryNames = repositoryNames
     }
@@ -1918,8 +1857,7 @@ extension CodeCommitClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             repositoryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.repositoryName = repositoryName
@@ -1938,17 +1876,16 @@ public struct BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput: Swift
     public init(
         disassociatedRepositoryNames: [Swift.String]? = nil,
         errors: [CodeCommitClientTypes.BatchDisassociateApprovalRuleTemplateFromRepositoriesError]? = nil
-    )
-    {
+    ) {
         self.disassociatedRepositoryNames = disassociatedRepositoryNames
         self.errors = errors
     }
 }
 
 /// The maximum number of allowed commit IDs in a batch request is 100. Verify that your batch requests contains no more than 100 commit IDs, and then try again.
-public struct CommitIdsLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CommitIdsLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1964,16 +1901,15 @@ public struct CommitIdsLimitExceededException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A list of commit IDs is required, but was either not specified or the list was empty.
-public struct CommitIdsListRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CommitIdsListRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1989,8 +1925,7 @@ public struct CommitIdsListRequiredException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2006,8 +1941,7 @@ public struct BatchGetCommitsInput: Swift.Sendable {
     public init(
         commitIds: [Swift.String]? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.commitIds = commitIds
         self.repositoryName = repositoryName
     }
@@ -2028,8 +1962,7 @@ extension CodeCommitClientTypes {
             date: Swift.String? = nil,
             email: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.date = date
             self.email = email
             self.name = name
@@ -2064,8 +1997,7 @@ extension CodeCommitClientTypes {
             message: Swift.String? = nil,
             parents: [Swift.String]? = nil,
             treeId: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalData = additionalData
             self.author = author
             self.commitId = commitId
@@ -2092,8 +2024,7 @@ extension CodeCommitClientTypes {
             commitId: Swift.String? = nil,
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.commitId = commitId
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -2110,8 +2041,7 @@ public struct BatchGetCommitsOutput: Swift.Sendable {
     public init(
         commits: [CodeCommitClientTypes.Commit]? = nil,
         errors: [CodeCommitClientTypes.BatchGetCommitsError]? = nil
-    )
-    {
+    ) {
         self.commits = commits
         self.errors = errors
     }
@@ -2125,8 +2055,7 @@ public struct BatchGetRepositoriesInput: Swift.Sendable {
 
     public init(
         repositoryNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.repositoryNames = repositoryNames
     }
 }
@@ -2190,8 +2119,7 @@ extension CodeCommitClientTypes {
             errorMessage: Swift.String? = nil,
             repositoryId: Swift.String? = nil,
             repositoryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.repositoryId = repositoryId
@@ -2239,8 +2167,7 @@ extension CodeCommitClientTypes {
             repositoryDescription: Swift.String? = nil,
             repositoryId: Swift.String? = nil,
             repositoryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.arn = arn
             self.cloneUrlHttp = cloneUrlHttp
@@ -2269,8 +2196,7 @@ public struct BatchGetRepositoriesOutput: Swift.Sendable {
         errors: [CodeCommitClientTypes.BatchGetRepositoriesError]? = nil,
         repositories: [CodeCommitClientTypes.RepositoryMetadata]? = nil,
         repositoriesNotFound: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.repositories = repositories
         self.repositoriesNotFound = repositoriesNotFound
@@ -2278,9 +2204,9 @@ public struct BatchGetRepositoriesOutput: Swift.Sendable {
 }
 
 /// The before commit ID and the after commit ID are the same, which is not valid. The before commit ID and the after commit ID must be different commit IDs.
-public struct BeforeCommitIdAndAfterCommitIdAreSameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BeforeCommitIdAndAfterCommitIdAreSameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2296,16 +2222,15 @@ public struct BeforeCommitIdAndAfterCommitIdAreSameException: ClientRuntime.Mode
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified blob does not exist.
-public struct BlobIdDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BlobIdDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2321,16 +2246,15 @@ public struct BlobIdDoesNotExistException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A blob ID is required, but was not specified.
-public struct BlobIdRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BlobIdRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2346,8 +2270,7 @@ public struct BlobIdRequiredException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2375,8 +2298,7 @@ extension CodeCommitClientTypes {
             blobId: Swift.String? = nil,
             mode: Swift.String? = nil,
             path: Swift.String? = nil
-        )
-        {
+        ) {
             self.blobId = blobId
             self.mode = mode
             self.path = path
@@ -2385,9 +2307,9 @@ extension CodeCommitClientTypes {
 }
 
 /// The specified branch does not exist.
-public struct BranchDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BranchDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2403,8 +2325,7 @@ public struct BranchDoesNotExistException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2421,8 +2342,7 @@ extension CodeCommitClientTypes {
         public init(
             branchName: Swift.String? = nil,
             commitId: Swift.String? = nil
-        )
-        {
+        ) {
             self.branchName = branchName
             self.commitId = commitId
         }
@@ -2430,9 +2350,9 @@ extension CodeCommitClientTypes {
 }
 
 /// Cannot create the branch with the specified name because the commit conflicts with an existing branch with the same name. Branch names must be unique.
-public struct BranchNameExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BranchNameExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2448,16 +2368,15 @@ public struct BranchNameExistsException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified branch name is not valid because it is a tag name. Enter the name of a branch in the repository. For a list of valid branch names, use [ListBranches].
-public struct BranchNameIsTagNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BranchNameIsTagNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2473,16 +2392,15 @@ public struct BranchNameIsTagNameException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A branch name is required, but was not specified.
-public struct BranchNameRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BranchNameRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2498,16 +2416,15 @@ public struct BranchNameRequiredException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The approval rule cannot be deleted from the pull request because it was created by an approval rule template and applied to the pull request automatically.
-public struct CannotDeleteApprovalRuleFromTemplateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CannotDeleteApprovalRuleFromTemplateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2523,16 +2440,15 @@ public struct CannotDeleteApprovalRuleFromTemplateException: ClientRuntime.Model
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The approval rule cannot be modified for the pull request because it was created by an approval rule template and applied to the pull request automatically.
-public struct CannotModifyApprovalRuleFromTemplateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CannotModifyApprovalRuleFromTemplateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2548,16 +2464,15 @@ public struct CannotModifyApprovalRuleFromTemplateException: ClientRuntime.Model
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A client request token is required. A client request token is an unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request returns information about the initial request that used that token.
-public struct ClientRequestTokenRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClientRequestTokenRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2573,16 +2488,15 @@ public struct ClientRequestTokenRequiredException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The content of the approval rule template is not valid.
-public struct InvalidApprovalRuleTemplateContentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidApprovalRuleTemplateContentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2598,16 +2512,15 @@ public struct InvalidApprovalRuleTemplateContentException: ClientRuntime.Modeled
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The description for the approval rule template is not valid because it exceeds the maximum characters allowed for a description. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
-public struct InvalidApprovalRuleTemplateDescriptionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidApprovalRuleTemplateDescriptionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2623,16 +2536,15 @@ public struct InvalidApprovalRuleTemplateDescriptionException: ClientRuntime.Mod
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The maximum number of approval rule templates has been exceeded for this Amazon Web Services Region.
-public struct NumberOfRuleTemplatesExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NumberOfRuleTemplatesExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2648,8 +2560,7 @@ public struct NumberOfRuleTemplatesExceededException: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2682,8 +2593,7 @@ public struct CreateApprovalRuleTemplateInput: Swift.Sendable {
         approvalRuleTemplateContent: Swift.String? = nil,
         approvalRuleTemplateDescription: Swift.String? = nil,
         approvalRuleTemplateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.approvalRuleTemplateContent = approvalRuleTemplateContent
         self.approvalRuleTemplateDescription = approvalRuleTemplateDescription
         self.approvalRuleTemplateName = approvalRuleTemplateName
@@ -2697,16 +2607,15 @@ public struct CreateApprovalRuleTemplateOutput: Swift.Sendable {
 
     public init(
         approvalRuleTemplate: CodeCommitClientTypes.ApprovalRuleTemplate? = nil
-    )
-    {
+    ) {
         self.approvalRuleTemplate = approvalRuleTemplate
     }
 }
 
 /// A commit ID was not specified.
-public struct CommitIdRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CommitIdRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2722,16 +2631,15 @@ public struct CommitIdRequiredException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified reference name is not valid.
-public struct InvalidBranchNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidBranchNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2747,16 +2655,15 @@ public struct InvalidBranchNameException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified commit ID is not valid.
-public struct InvalidCommitIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidCommitIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2772,8 +2679,7 @@ public struct InvalidCommitIdException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2794,8 +2700,7 @@ public struct CreateBranchInput: Swift.Sendable {
         branchName: Swift.String? = nil,
         commitId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.branchName = branchName
         self.commitId = commitId
         self.repositoryName = repositoryName
@@ -2803,9 +2708,9 @@ public struct CreateBranchInput: Swift.Sendable {
 }
 
 /// The commit message is too long. Provide a shorter string.
-public struct CommitMessageLengthExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CommitMessageLengthExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2821,16 +2726,15 @@ public struct CommitMessageLengthExceededException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A file cannot be added to the repository because the specified path name has the same name as a file that already exists in this repository. Either provide a different name for the file, or specify a different path for the file.
-public struct DirectoryNameConflictsWithFileNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DirectoryNameConflictsWithFileNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2846,16 +2750,15 @@ public struct DirectoryNameConflictsWithFileNameException: ClientRuntime.Modeled
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The commit cannot be created because both a source file and file content have been specified for the same file. You cannot provide both. Either specify a source file or provide the file content directly.
-public struct FileContentAndSourceFileSpecifiedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FileContentAndSourceFileSpecifiedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2871,16 +2774,15 @@ public struct FileContentAndSourceFileSpecifiedException: ClientRuntime.ModeledE
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The file cannot be added because it is too large. The maximum file size is 6 MB, and the combined file content change size is 7 MB. Consider making these changes using a Git client.
-public struct FileContentSizeLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FileContentSizeLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2896,16 +2798,15 @@ public struct FileContentSizeLimitExceededException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified file does not exist. Verify that you have used the correct file name, full path, and extension.
-public struct FileDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FileDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2921,16 +2822,15 @@ public struct FileDoesNotExistException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The commit cannot be created because no files have been specified as added, updated, or changed (PutFile or DeleteFile) for the commit.
-public struct FileEntryRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FileEntryRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2946,16 +2846,15 @@ public struct FileEntryRequiredException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The commit cannot be created because no file mode has been specified. A file mode is required to update mode permissions for a file.
-public struct FileModeRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FileModeRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2971,16 +2870,15 @@ public struct FileModeRequiredException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A file cannot be added to the repository because the specified file name has the same name as a directory in this repository. Either provide another name for the file, or add the file in a directory that does not match the file name.
-public struct FileNameConflictsWithDirectoryNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FileNameConflictsWithDirectoryNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2996,16 +2894,15 @@ public struct FileNameConflictsWithDirectoryNameException: ClientRuntime.Modeled
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The commit cannot be created because a specified file path points to a submodule. Verify that the destination files have valid file paths that do not point to a submodule.
-public struct FilePathConflictsWithSubmodulePathException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FilePathConflictsWithSubmodulePathException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3021,16 +2918,15 @@ public struct FilePathConflictsWithSubmodulePathException: ClientRuntime.Modeled
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The commit cannot be created because at least one of the overall changes in the commit results in a folder whose contents exceed the limit of 6 MB. Either reduce the number and size of your changes, or split the changes across multiple folders.
-public struct FolderContentSizeLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FolderContentSizeLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3046,16 +2942,15 @@ public struct FolderContentSizeLimitExceededException: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified deletion parameter is not valid.
-public struct InvalidDeletionParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDeletionParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3071,16 +2966,15 @@ public struct InvalidDeletionParameterException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified email address either contains one or more characters that are not allowed, or it exceeds the maximum number of characters allowed for an email address.
-public struct InvalidEmailException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidEmailException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3096,16 +2990,15 @@ public struct InvalidEmailException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified file mode permission is not valid. For a list of valid file mode permissions, see [PutFile].
-public struct InvalidFileModeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidFileModeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3121,16 +3014,15 @@ public struct InvalidFileModeException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The parent commit ID is not valid. The commit ID cannot be empty, and must match the head commit ID for the branch of the repository where you want to add or update a file.
-public struct InvalidParentCommitIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParentCommitIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3146,16 +3038,15 @@ public struct InvalidParentCommitIdException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified path is not valid.
-public struct InvalidPathException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPathException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3171,16 +3062,15 @@ public struct InvalidPathException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The number of specified files to change as part of this commit exceeds the maximum number of files that can be changed in a single commit. Consider using a Git client for these changes.
-public struct MaximumFileEntriesExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MaximumFileEntriesExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3196,16 +3086,15 @@ public struct MaximumFileEntriesExceededException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The user name is not valid because it has exceeded the character limit for author names.
-public struct NameLengthExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NameLengthExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3221,16 +3110,15 @@ public struct NameLengthExceededException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The commit cannot be created because no changes will be made to the repository as a result of this commit. A commit must contain at least one change.
-public struct NoChangeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoChangeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3246,16 +3134,15 @@ public struct NoChangeException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The parent commit ID is not valid because it does not exist. The specified parent commit ID does not exist in the specified branch of the repository.
-public struct ParentCommitDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ParentCommitDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3271,16 +3158,15 @@ public struct ParentCommitDoesNotExistException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The file could not be added because the provided parent commit ID is not the current tip of the specified branch. To view the full commit ID of the current head of the branch, use [GetBranch].
-public struct ParentCommitIdOutdatedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ParentCommitIdOutdatedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3296,16 +3182,15 @@ public struct ParentCommitIdOutdatedException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A parent commit ID is required. To view the full commit ID of a branch in a repository, use [GetBranch] or a Git command (for example, git pull or git log).
-public struct ParentCommitIdRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ParentCommitIdRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3321,16 +3206,15 @@ public struct ParentCommitIdRequiredException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The folderPath for a location cannot be null.
-public struct PathRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PathRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3346,16 +3230,15 @@ public struct PathRequiredException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The commit cannot be created because one or more files specified in the commit reference both a file and a folder.
-public struct PutFileEntryConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PutFileEntryConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3371,16 +3254,15 @@ public struct PutFileEntryConflictException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The commit cannot be created because one of the changes specifies copying or moving a .gitkeep file.
-public struct RestrictedSourceFileException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RestrictedSourceFileException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3396,16 +3278,15 @@ public struct RestrictedSourceFileException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The commit cannot be created because one or more changes in this commit duplicate actions in the same file path. For example, you cannot make the same delete request to the same file in the same file path twice, or make a delete request and a move request to the same file as part of the same commit.
-public struct SamePathRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SamePathRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3421,16 +3302,15 @@ public struct SamePathRequestException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The commit cannot be created because no source files or file content have been specified for the commit.
-public struct SourceFileOrContentRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SourceFileOrContentRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3446,8 +3326,7 @@ public struct SourceFileOrContentRequiredException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3462,8 +3341,7 @@ extension CodeCommitClientTypes {
 
         public init(
             filePath: Swift.String? = nil
-        )
-        {
+        ) {
             self.filePath = filePath
         }
     }
@@ -3482,8 +3360,7 @@ extension CodeCommitClientTypes {
         public init(
             filePath: Swift.String? = nil,
             isMove: Swift.Bool = false
-        )
-        {
+        ) {
             self.filePath = filePath
             self.isMove = isMove
         }
@@ -3509,8 +3386,7 @@ extension CodeCommitClientTypes {
             fileMode: CodeCommitClientTypes.FileModeTypeEnum? = nil,
             filePath: Swift.String? = nil,
             sourceFile: CodeCommitClientTypes.SourceFileSpecifier? = nil
-        )
-        {
+        ) {
             self.fileContent = fileContent
             self.fileMode = fileMode
             self.filePath = filePath
@@ -3533,8 +3409,7 @@ extension CodeCommitClientTypes {
         public init(
             fileMode: CodeCommitClientTypes.FileModeTypeEnum? = nil,
             filePath: Swift.String? = nil
-        )
-        {
+        ) {
             self.fileMode = fileMode
             self.filePath = filePath
         }
@@ -3576,8 +3451,7 @@ public struct CreateCommitInput: Swift.Sendable {
         putFiles: [CodeCommitClientTypes.PutFileEntry]? = nil,
         repositoryName: Swift.String? = nil,
         setFileModes: [CodeCommitClientTypes.SetFileModeEntry]? = nil
-    )
-    {
+    ) {
         self.authorName = authorName
         self.branchName = branchName
         self.commitMessage = commitMessage
@@ -3606,8 +3480,7 @@ extension CodeCommitClientTypes {
             absolutePath: Swift.String? = nil,
             blobId: Swift.String? = nil,
             fileMode: CodeCommitClientTypes.FileModeTypeEnum? = nil
-        )
-        {
+        ) {
             self.absolutePath = absolutePath
             self.blobId = blobId
             self.fileMode = fileMode
@@ -3633,8 +3506,7 @@ public struct CreateCommitOutput: Swift.Sendable {
         filesDeleted: [CodeCommitClientTypes.FileMetadata]? = nil,
         filesUpdated: [CodeCommitClientTypes.FileMetadata]? = nil,
         treeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.commitId = commitId
         self.filesAdded = filesAdded
         self.filesDeleted = filesDeleted
@@ -3644,9 +3516,9 @@ public struct CreateCommitOutput: Swift.Sendable {
 }
 
 /// The client request token is not valid. Either the token is not in a valid format, or the token has been used in a previous request and cannot be reused.
-public struct IdempotencyParameterMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IdempotencyParameterMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3662,16 +3534,15 @@ public struct IdempotencyParameterMismatchException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The client request token is not valid.
-public struct InvalidClientRequestTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidClientRequestTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3687,16 +3558,15 @@ public struct InvalidClientRequestTokenException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The pull request description is not valid. Descriptions cannot be more than 1,000 characters.
-public struct InvalidDescriptionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDescriptionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3712,16 +3582,15 @@ public struct InvalidDescriptionException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified reference name format is not valid. Reference names must conform to the Git references format (for example, refs/heads/main). For more information, see [Git Internals - Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References) or consult your Git documentation.
-public struct InvalidReferenceNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidReferenceNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3737,16 +3606,15 @@ public struct InvalidReferenceNameException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The target for the pull request is not valid. A target must contain the full values for the repository name, source branch, and destination branch for the pull request.
-public struct InvalidTargetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTargetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3762,16 +3630,15 @@ public struct InvalidTargetException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The targets for the pull request is not valid or not in a valid format. Targets are a list of target objects. Each target object must contain the full values for the repository name, source branch, and destination branch for a pull request.
-public struct InvalidTargetsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTargetsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3787,16 +3654,15 @@ public struct InvalidTargetsException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The title of the pull request is not valid. Pull request titles cannot exceed 100 characters in length.
-public struct InvalidTitleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTitleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3812,16 +3678,15 @@ public struct InvalidTitleException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You cannot create the pull request because the repository has too many open pull requests. The maximum number of open pull requests for a repository is 1,000. Close one or more open pull requests, and then try again.
-public struct MaximumOpenPullRequestsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MaximumOpenPullRequestsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3837,16 +3702,15 @@ public struct MaximumOpenPullRequestsExceededException: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You cannot include more than one repository in a pull request. Make sure you have specified only one repository name in your request, and then try again.
-public struct MultipleRepositoriesInPullRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MultipleRepositoriesInPullRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3862,16 +3726,15 @@ public struct MultipleRepositoriesInPullRequestException: ClientRuntime.ModeledE
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified reference does not exist. You must provide a full commit ID.
-public struct ReferenceDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReferenceDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3887,16 +3750,15 @@ public struct ReferenceDoesNotExistException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A reference name is required, but none was provided.
-public struct ReferenceNameRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReferenceNameRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3912,16 +3774,15 @@ public struct ReferenceNameRequiredException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified reference is not a supported type.
-public struct ReferenceTypeNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReferenceTypeNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3937,16 +3798,15 @@ public struct ReferenceTypeNotSupportedException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The source branch and destination branch for the pull request are the same. You must specify different branches for the source and destination.
-public struct SourceAndDestinationAreSameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SourceAndDestinationAreSameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3962,16 +3822,15 @@ public struct SourceAndDestinationAreSameException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A pull request target is required. It cannot be empty or null. A pull request target must contain the full values for the repository name, source branch, and destination branch for the pull request.
-public struct TargetRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TargetRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3987,16 +3846,15 @@ public struct TargetRequiredException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An array of target objects is required. It cannot be empty or null.
-public struct TargetsRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TargetsRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4012,16 +3870,15 @@ public struct TargetsRequiredException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A pull request title is required. It cannot be empty or null.
-public struct TitleRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TitleRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4037,8 +3894,7 @@ public struct TitleRequiredException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4060,8 +3916,7 @@ extension CodeCommitClientTypes {
             destinationReference: Swift.String? = nil,
             repositoryName: Swift.String? = nil,
             sourceReference: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationReference = destinationReference
             self.repositoryName = repositoryName
             self.sourceReference = sourceReference
@@ -4086,8 +3941,7 @@ public struct CreatePullRequestInput: Swift.Sendable {
         description: Swift.String? = nil,
         targets: [CodeCommitClientTypes.Target]? = nil,
         title: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.description = description
         self.targets = targets
@@ -4142,8 +3996,7 @@ extension CodeCommitClientTypes {
             mergeCommitId: Swift.String? = nil,
             mergeOption: CodeCommitClientTypes.MergeOptionTypeEnum? = nil,
             mergedBy: Swift.String? = nil
-        )
-        {
+        ) {
             self.isMerged = isMerged
             self.mergeCommitId = mergeCommitId
             self.mergeOption = mergeOption
@@ -4179,8 +4032,7 @@ extension CodeCommitClientTypes {
             repositoryName: Swift.String? = nil,
             sourceCommit: Swift.String? = nil,
             sourceReference: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationCommit = destinationCommit
             self.destinationReference = destinationReference
             self.mergeBase = mergeBase
@@ -4231,8 +4083,7 @@ extension CodeCommitClientTypes {
             pullRequestTargets: [CodeCommitClientTypes.PullRequestTarget]? = nil,
             revisionId: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.approvalRules = approvalRules
             self.authorArn = authorArn
             self.clientRequestToken = clientRequestToken
@@ -4255,16 +4106,15 @@ public struct CreatePullRequestOutput: Swift.Sendable {
 
     public init(
         pullRequest: CodeCommitClientTypes.PullRequest? = nil
-    )
-    {
+    ) {
         self.pullRequest = pullRequest
     }
 }
 
 /// The content for the approval rule is not valid.
-public struct InvalidApprovalRuleContentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidApprovalRuleContentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4280,16 +4130,15 @@ public struct InvalidApprovalRuleContentException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The name for the approval rule is not valid.
-public struct InvalidApprovalRuleNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidApprovalRuleNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4305,16 +4154,15 @@ public struct InvalidApprovalRuleNameException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The pull request ID is not valid. Make sure that you have provided the full ID and that the pull request is in the specified repository, and then try again.
-public struct InvalidPullRequestIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPullRequestIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4330,16 +4178,15 @@ public struct InvalidPullRequestIdException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The approval rule cannot be added. The pull request has the maximum number of approval rules associated with it.
-public struct NumberOfRulesExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NumberOfRulesExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4355,16 +4202,15 @@ public struct NumberOfRulesExceededException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The pull request status cannot be updated because it is already closed.
-public struct PullRequestAlreadyClosedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PullRequestAlreadyClosedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4380,16 +4226,15 @@ public struct PullRequestAlreadyClosedException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The pull request ID could not be found. Make sure that you have specified the correct repository name and pull request ID, and then try again.
-public struct PullRequestDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PullRequestDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4405,16 +4250,15 @@ public struct PullRequestDoesNotExistException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A pull request ID is required, but none was provided.
-public struct PullRequestIdRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PullRequestIdRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4430,8 +4274,7 @@ public struct PullRequestIdRequiredException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4465,8 +4308,7 @@ public struct CreatePullRequestApprovalRuleInput: Swift.Sendable {
         approvalRuleContent: Swift.String? = nil,
         approvalRuleName: Swift.String? = nil,
         pullRequestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.approvalRuleContent = approvalRuleContent
         self.approvalRuleName = approvalRuleName
         self.pullRequestId = pullRequestId
@@ -4480,16 +4322,15 @@ public struct CreatePullRequestApprovalRuleOutput: Swift.Sendable {
 
     public init(
         approvalRule: CodeCommitClientTypes.ApprovalRule? = nil
-    )
-    {
+    ) {
         self.approvalRule = approvalRule
     }
 }
 
 /// The Key Management Service encryption key is not valid.
-public struct EncryptionKeyInvalidIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EncryptionKeyInvalidIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4505,16 +4346,15 @@ public struct EncryptionKeyInvalidIdException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A KMS encryption key was used to try and encrypt or decrypt a repository, but either the repository or the key was not in a valid state to support the operation.
-public struct EncryptionKeyInvalidUsageException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EncryptionKeyInvalidUsageException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4530,16 +4370,15 @@ public struct EncryptionKeyInvalidUsageException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified repository description is not valid.
-public struct InvalidRepositoryDescriptionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRepositoryDescriptionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4555,16 +4394,15 @@ public struct InvalidRepositoryDescriptionException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified tag is not valid. Key names cannot be prefixed with aws:.
-public struct InvalidSystemTagUsageException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSystemTagUsageException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4580,16 +4418,15 @@ public struct InvalidSystemTagUsageException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The map of tags is not valid.
-public struct InvalidTagsMapException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTagsMapException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4605,16 +4442,15 @@ public struct InvalidTagsMapException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The requested action is not allowed.
-public struct OperationNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OperationNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4630,16 +4466,15 @@ public struct OperationNotAllowedException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A repository resource limit was exceeded.
-public struct RepositoryLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RepositoryLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4655,16 +4490,15 @@ public struct RepositoryLimitExceededException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified repository name already exists.
-public struct RepositoryNameExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RepositoryNameExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4680,16 +4514,15 @@ public struct RepositoryNameExistsException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The tag policy is not valid.
-public struct TagPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TagPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4705,16 +4538,15 @@ public struct TagPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The maximum number of tags for an CodeCommit resource has been exceeded.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4730,8 +4562,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4753,8 +4584,7 @@ public struct CreateRepositoryInput: Swift.Sendable {
         repositoryDescription: Swift.String? = nil,
         repositoryName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.kmsKeyId = kmsKeyId
         self.repositoryDescription = repositoryDescription
         self.repositoryName = repositoryName
@@ -4769,16 +4599,15 @@ public struct CreateRepositoryOutput: Swift.Sendable {
 
     public init(
         repositoryMetadata: CodeCommitClientTypes.RepositoryMetadata? = nil
-    )
-    {
+    ) {
         self.repositoryMetadata = repositoryMetadata
     }
 }
 
 /// The merge cannot be completed because the target branch has been modified. Another user might have modified the target branch while the merge was in progress. Wait a few minutes, and then try again.
-public struct ConcurrentReferenceUpdateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentReferenceUpdateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4794,16 +4623,15 @@ public struct ConcurrentReferenceUpdateException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified conflict resolution list is not valid.
-public struct InvalidConflictResolutionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidConflictResolutionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4819,16 +4647,15 @@ public struct InvalidConflictResolutionException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Automerge was specified for resolving the conflict, but the replacement type is not valid or content is missing.
-public struct InvalidReplacementContentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidReplacementContentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4844,16 +4671,15 @@ public struct InvalidReplacementContentException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Automerge was specified for resolving the conflict, but the specified replacement type is not valid.
-public struct InvalidReplacementTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidReplacementTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4869,16 +4695,15 @@ public struct InvalidReplacementTypeException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The pull request cannot be merged automatically into the destination branch. You must manually merge the branches and resolve any conflicts.
-public struct ManualMergeRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ManualMergeRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4894,16 +4719,15 @@ public struct ManualMergeRequiredException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The number of allowed conflict resolution entries was exceeded.
-public struct MaximumConflictResolutionEntriesExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MaximumConflictResolutionEntriesExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4919,16 +4743,15 @@ public struct MaximumConflictResolutionEntriesExceededException: ClientRuntime.M
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// More than one conflict resolution entries exists for the conflict. A conflict can have only one conflict resolution entry.
-public struct MultipleConflictResolutionEntriesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MultipleConflictResolutionEntriesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4944,16 +4767,15 @@ public struct MultipleConflictResolutionEntriesException: ClientRuntime.ModeledE
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// USE_NEW_CONTENT was specified, but no replacement content has been provided.
-public struct ReplacementContentRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReplacementContentRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4969,16 +4791,15 @@ public struct ReplacementContentRequiredException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A replacement type is required.
-public struct ReplacementTypeRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReplacementTypeRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4994,8 +4815,7 @@ public struct ReplacementTypeRequiredException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5055,8 +4875,7 @@ extension CodeCommitClientTypes {
             fileMode: CodeCommitClientTypes.FileModeTypeEnum? = nil,
             filePath: Swift.String? = nil,
             replacementType: CodeCommitClientTypes.ReplacementTypeEnum? = nil
-        )
-        {
+        ) {
             self.content = content
             self.fileMode = fileMode
             self.filePath = filePath
@@ -5080,8 +4899,7 @@ extension CodeCommitClientTypes {
             deleteFiles: [CodeCommitClientTypes.DeleteFileEntry]? = nil,
             replaceContents: [CodeCommitClientTypes.ReplaceContentEntry]? = nil,
             setFileModes: [CodeCommitClientTypes.SetFileModeEntry]? = nil
-        )
-        {
+        ) {
             self.deleteFiles = deleteFiles
             self.replaceContents = replaceContents
             self.setFileModes = setFileModes
@@ -5129,8 +4947,7 @@ public struct CreateUnreferencedMergeCommitInput: Swift.Sendable {
         mergeOption: CodeCommitClientTypes.MergeOptionTypeEnum? = nil,
         repositoryName: Swift.String? = nil,
         sourceCommitSpecifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorName = authorName
         self.commitMessage = commitMessage
         self.conflictDetailLevel = conflictDetailLevel
@@ -5154,8 +4971,7 @@ public struct CreateUnreferencedMergeCommitOutput: Swift.Sendable {
     public init(
         commitId: Swift.String? = nil,
         treeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.commitId = commitId
         self.treeId = treeId
     }
@@ -5168,8 +4984,7 @@ public struct DeleteApprovalRuleTemplateInput: Swift.Sendable {
 
     public init(
         approvalRuleTemplateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.approvalRuleTemplateName = approvalRuleTemplateName
     }
 }
@@ -5181,16 +4996,15 @@ public struct DeleteApprovalRuleTemplateOutput: Swift.Sendable {
 
     public init(
         approvalRuleTemplateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.approvalRuleTemplateId = approvalRuleTemplateId
     }
 }
 
 /// The specified branch is the default branch for the repository, and cannot be deleted. To delete this branch, you must first set another branch as the default branch.
-public struct DefaultBranchCannotBeDeletedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DefaultBranchCannotBeDeletedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5206,8 +5020,7 @@ public struct DefaultBranchCannotBeDeletedException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5224,8 +5037,7 @@ public struct DeleteBranchInput: Swift.Sendable {
     public init(
         branchName: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.branchName = branchName
         self.repositoryName = repositoryName
     }
@@ -5238,16 +5050,15 @@ public struct DeleteBranchOutput: Swift.Sendable {
 
     public init(
         deletedBranch: CodeCommitClientTypes.BranchInfo? = nil
-    )
-    {
+    ) {
         self.deletedBranch = deletedBranch
     }
 }
 
 /// This comment has already been deleted. You cannot edit or delete a deleted comment.
-public struct CommentDeletedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CommentDeletedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5263,16 +5074,15 @@ public struct CommentDeletedException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// No comment exists with the provided ID. Verify that you have used the correct ID, and then try again.
-public struct CommentDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CommentDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5288,16 +5098,15 @@ public struct CommentDoesNotExistException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The comment ID is missing or null. A comment ID is required.
-public struct CommentIdRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CommentIdRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5313,16 +5122,15 @@ public struct CommentIdRequiredException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The comment ID is not in a valid format. Make sure that you have provided the full comment ID.
-public struct InvalidCommentIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidCommentIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5338,8 +5146,7 @@ public struct InvalidCommentIdException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5351,8 +5158,7 @@ public struct DeleteCommentContentInput: Swift.Sendable {
 
     public init(
         commentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.commentId = commentId
     }
 }
@@ -5393,8 +5199,7 @@ extension CodeCommitClientTypes {
             inReplyTo: Swift.String? = nil,
             lastModifiedDate: Foundation.Date? = nil,
             reactionCounts: [Swift.String: Swift.Int]? = nil
-        )
-        {
+        ) {
             self.authorArn = authorArn
             self.callerReactions = callerReactions
             self.clientRequestToken = clientRequestToken
@@ -5415,8 +5220,7 @@ public struct DeleteCommentContentOutput: Swift.Sendable {
 
     public init(
         comment: CodeCommitClientTypes.Comment? = nil
-    )
-    {
+    ) {
         self.comment = comment
     }
 }
@@ -5452,8 +5256,7 @@ public struct DeleteFileInput: Swift.Sendable {
         name: Swift.String? = nil,
         parentCommitId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.branchName = branchName
         self.commitMessage = commitMessage
         self.email = email
@@ -5484,8 +5287,7 @@ public struct DeleteFileOutput: Swift.Sendable {
         commitId: Swift.String? = nil,
         filePath: Swift.String? = nil,
         treeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.blobId = blobId
         self.commitId = commitId
         self.filePath = filePath
@@ -5504,8 +5306,7 @@ public struct DeletePullRequestApprovalRuleInput: Swift.Sendable {
     public init(
         approvalRuleName: Swift.String? = nil,
         pullRequestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.approvalRuleName = approvalRuleName
         self.pullRequestId = pullRequestId
     }
@@ -5518,8 +5319,7 @@ public struct DeletePullRequestApprovalRuleOutput: Swift.Sendable {
 
     public init(
         approvalRuleId: Swift.String? = nil
-    )
-    {
+    ) {
         self.approvalRuleId = approvalRuleId
     }
 }
@@ -5532,8 +5332,7 @@ public struct DeleteRepositoryInput: Swift.Sendable {
 
     public init(
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.repositoryName = repositoryName
     }
 }
@@ -5545,8 +5344,7 @@ public struct DeleteRepositoryOutput: Swift.Sendable {
 
     public init(
         repositoryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.repositoryId = repositoryId
     }
 }
@@ -5586,8 +5384,7 @@ public struct DescribeMergeConflictsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         repositoryName: Swift.String? = nil,
         sourceCommitSpecifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.conflictDetailLevel = conflictDetailLevel
         self.conflictResolutionStrategy = conflictResolutionStrategy
         self.destinationCommitSpecifier = destinationCommitSpecifier
@@ -5625,8 +5422,7 @@ public struct DescribeMergeConflictsOutput: Swift.Sendable {
         mergeHunks: [CodeCommitClientTypes.MergeHunk]? = nil,
         nextToken: Swift.String? = nil,
         sourceCommitId: Swift.String? = nil
-    )
-    {
+    ) {
         self.baseCommitId = baseCommitId
         self.conflictMetadata = conflictMetadata
         self.destinationCommitId = destinationCommitId
@@ -5637,9 +5433,9 @@ public struct DescribeMergeConflictsOutput: Swift.Sendable {
 }
 
 /// The Amazon Resource Name (ARN) is not valid. Make sure that you have provided the full ARN for the user who initiated the change for the pull request, and then try again.
-public struct InvalidActorArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidActorArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5655,16 +5451,15 @@ public struct InvalidActorArnException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified number of maximum results is not valid.
-public struct InvalidMaxResultsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidMaxResultsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5680,16 +5475,15 @@ public struct InvalidMaxResultsException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The pull request event type is not valid.
-public struct InvalidPullRequestEventTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPullRequestEventTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5705,8 +5499,7 @@ public struct InvalidPullRequestEventTypeException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5780,8 +5573,7 @@ public struct DescribePullRequestEventsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         pullRequestEventType: CodeCommitClientTypes.PullRequestEventType? = nil,
         pullRequestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.actorArn = actorArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5808,8 +5600,7 @@ extension CodeCommitClientTypes {
             mergeBase: Swift.String? = nil,
             repositoryName: Swift.String? = nil,
             sourceCommitId: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationCommitId = destinationCommitId
             self.mergeBase = mergeBase
             self.repositoryName = repositoryName
@@ -5833,8 +5624,7 @@ extension CodeCommitClientTypes {
             destinationReference: Swift.String? = nil,
             mergeMetadata: CodeCommitClientTypes.MergeMetadata? = nil,
             repositoryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationReference = destinationReference
             self.mergeMetadata = mergeMetadata
             self.repositoryName = repositoryName
@@ -5860,8 +5650,7 @@ extension CodeCommitClientTypes {
             beforeCommitId: Swift.String? = nil,
             mergeBase: Swift.String? = nil,
             repositoryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.afterCommitId = afterCommitId
             self.beforeCommitId = beforeCommitId
             self.mergeBase = mergeBase
@@ -5879,8 +5668,7 @@ extension CodeCommitClientTypes {
 
         public init(
             pullRequestStatus: CodeCommitClientTypes.PullRequestStatusEnum? = nil
-        )
-        {
+        ) {
             self.pullRequestStatus = pullRequestStatus
         }
     }
@@ -5925,8 +5713,7 @@ extension CodeCommitClientTypes {
             pullRequestMergedStateChangedEventMetadata: CodeCommitClientTypes.PullRequestMergedStateChangedEventMetadata? = nil,
             pullRequestSourceReferenceUpdatedEventMetadata: CodeCommitClientTypes.PullRequestSourceReferenceUpdatedEventMetadata? = nil,
             pullRequestStatusChangedEventMetadata: CodeCommitClientTypes.PullRequestStatusChangedEventMetadata? = nil
-        )
-        {
+        ) {
             self.actorArn = actorArn
             self.approvalRuleEventMetadata = approvalRuleEventMetadata
             self.approvalRuleOverriddenEventMetadata = approvalRuleOverriddenEventMetadata
@@ -5952,8 +5739,7 @@ public struct DescribePullRequestEventsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pullRequestEvents: [CodeCommitClientTypes.PullRequestEvent]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pullRequestEvents = pullRequestEvents
     }
@@ -5970,17 +5756,16 @@ public struct DisassociateApprovalRuleTemplateFromRepositoryInput: Swift.Sendabl
     public init(
         approvalRuleTemplateName: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.approvalRuleTemplateName = approvalRuleTemplateName
         self.repositoryName = repositoryName
     }
 }
 
 /// The revision ID is not valid. Use GetPullRequest to determine the value.
-public struct InvalidRevisionIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRevisionIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5996,16 +5781,15 @@ public struct InvalidRevisionIdException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A revision ID is required, but was not provided.
-public struct RevisionIdRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RevisionIdRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6021,16 +5805,15 @@ public struct RevisionIdRequiredException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The revision ID provided in the request does not match the current revision ID. Use GetPullRequest to retrieve the current revision ID.
-public struct RevisionNotCurrentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RevisionNotCurrentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6046,8 +5829,7 @@ public struct RevisionNotCurrentException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6063,8 +5845,7 @@ public struct EvaluatePullRequestApprovalRulesInput: Swift.Sendable {
     public init(
         pullRequestId: Swift.String? = nil,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.pullRequestId = pullRequestId
         self.revisionId = revisionId
     }
@@ -6088,8 +5869,7 @@ extension CodeCommitClientTypes {
             approvalRulesSatisfied: [Swift.String]? = nil,
             approved: Swift.Bool = false,
             overridden: Swift.Bool = false
-        )
-        {
+        ) {
             self.approvalRulesNotSatisfied = approvalRulesNotSatisfied
             self.approvalRulesSatisfied = approvalRulesSatisfied
             self.approved = approved
@@ -6105,8 +5885,7 @@ public struct EvaluatePullRequestApprovalRulesOutput: Swift.Sendable {
 
     public init(
         evaluation: CodeCommitClientTypes.Evaluation? = nil
-    )
-    {
+    ) {
         self.evaluation = evaluation
     }
 }
@@ -6118,8 +5897,7 @@ public struct GetApprovalRuleTemplateInput: Swift.Sendable {
 
     public init(
         approvalRuleTemplateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.approvalRuleTemplateName = approvalRuleTemplateName
     }
 }
@@ -6131,16 +5909,15 @@ public struct GetApprovalRuleTemplateOutput: Swift.Sendable {
 
     public init(
         approvalRuleTemplate: CodeCommitClientTypes.ApprovalRuleTemplate? = nil
-    )
-    {
+    ) {
         self.approvalRuleTemplate = approvalRuleTemplate
     }
 }
 
 /// The specified file exceeds the file size limit for CodeCommit. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
-public struct FileTooLargeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FileTooLargeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6156,16 +5933,15 @@ public struct FileTooLargeException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified blob is not valid.
-public struct InvalidBlobIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidBlobIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6181,8 +5957,7 @@ public struct InvalidBlobIdException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6199,8 +5974,7 @@ public struct GetBlobInput: Swift.Sendable {
     public init(
         blobId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.blobId = blobId
         self.repositoryName = repositoryName
     }
@@ -6214,8 +5988,7 @@ public struct GetBlobOutput: Swift.Sendable {
 
     public init(
         content: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.content = content
     }
 }
@@ -6230,8 +6003,7 @@ public struct GetBranchInput: Swift.Sendable {
     public init(
         branchName: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.branchName = branchName
         self.repositoryName = repositoryName
     }
@@ -6244,8 +6016,7 @@ public struct GetBranchOutput: Swift.Sendable {
 
     public init(
         branch: CodeCommitClientTypes.BranchInfo? = nil
-    )
-    {
+    ) {
         self.branch = branch
     }
 }
@@ -6257,8 +6028,7 @@ public struct GetCommentInput: Swift.Sendable {
 
     public init(
         commentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.commentId = commentId
     }
 }
@@ -6269,16 +6039,15 @@ public struct GetCommentOutput: Swift.Sendable {
 
     public init(
         comment: CodeCommitClientTypes.Comment? = nil
-    )
-    {
+    ) {
         self.comment = comment
     }
 }
 
 /// The Amazon Resource Name (ARN) of the user or identity is not valid.
-public struct InvalidReactionUserArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidReactionUserArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6294,8 +6063,7 @@ public struct InvalidReactionUserArnException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6316,8 +6084,7 @@ public struct GetCommentReactionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         reactionUserArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.commentId = commentId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6340,8 +6107,7 @@ extension CodeCommitClientTypes {
             emoji: Swift.String? = nil,
             shortCode: Swift.String? = nil,
             unicode: Swift.String? = nil
-        )
-        {
+        ) {
             self.emoji = emoji
             self.shortCode = shortCode
             self.unicode = unicode
@@ -6364,8 +6130,7 @@ extension CodeCommitClientTypes {
             reaction: CodeCommitClientTypes.ReactionValueFormats? = nil,
             reactionUsers: [Swift.String]? = nil,
             reactionsFromDeletedUsersCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.reaction = reaction
             self.reactionUsers = reactionUsers
             self.reactionsFromDeletedUsersCount = reactionsFromDeletedUsersCount
@@ -6383,8 +6148,7 @@ public struct GetCommentReactionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         reactionsForComment: [CodeCommitClientTypes.ReactionForComment]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.reactionsForComment = reactionsForComment
     }
@@ -6410,8 +6174,7 @@ public struct GetCommentsForComparedCommitInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.afterCommitId = afterCommitId
         self.beforeCommitId = beforeCommitId
         self.maxResults = maxResults
@@ -6464,8 +6227,7 @@ extension CodeCommitClientTypes {
             filePath: Swift.String? = nil,
             filePosition: Swift.Int? = nil,
             relativeFileVersion: CodeCommitClientTypes.RelativeFileVersionEnum? = nil
-        )
-        {
+        ) {
             self.filePath = filePath
             self.filePosition = filePosition
             self.relativeFileVersion = relativeFileVersion
@@ -6500,8 +6262,7 @@ extension CodeCommitClientTypes {
             comments: [CodeCommitClientTypes.Comment]? = nil,
             location: CodeCommitClientTypes.Location? = nil,
             repositoryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.afterBlobId = afterBlobId
             self.afterCommitId = afterCommitId
             self.beforeBlobId = beforeBlobId
@@ -6522,17 +6283,16 @@ public struct GetCommentsForComparedCommitOutput: Swift.Sendable {
     public init(
         commentsForComparedCommitData: [CodeCommitClientTypes.CommentsForComparedCommit]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.commentsForComparedCommitData = commentsForComparedCommitData
         self.nextToken = nextToken
     }
 }
 
 /// The repository does not contain any pull requests with that pull request ID. Use GetPullRequest to verify the correct repository name for the pull request ID.
-public struct RepositoryNotAssociatedWithPullRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RepositoryNotAssociatedWithPullRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6548,8 +6308,7 @@ public struct RepositoryNotAssociatedWithPullRequestException: ClientRuntime.Mod
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6576,8 +6335,7 @@ public struct GetCommentsForPullRequestInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         pullRequestId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.afterCommitId = afterCommitId
         self.beforeCommitId = beforeCommitId
         self.maxResults = maxResults
@@ -6617,8 +6375,7 @@ extension CodeCommitClientTypes {
             location: CodeCommitClientTypes.Location? = nil,
             pullRequestId: Swift.String? = nil,
             repositoryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.afterBlobId = afterBlobId
             self.afterCommitId = afterCommitId
             self.beforeBlobId = beforeBlobId
@@ -6640,17 +6397,16 @@ public struct GetCommentsForPullRequestOutput: Swift.Sendable {
     public init(
         commentsForPullRequestData: [CodeCommitClientTypes.CommentsForPullRequest]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.commentsForPullRequestData = commentsForPullRequestData
         self.nextToken = nextToken
     }
 }
 
 /// The specified commit ID does not exist.
-public struct CommitIdDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CommitIdDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6666,8 +6422,7 @@ public struct CommitIdDoesNotExistException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6684,8 +6439,7 @@ public struct GetCommitInput: Swift.Sendable {
     public init(
         commitId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.commitId = commitId
         self.repositoryName = repositoryName
     }
@@ -6699,16 +6453,15 @@ public struct GetCommitOutput: Swift.Sendable {
 
     public init(
         commit: CodeCommitClientTypes.Commit? = nil
-    )
-    {
+    ) {
         self.commit = commit
     }
 }
 
 /// The specified path does not exist.
-public struct PathDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PathDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6724,8 +6477,7 @@ public struct PathDoesNotExistException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6756,8 +6508,7 @@ public struct GetDifferencesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.afterCommitSpecifier = afterCommitSpecifier
         self.afterPath = afterPath
         self.beforeCommitSpecifier = beforeCommitSpecifier
@@ -6783,8 +6534,7 @@ extension CodeCommitClientTypes {
             afterBlob: CodeCommitClientTypes.BlobMetadata? = nil,
             beforeBlob: CodeCommitClientTypes.BlobMetadata? = nil,
             changeType: CodeCommitClientTypes.ChangeTypeEnum? = nil
-        )
-        {
+        ) {
             self.afterBlob = afterBlob
             self.beforeBlob = beforeBlob
             self.changeType = changeType
@@ -6801,8 +6551,7 @@ public struct GetDifferencesOutput: Swift.Sendable {
     public init(
         differences: [CodeCommitClientTypes.Difference]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.differences = differences
         self.nextToken = nextToken
     }
@@ -6822,8 +6571,7 @@ public struct GetFileInput: Swift.Sendable {
         commitSpecifier: Swift.String? = nil,
         filePath: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.commitSpecifier = commitSpecifier
         self.filePath = filePath
         self.repositoryName = repositoryName
@@ -6857,8 +6605,7 @@ public struct GetFileOutput: Swift.Sendable {
         fileMode: CodeCommitClientTypes.FileModeTypeEnum? = nil,
         filePath: Swift.String? = nil,
         fileSize: Swift.Int = 0
-    )
-    {
+    ) {
         self.blobId = blobId
         self.commitId = commitId
         self.fileContent = fileContent
@@ -6869,9 +6616,9 @@ public struct GetFileOutput: Swift.Sendable {
 }
 
 /// The specified folder does not exist. Either the folder name is not correct, or you did not enter the full path to the folder.
-public struct FolderDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FolderDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6887,8 +6634,7 @@ public struct FolderDoesNotExistException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6907,8 +6653,7 @@ public struct GetFolderInput: Swift.Sendable {
         commitSpecifier: Swift.String? = nil,
         folderPath: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.commitSpecifier = commitSpecifier
         self.folderPath = folderPath
         self.repositoryName = repositoryName
@@ -6933,8 +6678,7 @@ extension CodeCommitClientTypes {
             blobId: Swift.String? = nil,
             fileMode: CodeCommitClientTypes.FileModeTypeEnum? = nil,
             relativePath: Swift.String? = nil
-        )
-        {
+        ) {
             self.absolutePath = absolutePath
             self.blobId = blobId
             self.fileMode = fileMode
@@ -6958,8 +6702,7 @@ extension CodeCommitClientTypes {
             absolutePath: Swift.String? = nil,
             relativePath: Swift.String? = nil,
             treeId: Swift.String? = nil
-        )
-        {
+        ) {
             self.absolutePath = absolutePath
             self.relativePath = relativePath
             self.treeId = treeId
@@ -6982,8 +6725,7 @@ extension CodeCommitClientTypes {
             absolutePath: Swift.String? = nil,
             commitId: Swift.String? = nil,
             relativePath: Swift.String? = nil
-        )
-        {
+        ) {
             self.absolutePath = absolutePath
             self.commitId = commitId
             self.relativePath = relativePath
@@ -7009,8 +6751,7 @@ extension CodeCommitClientTypes {
             blobId: Swift.String? = nil,
             fileMode: CodeCommitClientTypes.FileModeTypeEnum? = nil,
             relativePath: Swift.String? = nil
-        )
-        {
+        ) {
             self.absolutePath = absolutePath
             self.blobId = blobId
             self.fileMode = fileMode
@@ -7045,8 +6786,7 @@ public struct GetFolderOutput: Swift.Sendable {
         subModules: [CodeCommitClientTypes.SubModule]? = nil,
         symbolicLinks: [CodeCommitClientTypes.SymbolicLink]? = nil,
         treeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.commitId = commitId
         self.files = files
         self.folderPath = folderPath
@@ -7078,8 +6818,7 @@ public struct GetMergeCommitInput: Swift.Sendable {
         destinationCommitSpecifier: Swift.String? = nil,
         repositoryName: Swift.String? = nil,
         sourceCommitSpecifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.conflictDetailLevel = conflictDetailLevel
         self.conflictResolutionStrategy = conflictResolutionStrategy
         self.destinationCommitSpecifier = destinationCommitSpecifier
@@ -7103,8 +6842,7 @@ public struct GetMergeCommitOutput: Swift.Sendable {
         destinationCommitId: Swift.String? = nil,
         mergedCommitId: Swift.String? = nil,
         sourceCommitId: Swift.String? = nil
-    )
-    {
+    ) {
         self.baseCommitId = baseCommitId
         self.destinationCommitId = destinationCommitId
         self.mergedCommitId = mergedCommitId
@@ -7113,9 +6851,9 @@ public struct GetMergeCommitOutput: Swift.Sendable {
 }
 
 /// The destination commit specifier is not valid. You must provide a valid branch name, tag, or full commit ID.
-public struct InvalidDestinationCommitSpecifierException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDestinationCommitSpecifierException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -7131,16 +6869,15 @@ public struct InvalidDestinationCommitSpecifierException: ClientRuntime.ModeledE
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The source commit specifier is not valid. You must provide a valid branch name, tag, or full commit ID.
-public struct InvalidSourceCommitSpecifierException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSourceCommitSpecifierException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -7156,8 +6893,7 @@ public struct InvalidSourceCommitSpecifierException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7193,8 +6929,7 @@ public struct GetMergeConflictsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         repositoryName: Swift.String? = nil,
         sourceCommitSpecifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.conflictDetailLevel = conflictDetailLevel
         self.conflictResolutionStrategy = conflictResolutionStrategy
         self.destinationCommitSpecifier = destinationCommitSpecifier
@@ -7231,8 +6966,7 @@ public struct GetMergeConflictsOutput: Swift.Sendable {
         mergeable: Swift.Bool = false,
         nextToken: Swift.String? = nil,
         sourceCommitId: Swift.String? = nil
-    )
-    {
+    ) {
         self.baseCommitId = baseCommitId
         self.conflictMetadataList = conflictMetadataList
         self.destinationCommitId = destinationCommitId
@@ -7263,8 +6997,7 @@ public struct GetMergeOptionsInput: Swift.Sendable {
         destinationCommitSpecifier: Swift.String? = nil,
         repositoryName: Swift.String? = nil,
         sourceCommitSpecifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.conflictDetailLevel = conflictDetailLevel
         self.conflictResolutionStrategy = conflictResolutionStrategy
         self.destinationCommitSpecifier = destinationCommitSpecifier
@@ -7292,8 +7025,7 @@ public struct GetMergeOptionsOutput: Swift.Sendable {
         destinationCommitId: Swift.String? = nil,
         mergeOptions: [CodeCommitClientTypes.MergeOptionTypeEnum]? = nil,
         sourceCommitId: Swift.String? = nil
-    )
-    {
+    ) {
         self.baseCommitId = baseCommitId
         self.destinationCommitId = destinationCommitId
         self.mergeOptions = mergeOptions
@@ -7308,8 +7040,7 @@ public struct GetPullRequestInput: Swift.Sendable {
 
     public init(
         pullRequestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.pullRequestId = pullRequestId
     }
 }
@@ -7321,8 +7052,7 @@ public struct GetPullRequestOutput: Swift.Sendable {
 
     public init(
         pullRequest: CodeCommitClientTypes.PullRequest? = nil
-    )
-    {
+    ) {
         self.pullRequest = pullRequest
     }
 }
@@ -7338,8 +7068,7 @@ public struct GetPullRequestApprovalStatesInput: Swift.Sendable {
     public init(
         pullRequestId: Swift.String? = nil,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.pullRequestId = pullRequestId
         self.revisionId = revisionId
     }
@@ -7351,8 +7080,7 @@ public struct GetPullRequestApprovalStatesOutput: Swift.Sendable {
 
     public init(
         approvals: [CodeCommitClientTypes.Approval]? = nil
-    )
-    {
+    ) {
         self.approvals = approvals
     }
 }
@@ -7368,8 +7096,7 @@ public struct GetPullRequestOverrideStateInput: Swift.Sendable {
     public init(
         pullRequestId: Swift.String? = nil,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.pullRequestId = pullRequestId
         self.revisionId = revisionId
     }
@@ -7384,8 +7111,7 @@ public struct GetPullRequestOverrideStateOutput: Swift.Sendable {
     public init(
         overridden: Swift.Bool = false,
         overrider: Swift.String? = nil
-    )
-    {
+    ) {
         self.overridden = overridden
         self.overrider = overrider
     }
@@ -7399,8 +7125,7 @@ public struct GetRepositoryInput: Swift.Sendable {
 
     public init(
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.repositoryName = repositoryName
     }
 }
@@ -7412,8 +7137,7 @@ public struct GetRepositoryOutput: Swift.Sendable {
 
     public init(
         repositoryMetadata: CodeCommitClientTypes.RepositoryMetadata? = nil
-    )
-    {
+    ) {
         self.repositoryMetadata = repositoryMetadata
     }
 }
@@ -7426,8 +7150,7 @@ public struct GetRepositoryTriggersInput: Swift.Sendable {
 
     public init(
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.repositoryName = repositoryName
     }
 }
@@ -7491,8 +7214,7 @@ extension CodeCommitClientTypes {
             destinationArn: Swift.String? = nil,
             events: [CodeCommitClientTypes.RepositoryTriggerEventEnum]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.branches = branches
             self.customData = customData
             self.destinationArn = destinationArn
@@ -7512,8 +7234,7 @@ public struct GetRepositoryTriggersOutput: Swift.Sendable {
     public init(
         configurationId: Swift.String? = nil,
         triggers: [CodeCommitClientTypes.RepositoryTrigger]? = nil
-    )
-    {
+    ) {
         self.configurationId = configurationId
         self.triggers = triggers
     }
@@ -7528,8 +7249,7 @@ public struct ListApprovalRuleTemplatesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -7544,8 +7264,7 @@ public struct ListApprovalRuleTemplatesOutput: Swift.Sendable {
     public init(
         approvalRuleTemplateNames: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.approvalRuleTemplateNames = approvalRuleTemplateNames
         self.nextToken = nextToken
     }
@@ -7564,8 +7283,7 @@ public struct ListAssociatedApprovalRuleTemplatesForRepositoryInput: Swift.Senda
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.repositoryName = repositoryName
@@ -7581,8 +7299,7 @@ public struct ListAssociatedApprovalRuleTemplatesForRepositoryOutput: Swift.Send
     public init(
         approvalRuleTemplateNames: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.approvalRuleTemplateNames = approvalRuleTemplateNames
         self.nextToken = nextToken
     }
@@ -7599,8 +7316,7 @@ public struct ListBranchesInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.repositoryName = repositoryName
     }
@@ -7616,8 +7332,7 @@ public struct ListBranchesOutput: Swift.Sendable {
     public init(
         branches: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.branches = branches
         self.nextToken = nextToken
     }
@@ -7643,8 +7358,7 @@ public struct ListFileCommitHistoryInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.commitSpecifier = commitSpecifier
         self.filePath = filePath
         self.maxResults = maxResults
@@ -7671,8 +7385,7 @@ extension CodeCommitClientTypes {
             commit: CodeCommitClientTypes.Commit? = nil,
             path: Swift.String? = nil,
             revisionChildren: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.blobId = blobId
             self.commit = commit
             self.path = path
@@ -7691,17 +7404,16 @@ public struct ListFileCommitHistoryOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         revisionDag: [CodeCommitClientTypes.FileVersion]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.revisionDag = revisionDag
     }
 }
 
 /// The Amazon Resource Name (ARN) is not valid. Make sure that you have provided the full ARN for the author of the pull request, and then try again.
-public struct InvalidAuthorArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidAuthorArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -7717,16 +7429,15 @@ public struct InvalidAuthorArnException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The pull request status is not valid. The only valid values are OPEN and CLOSED.
-public struct InvalidPullRequestStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPullRequestStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -7742,8 +7453,7 @@ public struct InvalidPullRequestStatusException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7767,8 +7477,7 @@ public struct ListPullRequestsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         pullRequestStatus: CodeCommitClientTypes.PullRequestStatusEnum? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorArn = authorArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7787,17 +7496,16 @@ public struct ListPullRequestsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pullRequestIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pullRequestIds = pullRequestIds
     }
 }
 
 /// The specified sort order is not valid.
-public struct InvalidOrderException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidOrderException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -7813,16 +7521,15 @@ public struct InvalidOrderException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified sort by value is not valid.
-public struct InvalidSortByException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSortByException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -7838,8 +7545,7 @@ public struct InvalidSortByException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7915,8 +7621,7 @@ public struct ListRepositoriesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         order: CodeCommitClientTypes.OrderEnum? = nil,
         sortBy: CodeCommitClientTypes.SortByEnum? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.order = order
         self.sortBy = sortBy
@@ -7935,8 +7640,7 @@ extension CodeCommitClientTypes {
         public init(
             repositoryId: Swift.String? = nil,
             repositoryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.repositoryId = repositoryId
             self.repositoryName = repositoryName
         }
@@ -7953,8 +7657,7 @@ public struct ListRepositoriesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         repositories: [CodeCommitClientTypes.RepositoryNameIdPair]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.repositories = repositories
     }
@@ -7973,8 +7676,7 @@ public struct ListRepositoriesForApprovalRuleTemplateInput: Swift.Sendable {
         approvalRuleTemplateName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.approvalRuleTemplateName = approvalRuleTemplateName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7990,17 +7692,16 @@ public struct ListRepositoriesForApprovalRuleTemplateOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         repositoryNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.repositoryNames = repositoryNames
     }
 }
 
 /// The value for the resource ARN is not valid. For more information about resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
-public struct InvalidResourceArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidResourceArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -8016,16 +7717,15 @@ public struct InvalidResourceArnException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A valid Amazon Resource Name (ARN) for an CodeCommit resource is required. For a list of valid resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
-public struct ResourceArnRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceArnRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -8041,8 +7741,7 @@ public struct ResourceArnRequiredException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8057,8 +7756,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceArn = resourceArn
     }
@@ -8073,17 +7771,16 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
 }
 
 /// The specified target branch is not valid.
-public struct InvalidTargetBranchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTargetBranchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -8099,8 +7796,7 @@ public struct InvalidTargetBranchException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8123,8 +7819,7 @@ public struct MergeBranchesByFastForwardInput: Swift.Sendable {
         repositoryName: Swift.String? = nil,
         sourceCommitSpecifier: Swift.String? = nil,
         targetBranch: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationCommitSpecifier = destinationCommitSpecifier
         self.repositoryName = repositoryName
         self.sourceCommitSpecifier = sourceCommitSpecifier
@@ -8141,8 +7836,7 @@ public struct MergeBranchesByFastForwardOutput: Swift.Sendable {
     public init(
         commitId: Swift.String? = nil,
         treeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.commitId = commitId
         self.treeId = treeId
     }
@@ -8187,8 +7881,7 @@ public struct MergeBranchesBySquashInput: Swift.Sendable {
         repositoryName: Swift.String? = nil,
         sourceCommitSpecifier: Swift.String? = nil,
         targetBranch: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorName = authorName
         self.commitMessage = commitMessage
         self.conflictDetailLevel = conflictDetailLevel
@@ -8212,8 +7905,7 @@ public struct MergeBranchesBySquashOutput: Swift.Sendable {
     public init(
         commitId: Swift.String? = nil,
         treeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.commitId = commitId
         self.treeId = treeId
     }
@@ -8258,8 +7950,7 @@ public struct MergeBranchesByThreeWayInput: Swift.Sendable {
         repositoryName: Swift.String? = nil,
         sourceCommitSpecifier: Swift.String? = nil,
         targetBranch: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorName = authorName
         self.commitMessage = commitMessage
         self.conflictDetailLevel = conflictDetailLevel
@@ -8283,17 +7974,16 @@ public struct MergeBranchesByThreeWayOutput: Swift.Sendable {
     public init(
         commitId: Swift.String? = nil,
         treeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.commitId = commitId
         self.treeId = treeId
     }
 }
 
 /// The pull request cannot be merged because one or more approval rules applied to the pull request have conditions that have not been met.
-public struct PullRequestApprovalRulesNotSatisfiedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PullRequestApprovalRulesNotSatisfiedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -8309,16 +7999,15 @@ public struct PullRequestApprovalRulesNotSatisfiedException: ClientRuntime.Model
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The tip of the source branch in the destination repository does not match the tip of the source branch specified in your request. The pull request might have been updated. Make sure that you have the latest changes.
-public struct TipOfSourceReferenceIsDifferentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TipOfSourceReferenceIsDifferentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -8334,8 +8023,7 @@ public struct TipOfSourceReferenceIsDifferentException: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8354,8 +8042,7 @@ public struct MergePullRequestByFastForwardInput: Swift.Sendable {
         pullRequestId: Swift.String? = nil,
         repositoryName: Swift.String? = nil,
         sourceCommitId: Swift.String? = nil
-    )
-    {
+    ) {
         self.pullRequestId = pullRequestId
         self.repositoryName = repositoryName
         self.sourceCommitId = sourceCommitId
@@ -8368,8 +8055,7 @@ public struct MergePullRequestByFastForwardOutput: Swift.Sendable {
 
     public init(
         pullRequest: CodeCommitClientTypes.PullRequest? = nil
-    )
-    {
+    ) {
         self.pullRequest = pullRequest
     }
 }
@@ -8409,8 +8095,7 @@ public struct MergePullRequestBySquashInput: Swift.Sendable {
         pullRequestId: Swift.String? = nil,
         repositoryName: Swift.String? = nil,
         sourceCommitId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorName = authorName
         self.commitMessage = commitMessage
         self.conflictDetailLevel = conflictDetailLevel
@@ -8430,8 +8115,7 @@ public struct MergePullRequestBySquashOutput: Swift.Sendable {
 
     public init(
         pullRequest: CodeCommitClientTypes.PullRequest? = nil
-    )
-    {
+    ) {
         self.pullRequest = pullRequest
     }
 }
@@ -8471,8 +8155,7 @@ public struct MergePullRequestByThreeWayInput: Swift.Sendable {
         pullRequestId: Swift.String? = nil,
         repositoryName: Swift.String? = nil,
         sourceCommitId: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorName = authorName
         self.commitMessage = commitMessage
         self.conflictDetailLevel = conflictDetailLevel
@@ -8492,16 +8175,15 @@ public struct MergePullRequestByThreeWayOutput: Swift.Sendable {
 
     public init(
         pullRequest: CodeCommitClientTypes.PullRequest? = nil
-    )
-    {
+    ) {
         self.pullRequest = pullRequest
     }
 }
 
 /// The override status is not valid. Valid statuses are OVERRIDE and REVOKE.
-public struct InvalidOverrideStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidOverrideStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -8517,16 +8199,15 @@ public struct InvalidOverrideStatusException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The pull request has already had its approval rules set to override.
-public struct OverrideAlreadySetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OverrideAlreadySetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -8542,16 +8223,15 @@ public struct OverrideAlreadySetException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An override status is required, but no value was provided. Valid values include OVERRIDE and REVOKE.
-public struct OverrideStatusRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OverrideStatusRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -8567,8 +8247,7 @@ public struct OverrideStatusRequiredException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8588,8 +8267,7 @@ public struct OverridePullRequestApprovalRulesInput: Swift.Sendable {
         overrideStatus: CodeCommitClientTypes.OverrideStatus? = nil,
         pullRequestId: Swift.String? = nil,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.overrideStatus = overrideStatus
         self.pullRequestId = pullRequestId
         self.revisionId = revisionId
@@ -8597,9 +8275,9 @@ public struct OverridePullRequestApprovalRulesInput: Swift.Sendable {
 }
 
 /// The comment is empty. You must provide some content for a comment. The content cannot be null.
-public struct CommentContentRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CommentContentRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -8615,16 +8293,15 @@ public struct CommentContentRequiredException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The comment is too large. Comments are limited to 10,240 characters.
-public struct CommentContentSizeLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CommentContentSizeLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -8640,16 +8317,15 @@ public struct CommentContentSizeLimitExceededException: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The location of the file is not valid. Make sure that you include the file name and extension.
-public struct InvalidFileLocationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidFileLocationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -8665,16 +8341,15 @@ public struct InvalidFileLocationException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The position is not valid. Make sure that the line number exists in the version of the file you want to comment on.
-public struct InvalidFilePositionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidFilePositionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -8690,16 +8365,15 @@ public struct InvalidFilePositionException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Either the enum is not in a valid format, or the specified file version enum is not valid in respect to the current file version.
-public struct InvalidRelativeFileVersionEnumException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRelativeFileVersionEnumException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -8715,8 +8389,7 @@ public struct InvalidRelativeFileVersionEnumException: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8745,8 +8418,7 @@ public struct PostCommentForComparedCommitInput: Swift.Sendable {
         content: Swift.String? = nil,
         location: CodeCommitClientTypes.Location? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.afterCommitId = afterCommitId
         self.beforeCommitId = beforeCommitId
         self.clientRequestToken = clientRequestToken
@@ -8780,8 +8452,7 @@ public struct PostCommentForComparedCommitOutput: Swift.Sendable {
         comment: CodeCommitClientTypes.Comment? = nil,
         location: CodeCommitClientTypes.Location? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.afterBlobId = afterBlobId
         self.afterCommitId = afterCommitId
         self.beforeBlobId = beforeBlobId
@@ -8821,8 +8492,7 @@ public struct PostCommentForPullRequestInput: Swift.Sendable {
         location: CodeCommitClientTypes.Location? = nil,
         pullRequestId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.afterCommitId = afterCommitId
         self.beforeCommitId = beforeCommitId
         self.clientRequestToken = clientRequestToken
@@ -8860,8 +8530,7 @@ public struct PostCommentForPullRequestOutput: Swift.Sendable {
         location: CodeCommitClientTypes.Location? = nil,
         pullRequestId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.afterBlobId = afterBlobId
         self.afterCommitId = afterCommitId
         self.beforeBlobId = beforeBlobId
@@ -8887,8 +8556,7 @@ public struct PostCommentReplyInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         content: Swift.String? = nil,
         inReplyTo: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.content = content
         self.inReplyTo = inReplyTo
@@ -8901,16 +8569,15 @@ public struct PostCommentReplyOutput: Swift.Sendable {
 
     public init(
         comment: CodeCommitClientTypes.Comment? = nil
-    )
-    {
+    ) {
         self.comment = comment
     }
 }
 
 /// The value of the reaction is not valid. For more information, see the [CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html).
-public struct InvalidReactionValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidReactionValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -8926,16 +8593,15 @@ public struct InvalidReactionValueException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The number of reactions has been exceeded. Reactions are limited to one reaction per user for each individual comment ID.
-public struct ReactionLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReactionLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -8951,16 +8617,15 @@ public struct ReactionLimitExceededException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A reaction value is required.
-public struct ReactionValueRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReactionValueRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -8976,8 +8641,7 @@ public struct ReactionValueRequiredException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8993,17 +8657,16 @@ public struct PutCommentReactionInput: Swift.Sendable {
     public init(
         commentId: Swift.String? = nil,
         reactionValue: Swift.String? = nil
-    )
-    {
+    ) {
         self.commentId = commentId
         self.reactionValue = reactionValue
     }
 }
 
 /// The file cannot be added because it is empty. Empty files cannot be added to the repository with this API.
-public struct FileContentRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FileContentRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -9019,16 +8682,15 @@ public struct FileContentRequiredException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The file was not added or updated because the content of the file is exactly the same as the content of that file in the repository and branch that you specified.
-public struct SameFileContentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SameFileContentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -9044,8 +8706,7 @@ public struct SameFileContentException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9084,8 +8745,7 @@ public struct PutFileInput: Swift.Sendable {
         name: Swift.String? = nil,
         parentCommitId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.branchName = branchName
         self.commitMessage = commitMessage
         self.email = email
@@ -9113,8 +8773,7 @@ public struct PutFileOutput: Swift.Sendable {
         blobId: Swift.String? = nil,
         commitId: Swift.String? = nil,
         treeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.blobId = blobId
         self.commitId = commitId
         self.treeId = treeId
@@ -9122,9 +8781,9 @@ public struct PutFileOutput: Swift.Sendable {
 }
 
 /// One or more branch names specified for the trigger is not valid.
-public struct InvalidRepositoryTriggerBranchNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRepositoryTriggerBranchNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -9140,16 +8799,15 @@ public struct InvalidRepositoryTriggerBranchNameException: ClientRuntime.Modeled
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The custom data provided for the trigger is not valid.
-public struct InvalidRepositoryTriggerCustomDataException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRepositoryTriggerCustomDataException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -9165,16 +8823,15 @@ public struct InvalidRepositoryTriggerCustomDataException: ClientRuntime.Modeled
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The Amazon Resource Name (ARN) for the trigger is not valid for the specified destination. The most common reason for this error is that the ARN does not meet the requirements for the service type.
-public struct InvalidRepositoryTriggerDestinationArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRepositoryTriggerDestinationArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -9190,16 +8847,15 @@ public struct InvalidRepositoryTriggerDestinationArnException: ClientRuntime.Mod
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// One or more events specified for the trigger is not valid. Check to make sure that all events specified match the requirements for allowed events.
-public struct InvalidRepositoryTriggerEventsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRepositoryTriggerEventsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -9215,16 +8871,15 @@ public struct InvalidRepositoryTriggerEventsException: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The name of the trigger is not valid.
-public struct InvalidRepositoryTriggerNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRepositoryTriggerNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -9240,16 +8895,15 @@ public struct InvalidRepositoryTriggerNameException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The Amazon Web Services Region for the trigger target does not match the Amazon Web Services Region for the repository. Triggers must be created in the same Amazon Web Services Region as the target for the trigger.
-public struct InvalidRepositoryTriggerRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRepositoryTriggerRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -9265,16 +8919,15 @@ public struct InvalidRepositoryTriggerRegionException: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The number of branches for the trigger was exceeded.
-public struct MaximumBranchesExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MaximumBranchesExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -9290,16 +8943,15 @@ public struct MaximumBranchesExceededException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The number of triggers allowed for the repository was exceeded.
-public struct MaximumRepositoryTriggersExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MaximumRepositoryTriggersExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -9315,16 +8967,15 @@ public struct MaximumRepositoryTriggersExceededException: ClientRuntime.ModeledE
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// At least one branch name is required, but was not specified in the trigger configuration.
-public struct RepositoryTriggerBranchNameListRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RepositoryTriggerBranchNameListRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -9340,16 +8991,15 @@ public struct RepositoryTriggerBranchNameListRequiredException: ClientRuntime.Mo
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A destination ARN for the target service for the trigger is required, but was not specified.
-public struct RepositoryTriggerDestinationArnRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RepositoryTriggerDestinationArnRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -9365,16 +9015,15 @@ public struct RepositoryTriggerDestinationArnRequiredException: ClientRuntime.Mo
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// At least one event for the trigger is required, but was not specified.
-public struct RepositoryTriggerEventsListRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RepositoryTriggerEventsListRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -9390,16 +9039,15 @@ public struct RepositoryTriggerEventsListRequiredException: ClientRuntime.Modele
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A name for the trigger is required, but was not specified.
-public struct RepositoryTriggerNameRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RepositoryTriggerNameRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -9415,16 +9063,15 @@ public struct RepositoryTriggerNameRequiredException: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The list of triggers for the repository is required, but was not specified.
-public struct RepositoryTriggersListRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RepositoryTriggersListRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -9440,8 +9087,7 @@ public struct RepositoryTriggersListRequiredException: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9458,8 +9104,7 @@ public struct PutRepositoryTriggersInput: Swift.Sendable {
     public init(
         repositoryName: Swift.String? = nil,
         triggers: [CodeCommitClientTypes.RepositoryTrigger]? = nil
-    )
-    {
+    ) {
         self.repositoryName = repositoryName
         self.triggers = triggers
     }
@@ -9472,16 +9117,15 @@ public struct PutRepositoryTriggersOutput: Swift.Sendable {
 
     public init(
         configurationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationId = configurationId
     }
 }
 
 /// A map of tags is required.
-public struct TagsMapRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TagsMapRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -9497,8 +9141,7 @@ public struct TagsMapRequiredException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9514,8 +9157,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -9533,8 +9175,7 @@ public struct TestRepositoryTriggersInput: Swift.Sendable {
     public init(
         repositoryName: Swift.String? = nil,
         triggers: [CodeCommitClientTypes.RepositoryTrigger]? = nil
-    )
-    {
+    ) {
         self.repositoryName = repositoryName
         self.triggers = triggers
     }
@@ -9552,8 +9193,7 @@ extension CodeCommitClientTypes {
         public init(
             failureMessage: Swift.String? = nil,
             trigger: Swift.String? = nil
-        )
-        {
+        ) {
             self.failureMessage = failureMessage
             self.trigger = trigger
         }
@@ -9570,17 +9210,16 @@ public struct TestRepositoryTriggersOutput: Swift.Sendable {
     public init(
         failedExecutions: [CodeCommitClientTypes.RepositoryTriggerExecutionFailure]? = nil,
         successfulExecutions: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.failedExecutions = failedExecutions
         self.successfulExecutions = successfulExecutions
     }
 }
 
 /// The list of tags is not valid.
-public struct InvalidTagKeysListException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTagKeysListException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -9596,16 +9235,15 @@ public struct InvalidTagKeysListException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A list of tag keys is required. The list cannot be empty or null.
-public struct TagKeysListRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TagKeysListRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -9621,8 +9259,7 @@ public struct TagKeysListRequiredException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9638,17 +9275,16 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
 }
 
 /// The SHA-256 hash signature for the rule content is not valid.
-public struct InvalidRuleContentSha256Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRuleContentSha256Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -9664,8 +9300,7 @@ public struct InvalidRuleContentSha256Exception: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9684,8 +9319,7 @@ public struct UpdateApprovalRuleTemplateContentInput: Swift.Sendable {
         approvalRuleTemplateName: Swift.String? = nil,
         existingRuleContentSha256: Swift.String? = nil,
         newRuleContent: Swift.String? = nil
-    )
-    {
+    ) {
         self.approvalRuleTemplateName = approvalRuleTemplateName
         self.existingRuleContentSha256 = existingRuleContentSha256
         self.newRuleContent = newRuleContent
@@ -9699,8 +9333,7 @@ public struct UpdateApprovalRuleTemplateContentOutput: Swift.Sendable {
 
     public init(
         approvalRuleTemplate: CodeCommitClientTypes.ApprovalRuleTemplate? = nil
-    )
-    {
+    ) {
         self.approvalRuleTemplate = approvalRuleTemplate
     }
 }
@@ -9716,8 +9349,7 @@ public struct UpdateApprovalRuleTemplateDescriptionInput: Swift.Sendable {
     public init(
         approvalRuleTemplateDescription: Swift.String? = nil,
         approvalRuleTemplateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.approvalRuleTemplateDescription = approvalRuleTemplateDescription
         self.approvalRuleTemplateName = approvalRuleTemplateName
     }
@@ -9730,8 +9362,7 @@ public struct UpdateApprovalRuleTemplateDescriptionOutput: Swift.Sendable {
 
     public init(
         approvalRuleTemplate: CodeCommitClientTypes.ApprovalRuleTemplate? = nil
-    )
-    {
+    ) {
         self.approvalRuleTemplate = approvalRuleTemplate
     }
 }
@@ -9747,8 +9378,7 @@ public struct UpdateApprovalRuleTemplateNameInput: Swift.Sendable {
     public init(
         newApprovalRuleTemplateName: Swift.String? = nil,
         oldApprovalRuleTemplateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.newApprovalRuleTemplateName = newApprovalRuleTemplateName
         self.oldApprovalRuleTemplateName = oldApprovalRuleTemplateName
     }
@@ -9761,16 +9391,15 @@ public struct UpdateApprovalRuleTemplateNameOutput: Swift.Sendable {
 
     public init(
         approvalRuleTemplate: CodeCommitClientTypes.ApprovalRuleTemplate? = nil
-    )
-    {
+    ) {
         self.approvalRuleTemplate = approvalRuleTemplate
     }
 }
 
 /// You cannot modify or delete this comment. Only comment authors can modify or delete their comments.
-public struct CommentNotCreatedByCallerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CommentNotCreatedByCallerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -9786,8 +9415,7 @@ public struct CommentNotCreatedByCallerException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9803,8 +9431,7 @@ public struct UpdateCommentInput: Swift.Sendable {
     public init(
         commentId: Swift.String? = nil,
         content: Swift.String? = nil
-    )
-    {
+    ) {
         self.commentId = commentId
         self.content = content
     }
@@ -9816,8 +9443,7 @@ public struct UpdateCommentOutput: Swift.Sendable {
 
     public init(
         comment: CodeCommitClientTypes.Comment? = nil
-    )
-    {
+    ) {
         self.comment = comment
     }
 }
@@ -9834,8 +9460,7 @@ public struct UpdateDefaultBranchInput: Swift.Sendable {
     public init(
         defaultBranchName: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultBranchName = defaultBranchName
         self.repositoryName = repositoryName
     }
@@ -9873,8 +9498,7 @@ public struct UpdatePullRequestApprovalRuleContentInput: Swift.Sendable {
         existingRuleContentSha256: Swift.String? = nil,
         newRuleContent: Swift.String? = nil,
         pullRequestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.approvalRuleName = approvalRuleName
         self.existingRuleContentSha256 = existingRuleContentSha256
         self.newRuleContent = newRuleContent
@@ -9889,16 +9513,15 @@ public struct UpdatePullRequestApprovalRuleContentOutput: Swift.Sendable {
 
     public init(
         approvalRule: CodeCommitClientTypes.ApprovalRule? = nil
-    )
-    {
+    ) {
         self.approvalRule = approvalRule
     }
 }
 
 /// The state for the approval is not valid. Valid values include APPROVE and REVOKE.
-public struct InvalidApprovalStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidApprovalStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -9914,16 +9537,15 @@ public struct InvalidApprovalStateException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The number of approvals required for the approval rule exceeds the maximum number allowed.
-public struct MaximumNumberOfApprovalsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MaximumNumberOfApprovalsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -9939,16 +9561,15 @@ public struct MaximumNumberOfApprovalsExceededException: ClientRuntime.ModeledEr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The approval cannot be applied because the user approving the pull request matches the user who created the pull request. You cannot approve a pull request that you created.
-public struct PullRequestCannotBeApprovedByAuthorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PullRequestCannotBeApprovedByAuthorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -9964,8 +9585,7 @@ public struct PullRequestCannotBeApprovedByAuthorException: ClientRuntime.Modele
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9985,8 +9605,7 @@ public struct UpdatePullRequestApprovalStateInput: Swift.Sendable {
         approvalState: CodeCommitClientTypes.ApprovalState? = nil,
         pullRequestId: Swift.String? = nil,
         revisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.approvalState = approvalState
         self.pullRequestId = pullRequestId
         self.revisionId = revisionId
@@ -10004,8 +9623,7 @@ public struct UpdatePullRequestDescriptionInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         pullRequestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.pullRequestId = pullRequestId
     }
@@ -10018,16 +9636,15 @@ public struct UpdatePullRequestDescriptionOutput: Swift.Sendable {
 
     public init(
         pullRequest: CodeCommitClientTypes.PullRequest? = nil
-    )
-    {
+    ) {
         self.pullRequest = pullRequest
     }
 }
 
 /// The pull request status update is not valid. The only valid update is from OPEN to CLOSED.
-public struct InvalidPullRequestStatusUpdateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPullRequestStatusUpdateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -10043,16 +9660,15 @@ public struct InvalidPullRequestStatusUpdateException: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A pull request status is required, but none was provided.
-public struct PullRequestStatusRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PullRequestStatusRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -10068,8 +9684,7 @@ public struct PullRequestStatusRequiredException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -10085,8 +9700,7 @@ public struct UpdatePullRequestStatusInput: Swift.Sendable {
     public init(
         pullRequestId: Swift.String? = nil,
         pullRequestStatus: CodeCommitClientTypes.PullRequestStatusEnum? = nil
-    )
-    {
+    ) {
         self.pullRequestId = pullRequestId
         self.pullRequestStatus = pullRequestStatus
     }
@@ -10099,8 +9713,7 @@ public struct UpdatePullRequestStatusOutput: Swift.Sendable {
 
     public init(
         pullRequest: CodeCommitClientTypes.PullRequest? = nil
-    )
-    {
+    ) {
         self.pullRequest = pullRequest
     }
 }
@@ -10116,8 +9729,7 @@ public struct UpdatePullRequestTitleInput: Swift.Sendable {
     public init(
         pullRequestId: Swift.String? = nil,
         title: Swift.String? = nil
-    )
-    {
+    ) {
         self.pullRequestId = pullRequestId
         self.title = title
     }
@@ -10130,8 +9742,7 @@ public struct UpdatePullRequestTitleOutput: Swift.Sendable {
 
     public init(
         pullRequest: CodeCommitClientTypes.PullRequest? = nil
-    )
-    {
+    ) {
         self.pullRequest = pullRequest
     }
 }
@@ -10147,17 +9758,16 @@ public struct UpdateRepositoryDescriptionInput: Swift.Sendable {
     public init(
         repositoryDescription: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.repositoryDescription = repositoryDescription
         self.repositoryName = repositoryName
     }
 }
 
 /// A KMS encryption key ID is required but was not specified.
-public struct EncryptionKeyRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EncryptionKeyRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Any message associated with the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -10173,8 +9783,7 @@ public struct EncryptionKeyRequiredException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -10190,8 +9799,7 @@ public struct UpdateRepositoryEncryptionKeyInput: Swift.Sendable {
     public init(
         kmsKeyId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.kmsKeyId = kmsKeyId
         self.repositoryName = repositoryName
     }
@@ -10209,8 +9817,7 @@ public struct UpdateRepositoryEncryptionKeyOutput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         originalKmsKeyId: Swift.String? = nil,
         repositoryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.kmsKeyId = kmsKeyId
         self.originalKmsKeyId = originalKmsKeyId
         self.repositoryId = repositoryId
@@ -10229,8 +9836,7 @@ public struct UpdateRepositoryNameInput: Swift.Sendable {
     public init(
         newName: Swift.String? = nil,
         oldName: Swift.String? = nil
-    )
-    {
+    ) {
         self.newName = newName
         self.oldName = oldName
     }
@@ -11939,7 +11545,7 @@ extension GetBlobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetBlobOutput()
-        value.content = try reader["content"].readIfPresent() ?? Foundation.Data("".utf8)
+        value.content = try reader["content"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
         return value
     }
 }
@@ -12041,7 +11647,7 @@ extension GetFileOutput {
         var value = GetFileOutput()
         value.blobId = try reader["blobId"].readIfPresent() ?? ""
         value.commitId = try reader["commitId"].readIfPresent() ?? ""
-        value.fileContent = try reader["fileContent"].readIfPresent() ?? Foundation.Data("".utf8)
+        value.fileContent = try reader["fileContent"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
         value.fileMode = try reader["fileMode"].readIfPresent() ?? .sdkUnknown("")
         value.filePath = try reader["filePath"].readIfPresent() ?? ""
         value.fileSize = try reader["fileSize"].readIfPresent() ?? 0

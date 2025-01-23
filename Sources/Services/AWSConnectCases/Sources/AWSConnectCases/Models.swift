@@ -42,9 +42,9 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -60,16 +60,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -85,16 +84,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// We couldn't process your request because of an issue with the server. Try again later.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Advice to clients on when the call can be safely retried.
@@ -113,17 +111,16 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
 }
 
 /// We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Unique identifier of the resource affected.
@@ -147,8 +144,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -156,9 +152,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The rate has been exceeded for this API. Please try again after a few minutes.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -174,16 +170,15 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request isn't valid. Check the syntax and try again.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -199,8 +194,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -246,8 +240,7 @@ extension ConnectCasesClientTypes {
         public init(
             id: Swift.String? = nil,
             value: ConnectCasesClientTypes.FieldValueUnion? = nil
-        )
-        {
+        ) {
             self.id = id
             self.value = value
         }
@@ -285,8 +278,7 @@ public struct CreateCaseInput: Swift.Sendable {
         fields: [ConnectCasesClientTypes.FieldValue]? = nil,
         performedBy: ConnectCasesClientTypes.UserUnion? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.domainId = domainId
         self.fields = fields
@@ -306,8 +298,7 @@ public struct CreateCaseOutput: Swift.Sendable {
     public init(
         caseArn: Swift.String? = nil,
         caseId: Swift.String? = nil
-    )
-    {
+    ) {
         self.caseArn = caseArn
         self.caseId = caseId
     }
@@ -323,8 +314,7 @@ extension ConnectCasesClientTypes {
 
         public init(
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -348,8 +338,7 @@ public struct GetCaseInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         fields: [ConnectCasesClientTypes.FieldIdentifier]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.caseId = caseId
         self.domainId = domainId
         self.fields = fields
@@ -374,8 +363,7 @@ public struct GetCaseOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         tags: [Swift.String: Swift.String?]? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fields = fields
         self.nextToken = nextToken
         self.tags = tags
@@ -400,8 +388,7 @@ public struct GetCaseAuditEventsInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.caseId = caseId
         self.domainId = domainId
         self.maxResults = maxResults
@@ -444,8 +431,7 @@ extension ConnectCasesClientTypes {
             eventFieldId: Swift.String? = nil,
             newValue: ConnectCasesClientTypes.AuditEventFieldValueUnion? = nil,
             oldValue: ConnectCasesClientTypes.AuditEventFieldValueUnion? = nil
-        )
-        {
+        ) {
             self.eventFieldId = eventFieldId
             self.newValue = newValue
             self.oldValue = oldValue
@@ -466,8 +452,7 @@ extension ConnectCasesClientTypes {
         public init(
             iamPrincipalArn: Swift.String? = nil,
             user: ConnectCasesClientTypes.UserUnion? = nil
-        )
-        {
+        ) {
             self.iamPrincipalArn = iamPrincipalArn
             self.user = user
         }
@@ -566,8 +551,7 @@ extension ConnectCasesClientTypes {
             performedTime: Foundation.Date? = nil,
             relatedItemType: ConnectCasesClientTypes.RelatedItemType? = nil,
             type: ConnectCasesClientTypes.AuditEventType? = nil
-        )
-        {
+        ) {
             self.eventId = eventId
             self.fields = fields
             self.performedBy = performedBy
@@ -588,8 +572,7 @@ public struct GetCaseAuditEventsOutput: Swift.Sendable {
     public init(
         auditEvents: [ConnectCasesClientTypes.AuditEvent?]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.auditEvents = auditEvents
         self.nextToken = nextToken
     }
@@ -612,8 +595,7 @@ public struct ListCasesForContactInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactArn = contactArn
         self.domainId = domainId
         self.maxResults = maxResults
@@ -635,8 +617,7 @@ extension ConnectCasesClientTypes {
         public init(
             caseId: Swift.String? = nil,
             templateId: Swift.String? = nil
-        )
-        {
+        ) {
             self.caseId = caseId
             self.templateId = templateId
         }
@@ -653,17 +634,16 @@ public struct ListCasesForContactOutput: Swift.Sendable {
     public init(
         cases: [ConnectCasesClientTypes.CaseSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.cases = cases
         self.nextToken = nextToken
     }
 }
 
 /// The service quota has been exceeded. For a list of service quotas, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -679,8 +659,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -725,8 +704,7 @@ extension ConnectCasesClientTypes {
         public init(
             body: Swift.String? = nil,
             contentType: ConnectCasesClientTypes.CommentBodyTextType? = nil
-        )
-        {
+        ) {
             self.body = body
             self.contentType = contentType
         }
@@ -743,8 +721,7 @@ extension ConnectCasesClientTypes {
 
         public init(
             contactArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.contactArn = contactArn
         }
     }
@@ -760,8 +737,7 @@ extension ConnectCasesClientTypes {
 
         public init(
             fileArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.fileArn = fileArn
         }
     }
@@ -803,8 +779,7 @@ public struct CreateRelatedItemInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         performedBy: ConnectCasesClientTypes.UserUnion? = nil,
         type: ConnectCasesClientTypes.RelatedItemType? = nil
-    )
-    {
+    ) {
         self.caseId = caseId
         self.content = content
         self.domainId = domainId
@@ -824,8 +799,7 @@ public struct CreateRelatedItemOutput: Swift.Sendable {
     public init(
         relatedItemArn: Swift.String? = nil,
         relatedItemId: Swift.String? = nil
-    )
-    {
+    ) {
         self.relatedItemArn = relatedItemArn
         self.relatedItemId = relatedItemId
     }
@@ -852,8 +826,7 @@ extension ConnectCasesClientTypes {
         public init(
             channel: [Swift.String]? = nil,
             contactArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.channel = channel
             self.contactArn = contactArn
         }
@@ -869,8 +842,7 @@ extension ConnectCasesClientTypes {
 
         public init(
             fileArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.fileArn = fileArn
         }
     }
@@ -910,8 +882,7 @@ public struct SearchRelatedItemsInput: Swift.Sendable {
         filters: [ConnectCasesClientTypes.RelatedItemTypeFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.caseId = caseId
         self.domainId = domainId
         self.filters = filters
@@ -938,8 +909,7 @@ extension ConnectCasesClientTypes {
             channel: Swift.String? = nil,
             connectedToSystemTime: Foundation.Date? = nil,
             contactArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.channel = channel
             self.connectedToSystemTime = connectedToSystemTime
             self.contactArn = contactArn
@@ -989,8 +959,7 @@ extension ConnectCasesClientTypes {
             relatedItemId: Swift.String? = nil,
             tags: [Swift.String: Swift.String?]? = nil,
             type: ConnectCasesClientTypes.RelatedItemType? = nil
-        )
-        {
+        ) {
             self.associationTime = associationTime
             self.content = content
             self.performedBy = performedBy
@@ -1011,8 +980,7 @@ public struct SearchRelatedItemsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         relatedItems: [ConnectCasesClientTypes.SearchRelatedItemsResponseItem?]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.relatedItems = relatedItems
     }
@@ -1081,8 +1049,7 @@ extension ConnectCasesClientTypes {
         public init(
             fieldId: Swift.String? = nil,
             sortOrder: ConnectCasesClientTypes.Order? = nil
-        )
-        {
+        ) {
             self.fieldId = fieldId
             self.sortOrder = sortOrder
         }
@@ -1110,8 +1077,7 @@ extension ConnectCasesClientTypes {
             fields: [ConnectCasesClientTypes.FieldValue]? = nil,
             tags: [Swift.String: Swift.String?]? = nil,
             templateId: Swift.String? = nil
-        )
-        {
+        ) {
             self.caseId = caseId
             self.fields = fields
             self.tags = tags
@@ -1130,8 +1096,7 @@ public struct SearchCasesOutput: Swift.Sendable {
     public init(
         cases: [ConnectCasesClientTypes.SearchCasesResponseItem?]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.cases = cases
         self.nextToken = nextToken
     }
@@ -1155,8 +1120,7 @@ public struct UpdateCaseInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         fields: [ConnectCasesClientTypes.FieldValue]? = nil,
         performedBy: ConnectCasesClientTypes.UserUnion? = nil
-    )
-    {
+    ) {
         self.caseId = caseId
         self.domainId = domainId
         self.fields = fields
@@ -1176,8 +1140,7 @@ public struct CreateDomainInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -1229,8 +1192,7 @@ public struct CreateDomainOutput: Swift.Sendable {
         domainArn: Swift.String? = nil,
         domainId: Swift.String? = nil,
         domainStatus: ConnectCasesClientTypes.DomainStatus? = nil
-    )
-    {
+    ) {
         self.domainArn = domainArn
         self.domainId = domainId
         self.domainStatus = domainStatus
@@ -1244,8 +1206,7 @@ public struct DeleteDomainInput: Swift.Sendable {
 
     public init(
         domainId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
     }
 }
@@ -1262,8 +1223,7 @@ public struct GetCaseEventConfigurationInput: Swift.Sendable {
 
     public init(
         domainId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
     }
 }
@@ -1278,8 +1238,7 @@ extension ConnectCasesClientTypes {
 
         public init(
             fields: [ConnectCasesClientTypes.FieldIdentifier]? = nil
-        )
-        {
+        ) {
             self.fields = fields
         }
     }
@@ -1295,8 +1254,7 @@ extension ConnectCasesClientTypes {
 
         public init(
             includeContent: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.includeContent = includeContent
         }
     }
@@ -1314,8 +1272,7 @@ extension ConnectCasesClientTypes {
         public init(
             caseData: ConnectCasesClientTypes.CaseEventIncludedData? = nil,
             relatedItemData: ConnectCasesClientTypes.RelatedItemEventIncludedData? = nil
-        )
-        {
+        ) {
             self.caseData = caseData
             self.relatedItemData = relatedItemData
         }
@@ -1335,8 +1292,7 @@ extension ConnectCasesClientTypes {
         public init(
             enabled: Swift.Bool? = nil,
             includedData: ConnectCasesClientTypes.EventIncludedData? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.includedData = includedData
         }
@@ -1350,8 +1306,7 @@ public struct GetCaseEventConfigurationOutput: Swift.Sendable {
 
     public init(
         eventBridge: ConnectCasesClientTypes.EventBridgeConfiguration? = nil
-    )
-    {
+    ) {
         self.eventBridge = eventBridge
     }
 }
@@ -1363,8 +1318,7 @@ public struct GetDomainInput: Swift.Sendable {
 
     public init(
         domainId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
     }
 }
@@ -1395,8 +1349,7 @@ public struct GetDomainOutput: Swift.Sendable {
         domainStatus: ConnectCasesClientTypes.DomainStatus? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String?]? = nil
-    )
-    {
+    ) {
         self.createdTime = createdTime
         self.domainArn = domainArn
         self.domainId = domainId
@@ -1415,8 +1368,7 @@ public struct ListDomainsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1440,8 +1392,7 @@ extension ConnectCasesClientTypes {
             domainArn: Swift.String? = nil,
             domainId: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.domainArn = domainArn
             self.domainId = domainId
             self.name = name
@@ -1459,8 +1410,7 @@ public struct ListDomainsOutput: Swift.Sendable {
     public init(
         domains: [ConnectCasesClientTypes.DomainSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domains = domains
         self.nextToken = nextToken
     }
@@ -1477,8 +1427,7 @@ public struct PutCaseEventConfigurationInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         eventBridge: ConnectCasesClientTypes.EventBridgeConfiguration? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.eventBridge = eventBridge
     }
@@ -1500,8 +1449,7 @@ public struct BatchGetFieldInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         fields: [ConnectCasesClientTypes.FieldIdentifier]? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.fields = fields
     }
@@ -1524,8 +1472,7 @@ extension ConnectCasesClientTypes {
             errorCode: Swift.String? = nil,
             id: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.id = id
             self.message = message
@@ -1647,8 +1594,7 @@ extension ConnectCasesClientTypes {
             namespace: ConnectCasesClientTypes.FieldNamespace? = nil,
             tags: [Swift.String: Swift.String?]? = nil,
             type: ConnectCasesClientTypes.FieldType? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.deleted = deleted
             self.description = description
@@ -1674,8 +1620,7 @@ public struct BatchGetFieldOutput: Swift.Sendable {
     public init(
         errors: [ConnectCasesClientTypes.FieldError]? = nil,
         fields: [ConnectCasesClientTypes.GetFieldResponse]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.fields = fields
     }
@@ -1699,8 +1644,7 @@ extension ConnectCasesClientTypes {
             active: Swift.Bool? = nil,
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.active = active
             self.name = name
             self.value = value
@@ -1723,8 +1667,7 @@ public struct BatchPutFieldOptionsInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         fieldId: Swift.String? = nil,
         options: [ConnectCasesClientTypes.FieldOption]? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.fieldId = fieldId
         self.options = options
@@ -1749,8 +1692,7 @@ extension ConnectCasesClientTypes {
             errorCode: Swift.String? = nil,
             message: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.message = message
             self.value = value
@@ -1764,8 +1706,7 @@ public struct BatchPutFieldOptionsOutput: Swift.Sendable {
 
     public init(
         errors: [ConnectCasesClientTypes.FieldOptionError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -1788,8 +1729,7 @@ public struct CreateFieldInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         name: Swift.String? = nil,
         type: ConnectCasesClientTypes.FieldType? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domainId = domainId
         self.name = name
@@ -1808,8 +1748,7 @@ public struct CreateFieldOutput: Swift.Sendable {
     public init(
         fieldArn: Swift.String? = nil,
         fieldId: Swift.String? = nil
-    )
-    {
+    ) {
         self.fieldArn = fieldArn
         self.fieldId = fieldId
     }
@@ -1826,8 +1765,7 @@ public struct DeleteFieldInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         fieldId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.fieldId = fieldId
     }
@@ -1858,8 +1796,7 @@ public struct ListFieldOptionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         values: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.fieldId = fieldId
         self.maxResults = maxResults
@@ -1878,8 +1815,7 @@ public struct ListFieldOptionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         options: [ConnectCasesClientTypes.FieldOption]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.options = options
     }
@@ -1898,8 +1834,7 @@ public struct ListFieldsInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1932,8 +1867,7 @@ extension ConnectCasesClientTypes {
             name: Swift.String? = nil,
             namespace: ConnectCasesClientTypes.FieldNamespace? = nil,
             type: ConnectCasesClientTypes.FieldType? = nil
-        )
-        {
+        ) {
             self.fieldArn = fieldArn
             self.fieldId = fieldId
             self.name = name
@@ -1953,8 +1887,7 @@ public struct ListFieldsOutput: Swift.Sendable {
     public init(
         fields: [ConnectCasesClientTypes.FieldSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fields = fields
         self.nextToken = nextToken
     }
@@ -1977,8 +1910,7 @@ public struct UpdateFieldInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         fieldId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domainId = domainId
         self.fieldId = fieldId
@@ -2001,8 +1933,7 @@ extension ConnectCasesClientTypes {
 
         public init(
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -2021,8 +1952,7 @@ extension ConnectCasesClientTypes {
         public init(
             fields: [ConnectCasesClientTypes.FieldItem]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.fields = fields
             self.name = name
         }
@@ -2048,8 +1978,7 @@ extension ConnectCasesClientTypes {
 
         public init(
             sections: [ConnectCasesClientTypes.Section]? = nil
-        )
-        {
+        ) {
             self.sections = sections
         }
     }
@@ -2067,8 +1996,7 @@ extension ConnectCasesClientTypes {
         public init(
             moreInfo: ConnectCasesClientTypes.LayoutSections? = nil,
             topPanel: ConnectCasesClientTypes.LayoutSections? = nil
-        )
-        {
+        ) {
             self.moreInfo = moreInfo
             self.topPanel = topPanel
         }
@@ -2100,8 +2028,7 @@ public struct CreateLayoutInput: Swift.Sendable {
         content: ConnectCasesClientTypes.LayoutContent? = nil,
         domainId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.content = content
         self.domainId = domainId
         self.name = name
@@ -2119,8 +2046,7 @@ public struct CreateLayoutOutput: Swift.Sendable {
     public init(
         layoutArn: Swift.String? = nil,
         layoutId: Swift.String? = nil
-    )
-    {
+    ) {
         self.layoutArn = layoutArn
         self.layoutId = layoutId
     }
@@ -2137,8 +2063,7 @@ public struct DeleteLayoutInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         layoutId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.layoutId = layoutId
     }
@@ -2160,8 +2085,7 @@ public struct GetLayoutInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         layoutId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.layoutId = layoutId
     }
@@ -2198,8 +2122,7 @@ public struct GetLayoutOutput: Swift.Sendable {
         layoutId: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String?]? = nil
-    )
-    {
+    ) {
         self.content = content
         self.createdTime = createdTime
         self.deleted = deleted
@@ -2224,8 +2147,7 @@ public struct ListLayoutsInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2250,8 +2172,7 @@ extension ConnectCasesClientTypes {
             layoutArn: Swift.String? = nil,
             layoutId: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.layoutArn = layoutArn
             self.layoutId = layoutId
             self.name = name
@@ -2269,8 +2190,7 @@ public struct ListLayoutsOutput: Swift.Sendable {
     public init(
         layouts: [ConnectCasesClientTypes.LayoutSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.layouts = layouts
         self.nextToken = nextToken
     }
@@ -2293,8 +2213,7 @@ public struct UpdateLayoutInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         layoutId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.content = content
         self.domainId = domainId
         self.layoutId = layoutId
@@ -2314,8 +2233,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -2326,8 +2244,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String?]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2343,8 +2260,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         tags: [Swift.String: Swift.String?]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.tags = tags
     }
@@ -2359,8 +2275,7 @@ extension ConnectCasesClientTypes {
 
         public init(
             defaultLayout: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultLayout = defaultLayout
         }
     }
@@ -2376,8 +2291,7 @@ extension ConnectCasesClientTypes {
 
         public init(
             fieldId: Swift.String? = nil
-        )
-        {
+        ) {
             self.fieldId = fieldId
         }
     }
@@ -2435,8 +2349,7 @@ public struct CreateTemplateInput: Swift.Sendable {
         name: Swift.String? = nil,
         requiredFields: [ConnectCasesClientTypes.RequiredField]? = nil,
         status: ConnectCasesClientTypes.TemplateStatus? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domainId = domainId
         self.layoutConfiguration = layoutConfiguration
@@ -2457,8 +2370,7 @@ public struct CreateTemplateOutput: Swift.Sendable {
     public init(
         templateArn: Swift.String? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateArn = templateArn
         self.templateId = templateId
     }
@@ -2475,8 +2387,7 @@ public struct DeleteTemplateInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.templateId = templateId
     }
@@ -2498,8 +2409,7 @@ public struct GetTemplateInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.templateId = templateId
     }
@@ -2545,8 +2455,7 @@ public struct GetTemplateOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String?]? = nil,
         templateArn: Swift.String? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdTime = createdTime
         self.deleted = deleted
         self.description = description
@@ -2577,8 +2486,7 @@ public struct ListTemplatesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: [ConnectCasesClientTypes.TemplateStatus]? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2608,8 +2516,7 @@ extension ConnectCasesClientTypes {
             status: ConnectCasesClientTypes.TemplateStatus? = nil,
             templateArn: Swift.String? = nil,
             templateId: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.status = status
             self.templateArn = templateArn
@@ -2628,8 +2535,7 @@ public struct ListTemplatesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         templates: [ConnectCasesClientTypes.TemplateSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.templates = templates
     }
@@ -2661,8 +2567,7 @@ public struct UpdateTemplateInput: Swift.Sendable {
         requiredFields: [ConnectCasesClientTypes.RequiredField]? = nil,
         status: ConnectCasesClientTypes.TemplateStatus? = nil,
         templateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domainId = domainId
         self.layoutConfiguration = layoutConfiguration
@@ -2689,8 +2594,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.tagKeys = tagKeys
     }
@@ -2737,8 +2641,7 @@ public struct SearchCasesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchTerm: Swift.String? = nil,
         sorts: [ConnectCasesClientTypes.Sort]? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.fields = fields
         self.filter = filter

@@ -29,9 +29,9 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 
 /// You don't have access to perform this operation on this resource.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -46,8 +46,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -106,8 +105,7 @@ extension AppSyncClientTypes {
             authorizerResultTtlInSeconds: Swift.Int = 0,
             authorizerUri: Swift.String? = nil,
             identityValidationExpression: Swift.String? = nil
-        )
-        {
+        ) {
             self.authorizerResultTtlInSeconds = authorizerResultTtlInSeconds
             self.authorizerUri = authorizerUri
             self.identityValidationExpression = identityValidationExpression
@@ -134,8 +132,7 @@ extension AppSyncClientTypes {
             clientId: Swift.String? = nil,
             iatTTL: Swift.Int = 0,
             issuer: Swift.String? = nil
-        )
-        {
+        ) {
             self.authTTL = authTTL
             self.clientId = clientId
             self.iatTTL = iatTTL
@@ -161,8 +158,7 @@ extension AppSyncClientTypes {
             appIdClientRegex: Swift.String? = nil,
             awsRegion: Swift.String? = nil,
             userPoolId: Swift.String? = nil
-        )
-        {
+        ) {
             self.appIdClientRegex = appIdClientRegex
             self.awsRegion = awsRegion
             self.userPoolId = userPoolId
@@ -188,8 +184,7 @@ extension AppSyncClientTypes {
             lambdaAuthorizerConfig: AppSyncClientTypes.LambdaAuthorizerConfig? = nil,
             openIDConnectConfig: AppSyncClientTypes.OpenIDConnectConfig? = nil,
             userPoolConfig: AppSyncClientTypes.CognitoUserPoolConfig? = nil
-        )
-        {
+        ) {
             self.authenticationType = authenticationType
             self.lambdaAuthorizerConfig = lambdaAuthorizerConfig
             self.openIDConnectConfig = openIDConnectConfig
@@ -215,8 +210,7 @@ extension AppSyncClientTypes {
             appIdClientRegex: Swift.String? = nil,
             awsRegion: Swift.String? = nil,
             userPoolId: Swift.String? = nil
-        )
-        {
+        ) {
             self.appIdClientRegex = appIdClientRegex
             self.awsRegion = awsRegion
             self.userPoolId = userPoolId
@@ -243,8 +237,7 @@ extension AppSyncClientTypes {
             cognitoConfig: AppSyncClientTypes.CognitoConfig? = nil,
             lambdaAuthorizerConfig: AppSyncClientTypes.LambdaAuthorizerConfig? = nil,
             openIDConnectConfig: AppSyncClientTypes.OpenIDConnectConfig? = nil
-        )
-        {
+        ) {
             self.authType = authType
             self.cognitoConfig = cognitoConfig
             self.lambdaAuthorizerConfig = lambdaAuthorizerConfig
@@ -263,8 +256,7 @@ extension AppSyncClientTypes {
 
         public init(
             authType: AppSyncClientTypes.AuthenticationType? = nil
-        )
-        {
+        ) {
             self.authType = authType
         }
     }
@@ -322,8 +314,7 @@ extension AppSyncClientTypes {
         public init(
             cloudWatchLogsRoleArn: Swift.String? = nil,
             logLevel: AppSyncClientTypes.EventLogLevel? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
             self.logLevel = logLevel
         }
@@ -355,8 +346,7 @@ extension AppSyncClientTypes {
             defaultPublishAuthModes: [AppSyncClientTypes.AuthMode]? = nil,
             defaultSubscribeAuthModes: [AppSyncClientTypes.AuthMode]? = nil,
             logConfig: AppSyncClientTypes.EventLogConfig? = nil
-        )
-        {
+        ) {
             self.authProviders = authProviders
             self.connectionAuthModes = connectionAuthModes
             self.defaultPublishAuthModes = defaultPublishAuthModes
@@ -402,8 +392,7 @@ extension AppSyncClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             wafWebAclArn: Swift.String? = nil,
             xrayEnabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.apiArn = apiArn
             self.apiId = apiId
             self.created = created
@@ -474,8 +463,7 @@ extension AppSyncClientTypes {
             associationStatus: AppSyncClientTypes.AssociationStatus? = nil,
             deploymentDetail: Swift.String? = nil,
             domainName: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiId = apiId
             self.associationStatus = associationStatus
             self.deploymentDetail = deploymentDetail
@@ -729,8 +717,7 @@ extension AppSyncClientTypes {
             transitEncryptionEnabled: Swift.Bool = false,
             ttl: Swift.Int = 0,
             type: AppSyncClientTypes.ApiCacheType? = nil
-        )
-        {
+        ) {
             self.apiCachingBehavior = apiCachingBehavior
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
             self.healthMetricsConfig = healthMetricsConfig
@@ -785,8 +772,7 @@ extension AppSyncClientTypes {
             description: Swift.String? = nil,
             expires: Swift.Int = 0,
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.deletes = deletes
             self.description = description
             self.expires = expires
@@ -796,9 +782,9 @@ extension AppSyncClientTypes {
 }
 
 /// The API key exceeded a limit. Try your request again.
-public struct ApiKeyLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ApiKeyLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -813,16 +799,15 @@ public struct ApiKeyLimitExceededException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The API key expiration must be set to a value between 1 and 365 days from creation (for CreateApiKey) or from update (for UpdateApiKey).
-public struct ApiKeyValidityOutOfBoundsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ApiKeyValidityOutOfBoundsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -837,16 +822,15 @@ public struct ApiKeyValidityOutOfBoundsException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The GraphQL API exceeded a limit. Try your request again.
-public struct ApiLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ApiLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -861,8 +845,7 @@ public struct ApiLimitExceededException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -907,8 +890,7 @@ extension AppSyncClientTypes {
         public init(
             name: AppSyncClientTypes.RuntimeName? = nil,
             runtimeVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.runtimeVersion = runtimeVersion
         }
@@ -930,8 +912,7 @@ extension AppSyncClientTypes {
             column: Swift.Int = 0,
             line: Swift.Int = 0,
             span: Swift.Int = 0
-        )
-        {
+        ) {
             self.column = column
             self.line = line
             self.span = span
@@ -954,8 +935,7 @@ extension AppSyncClientTypes {
             errorType: Swift.String? = nil,
             location: AppSyncClientTypes.CodeErrorLocation? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorType = errorType
             self.location = location
             self.value = value
@@ -972,8 +952,7 @@ extension AppSyncClientTypes {
 
         public init(
             codeErrors: [AppSyncClientTypes.CodeError]? = nil
-        )
-        {
+        ) {
             self.codeErrors = codeErrors
         }
     }
@@ -1007,9 +986,9 @@ extension AppSyncClientTypes {
 }
 
 /// The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Provides further details for the reason behind the bad request. For reason type CODE_ERROR, the detail will contain a list of code errors.
         public internal(set) var detail: AppSyncClientTypes.BadRequestDetail? = nil
         public internal(set) var message: Swift.String? = nil
@@ -1030,8 +1009,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
         detail: AppSyncClientTypes.BadRequestDetail? = nil,
         message: Swift.String? = nil,
         reason: AppSyncClientTypes.BadRequestReason? = nil
-    )
-    {
+    ) {
         self.properties.detail = detail
         self.properties.message = message
         self.properties.reason = reason
@@ -1039,9 +1017,9 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// An internal AppSync error occurred. Try your request again.
-public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1056,16 +1034,15 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The resource specified in the request was not found. Check the resource, and then try again.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1080,8 +1057,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1097,8 +1073,7 @@ public struct AssociateApiInput: Swift.Sendable {
     public init(
         apiId: Swift.String? = nil,
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.domainName = domainName
     }
@@ -1110,16 +1085,15 @@ public struct AssociateApiOutput: Swift.Sendable {
 
     public init(
         apiAssociation: AppSyncClientTypes.ApiAssociation? = nil
-    )
-    {
+    ) {
         self.apiAssociation = apiAssociation
     }
 }
 
 /// Another modification is in progress at this time and it must complete before you can make your change.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1134,16 +1108,15 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request exceeded a limit. Try your request again.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1158,16 +1131,15 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You aren't authorized to perform this operation.
-public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1182,8 +1154,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1226,8 +1197,7 @@ extension AppSyncClientTypes {
 
         public init(
             mergeType: AppSyncClientTypes.MergeType? = nil
-        )
-        {
+        ) {
             self.mergeType = mergeType
         }
     }
@@ -1250,8 +1220,7 @@ public struct AssociateMergedGraphqlApiInput: Swift.Sendable {
         mergedApiIdentifier: Swift.String? = nil,
         sourceApiAssociationConfig: AppSyncClientTypes.SourceApiAssociationConfig? = nil,
         sourceApiIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.mergedApiIdentifier = mergedApiIdentifier
         self.sourceApiAssociationConfig = sourceApiAssociationConfig
@@ -1345,8 +1314,7 @@ extension AppSyncClientTypes {
             sourceApiAssociationStatus: AppSyncClientTypes.SourceApiAssociationStatus? = nil,
             sourceApiAssociationStatusDetail: Swift.String? = nil,
             sourceApiId: Swift.String? = nil
-        )
-        {
+        ) {
             self.associationArn = associationArn
             self.associationId = associationId
             self.description = description
@@ -1368,8 +1336,7 @@ public struct AssociateMergedGraphqlApiOutput: Swift.Sendable {
 
     public init(
         sourceApiAssociation: AppSyncClientTypes.SourceApiAssociation? = nil
-    )
-    {
+    ) {
         self.sourceApiAssociation = sourceApiAssociation
     }
 }
@@ -1391,8 +1358,7 @@ public struct AssociateSourceGraphqlApiInput: Swift.Sendable {
         mergedApiIdentifier: Swift.String? = nil,
         sourceApiAssociationConfig: AppSyncClientTypes.SourceApiAssociationConfig? = nil,
         sourceApiIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.mergedApiIdentifier = mergedApiIdentifier
         self.sourceApiAssociationConfig = sourceApiAssociationConfig
@@ -1406,8 +1372,7 @@ public struct AssociateSourceGraphqlApiOutput: Swift.Sendable {
 
     public init(
         sourceApiAssociation: AppSyncClientTypes.SourceApiAssociation? = nil
-    )
-    {
+    ) {
         self.sourceApiAssociation = sourceApiAssociation
     }
 }
@@ -1450,8 +1415,7 @@ extension AppSyncClientTypes {
         public init(
             signingRegion: Swift.String? = nil,
             signingServiceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.signingRegion = signingRegion
             self.signingServiceName = signingServiceName
         }
@@ -1473,8 +1437,7 @@ extension AppSyncClientTypes {
         public init(
             authorizationType: AppSyncClientTypes.AuthorizationType? = nil,
             awsIamConfig: AppSyncClientTypes.AwsIamConfig? = nil
-        )
-        {
+        ) {
             self.authorizationType = authorizationType
             self.awsIamConfig = awsIamConfig
         }
@@ -1482,9 +1445,9 @@ extension AppSyncClientTypes {
 }
 
 /// The operation exceeded the service quota for this resource.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1499,8 +1462,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1521,8 +1483,7 @@ public struct CreateApiInput: Swift.Sendable {
         name: Swift.String? = nil,
         ownerContact: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.eventConfig = eventConfig
         self.name = name
         self.ownerContact = ownerContact
@@ -1536,8 +1497,7 @@ public struct CreateApiOutput: Swift.Sendable {
 
     public init(
         api: AppSyncClientTypes.Api? = nil
-    )
-    {
+    ) {
         self.api = api
     }
 }
@@ -1615,8 +1575,7 @@ public struct CreateApiCacheInput: Swift.Sendable {
         transitEncryptionEnabled: Swift.Bool? = false,
         ttl: Swift.Int? = 0,
         type: AppSyncClientTypes.ApiCacheType? = nil
-    )
-    {
+    ) {
         self.apiCachingBehavior = apiCachingBehavior
         self.apiId = apiId
         self.atRestEncryptionEnabled = atRestEncryptionEnabled
@@ -1634,8 +1593,7 @@ public struct CreateApiCacheOutput: Swift.Sendable {
 
     public init(
         apiCache: AppSyncClientTypes.ApiCache? = nil
-    )
-    {
+    ) {
         self.apiCache = apiCache
     }
 }
@@ -1653,8 +1611,7 @@ public struct CreateApiKeyInput: Swift.Sendable {
         apiId: Swift.String? = nil,
         description: Swift.String? = nil,
         expires: Swift.Int? = 0
-    )
-    {
+    ) {
         self.apiId = apiId
         self.description = description
         self.expires = expires
@@ -1667,16 +1624,15 @@ public struct CreateApiKeyOutput: Swift.Sendable {
 
     public init(
         apiKey: AppSyncClientTypes.ApiKey? = nil
-    )
-    {
+    ) {
         self.apiKey = apiKey
     }
 }
 
 /// A conflict with a previous successful update is detected. This typically occurs when the previous update did not have time to propagate before the next update was made. A retry (with appropriate backoff logic) is the recommended response to this exception.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1691,8 +1647,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1720,8 +1675,7 @@ public struct CreateChannelNamespaceInput: Swift.Sendable {
         publishAuthModes: [AppSyncClientTypes.AuthMode]? = nil,
         subscribeAuthModes: [AppSyncClientTypes.AuthMode]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.codeHandlers = codeHandlers
         self.name = name
@@ -1764,8 +1718,7 @@ extension AppSyncClientTypes {
             publishAuthModes: [AppSyncClientTypes.AuthMode]? = nil,
             subscribeAuthModes: [AppSyncClientTypes.AuthMode]? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.apiId = apiId
             self.channelNamespaceArn = channelNamespaceArn
             self.codeHandlers = codeHandlers
@@ -1785,8 +1738,7 @@ public struct CreateChannelNamespaceOutput: Swift.Sendable {
 
     public init(
         channelNamespace: AppSyncClientTypes.ChannelNamespace? = nil
-    )
-    {
+    ) {
         self.channelNamespace = channelNamespace
     }
 }
@@ -1806,8 +1758,7 @@ extension AppSyncClientTypes {
             baseTableTTL: Swift.Int = 0,
             deltaSyncTableName: Swift.String? = nil,
             deltaSyncTableTTL: Swift.Int = 0
-        )
-        {
+        ) {
             self.baseTableTTL = baseTableTTL
             self.deltaSyncTableName = deltaSyncTableName
             self.deltaSyncTableTTL = deltaSyncTableTTL
@@ -1838,8 +1789,7 @@ extension AppSyncClientTypes {
             tableName: Swift.String? = nil,
             useCallerCredentials: Swift.Bool = false,
             versioned: Swift.Bool = false
-        )
-        {
+        ) {
             self.awsRegion = awsRegion
             self.deltaSyncConfig = deltaSyncConfig
             self.tableName = tableName
@@ -1863,8 +1813,7 @@ extension AppSyncClientTypes {
         public init(
             awsRegion: Swift.String? = nil,
             endpoint: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsRegion = awsRegion
             self.endpoint = endpoint
         }
@@ -1881,8 +1830,7 @@ extension AppSyncClientTypes {
 
         public init(
             eventBusArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventBusArn = eventBusArn
         }
     }
@@ -1900,8 +1848,7 @@ extension AppSyncClientTypes {
         public init(
             authorizationConfig: AppSyncClientTypes.AuthorizationConfig? = nil,
             endpoint: Swift.String? = nil
-        )
-        {
+        ) {
             self.authorizationConfig = authorizationConfig
             self.endpoint = endpoint
         }
@@ -1918,8 +1865,7 @@ extension AppSyncClientTypes {
 
         public init(
             lambdaFunctionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.lambdaFunctionArn = lambdaFunctionArn
         }
     }
@@ -1968,8 +1914,7 @@ extension AppSyncClientTypes {
         public init(
             awsRegion: Swift.String? = nil,
             endpoint: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsRegion = awsRegion
             self.endpoint = endpoint
         }
@@ -1997,8 +1942,7 @@ extension AppSyncClientTypes {
             databaseName: Swift.String? = nil,
             dbClusterIdentifier: Swift.String? = nil,
             schema: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsRegion = awsRegion
             self.awsSecretStoreArn = awsSecretStoreArn
             self.databaseName = databaseName
@@ -2048,8 +1992,7 @@ extension AppSyncClientTypes {
         public init(
             rdsHttpEndpointConfig: AppSyncClientTypes.RdsHttpEndpointConfig? = nil,
             relationalDatabaseSourceType: AppSyncClientTypes.RelationalDatabaseSourceType? = nil
-        )
-        {
+        ) {
             self.rdsHttpEndpointConfig = rdsHttpEndpointConfig
             self.relationalDatabaseSourceType = relationalDatabaseSourceType
         }
@@ -2059,6 +2002,7 @@ extension AppSyncClientTypes {
 extension AppSyncClientTypes {
 
     public enum DataSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case amazonBedrockRuntime
         case amazonDynamodb
         case amazonElasticsearch
         case amazonEventbridge
@@ -2071,6 +2015,7 @@ extension AppSyncClientTypes {
 
         public static var allCases: [DataSourceType] {
             return [
+                .amazonBedrockRuntime,
                 .amazonDynamodb,
                 .amazonElasticsearch,
                 .amazonEventbridge,
@@ -2089,6 +2034,7 @@ extension AppSyncClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .amazonBedrockRuntime: return "AMAZON_BEDROCK_RUNTIME"
             case .amazonDynamodb: return "AMAZON_DYNAMODB"
             case .amazonElasticsearch: return "AMAZON_ELASTICSEARCH"
             case .amazonEventbridge: return "AMAZON_EVENTBRIDGE"
@@ -2148,8 +2094,7 @@ public struct CreateDataSourceInput: Swift.Sendable {
         relationalDatabaseConfig: AppSyncClientTypes.RelationalDatabaseDataSourceConfig? = nil,
         serviceRoleArn: Swift.String? = nil,
         type: AppSyncClientTypes.DataSourceType? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.description = description
         self.dynamodbConfig = dynamodbConfig
@@ -2206,6 +2151,8 @@ extension AppSyncClientTypes {
         ///
         /// * AMAZON_EVENTBRIDGE: The data source is an Amazon EventBridge configuration.
         ///
+        /// * AMAZON_BEDROCK_RUNTIME: The data source is the Amazon Bedrock runtime.
+        ///
         /// * NONE: There is no data source. Use this type when you want to invoke a GraphQL operation without connecting to a data source, such as when you're performing data transformation with resolvers or invoking a subscription from a mutation.
         ///
         /// * HTTP: The data source is an HTTP endpoint.
@@ -2227,8 +2174,7 @@ extension AppSyncClientTypes {
             relationalDatabaseConfig: AppSyncClientTypes.RelationalDatabaseDataSourceConfig? = nil,
             serviceRoleArn: Swift.String? = nil,
             type: AppSyncClientTypes.DataSourceType? = nil
-        )
-        {
+        ) {
             self.dataSourceArn = dataSourceArn
             self.description = description
             self.dynamodbConfig = dynamodbConfig
@@ -2252,8 +2198,7 @@ public struct CreateDataSourceOutput: Swift.Sendable {
 
     public init(
         dataSource: AppSyncClientTypes.DataSource? = nil
-    )
-    {
+    ) {
         self.dataSource = dataSource
     }
 }
@@ -2272,8 +2217,7 @@ public struct CreateDomainNameInput: Swift.Sendable {
         certificateArn: Swift.String? = nil,
         description: Swift.String? = nil,
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateArn = certificateArn
         self.description = description
         self.domainName = domainName
@@ -2301,8 +2245,7 @@ extension AppSyncClientTypes {
             description: Swift.String? = nil,
             domainName: Swift.String? = nil,
             hostedZoneId: Swift.String? = nil
-        )
-        {
+        ) {
             self.appsyncDomainName = appsyncDomainName
             self.certificateArn = certificateArn
             self.description = description
@@ -2318,8 +2261,7 @@ public struct CreateDomainNameOutput: Swift.Sendable {
 
     public init(
         domainNameConfig: AppSyncClientTypes.DomainNameConfig? = nil
-    )
-    {
+    ) {
         self.domainNameConfig = domainNameConfig
     }
 }
@@ -2397,8 +2339,7 @@ extension AppSyncClientTypes {
 
         public init(
             lambdaConflictHandlerArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.lambdaConflictHandlerArn = lambdaConflictHandlerArn
         }
     }
@@ -2429,8 +2370,7 @@ extension AppSyncClientTypes {
             conflictDetection: AppSyncClientTypes.ConflictDetectionType? = nil,
             conflictHandler: AppSyncClientTypes.ConflictHandlerType? = nil,
             lambdaConflictHandlerConfig: AppSyncClientTypes.LambdaConflictHandlerConfig? = nil
-        )
-        {
+        ) {
             self.conflictDetection = conflictDetection
             self.conflictHandler = conflictHandler
             self.lambdaConflictHandlerConfig = lambdaConflictHandlerConfig
@@ -2477,8 +2417,7 @@ public struct CreateFunctionInput: Swift.Sendable {
         responseMappingTemplate: Swift.String? = nil,
         runtime: AppSyncClientTypes.AppSyncRuntime? = nil,
         syncConfig: AppSyncClientTypes.SyncConfig? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.code = code
         self.dataSourceName = dataSourceName
@@ -2535,8 +2474,7 @@ extension AppSyncClientTypes {
             responseMappingTemplate: Swift.String? = nil,
             runtime: AppSyncClientTypes.AppSyncRuntime? = nil,
             syncConfig: AppSyncClientTypes.SyncConfig? = nil
-        )
-        {
+        ) {
             self.code = code
             self.dataSourceName = dataSourceName
             self.description = description
@@ -2559,8 +2497,7 @@ public struct CreateFunctionOutput: Swift.Sendable {
 
     public init(
         functionConfiguration: AppSyncClientTypes.FunctionConfiguration? = nil
-    )
-    {
+    ) {
         self.functionConfiguration = functionConfiguration
     }
 }
@@ -2785,8 +2722,7 @@ extension AppSyncClientTypes {
             dataSourceLevelMetricsBehavior: AppSyncClientTypes.DataSourceLevelMetricsBehavior? = nil,
             operationLevelMetricsConfig: AppSyncClientTypes.OperationLevelMetricsConfig? = nil,
             resolverLevelMetricsBehavior: AppSyncClientTypes.ResolverLevelMetricsBehavior? = nil
-        )
-        {
+        ) {
             self.dataSourceLevelMetricsBehavior = dataSourceLevelMetricsBehavior
             self.operationLevelMetricsConfig = operationLevelMetricsConfig
             self.resolverLevelMetricsBehavior = resolverLevelMetricsBehavior
@@ -2897,8 +2833,7 @@ extension AppSyncClientTypes {
             cloudWatchLogsRoleArn: Swift.String? = nil,
             excludeVerboseContent: Swift.Bool = false,
             fieldLogLevel: AppSyncClientTypes.FieldLogLevel? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
             self.excludeVerboseContent = excludeVerboseContent
             self.fieldLogLevel = fieldLogLevel
@@ -2956,8 +2891,7 @@ extension AppSyncClientTypes {
             awsRegion: Swift.String? = nil,
             defaultAction: AppSyncClientTypes.DefaultAction? = nil,
             userPoolId: Swift.String? = nil
-        )
-        {
+        ) {
             self.appIdClientRegex = appIdClientRegex
             self.awsRegion = awsRegion
             self.defaultAction = defaultAction
@@ -3051,8 +2985,7 @@ public struct CreateGraphqlApiInput: Swift.Sendable {
         userPoolConfig: AppSyncClientTypes.UserPoolConfig? = nil,
         visibility: AppSyncClientTypes.GraphQLApiVisibility? = nil,
         xrayEnabled: Swift.Bool? = false
-    )
-    {
+    ) {
         self.additionalAuthenticationProviders = additionalAuthenticationProviders
         self.apiType = apiType
         self.authenticationType = authenticationType
@@ -3148,8 +3081,7 @@ extension AppSyncClientTypes {
             visibility: AppSyncClientTypes.GraphQLApiVisibility? = nil,
             wafWebAclArn: Swift.String? = nil,
             xrayEnabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.additionalAuthenticationProviders = additionalAuthenticationProviders
             self.apiId = apiId
             self.apiType = apiType
@@ -3183,8 +3115,7 @@ public struct CreateGraphqlApiOutput: Swift.Sendable {
 
     public init(
         graphqlApi: AppSyncClientTypes.GraphqlApi? = nil
-    )
-    {
+    ) {
         self.graphqlApi = graphqlApi
     }
 }
@@ -3202,8 +3133,7 @@ extension AppSyncClientTypes {
         public init(
             cachingKeys: [Swift.String]? = nil,
             ttl: Swift.Int = 0
-        )
-        {
+        ) {
             self.cachingKeys = cachingKeys
             self.ttl = ttl
         }
@@ -3277,8 +3207,7 @@ extension AppSyncClientTypes {
 
         public init(
             functions: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.functions = functions
         }
     }
@@ -3336,8 +3265,7 @@ public struct CreateResolverInput: Swift.Sendable {
         runtime: AppSyncClientTypes.AppSyncRuntime? = nil,
         syncConfig: AppSyncClientTypes.SyncConfig? = nil,
         typeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.cachingConfig = cachingConfig
         self.code = code
@@ -3407,8 +3335,7 @@ extension AppSyncClientTypes {
             runtime: AppSyncClientTypes.AppSyncRuntime? = nil,
             syncConfig: AppSyncClientTypes.SyncConfig? = nil,
             typeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.cachingConfig = cachingConfig
             self.code = code
             self.dataSourceName = dataSourceName
@@ -3433,8 +3360,7 @@ public struct CreateResolverOutput: Swift.Sendable {
 
     public init(
         resolver: AppSyncClientTypes.Resolver? = nil
-    )
-    {
+    ) {
         self.resolver = resolver
     }
 }
@@ -3483,8 +3409,7 @@ public struct CreateTypeInput: Swift.Sendable {
         apiId: Swift.String? = nil,
         definition: Swift.String? = nil,
         format: AppSyncClientTypes.TypeDefinitionFormat? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.definition = definition
         self.format = format
@@ -3512,8 +3437,7 @@ extension AppSyncClientTypes {
             description: Swift.String? = nil,
             format: AppSyncClientTypes.TypeDefinitionFormat? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.definition = definition
             self.description = description
@@ -3529,8 +3453,7 @@ public struct CreateTypeOutput: Swift.Sendable {
 
     public init(
         type: AppSyncClientTypes.ModelType? = nil
-    )
-    {
+    ) {
         self.type = type
     }
 }
@@ -3542,8 +3465,7 @@ public struct DeleteApiInput: Swift.Sendable {
 
     public init(
         apiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
     }
 }
@@ -3561,8 +3483,7 @@ public struct DeleteApiCacheInput: Swift.Sendable {
 
     public init(
         apiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
     }
 }
@@ -3584,8 +3505,7 @@ public struct DeleteApiKeyInput: Swift.Sendable {
     public init(
         apiId: Swift.String? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.id = id
     }
@@ -3607,8 +3527,7 @@ public struct DeleteChannelNamespaceInput: Swift.Sendable {
     public init(
         apiId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.name = name
     }
@@ -3630,8 +3549,7 @@ public struct DeleteDataSourceInput: Swift.Sendable {
     public init(
         apiId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.name = name
     }
@@ -3649,8 +3567,7 @@ public struct DeleteDomainNameInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -3671,8 +3588,7 @@ public struct DeleteFunctionInput: Swift.Sendable {
     public init(
         apiId: Swift.String? = nil,
         functionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.functionId = functionId
     }
@@ -3690,8 +3606,7 @@ public struct DeleteGraphqlApiInput: Swift.Sendable {
 
     public init(
         apiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
     }
 }
@@ -3716,8 +3631,7 @@ public struct DeleteResolverInput: Swift.Sendable {
         apiId: Swift.String? = nil,
         fieldName: Swift.String? = nil,
         typeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.fieldName = fieldName
         self.typeName = typeName
@@ -3740,8 +3654,7 @@ public struct DeleteTypeInput: Swift.Sendable {
     public init(
         apiId: Swift.String? = nil,
         typeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.typeName = typeName
     }
@@ -3759,8 +3672,7 @@ public struct DisassociateApiInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -3781,8 +3693,7 @@ public struct DisassociateMergedGraphqlApiInput: Swift.Sendable {
     public init(
         associationId: Swift.String? = nil,
         sourceApiIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
         self.sourceApiIdentifier = sourceApiIdentifier
     }
@@ -3794,8 +3705,7 @@ public struct DisassociateMergedGraphqlApiOutput: Swift.Sendable {
 
     public init(
         sourceApiAssociationStatus: AppSyncClientTypes.SourceApiAssociationStatus? = nil
-    )
-    {
+    ) {
         self.sourceApiAssociationStatus = sourceApiAssociationStatus
     }
 }
@@ -3811,8 +3721,7 @@ public struct DisassociateSourceGraphqlApiInput: Swift.Sendable {
     public init(
         associationId: Swift.String? = nil,
         mergedApiIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
         self.mergedApiIdentifier = mergedApiIdentifier
     }
@@ -3824,8 +3733,7 @@ public struct DisassociateSourceGraphqlApiOutput: Swift.Sendable {
 
     public init(
         sourceApiAssociationStatus: AppSyncClientTypes.SourceApiAssociationStatus? = nil
-    )
-    {
+    ) {
         self.sourceApiAssociationStatus = sourceApiAssociationStatus
     }
 }
@@ -3848,8 +3756,7 @@ public struct EvaluateCodeInput: Swift.Sendable {
         context: Swift.String? = nil,
         function: Swift.String? = nil,
         runtime: AppSyncClientTypes.AppSyncRuntime? = nil
-    )
-    {
+    ) {
         self.code = code
         self.context = context
         self.function = function
@@ -3869,8 +3776,7 @@ extension AppSyncClientTypes {
         public init(
             codeErrors: [AppSyncClientTypes.CodeError]? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.codeErrors = codeErrors
             self.message = message
         }
@@ -3889,8 +3795,7 @@ public struct EvaluateCodeOutput: Swift.Sendable {
         error: AppSyncClientTypes.EvaluateCodeErrorDetail? = nil,
         evaluationResult: Swift.String? = nil,
         logs: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.error = error
         self.evaluationResult = evaluationResult
         self.logs = logs
@@ -3908,8 +3813,7 @@ public struct EvaluateMappingTemplateInput: Swift.Sendable {
     public init(
         context: Swift.String? = nil,
         template: Swift.String? = nil
-    )
-    {
+    ) {
         self.context = context
         self.template = template
     }
@@ -3924,8 +3828,7 @@ extension AppSyncClientTypes {
 
         public init(
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
         }
     }
@@ -3943,8 +3846,7 @@ public struct EvaluateMappingTemplateOutput: Swift.Sendable {
         error: AppSyncClientTypes.ErrorDetail? = nil,
         evaluationResult: Swift.String? = nil,
         logs: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.error = error
         self.evaluationResult = evaluationResult
         self.logs = logs
@@ -3959,8 +3861,7 @@ public struct FlushApiCacheInput: Swift.Sendable {
 
     public init(
         apiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
     }
 }
@@ -3978,8 +3879,7 @@ public struct GetApiInput: Swift.Sendable {
 
     public init(
         apiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
     }
 }
@@ -3990,8 +3890,7 @@ public struct GetApiOutput: Swift.Sendable {
 
     public init(
         api: AppSyncClientTypes.Api? = nil
-    )
-    {
+    ) {
         self.api = api
     }
 }
@@ -4003,8 +3902,7 @@ public struct GetApiAssociationInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -4015,8 +3913,7 @@ public struct GetApiAssociationOutput: Swift.Sendable {
 
     public init(
         apiAssociation: AppSyncClientTypes.ApiAssociation? = nil
-    )
-    {
+    ) {
         self.apiAssociation = apiAssociation
     }
 }
@@ -4029,8 +3926,7 @@ public struct GetApiCacheInput: Swift.Sendable {
 
     public init(
         apiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
     }
 }
@@ -4042,8 +3938,7 @@ public struct GetApiCacheOutput: Swift.Sendable {
 
     public init(
         apiCache: AppSyncClientTypes.ApiCache? = nil
-    )
-    {
+    ) {
         self.apiCache = apiCache
     }
 }
@@ -4059,8 +3954,7 @@ public struct GetChannelNamespaceInput: Swift.Sendable {
     public init(
         apiId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.name = name
     }
@@ -4072,8 +3966,7 @@ public struct GetChannelNamespaceOutput: Swift.Sendable {
 
     public init(
         channelNamespace: AppSyncClientTypes.ChannelNamespace? = nil
-    )
-    {
+    ) {
         self.channelNamespace = channelNamespace
     }
 }
@@ -4089,8 +3982,7 @@ public struct GetDataSourceInput: Swift.Sendable {
     public init(
         apiId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.name = name
     }
@@ -4102,8 +3994,7 @@ public struct GetDataSourceOutput: Swift.Sendable {
 
     public init(
         dataSource: AppSyncClientTypes.DataSource? = nil
-    )
-    {
+    ) {
         self.dataSource = dataSource
     }
 }
@@ -4124,8 +4015,7 @@ public struct GetDataSourceIntrospectionInput: Swift.Sendable {
         introspectionId: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.includeModelsSDL = includeModelsSDL
         self.introspectionId = introspectionId
         self.maxResults = maxResults
@@ -4145,8 +4035,7 @@ extension AppSyncClientTypes {
         public init(
             fields: [Swift.String]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.fields = fields
             self.name = name
         }
@@ -4192,8 +4081,7 @@ public struct GetDomainNameInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainName = domainName
     }
 }
@@ -4204,8 +4092,7 @@ public struct GetDomainNameOutput: Swift.Sendable {
 
     public init(
         domainNameConfig: AppSyncClientTypes.DomainNameConfig? = nil
-    )
-    {
+    ) {
         self.domainNameConfig = domainNameConfig
     }
 }
@@ -4221,8 +4108,7 @@ public struct GetFunctionInput: Swift.Sendable {
     public init(
         apiId: Swift.String? = nil,
         functionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.functionId = functionId
     }
@@ -4234,8 +4120,7 @@ public struct GetFunctionOutput: Swift.Sendable {
 
     public init(
         functionConfiguration: AppSyncClientTypes.FunctionConfiguration? = nil
-    )
-    {
+    ) {
         self.functionConfiguration = functionConfiguration
     }
 }
@@ -4247,8 +4132,7 @@ public struct GetGraphqlApiInput: Swift.Sendable {
 
     public init(
         apiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
     }
 }
@@ -4259,8 +4143,7 @@ public struct GetGraphqlApiOutput: Swift.Sendable {
 
     public init(
         graphqlApi: AppSyncClientTypes.GraphqlApi? = nil
-    )
-    {
+    ) {
         self.graphqlApi = graphqlApi
     }
 }
@@ -4272,8 +4155,7 @@ public struct GetGraphqlApiEnvironmentVariablesInput: Swift.Sendable {
 
     public init(
         apiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
     }
 }
@@ -4284,16 +4166,15 @@ public struct GetGraphqlApiEnvironmentVariablesOutput: Swift.Sendable {
 
     public init(
         environmentVariables: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.environmentVariables = environmentVariables
     }
 }
 
 /// The GraphQL schema is not valid.
-public struct GraphQLSchemaException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GraphQLSchemaException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4308,8 +4189,7 @@ public struct GraphQLSchemaException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4357,8 +4237,7 @@ public struct GetIntrospectionSchemaInput: Swift.Sendable {
         apiId: Swift.String? = nil,
         format: AppSyncClientTypes.OutputType? = nil,
         includeDirectives: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.format = format
         self.includeDirectives = includeDirectives
@@ -4371,8 +4250,7 @@ public struct GetIntrospectionSchemaOutput: Swift.Sendable {
 
     public init(
         schema: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.schema = schema
     }
 }
@@ -4392,8 +4270,7 @@ public struct GetResolverInput: Swift.Sendable {
         apiId: Swift.String? = nil,
         fieldName: Swift.String? = nil,
         typeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.fieldName = fieldName
         self.typeName = typeName
@@ -4406,8 +4283,7 @@ public struct GetResolverOutput: Swift.Sendable {
 
     public init(
         resolver: AppSyncClientTypes.Resolver? = nil
-    )
-    {
+    ) {
         self.resolver = resolver
     }
 }
@@ -4419,8 +4295,7 @@ public struct GetSchemaCreationStatusInput: Swift.Sendable {
 
     public init(
         apiId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
     }
 }
@@ -4475,8 +4350,7 @@ public struct GetSchemaCreationStatusOutput: Swift.Sendable {
     public init(
         details: Swift.String? = nil,
         status: AppSyncClientTypes.SchemaStatus? = nil
-    )
-    {
+    ) {
         self.details = details
         self.status = status
     }
@@ -4493,8 +4367,7 @@ public struct GetSourceApiAssociationInput: Swift.Sendable {
     public init(
         associationId: Swift.String? = nil,
         mergedApiIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
         self.mergedApiIdentifier = mergedApiIdentifier
     }
@@ -4506,8 +4379,7 @@ public struct GetSourceApiAssociationOutput: Swift.Sendable {
 
     public init(
         sourceApiAssociation: AppSyncClientTypes.SourceApiAssociation? = nil
-    )
-    {
+    ) {
         self.sourceApiAssociation = sourceApiAssociation
     }
 }
@@ -4527,8 +4399,7 @@ public struct GetTypeInput: Swift.Sendable {
         apiId: Swift.String? = nil,
         format: AppSyncClientTypes.TypeDefinitionFormat? = nil,
         typeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.format = format
         self.typeName = typeName
@@ -4541,8 +4412,7 @@ public struct GetTypeOutput: Swift.Sendable {
 
     public init(
         type: AppSyncClientTypes.ModelType? = nil
-    )
-    {
+    ) {
         self.type = type
     }
 }
@@ -4560,8 +4430,7 @@ public struct ListApiKeysInput: Swift.Sendable {
         apiId: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4577,8 +4446,7 @@ public struct ListApiKeysOutput: Swift.Sendable {
     public init(
         apiKeys: [AppSyncClientTypes.ApiKey]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiKeys = apiKeys
         self.nextToken = nextToken
     }
@@ -4593,8 +4461,7 @@ public struct ListApisInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4609,8 +4476,7 @@ public struct ListApisOutput: Swift.Sendable {
     public init(
         apis: [AppSyncClientTypes.Api]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.apis = apis
         self.nextToken = nextToken
     }
@@ -4629,8 +4495,7 @@ public struct ListChannelNamespacesInput: Swift.Sendable {
         apiId: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4646,8 +4511,7 @@ public struct ListChannelNamespacesOutput: Swift.Sendable {
     public init(
         channelNamespaces: [AppSyncClientTypes.ChannelNamespace]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelNamespaces = channelNamespaces
         self.nextToken = nextToken
     }
@@ -4666,8 +4530,7 @@ public struct ListDataSourcesInput: Swift.Sendable {
         apiId: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4683,8 +4546,7 @@ public struct ListDataSourcesOutput: Swift.Sendable {
     public init(
         dataSources: [AppSyncClientTypes.DataSource]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSources = dataSources
         self.nextToken = nextToken
     }
@@ -4699,8 +4561,7 @@ public struct ListDomainNamesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4715,8 +4576,7 @@ public struct ListDomainNamesOutput: Swift.Sendable {
     public init(
         domainNameConfigs: [AppSyncClientTypes.DomainNameConfig]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainNameConfigs = domainNameConfigs
         self.nextToken = nextToken
     }
@@ -4735,8 +4595,7 @@ public struct ListFunctionsInput: Swift.Sendable {
         apiId: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4752,8 +4611,7 @@ public struct ListFunctionsOutput: Swift.Sendable {
     public init(
         functions: [AppSyncClientTypes.FunctionConfiguration]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.functions = functions
         self.nextToken = nextToken
     }
@@ -4803,8 +4661,7 @@ public struct ListGraphqlApisInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         owner: AppSyncClientTypes.Ownership? = nil
-    )
-    {
+    ) {
         self.apiType = apiType
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4821,8 +4678,7 @@ public struct ListGraphqlApisOutput: Swift.Sendable {
     public init(
         graphqlApis: [AppSyncClientTypes.GraphqlApi]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.graphqlApis = graphqlApis
         self.nextToken = nextToken
     }
@@ -4845,8 +4701,7 @@ public struct ListResolversInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         typeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4863,8 +4718,7 @@ public struct ListResolversOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resolvers: [AppSyncClientTypes.Resolver]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resolvers = resolvers
     }
@@ -4887,8 +4741,7 @@ public struct ListResolversByFunctionInput: Swift.Sendable {
         functionId: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.functionId = functionId
         self.maxResults = maxResults
@@ -4905,8 +4758,7 @@ public struct ListResolversByFunctionOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resolvers: [AppSyncClientTypes.Resolver]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resolvers = resolvers
     }
@@ -4925,8 +4777,7 @@ public struct ListSourceApiAssociationsInput: Swift.Sendable {
         apiId: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4960,8 +4811,7 @@ extension AppSyncClientTypes {
             mergedApiId: Swift.String? = nil,
             sourceApiArn: Swift.String? = nil,
             sourceApiId: Swift.String? = nil
-        )
-        {
+        ) {
             self.associationArn = associationArn
             self.associationId = associationId
             self.description = description
@@ -4982,8 +4832,7 @@ public struct ListSourceApiAssociationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sourceApiAssociationSummaries: [AppSyncClientTypes.SourceApiAssociationSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sourceApiAssociationSummaries = sourceApiAssociationSummaries
     }
@@ -4996,8 +4845,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -5008,8 +4856,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -5031,8 +4878,7 @@ public struct ListTypesInput: Swift.Sendable {
         format: AppSyncClientTypes.TypeDefinitionFormat? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.format = format
         self.maxResults = maxResults
@@ -5049,8 +4895,7 @@ public struct ListTypesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         types: [AppSyncClientTypes.ModelType]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.types = types
     }
@@ -5077,8 +4922,7 @@ public struct ListTypesByAssociationInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         mergedApiIdentifier: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
         self.format = format
         self.maxResults = maxResults
@@ -5096,8 +4940,7 @@ public struct ListTypesByAssociationOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         types: [AppSyncClientTypes.ModelType]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.types = types
     }
@@ -5127,8 +4970,7 @@ public struct PutGraphqlApiEnvironmentVariablesInput: Swift.Sendable {
     public init(
         apiId: Swift.String? = nil,
         environmentVariables: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.environmentVariables = environmentVariables
     }
@@ -5140,8 +4982,7 @@ public struct PutGraphqlApiEnvironmentVariablesOutput: Swift.Sendable {
 
     public init(
         environmentVariables: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.environmentVariables = environmentVariables
     }
 }
@@ -5164,8 +5005,7 @@ extension AppSyncClientTypes {
             databaseName: Swift.String? = nil,
             resourceArn: Swift.String? = nil,
             secretArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.databaseName = databaseName
             self.resourceArn = resourceArn
             self.secretArn = secretArn
@@ -5179,8 +5019,7 @@ public struct StartDataSourceIntrospectionInput: Swift.Sendable {
 
     public init(
         rdsDataApiConfig: AppSyncClientTypes.RdsDataApiConfig? = nil
-    )
-    {
+    ) {
         self.rdsDataApiConfig = rdsDataApiConfig
     }
 }
@@ -5197,8 +5036,7 @@ public struct StartDataSourceIntrospectionOutput: Swift.Sendable {
         introspectionId: Swift.String? = nil,
         introspectionStatus: AppSyncClientTypes.DataSourceIntrospectionStatus? = nil,
         introspectionStatusDetail: Swift.String? = nil
-    )
-    {
+    ) {
         self.introspectionId = introspectionId
         self.introspectionStatus = introspectionStatus
         self.introspectionStatusDetail = introspectionStatusDetail
@@ -5216,8 +5054,7 @@ public struct StartSchemaCreationInput: Swift.Sendable {
     public init(
         apiId: Swift.String? = nil,
         definition: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.definition = definition
     }
@@ -5229,8 +5066,7 @@ public struct StartSchemaCreationOutput: Swift.Sendable {
 
     public init(
         status: AppSyncClientTypes.SchemaStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -5246,8 +5082,7 @@ public struct StartSchemaMergeInput: Swift.Sendable {
     public init(
         associationId: Swift.String? = nil,
         mergedApiIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
         self.mergedApiIdentifier = mergedApiIdentifier
     }
@@ -5259,8 +5094,7 @@ public struct StartSchemaMergeOutput: Swift.Sendable {
 
     public init(
         sourceApiAssociationStatus: AppSyncClientTypes.SourceApiAssociationStatus? = nil
-    )
-    {
+    ) {
         self.sourceApiAssociationStatus = sourceApiAssociationStatus
     }
 }
@@ -5276,8 +5110,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -5299,8 +5132,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -5328,8 +5160,7 @@ public struct UpdateApiInput: Swift.Sendable {
         eventConfig: AppSyncClientTypes.EventConfig? = nil,
         name: Swift.String? = nil,
         ownerContact: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.eventConfig = eventConfig
         self.name = name
@@ -5343,8 +5174,7 @@ public struct UpdateApiOutput: Swift.Sendable {
 
     public init(
         api: AppSyncClientTypes.Api? = nil
-    )
-    {
+    ) {
         self.api = api
     }
 }
@@ -5416,8 +5246,7 @@ public struct UpdateApiCacheInput: Swift.Sendable {
         healthMetricsConfig: AppSyncClientTypes.CacheHealthMetricsConfig? = nil,
         ttl: Swift.Int? = 0,
         type: AppSyncClientTypes.ApiCacheType? = nil
-    )
-    {
+    ) {
         self.apiCachingBehavior = apiCachingBehavior
         self.apiId = apiId
         self.healthMetricsConfig = healthMetricsConfig
@@ -5433,8 +5262,7 @@ public struct UpdateApiCacheOutput: Swift.Sendable {
 
     public init(
         apiCache: AppSyncClientTypes.ApiCache? = nil
-    )
-    {
+    ) {
         self.apiCache = apiCache
     }
 }
@@ -5456,8 +5284,7 @@ public struct UpdateApiKeyInput: Swift.Sendable {
         description: Swift.String? = nil,
         expires: Swift.Int? = 0,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.description = description
         self.expires = expires
@@ -5471,8 +5298,7 @@ public struct UpdateApiKeyOutput: Swift.Sendable {
 
     public init(
         apiKey: AppSyncClientTypes.ApiKey? = nil
-    )
-    {
+    ) {
         self.apiKey = apiKey
     }
 }
@@ -5497,8 +5323,7 @@ public struct UpdateChannelNamespaceInput: Swift.Sendable {
         name: Swift.String? = nil,
         publishAuthModes: [AppSyncClientTypes.AuthMode]? = nil,
         subscribeAuthModes: [AppSyncClientTypes.AuthMode]? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.codeHandlers = codeHandlers
         self.name = name
@@ -5513,8 +5338,7 @@ public struct UpdateChannelNamespaceOutput: Swift.Sendable {
 
     public init(
         channelNamespace: AppSyncClientTypes.ChannelNamespace? = nil
-    )
-    {
+    ) {
         self.channelNamespace = channelNamespace
     }
 }
@@ -5564,8 +5388,7 @@ public struct UpdateDataSourceInput: Swift.Sendable {
         relationalDatabaseConfig: AppSyncClientTypes.RelationalDatabaseDataSourceConfig? = nil,
         serviceRoleArn: Swift.String? = nil,
         type: AppSyncClientTypes.DataSourceType? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.description = description
         self.dynamodbConfig = dynamodbConfig
@@ -5588,8 +5411,7 @@ public struct UpdateDataSourceOutput: Swift.Sendable {
 
     public init(
         dataSource: AppSyncClientTypes.DataSource? = nil
-    )
-    {
+    ) {
         self.dataSource = dataSource
     }
 }
@@ -5604,8 +5426,7 @@ public struct UpdateDomainNameInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         domainName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.domainName = domainName
     }
@@ -5617,8 +5438,7 @@ public struct UpdateDomainNameOutput: Swift.Sendable {
 
     public init(
         domainNameConfig: AppSyncClientTypes.DomainNameConfig? = nil
-    )
-    {
+    ) {
         self.domainNameConfig = domainNameConfig
     }
 }
@@ -5666,8 +5486,7 @@ public struct UpdateFunctionInput: Swift.Sendable {
         responseMappingTemplate: Swift.String? = nil,
         runtime: AppSyncClientTypes.AppSyncRuntime? = nil,
         syncConfig: AppSyncClientTypes.SyncConfig? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.code = code
         self.dataSourceName = dataSourceName
@@ -5689,8 +5508,7 @@ public struct UpdateFunctionOutput: Swift.Sendable {
 
     public init(
         functionConfiguration: AppSyncClientTypes.FunctionConfiguration? = nil
-    )
-    {
+    ) {
         self.functionConfiguration = functionConfiguration
     }
 }
@@ -5702,6 +5520,7 @@ public struct UpdateGraphqlApiInput: Swift.Sendable {
     /// This member is required.
     public var apiId: Swift.String?
     /// The new authentication type for the GraphqlApi object.
+    /// This member is required.
     public var authenticationType: AppSyncClientTypes.AuthenticationType?
     /// The enhancedMetricsConfig object.
     public var enhancedMetricsConfig: AppSyncClientTypes.EnhancedMetricsConfig?
@@ -5745,8 +5564,7 @@ public struct UpdateGraphqlApiInput: Swift.Sendable {
         resolverCountLimit: Swift.Int? = 0,
         userPoolConfig: AppSyncClientTypes.UserPoolConfig? = nil,
         xrayEnabled: Swift.Bool? = false
-    )
-    {
+    ) {
         self.additionalAuthenticationProviders = additionalAuthenticationProviders
         self.apiId = apiId
         self.authenticationType = authenticationType
@@ -5771,8 +5589,7 @@ public struct UpdateGraphqlApiOutput: Swift.Sendable {
 
     public init(
         graphqlApi: AppSyncClientTypes.GraphqlApi? = nil
-    )
-    {
+    ) {
         self.graphqlApi = graphqlApi
     }
 }
@@ -5829,8 +5646,7 @@ public struct UpdateResolverInput: Swift.Sendable {
         runtime: AppSyncClientTypes.AppSyncRuntime? = nil,
         syncConfig: AppSyncClientTypes.SyncConfig? = nil,
         typeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.cachingConfig = cachingConfig
         self.code = code
@@ -5854,8 +5670,7 @@ public struct UpdateResolverOutput: Swift.Sendable {
 
     public init(
         resolver: AppSyncClientTypes.Resolver? = nil
-    )
-    {
+    ) {
         self.resolver = resolver
     }
 }
@@ -5877,8 +5692,7 @@ public struct UpdateSourceApiAssociationInput: Swift.Sendable {
         description: Swift.String? = nil,
         mergedApiIdentifier: Swift.String? = nil,
         sourceApiAssociationConfig: AppSyncClientTypes.SourceApiAssociationConfig? = nil
-    )
-    {
+    ) {
         self.associationId = associationId
         self.description = description
         self.mergedApiIdentifier = mergedApiIdentifier
@@ -5892,8 +5706,7 @@ public struct UpdateSourceApiAssociationOutput: Swift.Sendable {
 
     public init(
         sourceApiAssociation: AppSyncClientTypes.SourceApiAssociation? = nil
-    )
-    {
+    ) {
         self.sourceApiAssociation = sourceApiAssociation
     }
 }
@@ -5916,8 +5729,7 @@ public struct UpdateTypeInput: Swift.Sendable {
         definition: Swift.String? = nil,
         format: AppSyncClientTypes.TypeDefinitionFormat? = nil,
         typeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiId = apiId
         self.definition = definition
         self.format = format
@@ -5931,8 +5743,7 @@ public struct UpdateTypeOutput: Swift.Sendable {
 
     public init(
         type: AppSyncClientTypes.ModelType? = nil
-    )
-    {
+    ) {
         self.type = type
     }
 }
@@ -5961,8 +5772,7 @@ extension AppSyncClientTypes {
             name: Swift.String? = nil,
             type: AppSyncClientTypes.DataSourceIntrospectionModelFieldType? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.kind = kind
             self.name = name
             self.type = type
@@ -5986,8 +5796,7 @@ extension AppSyncClientTypes {
             length: Swift.Int = 0,
             name: Swift.String? = nil,
             type: AppSyncClientTypes.DataSourceIntrospectionModelFieldType? = nil
-        )
-        {
+        ) {
             self.length = length
             self.name = name
             self.type = type
@@ -6016,8 +5825,7 @@ extension AppSyncClientTypes {
             name: Swift.String? = nil,
             primaryKey: AppSyncClientTypes.DataSourceIntrospectionModelIndex? = nil,
             sdl: Swift.String? = nil
-        )
-        {
+        ) {
             self.fields = fields
             self.indexes = indexes
             self.name = name
@@ -6039,8 +5847,7 @@ extension AppSyncClientTypes {
         public init(
             models: [AppSyncClientTypes.DataSourceIntrospectionModel]? = nil,
             nextToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.models = models
             self.nextToken = nextToken
         }
@@ -6062,8 +5869,7 @@ public struct GetDataSourceIntrospectionOutput: Swift.Sendable {
         introspectionResult: AppSyncClientTypes.DataSourceIntrospectionResult? = nil,
         introspectionStatus: AppSyncClientTypes.DataSourceIntrospectionStatus? = nil,
         introspectionStatusDetail: Swift.String? = nil
-    )
-    {
+    ) {
         self.introspectionId = introspectionId
         self.introspectionResult = introspectionResult
         self.introspectionStatus = introspectionStatus

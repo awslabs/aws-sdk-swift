@@ -80,8 +80,7 @@ extension WAFV2ClientTypes {
 
         public init(
             action: WAFV2ClientTypes.ActionValue? = nil
-        )
-        {
+        ) {
             self.action = action
         }
     }
@@ -101,8 +100,7 @@ extension WAFV2ClientTypes {
 
         public init(
             identifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.identifier = identifier
         }
     }
@@ -131,8 +129,7 @@ extension WAFV2ClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -149,8 +146,7 @@ extension WAFV2ClientTypes {
 
         public init(
             insertHeaders: [WAFV2ClientTypes.CustomHTTPHeader]? = nil
-        )
-        {
+        ) {
             self.insertHeaders = insertHeaders
         }
     }
@@ -165,8 +161,7 @@ extension WAFV2ClientTypes {
 
         public init(
             customRequestHandling: WAFV2ClientTypes.CustomRequestHandling? = nil
-        )
-        {
+        ) {
             self.customRequestHandling = customRequestHandling
         }
     }
@@ -238,8 +233,7 @@ extension WAFV2ClientTypes {
 
         public init(
             oversizeHandling: WAFV2ClientTypes.OversizeHandling? = nil
-        )
-        {
+        ) {
             self.oversizeHandling = oversizeHandling
         }
     }
@@ -260,8 +254,7 @@ extension WAFV2ClientTypes {
             all: WAFV2ClientTypes.All? = nil,
             excludedCookies: [Swift.String]? = nil,
             includedCookies: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.all = all
             self.excludedCookies = excludedCookies
             self.includedCookies = includedCookies
@@ -325,8 +318,7 @@ extension WAFV2ClientTypes {
             matchPattern: WAFV2ClientTypes.CookieMatchPattern? = nil,
             matchScope: WAFV2ClientTypes.MapMatchScope? = nil,
             oversizeHandling: WAFV2ClientTypes.OversizeHandling? = nil
-        )
-        {
+        ) {
             self.matchPattern = matchPattern
             self.matchScope = matchScope
             self.oversizeHandling = oversizeHandling
@@ -350,8 +342,7 @@ extension WAFV2ClientTypes {
 
         public init(
             oversizeHandling: WAFV2ClientTypes.OversizeHandling? = nil
-        )
-        {
+        ) {
             self.oversizeHandling = oversizeHandling
         }
     }
@@ -372,8 +363,7 @@ extension WAFV2ClientTypes {
             all: WAFV2ClientTypes.All? = nil,
             excludedHeaders: [Swift.String]? = nil,
             includedHeaders: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.all = all
             self.excludedHeaders = excludedHeaders
             self.includedHeaders = includedHeaders
@@ -405,8 +395,7 @@ extension WAFV2ClientTypes {
             matchPattern: WAFV2ClientTypes.HeaderMatchPattern? = nil,
             matchScope: WAFV2ClientTypes.MapMatchScope? = nil,
             oversizeHandling: WAFV2ClientTypes.OversizeHandling? = nil
-        )
-        {
+        ) {
             self.matchPattern = matchPattern
             self.matchScope = matchScope
             self.oversizeHandling = oversizeHandling
@@ -457,8 +446,7 @@ extension WAFV2ClientTypes {
 
         public init(
             fallbackBehavior: WAFV2ClientTypes.FallbackBehavior? = nil
-        )
-        {
+        ) {
             self.fallbackBehavior = fallbackBehavior
         }
     }
@@ -508,8 +496,7 @@ extension WAFV2ClientTypes {
         public init(
             all: WAFV2ClientTypes.All? = nil,
             includedPaths: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.all = all
             self.includedPaths = includedPaths
         }
@@ -593,8 +580,7 @@ extension WAFV2ClientTypes {
             matchPattern: WAFV2ClientTypes.JsonMatchPattern? = nil,
             matchScope: WAFV2ClientTypes.JsonMatchScope? = nil,
             oversizeHandling: WAFV2ClientTypes.OversizeHandling? = nil
-        )
-        {
+        ) {
             self.invalidFallbackBehavior = invalidFallbackBehavior
             self.matchPattern = matchPattern
             self.matchScope = matchScope
@@ -631,8 +617,7 @@ extension WAFV2ClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -648,8 +633,7 @@ extension WAFV2ClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -730,8 +714,7 @@ extension WAFV2ClientTypes {
             singleHeader: WAFV2ClientTypes.SingleHeader? = nil,
             singleQueryArgument: WAFV2ClientTypes.SingleQueryArgument? = nil,
             uriPath: WAFV2ClientTypes.UriPath? = nil
-        )
-        {
+        ) {
             self.allQueryArguments = allQueryArguments
             self.body = body
             self.cookies = cookies
@@ -886,8 +869,7 @@ extension WAFV2ClientTypes {
         public init(
             priority: Swift.Int = 0,
             type: WAFV2ClientTypes.TextTransformationType? = nil
-        )
-        {
+        ) {
             self.priority = priority
             self.type = type
         }
@@ -934,8 +916,7 @@ extension WAFV2ClientTypes {
             positionalConstraint: WAFV2ClientTypes.PositionalConstraint? = nil,
             searchString: Foundation.Data? = nil,
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
-        )
-        {
+        ) {
             self.fieldToMatch = fieldToMatch
             self.positionalConstraint = positionalConstraint
             self.searchString = searchString
@@ -1735,8 +1716,7 @@ extension WAFV2ClientTypes {
         public init(
             fallbackBehavior: WAFV2ClientTypes.FallbackBehavior? = nil,
             headerName: Swift.String? = nil
-        )
-        {
+        ) {
             self.fallbackBehavior = fallbackBehavior
             self.headerName = headerName
         }
@@ -1762,8 +1742,7 @@ extension WAFV2ClientTypes {
         public init(
             countryCodes: [WAFV2ClientTypes.CountryCode]? = nil,
             forwardedIPConfig: WAFV2ClientTypes.ForwardedIPConfig? = nil
-        )
-        {
+        ) {
             self.countryCodes = countryCodes
             self.forwardedIPConfig = forwardedIPConfig
         }
@@ -1830,8 +1809,7 @@ extension WAFV2ClientTypes {
             fallbackBehavior: WAFV2ClientTypes.FallbackBehavior? = nil,
             headerName: Swift.String? = nil,
             position: WAFV2ClientTypes.ForwardedIPPosition? = nil
-        )
-        {
+        ) {
             self.fallbackBehavior = fallbackBehavior
             self.headerName = headerName
             self.position = position
@@ -1852,8 +1830,7 @@ extension WAFV2ClientTypes {
         public init(
             arn: Swift.String? = nil,
             ipSetForwardedIPConfig: WAFV2ClientTypes.IPSetForwardedIPConfig? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.ipSetForwardedIPConfig = ipSetForwardedIPConfig
         }
@@ -1910,8 +1887,7 @@ extension WAFV2ClientTypes {
         public init(
             key: Swift.String? = nil,
             scope: WAFV2ClientTypes.LabelMatchScope? = nil
-        )
-        {
+        ) {
             self.key = key
             self.scope = scope
         }
@@ -1928,8 +1904,7 @@ extension WAFV2ClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -1949,8 +1924,7 @@ extension WAFV2ClientTypes {
 
         public init(
             identifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.identifier = identifier
         }
     }
@@ -1970,8 +1944,7 @@ extension WAFV2ClientTypes {
 
         public init(
             identifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.identifier = identifier
         }
     }
@@ -2020,8 +1993,7 @@ extension WAFV2ClientTypes {
 
         public init(
             identifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.identifier = identifier
         }
     }
@@ -2041,8 +2013,7 @@ extension WAFV2ClientTypes {
 
         public init(
             identifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.identifier = identifier
         }
     }
@@ -2093,8 +2064,7 @@ extension WAFV2ClientTypes {
             payloadType: WAFV2ClientTypes.PayloadType? = nil,
             phoneNumberFields: [WAFV2ClientTypes.PhoneNumberField]? = nil,
             usernameField: WAFV2ClientTypes.UsernameField? = nil
-        )
-        {
+        ) {
             self.addressFields = addressFields
             self.emailField = emailField
             self.passwordField = passwordField
@@ -2119,8 +2089,7 @@ extension WAFV2ClientTypes {
         public init(
             failureStrings: [Swift.String]? = nil,
             successStrings: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.failureStrings = failureStrings
             self.successStrings = successStrings
         }
@@ -2145,8 +2114,7 @@ extension WAFV2ClientTypes {
             failureValues: [Swift.String]? = nil,
             name: Swift.String? = nil,
             successValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.failureValues = failureValues
             self.name = name
             self.successValues = successValues
@@ -2172,8 +2140,7 @@ extension WAFV2ClientTypes {
             failureValues: [Swift.String]? = nil,
             identifier: Swift.String? = nil,
             successValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.failureValues = failureValues
             self.identifier = identifier
             self.successValues = successValues
@@ -2195,8 +2162,7 @@ extension WAFV2ClientTypes {
         public init(
             failureCodes: [Swift.Int]? = nil,
             successCodes: [Swift.Int]? = nil
-        )
-        {
+        ) {
             self.failureCodes = failureCodes
             self.successCodes = successCodes
         }
@@ -2221,8 +2187,7 @@ extension WAFV2ClientTypes {
             header: WAFV2ClientTypes.ResponseInspectionHeader? = nil,
             json: WAFV2ClientTypes.ResponseInspectionJson? = nil,
             statusCode: WAFV2ClientTypes.ResponseInspectionStatusCode? = nil
-        )
-        {
+        ) {
             self.bodyContains = bodyContains
             self.header = header
             self.json = json
@@ -2255,8 +2220,7 @@ extension WAFV2ClientTypes {
             registrationPagePath: Swift.String? = nil,
             requestInspection: WAFV2ClientTypes.RequestInspectionACFP? = nil,
             responseInspection: WAFV2ClientTypes.ResponseInspection? = nil
-        )
-        {
+        ) {
             self.creationPath = creationPath
             self.enableRegexInPath = enableRegexInPath
             self.registrationPagePath = registrationPagePath
@@ -2292,8 +2256,7 @@ extension WAFV2ClientTypes {
             passwordField: WAFV2ClientTypes.PasswordField? = nil,
             payloadType: WAFV2ClientTypes.PayloadType? = nil,
             usernameField: WAFV2ClientTypes.UsernameField? = nil
-        )
-        {
+        ) {
             self.passwordField = passwordField
             self.payloadType = payloadType
             self.usernameField = usernameField
@@ -2320,8 +2283,7 @@ extension WAFV2ClientTypes {
             loginPath: Swift.String? = nil,
             requestInspection: WAFV2ClientTypes.RequestInspection? = nil,
             responseInspection: WAFV2ClientTypes.ResponseInspection? = nil
-        )
-        {
+        ) {
             self.enableRegexInPath = enableRegexInPath
             self.loginPath = loginPath
             self.requestInspection = requestInspection
@@ -2372,8 +2334,7 @@ extension WAFV2ClientTypes {
         public init(
             enableMachineLearning: Swift.Bool? = true,
             inspectionLevel: WAFV2ClientTypes.InspectionLevel? = nil
-        )
-        {
+        ) {
             self.enableMachineLearning = enableMachineLearning
             self.inspectionLevel = inspectionLevel
         }
@@ -2420,8 +2381,7 @@ extension WAFV2ClientTypes {
             passwordField: WAFV2ClientTypes.PasswordField? = nil,
             payloadType: WAFV2ClientTypes.PayloadType? = nil,
             usernameField: WAFV2ClientTypes.UsernameField? = nil
-        )
-        {
+        ) {
             self.awsManagedRulesACFPRuleSet = awsManagedRulesACFPRuleSet
             self.awsManagedRulesATPRuleSet = awsManagedRulesATPRuleSet
             self.awsManagedRulesBotControlRuleSet = awsManagedRulesBotControlRuleSet
@@ -2449,8 +2409,7 @@ extension WAFV2ClientTypes {
             customResponseBodyKey: Swift.String? = nil,
             responseCode: Swift.Int? = nil,
             responseHeaders: [WAFV2ClientTypes.CustomHTTPHeader]? = nil
-        )
-        {
+        ) {
             self.customResponseBodyKey = customResponseBodyKey
             self.responseCode = responseCode
             self.responseHeaders = responseHeaders
@@ -2467,8 +2426,7 @@ extension WAFV2ClientTypes {
 
         public init(
             customResponse: WAFV2ClientTypes.CustomResponse? = nil
-        )
-        {
+        ) {
             self.customResponse = customResponse
         }
     }
@@ -2499,8 +2457,7 @@ extension WAFV2ClientTypes {
 
         public init(
             customRequestHandling: WAFV2ClientTypes.CustomRequestHandling? = nil
-        )
-        {
+        ) {
             self.customRequestHandling = customRequestHandling
         }
     }
@@ -2531,8 +2488,7 @@ extension WAFV2ClientTypes {
 
         public init(
             customRequestHandling: WAFV2ClientTypes.CustomRequestHandling? = nil
-        )
-        {
+        ) {
             self.customRequestHandling = customRequestHandling
         }
     }
@@ -2547,8 +2503,7 @@ extension WAFV2ClientTypes {
 
         public init(
             customRequestHandling: WAFV2ClientTypes.CustomRequestHandling? = nil
-        )
-        {
+        ) {
             self.customRequestHandling = customRequestHandling
         }
     }
@@ -2575,8 +2530,7 @@ extension WAFV2ClientTypes {
             captcha: WAFV2ClientTypes.CaptchaAction? = nil,
             challenge: WAFV2ClientTypes.ChallengeAction? = nil,
             count: WAFV2ClientTypes.CountAction? = nil
-        )
-        {
+        ) {
             self.allow = allow
             self.block = block
             self.captcha = captcha
@@ -2600,8 +2554,7 @@ extension WAFV2ClientTypes {
         public init(
             actionToUse: WAFV2ClientTypes.RuleAction? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionToUse = actionToUse
             self.name = name
         }
@@ -2657,8 +2610,7 @@ extension WAFV2ClientTypes {
         public init(
             name: Swift.String? = nil,
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.textTransformations = textTransformations
         }
@@ -2688,8 +2640,7 @@ extension WAFV2ClientTypes {
         public init(
             name: Swift.String? = nil,
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.textTransformations = textTransformations
         }
@@ -2724,8 +2675,7 @@ extension WAFV2ClientTypes {
 
         public init(
             namespace: Swift.String? = nil
-        )
-        {
+        ) {
             self.namespace = namespace
         }
     }
@@ -2745,8 +2695,7 @@ extension WAFV2ClientTypes {
         public init(
             name: Swift.String? = nil,
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.textTransformations = textTransformations
         }
@@ -2763,8 +2712,7 @@ extension WAFV2ClientTypes {
 
         public init(
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
-        )
-        {
+        ) {
             self.textTransformations = textTransformations
         }
     }
@@ -2780,8 +2728,7 @@ extension WAFV2ClientTypes {
 
         public init(
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
-        )
-        {
+        ) {
             self.textTransformations = textTransformations
         }
     }
@@ -2820,8 +2767,7 @@ extension WAFV2ClientTypes {
             queryArgument: WAFV2ClientTypes.RateLimitQueryArgument? = nil,
             queryString: WAFV2ClientTypes.RateLimitQueryString? = nil,
             uriPath: WAFV2ClientTypes.RateLimitUriPath? = nil
-        )
-        {
+        ) {
             self.cookie = cookie
             self.forwardedIP = forwardedIP
             self.header = header
@@ -2853,8 +2799,7 @@ extension WAFV2ClientTypes {
             fieldToMatch: WAFV2ClientTypes.FieldToMatch? = nil,
             regexString: Swift.String? = nil,
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
-        )
-        {
+        ) {
             self.fieldToMatch = fieldToMatch
             self.regexString = regexString
             self.textTransformations = textTransformations
@@ -2880,8 +2825,7 @@ extension WAFV2ClientTypes {
             arn: Swift.String? = nil,
             fieldToMatch: WAFV2ClientTypes.FieldToMatch? = nil,
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.fieldToMatch = fieldToMatch
             self.textTransformations = textTransformations
@@ -2905,8 +2849,7 @@ extension WAFV2ClientTypes {
             arn: Swift.String? = nil,
             excludedRules: [WAFV2ClientTypes.ExcludedRule]? = nil,
             ruleActionOverrides: [WAFV2ClientTypes.RuleActionOverride]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.excludedRules = excludedRules
             self.ruleActionOverrides = ruleActionOverrides
@@ -2977,8 +2920,7 @@ extension WAFV2ClientTypes {
             fieldToMatch: WAFV2ClientTypes.FieldToMatch? = nil,
             size: Swift.Int = 0,
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
-        )
-        {
+        ) {
             self.comparisonOperator = comparisonOperator
             self.fieldToMatch = fieldToMatch
             self.size = size
@@ -3033,8 +2975,7 @@ extension WAFV2ClientTypes {
             fieldToMatch: WAFV2ClientTypes.FieldToMatch? = nil,
             sensitivityLevel: WAFV2ClientTypes.SensitivityLevel? = nil,
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
-        )
-        {
+        ) {
             self.fieldToMatch = fieldToMatch
             self.sensitivityLevel = sensitivityLevel
             self.textTransformations = textTransformations
@@ -3056,8 +2997,7 @@ extension WAFV2ClientTypes {
         public init(
             fieldToMatch: WAFV2ClientTypes.FieldToMatch? = nil,
             textTransformations: [WAFV2ClientTypes.TextTransformation]? = nil
-        )
-        {
+        ) {
             self.fieldToMatch = fieldToMatch
             self.textTransformations = textTransformations
         }
@@ -3082,8 +3022,7 @@ extension WAFV2ClientTypes {
             creationTimestamp: Foundation.Date? = nil,
             tokenDomains: [Swift.String]? = nil,
             version: Swift.Int = 0
-        )
-        {
+        ) {
             self.apiKey = apiKey
             self.creationTimestamp = creationTimestamp
             self.tokenDomains = tokenDomains
@@ -3131,9 +3070,9 @@ extension WAFV2ClientTypes {
 }
 
 /// Your request is valid, but WAF couldn’t perform the operation because of a system problem. Retry your request.
-public struct WAFInternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFInternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3148,16 +3087,15 @@ public struct WAFInternalErrorException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation isn't valid.
-public struct WAFInvalidOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFInvalidOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3172,8 +3110,7 @@ public struct WAFInvalidOperationException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3420,9 +3357,9 @@ extension WAFV2ClientTypes {
 /// * You tried to update a WebACL with a DefaultAction that isn't among the types available at [DefaultAction].
 ///
 /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
-public struct WAFInvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFInvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The settings where the invalid parameter was found.
         public internal(set) var field: WAFV2ClientTypes.ParameterExceptionField? = nil
         public internal(set) var message: Swift.String? = nil
@@ -3446,8 +3383,7 @@ public struct WAFInvalidParameterException: ClientRuntime.ModeledError, AWSClien
         message: Swift.String? = nil,
         parameter: Swift.String? = nil,
         reason: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.field = field
         self.properties.message = message
         self.properties.parameter = parameter
@@ -3456,9 +3392,9 @@ public struct WAFInvalidParameterException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
-public struct WAFNonexistentItemException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFNonexistentItemException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3473,16 +3409,15 @@ public struct WAFNonexistentItemException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resources that you are specifying in your request parameters and then retry the operation.
-public struct WAFUnavailableEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFUnavailableEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3497,8 +3432,7 @@ public struct WAFUnavailableEntityException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3526,8 +3460,7 @@ public struct AssociateWebACLInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         webACLArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.webACLArn = webACLArn
     }
@@ -3583,8 +3516,7 @@ extension WAFV2ClientTypes {
 
         public init(
             defaultSizeInspectionLimit: WAFV2ClientTypes.SizeInspectionLimit? = nil
-        )
-        {
+        ) {
             self.defaultSizeInspectionLimit = defaultSizeInspectionLimit
         }
     }
@@ -3599,17 +3531,16 @@ extension WAFV2ClientTypes {
 
         public init(
             requestBody: [Swift.String: WAFV2ClientTypes.RequestBodyAssociatedResourceTypeConfig]? = nil
-        )
-        {
+        ) {
             self.requestBody = requestBody
         }
     }
 }
 
 /// The operation failed because the specified version for the managed rule group has expired. You can retrieve the available versions for the managed rule group by calling [ListAvailableManagedRuleGroupVersions].
-public struct WAFExpiredManagedRuleGroupVersionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFExpiredManagedRuleGroupVersionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3624,16 +3555,15 @@ public struct WAFExpiredManagedRuleGroupVersionException: ClientRuntime.ModeledE
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// WAF couldn’t perform the operation because the resource that you requested isn’t valid. Check the resource, and try again.
-public struct WAFInvalidResourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFInvalidResourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3648,16 +3578,15 @@ public struct WAFInvalidResourceException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// WAF couldn’t perform the operation because you exceeded your resource limit. For example, the maximum number of WebACL objects that you can create for an Amazon Web Services account. For more information, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
-public struct WAFLimitsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFLimitsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// Source type for the exception.
         public internal(set) var sourceType: Swift.String? = nil
@@ -3675,17 +3604,16 @@ public struct WAFLimitsExceededException: ClientRuntime.ModeledError, AWSClientR
     public init(
         message: Swift.String? = nil,
         sourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.sourceType = sourceType
     }
 }
 
 /// You tried to use a managed rule group that's available by subscription, but you aren't subscribed to it yet.
-public struct WAFSubscriptionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFSubscriptionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3700,8 +3628,7 @@ public struct WAFSubscriptionNotFoundException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3716,8 +3643,7 @@ extension WAFV2ClientTypes {
 
         public init(
             immunityTime: Swift.Int? = nil
-        )
-        {
+        ) {
             self.immunityTime = immunityTime
         }
     }
@@ -3732,8 +3658,7 @@ extension WAFV2ClientTypes {
 
         public init(
             immunityTimeProperty: WAFV2ClientTypes.ImmunityTimeProperty? = nil
-        )
-        {
+        ) {
             self.immunityTimeProperty = immunityTimeProperty
         }
     }
@@ -3748,8 +3673,7 @@ extension WAFV2ClientTypes {
 
         public init(
             immunityTimeProperty: WAFV2ClientTypes.ImmunityTimeProperty? = nil
-        )
-        {
+        ) {
             self.immunityTimeProperty = immunityTimeProperty
         }
     }
@@ -3776,8 +3700,7 @@ extension WAFV2ClientTypes {
         public init(
             count: WAFV2ClientTypes.CountAction? = nil,
             `none`: WAFV2ClientTypes.NoneAction? = nil
-        )
-        {
+        ) {
             self.count = count
             self.`none` = `none`
         }
@@ -3794,8 +3717,7 @@ extension WAFV2ClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -3819,8 +3741,7 @@ extension WAFV2ClientTypes {
             cloudWatchMetricsEnabled: Swift.Bool = false,
             metricName: Swift.String? = nil,
             sampledRequestsEnabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
             self.metricName = metricName
             self.sampledRequestsEnabled = sampledRequestsEnabled
@@ -3863,8 +3784,7 @@ public struct CheckCapacityOutput: Swift.Sendable {
 
     public init(
         capacity: Swift.Int = 0
-    )
-    {
+    ) {
         self.capacity = capacity
     }
 }
@@ -3884,8 +3804,7 @@ public struct CreateAPIKeyInput: Swift.Sendable {
     public init(
         scope: WAFV2ClientTypes.Scope? = nil,
         tokenDomains: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.scope = scope
         self.tokenDomains = tokenDomains
     }
@@ -3897,16 +3816,15 @@ public struct CreateAPIKeyOutput: Swift.Sendable {
 
     public init(
         apiKey: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiKey = apiKey
     }
 }
 
 /// WAF couldn’t perform the operation because the resource that you tried to save is a duplicate of an existing one.
-public struct WAFDuplicateItemException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFDuplicateItemException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3921,16 +3839,15 @@ public struct WAFDuplicateItemException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// WAF couldn’t save your changes because you tried to update or delete a resource that has changed since you last retrieved it. Get the resource again, make any changes you need to make to the new copy, and retry your operation.
-public struct WAFOptimisticLockException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFOptimisticLockException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3945,16 +3862,15 @@ public struct WAFOptimisticLockException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An error occurred during the tagging operation. Retry your request.
-public struct WAFTagOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFTagOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3969,16 +3885,15 @@ public struct WAFTagOperationException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
-public struct WAFTagOperationInternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFTagOperationInternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3993,8 +3908,7 @@ public struct WAFTagOperationInternalErrorException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4042,8 +3956,7 @@ extension WAFV2ClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -4098,8 +4011,7 @@ public struct CreateIPSetInput: Swift.Sendable {
         name: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil,
         tags: [WAFV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.addresses = addresses
         self.description = description
         self.ipAddressVersion = ipAddressVersion
@@ -4130,8 +4042,7 @@ extension WAFV2ClientTypes {
             id: Swift.String? = nil,
             lockToken: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.id = id
@@ -4147,8 +4058,7 @@ public struct CreateIPSetOutput: Swift.Sendable {
 
     public init(
         summary: WAFV2ClientTypes.IPSetSummary? = nil
-    )
-    {
+    ) {
         self.summary = summary
     }
 }
@@ -4162,8 +4072,7 @@ extension WAFV2ClientTypes {
 
         public init(
             regexString: Swift.String? = nil
-        )
-        {
+        ) {
             self.regexString = regexString
         }
     }
@@ -4194,8 +4103,7 @@ public struct CreateRegexPatternSetInput: Swift.Sendable {
         regularExpressionList: [WAFV2ClientTypes.Regex]? = nil,
         scope: WAFV2ClientTypes.Scope? = nil,
         tags: [WAFV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.regularExpressionList = regularExpressionList
@@ -4225,8 +4133,7 @@ extension WAFV2ClientTypes {
             id: Swift.String? = nil,
             lockToken: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.id = id
@@ -4242,8 +4149,7 @@ public struct CreateRegexPatternSetOutput: Swift.Sendable {
 
     public init(
         summary: WAFV2ClientTypes.RegexPatternSetSummary? = nil
-    )
-    {
+    ) {
         self.summary = summary
     }
 }
@@ -4294,8 +4200,7 @@ extension WAFV2ClientTypes {
         public init(
             content: Swift.String? = nil,
             contentType: WAFV2ClientTypes.ResponseContentType? = nil
-        )
-        {
+        ) {
             self.content = content
             self.contentType = contentType
         }
@@ -4323,8 +4228,7 @@ extension WAFV2ClientTypes {
             id: Swift.String? = nil,
             lockToken: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.id = id
@@ -4340,16 +4244,15 @@ public struct CreateRuleGroupOutput: Swift.Sendable {
 
     public init(
         summary: WAFV2ClientTypes.RuleGroupSummary? = nil
-    )
-    {
+    ) {
         self.summary = summary
     }
 }
 
 /// The operation failed because you are inspecting the web request body, headers, or cookies without specifying how to handle oversize components. Rules that inspect the body must either provide an OversizeHandling configuration or they must be preceded by a SizeConstraintStatement that blocks the body content from being too large. Rules that inspect the headers or cookies must provide an OversizeHandling configuration. Provide the handling configuration and retry your operation. Alternately, you can suppress this warning by adding the following tag to the resource that you provide to this operation: Tag (key:WAF:OversizeFieldsHandlingConstraintOptOut, value:true).
-public struct WAFConfigurationWarningException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFConfigurationWarningException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4364,8 +4267,7 @@ public struct WAFConfigurationWarningException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4382,8 +4284,7 @@ extension WAFV2ClientTypes {
         public init(
             allow: WAFV2ClientTypes.AllowAction? = nil,
             block: WAFV2ClientTypes.BlockAction? = nil
-        )
-        {
+        ) {
             self.allow = allow
             self.block = block
         }
@@ -4411,8 +4312,7 @@ extension WAFV2ClientTypes {
             id: Swift.String? = nil,
             lockToken: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.id = id
@@ -4428,8 +4328,7 @@ public struct CreateWebACLOutput: Swift.Sendable {
 
     public init(
         summary: WAFV2ClientTypes.WebACLSummary? = nil
-    )
-    {
+    ) {
         self.summary = summary
     }
 }
@@ -4449,8 +4348,7 @@ public struct DeleteAPIKeyInput: Swift.Sendable {
     public init(
         apiKey: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.apiKey = apiKey
         self.scope = scope
     }
@@ -4472,8 +4370,7 @@ public struct DeleteFirewallManagerRuleGroupsInput: Swift.Sendable {
     public init(
         webACLArn: Swift.String? = nil,
         webACLLockToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.webACLArn = webACLArn
         self.webACLLockToken = webACLLockToken
     }
@@ -4485,16 +4382,15 @@ public struct DeleteFirewallManagerRuleGroupsOutput: Swift.Sendable {
 
     public init(
         nextWebACLLockToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextWebACLLockToken = nextWebACLLockToken
     }
 }
 
 /// WAF couldn’t perform the operation because your resource is being used by another resource or it’s associated with another resource.
-public struct WAFAssociatedItemException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFAssociatedItemException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4509,8 +4405,7 @@ public struct WAFAssociatedItemException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4538,8 +4433,7 @@ public struct DeleteIPSetInput: Swift.Sendable {
         lockToken: Swift.String? = nil,
         name: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.id = id
         self.lockToken = lockToken
         self.name = name
@@ -4620,8 +4514,7 @@ public struct DeleteLoggingConfigurationInput: Swift.Sendable {
         logScope: WAFV2ClientTypes.LogScope? = nil,
         logType: WAFV2ClientTypes.LogType? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.logScope = logScope
         self.logType = logType
         self.resourceArn = resourceArn
@@ -4640,8 +4533,7 @@ public struct DeletePermissionPolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -4674,8 +4566,7 @@ public struct DeleteRegexPatternSetInput: Swift.Sendable {
         lockToken: Swift.String? = nil,
         name: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.id = id
         self.lockToken = lockToken
         self.name = name
@@ -4711,8 +4602,7 @@ public struct DeleteRuleGroupInput: Swift.Sendable {
         lockToken: Swift.String? = nil,
         name: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.id = id
         self.lockToken = lockToken
         self.name = name
@@ -4748,8 +4638,7 @@ public struct DeleteWebACLInput: Swift.Sendable {
         lockToken: Swift.String? = nil,
         name: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.id = id
         self.lockToken = lockToken
         self.name = name
@@ -4773,8 +4662,7 @@ public struct DescribeAllManagedProductsInput: Swift.Sendable {
 
     public init(
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.scope = scope
     }
 }
@@ -4812,8 +4700,7 @@ extension WAFV2ClientTypes {
             productTitle: Swift.String? = nil,
             snsTopicArn: Swift.String? = nil,
             vendorName: Swift.String? = nil
-        )
-        {
+        ) {
             self.isAdvancedManagedRuleSet = isAdvancedManagedRuleSet
             self.isVersioningSupported = isVersioningSupported
             self.managedRuleSetName = managedRuleSetName
@@ -4833,8 +4720,7 @@ public struct DescribeAllManagedProductsOutput: Swift.Sendable {
 
     public init(
         managedProducts: [WAFV2ClientTypes.ManagedProductDescriptor]? = nil
-    )
-    {
+    ) {
         self.managedProducts = managedProducts
     }
 }
@@ -4854,8 +4740,7 @@ public struct DescribeManagedProductsByVendorInput: Swift.Sendable {
     public init(
         scope: WAFV2ClientTypes.Scope? = nil,
         vendorName: Swift.String? = nil
-    )
-    {
+    ) {
         self.scope = scope
         self.vendorName = vendorName
     }
@@ -4867,8 +4752,7 @@ public struct DescribeManagedProductsByVendorOutput: Swift.Sendable {
 
     public init(
         managedProducts: [WAFV2ClientTypes.ManagedProductDescriptor]? = nil
-    )
-    {
+    ) {
         self.managedProducts = managedProducts
     }
 }
@@ -4895,8 +4779,7 @@ public struct DescribeManagedRuleGroupInput: Swift.Sendable {
         scope: WAFV2ClientTypes.Scope? = nil,
         vendorName: Swift.String? = nil,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.scope = scope
         self.vendorName = vendorName
@@ -4917,8 +4800,7 @@ extension WAFV2ClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -4936,8 +4818,7 @@ extension WAFV2ClientTypes {
         public init(
             action: WAFV2ClientTypes.RuleAction? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.name = name
         }
@@ -4972,8 +4853,7 @@ public struct DescribeManagedRuleGroupOutput: Swift.Sendable {
         rules: [WAFV2ClientTypes.RuleSummary]? = nil,
         snsTopicArn: Swift.String? = nil,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.availableLabels = availableLabels
         self.capacity = capacity
         self.consumedLabels = consumedLabels
@@ -5003,8 +4883,7 @@ public struct DisassociateWebACLInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -5054,8 +4933,7 @@ public struct GenerateMobileSdkReleaseUrlInput: Swift.Sendable {
     public init(
         platform: WAFV2ClientTypes.Platform? = nil,
         releaseVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.platform = platform
         self.releaseVersion = releaseVersion
     }
@@ -5067,8 +4945,7 @@ public struct GenerateMobileSdkReleaseUrlOutput: Swift.Sendable {
 
     public init(
         url: Swift.String? = nil
-    )
-    {
+    ) {
         self.url = url
     }
 }
@@ -5088,8 +4965,7 @@ public struct GetDecryptedAPIKeyInput: Swift.Sendable {
     public init(
         apiKey: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.apiKey = apiKey
         self.scope = scope
     }
@@ -5104,8 +4980,7 @@ public struct GetDecryptedAPIKeyOutput: Swift.Sendable {
     public init(
         creationTimestamp: Foundation.Date? = nil,
         tokenDomains: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.creationTimestamp = creationTimestamp
         self.tokenDomains = tokenDomains
     }
@@ -5130,8 +5005,7 @@ public struct GetIPSetInput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.id = id
         self.name = name
         self.scope = scope
@@ -5186,8 +5060,7 @@ extension WAFV2ClientTypes {
             id: Swift.String? = nil,
             ipAddressVersion: WAFV2ClientTypes.IPAddressVersion? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.addresses = addresses
             self.arn = arn
             self.description = description
@@ -5207,8 +5080,7 @@ public struct GetIPSetOutput: Swift.Sendable {
     public init(
         ipSet: WAFV2ClientTypes.IPSet? = nil,
         lockToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.ipSet = ipSet
         self.lockToken = lockToken
     }
@@ -5227,8 +5099,7 @@ public struct GetLoggingConfigurationInput: Swift.Sendable {
         logScope: WAFV2ClientTypes.LogScope? = nil,
         logType: WAFV2ClientTypes.LogType? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.logScope = logScope
         self.logType = logType
         self.resourceArn = resourceArn
@@ -5274,8 +5145,7 @@ extension WAFV2ClientTypes {
 
         public init(
             labelName: Swift.String? = nil
-        )
-        {
+        ) {
             self.labelName = labelName
         }
     }
@@ -5293,8 +5163,7 @@ extension WAFV2ClientTypes {
         public init(
             actionCondition: WAFV2ClientTypes.ActionCondition? = nil,
             labelNameCondition: WAFV2ClientTypes.LabelNameCondition? = nil
-        )
-        {
+        ) {
             self.actionCondition = actionCondition
             self.labelNameCondition = labelNameCondition
         }
@@ -5348,8 +5217,7 @@ extension WAFV2ClientTypes {
             behavior: WAFV2ClientTypes.FilterBehavior? = nil,
             conditions: [WAFV2ClientTypes.Condition]? = nil,
             requirement: WAFV2ClientTypes.FilterRequirement? = nil
-        )
-        {
+        ) {
             self.behavior = behavior
             self.conditions = conditions
             self.requirement = requirement
@@ -5371,8 +5239,7 @@ extension WAFV2ClientTypes {
         public init(
             defaultBehavior: WAFV2ClientTypes.FilterBehavior? = nil,
             filters: [WAFV2ClientTypes.Filter]? = nil
-        )
-        {
+        ) {
             self.defaultBehavior = defaultBehavior
             self.filters = filters
         }
@@ -5415,8 +5282,7 @@ extension WAFV2ClientTypes {
             managedByFirewallManager: Swift.Bool = false,
             redactedFields: [WAFV2ClientTypes.FieldToMatch]? = nil,
             resourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.logDestinationConfigs = logDestinationConfigs
             self.logScope = logScope
             self.logType = logType
@@ -5434,8 +5300,7 @@ public struct GetLoggingConfigurationOutput: Swift.Sendable {
 
     public init(
         loggingConfiguration: WAFV2ClientTypes.LoggingConfiguration? = nil
-    )
-    {
+    ) {
         self.loggingConfiguration = loggingConfiguration
     }
 }
@@ -5459,8 +5324,7 @@ public struct GetManagedRuleSetInput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.id = id
         self.name = name
         self.scope = scope
@@ -5491,8 +5355,7 @@ extension WAFV2ClientTypes {
             forecastedLifetime: Swift.Int? = nil,
             lastUpdateTimestamp: Foundation.Date? = nil,
             publishTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.associatedRuleGroupArn = associatedRuleGroupArn
             self.capacity = capacity
             self.expiryTimestamp = expiryTimestamp
@@ -5537,8 +5400,7 @@ extension WAFV2ClientTypes {
             name: Swift.String? = nil,
             publishedVersions: [Swift.String: WAFV2ClientTypes.ManagedRuleSetVersion]? = nil,
             recommendedVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.id = id
@@ -5559,8 +5421,7 @@ public struct GetManagedRuleSetOutput: Swift.Sendable {
     public init(
         lockToken: Swift.String? = nil,
         managedRuleSet: WAFV2ClientTypes.ManagedRuleSet? = nil
-    )
-    {
+    ) {
         self.lockToken = lockToken
         self.managedRuleSet = managedRuleSet
     }
@@ -5577,8 +5438,7 @@ public struct GetMobileSdkReleaseInput: Swift.Sendable {
     public init(
         platform: WAFV2ClientTypes.Platform? = nil,
         releaseVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.platform = platform
         self.releaseVersion = releaseVersion
     }
@@ -5602,8 +5462,7 @@ extension WAFV2ClientTypes {
             releaseVersion: Swift.String? = nil,
             tags: [WAFV2ClientTypes.Tag]? = nil,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.releaseNotes = releaseNotes
             self.releaseVersion = releaseVersion
             self.tags = tags
@@ -5618,8 +5477,7 @@ public struct GetMobileSdkReleaseOutput: Swift.Sendable {
 
     public init(
         mobileSdkRelease: WAFV2ClientTypes.MobileSdkRelease? = nil
-    )
-    {
+    ) {
         self.mobileSdkRelease = mobileSdkRelease
     }
 }
@@ -5631,8 +5489,7 @@ public struct GetPermissionPolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -5643,16 +5500,15 @@ public struct GetPermissionPolicyOutput: Swift.Sendable {
 
     public init(
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
 
 /// The rule that you've named doesn't aggregate solely on the IP address or solely on the forwarded IP address. This call is only available for rate-based rules with an AggregateKeyType setting of IP or FORWARDED_IP.
-public struct WAFUnsupportedAggregateKeyTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFUnsupportedAggregateKeyTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5667,8 +5523,7 @@ public struct WAFUnsupportedAggregateKeyTypeException: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5699,8 +5554,7 @@ public struct GetRateBasedStatementManagedKeysInput: Swift.Sendable {
         scope: WAFV2ClientTypes.Scope? = nil,
         webACLId: Swift.String? = nil,
         webACLName: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleGroupRuleName = ruleGroupRuleName
         self.ruleName = ruleName
         self.scope = scope
@@ -5721,8 +5575,7 @@ extension WAFV2ClientTypes {
         public init(
             addresses: [Swift.String]? = nil,
             ipAddressVersion: WAFV2ClientTypes.IPAddressVersion? = nil
-        )
-        {
+        ) {
             self.addresses = addresses
             self.ipAddressVersion = ipAddressVersion
         }
@@ -5738,8 +5591,7 @@ public struct GetRateBasedStatementManagedKeysOutput: Swift.Sendable {
     public init(
         managedKeysIPV4: WAFV2ClientTypes.RateBasedStatementManagedKeysIPSet? = nil,
         managedKeysIPV6: WAFV2ClientTypes.RateBasedStatementManagedKeysIPSet? = nil
-    )
-    {
+    ) {
         self.managedKeysIPV4 = managedKeysIPV4
         self.managedKeysIPV6 = managedKeysIPV6
     }
@@ -5764,8 +5616,7 @@ public struct GetRegexPatternSetInput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.id = id
         self.name = name
         self.scope = scope
@@ -5793,8 +5644,7 @@ extension WAFV2ClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             regularExpressionList: [WAFV2ClientTypes.Regex]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.id = id
@@ -5813,8 +5663,7 @@ public struct GetRegexPatternSetOutput: Swift.Sendable {
     public init(
         lockToken: Swift.String? = nil,
         regexPatternSet: WAFV2ClientTypes.RegexPatternSet? = nil
-    )
-    {
+    ) {
         self.lockToken = lockToken
         self.regexPatternSet = regexPatternSet
     }
@@ -5839,8 +5688,7 @@ public struct GetRuleGroupInput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.name = name
@@ -5862,8 +5710,7 @@ extension WAFV2ClientTypes {
         public init(
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -5897,8 +5744,7 @@ public struct GetSampledRequestsInput: Swift.Sendable {
         scope: WAFV2ClientTypes.Scope? = nil,
         timeWindow: WAFV2ClientTypes.TimeWindow? = nil,
         webAclArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxItems = maxItems
         self.ruleMetricName = ruleMetricName
         self.scope = scope
@@ -5957,8 +5803,7 @@ extension WAFV2ClientTypes {
             failureReason: WAFV2ClientTypes.FailureReason? = nil,
             responseCode: Swift.Int? = nil,
             solveTimestamp: Swift.Int? = nil
-        )
-        {
+        ) {
             self.failureReason = failureReason
             self.responseCode = responseCode
             self.solveTimestamp = solveTimestamp
@@ -5981,8 +5826,7 @@ extension WAFV2ClientTypes {
             failureReason: WAFV2ClientTypes.FailureReason? = nil,
             responseCode: Swift.Int? = nil,
             solveTimestamp: Swift.Int? = nil
-        )
-        {
+        ) {
             self.failureReason = failureReason
             self.responseCode = responseCode
             self.solveTimestamp = solveTimestamp
@@ -6002,8 +5846,7 @@ extension WAFV2ClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -6038,8 +5881,7 @@ extension WAFV2ClientTypes {
             httpVersion: Swift.String? = nil,
             method: Swift.String? = nil,
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientIP = clientIP
             self.country = country
             self.headers = headers
@@ -6091,8 +5933,7 @@ extension WAFV2ClientTypes {
             ruleNameWithinRuleGroup: Swift.String? = nil,
             timestamp: Foundation.Date? = nil,
             weight: Swift.Int = 0
-        )
-        {
+        ) {
             self.action = action
             self.captchaResponse = captchaResponse
             self.challengeResponse = challengeResponse
@@ -6120,8 +5961,7 @@ public struct GetSampledRequestsOutput: Swift.Sendable {
         populationSize: Swift.Int = 0,
         sampledRequests: [WAFV2ClientTypes.SampledHTTPRequest]? = nil,
         timeWindow: WAFV2ClientTypes.TimeWindow? = nil
-    )
-    {
+    ) {
         self.populationSize = populationSize
         self.sampledRequests = sampledRequests
         self.timeWindow = timeWindow
@@ -6147,8 +5987,7 @@ public struct GetWebACLInput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.id = id
         self.name = name
         self.scope = scope
@@ -6174,8 +6013,7 @@ public struct GetWebACLForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -6197,8 +6035,7 @@ public struct ListAPIKeysInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
         self.scope = scope
@@ -6217,8 +6054,7 @@ public struct ListAPIKeysOutput: Swift.Sendable {
         apiKeySummaries: [WAFV2ClientTypes.APIKeySummary]? = nil,
         applicationIntegrationURL: Swift.String? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiKeySummaries = apiKeySummaries
         self.applicationIntegrationURL = applicationIntegrationURL
         self.nextMarker = nextMarker
@@ -6242,8 +6078,7 @@ public struct ListAvailableManagedRuleGroupsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
         self.scope = scope
@@ -6268,8 +6103,7 @@ extension WAFV2ClientTypes {
             name: Swift.String? = nil,
             vendorName: Swift.String? = nil,
             versioningSupported: Swift.Bool = false
-        )
-        {
+        ) {
             self.description = description
             self.name = name
             self.vendorName = vendorName
@@ -6287,8 +6121,7 @@ public struct ListAvailableManagedRuleGroupsOutput: Swift.Sendable {
     public init(
         managedRuleGroups: [WAFV2ClientTypes.ManagedRuleGroupSummary]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.managedRuleGroups = managedRuleGroups
         self.nextMarker = nextMarker
     }
@@ -6319,8 +6152,7 @@ public struct ListAvailableManagedRuleGroupVersionsInput: Swift.Sendable {
         nextMarker: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil,
         vendorName: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.name = name
         self.nextMarker = nextMarker
@@ -6341,8 +6173,7 @@ extension WAFV2ClientTypes {
         public init(
             lastUpdateTimestamp: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastUpdateTimestamp = lastUpdateTimestamp
             self.name = name
         }
@@ -6361,8 +6192,7 @@ public struct ListAvailableManagedRuleGroupVersionsOutput: Swift.Sendable {
         currentDefaultVersion: Swift.String? = nil,
         nextMarker: Swift.String? = nil,
         versions: [WAFV2ClientTypes.ManagedRuleGroupVersion]? = nil
-    )
-    {
+    ) {
         self.currentDefaultVersion = currentDefaultVersion
         self.nextMarker = nextMarker
         self.versions = versions
@@ -6386,8 +6216,7 @@ public struct ListIPSetsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
         self.scope = scope
@@ -6403,8 +6232,7 @@ public struct ListIPSetsOutput: Swift.Sendable {
     public init(
         ipSets: [WAFV2ClientTypes.IPSetSummary]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.ipSets = ipSets
         self.nextMarker = nextMarker
     }
@@ -6430,8 +6258,7 @@ public struct ListLoggingConfigurationsInput: Swift.Sendable {
         logScope: WAFV2ClientTypes.LogScope? = nil,
         nextMarker: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.logScope = logScope
         self.nextMarker = nextMarker
@@ -6448,8 +6275,7 @@ public struct ListLoggingConfigurationsOutput: Swift.Sendable {
     public init(
         loggingConfigurations: [WAFV2ClientTypes.LoggingConfiguration]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.loggingConfigurations = loggingConfigurations
         self.nextMarker = nextMarker
     }
@@ -6472,8 +6298,7 @@ public struct ListManagedRuleSetsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
         self.scope = scope
@@ -6508,8 +6333,7 @@ extension WAFV2ClientTypes {
             labelNamespace: Swift.String? = nil,
             lockToken: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.id = id
@@ -6529,8 +6353,7 @@ public struct ListManagedRuleSetsOutput: Swift.Sendable {
     public init(
         managedRuleSets: [WAFV2ClientTypes.ManagedRuleSetSummary]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.managedRuleSets = managedRuleSets
         self.nextMarker = nextMarker
     }
@@ -6549,8 +6372,7 @@ public struct ListMobileSdkReleasesInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil,
         platform: WAFV2ClientTypes.Platform? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
         self.platform = platform
@@ -6569,8 +6391,7 @@ extension WAFV2ClientTypes {
         public init(
             releaseVersion: Swift.String? = nil,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.releaseVersion = releaseVersion
             self.timestamp = timestamp
         }
@@ -6586,8 +6407,7 @@ public struct ListMobileSdkReleasesOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         releaseSummaries: [WAFV2ClientTypes.ReleaseSummary]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.releaseSummaries = releaseSummaries
     }
@@ -6610,8 +6430,7 @@ public struct ListRegexPatternSetsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
         self.scope = scope
@@ -6627,8 +6446,7 @@ public struct ListRegexPatternSetsOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         regexPatternSets: [WAFV2ClientTypes.RegexPatternSetSummary]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.regexPatternSets = regexPatternSets
     }
@@ -6685,8 +6503,7 @@ public struct ListResourcesForWebACLInput: Swift.Sendable {
     public init(
         resourceType: WAFV2ClientTypes.ResourceType? = nil,
         webACLArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceType = resourceType
         self.webACLArn = webACLArn
     }
@@ -6698,8 +6515,7 @@ public struct ListResourcesForWebACLOutput: Swift.Sendable {
 
     public init(
         resourceArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArns = resourceArns
     }
 }
@@ -6721,8 +6537,7 @@ public struct ListRuleGroupsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
         self.scope = scope
@@ -6738,8 +6553,7 @@ public struct ListRuleGroupsOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         ruleGroups: [WAFV2ClientTypes.RuleGroupSummary]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.ruleGroups = ruleGroups
     }
@@ -6758,8 +6572,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil,
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
         self.resourceARN = resourceARN
@@ -6778,8 +6591,7 @@ extension WAFV2ClientTypes {
         public init(
             resourceARN: Swift.String? = nil,
             tagList: [WAFV2ClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.resourceARN = resourceARN
             self.tagList = tagList
         }
@@ -6795,8 +6607,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         tagInfoForResource: WAFV2ClientTypes.TagInfoForResource? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.tagInfoForResource = tagInfoForResource
     }
@@ -6819,8 +6630,7 @@ public struct ListWebACLsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.nextMarker = nextMarker
         self.scope = scope
@@ -6836,17 +6646,16 @@ public struct ListWebACLsOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         webACLs: [WAFV2ClientTypes.WebACLSummary]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.webACLs = webACLs
     }
 }
 
 /// The operation failed because you don't have the permissions that your logging configuration requires. For information, see [Logging web ACL traffic information](https://docs.aws.amazon.com/waf/latest/developerguide/logging.html) in the WAF Developer Guide.
-public struct WAFLogDestinationPermissionIssueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFLogDestinationPermissionIssueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6861,16 +6670,15 @@ public struct WAFLogDestinationPermissionIssueException: ClientRuntime.ModeledEr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// WAF is not able to access the service linked role. This can be caused by a previous PutLoggingConfiguration request, which can lock the service linked role for about 20 seconds. Please try your request again. The service linked role can also be locked by a previous DeleteServiceLinkedRole request, which can lock the role for 15 minutes or more. If you recently made a call to DeleteServiceLinkedRole, wait at least 15 minutes and try the request again. If you receive this same exception again, you will have to wait additional time until the role is unlocked.
-public struct WAFServiceLinkedRoleErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFServiceLinkedRoleErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6885,8 +6693,7 @@ public struct WAFServiceLinkedRoleErrorException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6898,8 +6705,7 @@ public struct PutLoggingConfigurationInput: Swift.Sendable {
 
     public init(
         loggingConfiguration: WAFV2ClientTypes.LoggingConfiguration? = nil
-    )
-    {
+    ) {
         self.loggingConfiguration = loggingConfiguration
     }
 }
@@ -6910,8 +6716,7 @@ public struct PutLoggingConfigurationOutput: Swift.Sendable {
 
     public init(
         loggingConfiguration: WAFV2ClientTypes.LoggingConfiguration? = nil
-    )
-    {
+    ) {
         self.loggingConfiguration = loggingConfiguration
     }
 }
@@ -6928,8 +6733,7 @@ extension WAFV2ClientTypes {
         public init(
             associatedRuleGroupArn: Swift.String? = nil,
             forecastedLifetime: Swift.Int? = nil
-        )
-        {
+        ) {
             self.associatedRuleGroupArn = associatedRuleGroupArn
             self.forecastedLifetime = forecastedLifetime
         }
@@ -6965,8 +6769,7 @@ public struct PutManagedRuleSetVersionsInput: Swift.Sendable {
         recommendedVersion: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil,
         versionsToPublish: [Swift.String: WAFV2ClientTypes.VersionToPublish]? = nil
-    )
-    {
+    ) {
         self.id = id
         self.lockToken = lockToken
         self.name = name
@@ -6982,8 +6785,7 @@ public struct PutManagedRuleSetVersionsOutput: Swift.Sendable {
 
     public init(
         nextLockToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextLockToken = nextLockToken
     }
 }
@@ -7002,9 +6804,9 @@ public struct PutManagedRuleSetVersionsOutput: Swift.Sendable {
 ///
 ///
 /// For more information, see [IAM Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html).
-public struct WAFInvalidPermissionPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WAFInvalidPermissionPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7019,8 +6821,7 @@ public struct WAFInvalidPermissionPolicyException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7049,8 +6850,7 @@ public struct PutPermissionPolicyInput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.resourceArn = resourceArn
     }
@@ -7072,8 +6872,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [WAFV2ClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -7095,8 +6894,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -7156,8 +6954,7 @@ public struct UpdateIPSetInput: Swift.Sendable {
         lockToken: Swift.String? = nil,
         name: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.addresses = addresses
         self.description = description
         self.id = id
@@ -7173,8 +6970,7 @@ public struct UpdateIPSetOutput: Swift.Sendable {
 
     public init(
         nextLockToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextLockToken = nextLockToken
     }
 }
@@ -7210,8 +7006,7 @@ public struct UpdateManagedRuleSetVersionExpiryDateInput: Swift.Sendable {
         name: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil,
         versionToExpire: Swift.String? = nil
-    )
-    {
+    ) {
         self.expiryTimestamp = expiryTimestamp
         self.id = id
         self.lockToken = lockToken
@@ -7233,8 +7028,7 @@ public struct UpdateManagedRuleSetVersionExpiryDateOutput: Swift.Sendable {
         expiringVersion: Swift.String? = nil,
         expiryTimestamp: Foundation.Date? = nil,
         nextLockToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.expiringVersion = expiringVersion
         self.expiryTimestamp = expiryTimestamp
         self.nextLockToken = nextLockToken
@@ -7271,8 +7065,7 @@ public struct UpdateRegexPatternSetInput: Swift.Sendable {
         name: Swift.String? = nil,
         regularExpressionList: [WAFV2ClientTypes.Regex]? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.description = description
         self.id = id
         self.lockToken = lockToken
@@ -7288,8 +7081,7 @@ public struct UpdateRegexPatternSetOutput: Swift.Sendable {
 
     public init(
         nextLockToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextLockToken = nextLockToken
     }
 }
@@ -7300,8 +7092,7 @@ public struct UpdateRuleGroupOutput: Swift.Sendable {
 
     public init(
         nextLockToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextLockToken = nextLockToken
     }
 }
@@ -7312,8 +7103,7 @@ public struct UpdateWebACLOutput: Swift.Sendable {
 
     public init(
         nextLockToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextLockToken = nextLockToken
     }
 }
@@ -7419,8 +7209,7 @@ extension WAFV2ClientTypes {
             sizeConstraintStatement: WAFV2ClientTypes.SizeConstraintStatement? = nil,
             sqliMatchStatement: WAFV2ClientTypes.SqliMatchStatement? = nil,
             xssMatchStatement: WAFV2ClientTypes.XssMatchStatement? = nil
-        )
-        {
+        ) {
             self.andStatement = andStatement
             self.byteMatchStatement = byteMatchStatement
             self.geoMatchStatement = geoMatchStatement
@@ -7475,8 +7264,7 @@ extension WAFV2ClientTypes {
             scopeDownStatement: WAFV2ClientTypes.Statement? = nil,
             vendorName: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.excludedRules = excludedRules
             self.managedRuleGroupConfigs = managedRuleGroupConfigs
             self.name = name
@@ -7498,8 +7286,7 @@ extension WAFV2ClientTypes {
 
         public init(
             statement: WAFV2ClientTypes.Statement? = nil
-        )
-        {
+        ) {
             self.statement = statement
         }
     }
@@ -7586,8 +7373,7 @@ extension WAFV2ClientTypes {
             forwardedIPConfig: WAFV2ClientTypes.ForwardedIPConfig? = nil,
             limit: Swift.Int? = nil,
             scopeDownStatement: WAFV2ClientTypes.Statement? = nil
-        )
-        {
+        ) {
             self.aggregateKeyType = aggregateKeyType
             self.customKeys = customKeys
             self.evaluationWindowSec = evaluationWindowSec
@@ -7650,8 +7436,7 @@ extension WAFV2ClientTypes {
             ruleLabels: [WAFV2ClientTypes.Label]? = nil,
             statement: WAFV2ClientTypes.Statement? = nil,
             visibilityConfig: WAFV2ClientTypes.VisibilityConfig? = nil
-        )
-        {
+        ) {
             self.action = action
             self.captchaConfig = captchaConfig
             self.challengeConfig = challengeConfig
@@ -7675,8 +7460,7 @@ extension WAFV2ClientTypes {
 
         public init(
             statements: [WAFV2ClientTypes.Statement]? = nil
-        )
-        {
+        ) {
             self.statements = statements
         }
     }
@@ -7692,8 +7476,7 @@ extension WAFV2ClientTypes {
 
         public init(
             statements: [WAFV2ClientTypes.Statement]? = nil
-        )
-        {
+        ) {
             self.statements = statements
         }
     }
@@ -7711,8 +7494,7 @@ extension WAFV2ClientTypes {
         public init(
             managedRuleGroupStatement: WAFV2ClientTypes.ManagedRuleGroupStatement? = nil,
             ruleGroupReferenceStatement: WAFV2ClientTypes.RuleGroupReferenceStatement? = nil
-        )
-        {
+        ) {
             self.managedRuleGroupStatement = managedRuleGroupStatement
             self.ruleGroupReferenceStatement = ruleGroupReferenceStatement
         }
@@ -7745,8 +7527,7 @@ extension WAFV2ClientTypes {
             overrideAction: WAFV2ClientTypes.OverrideAction? = nil,
             priority: Swift.Int = 0,
             visibilityConfig: WAFV2ClientTypes.VisibilityConfig? = nil
-        )
-        {
+        ) {
             self.firewallManagerStatement = firewallManagerStatement
             self.name = name
             self.overrideAction = overrideAction
@@ -7804,8 +7585,7 @@ extension WAFV2ClientTypes {
             name: Swift.String? = nil,
             rules: [WAFV2ClientTypes.Rule]? = nil,
             visibilityConfig: WAFV2ClientTypes.VisibilityConfig? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.availableLabels = availableLabels
             self.capacity = capacity
@@ -7836,8 +7616,7 @@ public struct CheckCapacityInput: Swift.Sendable {
     public init(
         rules: [WAFV2ClientTypes.Rule]? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.rules = rules
         self.scope = scope
     }
@@ -7878,8 +7657,7 @@ public struct CreateRuleGroupInput: Swift.Sendable {
         scope: WAFV2ClientTypes.Scope? = nil,
         tags: [WAFV2ClientTypes.Tag]? = nil,
         visibilityConfig: WAFV2ClientTypes.VisibilityConfig? = nil
-    )
-    {
+    ) {
         self.capacity = capacity
         self.customResponseBodies = customResponseBodies
         self.description = description
@@ -7938,8 +7716,7 @@ public struct CreateWebACLInput: Swift.Sendable {
         tags: [WAFV2ClientTypes.Tag]? = nil,
         tokenDomains: [Swift.String]? = nil,
         visibilityConfig: WAFV2ClientTypes.VisibilityConfig? = nil
-    )
-    {
+    ) {
         self.associationConfig = associationConfig
         self.captchaConfig = captchaConfig
         self.challengeConfig = challengeConfig
@@ -7991,8 +7768,7 @@ public struct UpdateRuleGroupInput: Swift.Sendable {
         rules: [WAFV2ClientTypes.Rule]? = nil,
         scope: WAFV2ClientTypes.Scope? = nil,
         visibilityConfig: WAFV2ClientTypes.VisibilityConfig? = nil
-    )
-    {
+    ) {
         self.customResponseBodies = customResponseBodies
         self.description = description
         self.id = id
@@ -8056,8 +7832,7 @@ public struct UpdateWebACLInput: Swift.Sendable {
         scope: WAFV2ClientTypes.Scope? = nil,
         tokenDomains: [Swift.String]? = nil,
         visibilityConfig: WAFV2ClientTypes.VisibilityConfig? = nil
-    )
-    {
+    ) {
         self.associationConfig = associationConfig
         self.captchaConfig = captchaConfig
         self.challengeConfig = challengeConfig
@@ -8083,8 +7858,7 @@ public struct GetRuleGroupOutput: Swift.Sendable {
     public init(
         lockToken: Swift.String? = nil,
         ruleGroup: WAFV2ClientTypes.RuleGroup? = nil
-    )
-    {
+    ) {
         self.lockToken = lockToken
         self.ruleGroup = ruleGroup
     }
@@ -8159,8 +7933,7 @@ extension WAFV2ClientTypes {
             rules: [WAFV2ClientTypes.Rule]? = nil,
             tokenDomains: [Swift.String]? = nil,
             visibilityConfig: WAFV2ClientTypes.VisibilityConfig? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.associationConfig = associationConfig
             self.capacity = capacity
@@ -8189,8 +7962,7 @@ public struct GetWebACLForResourceOutput: Swift.Sendable {
 
     public init(
         webACL: WAFV2ClientTypes.WebACL? = nil
-    )
-    {
+    ) {
         self.webACL = webACL
     }
 }
@@ -8207,8 +7979,7 @@ public struct GetWebACLOutput: Swift.Sendable {
         applicationIntegrationURL: Swift.String? = nil,
         lockToken: Swift.String? = nil,
         webACL: WAFV2ClientTypes.WebACL? = nil
-    )
-    {
+    ) {
         self.applicationIntegrationURL = applicationIntegrationURL
         self.lockToken = lockToken
         self.webACL = webACL
@@ -12837,7 +12608,7 @@ extension WAFV2ClientTypes.ByteMatchStatement {
     static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ByteMatchStatement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WAFV2ClientTypes.ByteMatchStatement()
-        value.searchString = try reader["SearchString"].readIfPresent() ?? Foundation.Data("".utf8)
+        value.searchString = try reader["SearchString"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
         value.fieldToMatch = try reader["FieldToMatch"].readIfPresent(with: WAFV2ClientTypes.FieldToMatch.read(from:))
         value.textTransformations = try reader["TextTransformations"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.TextTransformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.positionalConstraint = try reader["PositionalConstraint"].readIfPresent() ?? .sdkUnknown("")

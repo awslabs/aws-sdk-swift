@@ -22,9 +22,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// The requested email message is not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -39,8 +39,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -52,8 +51,7 @@ public struct GetRawMessageContentInput: Swift.Sendable {
 
     public init(
         messageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.messageId = messageId
     }
 }
@@ -65,8 +63,7 @@ public struct GetRawMessageContentOutput: Swift.Sendable {
 
     public init(
         messageContent: Smithy.ByteStream? = nil
-    )
-    {
+    ) {
         self.messageContent = messageContent
     }
 }
@@ -78,9 +75,9 @@ public struct GetRawMessageContentOutput: Swift.Sendable {
 /// * The [S3 bucket owner](https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-owner-condition.html) is not the same as the calling AWS account.
 ///
 /// * You have an incomplete or missing S3 bucket policy. For more information about policies, see [ Updating message content with AWS Lambda ](https://docs.aws.amazon.com/workmail/latest/adminguide/update-with-lambda.html) in the WorkMail Administrator Guide.
-public struct InvalidContentLocation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidContentLocation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -95,16 +92,15 @@ public struct InvalidContentLocation: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The requested email is not eligible for update. This is usually the case for a redirected email.
-public struct MessageFrozen: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MessageFrozen: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -119,16 +115,15 @@ public struct MessageFrozen: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The requested email could not be updated due to an error in the MIME content. Check the error message for more information about what caused the error.
-public struct MessageRejected: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MessageRejected: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -143,8 +138,7 @@ public struct MessageRejected: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -166,8 +160,7 @@ extension WorkMailMessageFlowClientTypes {
             bucket: Swift.String? = nil,
             key: Swift.String? = nil,
             objectVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.key = key
             self.objectVersion = objectVersion
@@ -199,8 +192,7 @@ extension WorkMailMessageFlowClientTypes {
 
         public init(
             s3Reference: WorkMailMessageFlowClientTypes.S3Reference? = nil
-        )
-        {
+        ) {
             self.s3Reference = s3Reference
         }
     }
@@ -217,8 +209,7 @@ public struct PutRawMessageContentInput: Swift.Sendable {
     public init(
         content: WorkMailMessageFlowClientTypes.RawMessageContent? = nil,
         messageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.content = content
         self.messageId = messageId
     }

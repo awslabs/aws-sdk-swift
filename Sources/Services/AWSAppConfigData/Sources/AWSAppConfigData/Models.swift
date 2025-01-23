@@ -69,8 +69,7 @@ extension AppConfigDataClientTypes {
 
         public init(
             problem: AppConfigDataClientTypes.InvalidParameterProblem? = nil
-        )
-        {
+        ) {
             self.problem = problem
         }
     }
@@ -114,9 +113,9 @@ extension AppConfigDataClientTypes {
 }
 
 /// The input fails to satisfy the constraints specified by the service.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Details describing why the request was invalid.
         public internal(set) var details: AppConfigDataClientTypes.BadRequestDetails? = nil
         public internal(set) var message: Swift.String? = nil
@@ -137,8 +136,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
         details: AppConfigDataClientTypes.BadRequestDetails? = nil,
         message: Swift.String? = nil,
         reason: AppConfigDataClientTypes.BadRequestReason? = nil
-    )
-    {
+    ) {
         self.properties.details = details
         self.properties.message = message
         self.properties.reason = reason
@@ -146,9 +144,9 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// There was an internal failure in the service.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -163,8 +161,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -213,9 +210,9 @@ extension AppConfigDataClientTypes {
 }
 
 /// The requested resource could not be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// A map indicating which parameters in the request reference the resource that was not found.
         public internal(set) var referencedBy: [Swift.String: Swift.String]? = nil
@@ -236,8 +233,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         referencedBy: [Swift.String: Swift.String]? = nil,
         resourceType: AppConfigDataClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.referencedBy = referencedBy
         self.properties.resourceType = resourceType
@@ -245,9 +241,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -262,8 +258,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -286,8 +281,7 @@ public struct StartConfigurationSessionInput: Swift.Sendable {
         configurationProfileIdentifier: Swift.String? = nil,
         environmentIdentifier: Swift.String? = nil,
         requiredMinimumPollIntervalInSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.applicationIdentifier = applicationIdentifier
         self.configurationProfileIdentifier = configurationProfileIdentifier
         self.environmentIdentifier = environmentIdentifier
@@ -301,8 +295,7 @@ public struct StartConfigurationSessionOutput: Swift.Sendable {
 
     public init(
         initialConfigurationToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.initialConfigurationToken = initialConfigurationToken
     }
 }
@@ -314,8 +307,7 @@ public struct GetLatestConfigurationInput: Swift.Sendable {
 
     public init(
         configurationToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationToken = configurationToken
     }
 }
@@ -338,8 +330,7 @@ public struct GetLatestConfigurationOutput: Swift.Sendable {
         nextPollConfigurationToken: Swift.String? = nil,
         nextPollIntervalInSeconds: Swift.Int = 0,
         versionLabel: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.contentType = contentType
         self.nextPollConfigurationToken = nextPollConfigurationToken

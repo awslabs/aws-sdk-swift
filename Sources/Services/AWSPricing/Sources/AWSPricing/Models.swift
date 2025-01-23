@@ -25,9 +25,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// General authentication failure. The request wasn't signed correctly.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -42,8 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -57,17 +56,16 @@ extension PricingClientTypes {
 
         public init(
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.value = value
         }
     }
 }
 
 /// The pagination token expired. Try again without a pagination token.
-public struct ExpiredNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ExpiredNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -82,16 +80,15 @@ public struct ExpiredNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An error on the server occurred during the processing of your request. Try again later.
-public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -106,16 +103,15 @@ public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The pagination token is invalid. Try again without a pagination token.
-public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -130,16 +126,15 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// One or more parameters had an invalid value.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -154,16 +149,15 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The requested resource can't be found.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -178,16 +172,15 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You've made too many requests exceeding service quotas.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -202,8 +195,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -223,8 +215,7 @@ public struct DescribeServicesInput: Swift.Sendable {
         maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.formatVersion = formatVersion
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -245,8 +236,7 @@ extension PricingClientTypes {
         public init(
             attributeNames: [Swift.String]? = nil,
             serviceCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributeNames = attributeNames
             self.serviceCode = serviceCode
         }
@@ -265,8 +255,7 @@ public struct DescribeServicesOutput: Swift.Sendable {
         formatVersion: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         services: [PricingClientTypes.Service]? = nil
-    )
-    {
+    ) {
         self.formatVersion = formatVersion
         self.nextToken = nextToken
         self.services = services
@@ -290,8 +279,7 @@ public struct GetAttributeValuesInput: Swift.Sendable {
         maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributeName = attributeName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -308,17 +296,16 @@ public struct GetAttributeValuesOutput: Swift.Sendable {
     public init(
         attributeValues: [PricingClientTypes.AttributeValue]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributeValues = attributeValues
         self.nextToken = nextToken
     }
 }
 
 /// The requested resource can't be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -333,8 +320,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -350,8 +336,7 @@ public struct GetPriceListFileUrlInput: Swift.Sendable {
     public init(
         fileFormat: Swift.String? = nil,
         priceListArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.fileFormat = fileFormat
         self.priceListArn = priceListArn
     }
@@ -363,8 +348,7 @@ public struct GetPriceListFileUrlOutput: Swift.Sendable {
 
     public init(
         url: Swift.String? = nil
-    )
-    {
+    ) {
         self.url = url
     }
 }
@@ -413,8 +397,7 @@ extension PricingClientTypes {
             field: Swift.String? = nil,
             type: PricingClientTypes.FilterType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.field = field
             self.type = type
             self.value = value
@@ -441,8 +424,7 @@ public struct GetProductsInput: Swift.Sendable {
         maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.formatVersion = formatVersion
         self.maxResults = maxResults
@@ -463,8 +445,7 @@ public struct GetProductsOutput: Swift.Sendable {
         formatVersion: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         priceList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.formatVersion = formatVersion
         self.nextToken = nextToken
         self.priceList = priceList
@@ -495,8 +476,7 @@ public struct ListPriceListsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         regionCode: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.currencyCode = currencyCode
         self.effectiveDate = effectiveDate
         self.maxResults = maxResults
@@ -524,8 +504,7 @@ extension PricingClientTypes {
             fileFormats: [Swift.String]? = nil,
             priceListArn: Swift.String? = nil,
             regionCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.currencyCode = currencyCode
             self.fileFormats = fileFormats
             self.priceListArn = priceListArn
@@ -543,8 +522,7 @@ public struct ListPriceListsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         priceLists: [PricingClientTypes.PriceList]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.priceLists = priceLists
     }

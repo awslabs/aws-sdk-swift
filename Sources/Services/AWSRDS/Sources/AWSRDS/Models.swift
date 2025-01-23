@@ -135,8 +135,7 @@ extension RDSClientTypes {
             accountQuotaName: Swift.String? = nil,
             max: Swift.Int? = nil,
             used: Swift.Int? = nil
-        )
-        {
+        ) {
             self.accountQuotaName = accountQuotaName
             self.max = max
             self.used = used
@@ -244,9 +243,9 @@ extension RDSClientTypes {
 }
 
 /// DBClusterIdentifier doesn't refer to an existing DB cluster.
-public struct DBClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -261,16 +260,15 @@ public struct DBClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified IAM role Amazon Resource Name (ARN) is already associated with the specified DB cluster.
-public struct DBClusterRoleAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterRoleAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -285,16 +283,15 @@ public struct DBClusterRoleAlreadyExistsFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You have exceeded the maximum number of IAM roles that can be associated with the specified DB cluster.
-public struct DBClusterRoleQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterRoleQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -309,16 +306,15 @@ public struct DBClusterRoleQuotaExceededFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The requested operation can't be performed while the cluster is in this state.
-public struct InvalidDBClusterStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBClusterStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -333,8 +329,7 @@ public struct InvalidDBClusterStateFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -353,8 +348,7 @@ public struct AddRoleToDBClusterInput: Swift.Sendable {
         dbClusterIdentifier: Swift.String? = nil,
         featureName: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
         self.featureName = featureName
         self.roleArn = roleArn
@@ -362,9 +356,9 @@ public struct AddRoleToDBClusterInput: Swift.Sendable {
 }
 
 /// DBInstanceIdentifier doesn't refer to an existing DB instance.
-public struct DBInstanceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBInstanceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -379,16 +373,15 @@ public struct DBInstanceNotFoundFault: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified RoleArn or FeatureName value is already associated with the DB instance.
-public struct DBInstanceRoleAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBInstanceRoleAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -403,16 +396,15 @@ public struct DBInstanceRoleAlreadyExistsFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You can't associate any more Amazon Web Services Identity and Access Management (IAM) roles with the DB instance because the quota has been reached.
-public struct DBInstanceRoleQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBInstanceRoleQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -427,16 +419,15 @@ public struct DBInstanceRoleQuotaExceededFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The DB instance isn't in a valid state.
-public struct InvalidDBInstanceStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBInstanceStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -451,8 +442,7 @@ public struct InvalidDBInstanceStateFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -472,8 +462,7 @@ public struct AddRoleToDBInstanceInput: Swift.Sendable {
         dbInstanceIdentifier: Swift.String? = nil,
         featureName: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.featureName = featureName
         self.roleArn = roleArn
@@ -481,9 +470,9 @@ public struct AddRoleToDBInstanceInput: Swift.Sendable {
 }
 
 /// The requested source could not be found.
-public struct SourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -498,16 +487,15 @@ public struct SourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The subscription name does not exist.
-public struct SubscriptionNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SubscriptionNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -522,8 +510,7 @@ public struct SubscriptionNotFoundFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -554,8 +541,7 @@ public struct AddSourceIdentifierToSubscriptionInput: Swift.Sendable {
     public init(
         sourceIdentifier: Swift.String? = nil,
         subscriptionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceIdentifier = sourceIdentifier
         self.subscriptionName = subscriptionName
     }
@@ -597,8 +583,7 @@ extension RDSClientTypes {
             sourceType: Swift.String? = nil,
             status: Swift.String? = nil,
             subscriptionCreationTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.custSubscriptionId = custSubscriptionId
             self.customerAwsId = customerAwsId
             self.enabled = enabled
@@ -619,16 +604,15 @@ public struct AddSourceIdentifierToSubscriptionOutput: Swift.Sendable {
 
     public init(
         eventSubscription: RDSClientTypes.EventSubscription? = nil
-    )
-    {
+    ) {
         self.eventSubscription = eventSubscription
     }
 }
 
 /// BlueGreenDeploymentIdentifier doesn't refer to an existing blue/green deployment.
-public struct BlueGreenDeploymentNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BlueGreenDeploymentNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -643,16 +627,15 @@ public struct BlueGreenDeploymentNotFoundFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified proxy name doesn't correspond to a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
-public struct DBProxyNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBProxyNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -667,16 +650,15 @@ public struct DBProxyNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified target group isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
-public struct DBProxyTargetGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBProxyTargetGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -691,16 +673,15 @@ public struct DBProxyTargetGroupNotFoundFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// DBSnapshotIdentifier doesn't refer to an existing DB snapshot.
-public struct DBSnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBSnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -715,16 +696,15 @@ public struct DBSnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified snapshot tenant database wasn't found.
-public struct DBSnapshotTenantDatabaseNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBSnapshotTenantDatabaseNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -739,16 +719,15 @@ public struct DBSnapshotTenantDatabaseNotFoundFault: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified integration could not be found.
-public struct IntegrationNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IntegrationNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -763,16 +742,15 @@ public struct IntegrationNotFoundFault: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified tenant database wasn't found in the DB instance.
-public struct TenantDatabaseNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TenantDatabaseNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -787,8 +765,7 @@ public struct TenantDatabaseNotFoundFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -805,8 +782,7 @@ extension RDSClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -825,17 +801,16 @@ public struct AddTagsToResourceInput: Swift.Sendable {
     public init(
         resourceName: Swift.String? = nil,
         tags: [RDSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceName = resourceName
         self.tags = tags
     }
 }
 
 /// The specified resource ID was not found.
-public struct ResourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -850,8 +825,7 @@ public struct ResourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -891,8 +865,7 @@ public struct ApplyPendingMaintenanceActionInput: Swift.Sendable {
         applyAction: Swift.String? = nil,
         optInType: Swift.String? = nil,
         resourceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.applyAction = applyAction
         self.optInType = optInType
         self.resourceIdentifier = resourceIdentifier
@@ -936,8 +909,7 @@ extension RDSClientTypes {
             description: Swift.String? = nil,
             forcedApplyDate: Foundation.Date? = nil,
             optInStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.autoAppliedAfterDate = autoAppliedAfterDate
             self.currentApplyDate = currentApplyDate
@@ -960,8 +932,7 @@ extension RDSClientTypes {
         public init(
             pendingMaintenanceActionDetails: [RDSClientTypes.PendingMaintenanceAction]? = nil,
             resourceIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.pendingMaintenanceActionDetails = pendingMaintenanceActionDetails
             self.resourceIdentifier = resourceIdentifier
         }
@@ -974,16 +945,15 @@ public struct ApplyPendingMaintenanceActionOutput: Swift.Sendable {
 
     public init(
         resourcePendingMaintenanceActions: RDSClientTypes.ResourcePendingMaintenanceActions? = nil
-    )
-    {
+    ) {
         self.resourcePendingMaintenanceActions = resourcePendingMaintenanceActions
     }
 }
 
 /// The specified CIDR IP range or Amazon EC2 security group is already authorized for the specified DB security group.
-public struct AuthorizationAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AuthorizationAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -998,16 +968,15 @@ public struct AuthorizationAlreadyExistsFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The DB security group authorization quota has been reached.
-public struct AuthorizationQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AuthorizationQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1022,16 +991,15 @@ public struct AuthorizationQuotaExceededFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// DBSecurityGroupName doesn't refer to an existing DB security group.
-public struct DBSecurityGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBSecurityGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1046,16 +1014,15 @@ public struct DBSecurityGroupNotFoundFault: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The state of the DB security group doesn't allow deletion.
-public struct InvalidDBSecurityGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBSecurityGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1070,8 +1037,7 @@ public struct InvalidDBSecurityGroupStateFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1096,8 +1062,7 @@ public struct AuthorizeDBSecurityGroupIngressInput: Swift.Sendable {
         ec2SecurityGroupId: Swift.String? = nil,
         ec2SecurityGroupName: Swift.String? = nil,
         ec2SecurityGroupOwnerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.cidrip = cidrip
         self.dbSecurityGroupName = dbSecurityGroupName
         self.ec2SecurityGroupId = ec2SecurityGroupId
@@ -1130,8 +1095,7 @@ extension RDSClientTypes {
             ec2SecurityGroupName: Swift.String? = nil,
             ec2SecurityGroupOwnerId: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.ec2SecurityGroupId = ec2SecurityGroupId
             self.ec2SecurityGroupName = ec2SecurityGroupName
             self.ec2SecurityGroupOwnerId = ec2SecurityGroupOwnerId
@@ -1152,8 +1116,7 @@ extension RDSClientTypes {
         public init(
             cidrip: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.cidrip = cidrip
             self.status = status
         }
@@ -1187,8 +1150,7 @@ extension RDSClientTypes {
             ipRanges: [RDSClientTypes.IPRange]? = nil,
             ownerId: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dbSecurityGroupArn = dbSecurityGroupArn
             self.dbSecurityGroupDescription = dbSecurityGroupDescription
             self.dbSecurityGroupName = dbSecurityGroupName
@@ -1206,8 +1168,7 @@ public struct AuthorizeDBSecurityGroupIngressOutput: Swift.Sendable {
 
     public init(
         dbSecurityGroup: RDSClientTypes.DBSecurityGroup? = nil
-    )
-    {
+    ) {
         self.dbSecurityGroup = dbSecurityGroup
     }
 }
@@ -1246,8 +1207,7 @@ public struct BacktrackDBClusterInput: Swift.Sendable {
         dbClusterIdentifier: Swift.String? = nil,
         force: Swift.Bool? = nil,
         useEarliestTimeOnPointInTimeUnavailable: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.backtrackTo = backtrackTo
         self.dbClusterIdentifier = dbClusterIdentifier
         self.force = force
@@ -1285,8 +1245,7 @@ public struct BacktrackDBClusterOutput: Swift.Sendable {
         backtrackedFrom: Foundation.Date? = nil,
         dbClusterIdentifier: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.backtrackIdentifier = backtrackIdentifier
         self.backtrackRequestCreationTime = backtrackRequestCreationTime
         self.backtrackTo = backtrackTo
@@ -1297,9 +1256,9 @@ public struct BacktrackDBClusterOutput: Swift.Sendable {
 }
 
 /// The export task doesn't exist.
-public struct ExportTaskNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ExportTaskNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1314,16 +1273,15 @@ public struct ExportTaskNotFoundFault: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You can't cancel an export task that has completed.
-public struct InvalidExportTaskStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidExportTaskStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1338,8 +1296,7 @@ public struct InvalidExportTaskStateFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1351,8 +1308,7 @@ public struct CancelExportTaskInput: Swift.Sendable {
 
     public init(
         exportTaskIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportTaskIdentifier = exportTaskIdentifier
     }
 }
@@ -1458,8 +1414,7 @@ public struct CancelExportTaskOutput: Swift.Sendable {
         taskStartTime: Foundation.Date? = nil,
         totalExtractedDataInGB: Swift.Int? = nil,
         warningMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportOnly = exportOnly
         self.exportTaskIdentifier = exportTaskIdentifier
         self.failureCause = failureCause
@@ -1480,9 +1435,9 @@ public struct CancelExportTaskOutput: Swift.Sendable {
 }
 
 /// A DB parameter group with the same name exists.
-public struct DBParameterGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBParameterGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1497,16 +1452,15 @@ public struct DBParameterGroupAlreadyExistsFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// DBParameterGroupName doesn't refer to an existing DB parameter group.
-public struct DBParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1521,16 +1475,15 @@ public struct DBParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request would result in the user exceeding the allowed number of DB parameter groups.
-public struct DBParameterGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBParameterGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1545,8 +1498,7 @@ public struct DBParameterGroupQuotaExceededFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1582,8 +1534,7 @@ public struct CopyDBClusterParameterGroupInput: Swift.Sendable {
         tags: [RDSClientTypes.Tag]? = nil,
         targetDBClusterParameterGroupDescription: Swift.String? = nil,
         targetDBClusterParameterGroupIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceDBClusterParameterGroupIdentifier = sourceDBClusterParameterGroupIdentifier
         self.tags = tags
         self.targetDBClusterParameterGroupDescription = targetDBClusterParameterGroupDescription
@@ -1609,8 +1560,7 @@ extension RDSClientTypes {
             dbClusterParameterGroupName: Swift.String? = nil,
             dbParameterGroupFamily: Swift.String? = nil,
             description: Swift.String? = nil
-        )
-        {
+        ) {
             self.dbClusterParameterGroupArn = dbClusterParameterGroupArn
             self.dbClusterParameterGroupName = dbClusterParameterGroupName
             self.dbParameterGroupFamily = dbParameterGroupFamily
@@ -1625,16 +1575,15 @@ public struct CopyDBClusterParameterGroupOutput: Swift.Sendable {
 
     public init(
         dbClusterParameterGroup: RDSClientTypes.DBClusterParameterGroup? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroup = dbClusterParameterGroup
     }
 }
 
 /// The user already has a DB cluster snapshot with the given identifier.
-public struct DBClusterSnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterSnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1649,16 +1598,15 @@ public struct DBClusterSnapshotAlreadyExistsFault: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// DBClusterSnapshotIdentifier doesn't refer to an existing DB cluster snapshot.
-public struct DBClusterSnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterSnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1673,16 +1621,15 @@ public struct DBClusterSnapshotNotFoundFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The supplied value isn't a valid DB cluster snapshot state.
-public struct InvalidDBClusterSnapshotStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBClusterSnapshotStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1697,16 +1644,15 @@ public struct InvalidDBClusterSnapshotStateFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An error occurred accessing an Amazon Web Services KMS key.
-public struct KMSKeyNotAccessibleFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KMSKeyNotAccessibleFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1721,16 +1667,15 @@ public struct KMSKeyNotAccessibleFault: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request would result in the user exceeding the allowed number of DB snapshots.
-public struct SnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1745,8 +1690,7 @@ public struct SnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1802,8 +1746,7 @@ public struct CopyDBClusterSnapshotInput: Swift.Sendable {
         sourceDBClusterSnapshotIdentifier: Swift.String? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         targetDBClusterSnapshotIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.copyTags = copyTags
         self.kmsKeyId = kmsKeyId
         self.preSignedUrl = preSignedUrl
@@ -1903,8 +1846,7 @@ extension RDSClientTypes {
             storageType: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.allocatedStorage = allocatedStorage
             self.availabilityZones = availabilityZones
             self.clusterCreateTime = clusterCreateTime
@@ -1941,8 +1883,7 @@ public struct CopyDBClusterSnapshotOutput: Swift.Sendable {
 
     public init(
         dbClusterSnapshot: RDSClientTypes.DBClusterSnapshot? = nil
-    )
-    {
+    ) {
         self.dbClusterSnapshot = dbClusterSnapshot
     }
 }
@@ -1979,8 +1920,7 @@ public struct CopyDBParameterGroupInput: Swift.Sendable {
         tags: [RDSClientTypes.Tag]? = nil,
         targetDBParameterGroupDescription: Swift.String? = nil,
         targetDBParameterGroupIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceDBParameterGroupIdentifier = sourceDBParameterGroupIdentifier
         self.tags = tags
         self.targetDBParameterGroupDescription = targetDBParameterGroupDescription
@@ -2006,8 +1946,7 @@ extension RDSClientTypes {
             dbParameterGroupFamily: Swift.String? = nil,
             dbParameterGroupName: Swift.String? = nil,
             description: Swift.String? = nil
-        )
-        {
+        ) {
             self.dbParameterGroupArn = dbParameterGroupArn
             self.dbParameterGroupFamily = dbParameterGroupFamily
             self.dbParameterGroupName = dbParameterGroupName
@@ -2022,16 +1961,15 @@ public struct CopyDBParameterGroupOutput: Swift.Sendable {
 
     public init(
         dbParameterGroup: RDSClientTypes.DBParameterGroup? = nil
-    )
-    {
+    ) {
         self.dbParameterGroup = dbParameterGroup
     }
 }
 
 /// CustomAvailabilityZoneId doesn't refer to an existing custom Availability Zone identifier.
-public struct CustomAvailabilityZoneNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CustomAvailabilityZoneNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2046,16 +1984,15 @@ public struct CustomAvailabilityZoneNotFoundFault: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// DBSnapshotIdentifier is already used by an existing snapshot.
-public struct DBSnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBSnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2070,16 +2007,15 @@ public struct DBSnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The state of the DB snapshot doesn't allow deletion.
-public struct InvalidDBSnapshotStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBSnapshotStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2094,8 +2030,7 @@ public struct InvalidDBSnapshotStateFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2158,8 +2093,7 @@ public struct CopyDBSnapshotInput: Swift.Sendable {
         tags: [RDSClientTypes.Tag]? = nil,
         targetCustomAvailabilityZone: Swift.String? = nil,
         targetDBSnapshotIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.copyOptionGroup = copyOptionGroup
         self.copyTags = copyTags
         self.kmsKeyId = kmsKeyId
@@ -2215,8 +2149,7 @@ extension RDSClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -2337,8 +2270,7 @@ extension RDSClientTypes {
             tdeCredentialArn: Swift.String? = nil,
             timezone: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.allocatedStorage = allocatedStorage
             self.availabilityZone = availabilityZone
             self.dbInstanceIdentifier = dbInstanceIdentifier
@@ -2385,16 +2317,15 @@ public struct CopyDBSnapshotOutput: Swift.Sendable {
 
     public init(
         dbSnapshot: RDSClientTypes.DBSnapshot? = nil
-    )
-    {
+    ) {
         self.dbSnapshot = dbSnapshot
     }
 }
 
 /// The option group you are trying to create already exists.
-public struct OptionGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OptionGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2409,16 +2340,15 @@ public struct OptionGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified option group could not be found.
-public struct OptionGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OptionGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2433,16 +2363,15 @@ public struct OptionGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The quota of 20 option groups was exceeded for this Amazon Web Services account.
-public struct OptionGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OptionGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2457,8 +2386,7 @@ public struct OptionGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2495,8 +2423,7 @@ public struct CopyOptionGroupInput: Swift.Sendable {
         tags: [RDSClientTypes.Tag]? = nil,
         targetOptionGroupDescription: Swift.String? = nil,
         targetOptionGroupIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceOptionGroupIdentifier = sourceOptionGroupIdentifier
         self.tags = tags
         self.targetOptionGroupDescription = targetOptionGroupDescription
@@ -2524,8 +2451,7 @@ extension RDSClientTypes {
         public init(
             dbSecurityGroupName: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.dbSecurityGroupName = dbSecurityGroupName
             self.status = status
         }
@@ -2565,8 +2491,7 @@ extension RDSClientTypes {
             isModifiable: Swift.Bool? = nil,
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedValues = allowedValues
             self.applyType = applyType
             self.dataType = dataType
@@ -2592,8 +2517,7 @@ extension RDSClientTypes {
         public init(
             status: Swift.String? = nil,
             vpcSecurityGroupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
             self.vpcSecurityGroupId = vpcSecurityGroupId
         }
@@ -2633,8 +2557,7 @@ extension RDSClientTypes {
             persistent: Swift.Bool? = nil,
             port: Swift.Int? = nil,
             vpcSecurityGroupMemberships: [RDSClientTypes.VpcSecurityGroupMembership]? = nil
-        )
-        {
+        ) {
             self.dbSecurityGroupMemberships = dbSecurityGroupMemberships
             self.optionDescription = optionDescription
             self.optionName = optionName
@@ -2687,8 +2610,7 @@ extension RDSClientTypes {
             sourceAccountId: Swift.String? = nil,
             sourceOptionGroup: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowsVpcAndNonVpcInstanceMemberships = allowsVpcAndNonVpcInstanceMemberships
             self.copyTimestamp = copyTimestamp
             self.engineName = engineName
@@ -2710,16 +2632,15 @@ public struct CopyOptionGroupOutput: Swift.Sendable {
 
     public init(
         optionGroup: RDSClientTypes.OptionGroup? = nil
-    )
-    {
+    ) {
         self.optionGroup = optionGroup
     }
 }
 
 /// A blue/green deployment with the specified name already exists.
-public struct BlueGreenDeploymentAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BlueGreenDeploymentAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2734,16 +2655,15 @@ public struct BlueGreenDeploymentAlreadyExistsFault: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// DBClusterParameterGroupName doesn't refer to an existing DB cluster parameter group.
-public struct DBClusterParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2758,16 +2678,15 @@ public struct DBClusterParameterGroupNotFoundFault: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The user attempted to create a new DB cluster and the user has already reached the maximum allowed DB cluster quota.
-public struct DBClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2782,16 +2701,15 @@ public struct DBClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request would result in the user exceeding the allowed number of DB instances.
-public struct InstanceQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InstanceQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2806,16 +2724,15 @@ public struct InstanceQuotaExceededFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The source DB cluster isn't supported for a blue/green deployment.
-public struct SourceClusterNotSupportedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SourceClusterNotSupportedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2830,16 +2747,15 @@ public struct SourceClusterNotSupportedFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The source DB instance isn't supported for a blue/green deployment.
-public struct SourceDatabaseNotSupportedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SourceDatabaseNotSupportedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2854,8 +2770,7 @@ public struct SourceDatabaseNotSupportedFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2871,6 +2786,8 @@ public struct CreateBlueGreenDeploymentInput: Swift.Sendable {
     public var source: Swift.String?
     /// Tags to assign to the blue/green deployment.
     public var tags: [RDSClientTypes.Tag]?
+    /// The amount of storage in gibibytes (GiB) to allocate for the green DB instance. You can choose to increase or decrease the allocated storage on the green DB instance. This setting doesn't apply to Amazon Aurora blue/green deployments.
+    public var targetAllocatedStorage: Swift.Int?
     /// The DB cluster parameter group associated with the Aurora DB cluster in the green environment. To test parameter changes, specify a DB cluster parameter group that is different from the one associated with the source DB cluster.
     public var targetDBClusterParameterGroupName: Swift.String?
     /// Specify the DB instance class for the databases in the green environment. This parameter only applies to RDS DB instances, because DB instances within an Aurora DB cluster can have multiple different instance classes. If you're creating a blue/green deployment from an Aurora DB cluster, don't specify this parameter. After the green environment is created, you can individually modify the instance classes of the DB instances within the green DB cluster.
@@ -2879,6 +2796,12 @@ public struct CreateBlueGreenDeploymentInput: Swift.Sendable {
     public var targetDBParameterGroupName: Swift.String?
     /// The engine version of the database in the green environment. Specify the engine version to upgrade to in the green environment.
     public var targetEngineVersion: Swift.String?
+    /// The amount of Provisioned IOPS (input/output operations per second) to allocate for the green DB instance. For information about valid IOPS values, see [Amazon RDS DB instance storage](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html) in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora blue/green deployments.
+    public var targetIops: Swift.Int?
+    /// The storage throughput value for the green DB instance. This setting applies only to the gp3 storage type. This setting doesn't apply to Amazon Aurora blue/green deployments.
+    public var targetStorageThroughput: Swift.Int?
+    /// The storage type to associate with the green DB instance. Valid Values: gp2 | gp3 | io1 | io2 This setting doesn't apply to Amazon Aurora blue/green deployments.
+    public var targetStorageType: Swift.String?
     /// Whether to upgrade the storage file system configuration on the green database. This option migrates the green DB instance from the older 32-bit file system to the preferred configuration. For more information, see [Upgrading the storage file system for a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PIOPS.StorageTypes.html#USER_PIOPS.UpgradeFileSystem).
     public var upgradeTargetStorageConfig: Swift.Bool?
 
@@ -2886,20 +2809,27 @@ public struct CreateBlueGreenDeploymentInput: Swift.Sendable {
         blueGreenDeploymentName: Swift.String? = nil,
         source: Swift.String? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
+        targetAllocatedStorage: Swift.Int? = nil,
         targetDBClusterParameterGroupName: Swift.String? = nil,
         targetDBInstanceClass: Swift.String? = nil,
         targetDBParameterGroupName: Swift.String? = nil,
         targetEngineVersion: Swift.String? = nil,
+        targetIops: Swift.Int? = nil,
+        targetStorageThroughput: Swift.Int? = nil,
+        targetStorageType: Swift.String? = nil,
         upgradeTargetStorageConfig: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.blueGreenDeploymentName = blueGreenDeploymentName
         self.source = source
         self.tags = tags
+        self.targetAllocatedStorage = targetAllocatedStorage
         self.targetDBClusterParameterGroupName = targetDBClusterParameterGroupName
         self.targetDBInstanceClass = targetDBInstanceClass
         self.targetDBParameterGroupName = targetDBParameterGroupName
         self.targetEngineVersion = targetEngineVersion
+        self.targetIops = targetIops
+        self.targetStorageThroughput = targetStorageThroughput
+        self.targetStorageType = targetStorageType
         self.upgradeTargetStorageConfig = upgradeTargetStorageConfig
     }
 }
@@ -2933,8 +2863,7 @@ extension RDSClientTypes {
             sourceMember: Swift.String? = nil,
             status: Swift.String? = nil,
             targetMember: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceMember = sourceMember
             self.status = status
             self.targetMember = targetMember
@@ -2962,8 +2891,7 @@ extension RDSClientTypes {
         public init(
             name: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.status = status
         }
@@ -3023,8 +2951,7 @@ extension RDSClientTypes {
             tagList: [RDSClientTypes.Tag]? = nil,
             target: Swift.String? = nil,
             tasks: [RDSClientTypes.BlueGreenDeploymentTask]? = nil
-        )
-        {
+        ) {
             self.blueGreenDeploymentIdentifier = blueGreenDeploymentIdentifier
             self.blueGreenDeploymentName = blueGreenDeploymentName
             self.createTime = createTime
@@ -3046,16 +2973,15 @@ public struct CreateBlueGreenDeploymentOutput: Swift.Sendable {
 
     public init(
         blueGreenDeployment: RDSClientTypes.BlueGreenDeployment? = nil
-    )
-    {
+    ) {
         self.blueGreenDeployment = blueGreenDeployment
     }
 }
 
 /// An error occurred while trying to create the CEV.
-public struct CreateCustomDBEngineVersionFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CreateCustomDBEngineVersionFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3070,16 +2996,15 @@ public struct CreateCustomDBEngineVersionFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A CEV with the specified name already exists.
-public struct CustomDBEngineVersionAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CustomDBEngineVersionAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3094,16 +3019,15 @@ public struct CustomDBEngineVersionAlreadyExistsFault: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You have exceeded your CEV quota.
-public struct CustomDBEngineVersionQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CustomDBEngineVersionQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3118,16 +3042,15 @@ public struct CustomDBEngineVersionQuotaExceededFault: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The AMI configuration prerequisite has not been met.
-public struct Ec2ImagePropertiesNotSupportedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct Ec2ImagePropertiesNotSupportedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3142,8 +3065,7 @@ public struct Ec2ImagePropertiesNotSupportedFault: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3194,8 +3116,7 @@ public struct CreateCustomDBEngineVersionInput: Swift.Sendable {
         sourceCustomDbEngineVersionIdentifier: Swift.String? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         useAwsProvidedLatestImage: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.databaseInstallationFilesS3BucketName = databaseInstallationFilesS3BucketName
         self.databaseInstallationFilesS3Prefix = databaseInstallationFilesS3Prefix
         self.description = description
@@ -3222,8 +3143,7 @@ extension RDSClientTypes {
         public init(
             characterSetDescription: Swift.String? = nil,
             characterSetName: Swift.String? = nil
-        )
-        {
+        ) {
             self.characterSetDescription = characterSetDescription
             self.characterSetName = characterSetName
         }
@@ -3242,10 +3162,28 @@ extension RDSClientTypes {
         public init(
             imageId: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.imageId = imageId
             self.status = status
+        }
+    }
+}
+
+extension RDSClientTypes {
+
+    /// Specifies any Aurora Serverless v2 properties or limits that differ between Aurora engine versions. You can test the values of this attribute when deciding which Aurora version to use in a new or upgraded DB cluster. You can also retrieve the version of an existing DB cluster and check whether that version supports certain Aurora Serverless v2 features before you attempt to use those features.
+    public struct ServerlessV2FeaturesSupport: Swift.Sendable {
+        /// Specifies the upper Aurora Serverless v2 capacity limit for a particular engine version. Depending on the engine version, the maximum capacity for an Aurora Serverless v2 cluster might be 256 or 128.
+        public var maxCapacity: Swift.Double?
+        /// If the minimum capacity is 0 ACUs, the engine version supports the automatic pause/resume feature of Aurora Serverless v2.
+        public var minCapacity: Swift.Double?
+
+        public init(
+            maxCapacity: Swift.Double? = nil,
+            minCapacity: Swift.Double? = nil
+        ) {
+            self.maxCapacity = maxCapacity
+            self.minCapacity = minCapacity
         }
     }
 }
@@ -3259,8 +3197,7 @@ extension RDSClientTypes {
 
         public init(
             timezoneName: Swift.String? = nil
-        )
-        {
+        ) {
             self.timezoneName = timezoneName
         }
     }
@@ -3308,8 +3245,7 @@ extension RDSClientTypes {
             supportsLimitlessDatabase: Swift.Bool? = nil,
             supportsLocalWriteForwarding: Swift.Bool? = nil,
             supportsParallelQuery: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.autoUpgrade = autoUpgrade
             self.description = description
             self.engine = engine
@@ -3360,6 +3296,8 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Sendable {
     public var kmsKeyId: Swift.String?
     /// The major engine version of the CEV.
     public var majorEngineVersion: Swift.String?
+    /// Specifies any Aurora Serverless v2 properties or limits that differ between Aurora engine versions. You can test the values of this attribute when deciding which Aurora version to use in a new or upgraded DB cluster. You can also retrieve the version of an existing DB cluster and check whether that version supports certain Aurora Serverless v2 features before you attempt to use those features.
+    public var serverlessV2FeaturesSupport: RDSClientTypes.ServerlessV2FeaturesSupport?
     /// The status of the DB engine version, either available or deprecated.
     public var status: Swift.String?
     /// A list of the supported CA certificate identifiers. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
@@ -3414,6 +3352,7 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Sendable {
         image: RDSClientTypes.CustomDBEngineVersionAMI? = nil,
         kmsKeyId: Swift.String? = nil,
         majorEngineVersion: Swift.String? = nil,
+        serverlessV2FeaturesSupport: RDSClientTypes.ServerlessV2FeaturesSupport? = nil,
         status: Swift.String? = nil,
         supportedCACertificateIdentifiers: [Swift.String]? = nil,
         supportedCharacterSets: [RDSClientTypes.CharacterSet]? = nil,
@@ -3432,8 +3371,7 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Sendable {
         supportsReadReplica: Swift.Bool? = nil,
         tagList: [RDSClientTypes.Tag]? = nil,
         validUpgradeTarget: [RDSClientTypes.UpgradeTarget]? = nil
-    )
-    {
+    ) {
         self.createTime = createTime
         self.customDBEngineVersionManifest = customDBEngineVersionManifest
         self.databaseInstallationFilesS3BucketName = databaseInstallationFilesS3BucketName
@@ -3450,6 +3388,7 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Sendable {
         self.image = image
         self.kmsKeyId = kmsKeyId
         self.majorEngineVersion = majorEngineVersion
+        self.serverlessV2FeaturesSupport = serverlessV2FeaturesSupport
         self.status = status
         self.supportedCACertificateIdentifiers = supportedCACertificateIdentifiers
         self.supportedCharacterSets = supportedCharacterSets
@@ -3472,9 +3411,9 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Sendable {
 }
 
 /// The user already has a DB cluster with the given identifier.
-public struct DBClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3489,16 +3428,15 @@ public struct DBClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Subnets in the DB subnet group should cover at least two Availability Zones unless there is only one Availability Zone.
-public struct DBSubnetGroupDoesNotCoverEnoughAZs: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBSubnetGroupDoesNotCoverEnoughAZs: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3513,16 +3451,15 @@ public struct DBSubnetGroupDoesNotCoverEnoughAZs: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// DBSubnetGroupName doesn't refer to an existing DB subnet group.
-public struct DBSubnetGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBSubnetGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3537,16 +3474,15 @@ public struct DBSubnetGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Domain doesn't refer to an existing Active Directory domain.
-public struct DomainNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DomainNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3561,16 +3497,15 @@ public struct DomainNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
-public struct GlobalClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GlobalClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3585,16 +3520,15 @@ public struct GlobalClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified DB instance class isn't available in the specified Availability Zone.
-public struct InsufficientDBInstanceCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientDBInstanceCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3609,16 +3543,15 @@ public struct InsufficientDBInstanceCapacityFault: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// There is insufficient storage available for the current action. You might be able to resolve this error by updating your subnet group to use different Availability Zones that have more storage available.
-public struct InsufficientStorageClusterCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientStorageClusterCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3633,16 +3566,15 @@ public struct InsufficientStorageClusterCapacityFault: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The DBSubnetGroup doesn't belong to the same VPC as that of an existing cross-region read replica of the same source instance.
-public struct InvalidDBSubnetGroupFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBSubnetGroupFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3657,16 +3589,15 @@ public struct InvalidDBSubnetGroupFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The DB subnet group cannot be deleted because it's in use.
-public struct InvalidDBSubnetGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBSubnetGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3681,16 +3612,15 @@ public struct InvalidDBSubnetGroupStateFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The global cluster is in an invalid state and can't perform the requested operation.
-public struct InvalidGlobalClusterStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidGlobalClusterStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3705,16 +3635,15 @@ public struct InvalidGlobalClusterStateFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
-public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3729,16 +3658,15 @@ public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The DB subnet group doesn't cover all Availability Zones after it's created because of users' change.
-public struct InvalidVPCNetworkStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidVPCNetworkStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3753,16 +3681,15 @@ public struct InvalidVPCNetworkStateFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request would result in the user exceeding the allowed amount of storage available across all DB instances.
-public struct StorageQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StorageQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3777,8 +3704,7 @@ public struct StorageQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3805,6 +3731,35 @@ extension RDSClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .limitless: return "limitless"
+            case .standard: return "standard"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RDSClientTypes {
+
+    public enum DatabaseInsightsMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case advanced
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DatabaseInsightsMode] {
+            return [
+                .advanced,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .advanced: return "advanced"
             case .standard: return "standard"
             case let .sdkUnknown(s): return s
             }
@@ -3856,8 +3811,7 @@ extension RDSClientTypes {
             interconnectSubnetId: Swift.String? = nil,
             replicaMode: RDSClientTypes.ReplicaMode? = nil,
             transitGatewayMulticastDomainId: Swift.String? = nil
-        )
-        {
+        ) {
             self.interconnectSubnetId = interconnectSubnetId
             self.replicaMode = replicaMode
             self.transitGatewayMulticastDomainId = transitGatewayMulticastDomainId
@@ -3889,8 +3843,7 @@ extension RDSClientTypes {
             secondsBeforeTimeout: Swift.Int? = nil,
             secondsUntilAutoPause: Swift.Int? = nil,
             timeoutAction: Swift.String? = nil
-        )
-        {
+        ) {
             self.autoPause = autoPause
             self.maxCapacity = maxCapacity
             self.minCapacity = minCapacity
@@ -3905,18 +3858,21 @@ extension RDSClientTypes {
 
     /// Contains the scaling configuration of an Aurora Serverless v2 DB cluster. For more information, see [Using Amazon Aurora Serverless v2](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.html) in the Amazon Aurora User Guide.
     public struct ServerlessV2ScalingConfiguration: Swift.Sendable {
-        /// The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 40, 40.5, 41, and so on. The largest value that you can use is 128.
+        /// The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 32, 32.5, 33, and so on. The largest value that you can use is 256 for recent Aurora versions, or 128 for older versions.
         public var maxCapacity: Swift.Double?
-        /// The minimum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 8, 8.5, 9, and so on. The smallest value that you can use is 0.5.
+        /// The minimum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 8, 8.5, 9, and so on. For Aurora versions that support the Aurora Serverless v2 auto-pause feature, the smallest value that you can use is 0. For versions that don't support Aurora Serverless v2 auto-pause, the smallest value that you can use is 0.5.
         public var minCapacity: Swift.Double?
+        /// Specifies the number of seconds an Aurora Serverless v2 DB instance must be idle before Aurora attempts to automatically pause it. Specify a value between 300 seconds (five minutes) and 86,400 seconds (one day). The default is 300 seconds.
+        public var secondsUntilAutoPause: Swift.Int?
 
         public init(
             maxCapacity: Swift.Double? = nil,
-            minCapacity: Swift.Double? = nil
-        )
-        {
+            minCapacity: Swift.Double? = nil,
+            secondsUntilAutoPause: Swift.Int? = nil
+        ) {
             self.maxCapacity = maxCapacity
             self.minCapacity = minCapacity
+            self.secondsUntilAutoPause = secondsUntilAutoPause
         }
     }
 }
@@ -3925,7 +3881,7 @@ extension RDSClientTypes {
 public struct CreateDBClusterInput: Swift.Sendable {
     /// The amount of storage in gibibytes (GiB) to allocate to each DB instance in the Multi-AZ DB cluster. Valid for Cluster Type: Multi-AZ DB clusters only This setting is required to create a Multi-AZ DB cluster.
     public var allocatedStorage: Swift.Int?
-    /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window. By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Multi-AZ DB clusters only
+    /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window. By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB cluster
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// A list of Availability Zones (AZs) where you specifically want to create DB instances in the DB cluster. For information on AZs, see [Availability Zones](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.RegionsAndAvailabilityZones.html#Concepts.RegionsAndAvailabilityZones.AvailabilityZones) in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only Constraints:
     ///
@@ -3947,6 +3903,8 @@ public struct CreateDBClusterInput: Swift.Sendable {
     public var clusterScalabilityType: RDSClientTypes.ClusterScalabilityType?
     /// Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var copyTagsToSnapshot: Swift.Bool?
+    /// The mode of Database Insights to enable for the DB cluster. If you set this value to advanced, you must also set the PerformanceInsightsEnabled parameter to true and the PerformanceInsightsRetentionPeriod parameter to 465. Valid for Cluster Type: Aurora DB clusters only
+    public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The name for your database of up to 64 alphanumeric characters. A database named postgres is always created. If this parameter is specified, an additional database with this name is created. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var databaseName: Swift.String?
     /// The identifier for this DB cluster. This parameter is stored as a lowercase string. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:
@@ -3997,14 +3955,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
     public var enableCloudwatchLogsExports: [Swift.String]?
     /// Specifies whether to enable this DB cluster to forward write operations to the primary cluster of a global cluster (Aurora global database). By default, write operations are not allowed on Aurora DB clusters that are secondary clusters in an Aurora global database. You can set this value only on Aurora DB clusters that are members of an Aurora global database. With this parameter enabled, a secondary cluster can forward writes to the current primary cluster, and the resulting changes are replicated back to this cluster. For the primary DB cluster of an Aurora global database, this value is used immediately if the primary is demoted by a global cluster API operation, but it does nothing until then. Valid for Cluster Type: Aurora DB clusters only
     public var enableGlobalWriteForwarding: Swift.Bool?
-    /// Specifies whether to enable the HTTP endpoint for the DB cluster. By default, the HTTP endpoint isn't enabled. When enabled, the HTTP endpoint provides a connectionless web service API (RDS Data API) for running SQL queries on the DB cluster. You can also query your database from inside the RDS console with the RDS query editor. RDS Data API is supported with the following DB clusters:
-    ///
-    /// * Aurora PostgreSQL Serverless v2 and provisioned
-    ///
-    /// * Aurora PostgreSQL and Aurora MySQL Serverless v1
-    ///
-    ///
-    /// For more information, see [Using RDS Data API](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html) in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only
+    /// Specifies whether to enable the HTTP endpoint for the DB cluster. By default, the HTTP endpoint isn't enabled. When enabled, the HTTP endpoint provides a connectionless web service API (RDS Data API) for running SQL queries on the DB cluster. You can also query your database from inside the RDS console with the RDS query editor. For more information, see [Using RDS Data API](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html) in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only
     public var enableHttpEndpoint: Swift.Bool?
     /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see [ IAM Database Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon Aurora User Guide or [IAM database authentication for MariaDB, MySQL, and PostgreSQL](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon RDS User Guide. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var enableIAMDatabaseAuthentication: Swift.Bool?
@@ -4012,7 +3963,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
     public var enableLimitlessDatabase: Swift.Bool?
     /// Specifies whether read replicas can forward write operations to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
     public var enableLocalWriteForwarding: Swift.Bool?
-    /// Specifies whether to turn on Performance Insights for the DB cluster. For more information, see [ Using Amazon Performance Insights](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html) in the Amazon RDS User Guide. Valid for Cluster Type: Multi-AZ DB clusters only
+    /// Specifies whether to turn on Performance Insights for the DB cluster. For more information, see [ Using Amazon Performance Insights](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html) in the Amazon RDS User Guide. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var enablePerformanceInsights: Swift.Bool?
     /// The database engine to use for this DB cluster. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values:
     ///
@@ -4095,17 +4046,17 @@ public struct CreateDBClusterInput: Swift.Sendable {
     ///
     /// * Can't be a reserved word for the chosen database engine.
     public var masterUsername: Swift.String?
-    /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB cluster. To turn off collecting Enhanced Monitoring metrics, specify 0. If MonitoringRoleArn is specified, also set MonitoringInterval to a value other than 0. Valid for Cluster Type: Multi-AZ DB clusters only Valid Values: 0 | 1 | 5 | 10 | 15 | 30 | 60 Default: 0
+    /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB cluster. To turn off collecting Enhanced Monitoring metrics, specify 0. If MonitoringRoleArn is specified, also set MonitoringInterval to a value other than 0. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: 0 | 1 | 5 | 10 | 15 | 30 | 60 Default: 0
     public var monitoringInterval: Swift.Int?
-    /// The Amazon Resource Name (ARN) for the IAM role that permits RDS to send Enhanced Monitoring metrics to Amazon CloudWatch Logs. An example is arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, see [Setting up and enabling Enhanced Monitoring](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Monitoring.OS.html#USER_Monitoring.OS.Enabling) in the Amazon RDS User Guide. If MonitoringInterval is set to a value other than 0, supply a MonitoringRoleArn value. Valid for Cluster Type: Multi-AZ DB clusters only
+    /// The Amazon Resource Name (ARN) for the IAM role that permits RDS to send Enhanced Monitoring metrics to Amazon CloudWatch Logs. An example is arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, see [Setting up and enabling Enhanced Monitoring](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Monitoring.OS.html#USER_Monitoring.OS.Enabling) in the Amazon RDS User Guide. If MonitoringInterval is set to a value other than 0, supply a MonitoringRoleArn value. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var monitoringRoleArn: Swift.String?
     /// The network type of the DB cluster. The network type is determined by the DBSubnetGroup specified for the DB cluster. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see [ Working with a DB instance in a VPC](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html) in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only Valid Values: IPV4 | DUAL
     public var networkType: Swift.String?
     /// The option group to associate the DB cluster with. DB clusters are associated with a default option group that can't be modified.
     public var optionGroupName: Swift.String?
-    /// The Amazon Web Services KMS key identifier for encryption of Performance Insights data. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. If you don't specify a value for PerformanceInsightsKMSKeyId, then Amazon RDS uses your default KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region. Valid for Cluster Type: Multi-AZ DB clusters only
+    /// The Amazon Web Services KMS key identifier for encryption of Performance Insights data. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. If you don't specify a value for PerformanceInsightsKMSKeyId, then Amazon RDS uses your default KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var performanceInsightsKMSKeyId: Swift.String?
-    /// The number of days to retain Performance Insights data. Valid for Cluster Type: Multi-AZ DB clusters only Valid Values:
+    /// The number of days to retain Performance Insights data. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values:
     ///
     /// * 7
     ///
@@ -4207,6 +4158,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
         characterSetName: Swift.String? = nil,
         clusterScalabilityType: RDSClientTypes.ClusterScalabilityType? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
+        databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode? = nil,
         databaseName: Swift.String? = nil,
         dbClusterIdentifier: Swift.String? = nil,
         dbClusterInstanceClass: Swift.String? = nil,
@@ -4253,8 +4205,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
         storageType: Swift.String? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.allocatedStorage = allocatedStorage
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZones = availabilityZones
@@ -4264,6 +4215,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
         self.characterSetName = characterSetName
         self.clusterScalabilityType = clusterScalabilityType
         self.copyTagsToSnapshot = copyTagsToSnapshot
+        self.databaseInsightsMode = databaseInsightsMode
         self.databaseName = databaseName
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbClusterInstanceClass = dbClusterInstanceClass
@@ -4334,8 +4286,7 @@ extension RDSClientTypes {
             featureName: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.featureName = featureName
             self.roleArn = roleArn
             self.status = status
@@ -4355,8 +4306,7 @@ extension RDSClientTypes {
         public init(
             caIdentifier: Swift.String? = nil,
             validTill: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.caIdentifier = caIdentifier
             self.validTill = validTill
         }
@@ -4381,8 +4331,7 @@ extension RDSClientTypes {
             dbInstanceIdentifier: Swift.String? = nil,
             isClusterWriter: Swift.Bool? = nil,
             promotionTier: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dbClusterParameterGroupStatus = dbClusterParameterGroupStatus
             self.dbInstanceIdentifier = dbInstanceIdentifier
             self.isClusterWriter = isClusterWriter
@@ -4403,8 +4352,7 @@ extension RDSClientTypes {
         public init(
             dbClusterOptionGroupName: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.dbClusterOptionGroupName = dbClusterOptionGroupName
             self.status = status
         }
@@ -4438,8 +4386,7 @@ extension RDSClientTypes {
             iamRoleName: Swift.String? = nil,
             ou: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.authSecretArn = authSecretArn
             self.dnsIps = dnsIps
             self.domain = domain
@@ -4548,8 +4495,7 @@ extension RDSClientTypes {
         public init(
             minRequiredACU: Swift.Double? = nil,
             status: RDSClientTypes.LimitlessDatabaseStatus? = nil
-        )
-        {
+        ) {
             self.minRequiredACU = minRequiredACU
             self.status = status
         }
@@ -4617,8 +4563,7 @@ extension RDSClientTypes {
             kmsKeyId: Swift.String? = nil,
             secretArn: Swift.String? = nil,
             secretStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.secretArn = secretArn
             self.secretStatus = secretStatus
@@ -4638,8 +4583,7 @@ extension RDSClientTypes {
         public init(
             logTypesToDisable: [Swift.String]? = nil,
             logTypesToEnable: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.logTypesToDisable = logTypesToDisable
             self.logTypesToEnable = logTypesToEnable
         }
@@ -4685,8 +4629,7 @@ extension RDSClientTypes {
             pendingCloudwatchLogsExports: RDSClientTypes.PendingCloudwatchLogsExports? = nil,
             rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration? = nil,
             storageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.allocatedStorage = allocatedStorage
             self.backupRetentionPeriod = backupRetentionPeriod
             self.certificateDetails = certificateDetails
@@ -4726,8 +4669,7 @@ extension RDSClientTypes {
             secondsBeforeTimeout: Swift.Int? = nil,
             secondsUntilAutoPause: Swift.Int? = nil,
             timeoutAction: Swift.String? = nil
-        )
-        {
+        ) {
             self.autoPause = autoPause
             self.maxCapacity = maxCapacity
             self.minCapacity = minCapacity
@@ -4742,18 +4684,21 @@ extension RDSClientTypes {
 
     /// The scaling configuration for an Aurora Serverless v2 DB cluster. For more information, see [Using Amazon Aurora Serverless v2](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.html) in the Amazon Aurora User Guide.
     public struct ServerlessV2ScalingConfigurationInfo: Swift.Sendable {
-        /// The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 40, 40.5, 41, and so on. The largest value that you can use is 128.
+        /// The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 32, 32.5, 33, and so on. The largest value that you can use is 256 for recent Aurora versions, or 128 for older versions.
         public var maxCapacity: Swift.Double?
-        /// The minimum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 8, 8.5, 9, and so on. The smallest value that you can use is 0.5.
+        /// The minimum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 8, 8.5, 9, and so on. For Aurora versions that support the Aurora Serverless v2 auto-pause feature, the smallest value that you can use is 0. For versions that don't support Aurora Serverless v2 auto-pause, the smallest value that you can use is 0.5.
         public var minCapacity: Swift.Double?
+        /// The number of seconds an Aurora Serverless v2 DB instance must be idle before Aurora attempts to automatically pause it. This property is only shown when the minimum capacity for the cluster is set to 0 ACUs. Changing the minimum capacity to a nonzero value removes this property. If you later change the minimum capacity back to 0 ACUs, this property is reset to its default value unless you specify it again. This value ranges between 300 seconds (five minutes) and 86,400 seconds (one day). The default is 300 seconds.
+        public var secondsUntilAutoPause: Swift.Int?
 
         public init(
             maxCapacity: Swift.Double? = nil,
-            minCapacity: Swift.Double? = nil
-        )
-        {
+            minCapacity: Swift.Double? = nil,
+            secondsUntilAutoPause: Swift.Int? = nil
+        ) {
             self.maxCapacity = maxCapacity
             self.minCapacity = minCapacity
+            self.secondsUntilAutoPause = secondsUntilAutoPause
         }
     }
 }
@@ -4776,8 +4721,7 @@ extension RDSClientTypes {
             normal: Swift.Bool? = nil,
             status: Swift.String? = nil,
             statusType: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.normal = normal
             self.status = status
@@ -4802,7 +4746,7 @@ extension RDSClientTypes {
         public var allocatedStorage: Swift.Int?
         /// A list of the Amazon Web Services Identity and Access Management (IAM) roles that are associated with the DB cluster. IAM roles that are associated with a DB cluster grant permission for the DB cluster to access other Amazon Web Services on your behalf.
         public var associatedRoles: [RDSClientTypes.DBClusterRole]?
-        /// Indicates whether minor version patches are applied automatically. This setting is only for non-Aurora Multi-AZ DB clusters.
+        /// Indicates whether minor version patches are applied automatically. This setting is for Aurora DB clusters and Multi-AZ DB clusters.
         public var autoMinorVersionUpgrade: Swift.Bool?
         /// The time when a stopped DB cluster is restarted automatically.
         public var automaticRestartTime: Foundation.Date?
@@ -4834,6 +4778,8 @@ extension RDSClientTypes {
         public var crossAccountClone: Swift.Bool?
         /// The custom endpoints associated with the DB cluster.
         public var customEndpoints: [Swift.String]?
+        /// The mode of Database Insights that is enabled for the DB cluster.
+        public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
         /// The name of the initial database that was specified for the DB cluster when it was created, if one was provided. This same name is returned for the life of the DB cluster.
         public var databaseName: Swift.String?
         /// The Amazon Resource Name (ARN) for the DB cluster.
@@ -4900,9 +4846,9 @@ extension RDSClientTypes {
         public var masterUserSecret: RDSClientTypes.MasterUserSecret?
         /// The master username for the DB cluster.
         public var masterUsername: Swift.String?
-        /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB cluster. This setting is only for non-Aurora Multi-AZ DB clusters.
+        /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB cluster. This setting is only for -Aurora DB clusters and Multi-AZ DB clusters.
         public var monitoringInterval: Swift.Int?
-        /// The ARN for the IAM role that permits RDS to send Enhanced Monitoring metrics to Amazon CloudWatch Logs. This setting is only for non-Aurora Multi-AZ DB clusters.
+        /// The ARN for the IAM role that permits RDS to send Enhanced Monitoring metrics to Amazon CloudWatch Logs. This setting is only for Aurora DB clusters and Multi-AZ DB clusters.
         public var monitoringRoleArn: Swift.String?
         /// Indicates whether the DB cluster has instances in multiple Availability Zones.
         public var multiAZ: Swift.Bool?
@@ -4912,11 +4858,11 @@ extension RDSClientTypes {
         public var pendingModifiedValues: RDSClientTypes.ClusterPendingModifiedValues?
         /// The progress of the operation as a percentage.
         public var percentProgress: Swift.String?
-        /// Indicates whether Performance Insights is enabled for the DB cluster. This setting is only for non-Aurora Multi-AZ DB clusters.
+        /// Indicates whether Performance Insights is enabled for the DB cluster. This setting is only for Aurora DB clusters and Multi-AZ DB clusters.
         public var performanceInsightsEnabled: Swift.Bool?
-        /// The Amazon Web Services KMS key identifier for encryption of Performance Insights data. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. This setting is only for non-Aurora Multi-AZ DB clusters.
+        /// The Amazon Web Services KMS key identifier for encryption of Performance Insights data. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. This setting is only for Aurora DB clusters and Multi-AZ DB clusters.
         public var performanceInsightsKMSKeyId: Swift.String?
-        /// The number of days to retain Performance Insights data. This setting is only for non-Aurora Multi-AZ DB clusters. Valid Values:
+        /// The number of days to retain Performance Insights data. This setting is only for Aurora DB clusters and Multi-AZ DB clusters. Valid Values:
         ///
         /// * 7
         ///
@@ -4985,6 +4931,7 @@ extension RDSClientTypes {
             copyTagsToSnapshot: Swift.Bool? = nil,
             crossAccountClone: Swift.Bool? = nil,
             customEndpoints: [Swift.String]? = nil,
+            databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode? = nil,
             databaseName: Swift.String? = nil,
             dbClusterArn: Swift.String? = nil,
             dbClusterIdentifier: Swift.String? = nil,
@@ -5044,8 +4991,7 @@ extension RDSClientTypes {
             storageType: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
             vpcSecurityGroups: [RDSClientTypes.VpcSecurityGroupMembership]? = nil
-        )
-        {
+        ) {
             self.activityStreamKinesisStreamName = activityStreamKinesisStreamName
             self.activityStreamKmsKeyId = activityStreamKmsKeyId
             self.activityStreamMode = activityStreamMode
@@ -5068,6 +5014,7 @@ extension RDSClientTypes {
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.crossAccountClone = crossAccountClone
             self.customEndpoints = customEndpoints
+            self.databaseInsightsMode = databaseInsightsMode
             self.databaseName = databaseName
             self.dbClusterArn = dbClusterArn
             self.dbClusterIdentifier = dbClusterIdentifier
@@ -5137,16 +5084,15 @@ public struct CreateDBClusterOutput: Swift.Sendable {
 
     public init(
         dbCluster: RDSClientTypes.DBCluster? = nil
-    )
-    {
+    ) {
         self.dbCluster = dbCluster
     }
 }
 
 /// The specified custom endpoint can't be created because it already exists.
-public struct DBClusterEndpointAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterEndpointAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5161,16 +5107,15 @@ public struct DBClusterEndpointAlreadyExistsFault: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The cluster already has the maximum number of custom endpoints.
-public struct DBClusterEndpointQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterEndpointQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5185,8 +5130,7 @@ public struct DBClusterEndpointQuotaExceededFault: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5215,8 +5159,7 @@ public struct CreateDBClusterEndpointInput: Swift.Sendable {
         excludedMembers: [Swift.String]? = nil,
         staticMembers: [Swift.String]? = nil,
         tags: [RDSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.dbClusterEndpointIdentifier = dbClusterEndpointIdentifier
         self.dbClusterIdentifier = dbClusterIdentifier
         self.endpointType = endpointType
@@ -5271,8 +5214,7 @@ public struct CreateDBClusterEndpointOutput: Swift.Sendable {
         excludedMembers: [Swift.String]? = nil,
         staticMembers: [Swift.String]? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.customEndpointType = customEndpointType
         self.dbClusterEndpointArn = dbClusterEndpointArn
         self.dbClusterEndpointIdentifier = dbClusterEndpointIdentifier
@@ -5318,8 +5260,7 @@ public struct CreateDBClusterParameterGroupInput: Swift.Sendable {
         dbParameterGroupFamily: Swift.String? = nil,
         description: Swift.String? = nil,
         tags: [RDSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
         self.dbParameterGroupFamily = dbParameterGroupFamily
         self.description = description
@@ -5333,8 +5274,7 @@ public struct CreateDBClusterParameterGroupOutput: Swift.Sendable {
 
     public init(
         dbClusterParameterGroup: RDSClientTypes.DBClusterParameterGroup? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroup = dbClusterParameterGroup
     }
 }
@@ -5368,8 +5308,7 @@ public struct CreateDBClusterSnapshotInput: Swift.Sendable {
         dbClusterIdentifier: Swift.String? = nil,
         dbClusterSnapshotIdentifier: Swift.String? = nil,
         tags: [RDSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
         self.tags = tags
@@ -5382,16 +5321,15 @@ public struct CreateDBClusterSnapshotOutput: Swift.Sendable {
 
     public init(
         dbClusterSnapshot: RDSClientTypes.DBClusterSnapshot? = nil
-    )
-    {
+    ) {
         self.dbClusterSnapshot = dbClusterSnapshot
     }
 }
 
 /// The specified CIDR IP range or Amazon EC2 security group might not be authorized for the specified DB security group. Or, RDS might not be authorized to perform necessary actions using IAM on your behalf.
-public struct AuthorizationNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AuthorizationNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5406,16 +5344,15 @@ public struct AuthorizationNotFoundFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 @available(*, deprecated, message: "Please avoid using this fault")
-public struct BackupPolicyNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BackupPolicyNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5430,16 +5367,15 @@ public struct BackupPolicyNotFoundFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// CertificateIdentifier doesn't refer to an existing certificate.
-public struct CertificateNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CertificateNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5454,16 +5390,15 @@ public struct CertificateNotFoundFault: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The user already has a DB instance with the given identifier.
-public struct DBInstanceAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBInstanceAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5478,16 +5413,15 @@ public struct DBInstanceAlreadyExistsFault: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The network type is invalid for the DB instance. Valid nework type values are IPV4 and DUAL.
-public struct NetworkTypeNotSupported: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NetworkTypeNotSupported: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5502,16 +5436,15 @@ public struct NetworkTypeNotSupported: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Provisioned IOPS not available in the specified Availability Zone.
-public struct ProvisionedIopsNotAvailableInAZFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ProvisionedIopsNotAvailableInAZFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5526,16 +5459,15 @@ public struct ProvisionedIopsNotAvailableInAZFault: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified StorageType can't be associated with the DB instance.
-public struct StorageTypeNotSupportedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StorageTypeNotSupportedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5550,16 +5482,15 @@ public struct StorageTypeNotSupportedFault: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You attempted to create more tenant databases than are permitted in your Amazon Web Services account.
-public struct TenantDatabaseQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TenantDatabaseQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5574,8 +5505,7 @@ public struct TenantDatabaseQuotaExceededFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5707,6 +5637,8 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     ///
     /// For the list of permissions required for the IAM role, see [ Configure IAM and your VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-setup-orcl.html#custom-setup-orcl.iam-vpc) in the Amazon RDS User Guide.
     public var customIamInstanceProfile: Swift.String?
+    /// The mode of Database Insights to enable for the DB instance. This setting only applies to Amazon Aurora DB instances. Currently, this value is inherited from the DB cluster and can't be changed.
+    public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The identifier of the DB cluster that this DB instance will belong to. This setting doesn't apply to RDS Custom DB instances.
     public var dbClusterIdentifier: Swift.String?
     /// The compute and memory capacity of the DB instance, for example db.m5.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB instance classes](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide or [Aurora DB instance classes](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html) in the Amazon Aurora User Guide.
@@ -5727,6 +5659,8 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     /// The meaning of this parameter differs according to the database engine you use. Amazon Aurora MySQL The name of the database to create when the primary DB instance of the Aurora MySQL DB cluster is created. If this parameter isn't specified for an Aurora MySQL DB cluster, no database is created in the DB cluster. Constraints:
     ///
     /// * Must contain 1 to 64 alphanumeric characters.
+    ///
+    /// * Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).
     ///
     /// * Can't be a word reserved by the database engine.
     ///
@@ -6119,6 +6053,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
         characterSetName: Swift.String? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
         customIamInstanceProfile: Swift.String? = nil,
+        databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode? = nil,
         dbClusterIdentifier: Swift.String? = nil,
         dbInstanceClass: Swift.String? = nil,
         dbInstanceIdentifier: Swift.String? = nil,
@@ -6173,8 +6108,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
         tdeCredentialPassword: Swift.String? = nil,
         timezone: Swift.String? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.allocatedStorage = allocatedStorage
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
@@ -6184,6 +6118,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
         self.characterSetName = characterSetName
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.customIamInstanceProfile = customIamInstanceProfile
+        self.databaseInsightsMode = databaseInsightsMode
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbInstanceClass = dbInstanceClass
         self.dbInstanceIdentifier = dbInstanceIdentifier
@@ -6262,8 +6197,7 @@ extension RDSClientTypes {
             featureName: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.featureName = featureName
             self.roleArn = roleArn
             self.status = status
@@ -6309,8 +6243,7 @@ extension RDSClientTypes {
 
         public init(
             dbInstanceAutomatedBackupsArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.dbInstanceAutomatedBackupsArn = dbInstanceAutomatedBackupsArn
         }
     }
@@ -6350,8 +6283,7 @@ extension RDSClientTypes {
         public init(
             dbParameterGroupName: Swift.String? = nil,
             parameterApplyStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.dbParameterGroupName = dbParameterGroupName
             self.parameterApplyStatus = parameterApplyStatus
         }
@@ -6367,8 +6299,7 @@ extension RDSClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -6383,8 +6314,7 @@ extension RDSClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -6408,8 +6338,7 @@ extension RDSClientTypes {
             subnetIdentifier: Swift.String? = nil,
             subnetOutpost: RDSClientTypes.Outpost? = nil,
             subnetStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.subnetAvailabilityZone = subnetAvailabilityZone
             self.subnetIdentifier = subnetIdentifier
             self.subnetOutpost = subnetOutpost
@@ -6452,8 +6381,7 @@ extension RDSClientTypes {
             subnets: [RDSClientTypes.Subnet]? = nil,
             supportedNetworkTypes: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dbSubnetGroupArn = dbSubnetGroupArn
             self.dbSubnetGroupDescription = dbSubnetGroupDescription
             self.dbSubnetGroupName = dbSubnetGroupName
@@ -6489,8 +6417,7 @@ extension RDSClientTypes {
             address: Swift.String? = nil,
             hostedZoneId: Swift.String? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.address = address
             self.hostedZoneId = hostedZoneId
             self.port = port
@@ -6510,8 +6437,7 @@ extension RDSClientTypes {
         public init(
             optionGroupName: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.optionGroupName = optionGroupName
             self.status = status
         }
@@ -6590,8 +6516,7 @@ extension RDSClientTypes {
             resumeFullAutomationModeTime: Foundation.Date? = nil,
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.allocatedStorage = allocatedStorage
             self.automationMode = automationMode
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -6636,8 +6561,7 @@ extension RDSClientTypes {
             normal: Swift.Bool? = nil,
             status: Swift.String? = nil,
             statusType: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.normal = normal
             self.status = status
@@ -6701,6 +6625,8 @@ extension RDSClientTypes {
         public var customIamInstanceProfile: Swift.String?
         /// Indicates whether a customer-owned IP address (CoIP) is enabled for an RDS on Outposts DB instance. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the DB instance from outside of its virtual private cloud (VPC) on your local network. For more information about RDS on Outposts, see [Working with Amazon RDS on Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html) in the Amazon RDS User Guide. For more information about CoIPs, see [Customer-owned IP addresses](https://docs.aws.amazon.com/outposts/latest/userguide/routing.html#ip-addressing) in the Amazon Web Services Outposts User Guide.
         public var customerOwnedIpEnabled: Swift.Bool?
+        /// The mode of Database Insights that is enabled for the instance.
+        public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
         /// If the DB instance is a member of a DB cluster, indicates the name of the DB cluster that the DB instance is a member of.
         public var dbClusterIdentifier: Swift.String?
         /// The Amazon Resource Name (ARN) for the DB instance.
@@ -6863,6 +6789,7 @@ extension RDSClientTypes {
             copyTagsToSnapshot: Swift.Bool? = nil,
             customIamInstanceProfile: Swift.String? = nil,
             customerOwnedIpEnabled: Swift.Bool? = nil,
+            databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode? = nil,
             dbClusterIdentifier: Swift.String? = nil,
             dbInstanceArn: Swift.String? = nil,
             dbInstanceAutomatedBackupsReplications: [RDSClientTypes.DBInstanceAutomatedBackupsReplication]? = nil,
@@ -6928,8 +6855,7 @@ extension RDSClientTypes {
             tdeCredentialArn: Swift.String? = nil,
             timezone: Swift.String? = nil,
             vpcSecurityGroups: [RDSClientTypes.VpcSecurityGroupMembership]? = nil
-        )
-        {
+        ) {
             self.activityStreamEngineNativeAuditFieldsIncluded = activityStreamEngineNativeAuditFieldsIncluded
             self.activityStreamKinesisStreamName = activityStreamKinesisStreamName
             self.activityStreamKmsKeyId = activityStreamKmsKeyId
@@ -6951,6 +6877,7 @@ extension RDSClientTypes {
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.customIamInstanceProfile = customIamInstanceProfile
             self.customerOwnedIpEnabled = customerOwnedIpEnabled
+            self.databaseInsightsMode = databaseInsightsMode
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbInstanceArn = dbInstanceArn
             self.dbInstanceAutomatedBackupsReplications = dbInstanceAutomatedBackupsReplications
@@ -7026,16 +6953,15 @@ public struct CreateDBInstanceOutput: Swift.Sendable {
 
     public init(
         dbInstance: RDSClientTypes.DBInstance? = nil
-    )
-    {
+    ) {
         self.dbInstance = dbInstance
     }
 }
 
 /// The DBSubnetGroup shouldn't be specified while creating read replicas that lie in the same region as the source instance.
-public struct DBSubnetGroupNotAllowedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBSubnetGroupNotAllowedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7050,14 +6976,13 @@ public struct DBSubnetGroupNotAllowedFault: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
-    /// The amount of storage (in gibibytes) to allocate initially for the read replica. Follow the allocation rules specified in CreateDBInstance. Be sure to allocate enough storage for your read replica so that the create operation can succeed. You can also allocate additional storage for future growth.
+    /// The amount of storage (in gibibytes) to allocate initially for the read replica. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server. Be sure to allocate enough storage for your read replica so that the create operation can succeed. You can also allocate additional storage for future growth.
     public var allocatedStorage: Swift.Int?
     /// Specifies whether to automatically apply minor engine upgrades to the read replica during the maintenance window. This setting doesn't apply to RDS Custom DB instances. Default: Inherits the value from the source DB instance.
     public var autoMinorVersionUpgrade: Swift.Bool?
@@ -7078,6 +7003,8 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
     ///
     /// For the list of permissions required for the IAM role, see [ Configure IAM and your VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-setup-orcl.html#custom-setup-orcl.iam-vpc) in the Amazon RDS User Guide. This setting is required for RDS Custom DB instances.
     public var customIamInstanceProfile: Swift.String?
+    /// The mode of Database Insights to enable for the read replica. Currently, this setting is not supported.
+    public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The compute and memory capacity of the read replica, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB Instance Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide. Default: Inherits the value from the source DB instance.
     public var dbInstanceClass: Swift.String?
     /// The DB instance identifier of the read replica. This identifier is the unique key that identifies a DB instance. This parameter is stored as a lowercase string.
@@ -7251,6 +7178,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
         caCertificateIdentifier: Swift.String? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
         customIamInstanceProfile: Swift.String? = nil,
+        databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode? = nil,
         dbInstanceClass: Swift.String? = nil,
         dbInstanceIdentifier: Swift.String? = nil,
         dbParameterGroupName: Swift.String? = nil,
@@ -7290,14 +7218,14 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
         upgradeStorageConfig: Swift.Bool? = nil,
         useDefaultProcessorFeatures: Swift.Bool? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.allocatedStorage = allocatedStorage
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
         self.caCertificateIdentifier = caCertificateIdentifier
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.customIamInstanceProfile = customIamInstanceProfile
+        self.databaseInsightsMode = databaseInsightsMode
         self.dbInstanceClass = dbInstanceClass
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.dbParameterGroupName = dbParameterGroupName
@@ -7346,8 +7274,7 @@ public struct CreateDBInstanceReadReplicaOutput: Swift.Sendable {
 
     public init(
         dbInstance: RDSClientTypes.DBInstance? = nil
-    )
-    {
+    ) {
         self.dbInstance = dbInstance
     }
 }
@@ -7408,8 +7335,7 @@ public struct CreateDBParameterGroupInput: Swift.Sendable {
         dbParameterGroupName: Swift.String? = nil,
         description: Swift.String? = nil,
         tags: [RDSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.dbParameterGroupFamily = dbParameterGroupFamily
         self.dbParameterGroupName = dbParameterGroupName
         self.description = description
@@ -7423,16 +7349,15 @@ public struct CreateDBParameterGroupOutput: Swift.Sendable {
 
     public init(
         dbParameterGroup: RDSClientTypes.DBParameterGroup? = nil
-    )
-    {
+    ) {
         self.dbParameterGroup = dbParameterGroup
     }
 }
 
 /// The specified proxy name must be unique for all proxies owned by your Amazon Web Services account in the specified Amazon Web Services Region.
-public struct DBProxyAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBProxyAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7447,16 +7372,15 @@ public struct DBProxyAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Your Amazon Web Services account already has the maximum number of proxies in the specified Amazon Web Services Region.
-public struct DBProxyQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBProxyQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7471,8 +7395,7 @@ public struct DBProxyQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7506,6 +7429,7 @@ extension RDSClientTypes {
 extension RDSClientTypes {
 
     public enum ClientPasswordAuthType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case mysqlCachingSha2Password
         case mysqlNativePassword
         case postgresMd5
         case postgresScramSha256
@@ -7514,6 +7438,7 @@ extension RDSClientTypes {
 
         public static var allCases: [ClientPasswordAuthType] {
             return [
+                .mysqlCachingSha2Password,
                 .mysqlNativePassword,
                 .postgresMd5,
                 .postgresScramSha256,
@@ -7528,6 +7453,7 @@ extension RDSClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .mysqlCachingSha2Password: return "MYSQL_CACHING_SHA2_PASSWORD"
             case .mysqlNativePassword: return "MYSQL_NATIVE_PASSWORD"
             case .postgresMd5: return "POSTGRES_MD5"
             case .postgresScramSha256: return "POSTGRES_SCRAM_SHA_256"
@@ -7594,8 +7520,7 @@ extension RDSClientTypes {
             iamAuth: RDSClientTypes.IAMAuthMode? = nil,
             secretArn: Swift.String? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.authScheme = authScheme
             self.clientPasswordAuthType = clientPasswordAuthType
             self.description = description
@@ -7676,8 +7601,7 @@ public struct CreateDBProxyInput: Swift.Sendable {
         tags: [RDSClientTypes.Tag]? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil,
         vpcSubnetIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.auth = auth
         self.dbProxyName = dbProxyName
         self.debugLogging = debugLogging
@@ -7715,8 +7639,7 @@ extension RDSClientTypes {
             iamAuth: RDSClientTypes.IAMAuthMode? = nil,
             secretArn: Swift.String? = nil,
             userName: Swift.String? = nil
-        )
-        {
+        ) {
             self.authScheme = authScheme
             self.clientPasswordAuthType = clientPasswordAuthType
             self.description = description
@@ -7828,8 +7751,7 @@ extension RDSClientTypes {
             vpcId: Swift.String? = nil,
             vpcSecurityGroupIds: [Swift.String]? = nil,
             vpcSubnetIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.auth = auth
             self.createdDate = createdDate
             self.dbProxyArn = dbProxyArn
@@ -7855,16 +7777,15 @@ public struct CreateDBProxyOutput: Swift.Sendable {
 
     public init(
         dbProxy: RDSClientTypes.DBProxy? = nil
-    )
-    {
+    ) {
         self.dbProxy = dbProxy
     }
 }
 
 /// The specified DB proxy endpoint name must be unique for all DB proxy endpoints owned by your Amazon Web Services account in the specified Amazon Web Services Region.
-public struct DBProxyEndpointAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBProxyEndpointAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7879,16 +7800,15 @@ public struct DBProxyEndpointAlreadyExistsFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The DB proxy already has the maximum number of endpoints.
-public struct DBProxyEndpointQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBProxyEndpointQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7903,16 +7823,15 @@ public struct DBProxyEndpointQuotaExceededFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The requested operation can't be performed while the proxy is in this state.
-public struct InvalidDBProxyStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBProxyStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7927,8 +7846,7 @@ public struct InvalidDBProxyStateFault: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7986,8 +7904,7 @@ public struct CreateDBProxyEndpointInput: Swift.Sendable {
         targetRole: RDSClientTypes.DBProxyEndpointTargetRole? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil,
         vpcSubnetIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.dbProxyEndpointName = dbProxyEndpointName
         self.dbProxyName = dbProxyName
         self.tags = tags
@@ -8077,8 +7994,7 @@ extension RDSClientTypes {
             vpcId: Swift.String? = nil,
             vpcSecurityGroupIds: [Swift.String]? = nil,
             vpcSubnetIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.createdDate = createdDate
             self.dbProxyEndpointArn = dbProxyEndpointArn
             self.dbProxyEndpointName = dbProxyEndpointName
@@ -8100,16 +8016,15 @@ public struct CreateDBProxyEndpointOutput: Swift.Sendable {
 
     public init(
         dbProxyEndpoint: RDSClientTypes.DBProxyEndpoint? = nil
-    )
-    {
+    ) {
         self.dbProxyEndpoint = dbProxyEndpoint
     }
 }
 
 /// A DB security group with the name specified in DBSecurityGroupName already exists.
-public struct DBSecurityGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBSecurityGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8124,16 +8039,15 @@ public struct DBSecurityGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A DB security group isn't allowed for this action.
-public struct DBSecurityGroupNotSupportedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBSecurityGroupNotSupportedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8148,16 +8062,15 @@ public struct DBSecurityGroupNotSupportedFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request would result in the user exceeding the allowed number of DB security groups.
-public struct DBSecurityGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBSecurityGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8172,8 +8085,7 @@ public struct DBSecurityGroupQuotaExceededFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8204,8 +8116,7 @@ public struct CreateDBSecurityGroupInput: Swift.Sendable {
         dbSecurityGroupDescription: Swift.String? = nil,
         dbSecurityGroupName: Swift.String? = nil,
         tags: [RDSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.dbSecurityGroupDescription = dbSecurityGroupDescription
         self.dbSecurityGroupName = dbSecurityGroupName
         self.tags = tags
@@ -8218,16 +8129,15 @@ public struct CreateDBSecurityGroupOutput: Swift.Sendable {
 
     public init(
         dbSecurityGroup: RDSClientTypes.DBSecurityGroup? = nil
-    )
-    {
+    ) {
         self.dbSecurityGroup = dbSecurityGroup
     }
 }
 
 /// The specified DB shard group name must be unique in your Amazon Web Services account in the specified Amazon Web Services Region.
-public struct DBShardGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBShardGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8242,16 +8152,15 @@ public struct DBShardGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The maximum number of DB shard groups for your Amazon Web Services account in the specified Amazon Web Services Region has been reached.
-public struct MaxDBShardGroupLimitReached: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MaxDBShardGroupLimitReached: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8266,16 +8175,15 @@ public struct MaxDBShardGroupLimitReached: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified DB engine version isn't supported for Aurora Limitless Database.
-public struct UnsupportedDBEngineVersionFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedDBEngineVersionFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8290,8 +8198,7 @@ public struct UnsupportedDBEngineVersionFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8340,8 +8247,7 @@ public struct CreateDBShardGroupInput: Swift.Sendable {
         minACU: Swift.Double? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         tags: [RDSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.computeRedundancy = computeRedundancy
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbShardGroupIdentifier = dbShardGroupIdentifier
@@ -8352,6 +8258,7 @@ public struct CreateDBShardGroupInput: Swift.Sendable {
     }
 }
 
+/// Contains the details for an Amazon RDS DB shard group.
 public struct CreateDBShardGroupOutput: Swift.Sendable {
     /// Specifies whether to create standby DB shard groups for the DB shard group. Valid values are the following:
     ///
@@ -8394,8 +8301,7 @@ public struct CreateDBShardGroupOutput: Swift.Sendable {
         publiclyAccessible: Swift.Bool? = nil,
         status: Swift.String? = nil,
         tagList: [RDSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.computeRedundancy = computeRedundancy
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbShardGroupArn = dbShardGroupArn
@@ -8438,8 +8344,7 @@ public struct CreateDBSnapshotInput: Swift.Sendable {
         dbInstanceIdentifier: Swift.String? = nil,
         dbSnapshotIdentifier: Swift.String? = nil,
         tags: [RDSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.dbSnapshotIdentifier = dbSnapshotIdentifier
         self.tags = tags
@@ -8452,16 +8357,15 @@ public struct CreateDBSnapshotOutput: Swift.Sendable {
 
     public init(
         dbSnapshot: RDSClientTypes.DBSnapshot? = nil
-    )
-    {
+    ) {
         self.dbSnapshot = dbSnapshot
     }
 }
 
 /// DBSubnetGroupName is already used by an existing DB subnet group.
-public struct DBSubnetGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBSubnetGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8476,16 +8380,15 @@ public struct DBSubnetGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request would result in the user exceeding the allowed number of DB subnet groups.
-public struct DBSubnetGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBSubnetGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8500,16 +8403,15 @@ public struct DBSubnetGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request would result in the user exceeding the allowed number of subnets in a DB subnet groups.
-public struct DBSubnetQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBSubnetQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8524,8 +8426,7 @@ public struct DBSubnetQuotaExceededFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8558,8 +8459,7 @@ public struct CreateDBSubnetGroupInput: Swift.Sendable {
         dbSubnetGroupName: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil,
         tags: [RDSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.dbSubnetGroupDescription = dbSubnetGroupDescription
         self.dbSubnetGroupName = dbSubnetGroupName
         self.subnetIds = subnetIds
@@ -8573,16 +8473,15 @@ public struct CreateDBSubnetGroupOutput: Swift.Sendable {
 
     public init(
         dbSubnetGroup: RDSClientTypes.DBSubnetGroup? = nil
-    )
-    {
+    ) {
         self.dbSubnetGroup = dbSubnetGroup
     }
 }
 
 /// You have reached the maximum number of event subscriptions.
-public struct EventSubscriptionQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EventSubscriptionQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8597,16 +8496,15 @@ public struct EventSubscriptionQuotaExceededFault: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// SNS has responded that there is a problem with the SNS topic specified.
-public struct SNSInvalidTopicFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SNSInvalidTopicFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8621,16 +8519,15 @@ public struct SNSInvalidTopicFault: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You do not have permission to publish to the SNS topic ARN.
-public struct SNSNoAuthorizationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SNSNoAuthorizationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8645,16 +8542,15 @@ public struct SNSNoAuthorizationFault: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The SNS topic ARN does not exist.
-public struct SNSTopicArnNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SNSTopicArnNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8669,16 +8565,15 @@ public struct SNSTopicArnNotFoundFault: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The supplied subscription name already exists.
-public struct SubscriptionAlreadyExistFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SubscriptionAlreadyExistFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8693,16 +8588,15 @@ public struct SubscriptionAlreadyExistFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The supplied category does not exist.
-public struct SubscriptionCategoryNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SubscriptionCategoryNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8717,8 +8611,7 @@ public struct SubscriptionCategoryNotFoundFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8766,8 +8659,7 @@ public struct CreateEventSubscriptionInput: Swift.Sendable {
         sourceType: Swift.String? = nil,
         subscriptionName: Swift.String? = nil,
         tags: [RDSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.enabled = enabled
         self.eventCategories = eventCategories
         self.snsTopicArn = snsTopicArn
@@ -8784,16 +8676,15 @@ public struct CreateEventSubscriptionOutput: Swift.Sendable {
 
     public init(
         eventSubscription: RDSClientTypes.EventSubscription? = nil
-    )
-    {
+    ) {
         self.eventSubscription = eventSubscription
     }
 }
 
 /// The GlobalClusterIdentifier already exists. Specify a new global database identifier (unique name) to create a new global database cluster or to rename an existing one.
-public struct GlobalClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GlobalClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8808,16 +8699,15 @@ public struct GlobalClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The number of global database clusters for this account is already at the maximum allowed.
-public struct GlobalClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GlobalClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8832,8 +8722,7 @@ public struct GlobalClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8884,8 +8773,7 @@ public struct CreateGlobalClusterInput: Swift.Sendable {
         sourceDBClusterIdentifier: Swift.String? = nil,
         storageEncrypted: Swift.Bool? = nil,
         tags: [RDSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
         self.deletionProtection = deletionProtection
         self.engine = engine
@@ -8956,8 +8844,7 @@ extension RDSClientTypes {
             isDataLossAllowed: Swift.Bool? = nil,
             status: RDSClientTypes.FailoverStatus? = nil,
             toDbClusterArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.fromDbClusterArn = fromDbClusterArn
             self.isDataLossAllowed = isDataLossAllowed
             self.status = status
@@ -9016,8 +8903,7 @@ extension RDSClientTypes {
             isWriter: Swift.Bool? = nil,
             readers: [Swift.String]? = nil,
             synchronizationStatus: RDSClientTypes.GlobalClusterMemberSynchronizationStatus? = nil
-        )
-        {
+        ) {
             self.dbClusterArn = dbClusterArn
             self.globalWriteForwardingStatus = globalWriteForwardingStatus
             self.isWriter = isWriter
@@ -9075,8 +8961,7 @@ extension RDSClientTypes {
             status: Swift.String? = nil,
             storageEncrypted: Swift.Bool? = nil,
             tagList: [RDSClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.databaseName = databaseName
             self.deletionProtection = deletionProtection
             self.endpoint = endpoint
@@ -9101,16 +8986,15 @@ public struct CreateGlobalClusterOutput: Swift.Sendable {
 
     public init(
         globalCluster: RDSClientTypes.GlobalCluster? = nil
-    )
-    {
+    ) {
         self.globalCluster = globalCluster
     }
 }
 
 /// The integration you are trying to create already exists.
-public struct IntegrationAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IntegrationAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9125,16 +9009,15 @@ public struct IntegrationAlreadyExistsFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A conflicting conditional operation is currently in progress against this resource. Typically occurs when there are multiple requests being made to the same resource at the same time, and these requests conflict with each other.
-public struct IntegrationConflictOperationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IntegrationConflictOperationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9149,16 +9032,15 @@ public struct IntegrationConflictOperationFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You can't crate any more zero-ETL integrations because the quota has been reached.
-public struct IntegrationQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IntegrationQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9173,8 +9055,7 @@ public struct IntegrationQuotaExceededFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9209,8 +9090,7 @@ public struct CreateIntegrationInput: Swift.Sendable {
         sourceArn: Swift.String? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalEncryptionContext = additionalEncryptionContext
         self.dataFilter = dataFilter
         self.description = description
@@ -9235,8 +9115,7 @@ extension RDSClientTypes {
         public init(
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
         }
@@ -9327,8 +9206,7 @@ public struct CreateIntegrationOutput: Swift.Sendable {
         status: RDSClientTypes.IntegrationStatus? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalEncryptionContext = additionalEncryptionContext
         self.createTime = createTime
         self.dataFilter = dataFilter
@@ -9402,8 +9280,7 @@ public struct CreateOptionGroupInput: Swift.Sendable {
         optionGroupDescription: Swift.String? = nil,
         optionGroupName: Swift.String? = nil,
         tags: [RDSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.engineName = engineName
         self.majorEngineVersion = majorEngineVersion
         self.optionGroupDescription = optionGroupDescription
@@ -9418,16 +9295,15 @@ public struct CreateOptionGroupOutput: Swift.Sendable {
 
     public init(
         optionGroup: RDSClientTypes.OptionGroup? = nil
-    )
-    {
+    ) {
         self.optionGroup = optionGroup
     }
 }
 
 /// You attempted to either create a tenant database that already exists or modify a tenant database to use the name of an existing tenant database.
-public struct TenantDatabaseAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TenantDatabaseAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9442,8 +9318,7 @@ public struct TenantDatabaseAlreadyExistsFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9486,8 +9361,7 @@ public struct CreateTenantDatabaseInput: Swift.Sendable {
         ncharCharacterSetName: Swift.String? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         tenantDBName: Swift.String? = nil
-    )
-    {
+    ) {
         self.characterSetName = characterSetName
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.masterUserPassword = masterUserPassword
@@ -9515,8 +9389,7 @@ extension RDSClientTypes {
         public init(
             masterUserPassword: Swift.String? = nil,
             tenantDBName: Swift.String? = nil
-        )
-        {
+        ) {
             self.masterUserPassword = masterUserPassword
             self.tenantDBName = tenantDBName
         }
@@ -9573,8 +9446,7 @@ extension RDSClientTypes {
             tenantDatabaseARN: Swift.String? = nil,
             tenantDatabaseCreateTime: Foundation.Date? = nil,
             tenantDatabaseResourceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.characterSetName = characterSetName
             self.dbInstanceIdentifier = dbInstanceIdentifier
             self.dbiResourceId = dbiResourceId
@@ -9598,16 +9470,15 @@ public struct CreateTenantDatabaseOutput: Swift.Sendable {
 
     public init(
         tenantDatabase: RDSClientTypes.TenantDatabase? = nil
-    )
-    {
+    ) {
         self.tenantDatabase = tenantDatabase
     }
 }
 
 /// The blue/green deployment can't be switched over or deleted because there is an invalid configuration in the green environment.
-public struct InvalidBlueGreenDeploymentStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidBlueGreenDeploymentStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9622,8 +9493,7 @@ public struct InvalidBlueGreenDeploymentStateFault: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9640,8 +9510,7 @@ public struct DeleteBlueGreenDeploymentInput: Swift.Sendable {
     public init(
         blueGreenDeploymentIdentifier: Swift.String? = nil,
         deleteTarget: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.blueGreenDeploymentIdentifier = blueGreenDeploymentIdentifier
         self.deleteTarget = deleteTarget
     }
@@ -9653,16 +9522,15 @@ public struct DeleteBlueGreenDeploymentOutput: Swift.Sendable {
 
     public init(
         blueGreenDeployment: RDSClientTypes.BlueGreenDeployment? = nil
-    )
-    {
+    ) {
         self.blueGreenDeployment = blueGreenDeployment
     }
 }
 
 /// The specified CEV was not found.
-public struct CustomDBEngineVersionNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CustomDBEngineVersionNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9677,16 +9545,15 @@ public struct CustomDBEngineVersionNotFoundFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You can't delete the CEV.
-public struct InvalidCustomDBEngineVersionStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidCustomDBEngineVersionStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9701,8 +9568,7 @@ public struct InvalidCustomDBEngineVersionStateFault: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9726,8 +9592,7 @@ public struct DeleteCustomDBEngineVersionInput: Swift.Sendable {
     public init(
         engine: Swift.String? = nil,
         engineVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.engine = engine
         self.engineVersion = engineVersion
     }
@@ -9767,6 +9632,8 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Sendable {
     public var kmsKeyId: Swift.String?
     /// The major engine version of the CEV.
     public var majorEngineVersion: Swift.String?
+    /// Specifies any Aurora Serverless v2 properties or limits that differ between Aurora engine versions. You can test the values of this attribute when deciding which Aurora version to use in a new or upgraded DB cluster. You can also retrieve the version of an existing DB cluster and check whether that version supports certain Aurora Serverless v2 features before you attempt to use those features.
+    public var serverlessV2FeaturesSupport: RDSClientTypes.ServerlessV2FeaturesSupport?
     /// The status of the DB engine version, either available or deprecated.
     public var status: Swift.String?
     /// A list of the supported CA certificate identifiers. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
@@ -9821,6 +9688,7 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Sendable {
         image: RDSClientTypes.CustomDBEngineVersionAMI? = nil,
         kmsKeyId: Swift.String? = nil,
         majorEngineVersion: Swift.String? = nil,
+        serverlessV2FeaturesSupport: RDSClientTypes.ServerlessV2FeaturesSupport? = nil,
         status: Swift.String? = nil,
         supportedCACertificateIdentifiers: [Swift.String]? = nil,
         supportedCharacterSets: [RDSClientTypes.CharacterSet]? = nil,
@@ -9839,8 +9707,7 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Sendable {
         supportsReadReplica: Swift.Bool? = nil,
         tagList: [RDSClientTypes.Tag]? = nil,
         validUpgradeTarget: [RDSClientTypes.UpgradeTarget]? = nil
-    )
-    {
+    ) {
         self.createTime = createTime
         self.customDBEngineVersionManifest = customDBEngineVersionManifest
         self.databaseInstallationFilesS3BucketName = databaseInstallationFilesS3BucketName
@@ -9857,6 +9724,7 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Sendable {
         self.image = image
         self.kmsKeyId = kmsKeyId
         self.majorEngineVersion = majorEngineVersion
+        self.serverlessV2FeaturesSupport = serverlessV2FeaturesSupport
         self.status = status
         self.supportedCACertificateIdentifiers = supportedCACertificateIdentifiers
         self.supportedCharacterSets = supportedCharacterSets
@@ -9879,9 +9747,9 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Sendable {
 }
 
 /// The quota for retained automated backups was exceeded. This prevents you from retaining any additional automated backups. The retained automated backups quota is the same as your DB cluster quota.
-public struct DBClusterAutomatedBackupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterAutomatedBackupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9896,8 +9764,7 @@ public struct DBClusterAutomatedBackupQuotaExceededFault: ClientRuntime.ModeledE
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9927,8 +9794,7 @@ public struct DeleteDBClusterInput: Swift.Sendable {
         deleteAutomatedBackups: Swift.Bool? = nil,
         finalDBSnapshotIdentifier: Swift.String? = nil,
         skipFinalSnapshot: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
         self.deleteAutomatedBackups = deleteAutomatedBackups
         self.finalDBSnapshotIdentifier = finalDBSnapshotIdentifier
@@ -9942,16 +9808,15 @@ public struct DeleteDBClusterOutput: Swift.Sendable {
 
     public init(
         dbCluster: RDSClientTypes.DBCluster? = nil
-    )
-    {
+    ) {
         self.dbCluster = dbCluster
     }
 }
 
 /// No automated backup for this DB cluster was found.
-public struct DBClusterAutomatedBackupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterAutomatedBackupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9966,16 +9831,15 @@ public struct DBClusterAutomatedBackupNotFoundFault: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The automated backup is in an invalid state. For example, this automated backup is associated with an active cluster.
-public struct InvalidDBClusterAutomatedBackupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBClusterAutomatedBackupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9990,8 +9854,7 @@ public struct InvalidDBClusterAutomatedBackupStateFault: ClientRuntime.ModeledEr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -10003,8 +9866,7 @@ public struct DeleteDBClusterAutomatedBackupInput: Swift.Sendable {
 
     public init(
         dbClusterResourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterResourceId = dbClusterResourceId
     }
 }
@@ -10021,8 +9883,7 @@ extension RDSClientTypes {
         public init(
             earliestTime: Foundation.Date? = nil,
             latestTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.earliestTime = earliestTime
             self.latestTime = latestTime
         }
@@ -10112,8 +9973,7 @@ extension RDSClientTypes {
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.allocatedStorage = allocatedStorage
             self.availabilityZones = availabilityZones
             self.awsBackupRecoveryPointArn = awsBackupRecoveryPointArn
@@ -10149,16 +10009,15 @@ public struct DeleteDBClusterAutomatedBackupOutput: Swift.Sendable {
 
     public init(
         dbClusterAutomatedBackup: RDSClientTypes.DBClusterAutomatedBackup? = nil
-    )
-    {
+    ) {
         self.dbClusterAutomatedBackup = dbClusterAutomatedBackup
     }
 }
 
 /// The specified custom endpoint doesn't exist.
-public struct DBClusterEndpointNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterEndpointNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -10173,16 +10032,15 @@ public struct DBClusterEndpointNotFoundFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The requested operation can't be performed on the endpoint while the endpoint is in this state.
-public struct InvalidDBClusterEndpointStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBClusterEndpointStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -10197,8 +10055,7 @@ public struct InvalidDBClusterEndpointStateFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -10210,8 +10067,7 @@ public struct DeleteDBClusterEndpointInput: Swift.Sendable {
 
     public init(
         dbClusterEndpointIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterEndpointIdentifier = dbClusterEndpointIdentifier
     }
 }
@@ -10261,8 +10117,7 @@ public struct DeleteDBClusterEndpointOutput: Swift.Sendable {
         excludedMembers: [Swift.String]? = nil,
         staticMembers: [Swift.String]? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.customEndpointType = customEndpointType
         self.dbClusterEndpointArn = dbClusterEndpointArn
         self.dbClusterEndpointIdentifier = dbClusterEndpointIdentifier
@@ -10277,9 +10132,9 @@ public struct DeleteDBClusterEndpointOutput: Swift.Sendable {
 }
 
 /// The DB parameter group is in use or is in an invalid state. If you are attempting to delete the parameter group, you can't delete it when the parameter group is in this state.
-public struct InvalidDBParameterGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBParameterGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -10294,8 +10149,7 @@ public struct InvalidDBParameterGroupStateFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -10314,8 +10168,7 @@ public struct DeleteDBClusterParameterGroupInput: Swift.Sendable {
 
     public init(
         dbClusterParameterGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
     }
 }
@@ -10328,8 +10181,7 @@ public struct DeleteDBClusterSnapshotInput: Swift.Sendable {
 
     public init(
         dbClusterSnapshotIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
     }
 }
@@ -10340,16 +10192,15 @@ public struct DeleteDBClusterSnapshotOutput: Swift.Sendable {
 
     public init(
         dbClusterSnapshot: RDSClientTypes.DBClusterSnapshot? = nil
-    )
-    {
+    ) {
         self.dbClusterSnapshot = dbClusterSnapshot
     }
 }
 
 /// The quota for retained automated backups was exceeded. This prevents you from retaining any additional automated backups. The retained automated backups quota is the same as your DB instance quota.
-public struct DBInstanceAutomatedBackupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBInstanceAutomatedBackupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -10364,8 +10215,7 @@ public struct DBInstanceAutomatedBackupQuotaExceededFault: ClientRuntime.Modeled
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -10397,8 +10247,7 @@ public struct DeleteDBInstanceInput: Swift.Sendable {
         deleteAutomatedBackups: Swift.Bool? = nil,
         finalDBSnapshotIdentifier: Swift.String? = nil,
         skipFinalSnapshot: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.deleteAutomatedBackups = deleteAutomatedBackups
         self.finalDBSnapshotIdentifier = finalDBSnapshotIdentifier
@@ -10412,16 +10261,15 @@ public struct DeleteDBInstanceOutput: Swift.Sendable {
 
     public init(
         dbInstance: RDSClientTypes.DBInstance? = nil
-    )
-    {
+    ) {
         self.dbInstance = dbInstance
     }
 }
 
 /// No automated backup for this DB instance was found.
-public struct DBInstanceAutomatedBackupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBInstanceAutomatedBackupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -10436,16 +10284,15 @@ public struct DBInstanceAutomatedBackupNotFoundFault: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The automated backup is in an invalid state. For example, this automated backup is associated with an active instance.
-public struct InvalidDBInstanceAutomatedBackupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBInstanceAutomatedBackupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -10460,8 +10307,7 @@ public struct InvalidDBInstanceAutomatedBackupStateFault: ClientRuntime.ModeledE
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -10476,8 +10322,7 @@ public struct DeleteDBInstanceAutomatedBackupInput: Swift.Sendable {
     public init(
         dbInstanceAutomatedBackupsArn: Swift.String? = nil,
         dbiResourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbInstanceAutomatedBackupsArn = dbInstanceAutomatedBackupsArn
         self.dbiResourceId = dbiResourceId
     }
@@ -10588,8 +10433,7 @@ extension RDSClientTypes {
             tdeCredentialArn: Swift.String? = nil,
             timezone: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.allocatedStorage = allocatedStorage
             self.availabilityZone = availabilityZone
             self.awsBackupRecoveryPointArn = awsBackupRecoveryPointArn
@@ -10631,8 +10475,7 @@ public struct DeleteDBInstanceAutomatedBackupOutput: Swift.Sendable {
 
     public init(
         dbInstanceAutomatedBackup: RDSClientTypes.DBInstanceAutomatedBackup? = nil
-    )
-    {
+    ) {
         self.dbInstanceAutomatedBackup = dbInstanceAutomatedBackup
     }
 }
@@ -10651,8 +10494,7 @@ public struct DeleteDBParameterGroupInput: Swift.Sendable {
 
     public init(
         dbParameterGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbParameterGroupName = dbParameterGroupName
     }
 }
@@ -10664,8 +10506,7 @@ public struct DeleteDBProxyInput: Swift.Sendable {
 
     public init(
         dbProxyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbProxyName = dbProxyName
     }
 }
@@ -10676,16 +10517,15 @@ public struct DeleteDBProxyOutput: Swift.Sendable {
 
     public init(
         dbProxy: RDSClientTypes.DBProxy? = nil
-    )
-    {
+    ) {
         self.dbProxy = dbProxy
     }
 }
 
 /// The DB proxy endpoint doesn't exist.
-public struct DBProxyEndpointNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBProxyEndpointNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -10700,16 +10540,15 @@ public struct DBProxyEndpointNotFoundFault: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You can't perform this operation while the DB proxy endpoint is in a particular state.
-public struct InvalidDBProxyEndpointStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBProxyEndpointStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -10724,8 +10563,7 @@ public struct InvalidDBProxyEndpointStateFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -10737,8 +10575,7 @@ public struct DeleteDBProxyEndpointInput: Swift.Sendable {
 
     public init(
         dbProxyEndpointName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbProxyEndpointName = dbProxyEndpointName
     }
 }
@@ -10749,8 +10586,7 @@ public struct DeleteDBProxyEndpointOutput: Swift.Sendable {
 
     public init(
         dbProxyEndpoint: RDSClientTypes.DBProxyEndpoint? = nil
-    )
-    {
+    ) {
         self.dbProxyEndpoint = dbProxyEndpoint
     }
 }
@@ -10771,16 +10607,15 @@ public struct DeleteDBSecurityGroupInput: Swift.Sendable {
 
     public init(
         dbSecurityGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbSecurityGroupName = dbSecurityGroupName
     }
 }
 
 /// The specified DB shard group name wasn't found.
-public struct DBShardGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBShardGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -10795,16 +10630,15 @@ public struct DBShardGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The DB shard group must be in the available state.
-public struct InvalidDBShardGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBShardGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -10819,8 +10653,7 @@ public struct InvalidDBShardGroupStateFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -10832,12 +10665,12 @@ public struct DeleteDBShardGroupInput: Swift.Sendable {
 
     public init(
         dbShardGroupIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbShardGroupIdentifier = dbShardGroupIdentifier
     }
 }
 
+/// Contains the details for an Amazon RDS DB shard group.
 public struct DeleteDBShardGroupOutput: Swift.Sendable {
     /// Specifies whether to create standby DB shard groups for the DB shard group. Valid values are the following:
     ///
@@ -10880,8 +10713,7 @@ public struct DeleteDBShardGroupOutput: Swift.Sendable {
         publiclyAccessible: Swift.Bool? = nil,
         status: Swift.String? = nil,
         tagList: [RDSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.computeRedundancy = computeRedundancy
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbShardGroupArn = dbShardGroupArn
@@ -10904,8 +10736,7 @@ public struct DeleteDBSnapshotInput: Swift.Sendable {
 
     public init(
         dbSnapshotIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbSnapshotIdentifier = dbSnapshotIdentifier
     }
 }
@@ -10916,16 +10747,15 @@ public struct DeleteDBSnapshotOutput: Swift.Sendable {
 
     public init(
         dbSnapshot: RDSClientTypes.DBSnapshot? = nil
-    )
-    {
+    ) {
         self.dbSnapshot = dbSnapshot
     }
 }
 
 /// The DB subnet isn't in the available state.
-public struct InvalidDBSubnetStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBSubnetStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -10940,8 +10770,7 @@ public struct InvalidDBSubnetStateFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -10954,16 +10783,15 @@ public struct DeleteDBSubnetGroupInput: Swift.Sendable {
 
     public init(
         dbSubnetGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbSubnetGroupName = dbSubnetGroupName
     }
 }
 
 /// This error can occur if someone else is modifying a subscription. You should retry the action.
-public struct InvalidEventSubscriptionStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidEventSubscriptionStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -10978,8 +10806,7 @@ public struct InvalidEventSubscriptionStateFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -10992,8 +10819,7 @@ public struct DeleteEventSubscriptionInput: Swift.Sendable {
 
     public init(
         subscriptionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.subscriptionName = subscriptionName
     }
 }
@@ -11004,8 +10830,7 @@ public struct DeleteEventSubscriptionOutput: Swift.Sendable {
 
     public init(
         eventSubscription: RDSClientTypes.EventSubscription? = nil
-    )
-    {
+    ) {
         self.eventSubscription = eventSubscription
     }
 }
@@ -11017,8 +10842,7 @@ public struct DeleteGlobalClusterInput: Swift.Sendable {
 
     public init(
         globalClusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.globalClusterIdentifier = globalClusterIdentifier
     }
 }
@@ -11029,16 +10853,15 @@ public struct DeleteGlobalClusterOutput: Swift.Sendable {
 
     public init(
         globalCluster: RDSClientTypes.GlobalCluster? = nil
-    )
-    {
+    ) {
         self.globalCluster = globalCluster
     }
 }
 
 /// The integration is in an invalid state and can't perform the requested operation.
-public struct InvalidIntegrationStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidIntegrationStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -11053,8 +10876,7 @@ public struct InvalidIntegrationStateFault: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -11066,8 +10888,7 @@ public struct DeleteIntegrationInput: Swift.Sendable {
 
     public init(
         integrationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.integrationIdentifier = integrationIdentifier
     }
 }
@@ -11112,8 +10933,7 @@ public struct DeleteIntegrationOutput: Swift.Sendable {
         status: RDSClientTypes.IntegrationStatus? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalEncryptionContext = additionalEncryptionContext
         self.createTime = createTime
         self.dataFilter = dataFilter
@@ -11130,9 +10950,9 @@ public struct DeleteIntegrationOutput: Swift.Sendable {
 }
 
 /// The option group isn't in the available state.
-public struct InvalidOptionGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidOptionGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -11147,8 +10967,7 @@ public struct InvalidOptionGroupStateFault: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -11161,8 +10980,7 @@ public struct DeleteOptionGroupInput: Swift.Sendable {
 
     public init(
         optionGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.optionGroupName = optionGroupName
     }
 }
@@ -11184,8 +11002,7 @@ public struct DeleteTenantDatabaseInput: Swift.Sendable {
         finalDBSnapshotIdentifier: Swift.String? = nil,
         skipFinalSnapshot: Swift.Bool? = nil,
         tenantDBName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.finalDBSnapshotIdentifier = finalDBSnapshotIdentifier
         self.skipFinalSnapshot = skipFinalSnapshot
@@ -11199,16 +11016,15 @@ public struct DeleteTenantDatabaseOutput: Swift.Sendable {
 
     public init(
         tenantDatabase: RDSClientTypes.TenantDatabase? = nil
-    )
-    {
+    ) {
         self.tenantDatabase = tenantDatabase
     }
 }
 
 /// The specified RDS DB instance or Aurora DB cluster isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
-public struct DBProxyTargetNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBProxyTargetNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -11223,8 +11039,7 @@ public struct DBProxyTargetNotFoundFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -11245,8 +11060,7 @@ public struct DeregisterDBProxyTargetsInput: Swift.Sendable {
         dbInstanceIdentifiers: [Swift.String]? = nil,
         dbProxyName: Swift.String? = nil,
         targetGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifiers = dbClusterIdentifiers
         self.dbInstanceIdentifiers = dbInstanceIdentifiers
         self.dbProxyName = dbProxyName
@@ -11272,8 +11086,7 @@ public struct DescribeAccountAttributesOutput: Swift.Sendable {
 
     public init(
         accountQuotas: [RDSClientTypes.AccountQuota]? = nil
-    )
-    {
+    ) {
         self.accountQuotas = accountQuotas
     }
 }
@@ -11306,8 +11119,7 @@ extension RDSClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -11343,8 +11155,7 @@ public struct DescribeBlueGreenDeploymentsInput: Swift.Sendable {
         filters: [RDSClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.blueGreenDeploymentIdentifier = blueGreenDeploymentIdentifier
         self.filters = filters
         self.marker = marker
@@ -11361,8 +11172,7 @@ public struct DescribeBlueGreenDeploymentsOutput: Swift.Sendable {
     public init(
         blueGreenDeployments: [RDSClientTypes.BlueGreenDeployment]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.blueGreenDeployments = blueGreenDeployments
         self.marker = marker
     }
@@ -11386,8 +11196,7 @@ public struct DescribeCertificatesInput: Swift.Sendable {
         filters: [RDSClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.certificateIdentifier = certificateIdentifier
         self.filters = filters
         self.marker = marker
@@ -11425,8 +11234,7 @@ extension RDSClientTypes {
             thumbprint: Swift.String? = nil,
             validFrom: Foundation.Date? = nil,
             validTill: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.certificateArn = certificateArn
             self.certificateIdentifier = certificateIdentifier
             self.certificateType = certificateType
@@ -11452,8 +11260,7 @@ public struct DescribeCertificatesOutput: Swift.Sendable {
         certificates: [RDSClientTypes.Certificate]? = nil,
         defaultCertificateForNewLaunches: Swift.String? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificates = certificates
         self.defaultCertificateForNewLaunches = defaultCertificateForNewLaunches
         self.marker = marker
@@ -11492,8 +11299,7 @@ public struct DescribeDBClusterAutomatedBackupsInput: Swift.Sendable {
         filters: [RDSClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbClusterResourceId = dbClusterResourceId
         self.filters = filters
@@ -11511,17 +11317,16 @@ public struct DescribeDBClusterAutomatedBackupsOutput: Swift.Sendable {
     public init(
         dbClusterAutomatedBackups: [RDSClientTypes.DBClusterAutomatedBackup]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterAutomatedBackups = dbClusterAutomatedBackups
         self.marker = marker
     }
 }
 
 /// BacktrackIdentifier doesn't refer to an existing backtrack.
-public struct DBClusterBacktrackNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterBacktrackNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -11536,8 +11341,7 @@ public struct DBClusterBacktrackNotFoundFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -11591,8 +11395,7 @@ public struct DescribeDBClusterBacktracksInput: Swift.Sendable {
         filters: [RDSClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.backtrackIdentifier = backtrackIdentifier
         self.dbClusterIdentifier = dbClusterIdentifier
         self.filters = filters
@@ -11633,8 +11436,7 @@ extension RDSClientTypes {
             backtrackedFrom: Foundation.Date? = nil,
             dbClusterIdentifier: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.backtrackIdentifier = backtrackIdentifier
             self.backtrackRequestCreationTime = backtrackRequestCreationTime
             self.backtrackTo = backtrackTo
@@ -11655,8 +11457,7 @@ public struct DescribeDBClusterBacktracksOutput: Swift.Sendable {
     public init(
         dbClusterBacktracks: [RDSClientTypes.DBClusterBacktrack]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterBacktracks = dbClusterBacktracks
         self.marker = marker
     }
@@ -11680,8 +11481,7 @@ public struct DescribeDBClusterEndpointsInput: Swift.Sendable {
         filters: [RDSClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbClusterEndpointIdentifier = dbClusterEndpointIdentifier
         self.dbClusterIdentifier = dbClusterIdentifier
         self.filters = filters
@@ -11737,8 +11537,7 @@ extension RDSClientTypes {
             excludedMembers: [Swift.String]? = nil,
             staticMembers: [Swift.String]? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.customEndpointType = customEndpointType
             self.dbClusterEndpointArn = dbClusterEndpointArn
             self.dbClusterEndpointIdentifier = dbClusterEndpointIdentifier
@@ -11762,8 +11561,7 @@ public struct DescribeDBClusterEndpointsOutput: Swift.Sendable {
     public init(
         dbClusterEndpoints: [RDSClientTypes.DBClusterEndpoint]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterEndpoints = dbClusterEndpoints
         self.marker = marker
     }
@@ -11787,8 +11585,7 @@ public struct DescribeDBClusterParameterGroupsInput: Swift.Sendable {
         filters: [RDSClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
         self.filters = filters
         self.marker = marker
@@ -11806,8 +11603,7 @@ public struct DescribeDBClusterParameterGroupsOutput: Swift.Sendable {
     public init(
         dbClusterParameterGroups: [RDSClientTypes.DBClusterParameterGroup]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroups = dbClusterParameterGroups
         self.marker = marker
     }
@@ -11820,7 +11616,7 @@ public struct DescribeDBClusterParametersInput: Swift.Sendable {
     /// * If supplied, must match the name of an existing DBClusterParameterGroup.
     /// This member is required.
     public var dbClusterParameterGroupName: Swift.String?
-    /// This parameter isn't currently supported.
+    /// A filter that specifies one or more DB cluster parameters to describe. The only supported filter is parameter-name. The results list only includes information about the DB cluster parameters with these names.
     public var filters: [RDSClientTypes.Filter]?
     /// An optional pagination token provided by a previous DescribeDBClusterParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
@@ -11828,11 +11624,11 @@ public struct DescribeDBClusterParametersInput: Swift.Sendable {
     public var maxRecords: Swift.Int?
     /// A specific source to return parameters for. Valid Values:
     ///
-    /// * customer
+    /// * engine-default
     ///
-    /// * engine
+    /// * system
     ///
-    /// * service
+    /// * user
     public var source: Swift.String?
 
     public init(
@@ -11841,8 +11637,7 @@ public struct DescribeDBClusterParametersInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         source: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
         self.filters = filters
         self.marker = marker
@@ -11919,8 +11714,7 @@ extension RDSClientTypes {
             parameterValue: Swift.String? = nil,
             source: Swift.String? = nil,
             supportedEngineModes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.allowedValues = allowedValues
             self.applyMethod = applyMethod
             self.applyType = applyType
@@ -11946,8 +11740,7 @@ public struct DescribeDBClusterParametersOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         parameters: [RDSClientTypes.Parameter]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.parameters = parameters
     }
@@ -11984,8 +11777,7 @@ public struct DescribeDBClustersInput: Swift.Sendable {
         includeShared: Swift.Bool? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
         self.filters = filters
         self.includeShared = includeShared
@@ -12004,8 +11796,7 @@ public struct DescribeDBClustersOutput: Swift.Sendable {
     public init(
         dbClusters: [RDSClientTypes.DBCluster]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusters = dbClusters
         self.marker = marker
     }
@@ -12019,8 +11810,7 @@ public struct DescribeDBClusterSnapshotAttributesInput: Swift.Sendable {
 
     public init(
         dbClusterSnapshotIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
     }
 }
@@ -12037,8 +11827,7 @@ extension RDSClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             attributeValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.attributeValues = attributeValues
         }
@@ -12057,8 +11846,7 @@ extension RDSClientTypes {
         public init(
             dbClusterSnapshotAttributes: [RDSClientTypes.DBClusterSnapshotAttribute]? = nil,
             dbClusterSnapshotIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.dbClusterSnapshotAttributes = dbClusterSnapshotAttributes
             self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
         }
@@ -12071,8 +11859,7 @@ public struct DescribeDBClusterSnapshotAttributesOutput: Swift.Sendable {
 
     public init(
         dbClusterSnapshotAttributesResult: RDSClientTypes.DBClusterSnapshotAttributesResult? = nil
-    )
-    {
+    ) {
         self.dbClusterSnapshotAttributesResult = dbClusterSnapshotAttributesResult
     }
 }
@@ -12133,8 +11920,7 @@ public struct DescribeDBClusterSnapshotsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         snapshotType: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbClusterResourceId = dbClusterResourceId
         self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
@@ -12157,8 +11943,7 @@ public struct DescribeDBClusterSnapshotsOutput: Swift.Sendable {
     public init(
         dbClusterSnapshots: [RDSClientTypes.DBClusterSnapshot]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterSnapshots = dbClusterSnapshots
         self.marker = marker
     }
@@ -12264,8 +12049,7 @@ public struct DescribeDBEngineVersionsInput: Swift.Sendable {
         listSupportedTimezones: Swift.Bool? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbParameterGroupFamily = dbParameterGroupFamily
         self.defaultOnly = defaultOnly
         self.engine = engine
@@ -12315,6 +12099,8 @@ extension RDSClientTypes {
         public var kmsKeyId: Swift.String?
         /// The major engine version of the CEV.
         public var majorEngineVersion: Swift.String?
+        /// Specifies any Aurora Serverless v2 properties or limits that differ between Aurora engine versions. You can test the values of this attribute when deciding which Aurora version to use in a new or upgraded DB cluster. You can also retrieve the version of an existing DB cluster and check whether that version supports certain Aurora Serverless v2 features before you attempt to use those features.
+        public var serverlessV2FeaturesSupport: RDSClientTypes.ServerlessV2FeaturesSupport?
         /// The status of the DB engine version, either available or deprecated.
         public var status: Swift.String?
         /// A list of the supported CA certificate identifiers. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
@@ -12369,6 +12155,7 @@ extension RDSClientTypes {
             image: RDSClientTypes.CustomDBEngineVersionAMI? = nil,
             kmsKeyId: Swift.String? = nil,
             majorEngineVersion: Swift.String? = nil,
+            serverlessV2FeaturesSupport: RDSClientTypes.ServerlessV2FeaturesSupport? = nil,
             status: Swift.String? = nil,
             supportedCACertificateIdentifiers: [Swift.String]? = nil,
             supportedCharacterSets: [RDSClientTypes.CharacterSet]? = nil,
@@ -12387,8 +12174,7 @@ extension RDSClientTypes {
             supportsReadReplica: Swift.Bool? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
             validUpgradeTarget: [RDSClientTypes.UpgradeTarget]? = nil
-        )
-        {
+        ) {
             self.createTime = createTime
             self.customDBEngineVersionManifest = customDBEngineVersionManifest
             self.databaseInstallationFilesS3BucketName = databaseInstallationFilesS3BucketName
@@ -12405,6 +12191,7 @@ extension RDSClientTypes {
             self.image = image
             self.kmsKeyId = kmsKeyId
             self.majorEngineVersion = majorEngineVersion
+            self.serverlessV2FeaturesSupport = serverlessV2FeaturesSupport
             self.status = status
             self.supportedCACertificateIdentifiers = supportedCACertificateIdentifiers
             self.supportedCharacterSets = supportedCharacterSets
@@ -12437,8 +12224,7 @@ public struct DescribeDBEngineVersionsOutput: Swift.Sendable {
     public init(
         dbEngineVersions: [RDSClientTypes.DBEngineVersion]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbEngineVersions = dbEngineVersions
         self.marker = marker
     }
@@ -12484,8 +12270,7 @@ public struct DescribeDBInstanceAutomatedBackupsInput: Swift.Sendable {
         filters: [RDSClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbInstanceAutomatedBackupsArn = dbInstanceAutomatedBackupsArn
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.dbiResourceId = dbiResourceId
@@ -12505,8 +12290,7 @@ public struct DescribeDBInstanceAutomatedBackupsOutput: Swift.Sendable {
     public init(
         dbInstanceAutomatedBackups: [RDSClientTypes.DBInstanceAutomatedBackup]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbInstanceAutomatedBackups = dbInstanceAutomatedBackups
         self.marker = marker
     }
@@ -12540,8 +12324,7 @@ public struct DescribeDBInstancesInput: Swift.Sendable {
         filters: [RDSClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.filters = filters
         self.marker = marker
@@ -12559,10 +12342,32 @@ public struct DescribeDBInstancesOutput: Swift.Sendable {
     public init(
         dbInstances: [RDSClientTypes.DBInstance]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbInstances = dbInstances
         self.marker = marker
+    }
+}
+
+/// An attempt to download or examine log files didn't succeed because an Aurora Serverless v2 instance was paused.
+public struct DBInstanceNotReadyFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DBInstanceNotReady" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
     }
 }
 
@@ -12594,8 +12399,7 @@ public struct DescribeDBLogFilesInput: Swift.Sendable {
         filters: [RDSClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.fileLastWritten = fileLastWritten
         self.fileSize = fileSize
@@ -12621,8 +12425,7 @@ extension RDSClientTypes {
             lastWritten: Swift.Int? = nil,
             logFileName: Swift.String? = nil,
             size: Swift.Int? = nil
-        )
-        {
+        ) {
             self.lastWritten = lastWritten
             self.logFileName = logFileName
             self.size = size
@@ -12640,8 +12443,7 @@ public struct DescribeDBLogFilesOutput: Swift.Sendable {
     public init(
         describeDBLogFiles: [RDSClientTypes.DescribeDBLogFilesDetails]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.describeDBLogFiles = describeDBLogFiles
         self.marker = marker
     }
@@ -12665,8 +12467,7 @@ public struct DescribeDBParameterGroupsInput: Swift.Sendable {
         filters: [RDSClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbParameterGroupName = dbParameterGroupName
         self.filters = filters
         self.marker = marker
@@ -12684,8 +12485,7 @@ public struct DescribeDBParameterGroupsOutput: Swift.Sendable {
     public init(
         dbParameterGroups: [RDSClientTypes.DBParameterGroup]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbParameterGroups = dbParameterGroups
         self.marker = marker
     }
@@ -12697,7 +12497,7 @@ public struct DescribeDBParametersInput: Swift.Sendable {
     /// * If supplied, must match the name of an existing DBParameterGroup.
     /// This member is required.
     public var dbParameterGroupName: Swift.String?
-    /// This parameter isn't currently supported.
+    /// A filter that specifies one or more DB parameters to describe. The only supported filter is parameter-name. The results list only includes information about the DB parameters with these names.
     public var filters: [RDSClientTypes.Filter]?
     /// An optional pagination token provided by a previous DescribeDBParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
@@ -12712,8 +12512,7 @@ public struct DescribeDBParametersInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         source: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbParameterGroupName = dbParameterGroupName
         self.filters = filters
         self.marker = marker
@@ -12732,8 +12531,7 @@ public struct DescribeDBParametersOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         parameters: [RDSClientTypes.Parameter]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.parameters = parameters
     }
@@ -12754,8 +12552,7 @@ public struct DescribeDBProxiesInput: Swift.Sendable {
         filters: [RDSClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbProxyName = dbProxyName
         self.filters = filters
         self.marker = marker
@@ -12772,8 +12569,7 @@ public struct DescribeDBProxiesOutput: Swift.Sendable {
     public init(
         dbProxies: [RDSClientTypes.DBProxy]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbProxies = dbProxies
         self.marker = marker
     }
@@ -12797,8 +12593,7 @@ public struct DescribeDBProxyEndpointsInput: Swift.Sendable {
         filters: [RDSClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbProxyEndpointName = dbProxyEndpointName
         self.dbProxyName = dbProxyName
         self.filters = filters
@@ -12816,8 +12611,7 @@ public struct DescribeDBProxyEndpointsOutput: Swift.Sendable {
     public init(
         dbProxyEndpoints: [RDSClientTypes.DBProxyEndpoint]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbProxyEndpoints = dbProxyEndpoints
         self.marker = marker
     }
@@ -12842,8 +12636,7 @@ public struct DescribeDBProxyTargetGroupsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         targetGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbProxyName = dbProxyName
         self.filters = filters
         self.marker = marker
@@ -12873,8 +12666,7 @@ extension RDSClientTypes {
             maxConnectionsPercent: Swift.Int? = nil,
             maxIdleConnectionsPercent: Swift.Int? = nil,
             sessionPinningFilters: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.connectionBorrowTimeout = connectionBorrowTimeout
             self.initQuery = initQuery
             self.maxConnectionsPercent = maxConnectionsPercent
@@ -12914,8 +12706,7 @@ extension RDSClientTypes {
             targetGroupArn: Swift.String? = nil,
             targetGroupName: Swift.String? = nil,
             updatedDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.connectionPoolConfig = connectionPoolConfig
             self.createdDate = createdDate
             self.dbProxyName = dbProxyName
@@ -12937,8 +12728,7 @@ public struct DescribeDBProxyTargetGroupsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         targetGroups: [RDSClientTypes.DBProxyTargetGroup]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.targetGroups = targetGroups
     }
@@ -12963,8 +12753,7 @@ public struct DescribeDBProxyTargetsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         targetGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbProxyName = dbProxyName
         self.filters = filters
         self.marker = marker
@@ -13090,8 +12879,7 @@ extension RDSClientTypes {
             description: Swift.String? = nil,
             reason: RDSClientTypes.TargetHealthReason? = nil,
             state: RDSClientTypes.TargetState? = nil
-        )
-        {
+        ) {
             self.description = description
             self.reason = reason
             self.state = state
@@ -13161,8 +12949,7 @@ extension RDSClientTypes {
             targetHealth: RDSClientTypes.TargetHealth? = nil,
             trackedClusterId: Swift.String? = nil,
             type: RDSClientTypes.TargetType? = nil
-        )
-        {
+        ) {
             self.endpoint = endpoint
             self.port = port
             self.rdsResourceId = rdsResourceId
@@ -13184,8 +12971,7 @@ public struct DescribeDBProxyTargetsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         targets: [RDSClientTypes.DBProxyTarget]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.targets = targets
     }
@@ -13274,8 +13060,7 @@ public struct DescribeDBRecommendationsInput: Swift.Sendable {
         locale: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.lastUpdatedAfter = lastUpdatedAfter
         self.lastUpdatedBefore = lastUpdatedBefore
@@ -13311,8 +13096,7 @@ extension RDSClientTypes {
             dimensions: [Swift.String]? = nil,
             group: Swift.String? = nil,
             limit: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.group = group
             self.limit = limit
@@ -13343,8 +13127,7 @@ extension RDSClientTypes {
         public init(
             groupBy: RDSClientTypes.PerformanceInsightsMetricDimensionGroup? = nil,
             metric: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupBy = groupBy
             self.metric = metric
         }
@@ -13360,8 +13143,7 @@ extension RDSClientTypes {
 
         public init(
             performanceInsightsMetricQuery: RDSClientTypes.PerformanceInsightsMetricQuery? = nil
-        )
-        {
+        ) {
             self.performanceInsightsMetricQuery = performanceInsightsMetricQuery
         }
     }
@@ -13376,8 +13158,7 @@ extension RDSClientTypes {
 
         public init(
             value: Swift.Double? = nil
-        )
-        {
+        ) {
             self.value = value
         }
     }
@@ -13392,8 +13173,7 @@ extension RDSClientTypes {
 
         public init(
             scalarReferenceDetails: RDSClientTypes.ScalarReferenceDetails? = nil
-        )
-        {
+        ) {
             self.scalarReferenceDetails = scalarReferenceDetails
         }
     }
@@ -13411,8 +13191,7 @@ extension RDSClientTypes {
         public init(
             name: Swift.String? = nil,
             referenceDetails: RDSClientTypes.ReferenceDetails? = nil
-        )
-        {
+        ) {
             self.name = name
             self.referenceDetails = referenceDetails
         }
@@ -13437,8 +13216,7 @@ extension RDSClientTypes {
             name: Swift.String? = nil,
             references: [RDSClientTypes.MetricReference]? = nil,
             statisticsDetails: Swift.String? = nil
-        )
-        {
+        ) {
             self.metricQuery = metricQuery
             self.name = name
             self.references = references
@@ -13465,8 +13243,7 @@ extension RDSClientTypes {
             endTime: Foundation.Date? = nil,
             metrics: [RDSClientTypes.Metric]? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.analysis = analysis
             self.endTime = endTime
             self.metrics = metrics
@@ -13484,8 +13261,7 @@ extension RDSClientTypes {
 
         public init(
             performanceIssueDetails: RDSClientTypes.PerformanceIssueDetails? = nil
-        )
-        {
+        ) {
             self.performanceIssueDetails = performanceIssueDetails
         }
     }
@@ -13503,8 +13279,7 @@ extension RDSClientTypes {
         public init(
             text: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.text = text
             self.url = url
         }
@@ -13523,8 +13298,7 @@ extension RDSClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -13543,8 +13317,7 @@ extension RDSClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -13598,8 +13371,7 @@ extension RDSClientTypes {
             parameters: [RDSClientTypes.RecommendedActionParameter]? = nil,
             status: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionId = actionId
             self.applyModes = applyModes
             self.contextAttributes = contextAttributes
@@ -13707,8 +13479,7 @@ extension RDSClientTypes {
             typeId: Swift.String? = nil,
             typeRecommendation: Swift.String? = nil,
             updatedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.additionalInfo = additionalInfo
             self.category = category
             self.createdTime = createdTime
@@ -13742,8 +13513,7 @@ public struct DescribeDBRecommendationsOutput: Swift.Sendable {
     public init(
         dbRecommendations: [RDSClientTypes.DBRecommendation]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbRecommendations = dbRecommendations
         self.marker = marker
     }
@@ -13765,8 +13535,7 @@ public struct DescribeDBSecurityGroupsInput: Swift.Sendable {
         filters: [RDSClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbSecurityGroupName = dbSecurityGroupName
         self.filters = filters
         self.marker = marker
@@ -13784,8 +13553,7 @@ public struct DescribeDBSecurityGroupsOutput: Swift.Sendable {
     public init(
         dbSecurityGroups: [RDSClientTypes.DBSecurityGroup]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbSecurityGroups = dbSecurityGroups
         self.marker = marker
     }
@@ -13808,8 +13576,7 @@ public struct DescribeDBShardGroupsInput: Swift.Sendable {
         filters: [RDSClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbShardGroupIdentifier = dbShardGroupIdentifier
         self.filters = filters
         self.marker = marker
@@ -13819,6 +13586,7 @@ public struct DescribeDBShardGroupsInput: Swift.Sendable {
 
 extension RDSClientTypes {
 
+    /// Contains the details for an Amazon RDS DB shard group.
     public struct DBShardGroup: Swift.Sendable {
         /// Specifies whether to create standby DB shard groups for the DB shard group. Valid values are the following:
         ///
@@ -13861,8 +13629,7 @@ extension RDSClientTypes {
             publiclyAccessible: Swift.Bool? = nil,
             status: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.computeRedundancy = computeRedundancy
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbShardGroupArn = dbShardGroupArn
@@ -13887,8 +13654,7 @@ public struct DescribeDBShardGroupsOutput: Swift.Sendable {
     public init(
         dbShardGroups: [RDSClientTypes.DBShardGroup]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbShardGroups = dbShardGroups
         self.marker = marker
     }
@@ -13902,8 +13668,7 @@ public struct DescribeDBSnapshotAttributesInput: Swift.Sendable {
 
     public init(
         dbSnapshotIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbSnapshotIdentifier = dbSnapshotIdentifier
     }
 }
@@ -13920,8 +13685,7 @@ extension RDSClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             attributeValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.attributeValues = attributeValues
         }
@@ -13940,8 +13704,7 @@ extension RDSClientTypes {
         public init(
             dbSnapshotAttributes: [RDSClientTypes.DBSnapshotAttribute]? = nil,
             dbSnapshotIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.dbSnapshotAttributes = dbSnapshotAttributes
             self.dbSnapshotIdentifier = dbSnapshotIdentifier
         }
@@ -13954,8 +13717,7 @@ public struct DescribeDBSnapshotAttributesOutput: Swift.Sendable {
 
     public init(
         dbSnapshotAttributesResult: RDSClientTypes.DBSnapshotAttributesResult? = nil
-    )
-    {
+    ) {
         self.dbSnapshotAttributesResult = dbSnapshotAttributesResult
     }
 }
@@ -14020,8 +13782,7 @@ public struct DescribeDBSnapshotsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         snapshotType: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.dbSnapshotIdentifier = dbSnapshotIdentifier
         self.dbiResourceId = dbiResourceId
@@ -14044,8 +13805,7 @@ public struct DescribeDBSnapshotsOutput: Swift.Sendable {
     public init(
         dbSnapshots: [RDSClientTypes.DBSnapshot]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbSnapshots = dbSnapshots
         self.marker = marker
     }
@@ -14103,8 +13863,7 @@ public struct DescribeDBSnapshotTenantDatabasesInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         snapshotType: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.dbSnapshotIdentifier = dbSnapshotIdentifier
         self.dbiResourceId = dbiResourceId
@@ -14160,8 +13919,7 @@ extension RDSClientTypes {
             tenantDBName: Swift.String? = nil,
             tenantDatabaseCreateTime: Foundation.Date? = nil,
             tenantDatabaseResourceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.characterSetName = characterSetName
             self.dbInstanceIdentifier = dbInstanceIdentifier
             self.dbSnapshotIdentifier = dbSnapshotIdentifier
@@ -14188,8 +13946,7 @@ public struct DescribeDBSnapshotTenantDatabasesOutput: Swift.Sendable {
     public init(
         dbSnapshotTenantDatabases: [RDSClientTypes.DBSnapshotTenantDatabase]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbSnapshotTenantDatabases = dbSnapshotTenantDatabases
         self.marker = marker
     }
@@ -14211,8 +13968,7 @@ public struct DescribeDBSubnetGroupsInput: Swift.Sendable {
         filters: [RDSClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbSubnetGroupName = dbSubnetGroupName
         self.filters = filters
         self.marker = marker
@@ -14230,8 +13986,7 @@ public struct DescribeDBSubnetGroupsOutput: Swift.Sendable {
     public init(
         dbSubnetGroups: [RDSClientTypes.DBSubnetGroup]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbSubnetGroups = dbSubnetGroups
         self.marker = marker
     }
@@ -14254,8 +14009,7 @@ public struct DescribeEngineDefaultClusterParametersInput: Swift.Sendable {
         filters: [RDSClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbParameterGroupFamily = dbParameterGroupFamily
         self.filters = filters
         self.marker = marker
@@ -14278,8 +14032,7 @@ extension RDSClientTypes {
             dbParameterGroupFamily: Swift.String? = nil,
             marker: Swift.String? = nil,
             parameters: [RDSClientTypes.Parameter]? = nil
-        )
-        {
+        ) {
             self.dbParameterGroupFamily = dbParameterGroupFamily
             self.marker = marker
             self.parameters = parameters
@@ -14293,8 +14046,7 @@ public struct DescribeEngineDefaultClusterParametersOutput: Swift.Sendable {
 
     public init(
         engineDefaults: RDSClientTypes.EngineDefaults? = nil
-    )
-    {
+    ) {
         self.engineDefaults = engineDefaults
     }
 }
@@ -14402,7 +14154,7 @@ public struct DescribeEngineDefaultParametersInput: Swift.Sendable {
     /// * sqlserver-web-15.0
     /// This member is required.
     public var dbParameterGroupFamily: Swift.String?
-    /// This parameter isn't currently supported.
+    /// A filter that specifies one or more parameters to describe. The only supported filter is parameter-name. The results list only includes information about the parameters with these names.
     public var filters: [RDSClientTypes.Filter]?
     /// An optional pagination token provided by a previous DescribeEngineDefaultParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
@@ -14414,8 +14166,7 @@ public struct DescribeEngineDefaultParametersInput: Swift.Sendable {
         filters: [RDSClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbParameterGroupFamily = dbParameterGroupFamily
         self.filters = filters
         self.marker = marker
@@ -14429,8 +14180,7 @@ public struct DescribeEngineDefaultParametersOutput: Swift.Sendable {
 
     public init(
         engineDefaults: RDSClientTypes.EngineDefaults? = nil
-    )
-    {
+    ) {
         self.engineDefaults = engineDefaults
     }
 }
@@ -14445,8 +14195,7 @@ public struct DescribeEventCategoriesInput: Swift.Sendable {
     public init(
         filters: [RDSClientTypes.Filter]? = nil,
         sourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.sourceType = sourceType
     }
@@ -14464,8 +14213,7 @@ extension RDSClientTypes {
         public init(
             eventCategories: [Swift.String]? = nil,
             sourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.eventCategories = eventCategories
             self.sourceType = sourceType
         }
@@ -14479,8 +14227,7 @@ public struct DescribeEventCategoriesOutput: Swift.Sendable {
 
     public init(
         eventCategoriesMapList: [RDSClientTypes.EventCategoriesMap]? = nil
-    )
-    {
+    ) {
         self.eventCategoriesMapList = eventCategoriesMapList
     }
 }
@@ -14584,8 +14331,7 @@ public struct DescribeEventsInput: Swift.Sendable {
         sourceIdentifier: Swift.String? = nil,
         sourceType: RDSClientTypes.SourceType? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.duration = duration
         self.endTime = endTime
         self.eventCategories = eventCategories
@@ -14622,8 +14368,7 @@ extension RDSClientTypes {
             sourceArn: Swift.String? = nil,
             sourceIdentifier: Swift.String? = nil,
             sourceType: RDSClientTypes.SourceType? = nil
-        )
-        {
+        ) {
             self.date = date
             self.eventCategories = eventCategories
             self.message = message
@@ -14644,8 +14389,7 @@ public struct DescribeEventsOutput: Swift.Sendable {
     public init(
         events: [RDSClientTypes.Event]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.events = events
         self.marker = marker
     }
@@ -14667,8 +14411,7 @@ public struct DescribeEventSubscriptionsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         subscriptionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -14686,8 +14429,7 @@ public struct DescribeEventSubscriptionsOutput: Swift.Sendable {
     public init(
         eventSubscriptionsList: [RDSClientTypes.EventSubscription]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.eventSubscriptionsList = eventSubscriptionsList
         self.marker = marker
     }
@@ -14734,8 +14476,7 @@ public struct DescribeExportTasksInput: Swift.Sendable {
         maxRecords: Swift.Int? = nil,
         sourceArn: Swift.String? = nil,
         sourceType: RDSClientTypes.ExportSourceType? = nil
-    )
-    {
+    ) {
         self.exportTaskIdentifier = exportTaskIdentifier
         self.filters = filters
         self.marker = marker
@@ -14819,8 +14560,7 @@ extension RDSClientTypes {
             taskStartTime: Foundation.Date? = nil,
             totalExtractedDataInGB: Swift.Int? = nil,
             warningMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.exportOnly = exportOnly
             self.exportTaskIdentifier = exportTaskIdentifier
             self.failureCause = failureCause
@@ -14850,8 +14590,7 @@ public struct DescribeExportTasksOutput: Swift.Sendable {
     public init(
         exportTasks: [RDSClientTypes.ExportTask]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportTasks = exportTasks
         self.marker = marker
     }
@@ -14874,8 +14613,7 @@ public struct DescribeGlobalClustersInput: Swift.Sendable {
         globalClusterIdentifier: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.globalClusterIdentifier = globalClusterIdentifier
         self.marker = marker
@@ -14892,8 +14630,7 @@ public struct DescribeGlobalClustersOutput: Swift.Sendable {
     public init(
         globalClusters: [RDSClientTypes.GlobalCluster]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.globalClusters = globalClusters
         self.marker = marker
     }
@@ -14914,8 +14651,7 @@ public struct DescribeIntegrationsInput: Swift.Sendable {
         integrationIdentifier: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.integrationIdentifier = integrationIdentifier
         self.marker = marker
@@ -14965,8 +14701,7 @@ extension RDSClientTypes {
             status: RDSClientTypes.IntegrationStatus? = nil,
             tags: [RDSClientTypes.Tag]? = nil,
             targetArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.createTime = createTime
             self.dataFilter = dataFilter
@@ -14992,8 +14727,7 @@ public struct DescribeIntegrationsOutput: Swift.Sendable {
     public init(
         integrations: [RDSClientTypes.Integration]? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.integrations = integrations
         self.marker = marker
     }
@@ -15045,8 +14779,7 @@ public struct DescribeOptionGroupOptionsInput: Swift.Sendable {
         majorEngineVersion: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.engineName = engineName
         self.filters = filters
         self.majorEngineVersion = majorEngineVersion
@@ -15067,8 +14800,7 @@ extension RDSClientTypes {
         public init(
             allowedValue: Swift.String? = nil,
             minimumEngineVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedValue = allowedValue
             self.minimumEngineVersion = minimumEngineVersion
         }
@@ -15105,8 +14837,7 @@ extension RDSClientTypes {
             minimumEngineVersionPerAllowedValue: [RDSClientTypes.MinimumEngineVersionPerAllowedValue]? = nil,
             settingDescription: Swift.String? = nil,
             settingName: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedValues = allowedValues
             self.applyType = applyType
             self.defaultValue = defaultValue
@@ -15131,8 +14862,7 @@ extension RDSClientTypes {
         public init(
             isDefault: Swift.Bool? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.isDefault = isDefault
             self.version = version
         }
@@ -15196,8 +14926,7 @@ extension RDSClientTypes {
             requiresAutoMinorEngineVersionUpgrade: Swift.Bool? = nil,
             supportsOptionVersionDowngrade: Swift.Bool? = nil,
             vpcOnly: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.copyableCrossAccount = copyableCrossAccount
             self.defaultPort = defaultPort
             self.description = description
@@ -15229,8 +14958,7 @@ public struct DescribeOptionGroupOptionsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         optionGroupOptions: [RDSClientTypes.OptionGroupOption]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.optionGroupOptions = optionGroupOptions
     }
@@ -15284,8 +15012,7 @@ public struct DescribeOptionGroupsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         optionGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.engineName = engineName
         self.filters = filters
         self.majorEngineVersion = majorEngineVersion
@@ -15305,8 +15032,7 @@ public struct DescribeOptionGroupsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         optionGroupsList: [RDSClientTypes.OptionGroup]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.optionGroupsList = optionGroupsList
     }
@@ -15382,8 +15108,7 @@ public struct DescribeOrderableDBInstanceOptionsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         vpc: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.availabilityZoneGroup = availabilityZoneGroup
         self.dbInstanceClass = dbInstanceClass
         self.engine = engine
@@ -15411,8 +15136,7 @@ extension RDSClientTypes {
             allowedValues: Swift.String? = nil,
             defaultValue: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedValues = allowedValues
             self.defaultValue = defaultValue
             self.name = name
@@ -15534,8 +15258,7 @@ extension RDSClientTypes {
             supportsStorageEncryption: Swift.Bool? = nil,
             supportsStorageThroughput: Swift.Bool? = nil,
             vpc: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.availabilityZoneGroup = availabilityZoneGroup
             self.availabilityZones = availabilityZones
             self.availableProcessorFeatures = availableProcessorFeatures
@@ -15586,8 +15309,7 @@ public struct DescribeOrderableDBInstanceOptionsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         orderableDBInstanceOptions: [RDSClientTypes.OrderableDBInstanceOption]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.orderableDBInstanceOptions = orderableDBInstanceOptions
     }
@@ -15613,8 +15335,7 @@ public struct DescribePendingMaintenanceActionsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         resourceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -15632,17 +15353,16 @@ public struct DescribePendingMaintenanceActionsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         pendingMaintenanceActions: [RDSClientTypes.ResourcePendingMaintenanceActions]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.pendingMaintenanceActions = pendingMaintenanceActions
     }
 }
 
 /// The specified reserved DB Instance not found.
-public struct ReservedDBInstanceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReservedDBInstanceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -15657,8 +15377,7 @@ public struct ReservedDBInstanceNotFoundFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -15700,8 +15419,7 @@ public struct DescribeReservedDBInstancesInput: Swift.Sendable {
         productDescription: Swift.String? = nil,
         reservedDBInstanceId: Swift.String? = nil,
         reservedDBInstancesOfferingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbInstanceClass = dbInstanceClass
         self.duration = duration
         self.filters = filters
@@ -15728,8 +15446,7 @@ extension RDSClientTypes {
         public init(
             recurringChargeAmount: Swift.Double? = nil,
             recurringChargeFrequency: Swift.String? = nil
-        )
-        {
+        ) {
             self.recurringChargeAmount = recurringChargeAmount
             self.recurringChargeFrequency = recurringChargeFrequency
         }
@@ -15790,8 +15507,7 @@ extension RDSClientTypes {
             startTime: Foundation.Date? = nil,
             state: Swift.String? = nil,
             usagePrice: Swift.Double? = nil
-        )
-        {
+        ) {
             self.currencyCode = currencyCode
             self.dbInstanceClass = dbInstanceClass
             self.dbInstanceCount = dbInstanceCount
@@ -15822,17 +15538,16 @@ public struct DescribeReservedDBInstancesOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         reservedDBInstances: [RDSClientTypes.ReservedDBInstance]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.reservedDBInstances = reservedDBInstances
     }
 }
 
 /// Specified offering does not exist.
-public struct ReservedDBInstancesOfferingNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReservedDBInstancesOfferingNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -15847,8 +15562,7 @@ public struct ReservedDBInstancesOfferingNotFoundFault: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -15884,8 +15598,7 @@ public struct DescribeReservedDBInstancesOfferingsInput: Swift.Sendable {
         offeringType: Swift.String? = nil,
         productDescription: Swift.String? = nil,
         reservedDBInstancesOfferingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbInstanceClass = dbInstanceClass
         self.duration = duration
         self.filters = filters
@@ -15934,8 +15647,7 @@ extension RDSClientTypes {
             recurringCharges: [RDSClientTypes.RecurringCharge]? = nil,
             reservedDBInstancesOfferingId: Swift.String? = nil,
             usagePrice: Swift.Double? = nil
-        )
-        {
+        ) {
             self.currencyCode = currencyCode
             self.dbInstanceClass = dbInstanceClass
             self.duration = duration
@@ -15960,8 +15672,7 @@ public struct DescribeReservedDBInstancesOfferingsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         reservedDBInstancesOfferings: [RDSClientTypes.ReservedDBInstancesOffering]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.reservedDBInstancesOfferings = reservedDBInstancesOfferings
     }
@@ -15985,8 +15696,7 @@ public struct DescribeSourceRegionsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         regionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.marker = marker
         self.maxRecords = maxRecords
@@ -16012,8 +15722,7 @@ extension RDSClientTypes {
             regionName: Swift.String? = nil,
             status: Swift.String? = nil,
             supportsDBInstanceAutomatedBackupsReplication: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.endpoint = endpoint
             self.regionName = regionName
             self.status = status
@@ -16032,8 +15741,7 @@ public struct DescribeSourceRegionsOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         sourceRegions: [RDSClientTypes.SourceRegion]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.sourceRegions = sourceRegions
     }
@@ -16063,8 +15771,7 @@ public struct DescribeTenantDatabasesInput: Swift.Sendable {
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         tenantDBName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.filters = filters
         self.marker = marker
@@ -16082,8 +15789,7 @@ public struct DescribeTenantDatabasesOutput: Swift.Sendable {
     public init(
         marker: Swift.String? = nil,
         tenantDatabases: [RDSClientTypes.TenantDatabase]? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.tenantDatabases = tenantDatabases
     }
@@ -16097,8 +15803,7 @@ public struct DescribeValidDBInstanceModificationsInput: Swift.Sendable {
 
     public init(
         dbInstanceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbInstanceIdentifier = dbInstanceIdentifier
     }
 }
@@ -16115,8 +15820,7 @@ extension RDSClientTypes {
         public init(
             from: Swift.Double? = nil,
             to: Swift.Double? = nil
-        )
-        {
+        ) {
             self.from = from
             self.to = to
         }
@@ -16138,8 +15842,7 @@ extension RDSClientTypes {
             from: Swift.Int? = nil,
             step: Swift.Int? = nil,
             to: Swift.Int? = nil
-        )
-        {
+        ) {
             self.from = from
             self.step = step
             self.to = to
@@ -16174,8 +15877,7 @@ extension RDSClientTypes {
             storageThroughputToIopsRatio: [RDSClientTypes.DoubleRange]? = nil,
             storageType: Swift.String? = nil,
             supportsStorageAutoscaling: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.iopsToStorageRatio = iopsToStorageRatio
             self.provisionedIops = provisionedIops
             self.provisionedStorageThroughput = provisionedStorageThroughput
@@ -16202,8 +15904,7 @@ extension RDSClientTypes {
             storage: [RDSClientTypes.ValidStorageOptions]? = nil,
             supportsDedicatedLogVolume: Swift.Bool? = nil,
             validProcessorFeatures: [RDSClientTypes.AvailableProcessorFeature]? = nil
-        )
-        {
+        ) {
             self.storage = storage
             self.supportsDedicatedLogVolume = supportsDedicatedLogVolume
             self.validProcessorFeatures = validProcessorFeatures
@@ -16217,16 +15918,15 @@ public struct DescribeValidDBInstanceModificationsOutput: Swift.Sendable {
 
     public init(
         validDBInstanceModificationsMessage: RDSClientTypes.ValidDBInstanceModificationsMessage? = nil
-    )
-    {
+    ) {
         self.validDBInstanceModificationsMessage = validDBInstanceModificationsMessage
     }
 }
 
 /// The operation can't be performed because another operation is in progress.
-public struct InvalidResourceStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidResourceStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -16241,8 +15941,7 @@ public struct InvalidResourceStateFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -16254,8 +15953,7 @@ public struct DisableHttpEndpointInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -16269,17 +15967,16 @@ public struct DisableHttpEndpointOutput: Swift.Sendable {
     public init(
         httpEndpointEnabled: Swift.Bool? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.httpEndpointEnabled = httpEndpointEnabled
         self.resourceArn = resourceArn
     }
 }
 
 /// LogFileName doesn't refer to an existing DB log file.
-public struct DBLogFileNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBLogFileNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -16294,8 +15991,7 @@ public struct DBLogFileNotFoundFault: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -16328,8 +16024,7 @@ public struct DownloadDBLogFilePortionInput: Swift.Sendable {
         logFileName: Swift.String? = nil,
         marker: Swift.String? = nil,
         numberOfLines: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.logFileName = logFileName
         self.marker = marker
@@ -16350,8 +16045,7 @@ public struct DownloadDBLogFilePortionOutput: Swift.Sendable {
         additionalDataPending: Swift.Bool? = nil,
         logFileData: Swift.String? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalDataPending = additionalDataPending
         self.logFileData = logFileData
         self.marker = marker
@@ -16365,8 +16059,7 @@ public struct EnableHttpEndpointInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -16380,8 +16073,7 @@ public struct EnableHttpEndpointOutput: Swift.Sendable {
     public init(
         httpEndpointEnabled: Swift.Bool? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.httpEndpointEnabled = httpEndpointEnabled
         self.resourceArn = resourceArn
     }
@@ -16400,8 +16092,7 @@ public struct FailoverDBClusterInput: Swift.Sendable {
     public init(
         dbClusterIdentifier: Swift.String? = nil,
         targetDBInstanceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
         self.targetDBInstanceIdentifier = targetDBInstanceIdentifier
     }
@@ -16413,8 +16104,7 @@ public struct FailoverDBClusterOutput: Swift.Sendable {
 
     public init(
         dbCluster: RDSClientTypes.DBCluster? = nil
-    )
-    {
+    ) {
         self.dbCluster = dbCluster
     }
 }
@@ -16442,8 +16132,7 @@ public struct FailoverGlobalClusterInput: Swift.Sendable {
         globalClusterIdentifier: Swift.String? = nil,
         switchover: Swift.Bool? = nil,
         targetDbClusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowDataLoss = allowDataLoss
         self.globalClusterIdentifier = globalClusterIdentifier
         self.switchover = switchover
@@ -16457,8 +16146,7 @@ public struct FailoverGlobalClusterOutput: Swift.Sendable {
 
     public init(
         globalCluster: RDSClientTypes.GlobalCluster? = nil
-    )
-    {
+    ) {
         self.globalCluster = globalCluster
     }
 }
@@ -16474,8 +16162,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
     public init(
         filters: [RDSClientTypes.Filter]? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.resourceName = resourceName
     }
@@ -16488,8 +16175,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tagList: [RDSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tagList = tagList
     }
 }
@@ -16532,8 +16218,7 @@ public struct ModifyActivityStreamInput: Swift.Sendable {
     public init(
         auditPolicyState: RDSClientTypes.AuditPolicyState? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.auditPolicyState = auditPolicyState
         self.resourceArn = resourceArn
     }
@@ -16560,8 +16245,7 @@ public struct ModifyActivityStreamOutput: Swift.Sendable {
         mode: RDSClientTypes.ActivityStreamMode? = nil,
         policyStatus: RDSClientTypes.ActivityStreamPolicyStatus? = nil,
         status: RDSClientTypes.ActivityStreamStatus? = nil
-    )
-    {
+    ) {
         self.engineNativeAuditFieldsIncluded = engineNativeAuditFieldsIncluded
         self.kinesisStreamName = kinesisStreamName
         self.kmsKeyId = kmsKeyId
@@ -16580,8 +16264,7 @@ public struct ModifyCertificatesInput: Swift.Sendable {
     public init(
         certificateIdentifier: Swift.String? = nil,
         removeCustomerOverride: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.certificateIdentifier = certificateIdentifier
         self.removeCustomerOverride = removeCustomerOverride
     }
@@ -16593,16 +16276,15 @@ public struct ModifyCertificatesOutput: Swift.Sendable {
 
     public init(
         certificate: RDSClientTypes.Certificate? = nil
-    )
-    {
+    ) {
         self.certificate = certificate
     }
 }
 
 /// Capacity isn't a valid Aurora Serverless DB cluster capacity. Valid capacity values are 2, 4, 8, 16, 32, 64, 128, and 256.
-public struct InvalidDBClusterCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDBClusterCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -16617,8 +16299,7 @@ public struct InvalidDBClusterCapacityFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -16645,8 +16326,7 @@ public struct ModifyCurrentDBClusterCapacityInput: Swift.Sendable {
         dbClusterIdentifier: Swift.String? = nil,
         secondsBeforeTimeout: Swift.Int? = nil,
         timeoutAction: Swift.String? = nil
-    )
-    {
+    ) {
         self.capacity = capacity
         self.dbClusterIdentifier = dbClusterIdentifier
         self.secondsBeforeTimeout = secondsBeforeTimeout
@@ -16672,8 +16352,7 @@ public struct ModifyCurrentDBClusterCapacityOutput: Swift.Sendable {
         pendingCapacity: Swift.Int? = nil,
         secondsBeforeTimeout: Swift.Int? = nil,
         timeoutAction: Swift.String? = nil
-    )
-    {
+    ) {
         self.currentCapacity = currentCapacity
         self.dbClusterIdentifier = dbClusterIdentifier
         self.pendingCapacity = pendingCapacity
@@ -16739,8 +16418,7 @@ public struct ModifyCustomDBEngineVersionInput: Swift.Sendable {
         engine: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         status: RDSClientTypes.CustomEngineVersionStatus? = nil
-    )
-    {
+    ) {
         self.description = description
         self.engine = engine
         self.engineVersion = engineVersion
@@ -16782,6 +16460,8 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Sendable {
     public var kmsKeyId: Swift.String?
     /// The major engine version of the CEV.
     public var majorEngineVersion: Swift.String?
+    /// Specifies any Aurora Serverless v2 properties or limits that differ between Aurora engine versions. You can test the values of this attribute when deciding which Aurora version to use in a new or upgraded DB cluster. You can also retrieve the version of an existing DB cluster and check whether that version supports certain Aurora Serverless v2 features before you attempt to use those features.
+    public var serverlessV2FeaturesSupport: RDSClientTypes.ServerlessV2FeaturesSupport?
     /// The status of the DB engine version, either available or deprecated.
     public var status: Swift.String?
     /// A list of the supported CA certificate identifiers. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
@@ -16836,6 +16516,7 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Sendable {
         image: RDSClientTypes.CustomDBEngineVersionAMI? = nil,
         kmsKeyId: Swift.String? = nil,
         majorEngineVersion: Swift.String? = nil,
+        serverlessV2FeaturesSupport: RDSClientTypes.ServerlessV2FeaturesSupport? = nil,
         status: Swift.String? = nil,
         supportedCACertificateIdentifiers: [Swift.String]? = nil,
         supportedCharacterSets: [RDSClientTypes.CharacterSet]? = nil,
@@ -16854,8 +16535,7 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Sendable {
         supportsReadReplica: Swift.Bool? = nil,
         tagList: [RDSClientTypes.Tag]? = nil,
         validUpgradeTarget: [RDSClientTypes.UpgradeTarget]? = nil
-    )
-    {
+    ) {
         self.createTime = createTime
         self.customDBEngineVersionManifest = customDBEngineVersionManifest
         self.databaseInstallationFilesS3BucketName = databaseInstallationFilesS3BucketName
@@ -16872,6 +16552,7 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Sendable {
         self.image = image
         self.kmsKeyId = kmsKeyId
         self.majorEngineVersion = majorEngineVersion
+        self.serverlessV2FeaturesSupport = serverlessV2FeaturesSupport
         self.status = status
         self.supportedCACertificateIdentifiers = supportedCACertificateIdentifiers
         self.supportedCharacterSets = supportedCharacterSets
@@ -16894,9 +16575,9 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Sendable {
 }
 
 /// The aurora-iopt1 storage type isn't available, because you modified the DB cluster to use this storage type less than one month ago.
-public struct StorageTypeNotAvailableFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StorageTypeNotAvailableFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -16911,8 +16592,7 @@ public struct StorageTypeNotAvailableFault: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -16921,16 +16601,31 @@ extension RDSClientTypes {
 
     /// The configuration setting for the log types to be enabled for export to CloudWatch Logs for a specific DB instance or DB cluster. The EnableLogTypes and DisableLogTypes arrays determine which logs will be exported (or not exported) to CloudWatch Logs. The values within these arrays depend on the DB engine being used. For more information about exporting CloudWatch Logs for Amazon RDS DB instances, see [Publishing Database Logs to Amazon CloudWatch Logs ](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora DB clusters, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon Aurora User Guide.
     public struct CloudwatchLogsExportConfiguration: Swift.Sendable {
-        /// The list of log types to disable.
+        /// The list of log types to disable. The following values are valid for each DB engine:
+        ///
+        /// * Aurora MySQL - audit | error | general | slowquery
+        ///
+        /// * Aurora PostgreSQL - postgresql
+        ///
+        /// * RDS for MySQL - error | general | slowquery
+        ///
+        /// * RDS for PostgreSQL - postgresql | upgrade
         public var disableLogTypes: [Swift.String]?
-        /// The list of log types to enable.
+        /// The list of log types to enable. The following values are valid for each DB engine:
+        ///
+        /// * Aurora MySQL - audit | error | general | slowquery
+        ///
+        /// * Aurora PostgreSQL - postgresql
+        ///
+        /// * RDS for MySQL - error | general | slowquery
+        ///
+        /// * RDS for PostgreSQL - postgresql | upgrade
         public var enableLogTypes: [Swift.String]?
 
         public init(
             disableLogTypes: [Swift.String]? = nil,
             enableLogTypes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.disableLogTypes = disableLogTypes
             self.enableLogTypes = enableLogTypes
         }
@@ -16949,9 +16644,9 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     ///
     /// * You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the DB cluster's current version.
     public var allowMajorVersionUpgrade: Swift.Bool?
-    /// Specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is disabled, changes to the DB cluster are applied during the next maintenance window. Most modifications can be applied immediately or during the next scheduled maintenance window. Some modifications, such as turning on deletion protection and changing the master password, are applied immediately—regardless of when you choose to apply them. By default, this parameter is disabled. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    /// Specifies whether the modifications in this request are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is disabled, changes to the DB cluster are applied during the next maintenance window. Most modifications can be applied immediately or during the next scheduled maintenance window. Some modifications, such as turning on deletion protection and changing the master password, are applied immediately—regardless of when you choose to apply them. By default, this parameter is disabled. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var applyImmediately: Swift.Bool?
-    /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window. By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Multi-AZ DB clusters only
+    /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window. By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the recovery point in Amazon Web Services Backup.
     public var awsBackupRecoveryPointArn: Swift.String?
@@ -16980,6 +16675,8 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     public var cloudwatchLogsExportConfiguration: RDSClientTypes.CloudwatchLogsExportConfiguration?
     /// Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var copyTagsToSnapshot: Swift.Bool?
+    /// Specifies the mode of Database Insights to enable for the DB cluster. If you change the value from standard to advanced, you must set the PerformanceInsightsEnabled parameter to true and the PerformanceInsightsRetentionPeriod parameter to 465. If you change the value from advanced to standard, you must set the PerformanceInsightsEnabled parameter to false. Valid for Cluster Type: Aurora DB clusters only
+    public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The DB cluster identifier for the cluster being modified. This parameter isn't case-sensitive. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:
     ///
     /// * Must match the identifier of an existing DB cluster.
@@ -17003,7 +16700,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     public var domainIAMRoleName: Swift.String?
     /// Specifies whether to enable this DB cluster to forward write operations to the primary cluster of a global cluster (Aurora global database). By default, write operations are not allowed on Aurora DB clusters that are secondary clusters in an Aurora global database. You can set this value only on Aurora DB clusters that are members of an Aurora global database. With this parameter enabled, a secondary cluster can forward writes to the current primary cluster, and the resulting changes are replicated back to this cluster. For the primary DB cluster of an Aurora global database, this value is used immediately if the primary is demoted by a global cluster API operation, but it does nothing until then. Valid for Cluster Type: Aurora DB clusters only
     public var enableGlobalWriteForwarding: Swift.Bool?
-    /// Specifies whether to enable the HTTP endpoint for an Aurora Serverless v1 DB cluster. By default, the HTTP endpoint isn't enabled. When enabled, the HTTP endpoint provides a connectionless web service API (RDS Data API) for running SQL queries on the Aurora Serverless v1 DB cluster. You can also query your database from inside the RDS console with the RDS query editor. For more information, see [Using RDS Data API](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html) in the Amazon Aurora User Guide. This parameter applies only to Aurora Serverless v1 DB clusters. To enable or disable the HTTP endpoint for an Aurora PostgreSQL Serverless v2 or provisioned DB cluster, use the EnableHttpEndpoint and DisableHttpEndpoint operations. Valid for Cluster Type: Aurora DB clusters only
+    /// Specifies whether to enable the HTTP endpoint for an Aurora Serverless v1 DB cluster. By default, the HTTP endpoint isn't enabled. When enabled, the HTTP endpoint provides a connectionless web service API (RDS Data API) for running SQL queries on the Aurora Serverless v1 DB cluster. You can also query your database from inside the RDS console with the RDS query editor. For more information, see [Using RDS Data API](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html) in the Amazon Aurora User Guide. This parameter applies only to Aurora Serverless v1 DB clusters. To enable or disable the HTTP endpoint for an Aurora Serverless v2 or provisioned DB cluster, use the EnableHttpEndpoint and DisableHttpEndpoint operations. Valid for Cluster Type: Aurora DB clusters only
     public var enableHttpEndpoint: Swift.Bool?
     /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see [ IAM Database Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon Aurora User Guide or [IAM database authentication for MariaDB, MySQL, and PostgreSQL](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon RDS User Guide. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var enableIAMDatabaseAuthentication: Swift.Bool?
@@ -17059,9 +16756,9 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     public var newDBClusterIdentifier: Swift.String?
     /// The option group to associate the DB cluster with. DB clusters are associated with a default option group that can't be modified.
     public var optionGroupName: Swift.String?
-    /// The Amazon Web Services KMS key identifier for encryption of Performance Insights data. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. If you don't specify a value for PerformanceInsightsKMSKeyId, then Amazon RDS uses your default KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region. Valid for Cluster Type: Multi-AZ DB clusters only
+    /// The Amazon Web Services KMS key identifier for encryption of Performance Insights data. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. If you don't specify a value for PerformanceInsightsKMSKeyId, then Amazon RDS uses your default KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var performanceInsightsKMSKeyId: Swift.String?
-    /// The number of days to retain Performance Insights data. Valid for Cluster Type: Multi-AZ DB clusters only Valid Values:
+    /// The number of days to retain Performance Insights data. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values:
     ///
     /// * 7
     ///
@@ -17130,6 +16827,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
         caCertificateIdentifier: Swift.String? = nil,
         cloudwatchLogsExportConfiguration: RDSClientTypes.CloudwatchLogsExportConfiguration? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
+        databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode? = nil,
         dbClusterIdentifier: Swift.String? = nil,
         dbClusterInstanceClass: Swift.String? = nil,
         dbClusterParameterGroupName: Swift.String? = nil,
@@ -17164,8 +16862,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
         serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfiguration? = nil,
         storageType: Swift.String? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.allocatedStorage = allocatedStorage
         self.allowEngineModeChange = allowEngineModeChange
         self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
@@ -17177,6 +16874,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
         self.caCertificateIdentifier = caCertificateIdentifier
         self.cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfiguration
         self.copyTagsToSnapshot = copyTagsToSnapshot
+        self.databaseInsightsMode = databaseInsightsMode
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbClusterInstanceClass = dbClusterInstanceClass
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
@@ -17220,8 +16918,7 @@ public struct ModifyDBClusterOutput: Swift.Sendable {
 
     public init(
         dbCluster: RDSClientTypes.DBCluster? = nil
-    )
-    {
+    ) {
         self.dbCluster = dbCluster
     }
 }
@@ -17242,8 +16939,7 @@ public struct ModifyDBClusterEndpointInput: Swift.Sendable {
         endpointType: Swift.String? = nil,
         excludedMembers: [Swift.String]? = nil,
         staticMembers: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.dbClusterEndpointIdentifier = dbClusterEndpointIdentifier
         self.endpointType = endpointType
         self.excludedMembers = excludedMembers
@@ -17296,8 +16992,7 @@ public struct ModifyDBClusterEndpointOutput: Swift.Sendable {
         excludedMembers: [Swift.String]? = nil,
         staticMembers: [Swift.String]? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.customEndpointType = customEndpointType
         self.dbClusterEndpointArn = dbClusterEndpointArn
         self.dbClusterEndpointIdentifier = dbClusterEndpointIdentifier
@@ -17323,8 +17018,7 @@ public struct ModifyDBClusterParameterGroupInput: Swift.Sendable {
     public init(
         dbClusterParameterGroupName: Swift.String? = nil,
         parameters: [RDSClientTypes.Parameter]? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
         self.parameters = parameters
     }
@@ -17346,16 +17040,15 @@ public struct ModifyDBClusterParameterGroupOutput: Swift.Sendable {
 
     public init(
         dbClusterParameterGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
     }
 }
 
 /// You have exceeded the maximum number of accounts that you can share a manual DB snapshot with.
-public struct SharedSnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SharedSnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -17370,8 +17063,7 @@ public struct SharedSnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -17394,8 +17086,7 @@ public struct ModifyDBClusterSnapshotAttributeInput: Swift.Sendable {
         dbClusterSnapshotIdentifier: Swift.String? = nil,
         valuesToAdd: [Swift.String]? = nil,
         valuesToRemove: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.attributeName = attributeName
         self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
         self.valuesToAdd = valuesToAdd
@@ -17409,16 +17100,15 @@ public struct ModifyDBClusterSnapshotAttributeOutput: Swift.Sendable {
 
     public init(
         dbClusterSnapshotAttributesResult: RDSClientTypes.DBClusterSnapshotAttributesResult? = nil
-    )
-    {
+    ) {
         self.dbClusterSnapshotAttributesResult = dbClusterSnapshotAttributesResult
     }
 }
 
 /// The DB upgrade failed because a resource the DB depends on can't be modified.
-public struct DBUpgradeDependencyFailureFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBUpgradeDependencyFailureFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -17433,8 +17123,7 @@ public struct DBUpgradeDependencyFailureFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -17485,10 +17174,23 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     ///
     /// This setting doesn't apply to RDS Custom DB instances.
     public var certificateRotationRestart: Swift.Bool?
-    /// The log types to be enabled for export to CloudWatch Logs for a specific DB instance. A change to the CloudwatchLogsExportConfiguration parameter is always applied to the DB instance immediately. Therefore, the ApplyImmediately parameter has no effect. This setting doesn't apply to RDS Custom DB instances.
+    /// The log types to be enabled for export to CloudWatch Logs for a specific DB instance. A change to the CloudwatchLogsExportConfiguration parameter is always applied to the DB instance immediately. Therefore, the ApplyImmediately parameter has no effect. This setting doesn't apply to RDS Custom DB instances. The following values are valid for each DB engine:
+    ///
+    /// * Aurora MySQL - audit | error | general | slowquery
+    ///
+    /// * Aurora PostgreSQL - postgresql
+    ///
+    /// * RDS for MySQL - error | general | slowquery
+    ///
+    /// * RDS for PostgreSQL - postgresql | upgrade
+    ///
+    ///
+    /// For more information about exporting CloudWatch Logs for Amazon RDS, see [ Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon Aurora User Guide.
     public var cloudwatchLogsExportConfiguration: RDSClientTypes.CloudwatchLogsExportConfiguration?
     /// Specifies whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags aren't copied. This setting doesn't apply to Amazon Aurora DB instances. Copying tags to snapshots is managed by the DB cluster. Setting this value for an Aurora DB instance has no effect on the DB cluster setting. For more information, see ModifyDBCluster.
     public var copyTagsToSnapshot: Swift.Bool?
+    /// Specifies the mode of Database Insights to enable for the DB instance. This setting only applies to Amazon Aurora DB instances. Currently, this value is inherited from the DB cluster and can't be changed.
+    public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The new compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB Instance Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide or [Aurora DB instance classes](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html) in the Amazon Aurora User Guide. For RDS Custom, see [DB instance class support for RDS Custom for Oracle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits.html#custom-reqs-limits.instances) and [ DB instance class support for RDS Custom for SQL Server](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits-MS.html#custom-reqs-limits.instancesMS). If you modify the DB instance class, an outage occurs during the change. The change is applied during the next maintenance window, unless you specify ApplyImmediately in your request. Default: Uses existing setting Constraints:
     ///
     /// * If you are modifying the DB instance class and upgrading the engine version at the same time, the currently running engine version must be supported on the specified DB instance class. Otherwise, the operation returns an error. In this case, first run the operation to upgrade the engine version, and then run it again to modify the DB instance class.
@@ -17596,7 +17298,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     ///
     /// * If you are upgrading the engine version and modifying the DB instance class at the same time, the currently running engine version must be supported on the specified DB instance class. Otherwise, the operation returns an error. In this case, first run the operation to upgrade the engine version, and then run it again to modify the DB instance class.
     public var engineVersion: Swift.String?
-    /// The new Provisioned IOPS (I/O operations per second) value for the RDS instance. Changing this setting doesn't result in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is enabled for this request. If you are migrating from Provisioned IOPS to standard storage, set this value to 0. The DB instance will require a reboot for the change in storage type to take effect. If you choose to migrate your DB instance from using standard storage to using Provisioned IOPS, or from using Provisioned IOPS to using standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance is available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance are suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a read replica for the instance, and creating a DB snapshot of the instance. Constraints:
+    /// The new Provisioned IOPS (I/O operations per second) value for the RDS instance. Changing this setting doesn't result in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is enabled for this request. If you are migrating from Provisioned IOPS to standard storage, set this value to 0. The DB instance will require a reboot for the change in storage type to take effect. If you choose to migrate your DB instance from using standard storage to Provisioned IOPS (io1), or from Provisioned IOPS to standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance is available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance are suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a read replica for the instance, and creating a DB snapshot of the instance. Constraints:
     ///
     /// * For RDS for MariaDB, RDS for MySQL, RDS for Oracle, and RDS for PostgreSQL - The value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value.
     ///
@@ -17740,7 +17442,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     public var rotateMasterUserPassword: Swift.Bool?
     /// The storage throughput value for the DB instance. This setting applies only to the gp3 storage type. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances.
     public var storageThroughput: Swift.Int?
-    /// The storage type to associate with the DB instance. If you specify io1, io2, or gp3 you must also include a value for the Iops parameter. If you choose to migrate your DB instance from using standard storage to using Provisioned IOPS, or from using Provisioned IOPS to using standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance is available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance are suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a read replica for the instance, and creating a DB snapshot of the instance. Valid Values: gp2 | gp3 | io1 | io2 | standard Default: io1, if the Iops parameter is specified. Otherwise, gp2.
+    /// The storage type to associate with the DB instance. If you specify io1, io2, or gp3 you must also include a value for the Iops parameter. If you choose to migrate your DB instance from using standard storage to gp2 (General Purpose SSD), gp3, or Provisioned IOPS (io1), or from these storage types to standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance is available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance are suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a read replica for the instance, and creating a DB snapshot of the instance. Valid Values: gp2 | gp3 | io1 | io2 | standard Default: io1, if the Iops parameter is specified. Otherwise, gp2.
     public var storageType: Swift.String?
     /// The ARN from the key store with which to associate the instance for TDE encryption. This setting doesn't apply to RDS Custom DB instances.
     public var tdeCredentialArn: Swift.String?
@@ -17772,6 +17474,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
         certificateRotationRestart: Swift.Bool? = nil,
         cloudwatchLogsExportConfiguration: RDSClientTypes.CloudwatchLogsExportConfiguration? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
+        databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode? = nil,
         dbInstanceClass: Swift.String? = nil,
         dbInstanceIdentifier: Swift.String? = nil,
         dbParameterGroupName: Swift.String? = nil,
@@ -17821,8 +17524,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
         tdeCredentialPassword: Swift.String? = nil,
         useDefaultProcessorFeatures: Swift.Bool? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.allocatedStorage = allocatedStorage
         self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
         self.applyImmediately = applyImmediately
@@ -17834,6 +17536,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
         self.certificateRotationRestart = certificateRotationRestart
         self.cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfiguration
         self.copyTagsToSnapshot = copyTagsToSnapshot
+        self.databaseInsightsMode = databaseInsightsMode
         self.dbInstanceClass = dbInstanceClass
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.dbParameterGroupName = dbParameterGroupName
@@ -17892,8 +17595,7 @@ public struct ModifyDBInstanceOutput: Swift.Sendable {
 
     public init(
         dbInstance: RDSClientTypes.DBInstance? = nil
-    )
-    {
+    ) {
         self.dbInstance = dbInstance
     }
 }
@@ -17912,8 +17614,7 @@ public struct ModifyDBParameterGroupInput: Swift.Sendable {
     public init(
         dbParameterGroupName: Swift.String? = nil,
         parameters: [RDSClientTypes.Parameter]? = nil
-    )
-    {
+    ) {
         self.dbParameterGroupName = dbParameterGroupName
         self.parameters = parameters
     }
@@ -17926,8 +17627,7 @@ public struct ModifyDBParameterGroupOutput: Swift.Sendable {
 
     public init(
         dbParameterGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbParameterGroupName = dbParameterGroupName
     }
 }
@@ -17960,8 +17660,7 @@ public struct ModifyDBProxyInput: Swift.Sendable {
         requireTLS: Swift.Bool? = nil,
         roleArn: Swift.String? = nil,
         securityGroups: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.auth = auth
         self.dbProxyName = dbProxyName
         self.debugLogging = debugLogging
@@ -17979,8 +17678,7 @@ public struct ModifyDBProxyOutput: Swift.Sendable {
 
     public init(
         dbProxy: RDSClientTypes.DBProxy? = nil
-    )
-    {
+    ) {
         self.dbProxy = dbProxy
     }
 }
@@ -17998,8 +17696,7 @@ public struct ModifyDBProxyEndpointInput: Swift.Sendable {
         dbProxyEndpointName: Swift.String? = nil,
         newDBProxyEndpointName: Swift.String? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.dbProxyEndpointName = dbProxyEndpointName
         self.newDBProxyEndpointName = newDBProxyEndpointName
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
@@ -18012,8 +17709,7 @@ public struct ModifyDBProxyEndpointOutput: Swift.Sendable {
 
     public init(
         dbProxyEndpoint: RDSClientTypes.DBProxyEndpoint? = nil
-    )
-    {
+    ) {
         self.dbProxyEndpoint = dbProxyEndpoint
     }
 }
@@ -18045,8 +17741,7 @@ extension RDSClientTypes {
             maxConnectionsPercent: Swift.Int? = nil,
             maxIdleConnectionsPercent: Swift.Int? = nil,
             sessionPinningFilters: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.connectionBorrowTimeout = connectionBorrowTimeout
             self.initQuery = initQuery
             self.maxConnectionsPercent = maxConnectionsPercent
@@ -18073,8 +17768,7 @@ public struct ModifyDBProxyTargetGroupInput: Swift.Sendable {
         dbProxyName: Swift.String? = nil,
         newName: Swift.String? = nil,
         targetGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionPoolConfig = connectionPoolConfig
         self.dbProxyName = dbProxyName
         self.newName = newName
@@ -18088,8 +17782,7 @@ public struct ModifyDBProxyTargetGroupOutput: Swift.Sendable {
 
     public init(
         dbProxyTargetGroup: RDSClientTypes.DBProxyTargetGroup? = nil
-    )
-    {
+    ) {
         self.dbProxyTargetGroup = dbProxyTargetGroup
     }
 }
@@ -18112,8 +17805,7 @@ extension RDSClientTypes {
         public init(
             actionId: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionId = actionId
             self.status = status
         }
@@ -18140,8 +17832,7 @@ public struct ModifyDBRecommendationInput: Swift.Sendable {
         recommendationId: Swift.String? = nil,
         recommendedActionUpdates: [RDSClientTypes.RecommendedActionUpdate]? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.locale = locale
         self.recommendationId = recommendationId
         self.recommendedActionUpdates = recommendedActionUpdates
@@ -18155,8 +17846,7 @@ public struct ModifyDBRecommendationOutput: Swift.Sendable {
 
     public init(
         dbRecommendation: RDSClientTypes.DBRecommendation? = nil
-    )
-    {
+    ) {
         self.dbRecommendation = dbRecommendation
     }
 }
@@ -18183,8 +17873,7 @@ public struct ModifyDBShardGroupInput: Swift.Sendable {
         dbShardGroupIdentifier: Swift.String? = nil,
         maxACU: Swift.Double? = nil,
         minACU: Swift.Double? = nil
-    )
-    {
+    ) {
         self.computeRedundancy = computeRedundancy
         self.dbShardGroupIdentifier = dbShardGroupIdentifier
         self.maxACU = maxACU
@@ -18192,6 +17881,7 @@ public struct ModifyDBShardGroupInput: Swift.Sendable {
     }
 }
 
+/// Contains the details for an Amazon RDS DB shard group.
 public struct ModifyDBShardGroupOutput: Swift.Sendable {
     /// Specifies whether to create standby DB shard groups for the DB shard group. Valid values are the following:
     ///
@@ -18234,8 +17924,7 @@ public struct ModifyDBShardGroupOutput: Swift.Sendable {
         publiclyAccessible: Swift.Bool? = nil,
         status: Swift.String? = nil,
         tagList: [RDSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.computeRedundancy = computeRedundancy
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbShardGroupArn = dbShardGroupArn
@@ -18276,8 +17965,7 @@ public struct ModifyDBSnapshotInput: Swift.Sendable {
         dbSnapshotIdentifier: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         optionGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbSnapshotIdentifier = dbSnapshotIdentifier
         self.engineVersion = engineVersion
         self.optionGroupName = optionGroupName
@@ -18290,8 +17978,7 @@ public struct ModifyDBSnapshotOutput: Swift.Sendable {
 
     public init(
         dbSnapshot: RDSClientTypes.DBSnapshot? = nil
-    )
-    {
+    ) {
         self.dbSnapshot = dbSnapshot
     }
 }
@@ -18314,8 +18001,7 @@ public struct ModifyDBSnapshotAttributeInput: Swift.Sendable {
         dbSnapshotIdentifier: Swift.String? = nil,
         valuesToAdd: [Swift.String]? = nil,
         valuesToRemove: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.attributeName = attributeName
         self.dbSnapshotIdentifier = dbSnapshotIdentifier
         self.valuesToAdd = valuesToAdd
@@ -18329,16 +18015,15 @@ public struct ModifyDBSnapshotAttributeOutput: Swift.Sendable {
 
     public init(
         dbSnapshotAttributesResult: RDSClientTypes.DBSnapshotAttributesResult? = nil
-    )
-    {
+    ) {
         self.dbSnapshotAttributesResult = dbSnapshotAttributesResult
     }
 }
 
 /// The DB subnet is already in use in the Availability Zone.
-public struct SubnetAlreadyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SubnetAlreadyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -18353,8 +18038,7 @@ public struct SubnetAlreadyInUse: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -18374,8 +18058,7 @@ public struct ModifyDBSubnetGroupInput: Swift.Sendable {
         dbSubnetGroupDescription: Swift.String? = nil,
         dbSubnetGroupName: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.dbSubnetGroupDescription = dbSubnetGroupDescription
         self.dbSubnetGroupName = dbSubnetGroupName
         self.subnetIds = subnetIds
@@ -18388,8 +18071,7 @@ public struct ModifyDBSubnetGroupOutput: Swift.Sendable {
 
     public init(
         dbSubnetGroup: RDSClientTypes.DBSubnetGroup? = nil
-    )
-    {
+    ) {
         self.dbSubnetGroup = dbSubnetGroup
     }
 }
@@ -18414,8 +18096,7 @@ public struct ModifyEventSubscriptionInput: Swift.Sendable {
         snsTopicArn: Swift.String? = nil,
         sourceType: Swift.String? = nil,
         subscriptionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.enabled = enabled
         self.eventCategories = eventCategories
         self.snsTopicArn = snsTopicArn
@@ -18430,8 +18111,7 @@ public struct ModifyEventSubscriptionOutput: Swift.Sendable {
 
     public init(
         eventSubscription: RDSClientTypes.EventSubscription? = nil
-    )
-    {
+    ) {
         self.eventSubscription = eventSubscription
     }
 }
@@ -18465,8 +18145,7 @@ public struct ModifyGlobalClusterInput: Swift.Sendable {
         engineVersion: Swift.String? = nil,
         globalClusterIdentifier: Swift.String? = nil,
         newGlobalClusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
         self.deletionProtection = deletionProtection
         self.engineVersion = engineVersion
@@ -18481,8 +18160,7 @@ public struct ModifyGlobalClusterOutput: Swift.Sendable {
 
     public init(
         globalCluster: RDSClientTypes.GlobalCluster? = nil
-    )
-    {
+    ) {
         self.globalCluster = globalCluster
     }
 }
@@ -18503,8 +18181,7 @@ public struct ModifyIntegrationInput: Swift.Sendable {
         description: Swift.String? = nil,
         integrationIdentifier: Swift.String? = nil,
         integrationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataFilter = dataFilter
         self.description = description
         self.integrationIdentifier = integrationIdentifier
@@ -18552,8 +18229,7 @@ public struct ModifyIntegrationOutput: Swift.Sendable {
         status: RDSClientTypes.IntegrationStatus? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalEncryptionContext = additionalEncryptionContext
         self.createTime = createTime
         self.dataFilter = dataFilter
@@ -18594,8 +18270,7 @@ extension RDSClientTypes {
             optionVersion: Swift.String? = nil,
             port: Swift.Int? = nil,
             vpcSecurityGroupMemberships: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.dbSecurityGroupMemberships = dbSecurityGroupMemberships
             self.optionName = optionName
             self.optionSettings = optionSettings
@@ -18623,8 +18298,7 @@ public struct ModifyOptionGroupInput: Swift.Sendable {
         optionGroupName: Swift.String? = nil,
         optionsToInclude: [RDSClientTypes.OptionConfiguration]? = nil,
         optionsToRemove: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.applyImmediately = applyImmediately
         self.optionGroupName = optionGroupName
         self.optionsToInclude = optionsToInclude
@@ -18638,8 +18312,7 @@ public struct ModifyOptionGroupOutput: Swift.Sendable {
 
     public init(
         optionGroup: RDSClientTypes.OptionGroup? = nil
-    )
-    {
+    ) {
         self.optionGroup = optionGroup
     }
 }
@@ -18676,8 +18349,7 @@ public struct ModifyTenantDatabaseInput: Swift.Sendable {
         masterUserPassword: Swift.String? = nil,
         newTenantDBName: Swift.String? = nil,
         tenantDBName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.masterUserPassword = masterUserPassword
         self.newTenantDBName = newTenantDBName
@@ -18696,8 +18368,7 @@ public struct ModifyTenantDatabaseOutput: Swift.Sendable {
 
     public init(
         tenantDatabase: RDSClientTypes.TenantDatabase? = nil
-    )
-    {
+    ) {
         self.tenantDatabase = tenantDatabase
     }
 }
@@ -18733,8 +18404,7 @@ public struct PromoteReadReplicaInput: Swift.Sendable {
         backupRetentionPeriod: Swift.Int? = nil,
         dbInstanceIdentifier: Swift.String? = nil,
         preferredBackupWindow: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupRetentionPeriod = backupRetentionPeriod
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.preferredBackupWindow = preferredBackupWindow
@@ -18747,8 +18417,7 @@ public struct PromoteReadReplicaOutput: Swift.Sendable {
 
     public init(
         dbInstance: RDSClientTypes.DBInstance? = nil
-    )
-    {
+    ) {
         self.dbInstance = dbInstance
     }
 }
@@ -18766,8 +18435,7 @@ public struct PromoteReadReplicaDBClusterInput: Swift.Sendable {
 
     public init(
         dbClusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
     }
 }
@@ -18778,16 +18446,15 @@ public struct PromoteReadReplicaDBClusterOutput: Swift.Sendable {
 
     public init(
         dbCluster: RDSClientTypes.DBCluster? = nil
-    )
-    {
+    ) {
         self.dbCluster = dbCluster
     }
 }
 
 /// User already has a reservation with the given identifier.
-public struct ReservedDBInstanceAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReservedDBInstanceAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -18802,16 +18469,15 @@ public struct ReservedDBInstanceAlreadyExistsFault: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Request would exceed the user's DB Instance quota.
-public struct ReservedDBInstanceQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReservedDBInstanceQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -18826,8 +18492,7 @@ public struct ReservedDBInstanceQuotaExceededFault: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -18849,8 +18514,7 @@ public struct PurchaseReservedDBInstancesOfferingInput: Swift.Sendable {
         reservedDBInstanceId: Swift.String? = nil,
         reservedDBInstancesOfferingId: Swift.String? = nil,
         tags: [RDSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.dbInstanceCount = dbInstanceCount
         self.reservedDBInstanceId = reservedDBInstanceId
         self.reservedDBInstancesOfferingId = reservedDBInstancesOfferingId
@@ -18864,8 +18528,7 @@ public struct PurchaseReservedDBInstancesOfferingOutput: Swift.Sendable {
 
     public init(
         reservedDBInstance: RDSClientTypes.ReservedDBInstance? = nil
-    )
-    {
+    ) {
         self.reservedDBInstance = reservedDBInstance
     }
 }
@@ -18879,8 +18542,7 @@ public struct RebootDBClusterInput: Swift.Sendable {
 
     public init(
         dbClusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
     }
 }
@@ -18891,8 +18553,7 @@ public struct RebootDBClusterOutput: Swift.Sendable {
 
     public init(
         dbCluster: RDSClientTypes.DBCluster? = nil
-    )
-    {
+    ) {
         self.dbCluster = dbCluster
     }
 }
@@ -18910,8 +18571,7 @@ public struct RebootDBInstanceInput: Swift.Sendable {
     public init(
         dbInstanceIdentifier: Swift.String? = nil,
         forceFailover: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.forceFailover = forceFailover
     }
@@ -18923,8 +18583,7 @@ public struct RebootDBInstanceOutput: Swift.Sendable {
 
     public init(
         dbInstance: RDSClientTypes.DBInstance? = nil
-    )
-    {
+    ) {
         self.dbInstance = dbInstance
     }
 }
@@ -18936,12 +18595,12 @@ public struct RebootDBShardGroupInput: Swift.Sendable {
 
     public init(
         dbShardGroupIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbShardGroupIdentifier = dbShardGroupIdentifier
     }
 }
 
+/// Contains the details for an Amazon RDS DB shard group.
 public struct RebootDBShardGroupOutput: Swift.Sendable {
     /// Specifies whether to create standby DB shard groups for the DB shard group. Valid values are the following:
     ///
@@ -18984,8 +18643,7 @@ public struct RebootDBShardGroupOutput: Swift.Sendable {
         publiclyAccessible: Swift.Bool? = nil,
         status: Swift.String? = nil,
         tagList: [RDSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.computeRedundancy = computeRedundancy
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbShardGroupArn = dbShardGroupArn
@@ -19001,9 +18659,9 @@ public struct RebootDBShardGroupOutput: Swift.Sendable {
 }
 
 /// The proxy is already associated with the specified RDS DB instance or Aurora DB cluster.
-public struct DBProxyTargetAlreadyRegisteredFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBProxyTargetAlreadyRegisteredFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -19018,16 +18676,15 @@ public struct DBProxyTargetAlreadyRegisteredFault: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The requested operation can't be performed because there aren't enough available IP addresses in the proxy's subnets. Add more CIDR blocks to the VPC or remove IP address that aren't required from the subnets.
-public struct InsufficientAvailableIPsInSubnetFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientAvailableIPsInSubnetFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -19042,8 +18699,7 @@ public struct InsufficientAvailableIPsInSubnetFault: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -19064,8 +18720,7 @@ public struct RegisterDBProxyTargetsInput: Swift.Sendable {
         dbInstanceIdentifiers: [Swift.String]? = nil,
         dbProxyName: Swift.String? = nil,
         targetGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifiers = dbClusterIdentifiers
         self.dbInstanceIdentifiers = dbInstanceIdentifiers
         self.dbProxyName = dbProxyName
@@ -19079,8 +18734,7 @@ public struct RegisterDBProxyTargetsOutput: Swift.Sendable {
 
     public init(
         dbProxyTargets: [RDSClientTypes.DBProxyTarget]? = nil
-    )
-    {
+    ) {
         self.dbProxyTargets = dbProxyTargets
     }
 }
@@ -19094,8 +18748,7 @@ public struct RemoveFromGlobalClusterInput: Swift.Sendable {
     public init(
         dbClusterIdentifier: Swift.String? = nil,
         globalClusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
         self.globalClusterIdentifier = globalClusterIdentifier
     }
@@ -19107,16 +18760,15 @@ public struct RemoveFromGlobalClusterOutput: Swift.Sendable {
 
     public init(
         globalCluster: RDSClientTypes.GlobalCluster? = nil
-    )
-    {
+    ) {
         self.globalCluster = globalCluster
     }
 }
 
 /// The specified IAM role Amazon Resource Name (ARN) isn't associated with the specified DB cluster.
-public struct DBClusterRoleNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBClusterRoleNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -19131,8 +18783,7 @@ public struct DBClusterRoleNotFoundFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -19151,8 +18802,7 @@ public struct RemoveRoleFromDBClusterInput: Swift.Sendable {
         dbClusterIdentifier: Swift.String? = nil,
         featureName: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
         self.featureName = featureName
         self.roleArn = roleArn
@@ -19160,9 +18810,9 @@ public struct RemoveRoleFromDBClusterInput: Swift.Sendable {
 }
 
 /// The specified RoleArn value doesn't match the specified feature for the DB instance.
-public struct DBInstanceRoleNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DBInstanceRoleNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -19177,8 +18827,7 @@ public struct DBInstanceRoleNotFoundFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -19198,8 +18847,7 @@ public struct RemoveRoleFromDBInstanceInput: Swift.Sendable {
         dbInstanceIdentifier: Swift.String? = nil,
         featureName: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.featureName = featureName
         self.roleArn = roleArn
@@ -19218,8 +18866,7 @@ public struct RemoveSourceIdentifierFromSubscriptionInput: Swift.Sendable {
     public init(
         sourceIdentifier: Swift.String? = nil,
         subscriptionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceIdentifier = sourceIdentifier
         self.subscriptionName = subscriptionName
     }
@@ -19231,8 +18878,7 @@ public struct RemoveSourceIdentifierFromSubscriptionOutput: Swift.Sendable {
 
     public init(
         eventSubscription: RDSClientTypes.EventSubscription? = nil
-    )
-    {
+    ) {
         self.eventSubscription = eventSubscription
     }
 }
@@ -19249,8 +18895,7 @@ public struct RemoveTagsFromResourceInput: Swift.Sendable {
     public init(
         resourceName: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceName = resourceName
         self.tagKeys = tagKeys
     }
@@ -19270,8 +18915,7 @@ public struct ResetDBClusterParameterGroupInput: Swift.Sendable {
         dbClusterParameterGroupName: Swift.String? = nil,
         parameters: [RDSClientTypes.Parameter]? = nil,
         resetAllParameters: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
         self.parameters = parameters
         self.resetAllParameters = resetAllParameters
@@ -19294,8 +18938,7 @@ public struct ResetDBClusterParameterGroupOutput: Swift.Sendable {
 
     public init(
         dbClusterParameterGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
     }
 }
@@ -19316,8 +18959,7 @@ public struct ResetDBParameterGroupInput: Swift.Sendable {
         dbParameterGroupName: Swift.String? = nil,
         parameters: [RDSClientTypes.Parameter]? = nil,
         resetAllParameters: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.dbParameterGroupName = dbParameterGroupName
         self.parameters = parameters
         self.resetAllParameters = resetAllParameters
@@ -19331,16 +18973,15 @@ public struct ResetDBParameterGroupOutput: Swift.Sendable {
 
     public init(
         dbParameterGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbParameterGroupName = dbParameterGroupName
     }
 }
 
 /// The specified Amazon S3 bucket name can't be found or Amazon RDS isn't authorized to access the specified Amazon S3 bucket. Verify the SourceS3BucketName and S3IngestionRoleArn values and try again.
-public struct InvalidS3BucketFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidS3BucketFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -19355,8 +18996,7 @@ public struct InvalidS3BucketFault: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -19531,8 +19171,7 @@ public struct RestoreDBClusterFromS3Input: Swift.Sendable {
         storageType: Swift.String? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.availabilityZones = availabilityZones
         self.backtrackWindow = backtrackWindow
         self.backupRetentionPeriod = backupRetentionPeriod
@@ -19579,16 +19218,15 @@ public struct RestoreDBClusterFromS3Output: Swift.Sendable {
 
     public init(
         dbCluster: RDSClientTypes.DBCluster? = nil
-    )
-    {
+    ) {
         self.dbCluster = dbCluster
     }
 }
 
 /// The DB cluster doesn't have enough capacity for the current operation.
-public struct InsufficientDBClusterCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientDBClusterCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -19603,16 +19241,15 @@ public struct InsufficientDBClusterCapacityFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Cannot restore from VPC backup to non-VPC DB instance.
-public struct InvalidRestoreFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRestoreFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -19627,8 +19264,7 @@ public struct InvalidRestoreFault: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -19819,8 +19455,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
         storageType: Swift.String? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.availabilityZones = availabilityZones
         self.backtrackWindow = backtrackWindow
         self.copyTagsToSnapshot = copyTagsToSnapshot
@@ -19865,8 +19500,7 @@ public struct RestoreDBClusterFromSnapshotOutput: Swift.Sendable {
 
     public init(
         dbCluster: RDSClientTypes.DBCluster? = nil
-    )
-    {
+    ) {
         self.dbCluster = dbCluster
     }
 }
@@ -19932,7 +19566,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
     ///
     /// Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
     public var engineLifecycleSupport: Swift.String?
-    /// The engine mode of the new cluster. Specify provisioned or serverless, depending on the type of the cluster you are creating. You can create an Aurora Serverless v1 clone from a provisioned cluster, or a provisioned clone from an Aurora Serverless v1 cluster. To create a clone that is an Aurora Serverless v1 cluster, the original cluster must be an Aurora Serverless v1 cluster or an encrypted provisioned cluster. Valid for: Aurora DB clusters only
+    /// The engine mode of the new cluster. Specify provisioned or serverless, depending on the type of the cluster you are creating. You can create an Aurora Serverless v1 clone from a provisioned cluster, or a provisioned clone from an Aurora Serverless v1 cluster. To create a clone that is an Aurora Serverless v1 cluster, the original cluster must be an Aurora Serverless v1 cluster or an encrypted provisioned cluster. To create a full copy that is an Aurora Serverless v1 cluster, specify the engine mode serverless. Valid for: Aurora DB clusters only
     public var engineMode: Swift.String?
     /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for each DB instance in the Multi-AZ DB cluster. For information about valid IOPS values, see [Amazon RDS Provisioned IOPS storage](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html#USER_PIOPS) in the Amazon RDS User Guide. Constraints: Must be a multiple between .5 and 50 of the storage amount for the DB instance. Valid for: Multi-AZ DB clusters only
     public var iops: Swift.Int?
@@ -20073,8 +19707,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
         tags: [RDSClientTypes.Tag]? = nil,
         useLatestRestorableTime: Swift.Bool? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.backtrackWindow = backtrackWindow
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.dbClusterIdentifier = dbClusterIdentifier
@@ -20119,15 +19752,14 @@ public struct RestoreDBClusterToPointInTimeOutput: Swift.Sendable {
 
     public init(
         dbCluster: RDSClientTypes.DBCluster? = nil
-    )
-    {
+    ) {
         self.dbCluster = dbCluster
     }
 }
 
 ///
 public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
-    /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
+    /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server. Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
     public var allocatedStorage: Swift.Int?
     /// Specifies whether to automatically apply minor version upgrades to the DB instance during the maintenance window. If you restore an RDS Custom DB instance, you must disable this parameter.
     public var autoMinorVersionUpgrade: Swift.Bool?
@@ -20375,8 +20007,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
         tdeCredentialPassword: Swift.String? = nil,
         useDefaultProcessorFeatures: Swift.Bool? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.allocatedStorage = allocatedStorage
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
@@ -20428,14 +20059,13 @@ public struct RestoreDBInstanceFromDBSnapshotOutput: Swift.Sendable {
 
     public init(
         dbInstance: RDSClientTypes.DBInstance? = nil
-    )
-    {
+    ) {
         self.dbInstance = dbInstance
     }
 }
 
 public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
-    /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
+    /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server. Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
     public var allocatedStorage: Swift.Int?
     /// Specifies whether to automatically apply minor engine upgrades to the DB instance during the maintenance window. By default, minor engine upgrades are not applied automatically.
     public var autoMinorVersionUpgrade: Swift.Bool?
@@ -20447,6 +20077,8 @@ public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
     public var caCertificateIdentifier: Swift.String?
     /// Specifies whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
     public var copyTagsToSnapshot: Swift.Bool?
+    /// Specifies the mode of Database Insights to enable for the DB instance. This setting only applies to Amazon Aurora DB instances. Currently, this value is inherited from the DB cluster and can't be changed.
+    public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB Instance Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide. Importing from Amazon S3 isn't supported on the db.t2.micro DB instance class.
     /// This member is required.
     public var dbInstanceClass: Swift.String?
@@ -20633,6 +20265,7 @@ public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
         backupRetentionPeriod: Swift.Int? = nil,
         caCertificateIdentifier: Swift.String? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
+        databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode? = nil,
         dbInstanceClass: Swift.String? = nil,
         dbInstanceIdentifier: Swift.String? = nil,
         dbName: Swift.String? = nil,
@@ -20678,14 +20311,14 @@ public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
         tags: [RDSClientTypes.Tag]? = nil,
         useDefaultProcessorFeatures: Swift.Bool? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.allocatedStorage = allocatedStorage
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
         self.backupRetentionPeriod = backupRetentionPeriod
         self.caCertificateIdentifier = caCertificateIdentifier
         self.copyTagsToSnapshot = copyTagsToSnapshot
+        self.databaseInsightsMode = databaseInsightsMode
         self.dbInstanceClass = dbInstanceClass
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.dbName = dbName
@@ -20740,16 +20373,15 @@ public struct RestoreDBInstanceFromS3Output: Swift.Sendable {
 
     public init(
         dbInstance: RDSClientTypes.DBInstance? = nil
-    )
-    {
+    ) {
         self.dbInstance = dbInstance
     }
 }
 
 /// SourceDBInstanceIdentifier refers to a DB instance with BackupRetentionPeriod equal to 0.
-public struct PointInTimeRestoreNotEnabledFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PointInTimeRestoreNotEnabledFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -20764,15 +20396,14 @@ public struct PointInTimeRestoreNotEnabledFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
 public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
-    /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
+    /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server. Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
     public var allocatedStorage: Swift.Int?
     /// Specifies whether minor version upgrades are applied automatically to the DB instance during the maintenance window. This setting doesn't apply to RDS Custom.
     public var autoMinorVersionUpgrade: Swift.Bool?
@@ -21054,8 +20685,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
         useDefaultProcessorFeatures: Swift.Bool? = nil,
         useLatestRestorableTime: Swift.Bool? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.allocatedStorage = allocatedStorage
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
@@ -21111,8 +20741,7 @@ public struct RestoreDBInstanceToPointInTimeOutput: Swift.Sendable {
 
     public init(
         dbInstance: RDSClientTypes.DBInstance? = nil
-    )
-    {
+    ) {
         self.dbInstance = dbInstance
     }
 }
@@ -21137,8 +20766,7 @@ public struct RevokeDBSecurityGroupIngressInput: Swift.Sendable {
         ec2SecurityGroupId: Swift.String? = nil,
         ec2SecurityGroupName: Swift.String? = nil,
         ec2SecurityGroupOwnerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.cidrip = cidrip
         self.dbSecurityGroupName = dbSecurityGroupName
         self.ec2SecurityGroupId = ec2SecurityGroupId
@@ -21153,8 +20781,7 @@ public struct RevokeDBSecurityGroupIngressOutput: Swift.Sendable {
 
     public init(
         dbSecurityGroup: RDSClientTypes.DBSecurityGroup? = nil
-    )
-    {
+    ) {
         self.dbSecurityGroup = dbSecurityGroup
     }
 }
@@ -21180,8 +20807,7 @@ public struct StartActivityStreamInput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         mode: RDSClientTypes.ActivityStreamMode? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.applyImmediately = applyImmediately
         self.engineNativeAuditFieldsIncluded = engineNativeAuditFieldsIncluded
         self.kmsKeyId = kmsKeyId
@@ -21211,8 +20837,7 @@ public struct StartActivityStreamOutput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         mode: RDSClientTypes.ActivityStreamMode? = nil,
         status: RDSClientTypes.ActivityStreamStatus? = nil
-    )
-    {
+    ) {
         self.applyImmediately = applyImmediately
         self.engineNativeAuditFieldsIncluded = engineNativeAuditFieldsIncluded
         self.kinesisStreamName = kinesisStreamName
@@ -21229,8 +20854,7 @@ public struct StartDBClusterInput: Swift.Sendable {
 
     public init(
         dbClusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
     }
 }
@@ -21241,8 +20865,7 @@ public struct StartDBClusterOutput: Swift.Sendable {
 
     public init(
         dbCluster: RDSClientTypes.DBCluster? = nil
-    )
-    {
+    ) {
         self.dbCluster = dbCluster
     }
 }
@@ -21254,8 +20877,7 @@ public struct StartDBInstanceInput: Swift.Sendable {
 
     public init(
         dbInstanceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbInstanceIdentifier = dbInstanceIdentifier
     }
 }
@@ -21266,8 +20888,7 @@ public struct StartDBInstanceOutput: Swift.Sendable {
 
     public init(
         dbInstance: RDSClientTypes.DBInstance? = nil
-    )
-    {
+    ) {
         self.dbInstance = dbInstance
     }
 }
@@ -21288,8 +20909,7 @@ public struct StartDBInstanceAutomatedBackupsReplicationInput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         preSignedUrl: Swift.String? = nil,
         sourceDBInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.backupRetentionPeriod = backupRetentionPeriod
         self.kmsKeyId = kmsKeyId
         self.preSignedUrl = preSignedUrl
@@ -21303,16 +20923,15 @@ public struct StartDBInstanceAutomatedBackupsReplicationOutput: Swift.Sendable {
 
     public init(
         dbInstanceAutomatedBackup: RDSClientTypes.DBInstanceAutomatedBackup? = nil
-    )
-    {
+    ) {
         self.dbInstanceAutomatedBackup = dbInstanceAutomatedBackup
     }
 }
 
 /// You can't start an export task that's already running.
-public struct ExportTaskAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ExportTaskAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -21327,16 +20946,15 @@ public struct ExportTaskAlreadyExistsFault: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The IAM role requires additional permissions to export to an Amazon S3 bucket.
-public struct IamRoleMissingPermissionsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IamRoleMissingPermissionsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -21351,16 +20969,15 @@ public struct IamRoleMissingPermissionsFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The IAM role is missing for exporting to an Amazon S3 bucket.
-public struct IamRoleNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IamRoleNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -21375,16 +20992,15 @@ public struct IamRoleNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The export is invalid for exporting to an Amazon S3 bucket.
-public struct InvalidExportOnlyFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidExportOnlyFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -21399,16 +21015,15 @@ public struct InvalidExportOnlyFault: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The state of the export snapshot is invalid for exporting to an Amazon S3 bucket.
-public struct InvalidExportSourceStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidExportSourceStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -21423,8 +21038,7 @@ public struct InvalidExportSourceStateFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -21501,8 +21115,7 @@ public struct StartExportTaskInput: Swift.Sendable {
         s3BucketName: Swift.String? = nil,
         s3Prefix: Swift.String? = nil,
         sourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportOnly = exportOnly
         self.exportTaskIdentifier = exportTaskIdentifier
         self.iamRoleArn = iamRoleArn
@@ -21585,8 +21198,7 @@ public struct StartExportTaskOutput: Swift.Sendable {
         taskStartTime: Foundation.Date? = nil,
         totalExtractedDataInGB: Swift.Int? = nil,
         warningMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportOnly = exportOnly
         self.exportTaskIdentifier = exportTaskIdentifier
         self.failureCause = failureCause
@@ -21616,8 +21228,7 @@ public struct StopActivityStreamInput: Swift.Sendable {
     public init(
         applyImmediately: Swift.Bool? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.applyImmediately = applyImmediately
         self.resourceArn = resourceArn
     }
@@ -21635,8 +21246,7 @@ public struct StopActivityStreamOutput: Swift.Sendable {
         kinesisStreamName: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         status: RDSClientTypes.ActivityStreamStatus? = nil
-    )
-    {
+    ) {
         self.kinesisStreamName = kinesisStreamName
         self.kmsKeyId = kmsKeyId
         self.status = status
@@ -21650,8 +21260,7 @@ public struct StopDBClusterInput: Swift.Sendable {
 
     public init(
         dbClusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbClusterIdentifier = dbClusterIdentifier
     }
 }
@@ -21662,8 +21271,7 @@ public struct StopDBClusterOutput: Swift.Sendable {
 
     public init(
         dbCluster: RDSClientTypes.DBCluster? = nil
-    )
-    {
+    ) {
         self.dbCluster = dbCluster
     }
 }
@@ -21678,8 +21286,7 @@ public struct StopDBInstanceInput: Swift.Sendable {
     public init(
         dbInstanceIdentifier: Swift.String? = nil,
         dbSnapshotIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.dbSnapshotIdentifier = dbSnapshotIdentifier
     }
@@ -21691,8 +21298,7 @@ public struct StopDBInstanceOutput: Swift.Sendable {
 
     public init(
         dbInstance: RDSClientTypes.DBInstance? = nil
-    )
-    {
+    ) {
         self.dbInstance = dbInstance
     }
 }
@@ -21704,8 +21310,7 @@ public struct StopDBInstanceAutomatedBackupsReplicationInput: Swift.Sendable {
 
     public init(
         sourceDBInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceDBInstanceArn = sourceDBInstanceArn
     }
 }
@@ -21716,8 +21321,7 @@ public struct StopDBInstanceAutomatedBackupsReplicationOutput: Swift.Sendable {
 
     public init(
         dbInstanceAutomatedBackup: RDSClientTypes.DBInstanceAutomatedBackup? = nil
-    )
-    {
+    ) {
         self.dbInstanceAutomatedBackup = dbInstanceAutomatedBackup
     }
 }
@@ -21734,8 +21338,7 @@ public struct SwitchoverBlueGreenDeploymentInput: Swift.Sendable {
     public init(
         blueGreenDeploymentIdentifier: Swift.String? = nil,
         switchoverTimeout: Swift.Int? = nil
-    )
-    {
+    ) {
         self.blueGreenDeploymentIdentifier = blueGreenDeploymentIdentifier
         self.switchoverTimeout = switchoverTimeout
     }
@@ -21747,8 +21350,7 @@ public struct SwitchoverBlueGreenDeploymentOutput: Swift.Sendable {
 
     public init(
         blueGreenDeployment: RDSClientTypes.BlueGreenDeployment? = nil
-    )
-    {
+    ) {
         self.blueGreenDeployment = blueGreenDeployment
     }
 }
@@ -21766,8 +21368,7 @@ public struct SwitchoverGlobalClusterInput: Swift.Sendable {
     public init(
         globalClusterIdentifier: Swift.String? = nil,
         targetDbClusterIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.globalClusterIdentifier = globalClusterIdentifier
         self.targetDbClusterIdentifier = targetDbClusterIdentifier
     }
@@ -21779,8 +21380,7 @@ public struct SwitchoverGlobalClusterOutput: Swift.Sendable {
 
     public init(
         globalCluster: RDSClientTypes.GlobalCluster? = nil
-    )
-    {
+    ) {
         self.globalCluster = globalCluster
     }
 }
@@ -21794,8 +21394,7 @@ public struct SwitchoverReadReplicaInput: Swift.Sendable {
 
     public init(
         dbInstanceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbInstanceIdentifier = dbInstanceIdentifier
     }
 }
@@ -21806,8 +21405,7 @@ public struct SwitchoverReadReplicaOutput: Swift.Sendable {
 
     public init(
         dbInstance: RDSClientTypes.DBInstance? = nil
-    )
-    {
+    ) {
         self.dbInstance = dbInstance
     }
 }
@@ -23120,10 +22718,14 @@ extension CreateBlueGreenDeploymentInput {
         try writer["BlueGreenDeploymentName"].write(value.blueGreenDeploymentName)
         try writer["Source"].write(value.source)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
+        try writer["TargetAllocatedStorage"].write(value.targetAllocatedStorage)
         try writer["TargetDBClusterParameterGroupName"].write(value.targetDBClusterParameterGroupName)
         try writer["TargetDBInstanceClass"].write(value.targetDBInstanceClass)
         try writer["TargetDBParameterGroupName"].write(value.targetDBParameterGroupName)
         try writer["TargetEngineVersion"].write(value.targetEngineVersion)
+        try writer["TargetIops"].write(value.targetIops)
+        try writer["TargetStorageThroughput"].write(value.targetStorageThroughput)
+        try writer["TargetStorageType"].write(value.targetStorageType)
         try writer["UpgradeTargetStorageConfig"].write(value.upgradeTargetStorageConfig)
         try writer["Action"].write("CreateBlueGreenDeployment")
         try writer["Version"].write("2014-10-31")
@@ -23168,6 +22770,7 @@ extension CreateDBClusterInput {
         try writer["DBClusterParameterGroupName"].write(value.dbClusterParameterGroupName)
         try writer["DBSubnetGroupName"].write(value.dbSubnetGroupName)
         try writer["DBSystemId"].write(value.dbSystemId)
+        try writer["DatabaseInsightsMode"].write(value.databaseInsightsMode)
         try writer["DatabaseName"].write(value.databaseName)
         try writer["DeletionProtection"].write(value.deletionProtection)
         try writer["Domain"].write(value.domain)
@@ -23275,6 +22878,7 @@ extension CreateDBInstanceInput {
         try writer["DBSecurityGroups"].writeList(value.dbSecurityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "DBSecurityGroupName", isFlattened: false)
         try writer["DBSubnetGroupName"].write(value.dbSubnetGroupName)
         try writer["DBSystemId"].write(value.dbSystemId)
+        try writer["DatabaseInsightsMode"].write(value.databaseInsightsMode)
         try writer["DedicatedLogVolume"].write(value.dedicatedLogVolume)
         try writer["DeletionProtection"].write(value.deletionProtection)
         try writer["Domain"].write(value.domain)
@@ -23340,6 +22944,7 @@ extension CreateDBInstanceReadReplicaInput {
         try writer["DBInstanceIdentifier"].write(value.dbInstanceIdentifier)
         try writer["DBParameterGroupName"].write(value.dbParameterGroupName)
         try writer["DBSubnetGroupName"].write(value.dbSubnetGroupName)
+        try writer["DatabaseInsightsMode"].write(value.databaseInsightsMode)
         try writer["DedicatedLogVolume"].write(value.dedicatedLogVolume)
         try writer["DeletionProtection"].write(value.deletionProtection)
         try writer["Domain"].write(value.domain)
@@ -24565,6 +24170,7 @@ extension ModifyDBClusterInput {
         try writer["DBClusterInstanceClass"].write(value.dbClusterInstanceClass)
         try writer["DBClusterParameterGroupName"].write(value.dbClusterParameterGroupName)
         try writer["DBInstanceParameterGroupName"].write(value.dbInstanceParameterGroupName)
+        try writer["DatabaseInsightsMode"].write(value.databaseInsightsMode)
         try writer["DeletionProtection"].write(value.deletionProtection)
         try writer["Domain"].write(value.domain)
         try writer["DomainIAMRoleName"].write(value.domainIAMRoleName)
@@ -24658,6 +24264,7 @@ extension ModifyDBInstanceInput {
         try writer["DBPortNumber"].write(value.dbPortNumber)
         try writer["DBSecurityGroups"].writeList(value.dbSecurityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "DBSecurityGroupName", isFlattened: false)
         try writer["DBSubnetGroupName"].write(value.dbSubnetGroupName)
+        try writer["DatabaseInsightsMode"].write(value.databaseInsightsMode)
         try writer["DedicatedLogVolume"].write(value.dedicatedLogVolume)
         try writer["DeletionProtection"].write(value.deletionProtection)
         try writer["DisableDomain"].write(value.disableDomain)
@@ -25250,6 +24857,7 @@ extension RestoreDBInstanceFromS3Input {
         try writer["DBParameterGroupName"].write(value.dbParameterGroupName)
         try writer["DBSecurityGroups"].writeList(value.dbSecurityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "DBSecurityGroupName", isFlattened: false)
         try writer["DBSubnetGroupName"].write(value.dbSubnetGroupName)
+        try writer["DatabaseInsightsMode"].write(value.databaseInsightsMode)
         try writer["DedicatedLogVolume"].write(value.dedicatedLogVolume)
         try writer["DeletionProtection"].write(value.deletionProtection)
         try writer["EnableCloudwatchLogsExports"].writeList(value.enableCloudwatchLogsExports, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -25696,6 +25304,7 @@ extension CreateCustomDBEngineVersionOutput {
         value.image = try reader["Image"].readIfPresent(with: RDSClientTypes.CustomDBEngineVersionAMI.read(from:))
         value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
         value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
+        value.serverlessV2FeaturesSupport = try reader["ServerlessV2FeaturesSupport"].readIfPresent(with: RDSClientTypes.ServerlessV2FeaturesSupport.read(from:))
         value.status = try reader["Status"].readIfPresent()
         value.supportedCACertificateIdentifiers = try reader["SupportedCACertificateIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.supportedCharacterSets = try reader["SupportedCharacterSets"].readListIfPresent(memberReadingClosure: RDSClientTypes.CharacterSet.read(from:), memberNodeInfo: "CharacterSet", isFlattened: false)
@@ -25999,6 +25608,7 @@ extension DeleteCustomDBEngineVersionOutput {
         value.image = try reader["Image"].readIfPresent(with: RDSClientTypes.CustomDBEngineVersionAMI.read(from:))
         value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
         value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
+        value.serverlessV2FeaturesSupport = try reader["ServerlessV2FeaturesSupport"].readIfPresent(with: RDSClientTypes.ServerlessV2FeaturesSupport.read(from:))
         value.status = try reader["Status"].readIfPresent()
         value.supportedCACertificateIdentifiers = try reader["SupportedCACertificateIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.supportedCharacterSets = try reader["SupportedCharacterSets"].readListIfPresent(memberReadingClosure: RDSClientTypes.CharacterSet.read(from:), memberNodeInfo: "CharacterSet", isFlattened: false)
@@ -26984,6 +26594,7 @@ extension ModifyCustomDBEngineVersionOutput {
         value.image = try reader["Image"].readIfPresent(with: RDSClientTypes.CustomDBEngineVersionAMI.read(from:))
         value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
         value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
+        value.serverlessV2FeaturesSupport = try reader["ServerlessV2FeaturesSupport"].readIfPresent(with: RDSClientTypes.ServerlessV2FeaturesSupport.read(from:))
         value.status = try reader["Status"].readIfPresent()
         value.supportedCACertificateIdentifiers = try reader["SupportedCACertificateIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.supportedCharacterSets = try reader["SupportedCharacterSets"].readListIfPresent(memberReadingClosure: RDSClientTypes.CharacterSet.read(from:), memberNodeInfo: "CharacterSet", isFlattened: false)
@@ -28854,6 +28465,7 @@ enum DescribeDBLogFilesOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
+            case "DBInstanceNotReady": return try DBInstanceNotReadyFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -29303,6 +28915,7 @@ enum DownloadDBLogFilePortionOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
+            case "DBInstanceNotReady": return try DBInstanceNotReadyFault.makeError(baseError: baseError)
             case "DBLogFileNotFoundFault": return try DBLogFileNotFoundFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -31997,6 +31610,19 @@ extension DBClusterBacktrackNotFoundFault {
     }
 }
 
+extension DBInstanceNotReadyFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBInstanceNotReadyFault {
+        let reader = baseError.errorBodyReader
+        var value = DBInstanceNotReadyFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ReservedDBInstanceNotFoundFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReservedDBInstanceNotFoundFault {
@@ -32721,6 +32347,17 @@ extension RDSClientTypes.Timezone {
     }
 }
 
+extension RDSClientTypes.ServerlessV2FeaturesSupport {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ServerlessV2FeaturesSupport {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.ServerlessV2FeaturesSupport()
+        value.minCapacity = try reader["MinCapacity"].readIfPresent()
+        value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
+        return value
+    }
+}
+
 extension RDSClientTypes.DBCluster {
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBCluster {
@@ -32792,6 +32429,7 @@ extension RDSClientTypes.DBCluster {
         value.autoMinorVersionUpgrade = try reader["AutoMinorVersionUpgrade"].readIfPresent()
         value.monitoringInterval = try reader["MonitoringInterval"].readIfPresent()
         value.monitoringRoleArn = try reader["MonitoringRoleArn"].readIfPresent()
+        value.databaseInsightsMode = try reader["DatabaseInsightsMode"].readIfPresent()
         value.performanceInsightsEnabled = try reader["PerformanceInsightsEnabled"].readIfPresent()
         value.performanceInsightsKMSKeyId = try reader["PerformanceInsightsKMSKeyId"].readIfPresent()
         value.performanceInsightsRetentionPeriod = try reader["PerformanceInsightsRetentionPeriod"].readIfPresent()
@@ -32852,6 +32490,7 @@ extension RDSClientTypes.ServerlessV2ScalingConfigurationInfo {
         var value = RDSClientTypes.ServerlessV2ScalingConfigurationInfo()
         value.minCapacity = try reader["MinCapacity"].readIfPresent()
         value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
+        value.secondsUntilAutoPause = try reader["SecondsUntilAutoPause"].readIfPresent()
         return value
     }
 }
@@ -33043,6 +32682,7 @@ extension RDSClientTypes.DBInstance {
         value.dbInstanceArn = try reader["DBInstanceArn"].readIfPresent()
         value.timezone = try reader["Timezone"].readIfPresent()
         value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
+        value.databaseInsightsMode = try reader["DatabaseInsightsMode"].readIfPresent()
         value.performanceInsightsEnabled = try reader["PerformanceInsightsEnabled"].readIfPresent()
         value.performanceInsightsKMSKeyId = try reader["PerformanceInsightsKMSKeyId"].readIfPresent()
         value.performanceInsightsRetentionPeriod = try reader["PerformanceInsightsRetentionPeriod"].readIfPresent()
@@ -33627,6 +33267,7 @@ extension RDSClientTypes.DBEngineVersion {
         value.supportedCACertificateIdentifiers = try reader["SupportedCACertificateIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.supportsLocalWriteForwarding = try reader["SupportsLocalWriteForwarding"].readIfPresent()
         value.supportsIntegrations = try reader["SupportsIntegrations"].readIfPresent()
+        value.serverlessV2FeaturesSupport = try reader["ServerlessV2FeaturesSupport"].readIfPresent(with: RDSClientTypes.ServerlessV2FeaturesSupport.read(from:))
         return value
     }
 }
@@ -34291,6 +33932,7 @@ extension RDSClientTypes.ServerlessV2ScalingConfiguration {
         guard let value else { return }
         try writer["MaxCapacity"].write(value.maxCapacity)
         try writer["MinCapacity"].write(value.minCapacity)
+        try writer["SecondsUntilAutoPause"].write(value.secondsUntilAutoPause)
     }
 }
 

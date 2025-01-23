@@ -16,12 +16,14 @@ import class ClientRuntime.HttpClientConfiguration
 import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
+import class Smithy.Context
 import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
+import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
@@ -40,8 +42,8 @@ import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
+@_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
-import struct AWSClientRuntime.EndpointResolverMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
@@ -64,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SQSClient: ClientRuntime.Client {
     public static let clientName = "SQSClient"
-    public static let version = "1.0.40"
+    public static let version = "1.2.1"
     let client: ClientRuntime.SdkHttpClient
     let config: SQSClient.SQSClientConfiguration
     let serviceName = "SQS"
@@ -86,58 +88,69 @@ public class SQSClient: ClientRuntime.Client {
 }
 
 extension SQSClient {
+
     public class SQSClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
         public var useFIPS: Swift.Bool?
-
         public var useDualStack: Swift.Bool?
-
         public var appID: Swift.String?
-
         public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
-
         public var awsRetryMode: AWSClientRuntime.AWSRetryMode
-
         public var maxAttempts: Swift.Int?
-
+        public var requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var ignoreConfiguredEndpointURLs: Swift.Bool?
         public var region: Swift.String?
-
         public var signingRegion: Swift.String?
-
         public var endpointResolver: EndpointResolver
-
         public var telemetryProvider: ClientRuntime.TelemetryProvider
-
         public var retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions
-
         public var clientLogMode: ClientRuntime.ClientLogMode
-
         public var endpoint: Swift.String?
-
         public var idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator
-
         public var httpClientEngine: SmithyHTTPAPI.HTTPClient
-
         public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
-
         public var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
-
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
-
         public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
-
         public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
-
         public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-
         internal let logger: Smithy.LogAgent
 
-        private init(_ useFIPS: Swift.Bool?, _ useDualStack: Swift.Bool?, _ appID: Swift.String?, _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver, _ awsRetryMode: AWSClientRuntime.AWSRetryMode, _ maxAttempts: Swift.Int?, _ region: Swift.String?, _ signingRegion: Swift.String?, _ endpointResolver: EndpointResolver, _ telemetryProvider: ClientRuntime.TelemetryProvider, _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions, _ clientLogMode: ClientRuntime.ClientLogMode, _ endpoint: Swift.String?, _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator, _ httpClientEngine: SmithyHTTPAPI.HTTPClient, _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration, _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?, _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver, _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver, _ interceptorProviders: [ClientRuntime.InterceptorProvider], _ httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]) {
+        private init(
+            _ useFIPS: Swift.Bool?,
+            _ useDualStack: Swift.Bool?,
+            _ appID: Swift.String?,
+            _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver,
+            _ awsRetryMode: AWSClientRuntime.AWSRetryMode,
+            _ maxAttempts: Swift.Int?,
+            _ requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode,
+            _ responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode,
+            _ ignoreConfiguredEndpointURLs: Swift.Bool?,
+            _ region: Swift.String?,
+            _ signingRegion: Swift.String?,
+            _ endpointResolver: EndpointResolver,
+            _ telemetryProvider: ClientRuntime.TelemetryProvider,
+            _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions,
+            _ clientLogMode: ClientRuntime.ClientLogMode,
+            _ endpoint: Swift.String?,
+            _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator,
+            _ httpClientEngine: SmithyHTTPAPI.HTTPClient,
+            _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration,
+            _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?,
+            _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver,
+            _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver,
+            _ interceptorProviders: [ClientRuntime.InterceptorProvider],
+            _ httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
+        ) {
             self.useFIPS = useFIPS
             self.useDualStack = useDualStack
             self.appID = appID
             self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
             self.awsRetryMode = awsRetryMode
             self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = requestChecksumCalculation
+            self.responseChecksumValidation = responseChecksumValidation
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
             self.region = region
             self.signingRegion = signingRegion
             self.endpointResolver = endpointResolver
@@ -156,25 +169,176 @@ extension SQSClient {
             self.logger = telemetryProvider.loggerProvider.getLogger(name: SQSClient.clientName)
         }
 
-        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, maxAttempts: Swift.Int? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil, interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil, httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil) throws {
-            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), maxAttempts, region, signingRegion, try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(), endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(), httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(), authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()], authSchemeResolver ?? DefaultSQSAuthSchemeResolver(), bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")), interceptorProviders ?? [], httpInterceptorProviders ?? [])
+        public convenience init(
+            useFIPS: Swift.Bool? = nil,
+            useDualStack: Swift.Bool? = nil,
+            appID: Swift.String? = nil,
+            awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
+            awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
+            maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            region: Swift.String? = nil,
+            signingRegion: Swift.String? = nil,
+            endpointResolver: EndpointResolver? = nil,
+            telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
+            retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
+            clientLogMode: ClientRuntime.ClientLogMode? = nil,
+            endpoint: Swift.String? = nil,
+            idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
+            httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
+            httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
+            authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
+        ) throws {
+            self.init(
+                useFIPS,
+                useDualStack,
+                try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
+                try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                maxAttempts,
+                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
+                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
+                ignoreConfiguredEndpointURLs,
+                region,
+                signingRegion,
+                try endpointResolver ?? DefaultEndpointResolver(),
+                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
+                try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
+                clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
+                endpoint,
+                idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemeResolver ?? DefaultSQSAuthSchemeResolver(),
+                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                interceptorProviders ?? [],
+                httpInterceptorProviders ?? []
+            )
         }
 
-        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, maxAttempts: Swift.Int? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil, interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil, httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil) async throws {
-            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), maxAttempts, try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(), endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(), httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(), authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()], authSchemeResolver ?? DefaultSQSAuthSchemeResolver(), bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")), interceptorProviders ?? [], httpInterceptorProviders ?? [])
+        public convenience init(
+            useFIPS: Swift.Bool? = nil,
+            useDualStack: Swift.Bool? = nil,
+            appID: Swift.String? = nil,
+            awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
+            awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
+            maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            region: Swift.String? = nil,
+            signingRegion: Swift.String? = nil,
+            endpointResolver: EndpointResolver? = nil,
+            telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
+            retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
+            clientLogMode: ClientRuntime.ClientLogMode? = nil,
+            endpoint: Swift.String? = nil,
+            idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
+            httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
+            httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
+            authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
+        ) async throws {
+            self.init(
+                useFIPS,
+                useDualStack,
+                try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
+                try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                maxAttempts,
+                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
+                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
+                ignoreConfiguredEndpointURLs,
+                try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
+                try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
+                try endpointResolver ?? DefaultEndpointResolver(),
+                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
+                try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
+                clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
+                endpoint,
+                idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemeResolver ?? DefaultSQSAuthSchemeResolver(),
+                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                interceptorProviders ?? [],
+                httpInterceptorProviders ?? []
+            )
         }
 
         public convenience required init() async throws {
-            try await self.init(useFIPS: nil, useDualStack: nil, appID: nil, awsCredentialIdentityResolver: nil, awsRetryMode: nil, maxAttempts: nil, region: nil, signingRegion: nil, endpointResolver: nil, telemetryProvider: nil, retryStrategyOptions: nil, clientLogMode: nil, endpoint: nil, idempotencyTokenGenerator: nil, httpClientEngine: nil, httpClientConfiguration: nil, authSchemes: nil, authSchemeResolver: nil, bearerTokenIdentityResolver: nil, interceptorProviders: nil, httpInterceptorProviders: nil)
+            try await self.init(
+                useFIPS: nil,
+                useDualStack: nil,
+                appID: nil,
+                awsCredentialIdentityResolver: nil,
+                awsRetryMode: nil,
+                maxAttempts: nil,
+                requestChecksumCalculation: nil,
+                responseChecksumValidation: nil,
+                ignoreConfiguredEndpointURLs: nil,
+                region: nil,
+                signingRegion: nil,
+                endpointResolver: nil,
+                telemetryProvider: nil,
+                retryStrategyOptions: nil,
+                clientLogMode: nil,
+                endpoint: nil,
+                idempotencyTokenGenerator: nil,
+                httpClientEngine: nil,
+                httpClientConfiguration: nil,
+                authSchemes: nil,
+                authSchemeResolver: nil,
+                bearerTokenIdentityResolver: nil,
+                interceptorProviders: nil,
+                httpInterceptorProviders: nil
+            )
         }
 
-        public convenience init(region: String) throws {
-            self.init(nil, nil, try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(), try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), nil, region, region, try DefaultEndpointResolver(), ClientRuntime.DefaultTelemetry.provider, try AWSClientConfigDefaultsProvider.retryStrategyOptions(), AWSClientConfigDefaultsProvider.clientLogMode(), nil, AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), AWSClientConfigDefaultsProvider.httpClientEngine(), AWSClientConfigDefaultsProvider.httpClientConfiguration(), [AWSSDKHTTPAuth.SigV4AuthScheme()], DefaultSQSAuthSchemeResolver(), SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")), [], [])
+        public convenience init(region: Swift.String) throws {
+            self.init(
+                nil,
+                nil,
+                try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(),
+                try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                nil,
+                try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
+                try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
+                nil,
+                region,
+                region,
+                try DefaultEndpointResolver(),
+                ClientRuntime.DefaultTelemetry.provider,
+                try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                AWSClientConfigDefaultsProvider.clientLogMode(),
+                nil,
+                AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                AWSClientConfigDefaultsProvider.httpClientEngine(),
+                AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                DefaultSQSAuthSchemeResolver(),
+                SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                [],
+                []
+            )
         }
 
         public var partitionID: String? {
             return "\(SQSClient.clientName) - \(region ?? "")"
         }
+
         public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
             self.interceptorProviders.append(provider)
         }
@@ -195,7 +359,7 @@ extension SQSClient {
 }
 
 extension SQSClient {
-    /// Performs the `AddPermission` operation on the `AmazonSQS` service.
+    /// Performs the `AddPermission` operation on the `SQS` service.
     ///
     /// Adds a permission to a queue for a specific [principal](https://docs.aws.amazon.com/general/latest/gr/glos-chap.html#P). This allows sharing access to the queue. When you create a queue, you have full control access rights for the queue. Only you, the owner of the queue, can grant or deny permissions to the queue. For more information about these permissions, see [Allow Developers to Write Messages to a Shared Queue](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-writing-an-sqs-policy.html#write-messages-to-shared-queue) in the Amazon SQS Developer Guide.
     ///
@@ -217,17 +381,15 @@ extension SQSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidAddress` : The accountId is invalid.
-    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `InvalidAddress` : The specified ID is invalid.
+    /// - `InvalidSecurity` : The request was not made over HTTPS or did not use SigV4 for signing.
     /// - `OverLimit` : The specified action violates a limit. For example, ReceiveMessage returns this error if the maximum number of in flight messages is reached and AddPermission returns this error if the maximum number of permissions for the queue is reached.
-    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `QueueDoesNotExist` : Ensure that the QueueUrl is correct and that the queue has not been deleted.
     /// - `RequestThrottled` : The request was denied due to request throttling.
     ///
-    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    /// * Exceeds the permitted request rate for the queue or for the recipient of the request.
     ///
-    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
-    ///
-    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// * Ensure that the request rate is within the Amazon SQS limits for sending messages. For more information, see [Amazon SQS quotas](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-quotas.html#quotas-requests) in the Amazon SQS Developer Guide.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func addPermission(input: AddPermissionInput) async throws -> AddPermissionOutput {
         let context = Smithy.ContextBuilder()
@@ -245,6 +407,8 @@ extension SQSClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -263,9 +427,11 @@ extension SQSClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddPermissionOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<AddPermissionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AddPermissionInput, AddPermissionOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AddPermissionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AddPermissionInput, AddPermissionOutput>(xAmzTarget: "AmazonSQS.AddPermission"))
         builder.serialize(ClientRuntime.BodyMiddleware<AddPermissionInput, AddPermissionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AddPermissionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AddPermissionInput, AddPermissionOutput>(contentType: "application/x-amz-json-1.0"))
@@ -273,6 +439,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AddPermissionInput, AddPermissionOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AddPermissionInput, AddPermissionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AddPermissionInput, AddPermissionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AddPermissionInput, AddPermissionOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AddPermission")
@@ -288,7 +455,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CancelMessageMoveTask` operation on the `AmazonSQS` service.
+    /// Performs the `CancelMessageMoveTask` operation on the `SQS` service.
     ///
     /// Cancels a specified message movement task. A message movement can only be cancelled when the current status is RUNNING. Cancelling a message movement task does not revert the messages that have already been moved. It can only stop the messages that have not been moved yet.
     ///
@@ -303,15 +470,13 @@ extension SQSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidAddress` : The accountId is invalid.
-    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `InvalidAddress` : The specified ID is invalid.
+    /// - `InvalidSecurity` : The request was not made over HTTPS or did not use SigV4 for signing.
     /// - `RequestThrottled` : The request was denied due to request throttling.
     ///
-    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    /// * Exceeds the permitted request rate for the queue or for the recipient of the request.
     ///
-    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
-    ///
-    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// * Ensure that the request rate is within the Amazon SQS limits for sending messages. For more information, see [Amazon SQS quotas](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-quotas.html#quotas-requests) in the Amazon SQS Developer Guide.
     /// - `ResourceNotFoundException` : One or more specified resources don't exist.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func cancelMessageMoveTask(input: CancelMessageMoveTaskInput) async throws -> CancelMessageMoveTaskOutput {
@@ -330,6 +495,8 @@ extension SQSClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -348,9 +515,11 @@ extension SQSClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelMessageMoveTaskOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CancelMessageMoveTaskOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelMessageMoveTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutput>(xAmzTarget: "AmazonSQS.CancelMessageMoveTask"))
         builder.serialize(ClientRuntime.BodyMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelMessageMoveTaskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutput>(contentType: "application/x-amz-json-1.0"))
@@ -358,6 +527,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelMessageMoveTask")
@@ -373,7 +543,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ChangeMessageVisibility` operation on the `AmazonSQS` service.
+    /// Performs the `ChangeMessageVisibility` operation on the `SQS` service.
     ///
     /// Changes the visibility timeout of a specified message in a queue to a new value. The default visibility timeout for a message is 30 seconds. The minimum is 0 seconds. The maximum is 12 hours. For more information, see [Visibility Timeout](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html) in the Amazon SQS Developer Guide. For example, if the default timeout for a queue is 60 seconds, 15 seconds have elapsed since you received the message, and you send a ChangeMessageVisibility call with VisibilityTimeout set to 10 seconds, the 10 seconds begin to count from the time that you make the ChangeMessageVisibility call. Thus, any attempt to change the visibility timeout or to delete that message 10 seconds after you initially change the visibility timeout (a total of 25 seconds) might result in an error. An Amazon SQS message has three basic states:
     ///
@@ -384,7 +554,7 @@ extension SQSClient {
     /// * Deleted from the queue.
     ///
     ///
-    /// A message is considered to be stored after it is sent to a queue by a producer, but not yet received from the queue by a consumer (that is, between states 1 and 2). There is no limit to the number of stored messages. A message is considered to be in flight after it is received from a queue by a consumer, but not yet deleted from the queue (that is, between states 2 and 3). There is a limit to the number of in flight messages. Limits that apply to in flight messages are unrelated to the unlimited number of stored messages. For most standard queues (depending on queue traffic and message backlog), there can be a maximum of approximately 120,000 in flight messages (received from a queue by a consumer, but not yet deleted from the queue). If you reach this limit, Amazon SQS returns the OverLimit error message. To avoid reaching the limit, you should delete messages from the queue after they're processed. You can also increase the number of queues you use to process your messages. To request a limit increase, [file a support request](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&limitType=service-code-sqs). For FIFO queues, there can be a maximum of 20,000 in flight messages (received from a queue by a consumer, but not yet deleted from the queue). If you reach this limit, Amazon SQS returns no error messages. If you attempt to set the VisibilityTimeout to a value greater than the maximum time left, Amazon SQS returns an error. Amazon SQS doesn't automatically recalculate and increase the timeout to the maximum remaining time. Unlike with a queue, when you change the visibility timeout for a specific message the timeout value is applied immediately but isn't saved in memory for that message. If you don't delete a message after it is received, the visibility timeout for the message reverts to the original timeout value (not to the value you set using the ChangeMessageVisibility action) the next time the message is received.
+    /// A message is considered to be stored after it is sent to a queue by a producer, but not yet received from the queue by a consumer (that is, between states 1 and 2). There is no limit to the number of stored messages. A message is considered to be in flight after it is received from a queue by a consumer, but not yet deleted from the queue (that is, between states 2 and 3). There is a limit to the number of in flight messages. Limits that apply to in flight messages are unrelated to the unlimited number of stored messages. For most standard queues (depending on queue traffic and message backlog), there can be a maximum of approximately 120,000 in flight messages (received from a queue by a consumer, but not yet deleted from the queue). If you reach this limit, Amazon SQS returns the OverLimit error message. To avoid reaching the limit, you should delete messages from the queue after they're processed. You can also increase the number of queues you use to process your messages. To request a limit increase, [file a support request](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&limitType=service-code-sqs). For FIFO queues, there can be a maximum of 120,000 in flight messages (received from a queue by a consumer, but not yet deleted from the queue). If you reach this limit, Amazon SQS returns no error messages. If you attempt to set the VisibilityTimeout to a value greater than the maximum time left, Amazon SQS returns an error. Amazon SQS doesn't automatically recalculate and increase the timeout to the maximum remaining time. Unlike with a queue, when you change the visibility timeout for a specific message the timeout value is applied immediately but isn't saved in memory for that message. If you don't delete a message after it is received, the visibility timeout for the message reverts to the original timeout value (not to the value you set using the ChangeMessageVisibility action) the next time the message is received.
     ///
     /// - Parameter ChangeMessageVisibilityInput : [no documentation found]
     ///
@@ -393,18 +563,16 @@ extension SQSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidAddress` : The accountId is invalid.
-    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `InvalidAddress` : The specified ID is invalid.
+    /// - `InvalidSecurity` : The request was not made over HTTPS or did not use SigV4 for signing.
     /// - `MessageNotInflight` : The specified message isn't in flight.
-    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `QueueDoesNotExist` : Ensure that the QueueUrl is correct and that the queue has not been deleted.
     /// - `ReceiptHandleIsInvalid` : The specified receipt handle isn't valid.
     /// - `RequestThrottled` : The request was denied due to request throttling.
     ///
-    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    /// * Exceeds the permitted request rate for the queue or for the recipient of the request.
     ///
-    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
-    ///
-    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// * Ensure that the request rate is within the Amazon SQS limits for sending messages. For more information, see [Amazon SQS quotas](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-quotas.html#quotas-requests) in the Amazon SQS Developer Guide.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func changeMessageVisibility(input: ChangeMessageVisibilityInput) async throws -> ChangeMessageVisibilityOutput {
         let context = Smithy.ContextBuilder()
@@ -422,6 +590,8 @@ extension SQSClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -440,9 +610,11 @@ extension SQSClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ChangeMessageVisibilityOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ChangeMessageVisibilityOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ChangeMessageVisibilityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutput>(xAmzTarget: "AmazonSQS.ChangeMessageVisibility"))
         builder.serialize(ClientRuntime.BodyMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ChangeMessageVisibilityInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutput>(contentType: "application/x-amz-json-1.0"))
@@ -450,6 +622,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ChangeMessageVisibility")
@@ -465,7 +638,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ChangeMessageVisibilityBatch` operation on the `AmazonSQS` service.
+    /// Performs the `ChangeMessageVisibilityBatch` operation on the `SQS` service.
     ///
     /// Changes the visibility timeout of multiple messages. This is a batch version of [ChangeMessageVisibility]. The result of the action on each message is reported individually in the response. You can send up to 10 [ChangeMessageVisibility] requests with each ChangeMessageVisibilityBatch action. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
     ///
@@ -478,18 +651,16 @@ extension SQSClient {
     /// __Possible Exceptions:__
     /// - `BatchEntryIdsNotDistinct` : Two or more batch entries in the request have the same Id.
     /// - `EmptyBatchRequest` : The batch request doesn't contain any entries.
-    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidAddress` : The specified ID is invalid.
     /// - `InvalidBatchEntryId` : The Id of a batch entry in a batch request doesn't abide by the specification.
-    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
-    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `InvalidSecurity` : The request was not made over HTTPS or did not use SigV4 for signing.
+    /// - `QueueDoesNotExist` : Ensure that the QueueUrl is correct and that the queue has not been deleted.
     /// - `RequestThrottled` : The request was denied due to request throttling.
     ///
-    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    /// * Exceeds the permitted request rate for the queue or for the recipient of the request.
     ///
-    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
-    ///
-    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
-    /// - `TooManyEntriesInBatchRequest` : The batch request contains more entries than permissible.
+    /// * Ensure that the request rate is within the Amazon SQS limits for sending messages. For more information, see [Amazon SQS quotas](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-quotas.html#quotas-requests) in the Amazon SQS Developer Guide.
+    /// - `TooManyEntriesInBatchRequest` : The batch request contains more entries than permissible. For Amazon SQS, the maximum number of entries you can include in a single [SendMessageBatch](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_SendMessageBatch.html), [DeleteMessageBatch](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_DeleteMessageBatch.html), or [ChangeMessageVisibilityBatch](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_ChangeMessageVisibilityBatch.html) request is 10.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func changeMessageVisibilityBatch(input: ChangeMessageVisibilityBatchInput) async throws -> ChangeMessageVisibilityBatchOutput {
         let context = Smithy.ContextBuilder()
@@ -507,6 +678,8 @@ extension SQSClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -525,9 +698,11 @@ extension SQSClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ChangeMessageVisibilityBatchOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ChangeMessageVisibilityBatchOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ChangeMessageVisibilityBatchOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutput>(xAmzTarget: "AmazonSQS.ChangeMessageVisibilityBatch"))
         builder.serialize(ClientRuntime.BodyMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ChangeMessageVisibilityBatchInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutput>(contentType: "application/x-amz-json-1.0"))
@@ -535,6 +710,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ChangeMessageVisibilityBatch")
@@ -550,7 +726,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateQueue` operation on the `AmazonSQS` service.
+    /// Performs the `CreateQueue` operation on the `SQS` service.
     ///
     /// Creates a new standard or FIFO queue. You can pass one or more attributes in the request. Keep the following in mind:
     ///
@@ -561,11 +737,11 @@ extension SQSClient {
     /// * If you delete a queue, you must wait at least 60 seconds before creating a queue with the same name.
     ///
     ///
-    /// To successfully create a new queue, you must provide a queue name that adheres to the [limits related to queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/limits-queues.html) and is unique within the scope of your queues. After you create a queue, you must wait at least one second after the queue is created to be able to use the queue. To get the queue URL, use the [GetQueueUrl] action. [GetQueueUrl] requires only the QueueName parameter. be aware of existing queue names:
+    /// To successfully create a new queue, you must provide a queue name that adheres to the [limits related to queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/limits-queues.html) and is unique within the scope of your queues. After you create a queue, you must wait at least one second after the queue is created to be able to use the queue. To retrieve the URL of a queue, use the [GetQueueUrl](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_GetQueueUrl.html) action. This action only requires the [QueueName](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_CreateQueue.html#API_CreateQueue_RequestSyntax) parameter. When creating queues, keep the following points in mind:
     ///
-    /// * If you provide the name of an existing queue along with the exact names and values of all the queue's attributes, CreateQueue returns the queue URL for the existing queue.
+    /// * If you specify the name of an existing queue and provide the exact same names and values for all its attributes, the [CreateQueue](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_CreateQueue.html) action will return the URL of the existing queue instead of creating a new one.
     ///
-    /// * If the queue name, attribute names, or attribute values don't match an existing queue, CreateQueue returns an error.
+    /// * If you attempt to create a queue with a name that already exists but with different attribute names or values, the CreateQueue action will return an error. This ensures that existing queues are not inadvertently altered.
     ///
     ///
     /// Cross-account permissions don't apply to this action. For more information, see [Grant cross-account permissions to a role and a username](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name) in the Amazon SQS Developer Guide.
@@ -577,19 +753,17 @@ extension SQSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidAddress` : The specified ID is invalid.
     /// - `InvalidAttributeName` : The specified attribute doesn't exist.
     /// - `InvalidAttributeValue` : A queue attribute value is invalid.
-    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `InvalidSecurity` : The request was not made over HTTPS or did not use SigV4 for signing.
     /// - `QueueDeletedRecently` : You must wait 60 seconds after deleting a queue before you can create another queue with the same name.
     /// - `QueueNameExists` : A queue with this name already exists. Amazon SQS returns this error only if the request includes attributes whose values differ from those of the existing queue.
     /// - `RequestThrottled` : The request was denied due to request throttling.
     ///
-    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    /// * Exceeds the permitted request rate for the queue or for the recipient of the request.
     ///
-    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
-    ///
-    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// * Ensure that the request rate is within the Amazon SQS limits for sending messages. For more information, see [Amazon SQS quotas](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-quotas.html#quotas-requests) in the Amazon SQS Developer Guide.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func createQueue(input: CreateQueueInput) async throws -> CreateQueueOutput {
         let context = Smithy.ContextBuilder()
@@ -607,6 +781,8 @@ extension SQSClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -625,9 +801,11 @@ extension SQSClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateQueueOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateQueueOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateQueueInput, CreateQueueOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateQueueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateQueueInput, CreateQueueOutput>(xAmzTarget: "AmazonSQS.CreateQueue"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateQueueInput, CreateQueueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateQueueInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateQueueInput, CreateQueueOutput>(contentType: "application/x-amz-json-1.0"))
@@ -635,6 +813,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateQueueInput, CreateQueueOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateQueueInput, CreateQueueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateQueueInput, CreateQueueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateQueueInput, CreateQueueOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateQueue")
@@ -650,9 +829,9 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMessage` operation on the `AmazonSQS` service.
+    /// Performs the `DeleteMessage` operation on the `SQS` service.
     ///
-    /// Deletes the specified message from the specified queue. To select the message to delete, use the ReceiptHandle of the message (not the MessageId which you receive when you send the message). Amazon SQS can delete a message from a queue even if a visibility timeout setting causes the message to be locked by another consumer. Amazon SQS automatically deletes messages left in a queue longer than the retention period configured for the queue. The ReceiptHandle is associated with a specific instance of receiving a message. If you receive a message more than once, the ReceiptHandle is different each time you receive a message. When you use the DeleteMessage action, you must provide the most recently received ReceiptHandle for the message (otherwise, the request succeeds, but the message will not be deleted). For standard queues, it is possible to receive a message even after you delete it. This might happen on rare occasions if one of the servers which stores a copy of the message is unavailable when you send the request to delete the message. The copy remains on the server and might be returned to you during a subsequent receive request. You should ensure that your application is idempotent, so that receiving a message more than once does not cause issues.
+    /// Deletes the specified message from the specified queue. To select the message to delete, use the ReceiptHandle of the message (not the MessageId which you receive when you send the message). Amazon SQS can delete a message from a queue even if a visibility timeout setting causes the message to be locked by another consumer. Amazon SQS automatically deletes messages left in a queue longer than the retention period configured for the queue. Each time you receive a message, meaning when a consumer retrieves a message from the queue, it comes with a unique ReceiptHandle. If you receive the same message more than once, you will get a different ReceiptHandle each time. When you want to delete a message using the DeleteMessage action, you must use the ReceiptHandle from the most recent time you received the message. If you use an old ReceiptHandle, the request will succeed, but the message might not be deleted. For standard queues, it is possible to receive a message even after you delete it. This might happen on rare occasions if one of the servers which stores a copy of the message is unavailable when you send the request to delete the message. The copy remains on the server and might be returned to you during a subsequent receive request. You should ensure that your application is idempotent, so that receiving a message more than once does not cause issues.
     ///
     /// - Parameter DeleteMessageInput :
     ///
@@ -661,18 +840,16 @@ extension SQSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidAddress` : The specified ID is invalid.
     /// - `InvalidIdFormat` : The specified receipt handle isn't valid for the current version.
-    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
-    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `InvalidSecurity` : The request was not made over HTTPS or did not use SigV4 for signing.
+    /// - `QueueDoesNotExist` : Ensure that the QueueUrl is correct and that the queue has not been deleted.
     /// - `ReceiptHandleIsInvalid` : The specified receipt handle isn't valid.
     /// - `RequestThrottled` : The request was denied due to request throttling.
     ///
-    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    /// * Exceeds the permitted request rate for the queue or for the recipient of the request.
     ///
-    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
-    ///
-    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// * Ensure that the request rate is within the Amazon SQS limits for sending messages. For more information, see [Amazon SQS quotas](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-quotas.html#quotas-requests) in the Amazon SQS Developer Guide.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func deleteMessage(input: DeleteMessageInput) async throws -> DeleteMessageOutput {
         let context = Smithy.ContextBuilder()
@@ -690,6 +867,8 @@ extension SQSClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -708,9 +887,11 @@ extension SQSClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMessageOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteMessageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMessageInput, DeleteMessageOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteMessageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteMessageInput, DeleteMessageOutput>(xAmzTarget: "AmazonSQS.DeleteMessage"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteMessageInput, DeleteMessageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteMessageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMessageInput, DeleteMessageOutput>(contentType: "application/x-amz-json-1.0"))
@@ -718,6 +899,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteMessageInput, DeleteMessageOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMessageInput, DeleteMessageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteMessageInput, DeleteMessageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMessageInput, DeleteMessageOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteMessage")
@@ -733,7 +915,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteMessageBatch` operation on the `AmazonSQS` service.
+    /// Performs the `DeleteMessageBatch` operation on the `SQS` service.
     ///
     /// Deletes up to ten messages from the specified queue. This is a batch version of [DeleteMessage]. The result of the action on each message is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
     ///
@@ -746,18 +928,16 @@ extension SQSClient {
     /// __Possible Exceptions:__
     /// - `BatchEntryIdsNotDistinct` : Two or more batch entries in the request have the same Id.
     /// - `EmptyBatchRequest` : The batch request doesn't contain any entries.
-    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidAddress` : The specified ID is invalid.
     /// - `InvalidBatchEntryId` : The Id of a batch entry in a batch request doesn't abide by the specification.
-    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
-    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `InvalidSecurity` : The request was not made over HTTPS or did not use SigV4 for signing.
+    /// - `QueueDoesNotExist` : Ensure that the QueueUrl is correct and that the queue has not been deleted.
     /// - `RequestThrottled` : The request was denied due to request throttling.
     ///
-    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    /// * Exceeds the permitted request rate for the queue or for the recipient of the request.
     ///
-    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
-    ///
-    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
-    /// - `TooManyEntriesInBatchRequest` : The batch request contains more entries than permissible.
+    /// * Ensure that the request rate is within the Amazon SQS limits for sending messages. For more information, see [Amazon SQS quotas](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-quotas.html#quotas-requests) in the Amazon SQS Developer Guide.
+    /// - `TooManyEntriesInBatchRequest` : The batch request contains more entries than permissible. For Amazon SQS, the maximum number of entries you can include in a single [SendMessageBatch](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_SendMessageBatch.html), [DeleteMessageBatch](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_DeleteMessageBatch.html), or [ChangeMessageVisibilityBatch](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_ChangeMessageVisibilityBatch.html) request is 10.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func deleteMessageBatch(input: DeleteMessageBatchInput) async throws -> DeleteMessageBatchOutput {
         let context = Smithy.ContextBuilder()
@@ -775,6 +955,8 @@ extension SQSClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -793,9 +975,11 @@ extension SQSClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMessageBatchOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteMessageBatchOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteMessageBatchOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutput>(xAmzTarget: "AmazonSQS.DeleteMessageBatch"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteMessageBatchInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutput>(contentType: "application/x-amz-json-1.0"))
@@ -803,6 +987,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteMessageBatch")
@@ -818,7 +1003,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteQueue` operation on the `AmazonSQS` service.
+    /// Performs the `DeleteQueue` operation on the `SQS` service.
     ///
     /// Deletes the queue specified by the QueueUrl, regardless of the queue's contents. Be careful with the DeleteQueue action: When you delete a queue, any messages in the queue are no longer available. When you delete a queue, the deletion process takes up to 60 seconds. Requests you send involving that queue during the 60 seconds might succeed. For example, a [SendMessage] request might succeed, but after 60 seconds the queue and the message you sent no longer exist. When you delete a queue, you must wait at least 60 seconds before creating a queue with the same name. Cross-account permissions don't apply to this action. For more information, see [Grant cross-account permissions to a role and a username](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name) in the Amazon SQS Developer Guide. The delete operation uses the HTTP GET verb.
     ///
@@ -829,16 +1014,14 @@ extension SQSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidAddress` : The accountId is invalid.
-    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
-    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `InvalidAddress` : The specified ID is invalid.
+    /// - `InvalidSecurity` : The request was not made over HTTPS or did not use SigV4 for signing.
+    /// - `QueueDoesNotExist` : Ensure that the QueueUrl is correct and that the queue has not been deleted.
     /// - `RequestThrottled` : The request was denied due to request throttling.
     ///
-    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    /// * Exceeds the permitted request rate for the queue or for the recipient of the request.
     ///
-    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
-    ///
-    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// * Ensure that the request rate is within the Amazon SQS limits for sending messages. For more information, see [Amazon SQS quotas](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-quotas.html#quotas-requests) in the Amazon SQS Developer Guide.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func deleteQueue(input: DeleteQueueInput) async throws -> DeleteQueueOutput {
         let context = Smithy.ContextBuilder()
@@ -856,6 +1039,8 @@ extension SQSClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -874,9 +1059,11 @@ extension SQSClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteQueueOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteQueueOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteQueueInput, DeleteQueueOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteQueueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteQueueInput, DeleteQueueOutput>(xAmzTarget: "AmazonSQS.DeleteQueue"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteQueueInput, DeleteQueueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteQueueInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteQueueInput, DeleteQueueOutput>(contentType: "application/x-amz-json-1.0"))
@@ -884,6 +1071,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteQueueInput, DeleteQueueOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteQueueInput, DeleteQueueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteQueueInput, DeleteQueueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteQueueInput, DeleteQueueOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteQueue")
@@ -899,7 +1087,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetQueueAttributes` operation on the `AmazonSQS` service.
+    /// Performs the `GetQueueAttributes` operation on the `SQS` service.
     ///
     /// Gets attributes for the specified queue. To determine whether a queue is [FIFO](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues.html), you can check whether QueueName ends with the .fifo suffix.
     ///
@@ -910,17 +1098,15 @@ extension SQSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidAddress` : The specified ID is invalid.
     /// - `InvalidAttributeName` : The specified attribute doesn't exist.
-    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
-    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `InvalidSecurity` : The request was not made over HTTPS or did not use SigV4 for signing.
+    /// - `QueueDoesNotExist` : Ensure that the QueueUrl is correct and that the queue has not been deleted.
     /// - `RequestThrottled` : The request was denied due to request throttling.
     ///
-    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    /// * Exceeds the permitted request rate for the queue or for the recipient of the request.
     ///
-    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
-    ///
-    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// * Ensure that the request rate is within the Amazon SQS limits for sending messages. For more information, see [Amazon SQS quotas](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-quotas.html#quotas-requests) in the Amazon SQS Developer Guide.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func getQueueAttributes(input: GetQueueAttributesInput) async throws -> GetQueueAttributesOutput {
         let context = Smithy.ContextBuilder()
@@ -938,6 +1124,8 @@ extension SQSClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -956,9 +1144,11 @@ extension SQSClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueueAttributesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetQueueAttributesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetQueueAttributesInput, GetQueueAttributesOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetQueueAttributesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetQueueAttributesInput, GetQueueAttributesOutput>(xAmzTarget: "AmazonSQS.GetQueueAttributes"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetQueueAttributesInput, GetQueueAttributesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetQueueAttributesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetQueueAttributesInput, GetQueueAttributesOutput>(contentType: "application/x-amz-json-1.0"))
@@ -966,6 +1156,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetQueueAttributesInput, GetQueueAttributesOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetQueueAttributesInput, GetQueueAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetQueueAttributesInput, GetQueueAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetQueueAttributesInput, GetQueueAttributesOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetQueueAttributes")
@@ -981,27 +1172,25 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetQueueUrl` operation on the `AmazonSQS` service.
+    /// Performs the `GetQueueUrl` operation on the `SQS` service.
     ///
-    /// Returns the URL of an existing Amazon SQS queue. To access a queue that belongs to another AWS account, use the QueueOwnerAWSAccountId parameter to specify the account ID of the queue's owner. The queue's owner must grant you permission to access the queue. For more information about shared queue access, see [AddPermission] or see [Allow Developers to Write Messages to a Shared Queue](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-writing-an-sqs-policy.html#write-messages-to-shared-queue) in the Amazon SQS Developer Guide.
+    /// The GetQueueUrl API returns the URL of an existing Amazon SQS queue. This is useful when you know the queue's name but need to retrieve its URL for further operations. To access a queue owned by another Amazon Web Services account, use the QueueOwnerAWSAccountId parameter to specify the account ID of the queue's owner. Note that the queue owner must grant you the necessary permissions to access the queue. For more information about accessing shared queues, see the [AddPermission] API or [Allow developers to write messages to a shared queue](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-writing-an-sqs-policy.html#write-messages-to-shared-queue) in the Amazon SQS Developer Guide.
     ///
-    /// - Parameter GetQueueUrlInput :
+    /// - Parameter GetQueueUrlInput : Retrieves the URL of an existing queue based on its name and, optionally, the Amazon Web Services account ID.
     ///
     /// - Returns: `GetQueueUrlOutput` : For more information, see [Interpreting Responses](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-api-responses.html) in the Amazon SQS Developer Guide.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidAddress` : The accountId is invalid.
-    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
-    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `InvalidAddress` : The specified ID is invalid.
+    /// - `InvalidSecurity` : The request was not made over HTTPS or did not use SigV4 for signing.
+    /// - `QueueDoesNotExist` : Ensure that the QueueUrl is correct and that the queue has not been deleted.
     /// - `RequestThrottled` : The request was denied due to request throttling.
     ///
-    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    /// * Exceeds the permitted request rate for the queue or for the recipient of the request.
     ///
-    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
-    ///
-    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// * Ensure that the request rate is within the Amazon SQS limits for sending messages. For more information, see [Amazon SQS quotas](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-quotas.html#quotas-requests) in the Amazon SQS Developer Guide.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func getQueueUrl(input: GetQueueUrlInput) async throws -> GetQueueUrlOutput {
         let context = Smithy.ContextBuilder()
@@ -1019,6 +1208,8 @@ extension SQSClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1037,9 +1228,11 @@ extension SQSClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueueUrlOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetQueueUrlOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetQueueUrlInput, GetQueueUrlOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetQueueUrlOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetQueueUrlInput, GetQueueUrlOutput>(xAmzTarget: "AmazonSQS.GetQueueUrl"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetQueueUrlInput, GetQueueUrlOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetQueueUrlInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetQueueUrlInput, GetQueueUrlOutput>(contentType: "application/x-amz-json-1.0"))
@@ -1047,6 +1240,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetQueueUrlInput, GetQueueUrlOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetQueueUrlInput, GetQueueUrlOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetQueueUrlInput, GetQueueUrlOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetQueueUrlInput, GetQueueUrlOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetQueueUrl")
@@ -1062,7 +1256,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDeadLetterSourceQueues` operation on the `AmazonSQS` service.
+    /// Performs the `ListDeadLetterSourceQueues` operation on the `SQS` service.
     ///
     /// Returns a list of your queues that have the RedrivePolicy queue attribute configured with a dead-letter queue. The ListDeadLetterSourceQueues methods supports pagination. Set parameter MaxResults in the request to specify the maximum number of results to be returned in the response. If you do not set MaxResults, the response includes a maximum of 1,000 results. If you set MaxResults and there are additional results to display, the response includes a value for NextToken. Use NextToken as a parameter in your next request to ListDeadLetterSourceQueues to receive the next page of results. For more information about using dead-letter queues, see [Using Amazon SQS Dead-Letter Queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html) in the Amazon SQS Developer Guide.
     ///
@@ -1073,16 +1267,14 @@ extension SQSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidAddress` : The accountId is invalid.
-    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
-    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `InvalidAddress` : The specified ID is invalid.
+    /// - `InvalidSecurity` : The request was not made over HTTPS or did not use SigV4 for signing.
+    /// - `QueueDoesNotExist` : Ensure that the QueueUrl is correct and that the queue has not been deleted.
     /// - `RequestThrottled` : The request was denied due to request throttling.
     ///
-    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    /// * Exceeds the permitted request rate for the queue or for the recipient of the request.
     ///
-    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
-    ///
-    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// * Ensure that the request rate is within the Amazon SQS limits for sending messages. For more information, see [Amazon SQS quotas](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-quotas.html#quotas-requests) in the Amazon SQS Developer Guide.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func listDeadLetterSourceQueues(input: ListDeadLetterSourceQueuesInput) async throws -> ListDeadLetterSourceQueuesOutput {
         let context = Smithy.ContextBuilder()
@@ -1100,6 +1292,8 @@ extension SQSClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1118,9 +1312,11 @@ extension SQSClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDeadLetterSourceQueuesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListDeadLetterSourceQueuesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDeadLetterSourceQueuesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput>(xAmzTarget: "AmazonSQS.ListDeadLetterSourceQueues"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDeadLetterSourceQueuesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput>(contentType: "application/x-amz-json-1.0"))
@@ -1128,6 +1324,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListDeadLetterSourceQueues")
@@ -1143,7 +1340,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListMessageMoveTasks` operation on the `AmazonSQS` service.
+    /// Performs the `ListMessageMoveTasks` operation on the `SQS` service.
     ///
     /// Gets the most recent message movement tasks (up to 10) under a specific source queue.
     ///
@@ -1158,15 +1355,13 @@ extension SQSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidAddress` : The accountId is invalid.
-    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `InvalidAddress` : The specified ID is invalid.
+    /// - `InvalidSecurity` : The request was not made over HTTPS or did not use SigV4 for signing.
     /// - `RequestThrottled` : The request was denied due to request throttling.
     ///
-    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    /// * Exceeds the permitted request rate for the queue or for the recipient of the request.
     ///
-    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
-    ///
-    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// * Ensure that the request rate is within the Amazon SQS limits for sending messages. For more information, see [Amazon SQS quotas](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-quotas.html#quotas-requests) in the Amazon SQS Developer Guide.
     /// - `ResourceNotFoundException` : One or more specified resources don't exist.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func listMessageMoveTasks(input: ListMessageMoveTasksInput) async throws -> ListMessageMoveTasksOutput {
@@ -1185,6 +1380,8 @@ extension SQSClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1203,9 +1400,11 @@ extension SQSClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMessageMoveTasksOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListMessageMoveTasksOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListMessageMoveTasksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutput>(xAmzTarget: "AmazonSQS.ListMessageMoveTasks"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListMessageMoveTasksInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutput>(contentType: "application/x-amz-json-1.0"))
@@ -1213,6 +1412,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListMessageMoveTasks")
@@ -1228,7 +1428,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListQueueTags` operation on the `AmazonSQS` service.
+    /// Performs the `ListQueueTags` operation on the `SQS` service.
     ///
     /// List all cost allocation tags added to the specified Amazon SQS queue. For an overview, see [Tagging Your Amazon SQS Queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-queue-tags.html) in the Amazon SQS Developer Guide. Cross-account permissions don't apply to this action. For more information, see [Grant cross-account permissions to a role and a username](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name) in the Amazon SQS Developer Guide.
     ///
@@ -1239,16 +1439,14 @@ extension SQSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidAddress` : The accountId is invalid.
-    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
-    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `InvalidAddress` : The specified ID is invalid.
+    /// - `InvalidSecurity` : The request was not made over HTTPS or did not use SigV4 for signing.
+    /// - `QueueDoesNotExist` : Ensure that the QueueUrl is correct and that the queue has not been deleted.
     /// - `RequestThrottled` : The request was denied due to request throttling.
     ///
-    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    /// * Exceeds the permitted request rate for the queue or for the recipient of the request.
     ///
-    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
-    ///
-    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// * Ensure that the request rate is within the Amazon SQS limits for sending messages. For more information, see [Amazon SQS quotas](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-quotas.html#quotas-requests) in the Amazon SQS Developer Guide.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func listQueueTags(input: ListQueueTagsInput) async throws -> ListQueueTagsOutput {
         let context = Smithy.ContextBuilder()
@@ -1266,6 +1464,8 @@ extension SQSClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1284,9 +1484,11 @@ extension SQSClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQueueTagsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListQueueTagsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListQueueTagsInput, ListQueueTagsOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListQueueTagsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListQueueTagsInput, ListQueueTagsOutput>(xAmzTarget: "AmazonSQS.ListQueueTags"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListQueueTagsInput, ListQueueTagsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListQueueTagsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListQueueTagsInput, ListQueueTagsOutput>(contentType: "application/x-amz-json-1.0"))
@@ -1294,6 +1496,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListQueueTagsInput, ListQueueTagsOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListQueueTagsInput, ListQueueTagsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListQueueTagsInput, ListQueueTagsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListQueueTagsInput, ListQueueTagsOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListQueueTags")
@@ -1309,7 +1512,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListQueues` operation on the `AmazonSQS` service.
+    /// Performs the `ListQueues` operation on the `SQS` service.
     ///
     /// Returns a list of your queues in the current region. The response includes a maximum of 1,000 results. If you specify a value for the optional QueueNamePrefix parameter, only queues with a name that begins with the specified value are returned. The listQueues methods supports pagination. Set parameter MaxResults in the request to specify the maximum number of results to be returned in the response. If you do not set MaxResults, the response includes a maximum of 1,000 results. If you set MaxResults and there are additional results to display, the response includes a value for NextToken. Use NextToken as a parameter in your next request to listQueues to receive the next page of results. Cross-account permissions don't apply to this action. For more information, see [Grant cross-account permissions to a role and a username](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name) in the Amazon SQS Developer Guide.
     ///
@@ -1320,15 +1523,13 @@ extension SQSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidAddress` : The accountId is invalid.
-    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `InvalidAddress` : The specified ID is invalid.
+    /// - `InvalidSecurity` : The request was not made over HTTPS or did not use SigV4 for signing.
     /// - `RequestThrottled` : The request was denied due to request throttling.
     ///
-    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    /// * Exceeds the permitted request rate for the queue or for the recipient of the request.
     ///
-    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
-    ///
-    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// * Ensure that the request rate is within the Amazon SQS limits for sending messages. For more information, see [Amazon SQS quotas](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-quotas.html#quotas-requests) in the Amazon SQS Developer Guide.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func listQueues(input: ListQueuesInput) async throws -> ListQueuesOutput {
         let context = Smithy.ContextBuilder()
@@ -1346,6 +1547,8 @@ extension SQSClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1364,9 +1567,11 @@ extension SQSClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQueuesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListQueuesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListQueuesInput, ListQueuesOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListQueuesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListQueuesInput, ListQueuesOutput>(xAmzTarget: "AmazonSQS.ListQueues"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListQueuesInput, ListQueuesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListQueuesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListQueuesInput, ListQueuesOutput>(contentType: "application/x-amz-json-1.0"))
@@ -1374,6 +1579,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListQueuesInput, ListQueuesOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListQueuesInput, ListQueuesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListQueuesInput, ListQueuesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListQueuesInput, ListQueuesOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListQueues")
@@ -1389,7 +1595,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PurgeQueue` operation on the `AmazonSQS` service.
+    /// Performs the `PurgeQueue` operation on the `SQS` service.
     ///
     /// Deletes available messages in a queue (including in-flight messages) specified by the QueueURL parameter. When you use the PurgeQueue action, you can't retrieve any messages deleted from a queue. The message deletion process takes up to 60 seconds. We recommend waiting for 60 seconds regardless of your queue's size. Messages sent to the queue before you call PurgeQueue might be received but are deleted within the next minute. Messages sent to the queue after you call PurgeQueue might be deleted while the queue is being purged.
     ///
@@ -1400,17 +1606,15 @@ extension SQSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidAddress` : The accountId is invalid.
-    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `InvalidAddress` : The specified ID is invalid.
+    /// - `InvalidSecurity` : The request was not made over HTTPS or did not use SigV4 for signing.
     /// - `PurgeQueueInProgress` : Indicates that the specified queue previously received a PurgeQueue request within the last 60 seconds (the time it can take to delete the messages in the queue).
-    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `QueueDoesNotExist` : Ensure that the QueueUrl is correct and that the queue has not been deleted.
     /// - `RequestThrottled` : The request was denied due to request throttling.
     ///
-    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    /// * Exceeds the permitted request rate for the queue or for the recipient of the request.
     ///
-    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
-    ///
-    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// * Ensure that the request rate is within the Amazon SQS limits for sending messages. For more information, see [Amazon SQS quotas](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-quotas.html#quotas-requests) in the Amazon SQS Developer Guide.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func purgeQueue(input: PurgeQueueInput) async throws -> PurgeQueueOutput {
         let context = Smithy.ContextBuilder()
@@ -1428,6 +1632,8 @@ extension SQSClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1446,9 +1652,11 @@ extension SQSClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PurgeQueueOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PurgeQueueOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PurgeQueueInput, PurgeQueueOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PurgeQueueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PurgeQueueInput, PurgeQueueOutput>(xAmzTarget: "AmazonSQS.PurgeQueue"))
         builder.serialize(ClientRuntime.BodyMiddleware<PurgeQueueInput, PurgeQueueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PurgeQueueInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PurgeQueueInput, PurgeQueueOutput>(contentType: "application/x-amz-json-1.0"))
@@ -1456,6 +1664,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PurgeQueueInput, PurgeQueueOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PurgeQueueInput, PurgeQueueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PurgeQueueInput, PurgeQueueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PurgeQueueInput, PurgeQueueOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PurgeQueue")
@@ -1471,9 +1680,9 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ReceiveMessage` operation on the `AmazonSQS` service.
+    /// Performs the `ReceiveMessage` operation on the `SQS` service.
     ///
-    /// Retrieves one or more messages (up to 10), from the specified queue. Using the WaitTimeSeconds parameter enables long-poll support. For more information, see [Amazon SQS Long Polling](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-long-polling.html) in the Amazon SQS Developer Guide. Short poll is the default behavior where a weighted random set of machines is sampled on a ReceiveMessage call. Thus, only the messages on the sampled machines are returned. If the number of messages in the queue is small (fewer than 1,000), you most likely get fewer messages than you requested per ReceiveMessage call. If the number of messages in the queue is extremely small, you might not receive any messages in a particular ReceiveMessage response. If this happens, repeat the request. For each message returned, the response includes the following:
+    /// Retrieves one or more messages (up to 10), from the specified queue. Using the WaitTimeSeconds parameter enables long-poll support. For more information, see [Amazon SQS Long Polling](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-long-polling.html) in the Amazon SQS Developer Guide. Short poll is the default behavior where a weighted random set of machines is sampled on a ReceiveMessage call. Therefore, only the messages on the sampled machines are returned. If the number of messages in the queue is small (fewer than 1,000), you most likely get fewer messages than you requested per ReceiveMessage call. If the number of messages in the queue is extremely small, you might not receive any messages in a particular ReceiveMessage response. If this happens, repeat the request. For each message returned, the response includes the following:
     ///
     /// * The message body.
     ///
@@ -1488,17 +1697,17 @@ extension SQSClient {
     /// * An MD5 digest of the message attributes.
     ///
     ///
-    /// The receipt handle is the identifier you must provide when deleting the message. For more information, see [Queue and Message Identifiers](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-queue-message-identifiers.html) in the Amazon SQS Developer Guide. You can provide the VisibilityTimeout parameter in your request. The parameter is applied to the messages that Amazon SQS returns in the response. If you don't include the parameter, the overall visibility timeout for the queue is used for the returned messages. For more information, see [Visibility Timeout](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html) in the Amazon SQS Developer Guide. A message that isn't deleted or a message whose visibility isn't extended before the visibility timeout expires counts as a failed receive. Depending on the configuration of the queue, the message might be sent to the dead-letter queue. In the future, new attributes might be added. If you write code that calls this action, we recommend that you structure your code so that it can handle new attributes gracefully.
+    /// The receipt handle is the identifier you must provide when deleting the message. For more information, see [Queue and Message Identifiers](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-queue-message-identifiers.html) in the Amazon SQS Developer Guide. You can provide the VisibilityTimeout parameter in your request. The parameter is applied to the messages that Amazon SQS returns in the response. If you don't include the parameter, the overall visibility timeout for the queue is used for the returned messages. The default visibility timeout for a queue is 30 seconds. In the future, new attributes might be added. If you write code that calls this action, we recommend that you structure your code so that it can handle new attributes gracefully.
     ///
-    /// - Parameter ReceiveMessageInput :
+    /// - Parameter ReceiveMessageInput : Retrieves one or more messages from a specified queue.
     ///
     /// - Returns: `ReceiveMessageOutput` : A list of received messages.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidAddress` : The accountId is invalid.
-    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `InvalidAddress` : The specified ID is invalid.
+    /// - `InvalidSecurity` : The request was not made over HTTPS or did not use SigV4 for signing.
     /// - `KmsAccessDenied` : The caller doesn't have the required KMS access.
     /// - `KmsDisabled` : The request was denied due to request throttling.
     /// - `KmsInvalidKeyUsage` : The request was rejected for one of the following reasons:
@@ -1511,14 +1720,12 @@ extension SQSClient {
     /// - `KmsOptInRequired` : The request was rejected because the specified key policy isn't syntactically or semantically correct.
     /// - `KmsThrottled` : Amazon Web Services KMS throttles requests for the following conditions.
     /// - `OverLimit` : The specified action violates a limit. For example, ReceiveMessage returns this error if the maximum number of in flight messages is reached and AddPermission returns this error if the maximum number of permissions for the queue is reached.
-    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `QueueDoesNotExist` : Ensure that the QueueUrl is correct and that the queue has not been deleted.
     /// - `RequestThrottled` : The request was denied due to request throttling.
     ///
-    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    /// * Exceeds the permitted request rate for the queue or for the recipient of the request.
     ///
-    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
-    ///
-    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// * Ensure that the request rate is within the Amazon SQS limits for sending messages. For more information, see [Amazon SQS quotas](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-quotas.html#quotas-requests) in the Amazon SQS Developer Guide.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func receiveMessage(input: ReceiveMessageInput) async throws -> ReceiveMessageOutput {
         let context = Smithy.ContextBuilder()
@@ -1536,6 +1743,8 @@ extension SQSClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1554,9 +1763,11 @@ extension SQSClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReceiveMessageOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ReceiveMessageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ReceiveMessageInput, ReceiveMessageOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ReceiveMessageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ReceiveMessageInput, ReceiveMessageOutput>(xAmzTarget: "AmazonSQS.ReceiveMessage"))
         builder.serialize(ClientRuntime.BodyMiddleware<ReceiveMessageInput, ReceiveMessageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ReceiveMessageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ReceiveMessageInput, ReceiveMessageOutput>(contentType: "application/x-amz-json-1.0"))
@@ -1564,6 +1775,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ReceiveMessageInput, ReceiveMessageOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ReceiveMessageInput, ReceiveMessageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ReceiveMessageInput, ReceiveMessageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ReceiveMessageInput, ReceiveMessageOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ReceiveMessage")
@@ -1579,7 +1791,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `RemovePermission` operation on the `AmazonSQS` service.
+    /// Performs the `RemovePermission` operation on the `SQS` service.
     ///
     /// Revokes any permissions in the queue policy that matches the specified Label parameter.
     ///
@@ -1596,16 +1808,14 @@ extension SQSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidAddress` : The accountId is invalid.
-    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
-    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `InvalidAddress` : The specified ID is invalid.
+    /// - `InvalidSecurity` : The request was not made over HTTPS or did not use SigV4 for signing.
+    /// - `QueueDoesNotExist` : Ensure that the QueueUrl is correct and that the queue has not been deleted.
     /// - `RequestThrottled` : The request was denied due to request throttling.
     ///
-    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    /// * Exceeds the permitted request rate for the queue or for the recipient of the request.
     ///
-    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
-    ///
-    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// * Ensure that the request rate is within the Amazon SQS limits for sending messages. For more information, see [Amazon SQS quotas](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-quotas.html#quotas-requests) in the Amazon SQS Developer Guide.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func removePermission(input: RemovePermissionInput) async throws -> RemovePermissionOutput {
         let context = Smithy.ContextBuilder()
@@ -1623,6 +1833,8 @@ extension SQSClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1641,9 +1853,11 @@ extension SQSClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemovePermissionOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<RemovePermissionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RemovePermissionInput, RemovePermissionOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RemovePermissionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RemovePermissionInput, RemovePermissionOutput>(xAmzTarget: "AmazonSQS.RemovePermission"))
         builder.serialize(ClientRuntime.BodyMiddleware<RemovePermissionInput, RemovePermissionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RemovePermissionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RemovePermissionInput, RemovePermissionOutput>(contentType: "application/x-amz-json-1.0"))
@@ -1651,6 +1865,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RemovePermissionInput, RemovePermissionOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RemovePermissionInput, RemovePermissionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RemovePermissionInput, RemovePermissionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RemovePermissionInput, RemovePermissionOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RemovePermission")
@@ -1666,7 +1881,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SendMessage` operation on the `AmazonSQS` service.
+    /// Performs the `SendMessage` operation on the `SQS` service.
     ///
     /// Delivers a message to the specified queue. A message can include only XML, JSON, and unformatted text. The following Unicode characters are allowed. For more information, see the [W3C specification for characters](http://www.w3.org/TR/REC-xml/#charsets). #x9 | #xA | #xD | #x20 to #xD7FF | #xE000 to #xFFFD | #x10000 to #x10FFFF Amazon SQS does not throw an exception or completely reject the message if it contains invalid characters. Instead, it replaces those invalid characters with U+FFFD before storing the message in the queue, as long as the message body contains at least one valid character.
     ///
@@ -1677,9 +1892,9 @@ extension SQSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidAddress` : The specified ID is invalid.
     /// - `InvalidMessageContents` : The message contains characters outside the allowed set.
-    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `InvalidSecurity` : The request was not made over HTTPS or did not use SigV4 for signing.
     /// - `KmsAccessDenied` : The caller doesn't have the required KMS access.
     /// - `KmsDisabled` : The request was denied due to request throttling.
     /// - `KmsInvalidKeyUsage` : The request was rejected for one of the following reasons:
@@ -1691,14 +1906,12 @@ extension SQSClient {
     /// - `KmsNotFound` : The request was rejected because the specified entity or resource could not be found.
     /// - `KmsOptInRequired` : The request was rejected because the specified key policy isn't syntactically or semantically correct.
     /// - `KmsThrottled` : Amazon Web Services KMS throttles requests for the following conditions.
-    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `QueueDoesNotExist` : Ensure that the QueueUrl is correct and that the queue has not been deleted.
     /// - `RequestThrottled` : The request was denied due to request throttling.
     ///
-    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    /// * Exceeds the permitted request rate for the queue or for the recipient of the request.
     ///
-    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
-    ///
-    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// * Ensure that the request rate is within the Amazon SQS limits for sending messages. For more information, see [Amazon SQS quotas](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-quotas.html#quotas-requests) in the Amazon SQS Developer Guide.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func sendMessage(input: SendMessageInput) async throws -> SendMessageOutput {
         let context = Smithy.ContextBuilder()
@@ -1716,6 +1929,8 @@ extension SQSClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1734,9 +1949,11 @@ extension SQSClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendMessageOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SendMessageOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendMessageInput, SendMessageOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendMessageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SendMessageInput, SendMessageOutput>(xAmzTarget: "AmazonSQS.SendMessage"))
         builder.serialize(ClientRuntime.BodyMiddleware<SendMessageInput, SendMessageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendMessageInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendMessageInput, SendMessageOutput>(contentType: "application/x-amz-json-1.0"))
@@ -1744,6 +1961,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SendMessageInput, SendMessageOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendMessageInput, SendMessageOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendMessageInput, SendMessageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendMessageInput, SendMessageOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SendMessage")
@@ -1759,7 +1977,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SendMessageBatch` operation on the `AmazonSQS` service.
+    /// Performs the `SendMessageBatch` operation on the `SQS` service.
     ///
     /// You can use SendMessageBatch to send up to 10 messages to the specified queue by assigning either identical or different values to each message (or by not assigning values at all). This is a batch version of [SendMessage]. For a FIFO queue, multiple messages within a single batch are enqueued in the order they are sent. The result of sending each message is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200. The maximum allowed individual message size and the maximum total payload size (the sum of the individual lengths of all of the batched messages) are both 256 KiB (262,144 bytes). A message can include only XML, JSON, and unformatted text. The following Unicode characters are allowed. For more information, see the [W3C specification for characters](http://www.w3.org/TR/REC-xml/#charsets). #x9 | #xA | #xD | #x20 to #xD7FF | #xE000 to #xFFFD | #x10000 to #x10FFFF Amazon SQS does not throw an exception or completely reject the message if it contains invalid characters. Instead, it replaces those invalid characters with U+FFFD before storing the message in the queue, as long as the message body contains at least one valid character. If you don't specify the DelaySeconds parameter for an entry, Amazon SQS uses the default value for the queue.
     ///
@@ -1773,9 +1991,9 @@ extension SQSClient {
     /// - `BatchEntryIdsNotDistinct` : Two or more batch entries in the request have the same Id.
     /// - `BatchRequestTooLong` : The length of all the messages put together is more than the limit.
     /// - `EmptyBatchRequest` : The batch request doesn't contain any entries.
-    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidAddress` : The specified ID is invalid.
     /// - `InvalidBatchEntryId` : The Id of a batch entry in a batch request doesn't abide by the specification.
-    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `InvalidSecurity` : The request was not made over HTTPS or did not use SigV4 for signing.
     /// - `KmsAccessDenied` : The caller doesn't have the required KMS access.
     /// - `KmsDisabled` : The request was denied due to request throttling.
     /// - `KmsInvalidKeyUsage` : The request was rejected for one of the following reasons:
@@ -1787,15 +2005,13 @@ extension SQSClient {
     /// - `KmsNotFound` : The request was rejected because the specified entity or resource could not be found.
     /// - `KmsOptInRequired` : The request was rejected because the specified key policy isn't syntactically or semantically correct.
     /// - `KmsThrottled` : Amazon Web Services KMS throttles requests for the following conditions.
-    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `QueueDoesNotExist` : Ensure that the QueueUrl is correct and that the queue has not been deleted.
     /// - `RequestThrottled` : The request was denied due to request throttling.
     ///
-    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    /// * Exceeds the permitted request rate for the queue or for the recipient of the request.
     ///
-    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
-    ///
-    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
-    /// - `TooManyEntriesInBatchRequest` : The batch request contains more entries than permissible.
+    /// * Ensure that the request rate is within the Amazon SQS limits for sending messages. For more information, see [Amazon SQS quotas](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-quotas.html#quotas-requests) in the Amazon SQS Developer Guide.
+    /// - `TooManyEntriesInBatchRequest` : The batch request contains more entries than permissible. For Amazon SQS, the maximum number of entries you can include in a single [SendMessageBatch](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_SendMessageBatch.html), [DeleteMessageBatch](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_DeleteMessageBatch.html), or [ChangeMessageVisibilityBatch](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_ChangeMessageVisibilityBatch.html) request is 10.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func sendMessageBatch(input: SendMessageBatchInput) async throws -> SendMessageBatchOutput {
         let context = Smithy.ContextBuilder()
@@ -1813,6 +2029,8 @@ extension SQSClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1831,9 +2049,11 @@ extension SQSClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendMessageBatchOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SendMessageBatchOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendMessageBatchInput, SendMessageBatchOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendMessageBatchOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SendMessageBatchInput, SendMessageBatchOutput>(xAmzTarget: "AmazonSQS.SendMessageBatch"))
         builder.serialize(ClientRuntime.BodyMiddleware<SendMessageBatchInput, SendMessageBatchOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendMessageBatchInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendMessageBatchInput, SendMessageBatchOutput>(contentType: "application/x-amz-json-1.0"))
@@ -1841,6 +2061,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SendMessageBatchInput, SendMessageBatchOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendMessageBatchInput, SendMessageBatchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendMessageBatchInput, SendMessageBatchOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendMessageBatchInput, SendMessageBatchOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SendMessageBatch")
@@ -1856,7 +2077,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SetQueueAttributes` operation on the `AmazonSQS` service.
+    /// Performs the `SetQueueAttributes` operation on the `SQS` service.
     ///
     /// Sets the value of one or more queue attributes, like a policy. When you change a queue's attributes, the change can take up to 60 seconds for most of the attributes to propagate throughout the Amazon SQS system. Changes made to the MessageRetentionPeriod attribute can take up to 15 minutes and will impact existing messages in the queue potentially causing them to be expired and deleted if the MessageRetentionPeriod is reduced below the age of existing messages.
     ///
@@ -1873,19 +2094,17 @@ extension SQSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidAddress` : The accountId is invalid.
+    /// - `InvalidAddress` : The specified ID is invalid.
     /// - `InvalidAttributeName` : The specified attribute doesn't exist.
     /// - `InvalidAttributeValue` : A queue attribute value is invalid.
-    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `InvalidSecurity` : The request was not made over HTTPS or did not use SigV4 for signing.
     /// - `OverLimit` : The specified action violates a limit. For example, ReceiveMessage returns this error if the maximum number of in flight messages is reached and AddPermission returns this error if the maximum number of permissions for the queue is reached.
-    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `QueueDoesNotExist` : Ensure that the QueueUrl is correct and that the queue has not been deleted.
     /// - `RequestThrottled` : The request was denied due to request throttling.
     ///
-    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    /// * Exceeds the permitted request rate for the queue or for the recipient of the request.
     ///
-    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
-    ///
-    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// * Ensure that the request rate is within the Amazon SQS limits for sending messages. For more information, see [Amazon SQS quotas](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-quotas.html#quotas-requests) in the Amazon SQS Developer Guide.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func setQueueAttributes(input: SetQueueAttributesInput) async throws -> SetQueueAttributesOutput {
         let context = Smithy.ContextBuilder()
@@ -1903,6 +2122,8 @@ extension SQSClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1921,9 +2142,11 @@ extension SQSClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetQueueAttributesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SetQueueAttributesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SetQueueAttributesInput, SetQueueAttributesOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetQueueAttributesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SetQueueAttributesInput, SetQueueAttributesOutput>(xAmzTarget: "AmazonSQS.SetQueueAttributes"))
         builder.serialize(ClientRuntime.BodyMiddleware<SetQueueAttributesInput, SetQueueAttributesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetQueueAttributesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetQueueAttributesInput, SetQueueAttributesOutput>(contentType: "application/x-amz-json-1.0"))
@@ -1931,6 +2154,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetQueueAttributesInput, SetQueueAttributesOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetQueueAttributesInput, SetQueueAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SetQueueAttributesInput, SetQueueAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SetQueueAttributesInput, SetQueueAttributesOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SetQueueAttributes")
@@ -1946,7 +2170,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartMessageMoveTask` operation on the `AmazonSQS` service.
+    /// Performs the `StartMessageMoveTask` operation on the `SQS` service.
     ///
     /// Starts an asynchronous task to move messages from a specified source queue to a specified destination queue.
     ///
@@ -1963,15 +2187,13 @@ extension SQSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidAddress` : The accountId is invalid.
-    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
+    /// - `InvalidAddress` : The specified ID is invalid.
+    /// - `InvalidSecurity` : The request was not made over HTTPS or did not use SigV4 for signing.
     /// - `RequestThrottled` : The request was denied due to request throttling.
     ///
-    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    /// * Exceeds the permitted request rate for the queue or for the recipient of the request.
     ///
-    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
-    ///
-    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// * Ensure that the request rate is within the Amazon SQS limits for sending messages. For more information, see [Amazon SQS quotas](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-quotas.html#quotas-requests) in the Amazon SQS Developer Guide.
     /// - `ResourceNotFoundException` : One or more specified resources don't exist.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func startMessageMoveTask(input: StartMessageMoveTaskInput) async throws -> StartMessageMoveTaskOutput {
@@ -1990,6 +2212,8 @@ extension SQSClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2008,9 +2232,11 @@ extension SQSClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMessageMoveTaskOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartMessageMoveTaskOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartMessageMoveTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutput>(xAmzTarget: "AmazonSQS.StartMessageMoveTask"))
         builder.serialize(ClientRuntime.BodyMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartMessageMoveTaskInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutput>(contentType: "application/x-amz-json-1.0"))
@@ -2018,6 +2244,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartMessageMoveTask")
@@ -2033,7 +2260,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagQueue` operation on the `AmazonSQS` service.
+    /// Performs the `TagQueue` operation on the `SQS` service.
     ///
     /// Add cost allocation tags to the specified Amazon SQS queue. For an overview, see [Tagging Your Amazon SQS Queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-queue-tags.html) in the Amazon SQS Developer Guide. When you use queue tags, keep the following guidelines in mind:
     ///
@@ -2055,16 +2282,14 @@ extension SQSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidAddress` : The accountId is invalid.
-    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
-    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `InvalidAddress` : The specified ID is invalid.
+    /// - `InvalidSecurity` : The request was not made over HTTPS or did not use SigV4 for signing.
+    /// - `QueueDoesNotExist` : Ensure that the QueueUrl is correct and that the queue has not been deleted.
     /// - `RequestThrottled` : The request was denied due to request throttling.
     ///
-    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    /// * Exceeds the permitted request rate for the queue or for the recipient of the request.
     ///
-    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
-    ///
-    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// * Ensure that the request rate is within the Amazon SQS limits for sending messages. For more information, see [Amazon SQS quotas](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-quotas.html#quotas-requests) in the Amazon SQS Developer Guide.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func tagQueue(input: TagQueueInput) async throws -> TagQueueOutput {
         let context = Smithy.ContextBuilder()
@@ -2082,6 +2307,8 @@ extension SQSClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2100,9 +2327,11 @@ extension SQSClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagQueueOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<TagQueueOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagQueueInput, TagQueueOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagQueueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagQueueInput, TagQueueOutput>(xAmzTarget: "AmazonSQS.TagQueue"))
         builder.serialize(ClientRuntime.BodyMiddleware<TagQueueInput, TagQueueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagQueueInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagQueueInput, TagQueueOutput>(contentType: "application/x-amz-json-1.0"))
@@ -2110,6 +2339,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagQueueInput, TagQueueOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagQueueInput, TagQueueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagQueueInput, TagQueueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagQueueInput, TagQueueOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TagQueue")
@@ -2125,7 +2355,7 @@ extension SQSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagQueue` operation on the `AmazonSQS` service.
+    /// Performs the `UntagQueue` operation on the `SQS` service.
     ///
     /// Remove cost allocation tags from the specified Amazon SQS queue. For an overview, see [Tagging Your Amazon SQS Queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-queue-tags.html) in the Amazon SQS Developer Guide. Cross-account permissions don't apply to this action. For more information, see [Grant cross-account permissions to a role and a username](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name) in the Amazon SQS Developer Guide.
     ///
@@ -2136,16 +2366,14 @@ extension SQSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidAddress` : The accountId is invalid.
-    /// - `InvalidSecurity` : When the request to a queue is not HTTPS and SigV4.
-    /// - `QueueDoesNotExist` : The specified queue doesn't exist.
+    /// - `InvalidAddress` : The specified ID is invalid.
+    /// - `InvalidSecurity` : The request was not made over HTTPS or did not use SigV4 for signing.
+    /// - `QueueDoesNotExist` : Ensure that the QueueUrl is correct and that the queue has not been deleted.
     /// - `RequestThrottled` : The request was denied due to request throttling.
     ///
-    /// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+    /// * Exceeds the permitted request rate for the queue or for the recipient of the request.
     ///
-    /// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
-    ///
-    /// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// * Ensure that the request rate is within the Amazon SQS limits for sending messages. For more information, see [Amazon SQS quotas](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-quotas.html#quotas-requests) in the Amazon SQS Developer Guide.
     /// - `UnsupportedOperation` : Error code 400. Unsupported operation.
     public func untagQueue(input: UntagQueueInput) async throws -> UntagQueueOutput {
         let context = Smithy.ContextBuilder()
@@ -2163,6 +2391,8 @@ extension SQSClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "sqs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2181,9 +2411,11 @@ extension SQSClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagQueueOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UntagQueueOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagQueueInput, UntagQueueOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SQS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagQueueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagQueueInput, UntagQueueOutput>(xAmzTarget: "AmazonSQS.UntagQueue"))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagQueueInput, UntagQueueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagQueueInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagQueueInput, UntagQueueOutput>(contentType: "application/x-amz-json-1.0"))
@@ -2191,6 +2423,7 @@ extension SQSClient {
         builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagQueueInput, UntagQueueOutput>(additional: ["x-amzn-query-mode": "true"]))
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagQueueInput, UntagQueueOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagQueueInput, UntagQueueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagQueueInput, UntagQueueOutput>(serviceID: serviceName, version: SQSClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagQueue")

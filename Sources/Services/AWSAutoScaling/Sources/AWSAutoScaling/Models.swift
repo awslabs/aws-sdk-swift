@@ -177,8 +177,7 @@ extension AutoScalingClientTypes {
         public init(
             max: Swift.Int? = nil,
             min: Swift.Int? = nil
-        )
-        {
+        ) {
             self.max = max
             self.min = min
         }
@@ -276,8 +275,7 @@ extension AutoScalingClientTypes {
         public init(
             max: Swift.Int? = nil,
             min: Swift.Int? = nil
-        )
-        {
+        ) {
             self.max = max
             self.min = min
         }
@@ -317,9 +315,9 @@ extension AutoScalingClientTypes {
 }
 
 /// The request failed because an active instance refresh or rollback for the specified Auto Scaling group was not found.
-public struct ActiveInstanceRefreshNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ActiveInstanceRefreshNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -334,8 +332,7 @@ public struct ActiveInstanceRefreshNotFoundFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -449,8 +446,7 @@ extension AutoScalingClientTypes {
             startTime: Foundation.Date? = nil,
             statusCode: AutoScalingClientTypes.ScalingActivityStatusCode? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.activityId = activityId
             self.autoScalingGroupARN = autoScalingGroupARN
             self.autoScalingGroupName = autoScalingGroupName
@@ -476,8 +472,7 @@ extension AutoScalingClientTypes {
 
         public init(
             adjustmentType: Swift.String? = nil
-        )
-        {
+        ) {
             self.adjustmentType = adjustmentType
         }
     }
@@ -495,8 +490,7 @@ extension AutoScalingClientTypes {
         public init(
             alarmARN: Swift.String? = nil,
             alarmName: Swift.String? = nil
-        )
-        {
+        ) {
             self.alarmARN = alarmARN
             self.alarmName = alarmName
         }
@@ -512,17 +506,16 @@ extension AutoScalingClientTypes {
 
         public init(
             alarms: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.alarms = alarms
         }
     }
 }
 
 /// You already have an Auto Scaling group or launch configuration with this name.
-public struct AlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -538,16 +531,15 @@ public struct AlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example, an Auto Scaling group, instance, or load balancer).
-public struct ResourceContentionFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceContentionFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -563,16 +555,15 @@ public struct ResourceContentionFault: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The service-linked role is not yet ready for use.
-public struct ServiceLinkedRoleFailure: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceLinkedRoleFailure: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -587,8 +578,7 @@ public struct ServiceLinkedRoleFailure: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -603,8 +593,7 @@ public struct AttachInstancesInput: Swift.Sendable {
     public init(
         autoScalingGroupName: Swift.String? = nil,
         instanceIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.instanceIds = instanceIds
     }
@@ -621,8 +610,7 @@ public struct AttachLoadBalancersInput: Swift.Sendable {
     public init(
         autoScalingGroupName: Swift.String? = nil,
         loadBalancerNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.loadBalancerNames = loadBalancerNames
     }
@@ -644,8 +632,7 @@ public struct AttachLoadBalancerTargetGroupsInput: Swift.Sendable {
     public init(
         autoScalingGroupName: Swift.String? = nil,
         targetGroupARNs: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.targetGroupARNs = targetGroupARNs
     }
@@ -687,8 +674,7 @@ extension AutoScalingClientTypes {
         public init(
             identifier: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.identifier = identifier
             self.type = type
         }
@@ -699,16 +685,19 @@ public struct AttachTrafficSourcesInput: Swift.Sendable {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
+    /// If you enable zonal shift with cross-zone disabled load balancers, capacity could become imbalanced across Availability Zones. To skip the validation, specify true. For more information, see [Auto Scaling group zonal shift](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-zonal-shift.html) in the Amazon EC2 Auto Scaling User Guide.
+    public var skipZonalShiftValidation: Swift.Bool?
     /// The unique identifiers of one or more traffic sources. You can specify up to 10 traffic sources.
     /// This member is required.
     public var trafficSources: [AutoScalingClientTypes.TrafficSourceIdentifier]?
 
     public init(
         autoScalingGroupName: Swift.String? = nil,
+        skipZonalShiftValidation: Swift.Bool? = nil,
         trafficSources: [AutoScalingClientTypes.TrafficSourceIdentifier]? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
+        self.skipZonalShiftValidation = skipZonalShiftValidation
         self.trafficSources = trafficSources
     }
 }
@@ -729,8 +718,7 @@ public struct BatchDeleteScheduledActionInput: Swift.Sendable {
     public init(
         autoScalingGroupName: Swift.String? = nil,
         scheduledActionNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.scheduledActionNames = scheduledActionNames
     }
@@ -752,8 +740,7 @@ extension AutoScalingClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             scheduledActionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.scheduledActionName = scheduledActionName
@@ -767,16 +754,15 @@ public struct BatchDeleteScheduledActionOutput: Swift.Sendable {
 
     public init(
         failedScheduledActions: [AutoScalingClientTypes.FailedScheduledUpdateGroupActionRequest]? = nil
-    )
-    {
+    ) {
         self.failedScheduledActions = failedScheduledActions
     }
 }
 
 /// You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example, Auto Scaling groups, launch configurations, or lifecycle hooks). For more information, see [DescribeAccountLimits](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAccountLimits.html) in the Amazon EC2 Auto Scaling API Reference.
-public struct LimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -792,8 +778,7 @@ public struct LimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -829,8 +814,7 @@ extension AutoScalingClientTypes {
             scheduledActionName: Swift.String? = nil,
             startTime: Foundation.Date? = nil,
             timeZone: Swift.String? = nil
-        )
-        {
+        ) {
             self.desiredCapacity = desiredCapacity
             self.endTime = endTime
             self.maxSize = maxSize
@@ -854,8 +838,7 @@ public struct BatchPutScheduledUpdateGroupActionInput: Swift.Sendable {
     public init(
         autoScalingGroupName: Swift.String? = nil,
         scheduledUpdateGroupActions: [AutoScalingClientTypes.ScheduledUpdateGroupActionRequest]? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.scheduledUpdateGroupActions = scheduledUpdateGroupActions
     }
@@ -867,8 +850,7 @@ public struct BatchPutScheduledUpdateGroupActionOutput: Swift.Sendable {
 
     public init(
         failedScheduledUpdateGroupActions: [AutoScalingClientTypes.FailedScheduledUpdateGroupActionRequest]? = nil
-    )
-    {
+    ) {
         self.failedScheduledUpdateGroupActions = failedScheduledUpdateGroupActions
     }
 }
@@ -880,8 +862,7 @@ public struct CancelInstanceRefreshInput: Swift.Sendable {
 
     public init(
         autoScalingGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
     }
 }
@@ -892,8 +873,7 @@ public struct CancelInstanceRefreshOutput: Swift.Sendable {
 
     public init(
         instanceRefreshId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceRefreshId = instanceRefreshId
     }
 }
@@ -919,8 +899,7 @@ public struct CompleteLifecycleActionInput: Swift.Sendable {
         lifecycleActionResult: Swift.String? = nil,
         lifecycleActionToken: Swift.String? = nil,
         lifecycleHookName: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.instanceId = instanceId
         self.lifecycleActionResult = lifecycleActionResult
@@ -976,9 +955,137 @@ extension AutoScalingClientTypes {
 
         public init(
             capacityDistributionStrategy: AutoScalingClientTypes.CapacityDistributionStrategy? = nil
-        )
-        {
+        ) {
             self.capacityDistributionStrategy = capacityDistributionStrategy
+        }
+    }
+}
+
+extension AutoScalingClientTypes {
+
+    public enum ImpairedZoneHealthCheckBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ignoreunhealthy
+        case replaceunhealthy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImpairedZoneHealthCheckBehavior] {
+            return [
+                .ignoreunhealthy,
+                .replaceunhealthy
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ignoreunhealthy: return "IgnoreUnhealthy"
+            case .replaceunhealthy: return "ReplaceUnhealthy"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AutoScalingClientTypes {
+
+    /// Describes an Availability Zone impairment policy.
+    public struct AvailabilityZoneImpairmentPolicy: Swift.Sendable {
+        /// Specifies the health check behavior for the impaired Availability Zone in an active zonal shift. If you select Replace unhealthy, instances that appear unhealthy will be replaced in all Availability Zones. If you select Ignore unhealthy, instances will not be replaced in the Availability Zone with the active zonal shift. For more information, see [Auto Scaling group zonal shift](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-zonal-shift.html) in the Amazon EC2 Auto Scaling User Guide.
+        public var impairedZoneHealthCheckBehavior: AutoScalingClientTypes.ImpairedZoneHealthCheckBehavior?
+        /// If true, enable zonal shift for your Auto Scaling group.
+        public var zonalShiftEnabled: Swift.Bool?
+
+        public init(
+            impairedZoneHealthCheckBehavior: AutoScalingClientTypes.ImpairedZoneHealthCheckBehavior? = nil,
+            zonalShiftEnabled: Swift.Bool? = nil
+        ) {
+            self.impairedZoneHealthCheckBehavior = impairedZoneHealthCheckBehavior
+            self.zonalShiftEnabled = zonalShiftEnabled
+        }
+    }
+}
+
+extension AutoScalingClientTypes {
+
+    public enum CapacityReservationPreference: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case capacityreservationsfirst
+        case capacityreservationsonly
+        case `default`
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityReservationPreference] {
+            return [
+                .capacityreservationsfirst,
+                .capacityreservationsonly,
+                .default,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .capacityreservationsfirst: return "capacity-reservations-first"
+            case .capacityreservationsonly: return "capacity-reservations-only"
+            case .default: return "default"
+            case .none: return "none"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AutoScalingClientTypes {
+
+    /// The target for the Capacity Reservation. Specify Capacity Reservations IDs or Capacity Reservation resource group ARNs.
+    public struct CapacityReservationTarget: Swift.Sendable {
+        /// The Capacity Reservation IDs to launch instances into.
+        public var capacityReservationIds: [Swift.String]?
+        /// The resource group ARNs of the Capacity Reservation to launch instances into.
+        public var capacityReservationResourceGroupArns: [Swift.String]?
+
+        public init(
+            capacityReservationIds: [Swift.String]? = nil,
+            capacityReservationResourceGroupArns: [Swift.String]? = nil
+        ) {
+            self.capacityReservationIds = capacityReservationIds
+            self.capacityReservationResourceGroupArns = capacityReservationResourceGroupArns
+        }
+    }
+}
+
+extension AutoScalingClientTypes {
+
+    /// Describes the Capacity Reservation preference and targeting options. If you specify open or none for CapacityReservationPreference, do not specify a CapacityReservationTarget.
+    public struct CapacityReservationSpecification: Swift.Sendable {
+        /// The capacity reservation preference. The following options are available:
+        ///
+        /// * capacity-reservations-only - Auto Scaling will only launch instances into a Capacity Reservation or Capacity Reservation resource group. If capacity isn't available, instances will fail to launch.
+        ///
+        /// * capacity-reservations-first - Auto Scaling will try to launch instances into a Capacity Reservation or Capacity Reservation resource group first. If capacity isn't available, instances will run in On-Demand capacity.
+        ///
+        /// * none - Auto Scaling will not launch instances into a Capacity Reservation. Instances will run in On-Demand capacity.
+        ///
+        /// * default - Auto Scaling uses the Capacity Reservation preference from your launch template or an open Capacity Reservation.
+        public var capacityReservationPreference: AutoScalingClientTypes.CapacityReservationPreference?
+        /// Describes a target Capacity Reservation or Capacity Reservation resource group.
+        public var capacityReservationTarget: AutoScalingClientTypes.CapacityReservationTarget?
+
+        public init(
+            capacityReservationPreference: AutoScalingClientTypes.CapacityReservationPreference? = nil,
+            capacityReservationTarget: AutoScalingClientTypes.CapacityReservationTarget? = nil
+        ) {
+            self.capacityReservationPreference = capacityReservationPreference
+            self.capacityReservationTarget = capacityReservationTarget
         }
     }
 }
@@ -995,8 +1102,7 @@ extension AutoScalingClientTypes {
         public init(
             maxHealthyPercentage: Swift.Int? = nil,
             minHealthyPercentage: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxHealthyPercentage = maxHealthyPercentage
             self.minHealthyPercentage = minHealthyPercentage
         }
@@ -1018,8 +1124,7 @@ extension AutoScalingClientTypes {
             launchTemplateId: Swift.String? = nil,
             launchTemplateName: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
             self.version = version
@@ -1060,8 +1165,7 @@ extension AutoScalingClientTypes {
             notificationMetadata: Swift.String? = nil,
             notificationTargetARN: Swift.String? = nil,
             roleARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultResult = defaultResult
             self.heartbeatTimeout = heartbeatTimeout
             self.lifecycleHookName = lifecycleHookName
@@ -1097,8 +1201,7 @@ extension AutoScalingClientTypes {
             spotAllocationStrategy: Swift.String? = nil,
             spotInstancePools: Swift.Int? = nil,
             spotMaxPrice: Swift.String? = nil
-        )
-        {
+        ) {
             self.onDemandAllocationStrategy = onDemandAllocationStrategy
             self.onDemandBaseCapacity = onDemandBaseCapacity
             self.onDemandPercentageAboveBaseCapacity = onDemandPercentageAboveBaseCapacity
@@ -1153,10 +1256,73 @@ extension AutoScalingClientTypes {
         public init(
             max: Swift.Int? = nil,
             min: Swift.Int? = nil
-        )
-        {
+        ) {
             self.max = max
             self.min = min
+        }
+    }
+}
+
+extension AutoScalingClientTypes {
+
+    /// Specify an instance family to use as the baseline reference for CPU performance. All instance types that All instance types that match your specified attributes will be compared against the CPU performance of the referenced instance family, regardless of CPU manufacturer or architecture differences. Currently only one instance family can be specified in the list.
+    public struct PerformanceFactorReferenceRequest: Swift.Sendable {
+        /// The instance family to use as a baseline reference. Make sure that you specify the correct value for the instance family. The instance family is everything before the period (.) in the instance type name. For example, in the instance c6i.large, the instance family is c6i, not c6. For more information, see [Amazon EC2 instance type naming conventions](https://docs.aws.amazon.com/ec2/latest/instancetypes/instance-type-names.html) in Amazon EC2 Instance Types. The following instance types are not supported for performance protection.
+        ///
+        /// * c1
+        ///
+        /// * g3| g3s
+        ///
+        /// * hpc7g
+        ///
+        /// * m1| m2
+        ///
+        /// * mac1 | mac2 | mac2-m1ultra | mac2-m2 | mac2-m2pro
+        ///
+        /// * p3dn | p4d | p5
+        ///
+        /// * t1
+        ///
+        /// * u-12tb1 | u-18tb1 | u-24tb1 | u-3tb1 | u-6tb1 | u-9tb1 | u7i-12tb | u7in-16tb | u7in-24tb | u7in-32tb
+        ///
+        ///
+        /// If you performance protection by specifying a supported instance family, the returned instance types will exclude the preceding unsupported instance families. If you specify an unsupported instance family as a value for baseline performance, the API returns an empty response.
+        public var instanceFamily: Swift.String?
+
+        public init(
+            instanceFamily: Swift.String? = nil
+        ) {
+            self.instanceFamily = instanceFamily
+        }
+    }
+}
+
+extension AutoScalingClientTypes {
+
+    /// The CPU performance to consider, using an instance family as the baseline reference.
+    public struct CpuPerformanceFactorRequest: Swift.Sendable {
+        /// Specify an instance family to use as the baseline reference for CPU performance. All instance types that match your specified attributes will be compared against the CPU performance of the referenced instance family, regardless of CPU manufacturer or architecture differences. Currently only one instance family can be specified in the list.
+        public var references: [AutoScalingClientTypes.PerformanceFactorReferenceRequest]?
+
+        public init(
+            references: [AutoScalingClientTypes.PerformanceFactorReferenceRequest]? = nil
+        ) {
+            self.references = references
+        }
+    }
+}
+
+extension AutoScalingClientTypes {
+
+    /// The baseline performance to consider, using an instance family as a baseline reference. The instance family establishes the lowest acceptable level of performance. Auto Scaling uses this baseline to guide instance type selection, but there is no guarantee that the selected instance types will always exceed the baseline for every application. Currently, this parameter only supports CPU performance as a baseline performance factor. For example, specifying c6i uses the CPU performance of the c6i family as the baseline reference.
+    public struct BaselinePerformanceFactorsRequest: Swift.Sendable {
+        /// The CPU performance to consider, using an instance family as the baseline reference.
+        public var cpu: AutoScalingClientTypes.CpuPerformanceFactorRequest?
+
+        public init(
+            cpu: AutoScalingClientTypes.CpuPerformanceFactorRequest? = nil
+        ) {
+            self.cpu = cpu
         }
     }
 }
@@ -1327,8 +1493,7 @@ extension AutoScalingClientTypes {
         public init(
             max: Swift.Double? = nil,
             min: Swift.Double? = nil
-        )
-        {
+        ) {
             self.max = max
             self.min = min
         }
@@ -1348,8 +1513,7 @@ extension AutoScalingClientTypes {
         public init(
             max: Swift.Int? = nil,
             min: Swift.Int? = nil
-        )
-        {
+        ) {
             self.max = max
             self.min = min
         }
@@ -1368,8 +1532,7 @@ extension AutoScalingClientTypes {
         public init(
             max: Swift.Double? = nil,
             min: Swift.Double? = nil
-        )
-        {
+        ) {
             self.max = max
             self.min = min
         }
@@ -1388,8 +1551,7 @@ extension AutoScalingClientTypes {
         public init(
             max: Swift.Int? = nil,
             min: Swift.Int? = nil
-        )
-        {
+        ) {
             self.max = max
             self.min = min
         }
@@ -1408,8 +1570,7 @@ extension AutoScalingClientTypes {
         public init(
             max: Swift.Double? = nil,
             min: Swift.Double? = nil
-        )
-        {
+        ) {
             self.max = max
             self.min = min
         }
@@ -1429,8 +1590,7 @@ extension AutoScalingClientTypes {
         public init(
             max: Swift.Int? = nil,
             min: Swift.Int? = nil
-        )
-        {
+        ) {
             self.max = max
             self.min = min
         }
@@ -1501,6 +1661,8 @@ extension AutoScalingClientTypes {
         public var bareMetal: AutoScalingClientTypes.BareMetal?
         /// The minimum and maximum baseline bandwidth performance for an instance type, in Mbps. For more information, see [Amazon EBS–optimized instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html) in the Amazon EC2 User Guide for Linux Instances. Default: No minimum or maximum limits
         public var baselineEbsBandwidthMbps: AutoScalingClientTypes.BaselineEbsBandwidthMbpsRequest?
+        /// The baseline performance factors for the instance requirements.
+        public var baselinePerformanceFactors: AutoScalingClientTypes.BaselinePerformanceFactorsRequest?
         /// Indicates whether burstable performance instance types are included, excluded, or required. For more information, see [Burstable performance instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html) in the Amazon EC2 User Guide for Linux Instances. Default: excluded
         public var burstablePerformance: AutoScalingClientTypes.BurstablePerformance?
         /// Lists which specific CPU manufacturers to include.
@@ -1568,6 +1730,7 @@ extension AutoScalingClientTypes {
             allowedInstanceTypes: [Swift.String]? = nil,
             bareMetal: AutoScalingClientTypes.BareMetal? = nil,
             baselineEbsBandwidthMbps: AutoScalingClientTypes.BaselineEbsBandwidthMbpsRequest? = nil,
+            baselinePerformanceFactors: AutoScalingClientTypes.BaselinePerformanceFactorsRequest? = nil,
             burstablePerformance: AutoScalingClientTypes.BurstablePerformance? = nil,
             cpuManufacturers: [AutoScalingClientTypes.CpuManufacturer]? = nil,
             excludedInstanceTypes: [Swift.String]? = nil,
@@ -1584,8 +1747,7 @@ extension AutoScalingClientTypes {
             spotMaxPricePercentageOverLowestPrice: Swift.Int? = nil,
             totalLocalStorageGB: AutoScalingClientTypes.TotalLocalStorageGBRequest? = nil,
             vCpuCount: AutoScalingClientTypes.VCpuCountRequest? = nil
-        )
-        {
+        ) {
             self.acceleratorCount = acceleratorCount
             self.acceleratorManufacturers = acceleratorManufacturers
             self.acceleratorNames = acceleratorNames
@@ -1594,6 +1756,7 @@ extension AutoScalingClientTypes {
             self.allowedInstanceTypes = allowedInstanceTypes
             self.bareMetal = bareMetal
             self.baselineEbsBandwidthMbps = baselineEbsBandwidthMbps
+            self.baselinePerformanceFactors = baselinePerformanceFactors
             self.burstablePerformance = burstablePerformance
             self.cpuManufacturers = cpuManufacturers
             self.excludedInstanceTypes = excludedInstanceTypes
@@ -1639,8 +1802,7 @@ extension AutoScalingClientTypes {
             instanceType: Swift.String? = nil,
             launchTemplateSpecification: AutoScalingClientTypes.LaunchTemplateSpecification? = nil,
             weightedCapacity: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceRequirements = instanceRequirements
             self.instanceType = instanceType
             self.launchTemplateSpecification = launchTemplateSpecification
@@ -1661,8 +1823,7 @@ extension AutoScalingClientTypes {
         public init(
             launchTemplateSpecification: AutoScalingClientTypes.LaunchTemplateSpecification? = nil,
             overrides: [AutoScalingClientTypes.LaunchTemplateOverrides]? = nil
-        )
-        {
+        ) {
             self.launchTemplateSpecification = launchTemplateSpecification
             self.overrides = overrides
         }
@@ -1681,8 +1842,7 @@ extension AutoScalingClientTypes {
         public init(
             instancesDistribution: AutoScalingClientTypes.InstancesDistribution? = nil,
             launchTemplate: AutoScalingClientTypes.LaunchTemplate? = nil
-        )
-        {
+        ) {
             self.instancesDistribution = instancesDistribution
             self.launchTemplate = launchTemplate
         }
@@ -1711,8 +1871,7 @@ extension AutoScalingClientTypes {
             resourceId: Swift.String? = nil,
             resourceType: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.propagateAtLaunch = propagateAtLaunch
             self.resourceId = resourceId
@@ -1728,10 +1887,14 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
     public var autoScalingGroupName: Swift.String?
     /// The instance capacity distribution across Availability Zones.
     public var availabilityZoneDistribution: AutoScalingClientTypes.AvailabilityZoneDistribution?
+    /// The policy for Availability Zone impairment.
+    public var availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy?
     /// A list of Availability Zones where instances in the Auto Scaling group can be created. Used for launching into the default VPC subnet in each Availability Zone when not using the VPCZoneIdentifier property, or for attaching a network interface when an existing network interface ID is specified in a launch template.
     public var availabilityZones: [Swift.String]?
     /// Indicates whether Capacity Rebalancing is enabled. Otherwise, Capacity Rebalancing is disabled. When you turn on Capacity Rebalancing, Amazon EC2 Auto Scaling attempts to launch a Spot Instance whenever Amazon EC2 notifies that a Spot Instance is at an elevated risk of interruption. After launching a new instance, it then terminates an old instance. For more information, see [Use Capacity Rebalancing to handle Amazon EC2 Spot Interruptions](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-capacity-rebalancing.html) in the in the Amazon EC2 Auto Scaling User Guide.
     public var capacityRebalance: Swift.Bool?
+    /// The capacity reservation specification for the Auto Scaling group.
+    public var capacityReservationSpecification: AutoScalingClientTypes.CapacityReservationSpecification?
     /// Reserved.
     public var context: Swift.String?
     /// Only needed if you use simple scaling policies. The amount of time, in seconds, between one scaling activity ending and another one starting due to simple scaling policies. For more information, see [Scaling cooldowns for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-scaling-cooldowns.html) in the Amazon EC2 Auto Scaling User Guide. Default: 300 seconds
@@ -1774,6 +1937,8 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
     public var placementGroup: Swift.String?
     /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other Amazon Web Services service on your behalf. By default, Amazon EC2 Auto Scaling uses a service-linked role named AWSServiceRoleForAutoScaling, which it creates if it does not exist. For more information, see [Service-linked roles](https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-service-linked-role.html) in the Amazon EC2 Auto Scaling User Guide.
     public var serviceLinkedRoleARN: Swift.String?
+    /// If you enable zonal shift with cross-zone disabled load balancers, capacity could become imbalanced across Availability Zones. To skip the validation, specify true. For more information, see [Auto Scaling group zonal shift](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-zonal-shift.html) in the Amazon EC2 Auto Scaling User Guide.
+    public var skipZonalShiftValidation: Swift.Bool?
     /// One or more tags. You can tag your Auto Scaling group and propagate the tags to the Amazon EC2 instances it launches. Tags are not propagated to Amazon EBS volumes. To add tags to Amazon EBS volumes, specify the tags in a launch template but use caution. If the launch template specifies an instance tag with a key that is also specified for the Auto Scaling group, Amazon EC2 Auto Scaling overrides the value of that instance tag with the value specified by the Auto Scaling group. For more information, see [Tag Auto Scaling groups and instances](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-tagging.html) in the Amazon EC2 Auto Scaling User Guide.
     public var tags: [AutoScalingClientTypes.Tag]?
     /// The Amazon Resource Names (ARN) of the Elastic Load Balancing target groups to associate with the Auto Scaling group. Instances are registered as targets with the target groups. The target groups receive incoming traffic and route requests to one or more registered targets. For more information, see [Use Elastic Load Balancing to distribute traffic across the instances in your Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-load-balancer.html) in the Amazon EC2 Auto Scaling User Guide.
@@ -1788,8 +1953,10 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
     public init(
         autoScalingGroupName: Swift.String? = nil,
         availabilityZoneDistribution: AutoScalingClientTypes.AvailabilityZoneDistribution? = nil,
+        availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy? = nil,
         availabilityZones: [Swift.String]? = nil,
         capacityRebalance: Swift.Bool? = nil,
+        capacityReservationSpecification: AutoScalingClientTypes.CapacityReservationSpecification? = nil,
         context: Swift.String? = nil,
         defaultCooldown: Swift.Int? = nil,
         defaultInstanceWarmup: Swift.Int? = nil,
@@ -1810,17 +1977,19 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
         newInstancesProtectedFromScaleIn: Swift.Bool? = nil,
         placementGroup: Swift.String? = nil,
         serviceLinkedRoleARN: Swift.String? = nil,
+        skipZonalShiftValidation: Swift.Bool? = nil,
         tags: [AutoScalingClientTypes.Tag]? = nil,
         targetGroupARNs: [Swift.String]? = nil,
         terminationPolicies: [Swift.String]? = nil,
         trafficSources: [AutoScalingClientTypes.TrafficSourceIdentifier]? = nil,
         vpcZoneIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.availabilityZoneDistribution = availabilityZoneDistribution
+        self.availabilityZoneImpairmentPolicy = availabilityZoneImpairmentPolicy
         self.availabilityZones = availabilityZones
         self.capacityRebalance = capacityRebalance
+        self.capacityReservationSpecification = capacityReservationSpecification
         self.context = context
         self.defaultCooldown = defaultCooldown
         self.defaultInstanceWarmup = defaultInstanceWarmup
@@ -1841,6 +2010,7 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
         self.newInstancesProtectedFromScaleIn = newInstancesProtectedFromScaleIn
         self.placementGroup = placementGroup
         self.serviceLinkedRoleARN = serviceLinkedRoleARN
+        self.skipZonalShiftValidation = skipZonalShiftValidation
         self.tags = tags
         self.targetGroupARNs = targetGroupARNs
         self.terminationPolicies = terminationPolicies
@@ -1894,8 +2064,7 @@ extension AutoScalingClientTypes {
             throughput: Swift.Int? = nil,
             volumeSize: Swift.Int? = nil,
             volumeType: Swift.String? = nil
-        )
-        {
+        ) {
             self.deleteOnTermination = deleteOnTermination
             self.encrypted = encrypted
             self.iops = iops
@@ -1926,8 +2095,7 @@ extension AutoScalingClientTypes {
             ebs: AutoScalingClientTypes.Ebs? = nil,
             noDevice: Swift.Bool? = nil,
             virtualName: Swift.String? = nil
-        )
-        {
+        ) {
             self.deviceName = deviceName
             self.ebs = ebs
             self.noDevice = noDevice
@@ -1945,8 +2113,7 @@ extension AutoScalingClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -2025,8 +2192,7 @@ extension AutoScalingClientTypes {
             httpEndpoint: AutoScalingClientTypes.InstanceMetadataEndpointState? = nil,
             httpPutResponseHopLimit: Swift.Int? = nil,
             httpTokens: AutoScalingClientTypes.InstanceMetadataHttpTokensState? = nil
-        )
-        {
+        ) {
             self.httpEndpoint = httpEndpoint
             self.httpPutResponseHopLimit = httpPutResponseHopLimit
             self.httpTokens = httpTokens
@@ -2095,8 +2261,7 @@ public struct CreateLaunchConfigurationInput: Swift.Sendable {
         securityGroups: [Swift.String]? = nil,
         spotPrice: Swift.String? = nil,
         userData: Swift.String? = nil
-    )
-    {
+    ) {
         self.associatePublicIpAddress = associatePublicIpAddress
         self.blockDeviceMappings = blockDeviceMappings
         self.classicLinkVPCId = classicLinkVPCId
@@ -2120,9 +2285,9 @@ public struct CreateLaunchConfigurationInput: Swift.Sendable {
 }
 
 /// The operation can't be performed because the resource is in use.
-public struct ResourceInUseFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUseFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -2138,8 +2303,7 @@ public struct ResourceInUseFault: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2151,16 +2315,15 @@ public struct CreateOrUpdateTagsInput: Swift.Sendable {
 
     public init(
         tags: [AutoScalingClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
 
 /// The operation can't be performed because there are scaling activities in progress.
-public struct ScalingActivityInProgressFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ScalingActivityInProgressFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -2176,8 +2339,7 @@ public struct ScalingActivityInProgressFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2192,8 +2354,7 @@ public struct DeleteAutoScalingGroupInput: Swift.Sendable {
     public init(
         autoScalingGroupName: Swift.String? = nil,
         forceDelete: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.forceDelete = forceDelete
     }
@@ -2206,8 +2367,7 @@ public struct DeleteLaunchConfigurationInput: Swift.Sendable {
 
     public init(
         launchConfigurationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.launchConfigurationName = launchConfigurationName
     }
 }
@@ -2223,8 +2383,7 @@ public struct DeleteLifecycleHookInput: Swift.Sendable {
     public init(
         autoScalingGroupName: Swift.String? = nil,
         lifecycleHookName: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.lifecycleHookName = lifecycleHookName
     }
@@ -2246,8 +2405,7 @@ public struct DeleteNotificationConfigurationInput: Swift.Sendable {
     public init(
         autoScalingGroupName: Swift.String? = nil,
         topicARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.topicARN = topicARN
     }
@@ -2263,8 +2421,7 @@ public struct DeletePolicyInput: Swift.Sendable {
     public init(
         autoScalingGroupName: Swift.String? = nil,
         policyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.policyName = policyName
     }
@@ -2281,8 +2438,7 @@ public struct DeleteScheduledActionInput: Swift.Sendable {
     public init(
         autoScalingGroupName: Swift.String? = nil,
         scheduledActionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.scheduledActionName = scheduledActionName
     }
@@ -2295,8 +2451,7 @@ public struct DeleteTagsInput: Swift.Sendable {
 
     public init(
         tags: [AutoScalingClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2311,8 +2466,7 @@ public struct DeleteWarmPoolInput: Swift.Sendable {
     public init(
         autoScalingGroupName: Swift.String? = nil,
         forceDelete: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.forceDelete = forceDelete
     }
@@ -2338,8 +2492,7 @@ public struct DescribeAccountLimitsOutput: Swift.Sendable {
         maxNumberOfLaunchConfigurations: Swift.Int? = nil,
         numberOfAutoScalingGroups: Swift.Int? = nil,
         numberOfLaunchConfigurations: Swift.Int? = nil
-    )
-    {
+    ) {
         self.maxNumberOfAutoScalingGroups = maxNumberOfAutoScalingGroups
         self.maxNumberOfLaunchConfigurations = maxNumberOfLaunchConfigurations
         self.numberOfAutoScalingGroups = numberOfAutoScalingGroups
@@ -2353,16 +2506,15 @@ public struct DescribeAdjustmentTypesOutput: Swift.Sendable {
 
     public init(
         adjustmentTypes: [AutoScalingClientTypes.AdjustmentType]? = nil
-    )
-    {
+    ) {
         self.adjustmentTypes = adjustmentTypes
     }
 }
 
 /// The NextToken value is not valid.
-public struct InvalidNextToken: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNextToken: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         ///
         public internal(set) var message: Swift.String? = nil
     }
@@ -2378,8 +2530,7 @@ public struct InvalidNextToken: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2413,8 +2564,7 @@ extension AutoScalingClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -2436,8 +2586,7 @@ public struct DescribeAutoScalingGroupsInput: Swift.Sendable {
         filters: [AutoScalingClientTypes.Filter]? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupNames = autoScalingGroupNames
         self.filters = filters
         self.maxRecords = maxRecords
@@ -2500,8 +2649,7 @@ extension AutoScalingClientTypes {
         public init(
             granularity: Swift.String? = nil,
             metric: Swift.String? = nil
-        )
-        {
+        ) {
             self.granularity = granularity
             self.metric = metric
         }
@@ -2638,8 +2786,7 @@ extension AutoScalingClientTypes {
             lifecycleState: AutoScalingClientTypes.LifecycleState? = nil,
             protectedFromScaleIn: Swift.Bool? = nil,
             weightedCapacity: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.healthStatus = healthStatus
             self.instanceId = instanceId
@@ -2665,8 +2812,7 @@ extension AutoScalingClientTypes {
         public init(
             processName: Swift.String? = nil,
             suspensionReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.processName = processName
             self.suspensionReason = suspensionReason
         }
@@ -2694,8 +2840,7 @@ extension AutoScalingClientTypes {
             resourceId: Swift.String? = nil,
             resourceType: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.propagateAtLaunch = propagateAtLaunch
             self.resourceId = resourceId
@@ -2714,8 +2859,7 @@ extension AutoScalingClientTypes {
 
         public init(
             reuseOnScaleIn: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.reuseOnScaleIn = reuseOnScaleIn
         }
     }
@@ -2800,8 +2944,7 @@ extension AutoScalingClientTypes {
             minSize: Swift.Int? = nil,
             poolState: AutoScalingClientTypes.WarmPoolState? = nil,
             status: AutoScalingClientTypes.WarmPoolStatus? = nil
-        )
-        {
+        ) {
             self.instanceReusePolicy = instanceReusePolicy
             self.maxGroupPreparedCapacity = maxGroupPreparedCapacity
             self.minSize = minSize
@@ -2822,11 +2965,15 @@ extension AutoScalingClientTypes {
         public var autoScalingGroupName: Swift.String?
         /// The instance capacity distribution across Availability Zones.
         public var availabilityZoneDistribution: AutoScalingClientTypes.AvailabilityZoneDistribution?
+        /// The Availability Zone impairment policy.
+        public var availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy?
         /// One or more Availability Zones for the group.
         /// This member is required.
         public var availabilityZones: [Swift.String]?
         /// Indicates whether Capacity Rebalancing is enabled.
         public var capacityRebalance: Swift.Bool?
+        /// The capacity reservation specification.
+        public var capacityReservationSpecification: AutoScalingClientTypes.CapacityReservationSpecification?
         /// Reserved.
         public var context: Swift.String?
         /// The date and time the group was created.
@@ -2900,8 +3047,10 @@ extension AutoScalingClientTypes {
             autoScalingGroupARN: Swift.String? = nil,
             autoScalingGroupName: Swift.String? = nil,
             availabilityZoneDistribution: AutoScalingClientTypes.AvailabilityZoneDistribution? = nil,
+            availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy? = nil,
             availabilityZones: [Swift.String]? = nil,
             capacityRebalance: Swift.Bool? = nil,
+            capacityReservationSpecification: AutoScalingClientTypes.CapacityReservationSpecification? = nil,
             context: Swift.String? = nil,
             createdTime: Foundation.Date? = nil,
             defaultCooldown: Swift.Int? = nil,
@@ -2933,13 +3082,14 @@ extension AutoScalingClientTypes {
             vpcZoneIdentifier: Swift.String? = nil,
             warmPoolConfiguration: AutoScalingClientTypes.WarmPoolConfiguration? = nil,
             warmPoolSize: Swift.Int? = nil
-        )
-        {
+        ) {
             self.autoScalingGroupARN = autoScalingGroupARN
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZoneDistribution = availabilityZoneDistribution
+            self.availabilityZoneImpairmentPolicy = availabilityZoneImpairmentPolicy
             self.availabilityZones = availabilityZones
             self.capacityRebalance = capacityRebalance
+            self.capacityReservationSpecification = capacityReservationSpecification
             self.context = context
             self.createdTime = createdTime
             self.defaultCooldown = defaultCooldown
@@ -2985,8 +3135,7 @@ public struct DescribeAutoScalingGroupsOutput: Swift.Sendable {
     public init(
         autoScalingGroups: [AutoScalingClientTypes.AutoScalingGroup]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingGroups = autoScalingGroups
         self.nextToken = nextToken
     }
@@ -3004,8 +3153,7 @@ public struct DescribeAutoScalingInstancesInput: Swift.Sendable {
         instanceIds: [Swift.String]? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceIds = instanceIds
         self.maxRecords = maxRecords
         self.nextToken = nextToken
@@ -3054,8 +3202,7 @@ extension AutoScalingClientTypes {
             lifecycleState: Swift.String? = nil,
             protectedFromScaleIn: Swift.Bool? = nil,
             weightedCapacity: Swift.String? = nil
-        )
-        {
+        ) {
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZone = availabilityZone
             self.healthStatus = healthStatus
@@ -3079,8 +3226,7 @@ public struct DescribeAutoScalingInstancesOutput: Swift.Sendable {
     public init(
         autoScalingInstances: [AutoScalingClientTypes.AutoScalingInstanceDetails]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingInstances = autoScalingInstances
         self.nextToken = nextToken
     }
@@ -3092,8 +3238,7 @@ public struct DescribeAutoScalingNotificationTypesOutput: Swift.Sendable {
 
     public init(
         autoScalingNotificationTypes: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.autoScalingNotificationTypes = autoScalingNotificationTypes
     }
 }
@@ -3114,8 +3259,7 @@ public struct DescribeInstanceRefreshesInput: Swift.Sendable {
         instanceRefreshIds: [Swift.String]? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.instanceRefreshIds = instanceRefreshIds
         self.maxRecords = maxRecords
@@ -3135,8 +3279,7 @@ extension AutoScalingClientTypes {
         public init(
             launchTemplate: AutoScalingClientTypes.LaunchTemplateSpecification? = nil,
             mixedInstancesPolicy: AutoScalingClientTypes.MixedInstancesPolicy? = nil
-        )
-        {
+        ) {
             self.launchTemplate = launchTemplate
             self.mixedInstancesPolicy = mixedInstancesPolicy
         }
@@ -3255,8 +3398,7 @@ extension AutoScalingClientTypes {
             scaleInProtectedInstances: AutoScalingClientTypes.ScaleInProtectedInstances? = nil,
             skipMatching: Swift.Bool? = nil,
             standbyInstances: AutoScalingClientTypes.StandbyInstances? = nil
-        )
-        {
+        ) {
             self.alarmSpecification = alarmSpecification
             self.autoRollback = autoRollback
             self.bakeTime = bakeTime
@@ -3284,8 +3426,7 @@ extension AutoScalingClientTypes {
         public init(
             instancesToUpdate: Swift.Int? = nil,
             percentageComplete: Swift.Int? = nil
-        )
-        {
+        ) {
             self.instancesToUpdate = instancesToUpdate
             self.percentageComplete = percentageComplete
         }
@@ -3304,8 +3445,7 @@ extension AutoScalingClientTypes {
         public init(
             instancesToUpdate: Swift.Int? = nil,
             percentageComplete: Swift.Int? = nil
-        )
-        {
+        ) {
             self.instancesToUpdate = instancesToUpdate
             self.percentageComplete = percentageComplete
         }
@@ -3324,8 +3464,7 @@ extension AutoScalingClientTypes {
         public init(
             livePoolProgress: AutoScalingClientTypes.InstanceRefreshLivePoolProgress? = nil,
             warmPoolProgress: AutoScalingClientTypes.InstanceRefreshWarmPoolProgress? = nil
-        )
-        {
+        ) {
             self.livePoolProgress = livePoolProgress
             self.warmPoolProgress = warmPoolProgress
         }
@@ -3353,8 +3492,7 @@ extension AutoScalingClientTypes {
             progressDetailsOnRollback: AutoScalingClientTypes.InstanceRefreshProgressDetails? = nil,
             rollbackReason: Swift.String? = nil,
             rollbackStartTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.instancesToUpdateOnRollback = instancesToUpdateOnRollback
             self.percentageCompleteOnRollback = percentageCompleteOnRollback
             self.progressDetailsOnRollback = progressDetailsOnRollback
@@ -3479,8 +3617,7 @@ extension AutoScalingClientTypes {
             startTime: Foundation.Date? = nil,
             status: AutoScalingClientTypes.InstanceRefreshStatus? = nil,
             statusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.autoScalingGroupName = autoScalingGroupName
             self.desiredConfiguration = desiredConfiguration
             self.endTime = endTime
@@ -3506,8 +3643,7 @@ public struct DescribeInstanceRefreshesOutput: Swift.Sendable {
     public init(
         instanceRefreshes: [AutoScalingClientTypes.InstanceRefresh]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceRefreshes = instanceRefreshes
         self.nextToken = nextToken
     }
@@ -3525,8 +3661,7 @@ public struct DescribeLaunchConfigurationsInput: Swift.Sendable {
         launchConfigurationNames: [Swift.String]? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.launchConfigurationNames = launchConfigurationNames
         self.maxRecords = maxRecords
         self.nextToken = nextToken
@@ -3603,8 +3738,7 @@ extension AutoScalingClientTypes {
             securityGroups: [Swift.String]? = nil,
             spotPrice: Swift.String? = nil,
             userData: Swift.String? = nil
-        )
-        {
+        ) {
             self.associatePublicIpAddress = associatePublicIpAddress
             self.blockDeviceMappings = blockDeviceMappings
             self.classicLinkVPCId = classicLinkVPCId
@@ -3639,8 +3773,7 @@ public struct DescribeLaunchConfigurationsOutput: Swift.Sendable {
     public init(
         launchConfigurations: [AutoScalingClientTypes.LaunchConfiguration]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.launchConfigurations = launchConfigurations
         self.nextToken = nextToken
     }
@@ -3656,8 +3789,7 @@ public struct DescribeLifecycleHooksInput: Swift.Sendable {
     public init(
         autoScalingGroupName: Swift.String? = nil,
         lifecycleHookNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.lifecycleHookNames = lifecycleHookNames
     }
@@ -3696,8 +3828,7 @@ extension AutoScalingClientTypes {
             notificationMetadata: Swift.String? = nil,
             notificationTargetARN: Swift.String? = nil,
             roleARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.autoScalingGroupName = autoScalingGroupName
             self.defaultResult = defaultResult
             self.globalTimeout = globalTimeout
@@ -3717,8 +3848,7 @@ public struct DescribeLifecycleHooksOutput: Swift.Sendable {
 
     public init(
         lifecycleHooks: [AutoScalingClientTypes.LifecycleHook]? = nil
-    )
-    {
+    ) {
         self.lifecycleHooks = lifecycleHooks
     }
 }
@@ -3729,8 +3859,7 @@ public struct DescribeLifecycleHookTypesOutput: Swift.Sendable {
 
     public init(
         lifecycleHookTypes: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.lifecycleHookTypes = lifecycleHookTypes
     }
 }
@@ -3748,8 +3877,7 @@ public struct DescribeLoadBalancersInput: Swift.Sendable {
         autoScalingGroupName: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.maxRecords = maxRecords
         self.nextToken = nextToken
@@ -3778,8 +3906,7 @@ extension AutoScalingClientTypes {
         public init(
             loadBalancerName: Swift.String? = nil,
             state: Swift.String? = nil
-        )
-        {
+        ) {
             self.loadBalancerName = loadBalancerName
             self.state = state
         }
@@ -3795,8 +3922,7 @@ public struct DescribeLoadBalancersOutput: Swift.Sendable {
     public init(
         loadBalancers: [AutoScalingClientTypes.LoadBalancerState]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.loadBalancers = loadBalancers
         self.nextToken = nextToken
     }
@@ -3815,8 +3941,7 @@ public struct DescribeLoadBalancerTargetGroupsInput: Swift.Sendable {
         autoScalingGroupName: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.maxRecords = maxRecords
         self.nextToken = nextToken
@@ -3845,8 +3970,7 @@ extension AutoScalingClientTypes {
         public init(
             loadBalancerTargetGroupARN: Swift.String? = nil,
             state: Swift.String? = nil
-        )
-        {
+        ) {
             self.loadBalancerTargetGroupARN = loadBalancerTargetGroupARN
             self.state = state
         }
@@ -3862,8 +3986,7 @@ public struct DescribeLoadBalancerTargetGroupsOutput: Swift.Sendable {
     public init(
         loadBalancerTargetGroups: [AutoScalingClientTypes.LoadBalancerTargetGroupState]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.loadBalancerTargetGroups = loadBalancerTargetGroups
         self.nextToken = nextToken
     }
@@ -3878,8 +4001,7 @@ extension AutoScalingClientTypes {
 
         public init(
             granularity: Swift.String? = nil
-        )
-        {
+        ) {
             self.granularity = granularity
         }
     }
@@ -3934,8 +4056,7 @@ extension AutoScalingClientTypes {
 
         public init(
             metric: Swift.String? = nil
-        )
-        {
+        ) {
             self.metric = metric
         }
     }
@@ -3950,8 +4071,7 @@ public struct DescribeMetricCollectionTypesOutput: Swift.Sendable {
     public init(
         granularities: [AutoScalingClientTypes.MetricGranularityType]? = nil,
         metrics: [AutoScalingClientTypes.MetricCollectionType]? = nil
-    )
-    {
+    ) {
         self.granularities = granularities
         self.metrics = metrics
     }
@@ -3969,8 +4089,7 @@ public struct DescribeNotificationConfigurationsInput: Swift.Sendable {
         autoScalingGroupNames: [Swift.String]? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupNames = autoScalingGroupNames
         self.maxRecords = maxRecords
         self.nextToken = nextToken
@@ -4002,8 +4121,7 @@ extension AutoScalingClientTypes {
             autoScalingGroupName: Swift.String? = nil,
             notificationType: Swift.String? = nil,
             topicARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.autoScalingGroupName = autoScalingGroupName
             self.notificationType = notificationType
             self.topicARN = topicARN
@@ -4021,8 +4139,7 @@ public struct DescribeNotificationConfigurationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         notificationConfigurations: [AutoScalingClientTypes.NotificationConfiguration]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.notificationConfigurations = notificationConfigurations
     }
@@ -4046,8 +4163,7 @@ public struct DescribePoliciesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         policyNames: [Swift.String]? = nil,
         policyTypes: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.maxRecords = maxRecords
         self.nextToken = nextToken
@@ -4099,8 +4215,7 @@ extension AutoScalingClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -4124,8 +4239,7 @@ extension AutoScalingClientTypes {
             dimensions: [AutoScalingClientTypes.MetricDimension]? = nil,
             metricName: Swift.String? = nil,
             namespace: Swift.String? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.metricName = metricName
             self.namespace = namespace
@@ -4150,8 +4264,7 @@ extension AutoScalingClientTypes {
             metric: AutoScalingClientTypes.Metric? = nil,
             stat: Swift.String? = nil,
             unit: Swift.String? = nil
-        )
-        {
+        ) {
             self.metric = metric
             self.stat = stat
             self.unit = unit
@@ -4181,8 +4294,7 @@ extension AutoScalingClientTypes {
             label: Swift.String? = nil,
             metricStat: AutoScalingClientTypes.MetricStat? = nil,
             returnData: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.expression = expression
             self.id = id
             self.label = label
@@ -4202,8 +4314,7 @@ extension AutoScalingClientTypes {
 
         public init(
             metricDataQueries: [AutoScalingClientTypes.MetricDataQuery]? = nil
-        )
-        {
+        ) {
             self.metricDataQueries = metricDataQueries
         }
     }
@@ -4219,8 +4330,7 @@ extension AutoScalingClientTypes {
 
         public init(
             metricDataQueries: [AutoScalingClientTypes.MetricDataQuery]? = nil
-        )
-        {
+        ) {
             self.metricDataQueries = metricDataQueries
         }
     }
@@ -4236,8 +4346,7 @@ extension AutoScalingClientTypes {
 
         public init(
             metricDataQueries: [AutoScalingClientTypes.MetricDataQuery]? = nil
-        )
-        {
+        ) {
             self.metricDataQueries = metricDataQueries
         }
     }
@@ -4298,8 +4407,7 @@ extension AutoScalingClientTypes {
         public init(
             predefinedMetricType: AutoScalingClientTypes.PredefinedLoadMetricType? = nil,
             resourceLabel: Swift.String? = nil
-        )
-        {
+        ) {
             self.predefinedMetricType = predefinedMetricType
             self.resourceLabel = resourceLabel
         }
@@ -4361,8 +4469,7 @@ extension AutoScalingClientTypes {
         public init(
             predefinedMetricType: AutoScalingClientTypes.PredefinedMetricPairType? = nil,
             resourceLabel: Swift.String? = nil
-        )
-        {
+        ) {
             self.predefinedMetricType = predefinedMetricType
             self.resourceLabel = resourceLabel
         }
@@ -4424,8 +4531,7 @@ extension AutoScalingClientTypes {
         public init(
             predefinedMetricType: AutoScalingClientTypes.PredefinedScalingMetricType? = nil,
             resourceLabel: Swift.String? = nil
-        )
-        {
+        ) {
             self.predefinedMetricType = predefinedMetricType
             self.resourceLabel = resourceLabel
         }
@@ -4473,8 +4579,7 @@ extension AutoScalingClientTypes {
             predefinedMetricPairSpecification: AutoScalingClientTypes.PredictiveScalingPredefinedMetricPair? = nil,
             predefinedScalingMetricSpecification: AutoScalingClientTypes.PredictiveScalingPredefinedScalingMetric? = nil,
             targetValue: Swift.Double? = nil
-        )
-        {
+        ) {
             self.customizedCapacityMetricSpecification = customizedCapacityMetricSpecification
             self.customizedLoadMetricSpecification = customizedLoadMetricSpecification
             self.customizedScalingMetricSpecification = customizedScalingMetricSpecification
@@ -4544,8 +4649,7 @@ extension AutoScalingClientTypes {
             metricSpecifications: [AutoScalingClientTypes.PredictiveScalingMetricSpecification]? = nil,
             mode: AutoScalingClientTypes.PredictiveScalingMode? = nil,
             schedulingBufferTime: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxCapacityBreachBehavior = maxCapacityBreachBehavior
             self.maxCapacityBuffer = maxCapacityBuffer
             self.metricSpecifications = metricSpecifications
@@ -4589,8 +4693,7 @@ extension AutoScalingClientTypes {
             metricIntervalLowerBound: Swift.Double? = nil,
             metricIntervalUpperBound: Swift.Double? = nil,
             scalingAdjustment: Swift.Int? = nil
-        )
-        {
+        ) {
             self.metricIntervalLowerBound = metricIntervalLowerBound
             self.metricIntervalUpperBound = metricIntervalUpperBound
             self.scalingAdjustment = scalingAdjustment
@@ -4605,6 +4708,8 @@ extension AutoScalingClientTypes {
         /// The metric to use.
         /// This member is required.
         public var metric: AutoScalingClientTypes.Metric?
+        /// The period of the metric in seconds. The default value is 60. Accepted values are 10, 30, and 60. For high resolution metric, set the value to less than 60. For more information, see [Create a target tracking policy using high-resolution metrics for faster response](https://docs.aws.amazon.com/autoscaling/ec2/userguide/policy-creating-high-resolution-metrics.html).
+        public var period: Swift.Int?
         /// The statistic to return. It can include any CloudWatch statistic or extended statistic. For a list of valid values, see the table in [Statistics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#Statistic) in the Amazon CloudWatch User Guide. The most commonly used metric for scaling is Average.
         /// This member is required.
         public var stat: Swift.String?
@@ -4613,11 +4718,12 @@ extension AutoScalingClientTypes {
 
         public init(
             metric: AutoScalingClientTypes.Metric? = nil,
+            period: Swift.Int? = nil,
             stat: Swift.String? = nil,
             unit: Swift.String? = nil
-        )
-        {
+        ) {
             self.metric = metric
+            self.period = period
             self.stat = stat
             self.unit = unit
         }
@@ -4637,6 +4743,8 @@ extension AutoScalingClientTypes {
         public var label: Swift.String?
         /// Information about the metric data to return. Conditional: Within each TargetTrackingMetricDataQuery object, you must specify either Expression or MetricStat, but not both.
         public var metricStat: AutoScalingClientTypes.TargetTrackingMetricStat?
+        /// The period of the metric in seconds. The default value is 60. Accepted values are 10, 30, and 60. For high resolution metric, set the value to less than 60. For more information, see [Create a target tracking policy using high-resolution metrics for faster response](https://docs.aws.amazon.com/autoscaling/ec2/userguide/policy-creating-high-resolution-metrics.html).
+        public var period: Swift.Int?
         /// Indicates whether to return the timestamps and raw data values of this metric. If you use any math expressions, specify true for this value for only the final math expression that the metric specification is based on. You must specify false for ReturnData for all the other metrics and expressions used in the metric specification. If you are only retrieving metrics and not performing any math expressions, do not specify anything for ReturnData. This sets it to its default (true).
         public var returnData: Swift.Bool?
 
@@ -4645,13 +4753,14 @@ extension AutoScalingClientTypes {
             id: Swift.String? = nil,
             label: Swift.String? = nil,
             metricStat: AutoScalingClientTypes.TargetTrackingMetricStat? = nil,
+            period: Swift.Int? = nil,
             returnData: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.expression = expression
             self.id = id
             self.label = label
             self.metricStat = metricStat
+            self.period = period
             self.returnData = returnData
         }
     }
@@ -4714,6 +4823,8 @@ extension AutoScalingClientTypes {
         public var metrics: [AutoScalingClientTypes.TargetTrackingMetricDataQuery]?
         /// The namespace of the metric.
         public var namespace: Swift.String?
+        /// The period of the metric in seconds. The default value is 60. Accepted values are 10, 30, and 60. For high resolution metric, set the value to less than 60. For more information, see [Create a target tracking policy using high-resolution metrics for faster response](https://docs.aws.amazon.com/autoscaling/ec2/userguide/policy-creating-high-resolution-metrics.html).
+        public var period: Swift.Int?
         /// The statistic of the metric.
         public var statistic: AutoScalingClientTypes.MetricStatistic?
         /// The unit of the metric. For a complete list of the units that CloudWatch supports, see the [MetricDatum](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html) data type in the Amazon CloudWatch API Reference.
@@ -4724,14 +4835,15 @@ extension AutoScalingClientTypes {
             metricName: Swift.String? = nil,
             metrics: [AutoScalingClientTypes.TargetTrackingMetricDataQuery]? = nil,
             namespace: Swift.String? = nil,
+            period: Swift.Int? = nil,
             statistic: AutoScalingClientTypes.MetricStatistic? = nil,
             unit: Swift.String? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.metricName = metricName
             self.metrics = metrics
             self.namespace = namespace
+            self.period = period
             self.statistic = statistic
             self.unit = unit
         }
@@ -4801,8 +4913,7 @@ extension AutoScalingClientTypes {
         public init(
             predefinedMetricType: AutoScalingClientTypes.MetricType? = nil,
             resourceLabel: Swift.String? = nil
-        )
-        {
+        ) {
             self.predefinedMetricType = predefinedMetricType
             self.resourceLabel = resourceLabel
         }
@@ -4828,8 +4939,7 @@ extension AutoScalingClientTypes {
             disableScaleIn: Swift.Bool? = nil,
             predefinedMetricSpecification: AutoScalingClientTypes.PredefinedMetricSpecification? = nil,
             targetValue: Swift.Double? = nil
-        )
-        {
+        ) {
             self.customizedMetricSpecification = customizedMetricSpecification
             self.disableScaleIn = disableScaleIn
             self.predefinedMetricSpecification = predefinedMetricSpecification
@@ -4904,8 +5014,7 @@ extension AutoScalingClientTypes {
             scalingAdjustment: Swift.Int? = nil,
             stepAdjustments: [AutoScalingClientTypes.StepAdjustment]? = nil,
             targetTrackingConfiguration: AutoScalingClientTypes.TargetTrackingConfiguration? = nil
-        )
-        {
+        ) {
             self.adjustmentType = adjustmentType
             self.alarms = alarms
             self.autoScalingGroupName = autoScalingGroupName
@@ -4935,8 +5044,7 @@ public struct DescribePoliciesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         scalingPolicies: [AutoScalingClientTypes.ScalingPolicy]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.scalingPolicies = scalingPolicies
     }
@@ -4960,8 +5068,7 @@ public struct DescribeScalingActivitiesInput: Swift.Sendable {
         includeDeletedGroups: Swift.Bool? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.activityIds = activityIds
         self.autoScalingGroupName = autoScalingGroupName
         self.includeDeletedGroups = includeDeletedGroups
@@ -4980,8 +5087,7 @@ public struct DescribeScalingActivitiesOutput: Swift.Sendable {
     public init(
         activities: [AutoScalingClientTypes.Activity]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.activities = activities
         self.nextToken = nextToken
     }
@@ -5015,8 +5121,7 @@ extension AutoScalingClientTypes {
 
         public init(
             processName: Swift.String? = nil
-        )
-        {
+        ) {
             self.processName = processName
         }
     }
@@ -5028,8 +5133,7 @@ public struct DescribeScalingProcessTypesOutput: Swift.Sendable {
 
     public init(
         processes: [AutoScalingClientTypes.ProcessType]? = nil
-    )
-    {
+    ) {
         self.processes = processes
     }
 }
@@ -5055,8 +5159,7 @@ public struct DescribeScheduledActionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         scheduledActionNames: [Swift.String]? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.endTime = endTime
         self.maxRecords = maxRecords
@@ -5105,8 +5208,7 @@ extension AutoScalingClientTypes {
             startTime: Foundation.Date? = nil,
             time: Foundation.Date? = nil,
             timeZone: Swift.String? = nil
-        )
-        {
+        ) {
             self.autoScalingGroupName = autoScalingGroupName
             self.desiredCapacity = desiredCapacity
             self.endTime = endTime
@@ -5131,8 +5233,7 @@ public struct DescribeScheduledActionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         scheduledUpdateGroupActions: [AutoScalingClientTypes.ScheduledUpdateGroupAction]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.scheduledUpdateGroupActions = scheduledUpdateGroupActions
     }
@@ -5150,8 +5251,7 @@ public struct DescribeTagsInput: Swift.Sendable {
         filters: [AutoScalingClientTypes.Filter]? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxRecords = maxRecords
         self.nextToken = nextToken
@@ -5167,8 +5267,7 @@ public struct DescribeTagsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [AutoScalingClientTypes.TagDescription]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -5180,8 +5279,7 @@ public struct DescribeTerminationPolicyTypesOutput: Swift.Sendable {
 
     public init(
         terminationPolicyTypes: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.terminationPolicyTypes = terminationPolicyTypes
     }
 }
@@ -5208,8 +5306,7 @@ public struct DescribeTrafficSourcesInput: Swift.Sendable {
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         trafficSourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.maxRecords = maxRecords
         self.nextToken = nextToken
@@ -5255,8 +5352,7 @@ extension AutoScalingClientTypes {
             state: Swift.String? = nil,
             trafficSource: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.identifier = identifier
             self.state = state
             self.trafficSource = trafficSource
@@ -5274,8 +5370,7 @@ public struct DescribeTrafficSourcesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         trafficSources: [AutoScalingClientTypes.TrafficSourceState]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.trafficSources = trafficSources
     }
@@ -5294,8 +5389,7 @@ public struct DescribeWarmPoolInput: Swift.Sendable {
         autoScalingGroupName: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.maxRecords = maxRecords
         self.nextToken = nextToken
@@ -5314,8 +5408,7 @@ public struct DescribeWarmPoolOutput: Swift.Sendable {
         instances: [AutoScalingClientTypes.Instance]? = nil,
         nextToken: Swift.String? = nil,
         warmPoolConfiguration: AutoScalingClientTypes.WarmPoolConfiguration? = nil
-    )
-    {
+    ) {
         self.instances = instances
         self.nextToken = nextToken
         self.warmPoolConfiguration = warmPoolConfiguration
@@ -5336,8 +5429,7 @@ public struct DetachInstancesInput: Swift.Sendable {
         autoScalingGroupName: Swift.String? = nil,
         instanceIds: [Swift.String]? = nil,
         shouldDecrementDesiredCapacity: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.instanceIds = instanceIds
         self.shouldDecrementDesiredCapacity = shouldDecrementDesiredCapacity
@@ -5350,8 +5442,7 @@ public struct DetachInstancesOutput: Swift.Sendable {
 
     public init(
         activities: [AutoScalingClientTypes.Activity]? = nil
-    )
-    {
+    ) {
         self.activities = activities
     }
 }
@@ -5367,8 +5458,7 @@ public struct DetachLoadBalancersInput: Swift.Sendable {
     public init(
         autoScalingGroupName: Swift.String? = nil,
         loadBalancerNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.loadBalancerNames = loadBalancerNames
     }
@@ -5390,8 +5480,7 @@ public struct DetachLoadBalancerTargetGroupsInput: Swift.Sendable {
     public init(
         autoScalingGroupName: Swift.String? = nil,
         targetGroupARNs: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.targetGroupARNs = targetGroupARNs
     }
@@ -5413,8 +5502,7 @@ public struct DetachTrafficSourcesInput: Swift.Sendable {
     public init(
         autoScalingGroupName: Swift.String? = nil,
         trafficSources: [AutoScalingClientTypes.TrafficSourceIdentifier]? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.trafficSources = trafficSources
     }
@@ -5478,8 +5566,7 @@ public struct DisableMetricsCollectionInput: Swift.Sendable {
     public init(
         autoScalingGroupName: Swift.String? = nil,
         metrics: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.metrics = metrics
     }
@@ -5542,8 +5629,7 @@ public struct EnableMetricsCollectionInput: Swift.Sendable {
         autoScalingGroupName: Swift.String? = nil,
         granularity: Swift.String? = nil,
         metrics: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.granularity = granularity
         self.metrics = metrics
@@ -5564,8 +5650,7 @@ public struct EnterStandbyInput: Swift.Sendable {
         autoScalingGroupName: Swift.String? = nil,
         instanceIds: [Swift.String]? = nil,
         shouldDecrementDesiredCapacity: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.instanceIds = instanceIds
         self.shouldDecrementDesiredCapacity = shouldDecrementDesiredCapacity
@@ -5578,8 +5663,7 @@ public struct EnterStandbyOutput: Swift.Sendable {
 
     public init(
         activities: [AutoScalingClientTypes.Activity]? = nil
-    )
-    {
+    ) {
         self.activities = activities
     }
 }
@@ -5603,8 +5687,7 @@ public struct ExecutePolicyInput: Swift.Sendable {
         honorCooldown: Swift.Bool? = nil,
         metricValue: Swift.Double? = nil,
         policyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.breachThreshold = breachThreshold
         self.honorCooldown = honorCooldown
@@ -5623,8 +5706,7 @@ public struct ExitStandbyInput: Swift.Sendable {
     public init(
         autoScalingGroupName: Swift.String? = nil,
         instanceIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.instanceIds = instanceIds
     }
@@ -5636,8 +5718,7 @@ public struct ExitStandbyOutput: Swift.Sendable {
 
     public init(
         activities: [AutoScalingClientTypes.Activity]? = nil
-    )
-    {
+    ) {
         self.activities = activities
     }
 }
@@ -5661,8 +5742,7 @@ public struct GetPredictiveScalingForecastInput: Swift.Sendable {
         endTime: Foundation.Date? = nil,
         policyName: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.endTime = endTime
         self.policyName = policyName
@@ -5684,8 +5764,7 @@ extension AutoScalingClientTypes {
         public init(
             timestamps: [Foundation.Date]? = nil,
             values: [Swift.Double]? = nil
-        )
-        {
+        ) {
             self.timestamps = timestamps
             self.values = values
         }
@@ -5710,8 +5789,7 @@ extension AutoScalingClientTypes {
             metricSpecification: AutoScalingClientTypes.PredictiveScalingMetricSpecification? = nil,
             timestamps: [Foundation.Date]? = nil,
             values: [Swift.Double]? = nil
-        )
-        {
+        ) {
             self.metricSpecification = metricSpecification
             self.timestamps = timestamps
             self.values = values
@@ -5734,8 +5812,7 @@ public struct GetPredictiveScalingForecastOutput: Swift.Sendable {
         capacityForecast: AutoScalingClientTypes.CapacityForecast? = nil,
         loadForecast: [AutoScalingClientTypes.LoadForecast]? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.capacityForecast = capacityForecast
         self.loadForecast = loadForecast
         self.updateTime = updateTime
@@ -5778,8 +5855,7 @@ public struct PutLifecycleHookInput: Swift.Sendable {
         notificationMetadata: Swift.String? = nil,
         notificationTargetARN: Swift.String? = nil,
         roleARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.defaultResult = defaultResult
         self.heartbeatTimeout = heartbeatTimeout
@@ -5811,8 +5887,7 @@ public struct PutNotificationConfigurationInput: Swift.Sendable {
         autoScalingGroupName: Swift.String? = nil,
         notificationTypes: [Swift.String]? = nil,
         topicARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.notificationTypes = notificationTypes
         self.topicARN = topicARN
@@ -5886,8 +5961,7 @@ public struct PutScalingPolicyInput: Swift.Sendable {
         scalingAdjustment: Swift.Int? = nil,
         stepAdjustments: [AutoScalingClientTypes.StepAdjustment]? = nil,
         targetTrackingConfiguration: AutoScalingClientTypes.TargetTrackingConfiguration? = nil
-    )
-    {
+    ) {
         self.adjustmentType = adjustmentType
         self.autoScalingGroupName = autoScalingGroupName
         self.cooldown = cooldown
@@ -5915,8 +5989,7 @@ public struct PutScalingPolicyOutput: Swift.Sendable {
     public init(
         alarms: [AutoScalingClientTypes.Alarm]? = nil,
         policyARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.alarms = alarms
         self.policyARN = policyARN
     }
@@ -5957,8 +6030,7 @@ public struct PutScheduledUpdateGroupActionInput: Swift.Sendable {
         startTime: Foundation.Date? = nil,
         time: Foundation.Date? = nil,
         timeZone: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.desiredCapacity = desiredCapacity
         self.endTime = endTime
@@ -5991,8 +6063,7 @@ public struct PutWarmPoolInput: Swift.Sendable {
         maxGroupPreparedCapacity: Swift.Int? = nil,
         minSize: Swift.Int? = nil,
         poolState: AutoScalingClientTypes.WarmPoolState? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.instanceReusePolicy = instanceReusePolicy
         self.maxGroupPreparedCapacity = maxGroupPreparedCapacity
@@ -6023,8 +6094,7 @@ public struct RecordLifecycleActionHeartbeatInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         lifecycleActionToken: Swift.String? = nil,
         lifecycleHookName: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.instanceId = instanceId
         self.lifecycleActionToken = lifecycleActionToken
@@ -6068,17 +6138,16 @@ public struct ResumeProcessesInput: Swift.Sendable {
     public init(
         autoScalingGroupName: Swift.String? = nil,
         scalingProcesses: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.scalingProcesses = scalingProcesses
     }
 }
 
 /// The request failed because a desired configuration was not found or an incompatible launch template (uses a Systems Manager parameter instead of an AMI ID) or launch template version ($Latest or $Default) is present on the Auto Scaling group.
-public struct IrreversibleInstanceRefreshFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IrreversibleInstanceRefreshFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6093,8 +6162,7 @@ public struct IrreversibleInstanceRefreshFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6106,8 +6174,7 @@ public struct RollbackInstanceRefreshInput: Swift.Sendable {
 
     public init(
         autoScalingGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
     }
 }
@@ -6118,8 +6185,7 @@ public struct RollbackInstanceRefreshOutput: Swift.Sendable {
 
     public init(
         instanceRefreshId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceRefreshId = instanceRefreshId
     }
 }
@@ -6138,8 +6204,7 @@ public struct SetDesiredCapacityInput: Swift.Sendable {
         autoScalingGroupName: Swift.String? = nil,
         desiredCapacity: Swift.Int? = nil,
         honorCooldown: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.desiredCapacity = desiredCapacity
         self.honorCooldown = honorCooldown
@@ -6160,8 +6225,7 @@ public struct SetInstanceHealthInput: Swift.Sendable {
         healthStatus: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         shouldRespectGracePeriod: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.healthStatus = healthStatus
         self.instanceId = instanceId
         self.shouldRespectGracePeriod = shouldRespectGracePeriod
@@ -6183,8 +6247,7 @@ public struct SetInstanceProtectionInput: Swift.Sendable {
         autoScalingGroupName: Swift.String? = nil,
         instanceIds: [Swift.String]? = nil,
         protectedFromScaleIn: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.instanceIds = instanceIds
         self.protectedFromScaleIn = protectedFromScaleIn
@@ -6197,9 +6260,9 @@ public struct SetInstanceProtectionOutput: Swift.Sendable {
 }
 
 /// The request failed because an active instance refresh already exists for the specified Auto Scaling group.
-public struct InstanceRefreshInProgressFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InstanceRefreshInProgressFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6214,8 +6277,7 @@ public struct InstanceRefreshInProgressFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6272,8 +6334,7 @@ public struct StartInstanceRefreshInput: Swift.Sendable {
         desiredConfiguration: AutoScalingClientTypes.DesiredConfiguration? = nil,
         preferences: AutoScalingClientTypes.RefreshPreferences? = nil,
         strategy: AutoScalingClientTypes.RefreshStrategy? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.desiredConfiguration = desiredConfiguration
         self.preferences = preferences
@@ -6287,8 +6348,7 @@ public struct StartInstanceRefreshOutput: Swift.Sendable {
 
     public init(
         instanceRefreshId: Swift.String? = nil
-    )
-    {
+    ) {
         self.instanceRefreshId = instanceRefreshId
     }
 }
@@ -6324,8 +6384,7 @@ public struct SuspendProcessesInput: Swift.Sendable {
     public init(
         autoScalingGroupName: Swift.String? = nil,
         scalingProcesses: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.scalingProcesses = scalingProcesses
     }
@@ -6342,8 +6401,7 @@ public struct TerminateInstanceInAutoScalingGroupInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         shouldDecrementDesiredCapacity: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.instanceId = instanceId
         self.shouldDecrementDesiredCapacity = shouldDecrementDesiredCapacity
     }
@@ -6355,8 +6413,7 @@ public struct TerminateInstanceInAutoScalingGroupOutput: Swift.Sendable {
 
     public init(
         activity: AutoScalingClientTypes.Activity? = nil
-    )
-    {
+    ) {
         self.activity = activity
     }
 }
@@ -6367,10 +6424,14 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
     public var autoScalingGroupName: Swift.String?
     /// The instance capacity distribution across Availability Zones.
     public var availabilityZoneDistribution: AutoScalingClientTypes.AvailabilityZoneDistribution?
+    /// The policy for Availability Zone impairment.
+    public var availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy?
     /// One or more Availability Zones for the group.
     public var availabilityZones: [Swift.String]?
     /// Enables or disables Capacity Rebalancing. For more information, see [Use Capacity Rebalancing to handle Amazon EC2 Spot Interruptions](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-capacity-rebalancing.html) in the Amazon EC2 Auto Scaling User Guide.
     public var capacityRebalance: Swift.Bool?
+    /// The capacity reservation specification for the Auto Scaling group.
+    public var capacityReservationSpecification: AutoScalingClientTypes.CapacityReservationSpecification?
     /// Reserved.
     public var context: Swift.String?
     /// Only needed if you use simple scaling policies. The amount of time, in seconds, between one scaling activity ending and another one starting due to simple scaling policies. For more information, see [Scaling cooldowns for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-scaling-cooldowns.html) in the Amazon EC2 Auto Scaling User Guide.
@@ -6405,6 +6466,8 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
     public var placementGroup: Swift.String?
     /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other Amazon Web Services on your behalf. For more information, see [Service-linked roles](https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-service-linked-role.html) in the Amazon EC2 Auto Scaling User Guide.
     public var serviceLinkedRoleARN: Swift.String?
+    /// If you enable zonal shift with cross-zone disabled load balancers, capacity could become imbalanced across Availability Zones. To skip the validation, specify true. For more information, see [Auto Scaling group zonal shift](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-zonal-shift.html) in the Amazon EC2 Auto Scaling User Guide.
+    public var skipZonalShiftValidation: Swift.Bool?
     /// A policy or a list of policies that are used to select the instances to terminate. The policies are executed in the order that you list them. For more information, see [Configure termination policies for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-termination-policies.html) in the Amazon EC2 Auto Scaling User Guide. Valid values: Default | AllocationStrategy | ClosestToNextInstanceHour | NewestInstance | OldestInstance | OldestLaunchConfiguration | OldestLaunchTemplate | arn:aws:lambda:region:account-id:function:my-function:my-alias
     public var terminationPolicies: [Swift.String]?
     /// A comma-separated list of subnet IDs for a virtual private cloud (VPC). If you specify VPCZoneIdentifier with AvailabilityZones, the subnets that you specify must reside in those Availability Zones.
@@ -6413,8 +6476,10 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
     public init(
         autoScalingGroupName: Swift.String? = nil,
         availabilityZoneDistribution: AutoScalingClientTypes.AvailabilityZoneDistribution? = nil,
+        availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy? = nil,
         availabilityZones: [Swift.String]? = nil,
         capacityRebalance: Swift.Bool? = nil,
+        capacityReservationSpecification: AutoScalingClientTypes.CapacityReservationSpecification? = nil,
         context: Swift.String? = nil,
         defaultCooldown: Swift.Int? = nil,
         defaultInstanceWarmup: Swift.Int? = nil,
@@ -6432,14 +6497,16 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
         newInstancesProtectedFromScaleIn: Swift.Bool? = nil,
         placementGroup: Swift.String? = nil,
         serviceLinkedRoleARN: Swift.String? = nil,
+        skipZonalShiftValidation: Swift.Bool? = nil,
         terminationPolicies: [Swift.String]? = nil,
         vpcZoneIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.availabilityZoneDistribution = availabilityZoneDistribution
+        self.availabilityZoneImpairmentPolicy = availabilityZoneImpairmentPolicy
         self.availabilityZones = availabilityZones
         self.capacityRebalance = capacityRebalance
+        self.capacityReservationSpecification = capacityReservationSpecification
         self.context = context
         self.defaultCooldown = defaultCooldown
         self.defaultInstanceWarmup = defaultInstanceWarmup
@@ -6457,6 +6524,7 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
         self.newInstancesProtectedFromScaleIn = newInstancesProtectedFromScaleIn
         self.placementGroup = placementGroup
         self.serviceLinkedRoleARN = serviceLinkedRoleARN
+        self.skipZonalShiftValidation = skipZonalShiftValidation
         self.terminationPolicies = terminationPolicies
         self.vpcZoneIdentifier = vpcZoneIdentifier
     }
@@ -6955,6 +7023,7 @@ extension AttachTrafficSourcesInput {
     static func write(value: AttachTrafficSourcesInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["AutoScalingGroupName"].write(value.autoScalingGroupName)
+        try writer["SkipZonalShiftValidation"].write(value.skipZonalShiftValidation)
         try writer["TrafficSources"].writeList(value.trafficSources, memberWritingClosure: AutoScalingClientTypes.TrafficSourceIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Action"].write("AttachTrafficSources")
         try writer["Version"].write("2011-01-01")
@@ -7013,8 +7082,10 @@ extension CreateAutoScalingGroupInput {
         guard let value else { return }
         try writer["AutoScalingGroupName"].write(value.autoScalingGroupName)
         try writer["AvailabilityZoneDistribution"].write(value.availabilityZoneDistribution, with: AutoScalingClientTypes.AvailabilityZoneDistribution.write(value:to:))
+        try writer["AvailabilityZoneImpairmentPolicy"].write(value.availabilityZoneImpairmentPolicy, with: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy.write(value:to:))
         try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["CapacityRebalance"].write(value.capacityRebalance)
+        try writer["CapacityReservationSpecification"].write(value.capacityReservationSpecification, with: AutoScalingClientTypes.CapacityReservationSpecification.write(value:to:))
         try writer["Context"].write(value.context)
         try writer["DefaultCooldown"].write(value.defaultCooldown)
         try writer["DefaultInstanceWarmup"].write(value.defaultInstanceWarmup)
@@ -7035,6 +7106,7 @@ extension CreateAutoScalingGroupInput {
         try writer["NewInstancesProtectedFromScaleIn"].write(value.newInstancesProtectedFromScaleIn)
         try writer["PlacementGroup"].write(value.placementGroup)
         try writer["ServiceLinkedRoleARN"].write(value.serviceLinkedRoleARN)
+        try writer["SkipZonalShiftValidation"].write(value.skipZonalShiftValidation)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: AutoScalingClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TargetGroupARNs"].writeList(value.targetGroupARNs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TerminationPolicies"].writeList(value.terminationPolicies, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -7730,8 +7802,10 @@ extension UpdateAutoScalingGroupInput {
         guard let value else { return }
         try writer["AutoScalingGroupName"].write(value.autoScalingGroupName)
         try writer["AvailabilityZoneDistribution"].write(value.availabilityZoneDistribution, with: AutoScalingClientTypes.AvailabilityZoneDistribution.write(value:to:))
+        try writer["AvailabilityZoneImpairmentPolicy"].write(value.availabilityZoneImpairmentPolicy, with: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy.write(value:to:))
         try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["CapacityRebalance"].write(value.capacityRebalance)
+        try writer["CapacityReservationSpecification"].write(value.capacityReservationSpecification, with: AutoScalingClientTypes.CapacityReservationSpecification.write(value:to:))
         try writer["Context"].write(value.context)
         try writer["DefaultCooldown"].write(value.defaultCooldown)
         try writer["DefaultInstanceWarmup"].write(value.defaultInstanceWarmup)
@@ -7749,6 +7823,7 @@ extension UpdateAutoScalingGroupInput {
         try writer["NewInstancesProtectedFromScaleIn"].write(value.newInstancesProtectedFromScaleIn)
         try writer["PlacementGroup"].write(value.placementGroup)
         try writer["ServiceLinkedRoleARN"].write(value.serviceLinkedRoleARN)
+        try writer["SkipZonalShiftValidation"].write(value.skipZonalShiftValidation)
         try writer["TerminationPolicies"].writeList(value.terminationPolicies, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VPCZoneIdentifier"].write(value.vpcZoneIdentifier)
         try writer["Action"].write("UpdateAutoScalingGroup")
@@ -9555,6 +9630,59 @@ extension AutoScalingClientTypes.AutoScalingGroup {
         value.trafficSources = try reader["TrafficSources"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.TrafficSourceIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.instanceMaintenancePolicy = try reader["InstanceMaintenancePolicy"].readIfPresent(with: AutoScalingClientTypes.InstanceMaintenancePolicy.read(from:))
         value.availabilityZoneDistribution = try reader["AvailabilityZoneDistribution"].readIfPresent(with: AutoScalingClientTypes.AvailabilityZoneDistribution.read(from:))
+        value.availabilityZoneImpairmentPolicy = try reader["AvailabilityZoneImpairmentPolicy"].readIfPresent(with: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy.read(from:))
+        value.capacityReservationSpecification = try reader["CapacityReservationSpecification"].readIfPresent(with: AutoScalingClientTypes.CapacityReservationSpecification.read(from:))
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.CapacityReservationSpecification {
+
+    static func write(value: AutoScalingClientTypes.CapacityReservationSpecification?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["CapacityReservationPreference"].write(value.capacityReservationPreference)
+        try writer["CapacityReservationTarget"].write(value.capacityReservationTarget, with: AutoScalingClientTypes.CapacityReservationTarget.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.CapacityReservationSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.CapacityReservationSpecification()
+        value.capacityReservationPreference = try reader["CapacityReservationPreference"].readIfPresent()
+        value.capacityReservationTarget = try reader["CapacityReservationTarget"].readIfPresent(with: AutoScalingClientTypes.CapacityReservationTarget.read(from:))
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.CapacityReservationTarget {
+
+    static func write(value: AutoScalingClientTypes.CapacityReservationTarget?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["CapacityReservationIds"].writeList(value.capacityReservationIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CapacityReservationResourceGroupArns"].writeList(value.capacityReservationResourceGroupArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.CapacityReservationTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.CapacityReservationTarget()
+        value.capacityReservationIds = try reader["CapacityReservationIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.capacityReservationResourceGroupArns = try reader["CapacityReservationResourceGroupArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy {
+
+    static func write(value: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ImpairedZoneHealthCheckBehavior"].write(value.impairedZoneHealthCheckBehavior)
+        try writer["ZonalShiftEnabled"].write(value.zonalShiftEnabled)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy()
+        value.zonalShiftEnabled = try reader["ZonalShiftEnabled"].readIfPresent()
+        value.impairedZoneHealthCheckBehavior = try reader["ImpairedZoneHealthCheckBehavior"].readIfPresent()
         return value
     }
 }
@@ -9802,6 +9930,7 @@ extension AutoScalingClientTypes.InstanceRequirements {
         try writer["AllowedInstanceTypes"].writeList(value.allowedInstanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["BareMetal"].write(value.bareMetal)
         try writer["BaselineEbsBandwidthMbps"].write(value.baselineEbsBandwidthMbps, with: AutoScalingClientTypes.BaselineEbsBandwidthMbpsRequest.write(value:to:))
+        try writer["BaselinePerformanceFactors"].write(value.baselinePerformanceFactors, with: AutoScalingClientTypes.BaselinePerformanceFactorsRequest.write(value:to:))
         try writer["BurstablePerformance"].write(value.burstablePerformance)
         try writer["CpuManufacturers"].writeList(value.cpuManufacturers, memberWritingClosure: SmithyReadWrite.WritingClosureBox<AutoScalingClientTypes.CpuManufacturer>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ExcludedInstanceTypes"].writeList(value.excludedInstanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -9847,6 +9976,52 @@ extension AutoScalingClientTypes.InstanceRequirements {
         value.acceleratorTotalMemoryMiB = try reader["AcceleratorTotalMemoryMiB"].readIfPresent(with: AutoScalingClientTypes.AcceleratorTotalMemoryMiBRequest.read(from:))
         value.networkBandwidthGbps = try reader["NetworkBandwidthGbps"].readIfPresent(with: AutoScalingClientTypes.NetworkBandwidthGbpsRequest.read(from:))
         value.allowedInstanceTypes = try reader["AllowedInstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.baselinePerformanceFactors = try reader["BaselinePerformanceFactors"].readIfPresent(with: AutoScalingClientTypes.BaselinePerformanceFactorsRequest.read(from:))
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.BaselinePerformanceFactorsRequest {
+
+    static func write(value: AutoScalingClientTypes.BaselinePerformanceFactorsRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Cpu"].write(value.cpu, with: AutoScalingClientTypes.CpuPerformanceFactorRequest.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.BaselinePerformanceFactorsRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.BaselinePerformanceFactorsRequest()
+        value.cpu = try reader["Cpu"].readIfPresent(with: AutoScalingClientTypes.CpuPerformanceFactorRequest.read(from:))
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.CpuPerformanceFactorRequest {
+
+    static func write(value: AutoScalingClientTypes.CpuPerformanceFactorRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Reference"].writeList(value.references, memberWritingClosure: AutoScalingClientTypes.PerformanceFactorReferenceRequest.write(value:to:), memberNodeInfo: "item", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.CpuPerformanceFactorRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.CpuPerformanceFactorRequest()
+        value.references = try reader["Reference"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.PerformanceFactorReferenceRequest.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.PerformanceFactorReferenceRequest {
+
+    static func write(value: AutoScalingClientTypes.PerformanceFactorReferenceRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["InstanceFamily"].write(value.instanceFamily)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.PerformanceFactorReferenceRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.PerformanceFactorReferenceRequest()
+        value.instanceFamily = try reader["InstanceFamily"].readIfPresent()
         return value
     }
 }
@@ -10619,6 +10794,7 @@ extension AutoScalingClientTypes.CustomizedMetricSpecification {
         try writer["MetricName"].write(value.metricName)
         try writer["Metrics"].writeList(value.metrics, memberWritingClosure: AutoScalingClientTypes.TargetTrackingMetricDataQuery.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Namespace"].write(value.namespace)
+        try writer["Period"].write(value.period)
         try writer["Statistic"].write(value.statistic)
         try writer["Unit"].write(value.unit)
     }
@@ -10631,6 +10807,7 @@ extension AutoScalingClientTypes.CustomizedMetricSpecification {
         value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.MetricDimension.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.statistic = try reader["Statistic"].readIfPresent()
         value.unit = try reader["Unit"].readIfPresent()
+        value.period = try reader["Period"].readIfPresent()
         value.metrics = try reader["Metrics"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.TargetTrackingMetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -10644,6 +10821,7 @@ extension AutoScalingClientTypes.TargetTrackingMetricDataQuery {
         try writer["Id"].write(value.id)
         try writer["Label"].write(value.label)
         try writer["MetricStat"].write(value.metricStat, with: AutoScalingClientTypes.TargetTrackingMetricStat.write(value:to:))
+        try writer["Period"].write(value.period)
         try writer["ReturnData"].write(value.returnData)
     }
 
@@ -10654,6 +10832,7 @@ extension AutoScalingClientTypes.TargetTrackingMetricDataQuery {
         value.expression = try reader["Expression"].readIfPresent()
         value.metricStat = try reader["MetricStat"].readIfPresent(with: AutoScalingClientTypes.TargetTrackingMetricStat.read(from:))
         value.label = try reader["Label"].readIfPresent()
+        value.period = try reader["Period"].readIfPresent()
         value.returnData = try reader["ReturnData"].readIfPresent()
         return value
     }
@@ -10664,6 +10843,7 @@ extension AutoScalingClientTypes.TargetTrackingMetricStat {
     static func write(value: AutoScalingClientTypes.TargetTrackingMetricStat?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["Metric"].write(value.metric, with: AutoScalingClientTypes.Metric.write(value:to:))
+        try writer["Period"].write(value.period)
         try writer["Stat"].write(value.stat)
         try writer["Unit"].write(value.unit)
     }
@@ -10674,6 +10854,7 @@ extension AutoScalingClientTypes.TargetTrackingMetricStat {
         value.metric = try reader["Metric"].readIfPresent(with: AutoScalingClientTypes.Metric.read(from:))
         value.stat = try reader["Stat"].readIfPresent() ?? ""
         value.unit = try reader["Unit"].readIfPresent()
+        value.period = try reader["Period"].readIfPresent()
         return value
     }
 }

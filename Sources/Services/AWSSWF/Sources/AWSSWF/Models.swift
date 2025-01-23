@@ -141,8 +141,7 @@ extension SWFClientTypes {
         public init(
             name: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.version = version
         }
@@ -163,8 +162,7 @@ extension SWFClientTypes {
         public init(
             runId: Swift.String? = nil,
             workflowId: Swift.String? = nil
-        )
-        {
+        ) {
             self.runId = runId
             self.workflowId = workflowId
         }
@@ -191,8 +189,7 @@ extension SWFClientTypes {
             latestCancelRequestedEventId: Swift.Int = 0,
             scheduledEventId: Swift.Int = 0,
             startedEventId: Swift.Int = 0
-        )
-        {
+        ) {
             self.details = details
             self.latestCancelRequestedEventId = latestCancelRequestedEventId
             self.scheduledEventId = scheduledEventId
@@ -215,8 +212,7 @@ extension SWFClientTypes {
         public init(
             activityId: Swift.String? = nil,
             decisionTaskCompletedEventId: Swift.Int = 0
-        )
-        {
+        ) {
             self.activityId = activityId
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
         }
@@ -240,8 +236,7 @@ extension SWFClientTypes {
             result: Swift.String? = nil,
             scheduledEventId: Swift.Int = 0,
             startedEventId: Swift.Int = 0
-        )
-        {
+        ) {
             self.result = result
             self.scheduledEventId = scheduledEventId
             self.startedEventId = startedEventId
@@ -269,8 +264,7 @@ extension SWFClientTypes {
             reason: Swift.String? = nil,
             scheduledEventId: Swift.Int = 0,
             startedEventId: Swift.Int = 0
-        )
-        {
+        ) {
             self.details = details
             self.reason = reason
             self.scheduledEventId = scheduledEventId
@@ -289,8 +283,7 @@ extension SWFClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -339,8 +332,7 @@ extension SWFClientTypes {
             startToCloseTimeout: Swift.String? = nil,
             taskList: SWFClientTypes.TaskList? = nil,
             taskPriority: Swift.String? = nil
-        )
-        {
+        ) {
             self.activityId = activityId
             self.activityType = activityType
             self.control = control
@@ -369,8 +361,7 @@ extension SWFClientTypes {
         public init(
             identity: Swift.String? = nil,
             scheduledEventId: Swift.Int = 0
-        )
-        {
+        ) {
             self.identity = identity
             self.scheduledEventId = scheduledEventId
         }
@@ -433,8 +424,7 @@ extension SWFClientTypes {
             scheduledEventId: Swift.Int = 0,
             startedEventId: Swift.Int = 0,
             timeoutType: SWFClientTypes.ActivityTaskTimeoutType? = nil
-        )
-        {
+        ) {
             self.details = details
             self.scheduledEventId = scheduledEventId
             self.startedEventId = startedEventId
@@ -467,8 +457,7 @@ extension SWFClientTypes {
             defaultTaskScheduleToCloseTimeout: Swift.String? = nil,
             defaultTaskScheduleToStartTimeout: Swift.String? = nil,
             defaultTaskStartToCloseTimeout: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultTaskHeartbeatTimeout = defaultTaskHeartbeatTimeout
             self.defaultTaskList = defaultTaskList
             self.defaultTaskPriority = defaultTaskPriority
@@ -532,8 +521,7 @@ extension SWFClientTypes {
             deprecationDate: Foundation.Date? = nil,
             description: Swift.String? = nil,
             status: SWFClientTypes.RegistrationStatus? = nil
-        )
-        {
+        ) {
             self.activityType = activityType
             self.creationDate = creationDate
             self.deprecationDate = deprecationDate
@@ -562,8 +550,7 @@ extension SWFClientTypes {
 
         public init(
             timerId: Swift.String? = nil
-        )
-        {
+        ) {
             self.timerId = timerId
         }
     }
@@ -616,8 +603,7 @@ extension SWFClientTypes {
             cause: SWFClientTypes.CancelTimerFailedCause? = nil,
             decisionTaskCompletedEventId: Swift.Int = 0,
             timerId: Swift.String? = nil
-        )
-        {
+        ) {
             self.cause = cause
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
             self.timerId = timerId
@@ -643,8 +629,7 @@ extension SWFClientTypes {
 
         public init(
             details: Swift.String? = nil
-        )
-        {
+        ) {
             self.details = details
         }
     }
@@ -693,8 +678,7 @@ extension SWFClientTypes {
         public init(
             cause: SWFClientTypes.CancelWorkflowExecutionFailedCause? = nil,
             decisionTaskCompletedEventId: Swift.Int = 0
-        )
-        {
+        ) {
             self.cause = cause
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
         }
@@ -747,8 +731,7 @@ extension SWFClientTypes {
         public init(
             name: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.version = version
         }
@@ -780,8 +763,7 @@ extension SWFClientTypes {
             startedEventId: Swift.Int = 0,
             workflowExecution: SWFClientTypes.WorkflowExecution? = nil,
             workflowType: SWFClientTypes.WorkflowType? = nil
-        )
-        {
+        ) {
             self.details = details
             self.initiatedEventId = initiatedEventId
             self.startedEventId = startedEventId
@@ -816,8 +798,7 @@ extension SWFClientTypes {
             startedEventId: Swift.Int = 0,
             workflowExecution: SWFClientTypes.WorkflowExecution? = nil,
             workflowType: SWFClientTypes.WorkflowType? = nil
-        )
-        {
+        ) {
             self.initiatedEventId = initiatedEventId
             self.result = result
             self.startedEventId = startedEventId
@@ -855,8 +836,7 @@ extension SWFClientTypes {
             startedEventId: Swift.Int = 0,
             workflowExecution: SWFClientTypes.WorkflowExecution? = nil,
             workflowType: SWFClientTypes.WorkflowType? = nil
-        )
-        {
+        ) {
             self.details = details
             self.initiatedEventId = initiatedEventId
             self.reason = reason
@@ -885,8 +865,7 @@ extension SWFClientTypes {
             initiatedEventId: Swift.Int = 0,
             workflowExecution: SWFClientTypes.WorkflowExecution? = nil,
             workflowType: SWFClientTypes.WorkflowType? = nil
-        )
-        {
+        ) {
             self.initiatedEventId = initiatedEventId
             self.workflowExecution = workflowExecution
             self.workflowType = workflowType
@@ -916,8 +895,7 @@ extension SWFClientTypes {
             startedEventId: Swift.Int = 0,
             workflowExecution: SWFClientTypes.WorkflowExecution? = nil,
             workflowType: SWFClientTypes.WorkflowType? = nil
-        )
-        {
+        ) {
             self.initiatedEventId = initiatedEventId
             self.startedEventId = startedEventId
             self.workflowExecution = workflowExecution
@@ -978,8 +956,7 @@ extension SWFClientTypes {
             timeoutType: SWFClientTypes.WorkflowExecutionTimeoutType? = nil,
             workflowExecution: SWFClientTypes.WorkflowExecution? = nil,
             workflowType: SWFClientTypes.WorkflowType? = nil
-        )
-        {
+        ) {
             self.initiatedEventId = initiatedEventId
             self.startedEventId = startedEventId
             self.timeoutType = timeoutType
@@ -1040,8 +1017,7 @@ extension SWFClientTypes {
 
         public init(
             status: SWFClientTypes.CloseStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -1065,8 +1041,7 @@ extension SWFClientTypes {
 
         public init(
             result: Swift.String? = nil
-        )
-        {
+        ) {
             self.result = result
         }
     }
@@ -1115,8 +1090,7 @@ extension SWFClientTypes {
         public init(
             cause: SWFClientTypes.CompleteWorkflowExecutionFailedCause? = nil,
             decisionTaskCompletedEventId: Swift.Int = 0
-        )
-        {
+        ) {
             self.cause = cause
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
         }
@@ -1183,8 +1157,7 @@ extension SWFClientTypes {
             taskPriority: Swift.String? = nil,
             taskStartToCloseTimeout: Swift.String? = nil,
             workflowTypeVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.childPolicy = childPolicy
             self.executionStartToCloseTimeout = executionStartToCloseTimeout
             self.input = input
@@ -1262,8 +1235,7 @@ extension SWFClientTypes {
         public init(
             cause: SWFClientTypes.ContinueAsNewWorkflowExecutionFailedCause? = nil,
             decisionTaskCompletedEventId: Swift.Int = 0
-        )
-        {
+        ) {
             self.cause = cause
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
         }
@@ -1271,9 +1243,9 @@ extension SWFClientTypes {
 }
 
 /// Returned when the caller doesn't have sufficient permissions to invoke the action.
-public struct OperationNotPermittedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OperationNotPermittedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description that may help with diagnosing the cause of the fault.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1289,16 +1261,15 @@ public struct OperationNotPermittedFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-public struct UnknownResourceFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnknownResourceFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description that may help with diagnosing the cause of the fault.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1314,8 +1285,7 @@ public struct UnknownResourceFault: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1333,8 +1303,7 @@ extension SWFClientTypes {
         public init(
             latestDate: Foundation.Date? = nil,
             oldestDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.latestDate = latestDate
             self.oldestDate = oldestDate
         }
@@ -1351,8 +1320,7 @@ extension SWFClientTypes {
 
         public init(
             workflowId: Swift.String? = nil
-        )
-        {
+        ) {
             self.workflowId = workflowId
         }
     }
@@ -1368,8 +1336,7 @@ extension SWFClientTypes {
 
         public init(
             tag: Swift.String? = nil
-        )
-        {
+        ) {
             self.tag = tag
         }
     }
@@ -1388,8 +1355,7 @@ extension SWFClientTypes {
         public init(
             name: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.version = version
         }
@@ -1421,8 +1387,7 @@ public struct CountClosedWorkflowExecutionsInput: Swift.Sendable {
         startTimeFilter: SWFClientTypes.ExecutionTimeFilter? = nil,
         tagFilter: SWFClientTypes.TagFilter? = nil,
         typeFilter: SWFClientTypes.WorkflowTypeFilter? = nil
-    )
-    {
+    ) {
         self.closeStatusFilter = closeStatusFilter
         self.closeTimeFilter = closeTimeFilter
         self.domain = domain
@@ -1444,8 +1409,7 @@ public struct CountClosedWorkflowExecutionsOutput: Swift.Sendable {
     public init(
         count: Swift.Int = 0,
         truncated: Swift.Bool = false
-    )
-    {
+    ) {
         self.count = count
         self.truncated = truncated
     }
@@ -1471,8 +1435,7 @@ public struct CountOpenWorkflowExecutionsInput: Swift.Sendable {
         startTimeFilter: SWFClientTypes.ExecutionTimeFilter? = nil,
         tagFilter: SWFClientTypes.TagFilter? = nil,
         typeFilter: SWFClientTypes.WorkflowTypeFilter? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.executionFilter = executionFilter
         self.startTimeFilter = startTimeFilter
@@ -1492,8 +1455,7 @@ public struct CountOpenWorkflowExecutionsOutput: Swift.Sendable {
     public init(
         count: Swift.Int = 0,
         truncated: Swift.Bool = false
-    )
-    {
+    ) {
         self.count = count
         self.truncated = truncated
     }
@@ -1510,8 +1472,7 @@ public struct CountPendingActivityTasksInput: Swift.Sendable {
     public init(
         domain: Swift.String? = nil,
         taskList: SWFClientTypes.TaskList? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.taskList = taskList
     }
@@ -1528,8 +1489,7 @@ public struct CountPendingActivityTasksOutput: Swift.Sendable {
     public init(
         count: Swift.Int = 0,
         truncated: Swift.Bool = false
-    )
-    {
+    ) {
         self.count = count
         self.truncated = truncated
     }
@@ -1546,8 +1506,7 @@ public struct CountPendingDecisionTasksInput: Swift.Sendable {
     public init(
         domain: Swift.String? = nil,
         taskList: SWFClientTypes.TaskList? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.taskList = taskList
     }
@@ -1564,8 +1523,7 @@ public struct CountPendingDecisionTasksOutput: Swift.Sendable {
     public init(
         count: Swift.Int = 0,
         truncated: Swift.Bool = false
-    )
-    {
+    ) {
         self.count = count
         self.truncated = truncated
     }
@@ -1654,8 +1612,7 @@ extension SWFClientTypes {
         public init(
             details: Swift.String? = nil,
             reason: Swift.String? = nil
-        )
-        {
+        ) {
             self.details = details
             self.reason = reason
         }
@@ -1684,8 +1641,7 @@ extension SWFClientTypes {
         public init(
             details: Swift.String? = nil,
             markerName: Swift.String? = nil
-        )
-        {
+        ) {
             self.details = details
             self.markerName = markerName
         }
@@ -1711,8 +1667,7 @@ extension SWFClientTypes {
 
         public init(
             activityId: Swift.String? = nil
-        )
-        {
+        ) {
             self.activityId = activityId
         }
     }
@@ -1743,8 +1698,7 @@ extension SWFClientTypes {
             control: Swift.String? = nil,
             runId: Swift.String? = nil,
             workflowId: Swift.String? = nil
-        )
-        {
+        ) {
             self.control = control
             self.runId = runId
             self.workflowId = workflowId
@@ -1808,8 +1762,7 @@ extension SWFClientTypes {
             startToCloseTimeout: Swift.String? = nil,
             taskList: SWFClientTypes.TaskList? = nil,
             taskPriority: Swift.String? = nil
-        )
-        {
+        ) {
             self.activityId = activityId
             self.activityType = activityType
             self.control = control
@@ -1847,8 +1800,7 @@ extension SWFClientTypes {
             input: Swift.String? = nil,
             name: Swift.String? = nil,
             startToCloseTimeout: Swift.String? = nil
-        )
-        {
+        ) {
             self.control = control
             self.id = id
             self.input = input
@@ -1890,8 +1842,7 @@ extension SWFClientTypes {
             runId: Swift.String? = nil,
             signalName: Swift.String? = nil,
             workflowId: Swift.String? = nil
-        )
-        {
+        ) {
             self.control = control
             self.input = input
             self.runId = runId
@@ -1971,8 +1922,7 @@ extension SWFClientTypes {
             taskStartToCloseTimeout: Swift.String? = nil,
             workflowId: Swift.String? = nil,
             workflowType: SWFClientTypes.WorkflowType? = nil
-        )
-        {
+        ) {
             self.childPolicy = childPolicy
             self.control = control
             self.executionStartToCloseTimeout = executionStartToCloseTimeout
@@ -2014,8 +1964,7 @@ extension SWFClientTypes {
             control: Swift.String? = nil,
             startToFireTimeout: Swift.String? = nil,
             timerId: Swift.String? = nil
-        )
-        {
+        ) {
             self.control = control
             self.startToFireTimeout = startToFireTimeout
             self.timerId = timerId
@@ -2157,8 +2106,7 @@ extension SWFClientTypes {
             signalExternalWorkflowExecutionDecisionAttributes: SWFClientTypes.SignalExternalWorkflowExecutionDecisionAttributes? = nil,
             startChildWorkflowExecutionDecisionAttributes: SWFClientTypes.StartChildWorkflowExecutionDecisionAttributes? = nil,
             startTimerDecisionAttributes: SWFClientTypes.StartTimerDecisionAttributes? = nil
-        )
-        {
+        ) {
             self.cancelTimerDecisionAttributes = cancelTimerDecisionAttributes
             self.cancelWorkflowExecutionDecisionAttributes = cancelWorkflowExecutionDecisionAttributes
             self.completeWorkflowExecutionDecisionAttributes = completeWorkflowExecutionDecisionAttributes
@@ -2200,8 +2148,7 @@ extension SWFClientTypes {
             startedEventId: Swift.Int = 0,
             taskList: SWFClientTypes.TaskList? = nil,
             taskListScheduleToStartTimeout: Swift.String? = nil
-        )
-        {
+        ) {
             self.executionContext = executionContext
             self.scheduledEventId = scheduledEventId
             self.startedEventId = startedEventId
@@ -2230,8 +2177,7 @@ extension SWFClientTypes {
             startToCloseTimeout: Swift.String? = nil,
             taskList: SWFClientTypes.TaskList? = nil,
             taskPriority: Swift.String? = nil
-        )
-        {
+        ) {
             self.scheduleToStartTimeout = scheduleToStartTimeout
             self.startToCloseTimeout = startToCloseTimeout
             self.taskList = taskList
@@ -2253,8 +2199,7 @@ extension SWFClientTypes {
         public init(
             identity: Swift.String? = nil,
             scheduledEventId: Swift.Int = 0
-        )
-        {
+        ) {
             self.identity = identity
             self.scheduledEventId = scheduledEventId
         }
@@ -2308,8 +2253,7 @@ extension SWFClientTypes {
             scheduledEventId: Swift.Int = 0,
             startedEventId: Swift.Int = 0,
             timeoutType: SWFClientTypes.DecisionTaskTimeoutType? = nil
-        )
-        {
+        ) {
             self.scheduledEventId = scheduledEventId
             self.startedEventId = startedEventId
             self.timeoutType = timeoutType
@@ -2516,8 +2460,7 @@ extension SWFClientTypes {
         public init(
             initiatedEventId: Swift.Int = 0,
             workflowExecution: SWFClientTypes.WorkflowExecution? = nil
-        )
-        {
+        ) {
             self.initiatedEventId = initiatedEventId
             self.workflowExecution = workflowExecution
         }
@@ -2538,8 +2481,7 @@ extension SWFClientTypes {
         public init(
             initiatedEventId: Swift.Int = 0,
             workflowExecution: SWFClientTypes.WorkflowExecution? = nil
-        )
-        {
+        ) {
             self.initiatedEventId = initiatedEventId
             self.workflowExecution = workflowExecution
         }
@@ -2589,8 +2531,7 @@ extension SWFClientTypes {
         public init(
             cause: SWFClientTypes.FailWorkflowExecutionFailedCause? = nil,
             decisionTaskCompletedEventId: Swift.Int = 0
-        )
-        {
+        ) {
             self.cause = cause
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
         }
@@ -2614,8 +2555,7 @@ extension SWFClientTypes {
             result: Swift.String? = nil,
             scheduledEventId: Swift.Int = 0,
             startedEventId: Swift.Int = 0
-        )
-        {
+        ) {
             self.result = result
             self.scheduledEventId = scheduledEventId
             self.startedEventId = startedEventId
@@ -2643,8 +2583,7 @@ extension SWFClientTypes {
             reason: Swift.String? = nil,
             scheduledEventId: Swift.Int = 0,
             startedEventId: Swift.Int = 0
-        )
-        {
+        ) {
             self.details = details
             self.reason = reason
             self.scheduledEventId = scheduledEventId
@@ -2680,8 +2619,7 @@ extension SWFClientTypes {
             input: Swift.String? = nil,
             name: Swift.String? = nil,
             startToCloseTimeout: Swift.String? = nil
-        )
-        {
+        ) {
             self.control = control
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
             self.id = id
@@ -2702,8 +2640,7 @@ extension SWFClientTypes {
 
         public init(
             scheduledEventId: Swift.Int = 0
-        )
-        {
+        ) {
             self.scheduledEventId = scheduledEventId
         }
     }
@@ -2752,8 +2689,7 @@ extension SWFClientTypes {
             scheduledEventId: Swift.Int = 0,
             startedEventId: Swift.Int = 0,
             timeoutType: SWFClientTypes.LambdaFunctionTimeoutType? = nil
-        )
-        {
+        ) {
             self.scheduledEventId = scheduledEventId
             self.startedEventId = startedEventId
             self.timeoutType = timeoutType
@@ -2778,8 +2714,7 @@ extension SWFClientTypes {
             decisionTaskCompletedEventId: Swift.Int = 0,
             details: Swift.String? = nil,
             markerName: Swift.String? = nil
-        )
-        {
+        ) {
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
             self.details = details
             self.markerName = markerName
@@ -2831,8 +2766,7 @@ extension SWFClientTypes {
             cause: SWFClientTypes.RecordMarkerFailedCause? = nil,
             decisionTaskCompletedEventId: Swift.Int = 0,
             markerName: Swift.String? = nil
-        )
-        {
+        ) {
             self.cause = cause
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
             self.markerName = markerName
@@ -2887,8 +2821,7 @@ extension SWFClientTypes {
             activityId: Swift.String? = nil,
             cause: SWFClientTypes.RequestCancelActivityTaskFailedCause? = nil,
             decisionTaskCompletedEventId: Swift.Int = 0
-        )
-        {
+        ) {
             self.activityId = activityId
             self.cause = cause
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
@@ -2956,8 +2889,7 @@ extension SWFClientTypes {
             initiatedEventId: Swift.Int = 0,
             runId: Swift.String? = nil,
             workflowId: Swift.String? = nil
-        )
-        {
+        ) {
             self.cause = cause
             self.control = control
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
@@ -2988,8 +2920,7 @@ extension SWFClientTypes {
             decisionTaskCompletedEventId: Swift.Int = 0,
             runId: Swift.String? = nil,
             workflowId: Swift.String? = nil
-        )
-        {
+        ) {
             self.control = control
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
             self.runId = runId
@@ -3076,8 +3007,7 @@ extension SWFClientTypes {
             activityType: SWFClientTypes.ActivityType? = nil,
             cause: SWFClientTypes.ScheduleActivityTaskFailedCause? = nil,
             decisionTaskCompletedEventId: Swift.Int = 0
-        )
-        {
+        ) {
             self.activityId = activityId
             self.activityType = activityType
             self.cause = cause
@@ -3143,8 +3073,7 @@ extension SWFClientTypes {
             decisionTaskCompletedEventId: Swift.Int = 0,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.cause = cause
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
             self.id = id
@@ -3213,8 +3142,7 @@ extension SWFClientTypes {
             initiatedEventId: Swift.Int = 0,
             runId: Swift.String? = nil,
             workflowId: Swift.String? = nil
-        )
-        {
+        ) {
             self.cause = cause
             self.control = control
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
@@ -3252,8 +3180,7 @@ extension SWFClientTypes {
             runId: Swift.String? = nil,
             signalName: Swift.String? = nil,
             workflowId: Swift.String? = nil
-        )
-        {
+        ) {
             self.control = control
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
             self.input = input
@@ -3349,8 +3276,7 @@ extension SWFClientTypes {
             initiatedEventId: Swift.Int = 0,
             workflowId: Swift.String? = nil,
             workflowType: SWFClientTypes.WorkflowType? = nil
-        )
-        {
+        ) {
             self.cause = cause
             self.control = control
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
@@ -3414,8 +3340,7 @@ extension SWFClientTypes {
             taskStartToCloseTimeout: Swift.String? = nil,
             workflowId: Swift.String? = nil,
             workflowType: SWFClientTypes.WorkflowType? = nil
-        )
-        {
+        ) {
             self.childPolicy = childPolicy
             self.control = control
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
@@ -3473,8 +3398,7 @@ extension SWFClientTypes {
             cause: SWFClientTypes.StartLambdaFunctionFailedCause? = nil,
             message: Swift.String? = nil,
             scheduledEventId: Swift.Int = 0
-        )
-        {
+        ) {
             self.cause = cause
             self.message = message
             self.scheduledEventId = scheduledEventId
@@ -3535,8 +3459,7 @@ extension SWFClientTypes {
             cause: SWFClientTypes.StartTimerFailedCause? = nil,
             decisionTaskCompletedEventId: Swift.Int = 0,
             timerId: Swift.String? = nil
-        )
-        {
+        ) {
             self.cause = cause
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
             self.timerId = timerId
@@ -3562,8 +3485,7 @@ extension SWFClientTypes {
             decisionTaskCompletedEventId: Swift.Int = 0,
             startedEventId: Swift.Int = 0,
             timerId: Swift.String? = nil
-        )
-        {
+        ) {
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
             self.startedEventId = startedEventId
             self.timerId = timerId
@@ -3585,8 +3507,7 @@ extension SWFClientTypes {
         public init(
             startedEventId: Swift.Int = 0,
             timerId: Swift.String? = nil
-        )
-        {
+        ) {
             self.startedEventId = startedEventId
             self.timerId = timerId
         }
@@ -3614,8 +3535,7 @@ extension SWFClientTypes {
             decisionTaskCompletedEventId: Swift.Int = 0,
             startToFireTimeout: Swift.String? = nil,
             timerId: Swift.String? = nil
-        )
-        {
+        ) {
             self.control = control
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
             self.startToFireTimeout = startToFireTimeout
@@ -3637,8 +3557,7 @@ extension SWFClientTypes {
         public init(
             decisionTaskCompletedEventId: Swift.Int = 0,
             details: Swift.String? = nil
-        )
-        {
+        ) {
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
             self.details = details
         }
@@ -3686,8 +3605,7 @@ extension SWFClientTypes {
             cause: SWFClientTypes.WorkflowExecutionCancelRequestedCause? = nil,
             externalInitiatedEventId: Swift.Int = 0,
             externalWorkflowExecution: SWFClientTypes.WorkflowExecution? = nil
-        )
-        {
+        ) {
             self.cause = cause
             self.externalInitiatedEventId = externalInitiatedEventId
             self.externalWorkflowExecution = externalWorkflowExecution
@@ -3708,8 +3626,7 @@ extension SWFClientTypes {
         public init(
             decisionTaskCompletedEventId: Swift.Int = 0,
             result: Swift.String? = nil
-        )
-        {
+        ) {
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
             self.result = result
         }
@@ -3766,8 +3683,7 @@ extension SWFClientTypes {
             taskPriority: Swift.String? = nil,
             taskStartToCloseTimeout: Swift.String? = nil,
             workflowType: SWFClientTypes.WorkflowType? = nil
-        )
-        {
+        ) {
             self.childPolicy = childPolicy
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
             self.executionStartToCloseTimeout = executionStartToCloseTimeout
@@ -3799,8 +3715,7 @@ extension SWFClientTypes {
             decisionTaskCompletedEventId: Swift.Int = 0,
             details: Swift.String? = nil,
             reason: Swift.String? = nil
-        )
-        {
+        ) {
             self.decisionTaskCompletedEventId = decisionTaskCompletedEventId
             self.details = details
             self.reason = reason
@@ -3827,8 +3742,7 @@ extension SWFClientTypes {
             externalWorkflowExecution: SWFClientTypes.WorkflowExecution? = nil,
             input: Swift.String? = nil,
             signalName: Swift.String? = nil
-        )
-        {
+        ) {
             self.externalInitiatedEventId = externalInitiatedEventId
             self.externalWorkflowExecution = externalWorkflowExecution
             self.input = input
@@ -3888,8 +3802,7 @@ extension SWFClientTypes {
             taskPriority: Swift.String? = nil,
             taskStartToCloseTimeout: Swift.String? = nil,
             workflowType: SWFClientTypes.WorkflowType? = nil
-        )
-        {
+        ) {
             self.childPolicy = childPolicy
             self.continuedExecutionRunId = continuedExecutionRunId
             self.executionStartToCloseTimeout = executionStartToCloseTimeout
@@ -3963,8 +3876,7 @@ extension SWFClientTypes {
             childPolicy: SWFClientTypes.ChildPolicy? = nil,
             details: Swift.String? = nil,
             reason: Swift.String? = nil
-        )
-        {
+        ) {
             self.cause = cause
             self.childPolicy = childPolicy
             self.details = details
@@ -3993,8 +3905,7 @@ extension SWFClientTypes {
         public init(
             childPolicy: SWFClientTypes.ChildPolicy? = nil,
             timeoutType: SWFClientTypes.WorkflowExecutionTimeoutType? = nil
-        )
-        {
+        ) {
             self.childPolicy = childPolicy
             self.timeoutType = timeoutType
         }
@@ -4277,8 +4188,7 @@ extension SWFClientTypes {
             workflowExecutionStartedEventAttributes: SWFClientTypes.WorkflowExecutionStartedEventAttributes? = nil,
             workflowExecutionTerminatedEventAttributes: SWFClientTypes.WorkflowExecutionTerminatedEventAttributes? = nil,
             workflowExecutionTimedOutEventAttributes: SWFClientTypes.WorkflowExecutionTimedOutEventAttributes? = nil
-        )
-        {
+        ) {
             self.activityTaskCancelRequestedEventAttributes = activityTaskCancelRequestedEventAttributes
             self.activityTaskCanceledEventAttributes = activityTaskCanceledEventAttributes
             self.activityTaskCompletedEventAttributes = activityTaskCompletedEventAttributes
@@ -4341,9 +4251,9 @@ extension SWFClientTypes {
 }
 
 /// The StartWorkflowExecution API action was called without the required parameters set. Some workflow execution parameters, such as the decision taskList, must be set to start the execution. However, these parameters might have been set as defaults when the workflow type was registered. In this case, you can omit these parameters from the StartWorkflowExecution call and Amazon SWF uses the values defined in the workflow type. If these parameters aren't set and no default parameters were defined in the workflow type, this error is displayed.
-public struct DefaultUndefinedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DefaultUndefinedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4358,16 +4268,15 @@ public struct DefaultUndefinedFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Returned when the resource type has not been deprecated.
-public struct TypeNotDeprecatedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TypeNotDeprecatedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4382,8 +4291,7 @@ public struct TypeNotDeprecatedFault: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4399,8 +4307,7 @@ public struct DeleteActivityTypeInput: Swift.Sendable {
     public init(
         activityType: SWFClientTypes.ActivityType? = nil,
         domain: Swift.String? = nil
-    )
-    {
+    ) {
         self.activityType = activityType
         self.domain = domain
     }
@@ -4417,17 +4324,16 @@ public struct DeleteWorkflowTypeInput: Swift.Sendable {
     public init(
         domain: Swift.String? = nil,
         workflowType: SWFClientTypes.WorkflowType? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.workflowType = workflowType
     }
 }
 
 /// Returned when the specified activity or workflow type was already deprecated.
-public struct TypeDeprecatedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TypeDeprecatedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description that may help with diagnosing the cause of the fault.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4443,8 +4349,7 @@ public struct TypeDeprecatedFault: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4460,17 +4365,16 @@ public struct DeprecateActivityTypeInput: Swift.Sendable {
     public init(
         activityType: SWFClientTypes.ActivityType? = nil,
         domain: Swift.String? = nil
-    )
-    {
+    ) {
         self.activityType = activityType
         self.domain = domain
     }
 }
 
 /// Returned when the specified domain has been deprecated.
-public struct DomainDeprecatedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DomainDeprecatedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description that may help with diagnosing the cause of the fault.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4486,8 +4390,7 @@ public struct DomainDeprecatedFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4499,8 +4402,7 @@ public struct DeprecateDomainInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -4516,8 +4418,7 @@ public struct DeprecateWorkflowTypeInput: Swift.Sendable {
     public init(
         domain: Swift.String? = nil,
         workflowType: SWFClientTypes.WorkflowType? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.workflowType = workflowType
     }
@@ -4534,8 +4435,7 @@ public struct DescribeActivityTypeInput: Swift.Sendable {
     public init(
         activityType: SWFClientTypes.ActivityType? = nil,
         domain: Swift.String? = nil
-    )
-    {
+    ) {
         self.activityType = activityType
         self.domain = domain
     }
@@ -4557,8 +4457,7 @@ public struct DescribeActivityTypeOutput: Swift.Sendable {
     public init(
         configuration: SWFClientTypes.ActivityTypeConfiguration? = nil,
         typeInfo: SWFClientTypes.ActivityTypeInfo? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.typeInfo = typeInfo
     }
@@ -4571,8 +4470,7 @@ public struct DescribeDomainInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -4587,8 +4485,7 @@ extension SWFClientTypes {
 
         public init(
             workflowExecutionRetentionPeriodInDays: Swift.String? = nil
-        )
-        {
+        ) {
             self.workflowExecutionRetentionPeriodInDays = workflowExecutionRetentionPeriodInDays
         }
     }
@@ -4618,8 +4515,7 @@ extension SWFClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             status: SWFClientTypes.RegistrationStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.name = name
@@ -4640,8 +4536,7 @@ public struct DescribeDomainOutput: Swift.Sendable {
     public init(
         configuration: SWFClientTypes.DomainConfiguration? = nil,
         domainInfo: SWFClientTypes.DomainInfo? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.domainInfo = domainInfo
     }
@@ -4658,8 +4553,7 @@ public struct DescribeWorkflowExecutionInput: Swift.Sendable {
     public init(
         domain: Swift.String? = nil,
         execution: SWFClientTypes.WorkflowExecution? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.execution = execution
     }
@@ -4699,8 +4593,7 @@ extension SWFClientTypes {
             taskList: SWFClientTypes.TaskList? = nil,
             taskPriority: Swift.String? = nil,
             taskStartToCloseTimeout: Swift.String? = nil
-        )
-        {
+        ) {
             self.childPolicy = childPolicy
             self.executionStartToCloseTimeout = executionStartToCloseTimeout
             self.lambdaRole = lambdaRole
@@ -4789,8 +4682,7 @@ extension SWFClientTypes {
             startTimestamp: Foundation.Date? = nil,
             tagList: [Swift.String]? = nil,
             workflowType: SWFClientTypes.WorkflowType? = nil
-        )
-        {
+        ) {
             self.cancelRequested = cancelRequested
             self.closeStatus = closeStatus
             self.closeTimestamp = closeTimestamp
@@ -4829,8 +4721,7 @@ extension SWFClientTypes {
             openDecisionTasks: Swift.Int = 0,
             openLambdaFunctions: Swift.Int = 0,
             openTimers: Swift.Int = 0
-        )
-        {
+        ) {
             self.openActivityTasks = openActivityTasks
             self.openChildWorkflowExecutions = openChildWorkflowExecutions
             self.openDecisionTasks = openDecisionTasks
@@ -4862,8 +4753,7 @@ public struct DescribeWorkflowExecutionOutput: Swift.Sendable {
         latestActivityTaskTimestamp: Foundation.Date? = nil,
         latestExecutionContext: Swift.String? = nil,
         openCounts: SWFClientTypes.WorkflowExecutionOpenCounts? = nil
-    )
-    {
+    ) {
         self.executionConfiguration = executionConfiguration
         self.executionInfo = executionInfo
         self.latestActivityTaskTimestamp = latestActivityTaskTimestamp
@@ -4883,8 +4773,7 @@ public struct DescribeWorkflowTypeInput: Swift.Sendable {
     public init(
         domain: Swift.String? = nil,
         workflowType: SWFClientTypes.WorkflowType? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.workflowType = workflowType
     }
@@ -4920,8 +4809,7 @@ extension SWFClientTypes {
             defaultTaskList: SWFClientTypes.TaskList? = nil,
             defaultTaskPriority: Swift.String? = nil,
             defaultTaskStartToCloseTimeout: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultChildPolicy = defaultChildPolicy
             self.defaultExecutionStartToCloseTimeout = defaultExecutionStartToCloseTimeout
             self.defaultLambdaRole = defaultLambdaRole
@@ -4956,8 +4844,7 @@ extension SWFClientTypes {
             description: Swift.String? = nil,
             status: SWFClientTypes.RegistrationStatus? = nil,
             workflowType: SWFClientTypes.WorkflowType? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.deprecationDate = deprecationDate
             self.description = description
@@ -4983,17 +4870,16 @@ public struct DescribeWorkflowTypeOutput: Swift.Sendable {
     public init(
         configuration: SWFClientTypes.WorkflowTypeConfiguration? = nil,
         typeInfo: SWFClientTypes.WorkflowTypeInfo? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.typeInfo = typeInfo
     }
 }
 
 /// Returned if the domain already exists. You may get this fault if you are registering a domain that is either already registered or deprecated, or if you undeprecate a domain that is currently registered.
-public struct DomainAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DomainAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description that may help with diagnosing the cause of the fault.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5009,8 +4895,7 @@ public struct DomainAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5035,8 +4920,7 @@ public struct GetWorkflowExecutionHistoryInput: Swift.Sendable {
         maximumPageSize: Swift.Int? = 0,
         nextPageToken: Swift.String? = nil,
         reverseOrder: Swift.Bool? = false
-    )
-    {
+    ) {
         self.domain = domain
         self.execution = execution
         self.maximumPageSize = maximumPageSize
@@ -5056,17 +4940,16 @@ public struct GetWorkflowExecutionHistoryOutput: Swift.Sendable {
     public init(
         events: [SWFClientTypes.HistoryEvent]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.events = events
         self.nextPageToken = nextPageToken
     }
 }
 
 /// Returned by any operation if a system imposed limitation has been reached. To address this fault you should either clean up unused resources or increase the limit by contacting AWS.
-public struct LimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description that may help with diagnosing the cause of the fault.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5082,8 +4965,7 @@ public struct LimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5111,8 +4993,7 @@ public struct ListActivityTypesInput: Swift.Sendable {
         nextPageToken: Swift.String? = nil,
         registrationStatus: SWFClientTypes.RegistrationStatus? = nil,
         reverseOrder: Swift.Bool? = false
-    )
-    {
+    ) {
         self.domain = domain
         self.maximumPageSize = maximumPageSize
         self.name = name
@@ -5133,8 +5014,7 @@ public struct ListActivityTypesOutput: Swift.Sendable {
     public init(
         nextPageToken: Swift.String? = nil,
         typeInfos: [SWFClientTypes.ActivityTypeInfo]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.typeInfos = typeInfos
     }
@@ -5174,8 +5054,7 @@ public struct ListClosedWorkflowExecutionsInput: Swift.Sendable {
         startTimeFilter: SWFClientTypes.ExecutionTimeFilter? = nil,
         tagFilter: SWFClientTypes.TagFilter? = nil,
         typeFilter: SWFClientTypes.WorkflowTypeFilter? = nil
-    )
-    {
+    ) {
         self.closeStatusFilter = closeStatusFilter
         self.closeTimeFilter = closeTimeFilter
         self.domain = domain
@@ -5200,8 +5079,7 @@ public struct ListClosedWorkflowExecutionsOutput: Swift.Sendable {
     public init(
         executionInfos: [SWFClientTypes.WorkflowExecutionInfo]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.executionInfos = executionInfos
         self.nextPageToken = nextPageToken
     }
@@ -5223,8 +5101,7 @@ public struct ListDomainsInput: Swift.Sendable {
         nextPageToken: Swift.String? = nil,
         registrationStatus: SWFClientTypes.RegistrationStatus? = nil,
         reverseOrder: Swift.Bool? = false
-    )
-    {
+    ) {
         self.maximumPageSize = maximumPageSize
         self.nextPageToken = nextPageToken
         self.registrationStatus = registrationStatus
@@ -5243,8 +5120,7 @@ public struct ListDomainsOutput: Swift.Sendable {
     public init(
         domainInfos: [SWFClientTypes.DomainInfo]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainInfos = domainInfos
         self.nextPageToken = nextPageToken
     }
@@ -5279,8 +5155,7 @@ public struct ListOpenWorkflowExecutionsInput: Swift.Sendable {
         startTimeFilter: SWFClientTypes.ExecutionTimeFilter? = nil,
         tagFilter: SWFClientTypes.TagFilter? = nil,
         typeFilter: SWFClientTypes.WorkflowTypeFilter? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.executionFilter = executionFilter
         self.maximumPageSize = maximumPageSize
@@ -5303,8 +5178,7 @@ public struct ListOpenWorkflowExecutionsOutput: Swift.Sendable {
     public init(
         executionInfos: [SWFClientTypes.WorkflowExecutionInfo]? = nil,
         nextPageToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.executionInfos = executionInfos
         self.nextPageToken = nextPageToken
     }
@@ -5317,8 +5191,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -5336,8 +5209,7 @@ extension SWFClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -5350,8 +5222,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [SWFClientTypes.ResourceTag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -5379,8 +5250,7 @@ public struct ListWorkflowTypesInput: Swift.Sendable {
         nextPageToken: Swift.String? = nil,
         registrationStatus: SWFClientTypes.RegistrationStatus? = nil,
         reverseOrder: Swift.Bool? = false
-    )
-    {
+    ) {
         self.domain = domain
         self.maximumPageSize = maximumPageSize
         self.name = name
@@ -5401,8 +5271,7 @@ public struct ListWorkflowTypesOutput: Swift.Sendable {
     public init(
         nextPageToken: Swift.String? = nil,
         typeInfos: [SWFClientTypes.WorkflowTypeInfo]? = nil
-    )
-    {
+    ) {
         self.nextPageToken = nextPageToken
         self.typeInfos = typeInfos
     }
@@ -5422,8 +5291,7 @@ public struct PollForActivityTaskInput: Swift.Sendable {
         domain: Swift.String? = nil,
         identity: Swift.String? = nil,
         taskList: SWFClientTypes.TaskList? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.identity = identity
         self.taskList = taskList
@@ -5457,8 +5325,7 @@ public struct PollForActivityTaskOutput: Swift.Sendable {
         startedEventId: Swift.Int = 0,
         taskToken: Swift.String? = nil,
         workflowExecution: SWFClientTypes.WorkflowExecution? = nil
-    )
-    {
+    ) {
         self.activityId = activityId
         self.activityType = activityType
         self.input = input
@@ -5494,8 +5361,7 @@ public struct PollForDecisionTaskInput: Swift.Sendable {
         reverseOrder: Swift.Bool? = false,
         startAtPreviousStartedEvent: Swift.Bool? = false,
         taskList: SWFClientTypes.TaskList? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.identity = identity
         self.maximumPageSize = maximumPageSize
@@ -5536,8 +5402,7 @@ public struct PollForDecisionTaskOutput: Swift.Sendable {
         taskToken: Swift.String? = nil,
         workflowExecution: SWFClientTypes.WorkflowExecution? = nil,
         workflowType: SWFClientTypes.WorkflowType? = nil
-    )
-    {
+    ) {
         self.events = events
         self.nextPageToken = nextPageToken
         self.previousStartedEventId = previousStartedEventId
@@ -5558,8 +5423,7 @@ public struct RecordActivityTaskHeartbeatInput: Swift.Sendable {
     public init(
         details: Swift.String? = nil,
         taskToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.details = details
         self.taskToken = taskToken
     }
@@ -5573,16 +5437,15 @@ public struct RecordActivityTaskHeartbeatOutput: Swift.Sendable {
 
     public init(
         cancelRequested: Swift.Bool = false
-    )
-    {
+    ) {
         self.cancelRequested = cancelRequested
     }
 }
 
 /// Returned if the type already exists in the specified domain. You may get this fault if you are registering a type that is either already registered or deprecated, or if you undeprecate a type that is currently registered.
-public struct TypeAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TypeAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description that may help with diagnosing the cause of the fault.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5598,8 +5461,7 @@ public struct TypeAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5640,8 +5502,7 @@ public struct RegisterActivityTypeInput: Swift.Sendable {
         domain: Swift.String? = nil,
         name: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultTaskHeartbeatTimeout = defaultTaskHeartbeatTimeout
         self.defaultTaskList = defaultTaskList
         self.defaultTaskPriority = defaultTaskPriority
@@ -5656,9 +5517,9 @@ public struct RegisterActivityTypeInput: Swift.Sendable {
 }
 
 /// You've exceeded the number of tags allowed for a domain.
-public struct TooManyTagsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5673,8 +5534,7 @@ public struct TooManyTagsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5696,8 +5556,7 @@ public struct RegisterDomainInput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [SWFClientTypes.ResourceTag]? = nil,
         workflowExecutionRetentionPeriodInDays: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.tags = tags
@@ -5747,8 +5606,7 @@ public struct RegisterWorkflowTypeInput: Swift.Sendable {
         domain: Swift.String? = nil,
         name: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultChildPolicy = defaultChildPolicy
         self.defaultExecutionStartToCloseTimeout = defaultExecutionStartToCloseTimeout
         self.defaultLambdaRole = defaultLambdaRole
@@ -5776,8 +5634,7 @@ public struct RequestCancelWorkflowExecutionInput: Swift.Sendable {
         domain: Swift.String? = nil,
         runId: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.runId = runId
         self.workflowId = workflowId
@@ -5794,8 +5651,7 @@ public struct RespondActivityTaskCanceledInput: Swift.Sendable {
     public init(
         details: Swift.String? = nil,
         taskToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.details = details
         self.taskToken = taskToken
     }
@@ -5811,8 +5667,7 @@ public struct RespondActivityTaskCompletedInput: Swift.Sendable {
     public init(
         result: Swift.String? = nil,
         taskToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.result = result
         self.taskToken = taskToken
     }
@@ -5831,8 +5686,7 @@ public struct RespondActivityTaskFailedInput: Swift.Sendable {
         details: Swift.String? = nil,
         reason: Swift.String? = nil,
         taskToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.details = details
         self.reason = reason
         self.taskToken = taskToken
@@ -5859,8 +5713,7 @@ public struct RespondDecisionTaskCompletedInput: Swift.Sendable {
         taskList: SWFClientTypes.TaskList? = nil,
         taskListScheduleToStartTimeout: Swift.String? = nil,
         taskToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.decisions = decisions
         self.executionContext = executionContext
         self.taskList = taskList
@@ -5890,8 +5743,7 @@ public struct SignalWorkflowExecutionInput: Swift.Sendable {
         runId: Swift.String? = nil,
         signalName: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.input = input
         self.runId = runId
@@ -5901,9 +5753,9 @@ public struct SignalWorkflowExecutionInput: Swift.Sendable {
 }
 
 /// Returned by [StartWorkflowExecution] when an open execution with the same workflowId is already running in the specified domain.
-public struct WorkflowExecutionAlreadyStartedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WorkflowExecutionAlreadyStartedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description that may help with diagnosing the cause of the fault.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5919,8 +5771,7 @@ public struct WorkflowExecutionAlreadyStartedFault: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5973,8 +5824,7 @@ public struct StartWorkflowExecutionInput: Swift.Sendable {
         taskStartToCloseTimeout: Swift.String? = nil,
         workflowId: Swift.String? = nil,
         workflowType: SWFClientTypes.WorkflowType? = nil
-    )
-    {
+    ) {
         self.childPolicy = childPolicy
         self.domain = domain
         self.executionStartToCloseTimeout = executionStartToCloseTimeout
@@ -5996,8 +5846,7 @@ public struct StartWorkflowExecutionOutput: Swift.Sendable {
 
     public init(
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.runId = runId
     }
 }
@@ -6013,8 +5862,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [SWFClientTypes.ResourceTag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -6052,8 +5900,7 @@ public struct TerminateWorkflowExecutionInput: Swift.Sendable {
         reason: Swift.String? = nil,
         runId: Swift.String? = nil,
         workflowId: Swift.String? = nil
-    )
-    {
+    ) {
         self.childPolicy = childPolicy
         self.details = details
         self.domain = domain
@@ -6074,8 +5921,7 @@ public struct UndeprecateActivityTypeInput: Swift.Sendable {
     public init(
         activityType: SWFClientTypes.ActivityType? = nil,
         domain: Swift.String? = nil
-    )
-    {
+    ) {
         self.activityType = activityType
         self.domain = domain
     }
@@ -6088,8 +5934,7 @@ public struct UndeprecateDomainInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -6105,8 +5950,7 @@ public struct UndeprecateWorkflowTypeInput: Swift.Sendable {
     public init(
         domain: Swift.String? = nil,
         workflowType: SWFClientTypes.WorkflowType? = nil
-    )
-    {
+    ) {
         self.domain = domain
         self.workflowType = workflowType
     }
@@ -6123,8 +5967,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

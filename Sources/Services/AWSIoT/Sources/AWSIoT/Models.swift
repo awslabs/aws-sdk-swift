@@ -263,8 +263,7 @@ extension IoTClientTypes {
             failureType: IoTClientTypes.JobExecutionFailureType? = nil,
             minNumberOfExecutedThings: Swift.Int? = nil,
             thresholdPercentage: Swift.Double? = nil
-        )
-        {
+        ) {
             self.action = action
             self.failureType = failureType
             self.minNumberOfExecutedThings = minNumberOfExecutedThings
@@ -283,17 +282,16 @@ extension IoTClientTypes {
 
         public init(
             criteriaList: [IoTClientTypes.AbortCriteria]? = nil
-        )
-        {
+        ) {
             self.criteriaList = criteriaList
         }
     }
 }
 
 /// An unexpected error has occurred.
-public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -309,16 +307,15 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request is not valid.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -334,16 +331,15 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified resource does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -359,16 +355,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The service is temporarily unavailable.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -384,16 +379,15 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The rate exceeds the limit.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -409,16 +403,15 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You can't revert the certificate transfer because the transfer is already complete.
-public struct TransferAlreadyCompletedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TransferAlreadyCompletedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -434,16 +427,15 @@ public struct TransferAlreadyCompletedException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You are not authorized to perform this operation.
-public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -459,8 +451,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -476,8 +467,7 @@ public struct AcceptCertificateTransferInput: Swift.Sendable {
     public init(
         certificateId: Swift.String? = nil,
         setAsActive: Swift.Bool? = false
-    )
-    {
+    ) {
         self.certificateId = certificateId
         self.setAsActive = setAsActive
     }
@@ -505,8 +495,7 @@ extension IoTClientTypes {
             roleArn: Swift.String? = nil,
             stateReason: Swift.String? = nil,
             stateValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.alarmName = alarmName
             self.roleArn = roleArn
             self.stateReason = stateReason
@@ -532,8 +521,7 @@ extension IoTClientTypes {
             batchMode: Swift.Bool? = nil,
             logGroupName: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.batchMode = batchMode
             self.logGroupName = logGroupName
             self.roleArn = roleArn
@@ -570,8 +558,7 @@ extension IoTClientTypes {
             metricUnit: Swift.String? = nil,
             metricValue: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
             self.metricNamespace = metricNamespace
             self.metricTimestamp = metricTimestamp
@@ -651,8 +638,7 @@ extension IoTClientTypes {
             rangeKeyValue: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.hashKeyField = hashKeyField
             self.hashKeyType = hashKeyType
             self.hashKeyValue = hashKeyValue
@@ -677,8 +663,7 @@ extension IoTClientTypes {
 
         public init(
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.tableName = tableName
         }
     }
@@ -698,8 +683,7 @@ extension IoTClientTypes {
         public init(
             putItem: IoTClientTypes.PutItemInput? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.putItem = putItem
             self.roleArn = roleArn
         }
@@ -732,8 +716,7 @@ extension IoTClientTypes {
             index: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.endpoint = endpoint
             self.id = id
             self.index = index
@@ -763,8 +746,7 @@ extension IoTClientTypes {
             deliveryStreamName: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             separator: Swift.String? = nil
-        )
-        {
+        ) {
             self.batchMode = batchMode
             self.deliveryStreamName = deliveryStreamName
             self.roleArn = roleArn
@@ -791,8 +773,7 @@ extension IoTClientTypes {
             roleArn: Swift.String? = nil,
             serviceName: Swift.String? = nil,
             signingRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.roleArn = roleArn
             self.serviceName = serviceName
             self.signingRegion = signingRegion
@@ -809,8 +790,7 @@ extension IoTClientTypes {
 
         public init(
             sigv4: IoTClientTypes.SigV4Authorization? = nil
-        )
-        {
+        ) {
             self.sigv4 = sigv4
         }
     }
@@ -830,8 +810,7 @@ extension IoTClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -857,8 +836,7 @@ extension IoTClientTypes {
             confirmationUrl: Swift.String? = nil,
             headers: [IoTClientTypes.HttpActionHeader]? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.auth = auth
             self.confirmationUrl = confirmationUrl
             self.headers = headers
@@ -885,8 +863,7 @@ extension IoTClientTypes {
             channelArn: Swift.String? = nil,
             channelName: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.batchMode = batchMode
             self.channelArn = channelArn
             self.channelName = channelName
@@ -915,8 +892,7 @@ extension IoTClientTypes {
             inputName: Swift.String? = nil,
             messageId: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.batchMode = batchMode
             self.inputName = inputName
             self.messageId = messageId
@@ -938,8 +914,7 @@ extension IoTClientTypes {
         public init(
             offsetInNanos: Swift.String? = nil,
             timeInSeconds: Swift.String? = nil
-        )
-        {
+        ) {
             self.offsetInNanos = offsetInNanos
             self.timeInSeconds = timeInSeconds
         }
@@ -979,8 +954,7 @@ extension IoTClientTypes {
             quality: Swift.String? = nil,
             timestamp: IoTClientTypes.AssetPropertyTimestamp? = nil,
             value: IoTClientTypes.AssetPropertyVariant? = nil
-        )
-        {
+        ) {
             self.quality = quality
             self.timestamp = timestamp
             self.value = value
@@ -1010,8 +984,7 @@ extension IoTClientTypes {
             propertyAlias: Swift.String? = nil,
             propertyId: Swift.String? = nil,
             propertyValues: [IoTClientTypes.AssetPropertyValue]? = nil
-        )
-        {
+        ) {
             self.assetId = assetId
             self.entryId = entryId
             self.propertyAlias = propertyAlias
@@ -1035,8 +1008,7 @@ extension IoTClientTypes {
         public init(
             putAssetPropertyValueEntries: [IoTClientTypes.PutAssetPropertyValueEntry]? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.putAssetPropertyValueEntries = putAssetPropertyValueEntries
             self.roleArn = roleArn
         }
@@ -1057,8 +1029,7 @@ extension IoTClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1092,8 +1063,7 @@ extension IoTClientTypes {
             key: Swift.String? = nil,
             partition: Swift.String? = nil,
             topic: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientProperties = clientProperties
             self.destinationArn = destinationArn
             self.headers = headers
@@ -1121,8 +1091,7 @@ extension IoTClientTypes {
             partitionKey: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             streamName: Swift.String? = nil
-        )
-        {
+        ) {
             self.partitionKey = partitionKey
             self.roleArn = roleArn
             self.streamName = streamName
@@ -1140,8 +1109,7 @@ extension IoTClientTypes {
 
         public init(
             functionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.functionArn = functionArn
         }
     }
@@ -1160,8 +1128,7 @@ extension IoTClientTypes {
         public init(
             unit: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.unit = unit
             self.value = value
         }
@@ -1197,8 +1164,7 @@ extension IoTClientTypes {
             roleArn: Swift.String? = nil,
             timestamp: IoTClientTypes.LocationTimestamp? = nil,
             trackerName: Swift.String? = nil
-        )
-        {
+        ) {
             self.deviceId = deviceId
             self.latitude = latitude
             self.longitude = longitude
@@ -1235,8 +1201,7 @@ extension IoTClientTypes {
             index: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.endpoint = endpoint
             self.id = id
             self.index = index
@@ -1260,8 +1225,7 @@ extension IoTClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1292,8 +1256,7 @@ extension IoTClientTypes {
             payloadFormatIndicator: Swift.String? = nil,
             responseTopic: Swift.String? = nil,
             userProperties: [IoTClientTypes.UserProperty]? = nil
-        )
-        {
+        ) {
             self.contentType = contentType
             self.correlationData = correlationData
             self.messageExpiry = messageExpiry
@@ -1324,8 +1287,7 @@ extension IoTClientTypes {
             qos: Swift.Int? = nil,
             roleArn: Swift.String? = nil,
             topic: Swift.String? = nil
-        )
-        {
+        ) {
             self.headers = headers
             self.qos = qos
             self.roleArn = roleArn
@@ -1402,8 +1364,7 @@ extension IoTClientTypes {
             cannedAcl: IoTClientTypes.CannedAccessControlList? = nil,
             key: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.cannedAcl = cannedAcl
             self.key = key
@@ -1426,8 +1387,7 @@ extension IoTClientTypes {
         public init(
             token: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.token = token
             self.url = url
         }
@@ -1480,8 +1440,7 @@ extension IoTClientTypes {
             messageFormat: IoTClientTypes.MessageFormat? = nil,
             roleArn: Swift.String? = nil,
             targetArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.messageFormat = messageFormat
             self.roleArn = roleArn
             self.targetArn = targetArn
@@ -1506,8 +1465,7 @@ extension IoTClientTypes {
             queueUrl: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             useBase64: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.queueUrl = queueUrl
             self.roleArn = roleArn
             self.useBase64 = useBase64
@@ -1532,8 +1490,7 @@ extension IoTClientTypes {
             executionNamePrefix: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             stateMachineName: Swift.String? = nil
-        )
-        {
+        ) {
             self.executionNamePrefix = executionNamePrefix
             self.roleArn = roleArn
             self.stateMachineName = stateMachineName
@@ -1555,8 +1512,7 @@ extension IoTClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -1577,8 +1533,7 @@ extension IoTClientTypes {
         public init(
             unit: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.unit = unit
             self.value = value
         }
@@ -1610,8 +1565,7 @@ extension IoTClientTypes {
             roleArn: Swift.String? = nil,
             tableName: Swift.String? = nil,
             timestamp: IoTClientTypes.TimestreamTimestamp? = nil
-        )
-        {
+        ) {
             self.databaseName = databaseName
             self.dimensions = dimensions
             self.roleArn = roleArn
@@ -1696,8 +1650,7 @@ extension IoTClientTypes {
             sqs: IoTClientTypes.SqsAction? = nil,
             stepFunctions: IoTClientTypes.StepFunctionsAction? = nil,
             timestream: IoTClientTypes.TimestreamAction? = nil
-        )
-        {
+        ) {
             self.cloudwatchAlarm = cloudwatchAlarm
             self.cloudwatchLogs = cloudwatchLogs
             self.cloudwatchMetric = cloudwatchMetric
@@ -1855,8 +1808,7 @@ extension IoTClientTypes {
 
         public init(
             confidenceLevel: IoTClientTypes.ConfidenceLevel? = nil
-        )
-        {
+        ) {
             self.confidenceLevel = confidenceLevel
         }
     }
@@ -1871,8 +1823,7 @@ extension IoTClientTypes {
 
         public init(
             statistic: Swift.String? = nil
-        )
-        {
+        ) {
             self.statistic = statistic
         }
     }
@@ -1902,8 +1853,7 @@ extension IoTClientTypes {
             numbers: [Swift.Double]? = nil,
             ports: [Swift.Int]? = nil,
             strings: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.cidrs = cidrs
             self.count = count
             self.number = number
@@ -1949,8 +1899,7 @@ extension IoTClientTypes {
             mlDetectionConfig: IoTClientTypes.MachineLearningDetectionConfig? = nil,
             statisticalThreshold: IoTClientTypes.StatisticalThreshold? = nil,
             value: IoTClientTypes.MetricValue? = nil
-        )
-        {
+        ) {
             self.comparisonOperator = comparisonOperator
             self.consecutiveDatapointsToAlarm = consecutiveDatapointsToAlarm
             self.consecutiveDatapointsToClear = consecutiveDatapointsToClear
@@ -2004,8 +1953,7 @@ extension IoTClientTypes {
         public init(
             dimensionName: Swift.String? = nil,
             `operator`: IoTClientTypes.DimensionValueOperator? = nil
-        )
-        {
+        ) {
             self.dimensionName = dimensionName
             self.`operator` = `operator`
         }
@@ -2037,8 +1985,7 @@ extension IoTClientTypes {
             metricDimension: IoTClientTypes.MetricDimension? = nil,
             name: Swift.String? = nil,
             suppressAlerts: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.criteria = criteria
             self.exportMetric = exportMetric
             self.metric = metric
@@ -2093,8 +2040,7 @@ extension IoTClientTypes {
 
         public init(
             confidenceLevel: IoTClientTypes.ConfidenceLevel? = nil
-        )
-        {
+        ) {
             self.confidenceLevel = confidenceLevel
         }
     }
@@ -2136,8 +2082,7 @@ extension IoTClientTypes {
             violationEventAdditionalInfo: IoTClientTypes.ViolationEventAdditionalInfo? = nil,
             violationId: Swift.String? = nil,
             violationStartTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.behavior = behavior
             self.lastViolationTime = lastViolationTime
             self.lastViolationValue = lastViolationValue
@@ -2168,8 +2113,7 @@ extension IoTClientTypes {
             exportMetric: Swift.Bool? = nil,
             metric: Swift.String? = nil,
             metricDimension: IoTClientTypes.MetricDimension? = nil
-        )
-        {
+        ) {
             self.exportMetric = exportMetric
             self.metric = metric
             self.metricDimension = metricDimension
@@ -2190,8 +2134,7 @@ extension IoTClientTypes {
         public init(
             overrideDynamicGroups: Swift.Bool? = nil,
             thingGroupNames: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.overrideDynamicGroups = overrideDynamicGroups
             self.thingGroupNames = thingGroupNames
         }
@@ -2213,8 +2156,7 @@ public struct AddThingToBillingGroupInput: Swift.Sendable {
         billingGroupName: Swift.String? = nil,
         thingArn: Swift.String? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.billingGroupArn = billingGroupArn
         self.billingGroupName = billingGroupName
         self.thingArn = thingArn
@@ -2245,8 +2187,7 @@ public struct AddThingToThingGroupInput: Swift.Sendable {
         thingGroupArn: Swift.String? = nil,
         thingGroupName: Swift.String? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.overrideDynamicGroups = overrideDynamicGroups
         self.thingArn = thingArn
         self.thingGroupArn = thingGroupArn
@@ -2305,8 +2246,7 @@ extension IoTClientTypes {
         public init(
             name: IoTClientTypes.AggregationTypeName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -2327,8 +2267,7 @@ extension IoTClientTypes {
         public init(
             alertTargetArn: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.alertTargetArn = alertTargetArn
             self.roleArn = roleArn
         }
@@ -2374,8 +2313,7 @@ extension IoTClientTypes {
         public init(
             policyArn: Swift.String? = nil,
             policyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.policyArn = policyArn
             self.policyName = policyName
         }
@@ -2391,8 +2329,7 @@ extension IoTClientTypes {
 
         public init(
             policies: [IoTClientTypes.Policy]? = nil
-        )
-        {
+        ) {
             self.policies = policies
         }
     }
@@ -2433,10 +2370,10 @@ extension IoTClientTypes {
     }
 }
 
-/// A resource with the same name already exists.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+/// The request conflicts with the current state of the resource.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// A resource with the same name already exists.
         public internal(set) var resourceId: Swift.String? = nil
@@ -2454,17 +2391,16 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
     }
 }
 
 /// Internal error from the service that indicates an unexpected error or that the service is unavailable.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2479,16 +2415,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
-/// A limit has been exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+/// Service quota has been exceeded.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2503,16 +2438,15 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request is not valid.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2527,8 +2461,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2548,8 +2481,7 @@ extension IoTClientTypes {
             bucket: Swift.String? = nil,
             key: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.key = key
             self.version = version
@@ -2566,8 +2498,7 @@ extension IoTClientTypes {
 
         public init(
             s3Location: IoTClientTypes.S3Location? = nil
-        )
-        {
+        ) {
             self.s3Location = s3Location
         }
     }
@@ -2591,8 +2522,7 @@ public struct AssociateSbomWithPackageVersionInput: Swift.Sendable {
         packageName: Swift.String? = nil,
         sbom: IoTClientTypes.Sbom? = nil,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.packageName = packageName
         self.sbom = sbom
@@ -2647,8 +2577,7 @@ public struct AssociateSbomWithPackageVersionOutput: Swift.Sendable {
         sbom: IoTClientTypes.Sbom? = nil,
         sbomValidationStatus: IoTClientTypes.SbomValidationStatus? = nil,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.packageName = packageName
         self.sbom = sbom
         self.sbomValidationStatus = sbomValidationStatus
@@ -2657,9 +2586,9 @@ public struct AssociateSbomWithPackageVersionOutput: Swift.Sendable {
 }
 
 /// A limit has been exceeded.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2675,8 +2604,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2698,8 +2626,7 @@ public struct AssociateTargetsWithJobInput: Swift.Sendable {
         jobId: Swift.String? = nil,
         namespaceId: Swift.String? = nil,
         targets: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.comment = comment
         self.jobId = jobId
         self.namespaceId = namespaceId
@@ -2719,8 +2646,7 @@ public struct AssociateTargetsWithJobOutput: Swift.Sendable {
         description: Swift.String? = nil,
         jobArn: Swift.String? = nil,
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.jobArn = jobArn
         self.jobId = jobId
@@ -2738,8 +2664,7 @@ public struct AttachPolicyInput: Swift.Sendable {
     public init(
         policyName: Swift.String? = nil,
         target: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyName = policyName
         self.target = target
     }
@@ -2757,17 +2682,16 @@ public struct AttachPrincipalPolicyInput: Swift.Sendable {
     public init(
         policyName: Swift.String? = nil,
         principal: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyName = policyName
         self.principal = principal
     }
 }
 
 /// An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
-public struct VersionConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct VersionConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2783,8 +2707,7 @@ public struct VersionConflictException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2800,8 +2723,7 @@ public struct AttachSecurityProfileInput: Swift.Sendable {
     public init(
         securityProfileName: Swift.String? = nil,
         securityProfileTargetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.securityProfileName = securityProfileName
         self.securityProfileTargetArn = securityProfileTargetArn
     }
@@ -2812,6 +2734,35 @@ public struct AttachSecurityProfileOutput: Swift.Sendable {
     public init() { }
 }
 
+extension IoTClientTypes {
+
+    public enum ThingPrincipalType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case exclusiveThing
+        case nonExclusiveThing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ThingPrincipalType] {
+            return [
+                .exclusiveThing,
+                .nonExclusiveThing
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .exclusiveThing: return "EXCLUSIVE_THING"
+            case .nonExclusiveThing: return "NON_EXCLUSIVE_THING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// The input for the AttachThingPrincipal operation.
 public struct AttachThingPrincipalInput: Swift.Sendable {
     /// The principal, which can be a certificate ARN (as returned from the CreateCertificate operation) or an Amazon Cognito ID.
@@ -2820,14 +2771,24 @@ public struct AttachThingPrincipalInput: Swift.Sendable {
     /// The name of the thing.
     /// This member is required.
     public var thingName: Swift.String?
+    /// The type of the relation you want to specify when you attach a principal to a thing.
+    ///
+    /// * EXCLUSIVE_THING - Attaches the specified principal to the specified thing, exclusively. The thing will be the only thing that’s attached to the principal.
+    ///
+    ///
+    ///
+    ///
+    /// * NON_EXCLUSIVE_THING - Attaches the specified principal to the specified thing. Multiple things can be attached to the principal.
+    public var thingPrincipalType: IoTClientTypes.ThingPrincipalType?
 
     public init(
         principal: Swift.String? = nil,
-        thingName: Swift.String? = nil
-    )
-    {
+        thingName: Swift.String? = nil,
+        thingPrincipalType: IoTClientTypes.ThingPrincipalType? = nil
+    ) {
         self.principal = principal
         self.thingName = thingName
+        self.thingPrincipalType = thingPrincipalType
     }
 }
 
@@ -2849,8 +2810,7 @@ extension IoTClientTypes {
         public init(
             attributes: [Swift.String: Swift.String]? = nil,
             merge: Swift.Bool = false
-        )
-        {
+        ) {
             self.attributes = attributes
             self.merge = merge
         }
@@ -2866,8 +2826,7 @@ extension IoTClientTypes {
 
         public init(
             enabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -2941,8 +2900,7 @@ extension IoTClientTypes {
             nonCompliantResourcesCount: Swift.Int? = nil,
             suppressedNonCompliantResourcesCount: Swift.Int? = nil,
             totalResourcesCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.checkCompliant = checkCompliant
             self.checkRunStatus = checkRunStatus
             self.errorCode = errorCode
@@ -2969,8 +2927,7 @@ extension IoTClientTypes {
             issuerCertificateSerialNumber: Swift.String? = nil,
             issuerCertificateSubject: Swift.String? = nil,
             issuerId: Swift.String? = nil
-        )
-        {
+        ) {
             self.issuerCertificateSerialNumber = issuerCertificateSerialNumber
             self.issuerCertificateSubject = issuerCertificateSubject
             self.issuerId = issuerId
@@ -2990,8 +2947,7 @@ extension IoTClientTypes {
         public init(
             policyName: Swift.String? = nil,
             policyVersionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.policyName = policyName
             self.policyVersionId = policyVersionId
         }
@@ -3034,8 +2990,7 @@ extension IoTClientTypes {
             issuerCertificateIdentifier: IoTClientTypes.IssuerCertificateIdentifier? = nil,
             policyVersionIdentifier: IoTClientTypes.PolicyVersionIdentifier? = nil,
             roleAliasArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.account = account
             self.caCertificateId = caCertificateId
             self.clientId = clientId
@@ -3115,8 +3070,7 @@ extension IoTClientTypes {
             additionalInfo: [Swift.String: Swift.String]? = nil,
             resourceIdentifier: IoTClientTypes.ResourceIdentifier? = nil,
             resourceType: IoTClientTypes.ResourceType? = nil
-        )
-        {
+        ) {
             self.additionalInfo = additionalInfo
             self.resourceIdentifier = resourceIdentifier
             self.resourceType = resourceType
@@ -3139,8 +3093,7 @@ extension IoTClientTypes {
             additionalInfo: [Swift.String: Swift.String]? = nil,
             resourceIdentifier: IoTClientTypes.ResourceIdentifier? = nil,
             resourceType: IoTClientTypes.ResourceType? = nil
-        )
-        {
+        ) {
             self.additionalInfo = additionalInfo
             self.resourceIdentifier = resourceIdentifier
             self.resourceType = resourceType
@@ -3222,8 +3175,7 @@ extension IoTClientTypes {
             severity: IoTClientTypes.AuditFindingSeverity? = nil,
             taskId: Swift.String? = nil,
             taskStartTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.checkName = checkName
             self.findingId = findingId
             self.findingTime = findingTime
@@ -3348,8 +3300,7 @@ extension IoTClientTypes {
             startTime: Foundation.Date? = nil,
             status: IoTClientTypes.AuditMitigationActionsExecutionStatus? = nil,
             taskId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionId = actionId
             self.actionName = actionName
             self.endTime = endTime
@@ -3413,8 +3364,7 @@ extension IoTClientTypes {
             startTime: Foundation.Date? = nil,
             taskId: Swift.String? = nil,
             taskStatus: IoTClientTypes.AuditMitigationActionsTaskStatus? = nil
-        )
-        {
+        ) {
             self.startTime = startTime
             self.taskId = taskId
             self.taskStatus = taskStatus
@@ -3443,8 +3393,7 @@ extension IoTClientTypes {
             skippedFindingsCount: Swift.Int? = nil,
             succeededFindingsCount: Swift.Int? = nil,
             totalFindingsCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.canceledFindingsCount = canceledFindingsCount
             self.failedFindingsCount = failedFindingsCount
             self.skippedFindingsCount = skippedFindingsCount
@@ -3469,8 +3418,7 @@ extension IoTClientTypes {
             auditCheckToReasonCodeFilter: [Swift.String: [Swift.String]]? = nil,
             auditTaskId: Swift.String? = nil,
             findingIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.auditCheckToReasonCodeFilter = auditCheckToReasonCodeFilter
             self.auditTaskId = auditTaskId
             self.findingIds = findingIds
@@ -3493,8 +3441,7 @@ extension IoTClientTypes {
             enabled: Swift.Bool = false,
             roleArn: Swift.String? = nil,
             targetArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.roleArn = roleArn
             self.targetArn = targetArn
@@ -3551,8 +3498,7 @@ extension IoTClientTypes {
             expirationDate: Foundation.Date? = nil,
             resourceIdentifier: IoTClientTypes.ResourceIdentifier? = nil,
             suppressIndefinitely: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.checkName = checkName
             self.description = description
             self.expirationDate = expirationDate
@@ -3641,8 +3587,7 @@ extension IoTClientTypes {
             taskId: Swift.String? = nil,
             taskStatus: IoTClientTypes.AuditTaskStatus? = nil,
             taskType: IoTClientTypes.AuditTaskType? = nil
-        )
-        {
+        ) {
             self.taskId = taskId
             self.taskStatus = taskStatus
             self.taskType = taskType
@@ -3733,8 +3678,7 @@ extension IoTClientTypes {
         public init(
             actionType: IoTClientTypes.ActionType? = nil,
             resources: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.actionType = actionType
             self.resources = resources
         }
@@ -3753,8 +3697,7 @@ extension IoTClientTypes {
         public init(
             allowAuthorizerOverride: Swift.Bool? = false,
             defaultAuthorizerName: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowAuthorizerOverride = allowAuthorizerOverride
             self.defaultAuthorizerName = defaultAuthorizerName
         }
@@ -3826,8 +3769,7 @@ extension IoTClientTypes {
             status: IoTClientTypes.AuthorizerStatus? = nil,
             tokenKeyName: Swift.String? = nil,
             tokenSigningPublicKeys: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.authorizerArn = authorizerArn
             self.authorizerFunctionArn = authorizerFunctionArn
             self.authorizerName = authorizerName
@@ -3854,8 +3796,7 @@ extension IoTClientTypes {
         public init(
             authorizerArn: Swift.String? = nil,
             authorizerName: Swift.String? = nil
-        )
-        {
+        ) {
             self.authorizerArn = authorizerArn
             self.authorizerName = authorizerName
         }
@@ -3871,8 +3812,7 @@ extension IoTClientTypes {
 
         public init(
             policies: [IoTClientTypes.Policy]? = nil
-        )
-        {
+        ) {
             self.policies = policies
         }
     }
@@ -3887,8 +3827,7 @@ extension IoTClientTypes {
 
         public init(
             policies: [IoTClientTypes.Policy]? = nil
-        )
-        {
+        ) {
             self.policies = policies
         }
     }
@@ -3906,8 +3845,7 @@ extension IoTClientTypes {
         public init(
             explicitDeny: IoTClientTypes.ExplicitDeny? = nil,
             implicitDeny: IoTClientTypes.ImplicitDeny? = nil
-        )
-        {
+        ) {
             self.explicitDeny = explicitDeny
             self.implicitDeny = implicitDeny
         }
@@ -3935,8 +3873,7 @@ extension IoTClientTypes {
             authInfo: IoTClientTypes.AuthInfo? = nil,
             denied: IoTClientTypes.Denied? = nil,
             missingContextValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.allowed = allowed
             self.authDecision = authDecision
             self.authInfo = authInfo
@@ -3982,8 +3919,7 @@ public struct CancelAuditMitigationActionsTaskInput: Swift.Sendable {
 
     public init(
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskId = taskId
     }
 }
@@ -4000,8 +3936,7 @@ public struct CancelAuditTaskInput: Swift.Sendable {
 
     public init(
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskId = taskId
     }
 }
@@ -4019,8 +3954,7 @@ public struct CancelCertificateTransferInput: Swift.Sendable {
 
     public init(
         certificateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateId = certificateId
     }
 }
@@ -4032,8 +3966,7 @@ public struct CancelDetectMitigationActionsTaskInput: Swift.Sendable {
 
     public init(
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskId = taskId
     }
 }
@@ -4059,8 +3992,7 @@ public struct CancelJobInput: Swift.Sendable {
         force: Swift.Bool? = false,
         jobId: Swift.String? = nil,
         reasonCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.comment = comment
         self.force = force
         self.jobId = jobId
@@ -4080,8 +4012,7 @@ public struct CancelJobOutput: Swift.Sendable {
         description: Swift.String? = nil,
         jobArn: Swift.String? = nil,
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.jobArn = jobArn
         self.jobId = jobId
@@ -4089,9 +4020,9 @@ public struct CancelJobOutput: Swift.Sendable {
 }
 
 /// An attempt was made to change to an invalid state, for example by deleting a job or a job execution which is "IN_PROGRESS" without setting the force parameter.
-public struct InvalidStateTransitionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidStateTransitionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4107,8 +4038,7 @@ public struct InvalidStateTransitionException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4133,8 +4063,7 @@ public struct CancelJobExecutionInput: Swift.Sendable {
         jobId: Swift.String? = nil,
         statusDetails: [Swift.String: Swift.String]? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.expectedVersion = expectedVersion
         self.force = force
         self.jobId = jobId
@@ -4154,9 +4083,9 @@ public struct ClearDefaultAuthorizerOutput: Swift.Sendable {
 }
 
 /// A conflicting resource update exception. This exception is thrown when two pending updates cause a conflict.
-public struct ConflictingResourceUpdateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictingResourceUpdateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4172,16 +4101,15 @@ public struct ConflictingResourceUpdateException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An unexpected error has occurred.
-public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4197,8 +4125,7 @@ public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4210,8 +4137,7 @@ public struct ConfirmTopicRuleDestinationInput: Swift.Sendable {
 
     public init(
         confirmationToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.confirmationToken = confirmationToken
     }
 }
@@ -4222,9 +4148,9 @@ public struct ConfirmTopicRuleDestinationOutput: Swift.Sendable {
 }
 
 /// The resource already exists.
-public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The ARN of the resource that caused the exception.
@@ -4246,8 +4172,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
         message: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceArn = resourceArn
         self.properties.resourceId = resourceId
@@ -4278,8 +4203,7 @@ public struct CreateAuditSuppressionInput: Swift.Sendable {
         expirationDate: Foundation.Date? = nil,
         resourceIdentifier: IoTClientTypes.ResourceIdentifier? = nil,
         suppressIndefinitely: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.checkName = checkName
         self.clientRequestToken = clientRequestToken
         self.description = description
@@ -4307,8 +4231,7 @@ extension IoTClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -4344,8 +4267,7 @@ public struct CreateAuthorizerInput: Swift.Sendable {
         tags: [IoTClientTypes.Tag]? = nil,
         tokenKeyName: Swift.String? = nil,
         tokenSigningPublicKeys: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.authorizerFunctionArn = authorizerFunctionArn
         self.authorizerName = authorizerName
         self.enableCachingForHttp = enableCachingForHttp
@@ -4366,8 +4288,7 @@ public struct CreateAuthorizerOutput: Swift.Sendable {
     public init(
         authorizerArn: Swift.String? = nil,
         authorizerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorizerArn = authorizerArn
         self.authorizerName = authorizerName
     }
@@ -4382,8 +4303,7 @@ extension IoTClientTypes {
 
         public init(
             billingGroupDescription: Swift.String? = nil
-        )
-        {
+        ) {
             self.billingGroupDescription = billingGroupDescription
         }
     }
@@ -4402,8 +4322,7 @@ public struct CreateBillingGroupInput: Swift.Sendable {
         billingGroupName: Swift.String? = nil,
         billingGroupProperties: IoTClientTypes.BillingGroupProperties? = nil,
         tags: [IoTClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.billingGroupName = billingGroupName
         self.billingGroupProperties = billingGroupProperties
         self.tags = tags
@@ -4422,8 +4341,7 @@ public struct CreateBillingGroupOutput: Swift.Sendable {
         billingGroupArn: Swift.String? = nil,
         billingGroupId: Swift.String? = nil,
         billingGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.billingGroupArn = billingGroupArn
         self.billingGroupId = billingGroupId
         self.billingGroupName = billingGroupName
@@ -4441,8 +4359,7 @@ public struct CreateCertificateFromCsrInput: Swift.Sendable {
     public init(
         certificateSigningRequest: Swift.String? = nil,
         setAsActive: Swift.Bool? = false
-    )
-    {
+    ) {
         self.certificateSigningRequest = certificateSigningRequest
         self.setAsActive = setAsActive
     }
@@ -4461,8 +4378,7 @@ public struct CreateCertificateFromCsrOutput: Swift.Sendable {
         certificateArn: Swift.String? = nil,
         certificateId: Swift.String? = nil,
         certificatePem: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateArn = certificateArn
         self.certificateId = certificateId
         self.certificatePem = certificatePem
@@ -4516,8 +4432,7 @@ public struct CreateCertificateProviderInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         lambdaFunctionArn: Swift.String? = nil,
         tags: [IoTClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.accountDefaultForOperations = accountDefaultForOperations
         self.certificateProviderName = certificateProviderName
         self.clientToken = clientToken
@@ -4535,10 +4450,179 @@ public struct CreateCertificateProviderOutput: Swift.Sendable {
     public init(
         certificateProviderArn: Swift.String? = nil,
         certificateProviderName: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateProviderArn = certificateProviderArn
         self.certificateProviderName = certificateProviderName
+    }
+}
+
+extension IoTClientTypes {
+
+    /// The range of possible values that's used to describe a specific command parameter. The commandParameterValue can only have one of the below fields listed.
+    public struct CommandParameterValue: Swift.Sendable {
+        /// An attribute of type Boolean. For example: "BOOL": true
+        public var b: Swift.Bool?
+        /// An attribute of type Binary. For example: "B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk"
+        public var bin: Foundation.Data?
+        /// An attribute of type Double (Sixty-Four Bits).
+        public var d: Swift.Double?
+        /// An attribute of type Integer (Thirty-Two Bits).
+        public var i: Swift.Int?
+        /// An attribute of type Long.
+        public var l: Swift.Int?
+        /// An attribute of type String. For example: "S": "Hello"
+        public var s: Swift.String?
+        /// An attribute of type unsigned long.
+        public var ul: Swift.String?
+
+        public init(
+            b: Swift.Bool? = nil,
+            bin: Foundation.Data? = nil,
+            d: Swift.Double? = nil,
+            i: Swift.Int? = nil,
+            l: Swift.Int? = nil,
+            s: Swift.String? = nil,
+            ul: Swift.String? = nil
+        ) {
+            self.b = b
+            self.bin = bin
+            self.d = d
+            self.i = i
+            self.l = l
+            self.s = s
+            self.ul = ul
+        }
+    }
+}
+
+extension IoTClientTypes {
+
+    /// A map of key-value pairs that describe the command.
+    public struct CommandParameter: Swift.Sendable {
+        /// The default value used to describe the command. This is the value assumed by the parameter if no other value is assigned to it.
+        public var defaultValue: IoTClientTypes.CommandParameterValue?
+        /// The description of the command parameter.
+        public var description: Swift.String?
+        /// The name of a specific parameter used in a command and command execution.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The value used to describe the command. When you assign a value to a parameter, it will override any default value that you had already specified.
+        public var value: IoTClientTypes.CommandParameterValue?
+
+        public init(
+            defaultValue: IoTClientTypes.CommandParameterValue? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            value: IoTClientTypes.CommandParameterValue? = nil
+        ) {
+            self.defaultValue = defaultValue
+            self.description = description
+            self.name = name
+            self.value = value
+        }
+    }
+}
+
+extension IoTClientTypes {
+
+    public enum CommandNamespace: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsiot
+        case awsiotfleetwise
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CommandNamespace] {
+            return [
+                .awsiot,
+                .awsiotfleetwise
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsiot: return "AWS-IoT"
+            case .awsiotfleetwise: return "AWS-IoT-FleetWise"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTClientTypes {
+
+    /// The command payload object that contains the instructions for the device to process.
+    public struct CommandPayload: Swift.Sendable {
+        /// The static payload file for the command.
+        public var content: Foundation.Data?
+        /// The content type that specifies the format type of the payload file. This field must use a type/subtype format, such as application/json. For information about various content types, see [Common MIME types](https://developer.mozilla.org/en-US/docs/Web/HTTP/MIME_types/Common_types).
+        public var contentType: Swift.String?
+
+        public init(
+            content: Foundation.Data? = nil,
+            contentType: Swift.String? = nil
+        ) {
+            self.content = content
+            self.contentType = contentType
+        }
+    }
+}
+
+public struct CreateCommandInput: Swift.Sendable {
+    /// A unique identifier for the command. We recommend using UUID. Alpha-numeric characters, hyphens, and underscores are valid for use here.
+    /// This member is required.
+    public var commandId: Swift.String?
+    /// A short text decription of the command.
+    public var description: Swift.String?
+    /// The user-friendly name in the console for the command. This name doesn't have to be unique. You can update the user-friendly name after you define it.
+    public var displayName: Swift.String?
+    /// A list of parameters that are required by the StartCommandExecution API. These parameters need to be specified only when using the AWS-IoT-FleetWise namespace. You can either specify them here or when running the command using the StartCommandExecution API.
+    public var mandatoryParameters: [IoTClientTypes.CommandParameter]?
+    /// The namespace of the command. The MQTT reserved topics and validations will be used for command executions according to the namespace setting.
+    public var namespace: IoTClientTypes.CommandNamespace?
+    /// The payload object for the command. You must specify this information when using the AWS-IoT namespace. You can upload a static payload file from your local storage that contains the instructions for the device to process. The payload file can use any format. To make sure that the device correctly interprets the payload, we recommend you to specify the payload content type.
+    public var payload: IoTClientTypes.CommandPayload?
+    /// The IAM role that you must provide when using the AWS-IoT-FleetWise namespace. The role grants IoT Device Management the permission to access IoT FleetWise resources for generating the payload for the command. This field is not required when you use the AWS-IoT namespace.
+    public var roleArn: Swift.String?
+    /// Name-value pairs that are used as metadata to manage a command.
+    public var tags: [IoTClientTypes.Tag]?
+
+    public init(
+        commandId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        mandatoryParameters: [IoTClientTypes.CommandParameter]? = nil,
+        namespace: IoTClientTypes.CommandNamespace? = nil,
+        payload: IoTClientTypes.CommandPayload? = nil,
+        roleArn: Swift.String? = nil,
+        tags: [IoTClientTypes.Tag]? = nil
+    ) {
+        self.commandId = commandId
+        self.description = description
+        self.displayName = displayName
+        self.mandatoryParameters = mandatoryParameters
+        self.namespace = namespace
+        self.payload = payload
+        self.roleArn = roleArn
+        self.tags = tags
+    }
+}
+
+public struct CreateCommandOutput: Swift.Sendable {
+    /// The Amazon Resource Number (ARN) of the command. For example, arn:aws:iot:::command/
+    public var commandArn: Swift.String?
+    /// The unique identifier for the command.
+    public var commandId: Swift.String?
+
+    public init(
+        commandArn: Swift.String? = nil,
+        commandId: Swift.String? = nil
+    ) {
+        self.commandArn = commandArn
+        self.commandId = commandId
     }
 }
 
@@ -4598,8 +4682,7 @@ public struct CreateCustomMetricInput: Swift.Sendable {
         metricName: Swift.String? = nil,
         metricType: IoTClientTypes.CustomMetricType? = nil,
         tags: [IoTClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.displayName = displayName
         self.metricName = metricName
@@ -4617,8 +4700,7 @@ public struct CreateCustomMetricOutput: Swift.Sendable {
     public init(
         metricArn: Swift.String? = nil,
         metricName: Swift.String? = nil
-    )
-    {
+    ) {
         self.metricArn = metricArn
         self.metricName = metricName
     }
@@ -4672,8 +4754,7 @@ public struct CreateDimensionInput: Swift.Sendable {
         stringValues: [Swift.String]? = nil,
         tags: [IoTClientTypes.Tag]? = nil,
         type: IoTClientTypes.DimensionType? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.name = name
         self.stringValues = stringValues
@@ -4691,17 +4772,16 @@ public struct CreateDimensionOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.name = name
     }
 }
 
 /// The certificate is invalid.
-public struct CertificateValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CertificateValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Additional information about the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4717,8 +4797,7 @@ public struct CertificateValidationException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4732,8 +4811,7 @@ extension IoTClientTypes {
 
         public init(
             clientCertificateCallbackArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientCertificateCallbackArn = clientCertificateCallbackArn
         }
     }
@@ -4743,14 +4821,21 @@ extension IoTClientTypes {
 
     /// The server certificate configuration.
     public struct ServerCertificateConfig: Swift.Sendable {
-        /// A Boolean value that indicates whether Online Certificate Status Protocol (OCSP) server certificate check is enabled or not. For more information, see [Configuring OCSP server-certificate stapling in domain configuration](https://docs.aws.amazon.com/iot/latest/developerguide/iot-custom-endpoints-cert-config.html) from Amazon Web Services IoT Core Developer Guide.
+        /// A Boolean value that indicates whether Online Certificate Status Protocol (OCSP) server certificate check is enabled or not. For more information, see [ Server certificate configuration for OCSP stapling](https://docs.aws.amazon.com/iot/latest/developerguide/iot-custom-endpoints-cert-config.html) from Amazon Web Services IoT Core Developer Guide.
         public var enableOCSPCheck: Swift.Bool?
+        /// The Amazon Resource Name (ARN) for an X.509 certificate stored in Amazon Web Services Certificate Manager (ACM). If provided, Amazon Web Services IoT Core will use this certificate to validate the signature of the received OCSP response. The OCSP responder must sign responses using either this authorized responder certificate or the issuing certificate, depending on whether the ARN is provided or not. The certificate must be in the same Amazon Web Services account and region as the domain configuration.
+        public var ocspAuthorizedResponderArn: Swift.String?
+        /// The Amazon Resource Name (ARN) for a Lambda function that acts as a Request for Comments (RFC) 6960-compliant Online Certificate Status Protocol (OCSP) responder, supporting basic OCSP responses. The Lambda function accepts a base64-encoding of the OCSP request in the Distinguished Encoding Rules (DER) format. The Lambda function's response is also a base64-encoded OCSP response in the DER format. The response size must not exceed 4 kilobytes (KiB). The Lambda function must be in the same Amazon Web Services account and region as the domain configuration. For more information, see [Configuring server certificate OCSP for private endpoints in Amazon Web Services IoT Core](https://docs.aws.amazon.com/iot/latest/developerguide/iot-custom-endpoints-cert-config.html#iot-custom-endpoints-cert-config-ocsp-private-endpoint.html) from the Amazon Web Services IoT Core developer guide.
+        public var ocspLambdaArn: Swift.String?
 
         public init(
-            enableOCSPCheck: Swift.Bool? = nil
-        )
-        {
+            enableOCSPCheck: Swift.Bool? = nil,
+            ocspAuthorizedResponderArn: Swift.String? = nil,
+            ocspLambdaArn: Swift.String? = nil
+        ) {
             self.enableOCSPCheck = enableOCSPCheck
+            self.ocspAuthorizedResponderArn = ocspAuthorizedResponderArn
+            self.ocspLambdaArn = ocspLambdaArn
         }
     }
 }
@@ -4796,8 +4881,7 @@ extension IoTClientTypes {
 
         public init(
             securityPolicy: Swift.String? = nil
-        )
-        {
+        ) {
             self.securityPolicy = securityPolicy
         }
     }
@@ -4882,8 +4966,7 @@ public struct CreateDomainConfigurationInput: Swift.Sendable {
         tags: [IoTClientTypes.Tag]? = nil,
         tlsConfig: IoTClientTypes.TlsConfig? = nil,
         validationCertificateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationProtocol = applicationProtocol
         self.authenticationType = authenticationType
         self.authorizerConfig = authorizerConfig
@@ -4908,17 +4991,16 @@ public struct CreateDomainConfigurationOutput: Swift.Sendable {
     public init(
         domainConfigurationArn: Swift.String? = nil,
         domainConfigurationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainConfigurationArn = domainConfigurationArn
         self.domainConfigurationName = domainConfigurationName
     }
 }
 
 /// The query is invalid.
-public struct InvalidQueryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidQueryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4934,8 +5016,7 @@ public struct InvalidQueryException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4952,8 +5033,7 @@ extension IoTClientTypes {
         public init(
             attributePayload: IoTClientTypes.AttributePayload? = nil,
             thingGroupDescription: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributePayload = attributePayload
             self.thingGroupDescription = thingGroupDescription
         }
@@ -4983,8 +5063,7 @@ public struct CreateDynamicThingGroupInput: Swift.Sendable {
         tags: [IoTClientTypes.Tag]? = nil,
         thingGroupName: Swift.String? = nil,
         thingGroupProperties: IoTClientTypes.ThingGroupProperties? = nil
-    )
-    {
+    ) {
         self.indexName = indexName
         self.queryString = queryString
         self.queryVersion = queryVersion
@@ -5015,8 +5094,7 @@ public struct CreateDynamicThingGroupOutput: Swift.Sendable {
         thingGroupArn: Swift.String? = nil,
         thingGroupId: Swift.String? = nil,
         thingGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.indexName = indexName
         self.queryString = queryString
         self.queryVersion = queryVersion
@@ -5027,9 +5105,9 @@ public struct CreateDynamicThingGroupOutput: Swift.Sendable {
 }
 
 /// The index is not ready.
-public struct IndexNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IndexNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5045,16 +5123,15 @@ public struct IndexNotReadyException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The aggregation is invalid.
-public struct InvalidAggregationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidAggregationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5069,8 +5146,7 @@ public struct InvalidAggregationException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -5217,8 +5293,7 @@ public struct CreateFleetMetricInput: Swift.Sendable {
         queryVersion: Swift.String? = nil,
         tags: [IoTClientTypes.Tag]? = nil,
         unit: IoTClientTypes.FleetMetricUnit? = nil
-    )
-    {
+    ) {
         self.aggregationField = aggregationField
         self.aggregationType = aggregationType
         self.description = description
@@ -5241,8 +5316,7 @@ public struct CreateFleetMetricOutput: Swift.Sendable {
     public init(
         metricArn: Swift.String? = nil,
         metricName: Swift.String? = nil
-    )
-    {
+    ) {
         self.metricArn = metricArn
         self.metricName = metricName
     }
@@ -5294,8 +5368,7 @@ extension IoTClientTypes {
         public init(
             failureType: IoTClientTypes.RetryableFailureType? = nil,
             numberOfRetries: Swift.Int? = nil
-        )
-        {
+        ) {
             self.failureType = failureType
             self.numberOfRetries = numberOfRetries
         }
@@ -5312,8 +5385,7 @@ extension IoTClientTypes {
 
         public init(
             criteriaList: [IoTClientTypes.RetryCriteria]? = nil
-        )
-        {
+        ) {
             self.criteriaList = criteriaList
         }
     }
@@ -5331,8 +5403,7 @@ extension IoTClientTypes {
         public init(
             numberOfNotifiedThings: Swift.Int? = nil,
             numberOfSucceededThings: Swift.Int? = nil
-        )
-        {
+        ) {
             self.numberOfNotifiedThings = numberOfNotifiedThings
             self.numberOfSucceededThings = numberOfSucceededThings
         }
@@ -5357,8 +5428,7 @@ extension IoTClientTypes {
             baseRatePerMinute: Swift.Int? = nil,
             incrementFactor: Swift.Double? = nil,
             rateIncreaseCriteria: IoTClientTypes.RateIncreaseCriteria? = nil
-        )
-        {
+        ) {
             self.baseRatePerMinute = baseRatePerMinute
             self.incrementFactor = incrementFactor
             self.rateIncreaseCriteria = rateIncreaseCriteria
@@ -5378,8 +5448,7 @@ extension IoTClientTypes {
         public init(
             exponentialRate: IoTClientTypes.ExponentialRolloutRate? = nil,
             maximumPerMinute: Swift.Int? = nil
-        )
-        {
+        ) {
             self.exponentialRate = exponentialRate
             self.maximumPerMinute = maximumPerMinute
         }
@@ -5398,8 +5467,7 @@ extension IoTClientTypes {
         public init(
             expiresInSec: Swift.Int? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.expiresInSec = expiresInSec
             self.roleArn = roleArn
         }
@@ -5452,8 +5520,7 @@ extension IoTClientTypes {
         public init(
             durationInMinutes: Swift.Int? = nil,
             startTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.durationInMinutes = durationInMinutes
             self.startTime = startTime
         }
@@ -5478,8 +5545,7 @@ extension IoTClientTypes {
             endTime: Swift.String? = nil,
             maintenanceWindows: [IoTClientTypes.MaintenanceWindow]? = nil,
             startTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.endBehavior = endBehavior
             self.endTime = endTime
             self.maintenanceWindows = maintenanceWindows
@@ -5526,8 +5592,7 @@ extension IoTClientTypes {
 
         public init(
             inProgressTimeoutInMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.inProgressTimeoutInMinutes = inProgressTimeoutInMinutes
         }
     }
@@ -5550,7 +5615,7 @@ public struct CreateJobInput: Swift.Sendable {
     public var jobExecutionsRetryConfig: IoTClientTypes.JobExecutionsRetryConfig?
     /// Allows you to create a staged rollout of the job.
     public var jobExecutionsRolloutConfig: IoTClientTypes.JobExecutionsRolloutConfig?
-    /// A job identifier which must be unique for your Amazon Web Services account. We recommend using a UUID. Alpha-numeric characters, "-" and "_" are valid for use here.
+    /// A job identifier which must be unique for your account. We recommend using a UUID. Alpha-numeric characters, "-" and "_" are valid for use here.
     /// This member is required.
     public var jobId: Swift.String?
     /// The ARN of the job template used to create the job.
@@ -5589,8 +5654,7 @@ public struct CreateJobInput: Swift.Sendable {
         targetSelection: IoTClientTypes.TargetSelection? = nil,
         targets: [Swift.String]? = nil,
         timeoutConfig: IoTClientTypes.TimeoutConfig? = nil
-    )
-    {
+    ) {
         self.abortConfig = abortConfig
         self.description = description
         self.destinationPackageVersions = destinationPackageVersions
@@ -5623,8 +5687,7 @@ public struct CreateJobOutput: Swift.Sendable {
         description: Swift.String? = nil,
         jobArn: Swift.String? = nil,
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.jobArn = jobArn
         self.jobId = jobId
@@ -5675,8 +5738,7 @@ public struct CreateJobTemplateInput: Swift.Sendable {
         presignedUrlConfig: IoTClientTypes.PresignedUrlConfig? = nil,
         tags: [IoTClientTypes.Tag]? = nil,
         timeoutConfig: IoTClientTypes.TimeoutConfig? = nil
-    )
-    {
+    ) {
         self.abortConfig = abortConfig
         self.description = description
         self.destinationPackageVersions = destinationPackageVersions
@@ -5702,8 +5764,7 @@ public struct CreateJobTemplateOutput: Swift.Sendable {
     public init(
         jobTemplateArn: Swift.String? = nil,
         jobTemplateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobTemplateArn = jobTemplateArn
         self.jobTemplateId = jobTemplateId
     }
@@ -5716,8 +5777,7 @@ public struct CreateKeysAndCertificateInput: Swift.Sendable {
 
     public init(
         setAsActive: Swift.Bool? = false
-    )
-    {
+    ) {
         self.setAsActive = setAsActive
     }
 }
@@ -5734,8 +5794,7 @@ extension IoTClientTypes {
         public init(
             privateKey: Swift.String? = nil,
             publicKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.privateKey = privateKey
             self.publicKey = publicKey
         }
@@ -5763,8 +5822,7 @@ public struct CreateKeysAndCertificateOutput: Swift.Sendable {
         certificateId: Swift.String? = nil,
         certificatePem: Swift.String? = nil,
         keyPair: IoTClientTypes.KeyPair? = nil
-    )
-    {
+    ) {
         self.certificateArn = certificateArn
         self.certificateId = certificateId
         self.certificatePem = certificatePem
@@ -5824,8 +5882,7 @@ extension IoTClientTypes {
         public init(
             logLevel: IoTClientTypes.LogLevel? = nil,
             roleArnForLogging: Swift.String? = nil
-        )
-        {
+        ) {
             self.logLevel = logLevel
             self.roleArnForLogging = roleArnForLogging
         }
@@ -5842,8 +5899,7 @@ extension IoTClientTypes {
 
         public init(
             topicArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.topicArn = topicArn
         }
     }
@@ -5885,8 +5941,7 @@ extension IoTClientTypes {
 
         public init(
             templateName: IoTClientTypes.PolicyTemplateName? = nil
-        )
-        {
+        ) {
             self.templateName = templateName
         }
     }
@@ -5928,8 +5983,7 @@ extension IoTClientTypes {
 
         public init(
             action: IoTClientTypes.CACertificateUpdateAction? = nil
-        )
-        {
+        ) {
             self.action = action
         }
     }
@@ -5971,8 +6025,7 @@ extension IoTClientTypes {
 
         public init(
             action: IoTClientTypes.DeviceCertificateUpdateAction? = nil
-        )
-        {
+        ) {
             self.action = action
         }
     }
@@ -6002,8 +6055,7 @@ extension IoTClientTypes {
             replaceDefaultPolicyVersionParams: IoTClientTypes.ReplaceDefaultPolicyVersionParams? = nil,
             updateCACertificateParams: IoTClientTypes.UpdateCACertificateParams? = nil,
             updateDeviceCertificateParams: IoTClientTypes.UpdateDeviceCertificateParams? = nil
-        )
-        {
+        ) {
             self.addThingsToThingGroupParams = addThingsToThingGroupParams
             self.enableIoTLoggingParams = enableIoTLoggingParams
             self.publishFindingToSnsParams = publishFindingToSnsParams
@@ -6032,8 +6084,7 @@ public struct CreateMitigationActionInput: Swift.Sendable {
         actionParams: IoTClientTypes.MitigationActionParams? = nil,
         roleArn: Swift.String? = nil,
         tags: [IoTClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.actionName = actionName
         self.actionParams = actionParams
         self.roleArn = roleArn
@@ -6050,8 +6101,7 @@ public struct CreateMitigationActionOutput: Swift.Sendable {
     public init(
         actionArn: Swift.String? = nil,
         actionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionArn = actionArn
         self.actionId = actionId
     }
@@ -6140,8 +6190,7 @@ extension IoTClientTypes {
             failureType: IoTClientTypes.AwsJobAbortCriteriaFailureType? = nil,
             minNumberOfExecutedThings: Swift.Int? = nil,
             thresholdPercentage: Swift.Double? = nil
-        )
-        {
+        ) {
             self.action = action
             self.failureType = failureType
             self.minNumberOfExecutedThings = minNumberOfExecutedThings
@@ -6160,8 +6209,7 @@ extension IoTClientTypes {
 
         public init(
             abortCriteriaList: [IoTClientTypes.AwsJobAbortCriteria]? = nil
-        )
-        {
+        ) {
             self.abortCriteriaList = abortCriteriaList
         }
     }
@@ -6179,8 +6227,7 @@ extension IoTClientTypes {
         public init(
             numberOfNotifiedThings: Swift.Int? = nil,
             numberOfSucceededThings: Swift.Int? = nil
-        )
-        {
+        ) {
             self.numberOfNotifiedThings = numberOfNotifiedThings
             self.numberOfSucceededThings = numberOfSucceededThings
         }
@@ -6205,8 +6252,7 @@ extension IoTClientTypes {
             baseRatePerMinute: Swift.Int? = nil,
             incrementFactor: Swift.Double = 0.0,
             rateIncreaseCriteria: IoTClientTypes.AwsJobRateIncreaseCriteria? = nil
-        )
-        {
+        ) {
             self.baseRatePerMinute = baseRatePerMinute
             self.incrementFactor = incrementFactor
             self.rateIncreaseCriteria = rateIncreaseCriteria
@@ -6226,8 +6272,7 @@ extension IoTClientTypes {
         public init(
             exponentialRate: IoTClientTypes.AwsJobExponentialRolloutRate? = nil,
             maximumPerMinute: Swift.Int? = nil
-        )
-        {
+        ) {
             self.exponentialRate = exponentialRate
             self.maximumPerMinute = maximumPerMinute
         }
@@ -6243,8 +6288,7 @@ extension IoTClientTypes {
 
         public init(
             expiresInSec: Swift.Int? = nil
-        )
-        {
+        ) {
             self.expiresInSec = expiresInSec
         }
     }
@@ -6259,8 +6303,7 @@ extension IoTClientTypes {
 
         public init(
             inProgressTimeoutInMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.inProgressTimeoutInMinutes = inProgressTimeoutInMinutes
         }
     }
@@ -6278,8 +6321,7 @@ extension IoTClientTypes {
         public init(
             certificateName: Swift.String? = nil,
             inlineDocument: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateName = certificateName
             self.inlineDocument = inlineDocument
         }
@@ -6295,8 +6337,7 @@ extension IoTClientTypes {
 
         public init(
             inlineDocument: Foundation.Data? = nil
-        )
-        {
+        ) {
             self.inlineDocument = inlineDocument
         }
     }
@@ -6320,8 +6361,7 @@ extension IoTClientTypes {
             hashAlgorithm: Swift.String? = nil,
             signature: IoTClientTypes.CodeSigningSignature? = nil,
             signatureAlgorithm: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateChain = certificateChain
             self.hashAlgorithm = hashAlgorithm
             self.signature = signature
@@ -6342,8 +6382,7 @@ extension IoTClientTypes {
         public init(
             bucket: Swift.String? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.`prefix` = `prefix`
         }
@@ -6359,8 +6398,7 @@ extension IoTClientTypes {
 
         public init(
             s3Destination: IoTClientTypes.S3Destination? = nil
-        )
-        {
+        ) {
             self.s3Destination = s3Destination
         }
     }
@@ -6381,8 +6419,7 @@ extension IoTClientTypes {
             certificateArn: Swift.String? = nil,
             certificatePathOnDevice: Swift.String? = nil,
             platform: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateArn = certificateArn
             self.certificatePathOnDevice = certificatePathOnDevice
             self.platform = platform
@@ -6405,8 +6442,7 @@ extension IoTClientTypes {
             destination: IoTClientTypes.Destination? = nil,
             signingProfileName: Swift.String? = nil,
             signingProfileParameter: IoTClientTypes.SigningProfileParameter? = nil
-        )
-        {
+        ) {
             self.destination = destination
             self.signingProfileName = signingProfileName
             self.signingProfileParameter = signingProfileParameter
@@ -6429,8 +6465,7 @@ extension IoTClientTypes {
             awsSignerJobId: Swift.String? = nil,
             customCodeSigning: IoTClientTypes.CustomCodeSigning? = nil,
             startSigningJobParameter: IoTClientTypes.StartSigningJobParameter? = nil
-        )
-        {
+        ) {
             self.awsSignerJobId = awsSignerJobId
             self.customCodeSigning = customCodeSigning
             self.startSigningJobParameter = startSigningJobParameter
@@ -6450,8 +6485,7 @@ extension IoTClientTypes {
         public init(
             fileId: Swift.Int? = nil,
             streamId: Swift.String? = nil
-        )
-        {
+        ) {
             self.fileId = fileId
             self.streamId = streamId
         }
@@ -6470,8 +6504,7 @@ extension IoTClientTypes {
         public init(
             s3Location: IoTClientTypes.S3Location? = nil,
             stream: IoTClientTypes.Stream? = nil
-        )
-        {
+        ) {
             self.s3Location = s3Location
             self.stream = stream
         }
@@ -6502,8 +6535,7 @@ extension IoTClientTypes {
             fileName: Swift.String? = nil,
             fileType: Swift.Int? = nil,
             fileVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.codeSigning = codeSigning
             self.fileLocation = fileLocation
@@ -6589,8 +6621,7 @@ public struct CreateOTAUpdateInput: Swift.Sendable {
         tags: [IoTClientTypes.Tag]? = nil,
         targetSelection: IoTClientTypes.TargetSelection? = nil,
         targets: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.additionalParameters = additionalParameters
         self.awsJobAbortConfig = awsJobAbortConfig
         self.awsJobExecutionsRolloutConfig = awsJobExecutionsRolloutConfig
@@ -6666,8 +6697,7 @@ public struct CreateOTAUpdateOutput: Swift.Sendable {
         otaUpdateArn: Swift.String? = nil,
         otaUpdateId: Swift.String? = nil,
         otaUpdateStatus: IoTClientTypes.OTAUpdateStatus? = nil
-    )
-    {
+    ) {
         self.awsIotJobArn = awsIotJobArn
         self.awsIotJobId = awsIotJobId
         self.otaUpdateArn = otaUpdateArn
@@ -6692,8 +6722,7 @@ public struct CreatePackageInput: Swift.Sendable {
         description: Swift.String? = nil,
         packageName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.packageName = packageName
@@ -6718,8 +6747,7 @@ public struct CreatePackageOutput: Swift.Sendable {
         description: Swift.String? = nil,
         packageArn: Swift.String? = nil,
         packageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.packageArn = packageArn
         self.packageName = packageName
@@ -6740,8 +6768,7 @@ extension IoTClientTypes {
 
         public init(
             s3Location: IoTClientTypes.S3Location? = nil
-        )
-        {
+        ) {
             self.s3Location = s3Location
         }
     }
@@ -6776,8 +6803,7 @@ public struct CreatePackageVersionInput: Swift.Sendable {
         recipe: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.artifact = artifact
         self.attributes = attributes
         self.clientToken = clientToken
@@ -6850,8 +6876,7 @@ public struct CreatePackageVersionOutput: Swift.Sendable {
         packageVersionArn: Swift.String? = nil,
         status: IoTClientTypes.PackageVersionStatus? = nil,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.description = description
         self.errorReason = errorReason
@@ -6868,9 +6893,9 @@ extension CreatePackageVersionOutput: Swift.CustomDebugStringConvertible {
 }
 
 /// The policy documentation is not valid.
-public struct MalformedPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MalformedPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6886,8 +6911,7 @@ public struct MalformedPolicyException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6907,8 +6931,7 @@ public struct CreatePolicyInput: Swift.Sendable {
         policyDocument: Swift.String? = nil,
         policyName: Swift.String? = nil,
         tags: [IoTClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.policyDocument = policyDocument
         self.policyName = policyName
         self.tags = tags
@@ -6931,8 +6954,7 @@ public struct CreatePolicyOutput: Swift.Sendable {
         policyDocument: Swift.String? = nil,
         policyName: Swift.String? = nil,
         policyVersionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyArn = policyArn
         self.policyDocument = policyDocument
         self.policyName = policyName
@@ -6941,9 +6963,9 @@ public struct CreatePolicyOutput: Swift.Sendable {
 }
 
 /// The number of policy versions exceeds the limit.
-public struct VersionsLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct VersionsLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6959,8 +6981,7 @@ public struct VersionsLimitExceededException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -6980,8 +7001,7 @@ public struct CreatePolicyVersionInput: Swift.Sendable {
         policyDocument: Swift.String? = nil,
         policyName: Swift.String? = nil,
         setAsDefault: Swift.Bool? = false
-    )
-    {
+    ) {
         self.policyDocument = policyDocument
         self.policyName = policyName
         self.setAsDefault = setAsDefault
@@ -7004,8 +7024,7 @@ public struct CreatePolicyVersionOutput: Swift.Sendable {
         policyArn: Swift.String? = nil,
         policyDocument: Swift.String? = nil,
         policyVersionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.isDefaultVersion = isDefaultVersion
         self.policyArn = policyArn
         self.policyDocument = policyDocument
@@ -7020,8 +7039,7 @@ public struct CreateProvisioningClaimInput: Swift.Sendable {
 
     public init(
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateName = templateName
     }
 }
@@ -7041,8 +7059,7 @@ public struct CreateProvisioningClaimOutput: Swift.Sendable {
         certificatePem: Swift.String? = nil,
         expiration: Foundation.Date? = nil,
         keyPair: IoTClientTypes.KeyPair? = nil
-    )
-    {
+    ) {
         self.certificateId = certificateId
         self.certificatePem = certificatePem
         self.expiration = expiration
@@ -7063,8 +7080,7 @@ extension IoTClientTypes {
         public init(
             payloadVersion: Swift.String? = nil,
             targetArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.payloadVersion = payloadVersion
             self.targetArn = targetArn
         }
@@ -7130,8 +7146,7 @@ public struct CreateProvisioningTemplateInput: Swift.Sendable {
         templateBody: Swift.String? = nil,
         templateName: Swift.String? = nil,
         type: IoTClientTypes.TemplateType? = nil
-    )
-    {
+    ) {
         self.description = description
         self.enabled = enabled
         self.preProvisioningHook = preProvisioningHook
@@ -7155,8 +7170,7 @@ public struct CreateProvisioningTemplateOutput: Swift.Sendable {
         defaultVersionId: Swift.Int? = nil,
         templateArn: Swift.String? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultVersionId = defaultVersionId
         self.templateArn = templateArn
         self.templateName = templateName
@@ -7177,8 +7191,7 @@ public struct CreateProvisioningTemplateVersionInput: Swift.Sendable {
         setAsDefault: Swift.Bool? = false,
         templateBody: Swift.String? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.setAsDefault = setAsDefault
         self.templateBody = templateBody
         self.templateName = templateName
@@ -7200,8 +7213,7 @@ public struct CreateProvisioningTemplateVersionOutput: Swift.Sendable {
         templateArn: Swift.String? = nil,
         templateName: Swift.String? = nil,
         versionId: Swift.Int? = nil
-    )
-    {
+    ) {
         self.isDefaultVersion = isDefaultVersion
         self.templateArn = templateArn
         self.templateName = templateName
@@ -7226,8 +7238,7 @@ public struct CreateRoleAliasInput: Swift.Sendable {
         roleAlias: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         tags: [IoTClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.credentialDurationSeconds = credentialDurationSeconds
         self.roleAlias = roleAlias
         self.roleArn = roleArn
@@ -7244,8 +7255,7 @@ public struct CreateRoleAliasOutput: Swift.Sendable {
     public init(
         roleAlias: Swift.String? = nil,
         roleAliasArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.roleAlias = roleAlias
         self.roleAliasArn = roleAliasArn
     }
@@ -7319,8 +7329,7 @@ public struct CreateScheduledAuditInput: Swift.Sendable {
         scheduledAuditName: Swift.String? = nil,
         tags: [IoTClientTypes.Tag]? = nil,
         targetCheckNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.dayOfMonth = dayOfMonth
         self.dayOfWeek = dayOfWeek
         self.frequency = frequency
@@ -7336,8 +7345,7 @@ public struct CreateScheduledAuditOutput: Swift.Sendable {
 
     public init(
         scheduledAuditArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.scheduledAuditArn = scheduledAuditArn
     }
 }
@@ -7356,8 +7364,7 @@ extension IoTClientTypes {
         public init(
             mqttTopic: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.mqttTopic = mqttTopic
             self.roleArn = roleArn
         }
@@ -7393,8 +7400,7 @@ public struct CreateSecurityProfileInput: Swift.Sendable {
         securityProfileDescription: Swift.String? = nil,
         securityProfileName: Swift.String? = nil,
         tags: [IoTClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.additionalMetricsToRetain = additionalMetricsToRetain
         self.additionalMetricsToRetainV2 = additionalMetricsToRetainV2
         self.alertTargets = alertTargets
@@ -7415,8 +7421,7 @@ public struct CreateSecurityProfileOutput: Swift.Sendable {
     public init(
         securityProfileArn: Swift.String? = nil,
         securityProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.securityProfileArn = securityProfileArn
         self.securityProfileName = securityProfileName
     }
@@ -7434,8 +7439,7 @@ extension IoTClientTypes {
         public init(
             fileId: Swift.Int? = nil,
             s3Location: IoTClientTypes.S3Location? = nil
-        )
-        {
+        ) {
             self.fileId = fileId
             self.s3Location = s3Location
         }
@@ -7463,8 +7467,7 @@ public struct CreateStreamInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         streamId: Swift.String? = nil,
         tags: [IoTClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.files = files
         self.roleArn = roleArn
@@ -7488,8 +7491,7 @@ public struct CreateStreamOutput: Swift.Sendable {
         streamArn: Swift.String? = nil,
         streamId: Swift.String? = nil,
         streamVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.description = description
         self.streamArn = streamArn
         self.streamId = streamId
@@ -7514,8 +7516,7 @@ public struct CreateThingInput: Swift.Sendable {
         billingGroupName: Swift.String? = nil,
         thingName: Swift.String? = nil,
         thingTypeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributePayload = attributePayload
         self.billingGroupName = billingGroupName
         self.thingName = thingName
@@ -7536,8 +7537,7 @@ public struct CreateThingOutput: Swift.Sendable {
         thingArn: Swift.String? = nil,
         thingId: Swift.String? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.thingArn = thingArn
         self.thingId = thingId
         self.thingName = thingName
@@ -7560,8 +7560,7 @@ public struct CreateThingGroupInput: Swift.Sendable {
         tags: [IoTClientTypes.Tag]? = nil,
         thingGroupName: Swift.String? = nil,
         thingGroupProperties: IoTClientTypes.ThingGroupProperties? = nil
-    )
-    {
+    ) {
         self.parentGroupName = parentGroupName
         self.tags = tags
         self.thingGroupName = thingGroupName
@@ -7581,8 +7580,7 @@ public struct CreateThingGroupOutput: Swift.Sendable {
         thingGroupArn: Swift.String? = nil,
         thingGroupId: Swift.String? = nil,
         thingGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.thingGroupArn = thingGroupArn
         self.thingGroupId = thingGroupId
         self.thingGroupName = thingGroupName
@@ -7591,18 +7589,59 @@ public struct CreateThingGroupOutput: Swift.Sendable {
 
 extension IoTClientTypes {
 
+    /// An object that represents the connection attribute, thing attribute, and the user property key.
+    public struct PropagatingAttribute: Swift.Sendable {
+        /// The attribute associated with the connection between a device and Amazon Web Services IoT Core.
+        public var connectionAttribute: Swift.String?
+        /// The user-defined thing attribute that is propagating for MQTT 5 message enrichment.
+        public var thingAttribute: Swift.String?
+        /// The key of the user property key-value pair.
+        public var userPropertyKey: Swift.String?
+
+        public init(
+            connectionAttribute: Swift.String? = nil,
+            thingAttribute: Swift.String? = nil,
+            userPropertyKey: Swift.String? = nil
+        ) {
+            self.connectionAttribute = connectionAttribute
+            self.thingAttribute = thingAttribute
+            self.userPropertyKey = userPropertyKey
+        }
+    }
+}
+
+extension IoTClientTypes {
+
+    /// The configuration to add user-defined properties to enrich MQTT 5 messages.
+    public struct Mqtt5Configuration: Swift.Sendable {
+        /// An object that represents the propagating thing attributes and the connection attributes.
+        public var propagatingAttributes: [IoTClientTypes.PropagatingAttribute]?
+
+        public init(
+            propagatingAttributes: [IoTClientTypes.PropagatingAttribute]? = nil
+        ) {
+            self.propagatingAttributes = propagatingAttributes
+        }
+    }
+}
+
+extension IoTClientTypes {
+
     /// The ThingTypeProperties contains information about the thing type including: a thing type description, and a list of searchable thing attribute names.
     public struct ThingTypeProperties: Swift.Sendable {
+        /// The configuration to add user-defined properties to enrich MQTT 5 messages.
+        public var mqtt5Configuration: IoTClientTypes.Mqtt5Configuration?
         /// A list of searchable thing attribute names.
         public var searchableAttributes: [Swift.String]?
         /// The description of the thing type.
         public var thingTypeDescription: Swift.String?
 
         public init(
+            mqtt5Configuration: IoTClientTypes.Mqtt5Configuration? = nil,
             searchableAttributes: [Swift.String]? = nil,
             thingTypeDescription: Swift.String? = nil
-        )
-        {
+        ) {
+            self.mqtt5Configuration = mqtt5Configuration
             self.searchableAttributes = searchableAttributes
             self.thingTypeDescription = thingTypeDescription
         }
@@ -7623,8 +7662,7 @@ public struct CreateThingTypeInput: Swift.Sendable {
         tags: [IoTClientTypes.Tag]? = nil,
         thingTypeName: Swift.String? = nil,
         thingTypeProperties: IoTClientTypes.ThingTypeProperties? = nil
-    )
-    {
+    ) {
         self.tags = tags
         self.thingTypeName = thingTypeName
         self.thingTypeProperties = thingTypeProperties
@@ -7644,8 +7682,7 @@ public struct CreateThingTypeOutput: Swift.Sendable {
         thingTypeArn: Swift.String? = nil,
         thingTypeId: Swift.String? = nil,
         thingTypeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.thingTypeArn = thingTypeArn
         self.thingTypeId = thingTypeId
         self.thingTypeName = thingTypeName
@@ -7653,9 +7690,9 @@ public struct CreateThingTypeOutput: Swift.Sendable {
 }
 
 /// The Rule-SQL expression can't be parsed correctly.
-public struct SqlParseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SqlParseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -7671,8 +7708,7 @@ public struct SqlParseException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7703,8 +7739,7 @@ extension IoTClientTypes {
             errorAction: IoTClientTypes.Action? = nil,
             ruleDisabled: Swift.Bool? = nil,
             sql: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.awsIotSqlVersion = awsIotSqlVersion
             self.description = description
@@ -7730,8 +7765,7 @@ public struct CreateTopicRuleInput: Swift.Sendable {
         ruleName: Swift.String? = nil,
         tags: Swift.String? = nil,
         topicRulePayload: IoTClientTypes.TopicRulePayload? = nil
-    )
-    {
+    ) {
         self.ruleName = ruleName
         self.tags = tags
         self.topicRulePayload = topicRulePayload
@@ -7748,8 +7782,7 @@ extension IoTClientTypes {
 
         public init(
             confirmationUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.confirmationUrl = confirmationUrl
         }
     }
@@ -7776,8 +7809,7 @@ extension IoTClientTypes {
             securityGroups: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.roleArn = roleArn
             self.securityGroups = securityGroups
             self.subnetIds = subnetIds
@@ -7798,8 +7830,7 @@ extension IoTClientTypes {
         public init(
             httpUrlConfiguration: IoTClientTypes.HttpUrlDestinationConfiguration? = nil,
             vpcConfiguration: IoTClientTypes.VpcDestinationConfiguration? = nil
-        )
-        {
+        ) {
             self.httpUrlConfiguration = httpUrlConfiguration
             self.vpcConfiguration = vpcConfiguration
         }
@@ -7813,8 +7844,7 @@ public struct CreateTopicRuleDestinationInput: Swift.Sendable {
 
     public init(
         destinationConfiguration: IoTClientTypes.TopicRuleDestinationConfiguration? = nil
-    )
-    {
+    ) {
         self.destinationConfiguration = destinationConfiguration
     }
 }
@@ -7828,8 +7858,7 @@ extension IoTClientTypes {
 
         public init(
             confirmationUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.confirmationUrl = confirmationUrl
         }
     }
@@ -7891,8 +7920,7 @@ extension IoTClientTypes {
             securityGroups: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.roleArn = roleArn
             self.securityGroups = securityGroups
             self.subnetIds = subnetIds
@@ -7928,8 +7956,7 @@ extension IoTClientTypes {
             status: IoTClientTypes.TopicRuleDestinationStatus? = nil,
             statusReason: Swift.String? = nil,
             vpcProperties: IoTClientTypes.VpcDestinationProperties? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.httpUrlProperties = httpUrlProperties
@@ -7947,8 +7974,7 @@ public struct CreateTopicRuleDestinationOutput: Swift.Sendable {
 
     public init(
         topicRuleDestination: IoTClientTypes.TopicRuleDestination? = nil
-    )
-    {
+    ) {
         self.topicRuleDestination = topicRuleDestination
     }
 }
@@ -7959,8 +7985,7 @@ public struct DeleteAccountAuditConfigurationInput: Swift.Sendable {
 
     public init(
         deleteScheduledAudits: Swift.Bool? = false
-    )
-    {
+    ) {
         self.deleteScheduledAudits = deleteScheduledAudits
     }
 }
@@ -7981,8 +8006,7 @@ public struct DeleteAuditSuppressionInput: Swift.Sendable {
     public init(
         checkName: Swift.String? = nil,
         resourceIdentifier: IoTClientTypes.ResourceIdentifier? = nil
-    )
-    {
+    ) {
         self.checkName = checkName
         self.resourceIdentifier = resourceIdentifier
     }
@@ -7994,9 +8018,9 @@ public struct DeleteAuditSuppressionOutput: Swift.Sendable {
 }
 
 /// You can't delete the resource because it is attached to one or more resources.
-public struct DeleteConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DeleteConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -8012,8 +8036,7 @@ public struct DeleteConflictException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8025,8 +8048,7 @@ public struct DeleteAuthorizerInput: Swift.Sendable {
 
     public init(
         authorizerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorizerName = authorizerName
     }
 }
@@ -8046,8 +8068,7 @@ public struct DeleteBillingGroupInput: Swift.Sendable {
     public init(
         billingGroupName: Swift.String? = nil,
         expectedVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.billingGroupName = billingGroupName
         self.expectedVersion = expectedVersion
     }
@@ -8059,9 +8080,9 @@ public struct DeleteBillingGroupOutput: Swift.Sendable {
 }
 
 /// The certificate operation is not allowed.
-public struct CertificateStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CertificateStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -8077,8 +8098,7 @@ public struct CertificateStateException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -8091,8 +8111,7 @@ public struct DeleteCACertificateInput: Swift.Sendable {
 
     public init(
         certificateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateId = certificateId
     }
 }
@@ -8114,8 +8133,7 @@ public struct DeleteCertificateInput: Swift.Sendable {
     public init(
         certificateId: Swift.String? = nil,
         forceDelete: Swift.Bool? = false
-    )
-    {
+    ) {
         self.certificateId = certificateId
         self.forceDelete = forceDelete
     }
@@ -8128,13 +8146,61 @@ public struct DeleteCertificateProviderInput: Swift.Sendable {
 
     public init(
         certificateProviderName: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateProviderName = certificateProviderName
     }
 }
 
 public struct DeleteCertificateProviderOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteCommandInput: Swift.Sendable {
+    /// The unique identifier of the command to be deleted.
+    /// This member is required.
+    public var commandId: Swift.String?
+
+    public init(
+        commandId: Swift.String? = nil
+    ) {
+        self.commandId = commandId
+    }
+}
+
+public struct DeleteCommandOutput: Swift.Sendable {
+    /// The status code for the command deletion request. The status code is in the 200 range for a successful request.
+    ///
+    /// * If the command hasn't been deprecated, or has been deprecated for a duration that is shorter than the maximum time out duration of 12 hours, when calling the DeleteCommand request, the deletion will be scheduled and a 202 status code will be returned. While the command is being deleted, it will be in a pendingDeletion state. Once the time out duration has been reached, the command will be permanently removed from your account.
+    ///
+    /// * If the command has been deprecated for a duration that is longer than the maximum time out duration of 12 hours, when calling the DeleteCommand request, the command will be deleted immediately and a 204 status code will be returned.
+    public var statusCode: Swift.Int
+
+    public init(
+        statusCode: Swift.Int = 0
+    ) {
+        self.statusCode = statusCode
+    }
+}
+
+public struct DeleteCommandExecutionInput: Swift.Sendable {
+    /// The unique identifier of the command execution that you want to delete from your account.
+    /// This member is required.
+    public var executionId: Swift.String?
+    /// The Amazon Resource Number (ARN) of the target device for which you want to delete command executions.
+    /// This member is required.
+    public var targetArn: Swift.String?
+
+    public init(
+        executionId: Swift.String? = nil,
+        targetArn: Swift.String? = nil
+    ) {
+        self.executionId = executionId
+        self.targetArn = targetArn
+    }
+}
+
+public struct DeleteCommandExecutionOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -8146,8 +8212,7 @@ public struct DeleteCustomMetricInput: Swift.Sendable {
 
     public init(
         metricName: Swift.String? = nil
-    )
-    {
+    ) {
         self.metricName = metricName
     }
 }
@@ -8164,8 +8229,7 @@ public struct DeleteDimensionInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -8182,8 +8246,7 @@ public struct DeleteDomainConfigurationInput: Swift.Sendable {
 
     public init(
         domainConfigurationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainConfigurationName = domainConfigurationName
     }
 }
@@ -8203,8 +8266,7 @@ public struct DeleteDynamicThingGroupInput: Swift.Sendable {
     public init(
         expectedVersion: Swift.Int? = nil,
         thingGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.expectedVersion = expectedVersion
         self.thingGroupName = thingGroupName
     }
@@ -8225,8 +8287,7 @@ public struct DeleteFleetMetricInput: Swift.Sendable {
     public init(
         expectedVersion: Swift.Int? = nil,
         metricName: Swift.String? = nil
-    )
-    {
+    ) {
         self.expectedVersion = expectedVersion
         self.metricName = metricName
     }
@@ -8245,8 +8306,7 @@ public struct DeleteJobInput: Swift.Sendable {
         force: Swift.Bool? = false,
         jobId: Swift.String? = nil,
         namespaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.force = force
         self.jobId = jobId
         self.namespaceId = namespaceId
@@ -8274,8 +8334,7 @@ public struct DeleteJobExecutionInput: Swift.Sendable {
         jobId: Swift.String? = nil,
         namespaceId: Swift.String? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.executionNumber = executionNumber
         self.force = force
         self.jobId = jobId
@@ -8291,8 +8350,7 @@ public struct DeleteJobTemplateInput: Swift.Sendable {
 
     public init(
         jobTemplateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobTemplateId = jobTemplateId
     }
 }
@@ -8304,8 +8362,7 @@ public struct DeleteMitigationActionInput: Swift.Sendable {
 
     public init(
         actionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionName = actionName
     }
 }
@@ -8328,8 +8385,7 @@ public struct DeleteOTAUpdateInput: Swift.Sendable {
         deleteStream: Swift.Bool? = false,
         forceDeleteAWSJob: Swift.Bool? = false,
         otaUpdateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deleteStream = deleteStream
         self.forceDeleteAWSJob = forceDeleteAWSJob
         self.otaUpdateId = otaUpdateId
@@ -8351,8 +8407,7 @@ public struct DeletePackageInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         packageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.packageName = packageName
     }
@@ -8377,8 +8432,7 @@ public struct DeletePackageVersionInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         packageName: Swift.String? = nil,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.packageName = packageName
         self.versionName = versionName
@@ -8398,8 +8452,7 @@ public struct DeletePolicyInput: Swift.Sendable {
 
     public init(
         policyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyName = policyName
     }
 }
@@ -8416,8 +8469,7 @@ public struct DeletePolicyVersionInput: Swift.Sendable {
     public init(
         policyName: Swift.String? = nil,
         policyVersionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyName = policyName
         self.policyVersionId = policyVersionId
     }
@@ -8430,8 +8482,7 @@ public struct DeleteProvisioningTemplateInput: Swift.Sendable {
 
     public init(
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateName = templateName
     }
 }
@@ -8452,8 +8503,7 @@ public struct DeleteProvisioningTemplateVersionInput: Swift.Sendable {
     public init(
         templateName: Swift.String? = nil,
         versionId: Swift.Int? = nil
-    )
-    {
+    ) {
         self.templateName = templateName
         self.versionId = versionId
     }
@@ -8483,8 +8533,7 @@ public struct DeleteRoleAliasInput: Swift.Sendable {
 
     public init(
         roleAlias: Swift.String? = nil
-    )
-    {
+    ) {
         self.roleAlias = roleAlias
     }
 }
@@ -8501,8 +8550,7 @@ public struct DeleteScheduledAuditInput: Swift.Sendable {
 
     public init(
         scheduledAuditName: Swift.String? = nil
-    )
-    {
+    ) {
         self.scheduledAuditName = scheduledAuditName
     }
 }
@@ -8522,8 +8570,7 @@ public struct DeleteSecurityProfileInput: Swift.Sendable {
     public init(
         expectedVersion: Swift.Int? = nil,
         securityProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.expectedVersion = expectedVersion
         self.securityProfileName = securityProfileName
     }
@@ -8541,8 +8588,7 @@ public struct DeleteStreamInput: Swift.Sendable {
 
     public init(
         streamId: Swift.String? = nil
-    )
-    {
+    ) {
         self.streamId = streamId
     }
 }
@@ -8563,8 +8609,7 @@ public struct DeleteThingInput: Swift.Sendable {
     public init(
         expectedVersion: Swift.Int? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.expectedVersion = expectedVersion
         self.thingName = thingName
     }
@@ -8586,8 +8631,7 @@ public struct DeleteThingGroupInput: Swift.Sendable {
     public init(
         expectedVersion: Swift.Int? = nil,
         thingGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.expectedVersion = expectedVersion
         self.thingGroupName = thingGroupName
     }
@@ -8606,8 +8650,7 @@ public struct DeleteThingTypeInput: Swift.Sendable {
 
     public init(
         thingTypeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.thingTypeName = thingTypeName
     }
 }
@@ -8626,8 +8669,7 @@ public struct DeleteTopicRuleInput: Swift.Sendable {
 
     public init(
         ruleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleName = ruleName
     }
 }
@@ -8639,8 +8681,7 @@ public struct DeleteTopicRuleDestinationInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -8699,8 +8740,7 @@ public struct DeleteV2LoggingLevelInput: Swift.Sendable {
     public init(
         targetName: Swift.String? = nil,
         targetType: IoTClientTypes.LogTargetType? = nil
-    )
-    {
+    ) {
         self.targetName = targetName
         self.targetType = targetType
     }
@@ -8717,8 +8757,7 @@ public struct DeprecateThingTypeInput: Swift.Sendable {
     public init(
         thingTypeName: Swift.String? = nil,
         undoDeprecate: Swift.Bool? = false
-    )
-    {
+    ) {
         self.thingTypeName = thingTypeName
         self.undoDeprecate = undoDeprecate
     }
@@ -8747,8 +8786,7 @@ public struct DescribeAccountAuditConfigurationOutput: Swift.Sendable {
         auditCheckConfigurations: [Swift.String: IoTClientTypes.AuditCheckConfiguration]? = nil,
         auditNotificationTargetConfigurations: [Swift.String: IoTClientTypes.AuditNotificationTarget]? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.auditCheckConfigurations = auditCheckConfigurations
         self.auditNotificationTargetConfigurations = auditNotificationTargetConfigurations
         self.roleArn = roleArn
@@ -8762,8 +8800,7 @@ public struct DescribeAuditFindingInput: Swift.Sendable {
 
     public init(
         findingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.findingId = findingId
     }
 }
@@ -8774,8 +8811,7 @@ public struct DescribeAuditFindingOutput: Swift.Sendable {
 
     public init(
         finding: IoTClientTypes.AuditFinding? = nil
-    )
-    {
+    ) {
         self.finding = finding
     }
 }
@@ -8787,8 +8823,7 @@ public struct DescribeAuditMitigationActionsTaskInput: Swift.Sendable {
 
     public init(
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskId = taskId
     }
 }
@@ -8811,8 +8846,7 @@ extension IoTClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionParams = actionParams
             self.id = id
             self.name = name
@@ -8845,8 +8879,7 @@ public struct DescribeAuditMitigationActionsTaskOutput: Swift.Sendable {
         target: IoTClientTypes.AuditMitigationActionsTaskTarget? = nil,
         taskStatistics: [Swift.String: IoTClientTypes.TaskStatisticsForAuditCheck]? = nil,
         taskStatus: IoTClientTypes.AuditMitigationActionsTaskStatus? = nil
-    )
-    {
+    ) {
         self.actionsDefinition = actionsDefinition
         self.auditCheckToActionsMapping = auditCheckToActionsMapping
         self.endTime = endTime
@@ -8868,8 +8901,7 @@ public struct DescribeAuditSuppressionInput: Swift.Sendable {
     public init(
         checkName: Swift.String? = nil,
         resourceIdentifier: IoTClientTypes.ResourceIdentifier? = nil
-    )
-    {
+    ) {
         self.checkName = checkName
         self.resourceIdentifier = resourceIdentifier
     }
@@ -8893,8 +8925,7 @@ public struct DescribeAuditSuppressionOutput: Swift.Sendable {
         expirationDate: Foundation.Date? = nil,
         resourceIdentifier: IoTClientTypes.ResourceIdentifier? = nil,
         suppressIndefinitely: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.checkName = checkName
         self.description = description
         self.expirationDate = expirationDate
@@ -8910,8 +8941,7 @@ public struct DescribeAuditTaskInput: Swift.Sendable {
 
     public init(
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskId = taskId
     }
 }
@@ -8943,8 +8973,7 @@ extension IoTClientTypes {
             nonCompliantChecks: Swift.Int? = nil,
             totalChecks: Swift.Int? = nil,
             waitingForDataCollectionChecks: Swift.Int? = nil
-        )
-        {
+        ) {
             self.canceledChecks = canceledChecks
             self.compliantChecks = compliantChecks
             self.failedChecks = failedChecks
@@ -8977,8 +9006,7 @@ public struct DescribeAuditTaskOutput: Swift.Sendable {
         taskStatistics: IoTClientTypes.TaskStatistics? = nil,
         taskStatus: IoTClientTypes.AuditTaskStatus? = nil,
         taskType: IoTClientTypes.AuditTaskType? = nil
-    )
-    {
+    ) {
         self.auditDetails = auditDetails
         self.scheduledAuditName = scheduledAuditName
         self.taskStartTime = taskStartTime
@@ -8995,8 +9023,7 @@ public struct DescribeAuthorizerInput: Swift.Sendable {
 
     public init(
         authorizerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorizerName = authorizerName
     }
 }
@@ -9007,8 +9034,7 @@ public struct DescribeAuthorizerOutput: Swift.Sendable {
 
     public init(
         authorizerDescription: IoTClientTypes.AuthorizerDescription? = nil
-    )
-    {
+    ) {
         self.authorizerDescription = authorizerDescription
     }
 }
@@ -9020,8 +9046,7 @@ public struct DescribeBillingGroupInput: Swift.Sendable {
 
     public init(
         billingGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.billingGroupName = billingGroupName
     }
 }
@@ -9035,8 +9060,7 @@ extension IoTClientTypes {
 
         public init(
             creationDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
         }
     }
@@ -9063,8 +9087,7 @@ public struct DescribeBillingGroupOutput: Swift.Sendable {
         billingGroupName: Swift.String? = nil,
         billingGroupProperties: IoTClientTypes.BillingGroupProperties? = nil,
         version: Swift.Int = 0
-    )
-    {
+    ) {
         self.billingGroupArn = billingGroupArn
         self.billingGroupId = billingGroupId
         self.billingGroupMetadata = billingGroupMetadata
@@ -9082,8 +9105,7 @@ public struct DescribeCACertificateInput: Swift.Sendable {
 
     public init(
         certificateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateId = certificateId
     }
 }
@@ -9158,8 +9180,7 @@ extension IoTClientTypes {
         public init(
             notAfter: Foundation.Date? = nil,
             notBefore: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.notAfter = notAfter
             self.notBefore = notBefore
         }
@@ -9208,8 +9229,7 @@ extension IoTClientTypes {
             ownedBy: Swift.String? = nil,
             status: IoTClientTypes.CACertificateStatus? = nil,
             validity: IoTClientTypes.CertificateValidity? = nil
-        )
-        {
+        ) {
             self.autoRegistrationStatus = autoRegistrationStatus
             self.certificateArn = certificateArn
             self.certificateId = certificateId
@@ -9241,8 +9261,7 @@ extension IoTClientTypes {
             roleArn: Swift.String? = nil,
             templateBody: Swift.String? = nil,
             templateName: Swift.String? = nil
-        )
-        {
+        ) {
             self.roleArn = roleArn
             self.templateBody = templateBody
             self.templateName = templateName
@@ -9260,8 +9279,7 @@ public struct DescribeCACertificateOutput: Swift.Sendable {
     public init(
         certificateDescription: IoTClientTypes.CACertificateDescription? = nil,
         registrationConfig: IoTClientTypes.RegistrationConfig? = nil
-    )
-    {
+    ) {
         self.certificateDescription = certificateDescription
         self.registrationConfig = registrationConfig
     }
@@ -9275,8 +9293,7 @@ public struct DescribeCertificateInput: Swift.Sendable {
 
     public init(
         certificateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateId = certificateId
     }
 }
@@ -9343,8 +9360,7 @@ extension IoTClientTypes {
             rejectReason: Swift.String? = nil,
             transferDate: Foundation.Date? = nil,
             transferMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.acceptDate = acceptDate
             self.rejectDate = rejectDate
             self.rejectReason = rejectReason
@@ -9402,8 +9418,7 @@ extension IoTClientTypes {
             status: IoTClientTypes.CertificateStatus? = nil,
             transferData: IoTClientTypes.TransferData? = nil,
             validity: IoTClientTypes.CertificateValidity? = nil
-        )
-        {
+        ) {
             self.caCertificateId = caCertificateId
             self.certificateArn = certificateArn
             self.certificateId = certificateId
@@ -9429,8 +9444,7 @@ public struct DescribeCertificateOutput: Swift.Sendable {
 
     public init(
         certificateDescription: IoTClientTypes.CertificateDescription? = nil
-    )
-    {
+    ) {
         self.certificateDescription = certificateDescription
     }
 }
@@ -9442,8 +9456,7 @@ public struct DescribeCertificateProviderInput: Swift.Sendable {
 
     public init(
         certificateProviderName: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateProviderName = certificateProviderName
     }
 }
@@ -9469,8 +9482,7 @@ public struct DescribeCertificateProviderOutput: Swift.Sendable {
         creationDate: Foundation.Date? = nil,
         lambdaFunctionArn: Swift.String? = nil,
         lastModifiedDate: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.accountDefaultForOperations = accountDefaultForOperations
         self.certificateProviderArn = certificateProviderArn
         self.certificateProviderName = certificateProviderName
@@ -9487,8 +9499,7 @@ public struct DescribeCustomMetricInput: Swift.Sendable {
 
     public init(
         metricName: Swift.String? = nil
-    )
-    {
+    ) {
         self.metricName = metricName
     }
 }
@@ -9514,8 +9525,7 @@ public struct DescribeCustomMetricOutput: Swift.Sendable {
         metricArn: Swift.String? = nil,
         metricName: Swift.String? = nil,
         metricType: IoTClientTypes.CustomMetricType? = nil
-    )
-    {
+    ) {
         self.creationDate = creationDate
         self.displayName = displayName
         self.lastModifiedDate = lastModifiedDate
@@ -9536,8 +9546,7 @@ public struct DescribeDefaultAuthorizerOutput: Swift.Sendable {
 
     public init(
         authorizerDescription: IoTClientTypes.AuthorizerDescription? = nil
-    )
-    {
+    ) {
         self.authorizerDescription = authorizerDescription
     }
 }
@@ -9549,8 +9558,7 @@ public struct DescribeDetectMitigationActionsTaskInput: Swift.Sendable {
 
     public init(
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskId = taskId
     }
 }
@@ -9570,8 +9578,7 @@ extension IoTClientTypes {
             behaviorName: Swift.String? = nil,
             securityProfileName: Swift.String? = nil,
             violationIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.behaviorName = behaviorName
             self.securityProfileName = securityProfileName
             self.violationIds = violationIds
@@ -9594,8 +9601,7 @@ extension IoTClientTypes {
             actionsExecuted: Swift.Int? = nil,
             actionsFailed: Swift.Int? = nil,
             actionsSkipped: Swift.Int? = nil
-        )
-        {
+        ) {
             self.actionsExecuted = actionsExecuted
             self.actionsFailed = actionsFailed
             self.actionsSkipped = actionsSkipped
@@ -9652,8 +9658,7 @@ extension IoTClientTypes {
         public init(
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -9696,8 +9701,7 @@ extension IoTClientTypes {
             taskStatistics: IoTClientTypes.DetectMitigationActionsTaskStatistics? = nil,
             taskStatus: IoTClientTypes.DetectMitigationActionsTaskStatus? = nil,
             violationEventOccurrenceRange: IoTClientTypes.ViolationEventOccurrenceRange? = nil
-        )
-        {
+        ) {
             self.actionsDefinition = actionsDefinition
             self.onlyActiveViolationsIncluded = onlyActiveViolationsIncluded
             self.suppressedAlertsIncluded = suppressedAlertsIncluded
@@ -9718,8 +9722,7 @@ public struct DescribeDetectMitigationActionsTaskOutput: Swift.Sendable {
 
     public init(
         taskSummary: IoTClientTypes.DetectMitigationActionsTaskSummary? = nil
-    )
-    {
+    ) {
         self.taskSummary = taskSummary
     }
 }
@@ -9731,8 +9734,7 @@ public struct DescribeDimensionInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -9758,8 +9760,7 @@ public struct DescribeDimensionOutput: Swift.Sendable {
         name: Swift.String? = nil,
         stringValues: [Swift.String]? = nil,
         type: IoTClientTypes.DimensionType? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationDate = creationDate
         self.lastModifiedDate = lastModifiedDate
@@ -9776,8 +9777,7 @@ public struct DescribeDomainConfigurationInput: Swift.Sendable {
 
     public init(
         domainConfigurationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainConfigurationName = domainConfigurationName
     }
 }
@@ -9887,8 +9887,7 @@ extension IoTClientTypes {
             serverCertificateArn: Swift.String? = nil,
             serverCertificateStatus: IoTClientTypes.ServerCertificateStatus? = nil,
             serverCertificateStatusDetail: Swift.String? = nil
-        )
-        {
+        ) {
             self.serverCertificateArn = serverCertificateArn
             self.serverCertificateStatus = serverCertificateStatus
             self.serverCertificateStatusDetail = serverCertificateStatusDetail
@@ -9980,8 +9979,7 @@ public struct DescribeDomainConfigurationOutput: Swift.Sendable {
         serverCertificates: [IoTClientTypes.ServerCertificateSummary]? = nil,
         serviceType: IoTClientTypes.ServiceType? = nil,
         tlsConfig: IoTClientTypes.TlsConfig? = nil
-    )
-    {
+    ) {
         self.applicationProtocol = applicationProtocol
         self.authenticationType = authenticationType
         self.authorizerConfig = authorizerConfig
@@ -10026,8 +10024,7 @@ public struct DescribeEndpointInput: Swift.Sendable {
 
     public init(
         endpointType: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointType = endpointType
     }
 }
@@ -10039,8 +10036,7 @@ public struct DescribeEndpointOutput: Swift.Sendable {
 
     public init(
         endpointAddress: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointAddress = endpointAddress
     }
 }
@@ -10115,8 +10111,7 @@ extension IoTClientTypes {
 
         public init(
             enabled: Swift.Bool = false
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -10134,8 +10129,7 @@ public struct DescribeEventConfigurationsOutput: Swift.Sendable {
         creationDate: Foundation.Date? = nil,
         eventConfigurations: [Swift.String: IoTClientTypes.Configuration]? = nil,
         lastModifiedDate: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.creationDate = creationDate
         self.eventConfigurations = eventConfigurations
         self.lastModifiedDate = lastModifiedDate
@@ -10149,8 +10143,7 @@ public struct DescribeFleetMetricInput: Swift.Sendable {
 
     public init(
         metricName: Swift.String? = nil
-    )
-    {
+    ) {
         self.metricName = metricName
     }
 }
@@ -10197,8 +10190,7 @@ public struct DescribeFleetMetricOutput: Swift.Sendable {
         queryVersion: Swift.String? = nil,
         unit: IoTClientTypes.FleetMetricUnit? = nil,
         version: Swift.Int = 0
-    )
-    {
+    ) {
         self.aggregationField = aggregationField
         self.aggregationType = aggregationType
         self.creationDate = creationDate
@@ -10222,8 +10214,7 @@ public struct DescribeIndexInput: Swift.Sendable {
 
     public init(
         indexName: Swift.String? = nil
-    )
-    {
+    ) {
         self.indexName = indexName
     }
 }
@@ -10282,8 +10273,7 @@ public struct DescribeIndexOutput: Swift.Sendable {
         indexName: Swift.String? = nil,
         indexStatus: IoTClientTypes.IndexStatus? = nil,
         schema: Swift.String? = nil
-    )
-    {
+    ) {
         self.indexName = indexName
         self.indexStatus = indexStatus
         self.schema = schema
@@ -10291,7 +10281,7 @@ public struct DescribeIndexOutput: Swift.Sendable {
 }
 
 public struct DescribeJobInput: Swift.Sendable {
-    /// A flag that provides a view of the job document before and after the substitution parameters have been resolved with their exact values.
+    /// Provides a view of the job document before and after the substitution parameters have been resolved with their exact values.
     public var beforeSubstitution: Swift.Bool?
     /// The unique identifier you assigned to this job when it was created.
     /// This member is required.
@@ -10300,8 +10290,7 @@ public struct DescribeJobInput: Swift.Sendable {
     public init(
         beforeSubstitution: Swift.Bool? = false,
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.beforeSubstitution = beforeSubstitution
         self.jobId = jobId
     }
@@ -10340,8 +10329,7 @@ extension IoTClientTypes {
             numberOfSucceededThings: Swift.Int? = nil,
             numberOfTimedOutThings: Swift.Int? = nil,
             processingTargets: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.numberOfCanceledThings = numberOfCanceledThings
             self.numberOfFailedThings = numberOfFailedThings
             self.numberOfInProgressThings = numberOfInProgressThings
@@ -10364,8 +10352,7 @@ extension IoTClientTypes {
 
         public init(
             startTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.startTime = startTime
         }
     }
@@ -10490,8 +10477,7 @@ extension IoTClientTypes {
             targetSelection: IoTClientTypes.TargetSelection? = nil,
             targets: [Swift.String]? = nil,
             timeoutConfig: IoTClientTypes.TimeoutConfig? = nil
-        )
-        {
+        ) {
             self.abortConfig = abortConfig
             self.comment = comment
             self.completedAt = completedAt
@@ -10530,8 +10516,7 @@ public struct DescribeJobOutput: Swift.Sendable {
     public init(
         documentSource: Swift.String? = nil,
         job: IoTClientTypes.Job? = nil
-    )
-    {
+    ) {
         self.documentSource = documentSource
         self.job = job
     }
@@ -10551,8 +10536,7 @@ public struct DescribeJobExecutionInput: Swift.Sendable {
         executionNumber: Swift.Int? = nil,
         jobId: Swift.String? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.executionNumber = executionNumber
         self.jobId = jobId
         self.thingName = thingName
@@ -10615,8 +10599,7 @@ extension IoTClientTypes {
 
         public init(
             detailsMap: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.detailsMap = detailsMap
         }
     }
@@ -10661,8 +10644,7 @@ extension IoTClientTypes {
             statusDetails: IoTClientTypes.JobExecutionStatusDetails? = nil,
             thingArn: Swift.String? = nil,
             versionNumber: Swift.Int = 0
-        )
-        {
+        ) {
             self.approximateSecondsBeforeTimedOut = approximateSecondsBeforeTimedOut
             self.executionNumber = executionNumber
             self.forceCanceled = forceCanceled
@@ -10684,8 +10666,7 @@ public struct DescribeJobExecutionOutput: Swift.Sendable {
 
     public init(
         execution: IoTClientTypes.JobExecution? = nil
-    )
-    {
+    ) {
         self.execution = execution
     }
 }
@@ -10697,8 +10678,7 @@ public struct DescribeJobTemplateInput: Swift.Sendable {
 
     public init(
         jobTemplateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobTemplateId = jobTemplateId
     }
 }
@@ -10745,8 +10725,7 @@ public struct DescribeJobTemplateOutput: Swift.Sendable {
         maintenanceWindows: [IoTClientTypes.MaintenanceWindow]? = nil,
         presignedUrlConfig: IoTClientTypes.PresignedUrlConfig? = nil,
         timeoutConfig: IoTClientTypes.TimeoutConfig? = nil
-    )
-    {
+    ) {
         self.abortConfig = abortConfig
         self.createdAt = createdAt
         self.description = description
@@ -10773,8 +10752,7 @@ public struct DescribeManagedJobTemplateInput: Swift.Sendable {
     public init(
         templateName: Swift.String? = nil,
         templateVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateName = templateName
         self.templateVersion = templateVersion
     }
@@ -10801,8 +10779,7 @@ extension IoTClientTypes {
             key: Swift.String? = nil,
             `optional`: Swift.Bool = false,
             regex: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.example = example
             self.key = key
@@ -10836,8 +10813,7 @@ public struct DescribeManagedJobTemplateOutput: Swift.Sendable {
         templateArn: Swift.String? = nil,
         templateName: Swift.String? = nil,
         templateVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.document = document
         self.documentParameters = documentParameters
@@ -10855,8 +10831,7 @@ public struct DescribeMitigationActionInput: Swift.Sendable {
 
     public init(
         actionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionName = actionName
     }
 }
@@ -10929,8 +10904,7 @@ public struct DescribeMitigationActionOutput: Swift.Sendable {
         creationDate: Foundation.Date? = nil,
         lastModifiedDate: Foundation.Date? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionArn = actionArn
         self.actionId = actionId
         self.actionName = actionName
@@ -10949,8 +10923,7 @@ public struct DescribeProvisioningTemplateInput: Swift.Sendable {
 
     public init(
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.templateName = templateName
     }
 }
@@ -10991,8 +10964,7 @@ public struct DescribeProvisioningTemplateOutput: Swift.Sendable {
         templateBody: Swift.String? = nil,
         templateName: Swift.String? = nil,
         type: IoTClientTypes.TemplateType? = nil
-    )
-    {
+    ) {
         self.creationDate = creationDate
         self.defaultVersionId = defaultVersionId
         self.description = description
@@ -11018,8 +10990,7 @@ public struct DescribeProvisioningTemplateVersionInput: Swift.Sendable {
     public init(
         templateName: Swift.String? = nil,
         versionId: Swift.Int? = nil
-    )
-    {
+    ) {
         self.templateName = templateName
         self.versionId = versionId
     }
@@ -11040,8 +11011,7 @@ public struct DescribeProvisioningTemplateVersionOutput: Swift.Sendable {
         isDefaultVersion: Swift.Bool = false,
         templateBody: Swift.String? = nil,
         versionId: Swift.Int? = nil
-    )
-    {
+    ) {
         self.creationDate = creationDate
         self.isDefaultVersion = isDefaultVersion
         self.templateBody = templateBody
@@ -11056,8 +11026,7 @@ public struct DescribeRoleAliasInput: Swift.Sendable {
 
     public init(
         roleAlias: Swift.String? = nil
-    )
-    {
+    ) {
         self.roleAlias = roleAlias
     }
 }
@@ -11089,8 +11058,7 @@ extension IoTClientTypes {
             roleAlias: Swift.String? = nil,
             roleAliasArn: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.credentialDurationSeconds = credentialDurationSeconds
             self.lastModifiedDate = lastModifiedDate
@@ -11108,8 +11076,7 @@ public struct DescribeRoleAliasOutput: Swift.Sendable {
 
     public init(
         roleAliasDescription: IoTClientTypes.RoleAliasDescription? = nil
-    )
-    {
+    ) {
         self.roleAliasDescription = roleAliasDescription
     }
 }
@@ -11121,8 +11088,7 @@ public struct DescribeScheduledAuditInput: Swift.Sendable {
 
     public init(
         scheduledAuditName: Swift.String? = nil
-    )
-    {
+    ) {
         self.scheduledAuditName = scheduledAuditName
     }
 }
@@ -11148,8 +11114,7 @@ public struct DescribeScheduledAuditOutput: Swift.Sendable {
         scheduledAuditArn: Swift.String? = nil,
         scheduledAuditName: Swift.String? = nil,
         targetCheckNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.dayOfMonth = dayOfMonth
         self.dayOfWeek = dayOfWeek
         self.frequency = frequency
@@ -11166,8 +11131,7 @@ public struct DescribeSecurityProfileInput: Swift.Sendable {
 
     public init(
         securityProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.securityProfileName = securityProfileName
     }
 }
@@ -11209,8 +11173,7 @@ public struct DescribeSecurityProfileOutput: Swift.Sendable {
         securityProfileDescription: Swift.String? = nil,
         securityProfileName: Swift.String? = nil,
         version: Swift.Int = 0
-    )
-    {
+    ) {
         self.additionalMetricsToRetain = additionalMetricsToRetain
         self.additionalMetricsToRetainV2 = additionalMetricsToRetainV2
         self.alertTargets = alertTargets
@@ -11232,8 +11195,7 @@ public struct DescribeStreamInput: Swift.Sendable {
 
     public init(
         streamId: Swift.String? = nil
-    )
-    {
+    ) {
         self.streamId = streamId
     }
 }
@@ -11268,8 +11230,7 @@ extension IoTClientTypes {
             streamArn: Swift.String? = nil,
             streamId: Swift.String? = nil,
             streamVersion: Swift.Int? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.description = description
             self.files = files
@@ -11288,8 +11249,7 @@ public struct DescribeStreamOutput: Swift.Sendable {
 
     public init(
         streamInfo: IoTClientTypes.StreamInfo? = nil
-    )
-    {
+    ) {
         self.streamInfo = streamInfo
     }
 }
@@ -11302,8 +11262,7 @@ public struct DescribeThingInput: Swift.Sendable {
 
     public init(
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.thingName = thingName
     }
 }
@@ -11336,8 +11295,7 @@ public struct DescribeThingOutput: Swift.Sendable {
         thingName: Swift.String? = nil,
         thingTypeName: Swift.String? = nil,
         version: Swift.Int = 0
-    )
-    {
+    ) {
         self.attributes = attributes
         self.billingGroupName = billingGroupName
         self.defaultClientId = defaultClientId
@@ -11356,8 +11314,7 @@ public struct DescribeThingGroupInput: Swift.Sendable {
 
     public init(
         thingGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.thingGroupName = thingGroupName
     }
 }
@@ -11406,8 +11363,7 @@ extension IoTClientTypes {
         public init(
             groupArn: Swift.String? = nil,
             groupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupArn = groupArn
             self.groupName = groupName
         }
@@ -11429,8 +11385,7 @@ extension IoTClientTypes {
             creationDate: Foundation.Date? = nil,
             parentGroupName: Swift.String? = nil,
             rootToParentThingGroups: [IoTClientTypes.GroupNameAndArn]? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.parentGroupName = parentGroupName
             self.rootToParentThingGroups = rootToParentThingGroups
@@ -11471,8 +11426,7 @@ public struct DescribeThingGroupOutput: Swift.Sendable {
         thingGroupName: Swift.String? = nil,
         thingGroupProperties: IoTClientTypes.ThingGroupProperties? = nil,
         version: Swift.Int = 0
-    )
-    {
+    ) {
         self.indexName = indexName
         self.queryString = queryString
         self.queryVersion = queryVersion
@@ -11493,8 +11447,7 @@ public struct DescribeThingRegistrationTaskInput: Swift.Sendable {
 
     public init(
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskId = taskId
     }
 }
@@ -11576,8 +11529,7 @@ public struct DescribeThingRegistrationTaskOutput: Swift.Sendable {
         successCount: Swift.Int = 0,
         taskId: Swift.String? = nil,
         templateBody: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationDate = creationDate
         self.failureCount = failureCount
         self.inputFileBucket = inputFileBucket
@@ -11601,8 +11553,7 @@ public struct DescribeThingTypeInput: Swift.Sendable {
 
     public init(
         thingTypeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.thingTypeName = thingTypeName
     }
 }
@@ -11622,8 +11573,7 @@ extension IoTClientTypes {
             creationDate: Foundation.Date? = nil,
             deprecated: Swift.Bool = false,
             deprecationDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.deprecated = deprecated
             self.deprecationDate = deprecationDate
@@ -11641,7 +11591,7 @@ public struct DescribeThingTypeOutput: Swift.Sendable {
     public var thingTypeMetadata: IoTClientTypes.ThingTypeMetadata?
     /// The name of the thing type.
     public var thingTypeName: Swift.String?
-    /// The ThingTypeProperties contains information about the thing type including description, and a list of searchable thing attribute names.
+    /// The ThingTypeProperties contains information about the thing type including description, a list of searchable thing attribute names, and MQTT5 configuration.
     public var thingTypeProperties: IoTClientTypes.ThingTypeProperties?
 
     public init(
@@ -11650,8 +11600,7 @@ public struct DescribeThingTypeOutput: Swift.Sendable {
         thingTypeMetadata: IoTClientTypes.ThingTypeMetadata? = nil,
         thingTypeName: Swift.String? = nil,
         thingTypeProperties: IoTClientTypes.ThingTypeProperties? = nil
-    )
-    {
+    ) {
         self.thingTypeArn = thingTypeArn
         self.thingTypeId = thingTypeId
         self.thingTypeMetadata = thingTypeMetadata
@@ -11671,8 +11620,7 @@ public struct DetachPolicyInput: Swift.Sendable {
     public init(
         policyName: Swift.String? = nil,
         target: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyName = policyName
         self.target = target
     }
@@ -11690,8 +11638,7 @@ public struct DetachPrincipalPolicyInput: Swift.Sendable {
     public init(
         policyName: Swift.String? = nil,
         principal: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyName = policyName
         self.principal = principal
     }
@@ -11708,8 +11655,7 @@ public struct DetachSecurityProfileInput: Swift.Sendable {
     public init(
         securityProfileName: Swift.String? = nil,
         securityProfileTargetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.securityProfileName = securityProfileName
         self.securityProfileTargetArn = securityProfileTargetArn
     }
@@ -11732,8 +11678,7 @@ public struct DetachThingPrincipalInput: Swift.Sendable {
     public init(
         principal: Swift.String? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.principal = principal
         self.thingName = thingName
     }
@@ -11753,8 +11698,7 @@ public struct DisableTopicRuleInput: Swift.Sendable {
 
     public init(
         ruleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleName = ruleName
     }
 }
@@ -11773,8 +11717,7 @@ public struct DisassociateSbomFromPackageVersionInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         packageName: Swift.String? = nil,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.packageName = packageName
         self.versionName = versionName
@@ -11794,8 +11737,7 @@ public struct EnableTopicRuleInput: Swift.Sendable {
 
     public init(
         ruleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleName = ruleName
     }
 }
@@ -11812,8 +11754,7 @@ public struct GetBehaviorModelTrainingSummariesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         securityProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.securityProfileName = securityProfileName
@@ -11876,8 +11817,7 @@ extension IoTClientTypes {
             modelStatus: IoTClientTypes.ModelStatus? = nil,
             securityProfileName: Swift.String? = nil,
             trainingDataCollectionStartDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.behaviorName = behaviorName
             self.datapointsCollectionPercentage = datapointsCollectionPercentage
             self.lastModelRefreshDate = lastModelRefreshDate
@@ -11897,8 +11837,7 @@ public struct GetBehaviorModelTrainingSummariesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         summaries: [IoTClientTypes.BehaviorModelTrainingSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.summaries = summaries
     }
@@ -11913,8 +11852,7 @@ extension IoTClientTypes {
 
         public init(
             maxBuckets: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxBuckets = maxBuckets
         }
     }
@@ -11929,8 +11867,7 @@ extension IoTClientTypes {
 
         public init(
             termsAggregation: IoTClientTypes.TermsAggregation? = nil
-        )
-        {
+        ) {
             self.termsAggregation = termsAggregation
         }
     }
@@ -11957,8 +11894,7 @@ public struct GetBucketsAggregationInput: Swift.Sendable {
         indexName: Swift.String? = nil,
         queryString: Swift.String? = nil,
         queryVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.aggregationField = aggregationField
         self.bucketsAggregationType = bucketsAggregationType
         self.indexName = indexName
@@ -11979,8 +11915,7 @@ extension IoTClientTypes {
         public init(
             count: Swift.Int = 0,
             keyValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.count = count
             self.keyValue = keyValue
         }
@@ -11996,8 +11931,7 @@ public struct GetBucketsAggregationOutput: Swift.Sendable {
     public init(
         buckets: [IoTClientTypes.Bucket]? = nil,
         totalCount: Swift.Int = 0
-    )
-    {
+    ) {
         self.buckets = buckets
         self.totalCount = totalCount
     }
@@ -12019,8 +11953,7 @@ public struct GetCardinalityInput: Swift.Sendable {
         indexName: Swift.String? = nil,
         queryString: Swift.String? = nil,
         queryVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.aggregationField = aggregationField
         self.indexName = indexName
         self.queryString = queryString
@@ -12034,9 +11967,239 @@ public struct GetCardinalityOutput: Swift.Sendable {
 
     public init(
         cardinality: Swift.Int = 0
-    )
-    {
+    ) {
         self.cardinality = cardinality
+    }
+}
+
+public struct GetCommandInput: Swift.Sendable {
+    /// The unique identifier of the command for which you want to retrieve information.
+    /// This member is required.
+    public var commandId: Swift.String?
+
+    public init(
+        commandId: Swift.String? = nil
+    ) {
+        self.commandId = commandId
+    }
+}
+
+public struct GetCommandOutput: Swift.Sendable {
+    /// The Amazon Resource Number (ARN) of the command. For example, arn:aws:iot:::command/
+    public var commandArn: Swift.String?
+    /// The unique identifier of the command.
+    public var commandId: Swift.String?
+    /// The timestamp, when the command was created.
+    public var createdAt: Foundation.Date?
+    /// Indicates whether the command has been deprecated.
+    public var deprecated: Swift.Bool?
+    /// A short text description of the command.
+    public var description: Swift.String?
+    /// The user-friendly name in the console for the command.
+    public var displayName: Swift.String?
+    /// The timestamp, when the command was last updated.
+    public var lastUpdatedAt: Foundation.Date?
+    /// A list of parameters for the command created.
+    public var mandatoryParameters: [IoTClientTypes.CommandParameter]?
+    /// The namespace of the command.
+    public var namespace: IoTClientTypes.CommandNamespace?
+    /// The payload object that you provided for the command.
+    public var payload: IoTClientTypes.CommandPayload?
+    /// Indicates whether the command is being deleted.
+    public var pendingDeletion: Swift.Bool?
+    /// The IAM role that you provided when creating the command with AWS-IoT-FleetWise as the namespace.
+    public var roleArn: Swift.String?
+
+    public init(
+        commandArn: Swift.String? = nil,
+        commandId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        deprecated: Swift.Bool? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        mandatoryParameters: [IoTClientTypes.CommandParameter]? = nil,
+        namespace: IoTClientTypes.CommandNamespace? = nil,
+        payload: IoTClientTypes.CommandPayload? = nil,
+        pendingDeletion: Swift.Bool? = nil,
+        roleArn: Swift.String? = nil
+    ) {
+        self.commandArn = commandArn
+        self.commandId = commandId
+        self.createdAt = createdAt
+        self.deprecated = deprecated
+        self.description = description
+        self.displayName = displayName
+        self.lastUpdatedAt = lastUpdatedAt
+        self.mandatoryParameters = mandatoryParameters
+        self.namespace = namespace
+        self.payload = payload
+        self.pendingDeletion = pendingDeletion
+        self.roleArn = roleArn
+    }
+}
+
+public struct GetCommandExecutionInput: Swift.Sendable {
+    /// The unique identifier for the command execution. This information is returned as a response of the StartCommandExecution API request.
+    /// This member is required.
+    public var executionId: Swift.String?
+    /// Can be used to specify whether to include the result of the command execution in the GetCommandExecution API response. Your device can use this field to provide additional information about the command execution. You only need to specify this field when using the AWS-IoT namespace.
+    public var includeResult: Swift.Bool?
+    /// The Amazon Resource Number (ARN) of the device on which the command execution is being performed.
+    /// This member is required.
+    public var targetArn: Swift.String?
+
+    public init(
+        executionId: Swift.String? = nil,
+        includeResult: Swift.Bool? = nil,
+        targetArn: Swift.String? = nil
+    ) {
+        self.executionId = executionId
+        self.includeResult = includeResult
+        self.targetArn = targetArn
+    }
+}
+
+extension IoTClientTypes {
+
+    /// The result value of the command execution. The device can use the result field to share additional details about the execution such as a return value of a remote function call. This field is not applicable if you use the AWS-IoT-FleetWise namespace.
+    public struct CommandExecutionResult: Swift.Sendable {
+        /// An attribute of type Boolean. For example: "BOOL": true
+        public var b: Swift.Bool?
+        /// An attribute of type Binary.
+        public var bin: Foundation.Data?
+        /// An attribute of type String. For example: "S": "Hello"
+        public var s: Swift.String?
+
+        public init(
+            b: Swift.Bool? = nil,
+            bin: Foundation.Data? = nil,
+            s: Swift.String? = nil
+        ) {
+            self.b = b
+            self.bin = bin
+            self.s = s
+        }
+    }
+}
+
+extension IoTClientTypes {
+
+    public enum CommandExecutionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case created
+        case failed
+        case inProgress
+        case rejected
+        case succeeded
+        case timedOut
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CommandExecutionStatus] {
+            return [
+                .created,
+                .failed,
+                .inProgress,
+                .rejected,
+                .succeeded,
+                .timedOut
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .created: return "CREATED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .rejected: return "REJECTED"
+            case .succeeded: return "SUCCEEDED"
+            case .timedOut: return "TIMED_OUT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTClientTypes {
+
+    /// Provide additional context about the status of a command execution using a reason code and description.
+    public struct StatusReason: Swift.Sendable {
+        /// A code that provides additional context for the command execution status.
+        /// This member is required.
+        public var reasonCode: Swift.String?
+        /// A literal string for devices to optionally provide additional information about the reason code for a command execution status.
+        public var reasonDescription: Swift.String?
+
+        public init(
+            reasonCode: Swift.String? = nil,
+            reasonDescription: Swift.String? = nil
+        ) {
+            self.reasonCode = reasonCode
+            self.reasonDescription = reasonDescription
+        }
+    }
+}
+
+public struct GetCommandExecutionOutput: Swift.Sendable {
+    /// The Amazon Resource Number (ARN) of the command. For example, arn:aws:iot:::command/
+    public var commandArn: Swift.String?
+    /// The timestamp, when the command execution was completed.
+    public var completedAt: Foundation.Date?
+    /// The timestamp, when the command execution was created.
+    public var createdAt: Foundation.Date?
+    /// The unique identifier of the command execution.
+    public var executionId: Swift.String?
+    /// Specifies the amount of time in seconds that the device can take to finish a command execution. A timer starts when the command execution is created. If the command execution status is not set to another terminal state before the timer expires, it will automatically update to TIMED_OUT.
+    public var executionTimeoutSeconds: Swift.Int?
+    /// The timestamp, when the command execution was last updated.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The list of parameters that the StartCommandExecution API used when performing the command on the device.
+    public var parameters: [Swift.String: IoTClientTypes.CommandParameterValue]?
+    /// The result value for the current state of the command execution. The status provides information about the progress of the command execution. The device can use the result field to share additional details about the execution such as a return value of a remote function call. If you use the AWS-IoT-FleetWise namespace, then this field is not applicable in the API response.
+    public var result: [Swift.String: IoTClientTypes.CommandExecutionResult]?
+    /// The timestamp, when the command execution was started.
+    public var startedAt: Foundation.Date?
+    /// The status of the command execution. After your devices receive the command and start performing the operations specified in the command, it can use the UpdateCommandExecution MQTT API to update the status information.
+    public var status: IoTClientTypes.CommandExecutionStatus?
+    /// Your devices can use this parameter to provide additional context about the status of a command execution using a reason code and description.
+    public var statusReason: IoTClientTypes.StatusReason?
+    /// The Amazon Resource Number (ARN) of the device on which the command execution is being performed.
+    public var targetArn: Swift.String?
+    /// The time to live (TTL) parameter that indicates the duration for which executions will be retained in your account. The default value is six months.
+    public var timeToLive: Foundation.Date?
+
+    public init(
+        commandArn: Swift.String? = nil,
+        completedAt: Foundation.Date? = nil,
+        createdAt: Foundation.Date? = nil,
+        executionId: Swift.String? = nil,
+        executionTimeoutSeconds: Swift.Int? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        parameters: [Swift.String: IoTClientTypes.CommandParameterValue]? = nil,
+        result: [Swift.String: IoTClientTypes.CommandExecutionResult]? = nil,
+        startedAt: Foundation.Date? = nil,
+        status: IoTClientTypes.CommandExecutionStatus? = nil,
+        statusReason: IoTClientTypes.StatusReason? = nil,
+        targetArn: Swift.String? = nil,
+        timeToLive: Foundation.Date? = nil
+    ) {
+        self.commandArn = commandArn
+        self.completedAt = completedAt
+        self.createdAt = createdAt
+        self.executionId = executionId
+        self.executionTimeoutSeconds = executionTimeoutSeconds
+        self.lastUpdatedAt = lastUpdatedAt
+        self.parameters = parameters
+        self.result = result
+        self.startedAt = startedAt
+        self.status = status
+        self.statusReason = statusReason
+        self.targetArn = targetArn
+        self.timeToLive = timeToLive
     }
 }
 
@@ -12052,8 +12215,7 @@ public struct GetEffectivePoliciesInput: Swift.Sendable {
         cognitoIdentityPoolId: Swift.String? = nil,
         principal: Swift.String? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.cognitoIdentityPoolId = cognitoIdentityPoolId
         self.principal = principal
         self.thingName = thingName
@@ -12075,8 +12237,7 @@ extension IoTClientTypes {
             policyArn: Swift.String? = nil,
             policyDocument: Swift.String? = nil,
             policyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.policyArn = policyArn
             self.policyDocument = policyDocument
             self.policyName = policyName
@@ -12090,8 +12251,7 @@ public struct GetEffectivePoliciesOutput: Swift.Sendable {
 
     public init(
         effectivePolicies: [IoTClientTypes.EffectivePolicy]? = nil
-    )
-    {
+    ) {
         self.effectivePolicies = effectivePolicies
     }
 }
@@ -12145,8 +12305,7 @@ extension IoTClientTypes {
         public init(
             name: Swift.String? = nil,
             type: IoTClientTypes.FieldType? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
         }
@@ -12198,8 +12357,7 @@ extension IoTClientTypes {
             customFields: [IoTClientTypes.Field]? = nil,
             managedFields: [IoTClientTypes.Field]? = nil,
             thingGroupIndexingMode: IoTClientTypes.ThingGroupIndexingMode? = nil
-        )
-        {
+        ) {
             self.customFields = customFields
             self.managedFields = managedFields
             self.thingGroupIndexingMode = thingGroupIndexingMode
@@ -12277,8 +12435,7 @@ extension IoTClientTypes {
         public init(
             name: Swift.String? = nil,
             order: IoTClientTypes.TargetFieldOrder? = nil
-        )
-        {
+        ) {
             self.name = name
             self.order = order
         }
@@ -12301,8 +12458,7 @@ extension IoTClientTypes {
         public init(
             geoLocations: [IoTClientTypes.GeoLocationTarget]? = nil,
             namedShadowNames: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.geoLocations = geoLocations
             self.namedShadowNames = namedShadowNames
         }
@@ -12455,8 +12611,7 @@ extension IoTClientTypes {
             namedShadowIndexingMode: IoTClientTypes.NamedShadowIndexingMode? = nil,
             thingConnectivityIndexingMode: IoTClientTypes.ThingConnectivityIndexingMode? = nil,
             thingIndexingMode: IoTClientTypes.ThingIndexingMode? = nil
-        )
-        {
+        ) {
             self.customFields = customFields
             self.deviceDefenderIndexingMode = deviceDefenderIndexingMode
             self.filter = filter
@@ -12477,15 +12632,14 @@ public struct GetIndexingConfigurationOutput: Swift.Sendable {
     public init(
         thingGroupIndexingConfiguration: IoTClientTypes.ThingGroupIndexingConfiguration? = nil,
         thingIndexingConfiguration: IoTClientTypes.ThingIndexingConfiguration? = nil
-    )
-    {
+    ) {
         self.thingGroupIndexingConfiguration = thingGroupIndexingConfiguration
         self.thingIndexingConfiguration = thingIndexingConfiguration
     }
 }
 
 public struct GetJobDocumentInput: Swift.Sendable {
-    /// A flag that provides a view of the job document before and after the substitution parameters have been resolved with their exact values.
+    /// Provides a view of the job document before and after the substitution parameters have been resolved with their exact values.
     public var beforeSubstitution: Swift.Bool?
     /// The unique identifier you assigned to this job when it was created.
     /// This member is required.
@@ -12494,8 +12648,7 @@ public struct GetJobDocumentInput: Swift.Sendable {
     public init(
         beforeSubstitution: Swift.Bool? = false,
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.beforeSubstitution = beforeSubstitution
         self.jobId = jobId
     }
@@ -12507,8 +12660,7 @@ public struct GetJobDocumentOutput: Swift.Sendable {
 
     public init(
         document: Swift.String? = nil
-    )
-    {
+    ) {
         self.document = document
     }
 }
@@ -12529,8 +12681,7 @@ public struct GetLoggingOptionsOutput: Swift.Sendable {
     public init(
         logLevel: IoTClientTypes.LogLevel? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.logLevel = logLevel
         self.roleArn = roleArn
     }
@@ -12543,8 +12694,7 @@ public struct GetOTAUpdateInput: Swift.Sendable {
 
     public init(
         otaUpdateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.otaUpdateId = otaUpdateId
     }
 }
@@ -12561,8 +12711,7 @@ extension IoTClientTypes {
         public init(
             code: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -12623,8 +12772,7 @@ extension IoTClientTypes {
             protocols: [IoTClientTypes.ModelProtocol]? = nil,
             targetSelection: IoTClientTypes.TargetSelection? = nil,
             targets: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.additionalParameters = additionalParameters
             self.awsIotJobArn = awsIotJobArn
             self.awsIotJobId = awsIotJobId
@@ -12651,8 +12799,7 @@ public struct GetOTAUpdateOutput: Swift.Sendable {
 
     public init(
         otaUpdateInfo: IoTClientTypes.OTAUpdateInfo? = nil
-    )
-    {
+    ) {
         self.otaUpdateInfo = otaUpdateInfo
     }
 }
@@ -12664,8 +12811,7 @@ public struct GetPackageInput: Swift.Sendable {
 
     public init(
         packageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.packageName = packageName
     }
 }
@@ -12691,8 +12837,7 @@ public struct GetPackageOutput: Swift.Sendable {
         lastModifiedDate: Foundation.Date? = nil,
         packageArn: Swift.String? = nil,
         packageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationDate = creationDate
         self.defaultVersionName = defaultVersionName
         self.description = description
@@ -12724,8 +12869,7 @@ extension IoTClientTypes {
         public init(
             enabled: Swift.Bool? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.roleArn = roleArn
         }
@@ -12738,8 +12882,7 @@ public struct GetPackageConfigurationOutput: Swift.Sendable {
 
     public init(
         versionUpdateByJobsConfig: IoTClientTypes.VersionUpdateByJobsConfig? = nil
-    )
-    {
+    ) {
         self.versionUpdateByJobsConfig = versionUpdateByJobsConfig
     }
 }
@@ -12755,8 +12898,7 @@ public struct GetPackageVersionInput: Swift.Sendable {
     public init(
         packageName: Swift.String? = nil,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.packageName = packageName
         self.versionName = versionName
     }
@@ -12804,8 +12946,7 @@ public struct GetPackageVersionOutput: Swift.Sendable {
         sbomValidationStatus: IoTClientTypes.SbomValidationStatus? = nil,
         status: IoTClientTypes.PackageVersionStatus? = nil,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.artifact = artifact
         self.attributes = attributes
         self.creationDate = creationDate
@@ -12846,8 +12987,7 @@ public struct GetPercentilesInput: Swift.Sendable {
         percents: [Swift.Double]? = nil,
         queryString: Swift.String? = nil,
         queryVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.aggregationField = aggregationField
         self.indexName = indexName
         self.percents = percents
@@ -12868,8 +13008,7 @@ extension IoTClientTypes {
         public init(
             percent: Swift.Double = 0.0,
             value: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.percent = percent
             self.value = value
         }
@@ -12882,8 +13021,7 @@ public struct GetPercentilesOutput: Swift.Sendable {
 
     public init(
         percentiles: [IoTClientTypes.PercentPair]? = nil
-    )
-    {
+    ) {
         self.percentiles = percentiles
     }
 }
@@ -12896,8 +13034,7 @@ public struct GetPolicyInput: Swift.Sendable {
 
     public init(
         policyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyName = policyName
     }
 }
@@ -12927,8 +13064,7 @@ public struct GetPolicyOutput: Swift.Sendable {
         policyArn: Swift.String? = nil,
         policyDocument: Swift.String? = nil,
         policyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationDate = creationDate
         self.defaultVersionId = defaultVersionId
         self.generationId = generationId
@@ -12951,8 +13087,7 @@ public struct GetPolicyVersionInput: Swift.Sendable {
     public init(
         policyName: Swift.String? = nil,
         policyVersionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyName = policyName
         self.policyVersionId = policyVersionId
     }
@@ -12986,8 +13121,7 @@ public struct GetPolicyVersionOutput: Swift.Sendable {
         policyDocument: Swift.String? = nil,
         policyName: Swift.String? = nil,
         policyVersionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationDate = creationDate
         self.generationId = generationId
         self.isDefaultVersion = isDefaultVersion
@@ -13012,8 +13146,7 @@ public struct GetRegistrationCodeOutput: Swift.Sendable {
 
     public init(
         registrationCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.registrationCode = registrationCode
     }
 }
@@ -13034,8 +13167,7 @@ public struct GetStatisticsInput: Swift.Sendable {
         indexName: Swift.String? = nil,
         queryString: Swift.String? = nil,
         queryVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.aggregationField = aggregationField
         self.indexName = indexName
         self.queryString = queryString
@@ -13073,8 +13205,7 @@ extension IoTClientTypes {
             sum: Swift.Double? = 0.0,
             sumOfSquares: Swift.Double? = 0.0,
             variance: Swift.Double? = 0.0
-        )
-        {
+        ) {
             self.average = average
             self.count = count
             self.maximum = maximum
@@ -13093,10 +13224,119 @@ public struct GetStatisticsOutput: Swift.Sendable {
 
     public init(
         statistics: IoTClientTypes.Statistics? = nil
-    )
-    {
+    ) {
         self.statistics = statistics
     }
+}
+
+public struct GetThingConnectivityDataInput: Swift.Sendable {
+    /// The name of your IoT thing.
+    /// This member is required.
+    public var thingName: Swift.String?
+
+    public init(
+        thingName: Swift.String? = nil
+    ) {
+        self.thingName = thingName
+    }
+}
+
+extension GetThingConnectivityDataInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetThingConnectivityDataInput(thingName: \"CONTENT_REDACTED\")"}
+}
+
+extension IoTClientTypes {
+
+    public enum DisconnectReasonValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case authError
+        case clientError
+        case clientInitiatedDisconnect
+        case connectionLost
+        case customauthTtlExpiration
+        case duplicateClientid
+        case forbiddenAccess
+        case mqttKeepAliveTimeout
+        case `none`
+        case serverError
+        case serverInitiatedDisconnect
+        case throttled
+        case unknown
+        case websocketTtlExpiration
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DisconnectReasonValue] {
+            return [
+                .authError,
+                .clientError,
+                .clientInitiatedDisconnect,
+                .connectionLost,
+                .customauthTtlExpiration,
+                .duplicateClientid,
+                .forbiddenAccess,
+                .mqttKeepAliveTimeout,
+                .none,
+                .serverError,
+                .serverInitiatedDisconnect,
+                .throttled,
+                .unknown,
+                .websocketTtlExpiration
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .authError: return "AUTH_ERROR"
+            case .clientError: return "CLIENT_ERROR"
+            case .clientInitiatedDisconnect: return "CLIENT_INITIATED_DISCONNECT"
+            case .connectionLost: return "CONNECTION_LOST"
+            case .customauthTtlExpiration: return "CUSTOMAUTH_TTL_EXPIRATION"
+            case .duplicateClientid: return "DUPLICATE_CLIENTID"
+            case .forbiddenAccess: return "FORBIDDEN_ACCESS"
+            case .mqttKeepAliveTimeout: return "MQTT_KEEP_ALIVE_TIMEOUT"
+            case .none: return "NONE"
+            case .serverError: return "SERVER_ERROR"
+            case .serverInitiatedDisconnect: return "SERVER_INITIATED_DISCONNECT"
+            case .throttled: return "THROTTLED"
+            case .unknown: return "UNKNOWN"
+            case .websocketTtlExpiration: return "WEBSOCKET_TTL_EXPIRATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetThingConnectivityDataOutput: Swift.Sendable {
+    /// A Boolean that indicates the connectivity status.
+    public var connected: Swift.Bool?
+    /// The reason why the client is disconnecting.
+    public var disconnectReason: IoTClientTypes.DisconnectReasonValue?
+    /// The name of your IoT thing.
+    public var thingName: Swift.String?
+    /// The timestamp of when the event occurred.
+    public var timestamp: Foundation.Date?
+
+    public init(
+        connected: Swift.Bool? = nil,
+        disconnectReason: IoTClientTypes.DisconnectReasonValue? = nil,
+        thingName: Swift.String? = nil,
+        timestamp: Foundation.Date? = nil
+    ) {
+        self.connected = connected
+        self.disconnectReason = disconnectReason
+        self.thingName = thingName
+        self.timestamp = timestamp
+    }
+}
+
+extension GetThingConnectivityDataOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetThingConnectivityDataOutput(connected: \(Swift.String(describing: connected)), disconnectReason: \(Swift.String(describing: disconnectReason)), timestamp: \(Swift.String(describing: timestamp)), thingName: \"CONTENT_REDACTED\")"}
 }
 
 /// The input for the GetTopicRule operation.
@@ -13107,8 +13347,7 @@ public struct GetTopicRuleInput: Swift.Sendable {
 
     public init(
         ruleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.ruleName = ruleName
     }
 }
@@ -13143,8 +13382,7 @@ extension IoTClientTypes {
             ruleDisabled: Swift.Bool? = nil,
             ruleName: Swift.String? = nil,
             sql: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.awsIotSqlVersion = awsIotSqlVersion
             self.createdAt = createdAt
@@ -13167,8 +13405,7 @@ public struct GetTopicRuleOutput: Swift.Sendable {
     public init(
         rule: IoTClientTypes.TopicRule? = nil,
         ruleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.rule = rule
         self.ruleArn = ruleArn
     }
@@ -13181,8 +13418,7 @@ public struct GetTopicRuleDestinationInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -13193,16 +13429,15 @@ public struct GetTopicRuleDestinationOutput: Swift.Sendable {
 
     public init(
         topicRuleDestination: IoTClientTypes.TopicRuleDestination? = nil
-    )
-    {
+    ) {
         self.topicRuleDestination = topicRuleDestination
     }
 }
 
 /// The resource is not configured.
-public struct NotConfiguredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotConfiguredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -13218,8 +13453,7 @@ public struct NotConfiguredException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -13241,8 +13475,7 @@ public struct GetV2LoggingOptionsOutput: Swift.Sendable {
         defaultLogLevel: IoTClientTypes.LogLevel? = nil,
         disableAllLogs: Swift.Bool = false,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultLogLevel = defaultLogLevel
         self.disableAllLogs = disableAllLogs
         self.roleArn = roleArn
@@ -13305,8 +13538,7 @@ public struct ListActiveViolationsInput: Swift.Sendable {
         securityProfileName: Swift.String? = nil,
         thingName: Swift.String? = nil,
         verificationState: IoTClientTypes.VerificationState? = nil
-    )
-    {
+    ) {
         self.behaviorCriteriaType = behaviorCriteriaType
         self.listSuppressedAlerts = listSuppressedAlerts
         self.maxResults = maxResults
@@ -13326,8 +13558,7 @@ public struct ListActiveViolationsOutput: Swift.Sendable {
     public init(
         activeViolations: [IoTClientTypes.ActiveViolation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.activeViolations = activeViolations
         self.nextToken = nextToken
     }
@@ -13349,8 +13580,7 @@ public struct ListAttachedPoliciesInput: Swift.Sendable {
         pageSize: Swift.Int? = nil,
         recursive: Swift.Bool? = false,
         target: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.pageSize = pageSize
         self.recursive = recursive
@@ -13367,8 +13597,7 @@ public struct ListAttachedPoliciesOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         policies: [IoTClientTypes.Policy]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.policies = policies
     }
@@ -13401,8 +13630,7 @@ public struct ListAuditFindingsInput: Swift.Sendable {
         resourceIdentifier: IoTClientTypes.ResourceIdentifier? = nil,
         startTime: Foundation.Date? = nil,
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.checkName = checkName
         self.endTime = endTime
         self.listSuppressedFindings = listSuppressedFindings
@@ -13423,8 +13651,7 @@ public struct ListAuditFindingsOutput: Swift.Sendable {
     public init(
         findings: [IoTClientTypes.AuditFinding]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.findings = findings
         self.nextToken = nextToken
     }
@@ -13450,8 +13677,7 @@ public struct ListAuditMitigationActionsExecutionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionStatus = actionStatus
         self.findingId = findingId
         self.maxResults = maxResults
@@ -13469,8 +13695,7 @@ public struct ListAuditMitigationActionsExecutionsOutput: Swift.Sendable {
     public init(
         actionsExecutions: [IoTClientTypes.AuditMitigationActionExecutionMetadata]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionsExecutions = actionsExecutions
         self.nextToken = nextToken
     }
@@ -13502,8 +13727,7 @@ public struct ListAuditMitigationActionsTasksInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         startTime: Foundation.Date? = nil,
         taskStatus: IoTClientTypes.AuditMitigationActionsTaskStatus? = nil
-    )
-    {
+    ) {
         self.auditTaskId = auditTaskId
         self.endTime = endTime
         self.findingId = findingId
@@ -13523,8 +13747,7 @@ public struct ListAuditMitigationActionsTasksOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tasks: [IoTClientTypes.AuditMitigationActionsTaskMetadata]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tasks = tasks
     }
@@ -13548,8 +13771,7 @@ public struct ListAuditSuppressionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceIdentifier: IoTClientTypes.ResourceIdentifier? = nil
-    )
-    {
+    ) {
         self.ascendingOrder = ascendingOrder
         self.checkName = checkName
         self.maxResults = maxResults
@@ -13567,8 +13789,7 @@ public struct ListAuditSuppressionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         suppressions: [IoTClientTypes.AuditSuppression]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.suppressions = suppressions
     }
@@ -13597,8 +13818,7 @@ public struct ListAuditTasksInput: Swift.Sendable {
         startTime: Foundation.Date? = nil,
         taskStatus: IoTClientTypes.AuditTaskStatus? = nil,
         taskType: IoTClientTypes.AuditTaskType? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -13617,8 +13837,7 @@ public struct ListAuditTasksOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tasks: [IoTClientTypes.AuditTaskMetadata]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tasks = tasks
     }
@@ -13639,8 +13858,7 @@ public struct ListAuthorizersInput: Swift.Sendable {
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil,
         status: IoTClientTypes.AuthorizerStatus? = nil
-    )
-    {
+    ) {
         self.ascendingOrder = ascendingOrder
         self.marker = marker
         self.pageSize = pageSize
@@ -13657,8 +13875,7 @@ public struct ListAuthorizersOutput: Swift.Sendable {
     public init(
         authorizers: [IoTClientTypes.AuthorizerSummary]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorizers = authorizers
         self.nextMarker = nextMarker
     }
@@ -13676,8 +13893,7 @@ public struct ListBillingGroupsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         namePrefixFilter: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.namePrefixFilter = namePrefixFilter
         self.nextToken = nextToken
@@ -13693,8 +13909,7 @@ public struct ListBillingGroupsOutput: Swift.Sendable {
     public init(
         billingGroups: [IoTClientTypes.GroupNameAndArn]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.billingGroups = billingGroups
         self.nextToken = nextToken
     }
@@ -13716,8 +13931,7 @@ public struct ListCACertificatesInput: Swift.Sendable {
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.ascendingOrder = ascendingOrder
         self.marker = marker
         self.pageSize = pageSize
@@ -13743,8 +13957,7 @@ extension IoTClientTypes {
             certificateId: Swift.String? = nil,
             creationDate: Foundation.Date? = nil,
             status: IoTClientTypes.CACertificateStatus? = nil
-        )
-        {
+        ) {
             self.certificateArn = certificateArn
             self.certificateId = certificateId
             self.creationDate = creationDate
@@ -13763,8 +13976,7 @@ public struct ListCACertificatesOutput: Swift.Sendable {
     public init(
         certificates: [IoTClientTypes.CACertificate]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificates = certificates
         self.nextMarker = nextMarker
     }
@@ -13779,8 +13991,7 @@ public struct ListCertificateProvidersInput: Swift.Sendable {
     public init(
         ascendingOrder: Swift.Bool? = false,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.ascendingOrder = ascendingOrder
         self.nextToken = nextToken
     }
@@ -13798,8 +14009,7 @@ extension IoTClientTypes {
         public init(
             certificateProviderArn: Swift.String? = nil,
             certificateProviderName: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateProviderArn = certificateProviderArn
             self.certificateProviderName = certificateProviderName
         }
@@ -13815,8 +14025,7 @@ public struct ListCertificateProvidersOutput: Swift.Sendable {
     public init(
         certificateProviders: [IoTClientTypes.CertificateProviderSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateProviders = certificateProviders
         self.nextToken = nextToken
     }
@@ -13835,8 +14044,7 @@ public struct ListCertificatesInput: Swift.Sendable {
         ascendingOrder: Swift.Bool? = false,
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.ascendingOrder = ascendingOrder
         self.marker = marker
         self.pageSize = pageSize
@@ -13864,8 +14072,7 @@ extension IoTClientTypes {
             certificateMode: IoTClientTypes.CertificateMode? = nil,
             creationDate: Foundation.Date? = nil,
             status: IoTClientTypes.CertificateStatus? = nil
-        )
-        {
+        ) {
             self.certificateArn = certificateArn
             self.certificateId = certificateId
             self.certificateMode = certificateMode
@@ -13885,8 +14092,7 @@ public struct ListCertificatesOutput: Swift.Sendable {
     public init(
         certificates: [IoTClientTypes.Certificate]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificates = certificates
         self.nextMarker = nextMarker
     }
@@ -13909,8 +14115,7 @@ public struct ListCertificatesByCAInput: Swift.Sendable {
         caCertificateId: Swift.String? = nil,
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.ascendingOrder = ascendingOrder
         self.caCertificateId = caCertificateId
         self.marker = marker
@@ -13928,10 +14133,235 @@ public struct ListCertificatesByCAOutput: Swift.Sendable {
     public init(
         certificates: [IoTClientTypes.Certificate]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificates = certificates
         self.nextMarker = nextMarker
+    }
+}
+
+extension IoTClientTypes {
+
+    /// A filter that can be used to list command executions for a device that started or completed before or after a particular date and time.
+    public struct TimeFilter: Swift.Sendable {
+        /// Filter to display command executions that started or completed only after a particular date and time.
+        public var after: Swift.String?
+        /// Filter to display command executions that started or completed only before a particular date and time.
+        public var before: Swift.String?
+
+        public init(
+            after: Swift.String? = nil,
+            before: Swift.String? = nil
+        ) {
+            self.after = after
+            self.before = before
+        }
+    }
+}
+
+extension IoTClientTypes {
+
+    public enum SortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ascending
+        case descending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortOrder] {
+            return [
+                .ascending,
+                .descending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ascending: return "ASCENDING"
+            case .descending: return "DESCENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListCommandExecutionsInput: Swift.Sendable {
+    /// The Amazon Resource Number (ARN) of the command. You can use this information to list all command executions for a particular command.
+    public var commandArn: Swift.String?
+    /// List all command executions that completed any time before or after the date and time that you specify. The date and time uses the format yyyy-MM-dd'T'HH:mm.
+    public var completedTimeFilter: IoTClientTypes.TimeFilter?
+    /// The maximum number of results to return in this operation.
+    public var maxResults: Swift.Int?
+    /// The namespace of the command.
+    public var namespace: IoTClientTypes.CommandNamespace?
+    /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+    public var nextToken: Swift.String?
+    /// Specify whether to list the command executions that were created in the ascending or descending order. By default, the API returns all commands in the descending order based on the start time or completion time of the executions, that are determined by the startTimeFilter and completeTimeFilter parameters.
+    public var sortOrder: IoTClientTypes.SortOrder?
+    /// List all command executions that started any time before or after the date and time that you specify. The date and time uses the format yyyy-MM-dd'T'HH:mm.
+    public var startedTimeFilter: IoTClientTypes.TimeFilter?
+    /// List all command executions for the device that have a particular status. For example, you can filter the list to display only command executions that have failed or timed out.
+    public var status: IoTClientTypes.CommandExecutionStatus?
+    /// The Amazon Resource Number (ARN) of the target device. You can use this information to list all command executions for a particular device.
+    public var targetArn: Swift.String?
+
+    public init(
+        commandArn: Swift.String? = nil,
+        completedTimeFilter: IoTClientTypes.TimeFilter? = nil,
+        maxResults: Swift.Int? = nil,
+        namespace: IoTClientTypes.CommandNamespace? = nil,
+        nextToken: Swift.String? = nil,
+        sortOrder: IoTClientTypes.SortOrder? = nil,
+        startedTimeFilter: IoTClientTypes.TimeFilter? = nil,
+        status: IoTClientTypes.CommandExecutionStatus? = nil,
+        targetArn: Swift.String? = nil
+    ) {
+        self.commandArn = commandArn
+        self.completedTimeFilter = completedTimeFilter
+        self.maxResults = maxResults
+        self.namespace = namespace
+        self.nextToken = nextToken
+        self.sortOrder = sortOrder
+        self.startedTimeFilter = startedTimeFilter
+        self.status = status
+        self.targetArn = targetArn
+    }
+}
+
+extension IoTClientTypes {
+
+    /// Summary information about a particular command execution.
+    public struct CommandExecutionSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the command execution.
+        public var commandArn: Swift.String?
+        /// The date and time at which the command completed executing on the target device.
+        public var completedAt: Foundation.Date?
+        /// The date and time at which the command execution was created for the target device.
+        public var createdAt: Foundation.Date?
+        /// The unique identifier of the command execution.
+        public var executionId: Swift.String?
+        /// The date and time at which the command started executing on the target device.
+        public var startedAt: Foundation.Date?
+        /// The status of the command executions.
+        public var status: IoTClientTypes.CommandExecutionStatus?
+        /// The Amazon Resource Name (ARN) of the target device for which the command is being executed.
+        public var targetArn: Swift.String?
+
+        public init(
+            commandArn: Swift.String? = nil,
+            completedAt: Foundation.Date? = nil,
+            createdAt: Foundation.Date? = nil,
+            executionId: Swift.String? = nil,
+            startedAt: Foundation.Date? = nil,
+            status: IoTClientTypes.CommandExecutionStatus? = nil,
+            targetArn: Swift.String? = nil
+        ) {
+            self.commandArn = commandArn
+            self.completedAt = completedAt
+            self.createdAt = createdAt
+            self.executionId = executionId
+            self.startedAt = startedAt
+            self.status = status
+            self.targetArn = targetArn
+        }
+    }
+}
+
+public struct ListCommandExecutionsOutput: Swift.Sendable {
+    /// The list of command executions.
+    public var commandExecutions: [IoTClientTypes.CommandExecutionSummary]?
+    /// The token to use to get the next set of results, or null if there are no additional results.
+    public var nextToken: Swift.String?
+
+    public init(
+        commandExecutions: [IoTClientTypes.CommandExecutionSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.commandExecutions = commandExecutions
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListCommandsInput: Swift.Sendable {
+    /// A filter that can be used to display the list of commands that have a specific command parameter name.
+    public var commandParameterName: Swift.String?
+    /// The maximum number of results to return in this operation. By default, the API returns up to a maximum of 25 results. You can override this default value to return up to a maximum of 100 results for this operation.
+    public var maxResults: Swift.Int?
+    /// The namespace of the command. By default, the API returns all commands that have been created for both AWS-IoT and AWS-IoT-FleetWise namespaces. You can override this default value if you want to return all commands that have been created only for a specific namespace.
+    public var namespace: IoTClientTypes.CommandNamespace?
+    /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+    public var nextToken: Swift.String?
+    /// Specify whether to list the commands that you have created in the ascending or descending order. By default, the API returns all commands in the descending order based on the time that they were created.
+    public var sortOrder: IoTClientTypes.SortOrder?
+
+    public init(
+        commandParameterName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        namespace: IoTClientTypes.CommandNamespace? = nil,
+        nextToken: Swift.String? = nil,
+        sortOrder: IoTClientTypes.SortOrder? = nil
+    ) {
+        self.commandParameterName = commandParameterName
+        self.maxResults = maxResults
+        self.namespace = namespace
+        self.nextToken = nextToken
+        self.sortOrder = sortOrder
+    }
+}
+
+extension IoTClientTypes {
+
+    /// Summary information about a particular command resource.
+    public struct CommandSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the command.
+        public var commandArn: Swift.String?
+        /// The unique identifier of the command.
+        public var commandId: Swift.String?
+        /// The timestamp, when the command was created.
+        public var createdAt: Foundation.Date?
+        /// Indicates whether the command has been deprecated.
+        public var deprecated: Swift.Bool?
+        /// The display name of the command.
+        public var displayName: Swift.String?
+        /// The timestamp, when the command was last updated.
+        public var lastUpdatedAt: Foundation.Date?
+        /// Indicates whether the command is pending deletion.
+        public var pendingDeletion: Swift.Bool?
+
+        public init(
+            commandArn: Swift.String? = nil,
+            commandId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            deprecated: Swift.Bool? = nil,
+            displayName: Swift.String? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
+            pendingDeletion: Swift.Bool? = nil
+        ) {
+            self.commandArn = commandArn
+            self.commandId = commandId
+            self.createdAt = createdAt
+            self.deprecated = deprecated
+            self.displayName = displayName
+            self.lastUpdatedAt = lastUpdatedAt
+            self.pendingDeletion = pendingDeletion
+        }
+    }
+}
+
+public struct ListCommandsOutput: Swift.Sendable {
+    /// The list of commands.
+    public var commands: [IoTClientTypes.CommandSummary]?
+    /// The token to use to get the next set of results, or null if there are no additional results.
+    public var nextToken: Swift.String?
+
+    public init(
+        commands: [IoTClientTypes.CommandSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.commands = commands
+        self.nextToken = nextToken
     }
 }
 
@@ -13944,8 +14374,7 @@ public struct ListCustomMetricsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -13960,8 +14389,7 @@ public struct ListCustomMetricsOutput: Swift.Sendable {
     public init(
         metricNames: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.metricNames = metricNames
         self.nextToken = nextToken
     }
@@ -13991,8 +14419,7 @@ public struct ListDetectMitigationActionsExecutionsInput: Swift.Sendable {
         taskId: Swift.String? = nil,
         thingName: Swift.String? = nil,
         violationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -14071,8 +14498,7 @@ extension IoTClientTypes {
             taskId: Swift.String? = nil,
             thingName: Swift.String? = nil,
             violationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionName = actionName
             self.errorCode = errorCode
             self.executionEndDate = executionEndDate
@@ -14095,8 +14521,7 @@ public struct ListDetectMitigationActionsExecutionsOutput: Swift.Sendable {
     public init(
         actionsExecutions: [IoTClientTypes.DetectMitigationActionExecution]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionsExecutions = actionsExecutions
         self.nextToken = nextToken
     }
@@ -14119,8 +14544,7 @@ public struct ListDetectMitigationActionsTasksInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -14137,8 +14561,7 @@ public struct ListDetectMitigationActionsTasksOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tasks: [IoTClientTypes.DetectMitigationActionsTaskSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tasks = tasks
     }
@@ -14153,8 +14576,7 @@ public struct ListDimensionsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -14169,8 +14591,7 @@ public struct ListDimensionsOutput: Swift.Sendable {
     public init(
         dimensionNames: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dimensionNames = dimensionNames
         self.nextToken = nextToken
     }
@@ -14188,8 +14609,7 @@ public struct ListDomainConfigurationsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil,
         serviceType: IoTClientTypes.ServiceType? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.pageSize = pageSize
         self.serviceType = serviceType
@@ -14217,8 +14637,7 @@ extension IoTClientTypes {
             domainConfigurationArn: Swift.String? = nil,
             domainConfigurationName: Swift.String? = nil,
             serviceType: IoTClientTypes.ServiceType? = nil
-        )
-        {
+        ) {
             self.domainConfigurationArn = domainConfigurationArn
             self.domainConfigurationName = domainConfigurationName
             self.serviceType = serviceType
@@ -14235,8 +14654,7 @@ public struct ListDomainConfigurationsOutput: Swift.Sendable {
     public init(
         domainConfigurations: [IoTClientTypes.DomainConfigurationSummary]? = nil,
         nextMarker: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainConfigurations = domainConfigurations
         self.nextMarker = nextMarker
     }
@@ -14251,8 +14669,7 @@ public struct ListFleetMetricsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -14270,8 +14687,7 @@ extension IoTClientTypes {
         public init(
             metricArn: Swift.String? = nil,
             metricName: Swift.String? = nil
-        )
-        {
+        ) {
             self.metricArn = metricArn
             self.metricName = metricName
         }
@@ -14287,8 +14703,7 @@ public struct ListFleetMetricsOutput: Swift.Sendable {
     public init(
         fleetMetrics: [IoTClientTypes.FleetMetricNameAndArn]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.fleetMetrics = fleetMetrics
         self.nextToken = nextToken
     }
@@ -14303,8 +14718,7 @@ public struct ListIndicesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -14319,8 +14733,7 @@ public struct ListIndicesOutput: Swift.Sendable {
     public init(
         indexNames: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.indexNames = indexNames
         self.nextToken = nextToken
     }
@@ -14342,8 +14755,7 @@ public struct ListJobExecutionsForJobInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: IoTClientTypes.JobExecutionStatus? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -14375,8 +14787,7 @@ extension IoTClientTypes {
             retryAttempt: Swift.Int? = nil,
             startedAt: Foundation.Date? = nil,
             status: IoTClientTypes.JobExecutionStatus? = nil
-        )
-        {
+        ) {
             self.executionNumber = executionNumber
             self.lastUpdatedAt = lastUpdatedAt
             self.queuedAt = queuedAt
@@ -14399,8 +14810,7 @@ extension IoTClientTypes {
         public init(
             jobExecutionSummary: IoTClientTypes.JobExecutionSummary? = nil,
             thingArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.jobExecutionSummary = jobExecutionSummary
             self.thingArn = thingArn
         }
@@ -14416,8 +14826,7 @@ public struct ListJobExecutionsForJobOutput: Swift.Sendable {
     public init(
         executionSummaries: [IoTClientTypes.JobExecutionSummaryForJob]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.executionSummaries = executionSummaries
         self.nextToken = nextToken
     }
@@ -14445,8 +14854,7 @@ public struct ListJobExecutionsForThingInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         status: IoTClientTypes.JobExecutionStatus? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.maxResults = maxResults
         self.namespaceId = namespaceId
@@ -14468,8 +14876,7 @@ extension IoTClientTypes {
         public init(
             jobExecutionSummary: IoTClientTypes.JobExecutionSummary? = nil,
             jobId: Swift.String? = nil
-        )
-        {
+        ) {
             self.jobExecutionSummary = jobExecutionSummary
             self.jobId = jobId
         }
@@ -14485,8 +14892,7 @@ public struct ListJobExecutionsForThingOutput: Swift.Sendable {
     public init(
         executionSummaries: [IoTClientTypes.JobExecutionSummaryForThing]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.executionSummaries = executionSummaries
         self.nextToken = nextToken
     }
@@ -14516,8 +14922,7 @@ public struct ListJobsInput: Swift.Sendable {
         targetSelection: IoTClientTypes.TargetSelection? = nil,
         thingGroupId: Swift.String? = nil,
         thingGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.namespaceId = namespaceId
         self.nextToken = nextToken
@@ -14561,8 +14966,7 @@ extension IoTClientTypes {
             status: IoTClientTypes.JobStatus? = nil,
             targetSelection: IoTClientTypes.TargetSelection? = nil,
             thingGroupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.completedAt = completedAt
             self.createdAt = createdAt
             self.isConcurrent = isConcurrent
@@ -14585,8 +14989,7 @@ public struct ListJobsOutput: Swift.Sendable {
     public init(
         jobs: [IoTClientTypes.JobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobs = jobs
         self.nextToken = nextToken
     }
@@ -14601,8 +15004,7 @@ public struct ListJobTemplatesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -14626,8 +15028,7 @@ extension IoTClientTypes {
             description: Swift.String? = nil,
             jobTemplateArn: Swift.String? = nil,
             jobTemplateId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.description = description
             self.jobTemplateArn = jobTemplateArn
@@ -14645,8 +15046,7 @@ public struct ListJobTemplatesOutput: Swift.Sendable {
     public init(
         jobTemplates: [IoTClientTypes.JobTemplateSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobTemplates = jobTemplates
         self.nextToken = nextToken
     }
@@ -14664,8 +15064,7 @@ public struct ListManagedJobTemplatesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.templateName = templateName
@@ -14693,8 +15092,7 @@ extension IoTClientTypes {
             templateArn: Swift.String? = nil,
             templateName: Swift.String? = nil,
             templateVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.environments = environments
             self.templateArn = templateArn
@@ -14713,8 +15111,7 @@ public struct ListManagedJobTemplatesOutput: Swift.Sendable {
     public init(
         managedJobTemplates: [IoTClientTypes.ManagedJobTemplateSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.managedJobTemplates = managedJobTemplates
         self.nextToken = nextToken
     }
@@ -14751,8 +15148,7 @@ public struct ListMetricValuesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         startTime: Foundation.Date? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dimensionName = dimensionName
         self.dimensionValueOperator = dimensionValueOperator
         self.endTime = endTime
@@ -14776,8 +15172,7 @@ extension IoTClientTypes {
         public init(
             timestamp: Foundation.Date? = nil,
             value: IoTClientTypes.MetricValue? = nil
-        )
-        {
+        ) {
             self.timestamp = timestamp
             self.value = value
         }
@@ -14793,8 +15188,7 @@ public struct ListMetricValuesOutput: Swift.Sendable {
     public init(
         metricDatumList: [IoTClientTypes.MetricDatum]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.metricDatumList = metricDatumList
         self.nextToken = nextToken
     }
@@ -14812,8 +15206,7 @@ public struct ListMitigationActionsInput: Swift.Sendable {
         actionType: IoTClientTypes.MitigationActionType? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionType = actionType
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -14835,8 +15228,7 @@ extension IoTClientTypes {
             actionArn: Swift.String? = nil,
             actionName: Swift.String? = nil,
             creationDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.actionArn = actionArn
             self.actionName = actionName
             self.creationDate = creationDate
@@ -14853,8 +15245,7 @@ public struct ListMitigationActionsOutput: Swift.Sendable {
     public init(
         actionIdentifiers: [IoTClientTypes.MitigationActionIdentifier]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionIdentifiers = actionIdentifiers
         self.nextToken = nextToken
     }
@@ -14872,8 +15263,7 @@ public struct ListOTAUpdatesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         otaUpdateStatus: IoTClientTypes.OTAUpdateStatus? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.otaUpdateStatus = otaUpdateStatus
@@ -14895,8 +15285,7 @@ extension IoTClientTypes {
             creationDate: Foundation.Date? = nil,
             otaUpdateArn: Swift.String? = nil,
             otaUpdateId: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.otaUpdateArn = otaUpdateArn
             self.otaUpdateId = otaUpdateId
@@ -14913,8 +15302,7 @@ public struct ListOTAUpdatesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         otaUpdates: [IoTClientTypes.OTAUpdateSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.otaUpdates = otaUpdates
     }
@@ -14933,8 +15321,7 @@ public struct ListOutgoingCertificatesInput: Swift.Sendable {
         ascendingOrder: Swift.Bool? = false,
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.ascendingOrder = ascendingOrder
         self.marker = marker
         self.pageSize = pageSize
@@ -14965,8 +15352,7 @@ extension IoTClientTypes {
             transferDate: Foundation.Date? = nil,
             transferMessage: Swift.String? = nil,
             transferredTo: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateArn = certificateArn
             self.certificateId = certificateId
             self.creationDate = creationDate
@@ -14987,8 +15373,7 @@ public struct ListOutgoingCertificatesOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         outgoingCertificates: [IoTClientTypes.OutgoingCertificate]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.outgoingCertificates = outgoingCertificates
     }
@@ -15003,8 +15388,7 @@ public struct ListPackagesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -15028,8 +15412,7 @@ extension IoTClientTypes {
             defaultVersionName: Swift.String? = nil,
             lastModifiedDate: Foundation.Date? = nil,
             packageName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.defaultVersionName = defaultVersionName
             self.lastModifiedDate = lastModifiedDate
@@ -15047,8 +15430,7 @@ public struct ListPackagesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         packageSummaries: [IoTClientTypes.PackageSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.packageSummaries = packageSummaries
     }
@@ -15070,8 +15452,7 @@ public struct ListPackageVersionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         packageName: Swift.String? = nil,
         status: IoTClientTypes.PackageVersionStatus? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.packageName = packageName
@@ -15100,8 +15481,7 @@ extension IoTClientTypes {
             packageName: Swift.String? = nil,
             status: IoTClientTypes.PackageVersionStatus? = nil,
             versionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.lastModifiedDate = lastModifiedDate
             self.packageName = packageName
@@ -15120,8 +15500,7 @@ public struct ListPackageVersionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         packageVersionSummaries: [IoTClientTypes.PackageVersionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.packageVersionSummaries = packageVersionSummaries
     }
@@ -15140,8 +15519,7 @@ public struct ListPoliciesInput: Swift.Sendable {
         ascendingOrder: Swift.Bool? = false,
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.ascendingOrder = ascendingOrder
         self.marker = marker
         self.pageSize = pageSize
@@ -15158,8 +15536,7 @@ public struct ListPoliciesOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         policies: [IoTClientTypes.Policy]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.policies = policies
     }
@@ -15182,8 +15559,7 @@ public struct ListPolicyPrincipalsInput: Swift.Sendable {
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil,
         policyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.ascendingOrder = ascendingOrder
         self.marker = marker
         self.pageSize = pageSize
@@ -15201,8 +15577,7 @@ public struct ListPolicyPrincipalsOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         principals: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.principals = principals
     }
@@ -15216,8 +15591,7 @@ public struct ListPolicyVersionsInput: Swift.Sendable {
 
     public init(
         policyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyName = policyName
     }
 }
@@ -15237,8 +15611,7 @@ extension IoTClientTypes {
             createDate: Foundation.Date? = nil,
             isDefaultVersion: Swift.Bool = false,
             versionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createDate = createDate
             self.isDefaultVersion = isDefaultVersion
             self.versionId = versionId
@@ -15253,8 +15626,7 @@ public struct ListPolicyVersionsOutput: Swift.Sendable {
 
     public init(
         policyVersions: [IoTClientTypes.PolicyVersion]? = nil
-    )
-    {
+    ) {
         self.policyVersions = policyVersions
     }
 }
@@ -15276,8 +15648,7 @@ public struct ListPrincipalPoliciesInput: Swift.Sendable {
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil,
         principal: Swift.String? = nil
-    )
-    {
+    ) {
         self.ascendingOrder = ascendingOrder
         self.marker = marker
         self.pageSize = pageSize
@@ -15295,8 +15666,7 @@ public struct ListPrincipalPoliciesOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         policies: [IoTClientTypes.Policy]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.policies = policies
     }
@@ -15316,8 +15686,7 @@ public struct ListPrincipalThingsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         principal: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.principal = principal
@@ -15334,10 +15703,82 @@ public struct ListPrincipalThingsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         things: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.things = things
+    }
+}
+
+public struct ListPrincipalThingsV2Input: Swift.Sendable {
+    /// The maximum number of results to return in this operation.
+    public var maxResults: Swift.Int?
+    /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+    public var nextToken: Swift.String?
+    /// The principal. A principal can be an X.509 certificate or an Amazon Cognito ID.
+    /// This member is required.
+    public var principal: Swift.String?
+    /// The type of the relation you want to filter in the response. If no value is provided in this field, the response will list all things, including both the EXCLUSIVE_THING and NON_EXCLUSIVE_THING attachment types.
+    ///
+    /// * EXCLUSIVE_THING - Attaches the specified principal to the specified thing, exclusively. The thing will be the only thing that’s attached to the principal.
+    ///
+    ///
+    ///
+    ///
+    /// * NON_EXCLUSIVE_THING - Attaches the specified principal to the specified thing. Multiple things can be attached to the principal.
+    public var thingPrincipalType: IoTClientTypes.ThingPrincipalType?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        principal: Swift.String? = nil,
+        thingPrincipalType: IoTClientTypes.ThingPrincipalType? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.principal = principal
+        self.thingPrincipalType = thingPrincipalType
+    }
+}
+
+extension IoTClientTypes {
+
+    /// An object that represents the thing and the type of relation it has with the principal.
+    public struct PrincipalThingObject: Swift.Sendable {
+        /// The name of the thing.
+        /// This member is required.
+        public var thingName: Swift.String?
+        /// The type of the relation you want to specify when you attach a principal to a thing. The value defaults to NON_EXCLUSIVE_THING.
+        ///
+        /// * EXCLUSIVE_THING - Attaches the specified principal to the specified thing, exclusively. The thing will be the only thing that’s attached to the principal.
+        ///
+        ///
+        ///
+        ///
+        /// * NON_EXCLUSIVE_THING - Attaches the specified principal to the specified thing. Multiple things can be attached to the principal.
+        public var thingPrincipalType: IoTClientTypes.ThingPrincipalType?
+
+        public init(
+            thingName: Swift.String? = nil,
+            thingPrincipalType: IoTClientTypes.ThingPrincipalType? = nil
+        ) {
+            self.thingName = thingName
+            self.thingPrincipalType = thingPrincipalType
+        }
+    }
+}
+
+public struct ListPrincipalThingsV2Output: Swift.Sendable {
+    /// The token to use to get the next set of results, or null if there are no additional results.
+    public var nextToken: Swift.String?
+    /// A list of thingPrincipalObject that represents the principal and the type of relation it has with the thing.
+    public var principalThingObjects: [IoTClientTypes.PrincipalThingObject]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        principalThingObjects: [IoTClientTypes.PrincipalThingObject]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.principalThingObjects = principalThingObjects
     }
 }
 
@@ -15350,8 +15791,7 @@ public struct ListProvisioningTemplatesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -15384,8 +15824,7 @@ extension IoTClientTypes {
             templateArn: Swift.String? = nil,
             templateName: Swift.String? = nil,
             type: IoTClientTypes.TemplateType? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.description = description
             self.enabled = enabled
@@ -15406,8 +15845,7 @@ public struct ListProvisioningTemplatesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         templates: [IoTClientTypes.ProvisioningTemplateSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.templates = templates
     }
@@ -15426,8 +15864,7 @@ public struct ListProvisioningTemplateVersionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.templateName = templateName
@@ -15449,8 +15886,7 @@ extension IoTClientTypes {
             creationDate: Foundation.Date? = nil,
             isDefaultVersion: Swift.Bool = false,
             versionId: Swift.Int? = nil
-        )
-        {
+        ) {
             self.creationDate = creationDate
             self.isDefaultVersion = isDefaultVersion
             self.versionId = versionId
@@ -15467,8 +15903,7 @@ public struct ListProvisioningTemplateVersionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         versions: [IoTClientTypes.ProvisioningTemplateVersionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.versions = versions
     }
@@ -15487,8 +15922,7 @@ public struct ListRelatedResourcesForAuditFindingInput: Swift.Sendable {
         findingId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.findingId = findingId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -15504,8 +15938,7 @@ public struct ListRelatedResourcesForAuditFindingOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         relatedResources: [IoTClientTypes.RelatedResource]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.relatedResources = relatedResources
     }
@@ -15523,8 +15956,7 @@ public struct ListRoleAliasesInput: Swift.Sendable {
         ascendingOrder: Swift.Bool? = false,
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil
-    )
-    {
+    ) {
         self.ascendingOrder = ascendingOrder
         self.marker = marker
         self.pageSize = pageSize
@@ -15540,8 +15972,7 @@ public struct ListRoleAliasesOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         roleAliases: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.roleAliases = roleAliases
     }
@@ -15596,8 +16027,7 @@ public struct ListSbomValidationResultsInput: Swift.Sendable {
         packageName: Swift.String? = nil,
         validationResult: IoTClientTypes.SbomValidationResult? = nil,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.packageName = packageName
@@ -15653,8 +16083,7 @@ extension IoTClientTypes {
             errorMessage: Swift.String? = nil,
             fileName: Swift.String? = nil,
             validationResult: IoTClientTypes.SbomValidationResult? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.fileName = fileName
@@ -15672,8 +16101,7 @@ public struct ListSbomValidationResultsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         validationResultSummaries: [IoTClientTypes.SbomValidationResultSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.validationResultSummaries = validationResultSummaries
     }
@@ -15688,8 +16116,7 @@ public struct ListScheduledAuditsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -15716,8 +16143,7 @@ extension IoTClientTypes {
             frequency: IoTClientTypes.AuditFrequency? = nil,
             scheduledAuditArn: Swift.String? = nil,
             scheduledAuditName: Swift.String? = nil
-        )
-        {
+        ) {
             self.dayOfMonth = dayOfMonth
             self.dayOfWeek = dayOfWeek
             self.frequency = frequency
@@ -15736,8 +16162,7 @@ public struct ListScheduledAuditsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         scheduledAudits: [IoTClientTypes.ScheduledAuditMetadata]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.scheduledAudits = scheduledAudits
     }
@@ -15758,8 +16183,7 @@ public struct ListSecurityProfilesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         metricName: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dimensionName = dimensionName
         self.maxResults = maxResults
         self.metricName = metricName
@@ -15781,8 +16205,7 @@ extension IoTClientTypes {
         public init(
             arn: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
         }
@@ -15798,8 +16221,7 @@ public struct ListSecurityProfilesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         securityProfileIdentifiers: [IoTClientTypes.SecurityProfileIdentifier]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.securityProfileIdentifiers = securityProfileIdentifiers
     }
@@ -15821,8 +16243,7 @@ public struct ListSecurityProfilesForTargetInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         recursive: Swift.Bool? = false,
         securityProfileTargetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.recursive = recursive
@@ -15840,8 +16261,7 @@ extension IoTClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -15859,8 +16279,7 @@ extension IoTClientTypes {
         public init(
             securityProfileIdentifier: IoTClientTypes.SecurityProfileIdentifier? = nil,
             target: IoTClientTypes.SecurityProfileTarget? = nil
-        )
-        {
+        ) {
             self.securityProfileIdentifier = securityProfileIdentifier
             self.target = target
         }
@@ -15876,8 +16295,7 @@ public struct ListSecurityProfilesForTargetOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         securityProfileTargetMappings: [IoTClientTypes.SecurityProfileTargetMapping]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.securityProfileTargetMappings = securityProfileTargetMappings
     }
@@ -15895,8 +16313,7 @@ public struct ListStreamsInput: Swift.Sendable {
         ascendingOrder: Swift.Bool? = false,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.ascendingOrder = ascendingOrder
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -15921,8 +16338,7 @@ extension IoTClientTypes {
             streamArn: Swift.String? = nil,
             streamId: Swift.String? = nil,
             streamVersion: Swift.Int? = nil
-        )
-        {
+        ) {
             self.description = description
             self.streamArn = streamArn
             self.streamId = streamId
@@ -15940,8 +16356,7 @@ public struct ListStreamsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         streams: [IoTClientTypes.StreamSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.streams = streams
     }
@@ -15957,8 +16372,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceArn = resourceArn
     }
@@ -15973,8 +16387,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [IoTClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -15993,8 +16406,7 @@ public struct ListTargetsForPolicyInput: Swift.Sendable {
         marker: Swift.String? = nil,
         pageSize: Swift.Int? = nil,
         policyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.marker = marker
         self.pageSize = pageSize
         self.policyName = policyName
@@ -16010,8 +16422,7 @@ public struct ListTargetsForPolicyOutput: Swift.Sendable {
     public init(
         nextMarker: Swift.String? = nil,
         targets: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.targets = targets
     }
@@ -16030,8 +16441,7 @@ public struct ListTargetsForSecurityProfileInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         securityProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.securityProfileName = securityProfileName
@@ -16047,8 +16457,7 @@ public struct ListTargetsForSecurityProfileOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         securityProfileTargets: [IoTClientTypes.SecurityProfileTarget]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.securityProfileTargets = securityProfileTargets
     }
@@ -16072,8 +16481,7 @@ public struct ListThingGroupsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         parentGroup: Swift.String? = nil,
         recursive: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.namePrefixFilter = namePrefixFilter
         self.nextToken = nextToken
@@ -16091,8 +16499,7 @@ public struct ListThingGroupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         thingGroups: [IoTClientTypes.GroupNameAndArn]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.thingGroups = thingGroups
     }
@@ -16111,8 +16518,7 @@ public struct ListThingGroupsForThingInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.thingName = thingName
@@ -16128,8 +16534,7 @@ public struct ListThingGroupsForThingOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         thingGroups: [IoTClientTypes.GroupNameAndArn]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.thingGroups = thingGroups
     }
@@ -16149,8 +16554,7 @@ public struct ListThingPrincipalsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.thingName = thingName
@@ -16167,10 +16571,82 @@ public struct ListThingPrincipalsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         principals: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.principals = principals
+    }
+}
+
+public struct ListThingPrincipalsV2Input: Swift.Sendable {
+    /// The maximum number of results to return in this operation.
+    public var maxResults: Swift.Int?
+    /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+    public var nextToken: Swift.String?
+    /// The name of the thing.
+    /// This member is required.
+    public var thingName: Swift.String?
+    /// The type of the relation you want to filter in the response. If no value is provided in this field, the response will list all principals, including both the EXCLUSIVE_THING and NON_EXCLUSIVE_THING attachment types.
+    ///
+    /// * EXCLUSIVE_THING - Attaches the specified principal to the specified thing, exclusively. The thing will be the only thing that’s attached to the principal.
+    ///
+    ///
+    ///
+    ///
+    /// * NON_EXCLUSIVE_THING - Attaches the specified principal to the specified thing. Multiple things can be attached to the principal.
+    public var thingPrincipalType: IoTClientTypes.ThingPrincipalType?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        thingName: Swift.String? = nil,
+        thingPrincipalType: IoTClientTypes.ThingPrincipalType? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.thingName = thingName
+        self.thingPrincipalType = thingPrincipalType
+    }
+}
+
+extension IoTClientTypes {
+
+    /// An object that represents the principal and the type of relation it has with the thing.
+    public struct ThingPrincipalObject: Swift.Sendable {
+        /// The principal of the thing principal object.
+        /// This member is required.
+        public var principal: Swift.String?
+        /// The type of the relation you want to specify when you attach a principal to a thing. The value defaults to NON_EXCLUSIVE_THING.
+        ///
+        /// * EXCLUSIVE_THING - Attaches the specified principal to the specified thing, exclusively. The thing will be the only thing that’s attached to the principal.
+        ///
+        ///
+        ///
+        ///
+        /// * NON_EXCLUSIVE_THING - Attaches the specified principal to the specified thing. Multiple things can be attached to the principal.
+        public var thingPrincipalType: IoTClientTypes.ThingPrincipalType?
+
+        public init(
+            principal: Swift.String? = nil,
+            thingPrincipalType: IoTClientTypes.ThingPrincipalType? = nil
+        ) {
+            self.principal = principal
+            self.thingPrincipalType = thingPrincipalType
+        }
+    }
+}
+
+public struct ListThingPrincipalsV2Output: Swift.Sendable {
+    /// The token to use to get the next set of results, or null if there are no additional results.
+    public var nextToken: Swift.String?
+    /// A list of thingPrincipalObject that represents the principal and the type of relation it has with the thing.
+    public var thingPrincipalObjects: [IoTClientTypes.ThingPrincipalObject]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        thingPrincipalObjects: [IoTClientTypes.ThingPrincipalObject]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.thingPrincipalObjects = thingPrincipalObjects
     }
 }
 
@@ -16220,8 +16696,7 @@ public struct ListThingRegistrationTaskReportsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         reportType: IoTClientTypes.ReportType? = nil,
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.reportType = reportType
@@ -16241,8 +16716,7 @@ public struct ListThingRegistrationTaskReportsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         reportType: IoTClientTypes.ReportType? = nil,
         resourceLinks: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.reportType = reportType
         self.resourceLinks = resourceLinks
@@ -16261,8 +16735,7 @@ public struct ListThingRegistrationTasksInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         status: IoTClientTypes.Status? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.status = status
@@ -16278,8 +16751,7 @@ public struct ListThingRegistrationTasksOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         taskIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.taskIds = taskIds
     }
@@ -16307,8 +16779,7 @@ public struct ListThingsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         thingTypeName: Swift.String? = nil,
         usePrefixAttributeValue: Swift.Bool? = false
-    )
-    {
+    ) {
         self.attributeName = attributeName
         self.attributeValue = attributeValue
         self.maxResults = maxResults
@@ -16339,8 +16810,7 @@ extension IoTClientTypes {
             thingName: Swift.String? = nil,
             thingTypeName: Swift.String? = nil,
             version: Swift.Int = 0
-        )
-        {
+        ) {
             self.attributes = attributes
             self.thingArn = thingArn
             self.thingName = thingName
@@ -16360,8 +16830,7 @@ public struct ListThingsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         things: [IoTClientTypes.ThingAttribute]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.things = things
     }
@@ -16380,8 +16849,7 @@ public struct ListThingsInBillingGroupInput: Swift.Sendable {
         billingGroupName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.billingGroupName = billingGroupName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -16397,8 +16865,7 @@ public struct ListThingsInBillingGroupOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         things: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.things = things
     }
@@ -16420,8 +16887,7 @@ public struct ListThingsInThingGroupInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         recursive: Swift.Bool? = false,
         thingGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.recursive = recursive
@@ -16438,8 +16904,7 @@ public struct ListThingsInThingGroupOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         things: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.things = things
     }
@@ -16458,8 +16923,7 @@ public struct ListThingTypesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         thingTypeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.thingTypeName = thingTypeName
@@ -16484,8 +16948,7 @@ extension IoTClientTypes {
             thingTypeMetadata: IoTClientTypes.ThingTypeMetadata? = nil,
             thingTypeName: Swift.String? = nil,
             thingTypeProperties: IoTClientTypes.ThingTypeProperties? = nil
-        )
-        {
+        ) {
             self.thingTypeArn = thingTypeArn
             self.thingTypeMetadata = thingTypeMetadata
             self.thingTypeName = thingTypeName
@@ -16504,8 +16967,7 @@ public struct ListThingTypesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         thingTypes: [IoTClientTypes.ThingTypeDefinition]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.thingTypes = thingTypes
     }
@@ -16520,8 +16982,7 @@ public struct ListTopicRuleDestinationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -16536,8 +16997,7 @@ extension IoTClientTypes {
 
         public init(
             confirmationUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.confirmationUrl = confirmationUrl
         }
     }
@@ -16561,8 +17021,7 @@ extension IoTClientTypes {
             securityGroups: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.roleArn = roleArn
             self.securityGroups = securityGroups
             self.subnetIds = subnetIds
@@ -16598,8 +17057,7 @@ extension IoTClientTypes {
             status: IoTClientTypes.TopicRuleDestinationStatus? = nil,
             statusReason: Swift.String? = nil,
             vpcDestinationSummary: IoTClientTypes.VpcDestinationSummary? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.httpUrlSummary = httpUrlSummary
@@ -16620,8 +17078,7 @@ public struct ListTopicRuleDestinationsOutput: Swift.Sendable {
     public init(
         destinationSummaries: [IoTClientTypes.TopicRuleDestinationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationSummaries = destinationSummaries
         self.nextToken = nextToken
     }
@@ -16643,8 +17100,7 @@ public struct ListTopicRulesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         ruleDisabled: Swift.Bool? = nil,
         topic: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.ruleDisabled = ruleDisabled
@@ -16673,8 +17129,7 @@ extension IoTClientTypes {
             ruleDisabled: Swift.Bool? = nil,
             ruleName: Swift.String? = nil,
             topicPattern: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.ruleArn = ruleArn
             self.ruleDisabled = ruleDisabled
@@ -16694,8 +17149,7 @@ public struct ListTopicRulesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         rules: [IoTClientTypes.TopicRuleListItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.rules = rules
     }
@@ -16713,8 +17167,7 @@ public struct ListV2LoggingLevelsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         targetType: IoTClientTypes.LogTargetType? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.targetType = targetType
@@ -16734,8 +17187,7 @@ extension IoTClientTypes {
         public init(
             targetName: Swift.String? = nil,
             targetType: IoTClientTypes.LogTargetType? = nil
-        )
-        {
+        ) {
             self.targetName = targetName
             self.targetType = targetType
         }
@@ -16754,8 +17206,7 @@ extension IoTClientTypes {
         public init(
             logLevel: IoTClientTypes.LogLevel? = nil,
             logTarget: IoTClientTypes.LogTarget? = nil
-        )
-        {
+        ) {
             self.logLevel = logLevel
             self.logTarget = logTarget
         }
@@ -16771,8 +17222,7 @@ public struct ListV2LoggingLevelsOutput: Swift.Sendable {
     public init(
         logTargetConfigurations: [IoTClientTypes.LogTargetConfiguration]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.logTargetConfigurations = logTargetConfigurations
         self.nextToken = nextToken
     }
@@ -16810,8 +17260,7 @@ public struct ListViolationEventsInput: Swift.Sendable {
         startTime: Foundation.Date? = nil,
         thingName: Swift.String? = nil,
         verificationState: IoTClientTypes.VerificationState? = nil
-    )
-    {
+    ) {
         self.behaviorCriteriaType = behaviorCriteriaType
         self.endTime = endTime
         self.listSuppressedAlerts = listSuppressedAlerts
@@ -16892,8 +17341,7 @@ extension IoTClientTypes {
             violationEventTime: Foundation.Date? = nil,
             violationEventType: IoTClientTypes.ViolationEventType? = nil,
             violationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.behavior = behavior
             self.metricValue = metricValue
             self.securityProfileName = securityProfileName
@@ -16917,8 +17365,7 @@ public struct ListViolationEventsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         violationEvents: [IoTClientTypes.ViolationEvent]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.violationEvents = violationEvents
     }
@@ -16938,8 +17385,7 @@ public struct PutVerificationStateOnViolationInput: Swift.Sendable {
         verificationState: IoTClientTypes.VerificationState? = nil,
         verificationStateDescription: Swift.String? = nil,
         violationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.verificationState = verificationState
         self.verificationStateDescription = verificationStateDescription
         self.violationId = violationId
@@ -16952,9 +17398,9 @@ public struct PutVerificationStateOnViolationOutput: Swift.Sendable {
 }
 
 /// The registration code is invalid.
-public struct RegistrationCodeValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RegistrationCodeValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Additional information about the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -16970,8 +17416,7 @@ public struct RegistrationCodeValidationException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -17002,8 +17447,7 @@ public struct RegisterCACertificateInput: Swift.Sendable {
         setAsActive: Swift.Bool? = false,
         tags: [IoTClientTypes.Tag]? = nil,
         verificationCertificate: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowAutoRegistration = allowAutoRegistration
         self.caCertificate = caCertificate
         self.certificateMode = certificateMode
@@ -17024,17 +17468,16 @@ public struct RegisterCACertificateOutput: Swift.Sendable {
     public init(
         certificateArn: Swift.String? = nil,
         certificateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateArn = certificateArn
         self.certificateId = certificateId
     }
 }
 
 /// Unable to verify the CA certificate used to sign the device certificate you are attempting to register. This is happens when you have registered more than one CA certificate that has the same subject field and public key.
-public struct CertificateConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CertificateConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -17050,8 +17493,7 @@ public struct CertificateConflictException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -17074,8 +17516,7 @@ public struct RegisterCertificateInput: Swift.Sendable {
         certificatePem: Swift.String? = nil,
         setAsActive: Swift.Bool? = nil,
         status: IoTClientTypes.CertificateStatus? = nil
-    )
-    {
+    ) {
         self.caCertificatePem = caCertificatePem
         self.certificatePem = certificatePem
         self.setAsActive = setAsActive
@@ -17093,8 +17534,7 @@ public struct RegisterCertificateOutput: Swift.Sendable {
     public init(
         certificateArn: Swift.String? = nil,
         certificateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateArn = certificateArn
         self.certificateId = certificateId
     }
@@ -17110,8 +17550,7 @@ public struct RegisterCertificateWithoutCAInput: Swift.Sendable {
     public init(
         certificatePem: Swift.String? = nil,
         status: IoTClientTypes.CertificateStatus? = nil
-    )
-    {
+    ) {
         self.certificatePem = certificatePem
         self.status = status
     }
@@ -17126,17 +17565,16 @@ public struct RegisterCertificateWithoutCAOutput: Swift.Sendable {
     public init(
         certificateArn: Swift.String? = nil,
         certificateId: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateArn = certificateArn
         self.certificateId = certificateId
     }
 }
 
 /// The resource registration failed.
-public struct ResourceRegistrationFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceRegistrationFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -17152,8 +17590,7 @@ public struct ResourceRegistrationFailureException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -17168,8 +17605,7 @@ public struct RegisterThingInput: Swift.Sendable {
     public init(
         parameters: [Swift.String: Swift.String]? = nil,
         templateBody: Swift.String? = nil
-    )
-    {
+    ) {
         self.parameters = parameters
         self.templateBody = templateBody
     }
@@ -17184,8 +17620,7 @@ public struct RegisterThingOutput: Swift.Sendable {
     public init(
         certificatePem: Swift.String? = nil,
         resourceArns: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.certificatePem = certificatePem
         self.resourceArns = resourceArns
     }
@@ -17202,8 +17637,7 @@ public struct RejectCertificateTransferInput: Swift.Sendable {
     public init(
         certificateId: Swift.String? = nil,
         rejectReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateId = certificateId
         self.rejectReason = rejectReason
     }
@@ -17224,8 +17658,7 @@ public struct RemoveThingFromBillingGroupInput: Swift.Sendable {
         billingGroupName: Swift.String? = nil,
         thingArn: Swift.String? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.billingGroupArn = billingGroupArn
         self.billingGroupName = billingGroupName
         self.thingArn = thingArn
@@ -17253,8 +17686,7 @@ public struct RemoveThingFromThingGroupInput: Swift.Sendable {
         thingGroupArn: Swift.String? = nil,
         thingGroupName: Swift.String? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.thingArn = thingArn
         self.thingGroupArn = thingGroupArn
         self.thingGroupName = thingGroupName
@@ -17279,8 +17711,7 @@ public struct ReplaceTopicRuleInput: Swift.Sendable {
     public init(
         ruleName: Swift.String? = nil,
         topicRulePayload: IoTClientTypes.TopicRulePayload? = nil
-    )
-    {
+    ) {
         self.ruleName = ruleName
         self.topicRulePayload = topicRulePayload
     }
@@ -17305,8 +17736,7 @@ public struct SearchIndexInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         queryString: Swift.String? = nil,
         queryVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.indexName = indexName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -17336,8 +17766,7 @@ extension IoTClientTypes {
             thingGroupDescription: Swift.String? = nil,
             thingGroupId: Swift.String? = nil,
             thingGroupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.parentGroupNames = parentGroupNames
             self.thingGroupDescription = thingGroupDescription
@@ -17362,8 +17791,7 @@ extension IoTClientTypes {
             connected: Swift.Bool? = nil,
             disconnectReason: Swift.String? = nil,
             timestamp: Swift.Int? = nil
-        )
-        {
+        ) {
             self.connected = connected
             self.disconnectReason = disconnectReason
             self.timestamp = timestamp
@@ -17401,8 +17829,7 @@ extension IoTClientTypes {
             thingId: Swift.String? = nil,
             thingName: Swift.String? = nil,
             thingTypeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.connectivity = connectivity
             self.deviceDefender = deviceDefender
@@ -17427,8 +17854,7 @@ public struct SearchIndexOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         thingGroups: [IoTClientTypes.ThingGroupDocument]? = nil,
         things: [IoTClientTypes.ThingDocument]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.thingGroups = thingGroups
         self.things = things
@@ -17442,8 +17868,7 @@ public struct SetDefaultAuthorizerInput: Swift.Sendable {
 
     public init(
         authorizerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorizerName = authorizerName
     }
 }
@@ -17457,8 +17882,7 @@ public struct SetDefaultAuthorizerOutput: Swift.Sendable {
     public init(
         authorizerArn: Swift.String? = nil,
         authorizerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorizerArn = authorizerArn
         self.authorizerName = authorizerName
     }
@@ -17476,8 +17900,7 @@ public struct SetDefaultPolicyVersionInput: Swift.Sendable {
     public init(
         policyName: Swift.String? = nil,
         policyVersionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyName = policyName
         self.policyVersionId = policyVersionId
     }
@@ -17496,8 +17919,7 @@ extension IoTClientTypes {
         public init(
             logLevel: IoTClientTypes.LogLevel? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.logLevel = logLevel
             self.roleArn = roleArn
         }
@@ -17512,8 +17934,7 @@ public struct SetLoggingOptionsInput: Swift.Sendable {
 
     public init(
         loggingOptionsPayload: IoTClientTypes.LoggingOptionsPayload? = nil
-    )
-    {
+    ) {
         self.loggingOptionsPayload = loggingOptionsPayload
     }
 }
@@ -17529,8 +17950,7 @@ public struct SetV2LoggingLevelInput: Swift.Sendable {
     public init(
         logLevel: IoTClientTypes.LogLevel? = nil,
         logTarget: IoTClientTypes.LogTarget? = nil
-    )
-    {
+    ) {
         self.logLevel = logLevel
         self.logTarget = logTarget
     }
@@ -17548,8 +17968,7 @@ public struct SetV2LoggingOptionsInput: Swift.Sendable {
         defaultLogLevel: IoTClientTypes.LogLevel? = nil,
         disableAllLogs: Swift.Bool? = false,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultLogLevel = defaultLogLevel
         self.disableAllLogs = disableAllLogs
         self.roleArn = roleArn
@@ -17557,9 +17976,9 @@ public struct SetV2LoggingOptionsInput: Swift.Sendable {
 }
 
 /// This exception occurs if you attempt to start a task with the same task-id as an existing task but with a different clientRequestToken.
-public struct TaskAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TaskAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -17574,8 +17993,7 @@ public struct TaskAlreadyExistsException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -17599,8 +18017,7 @@ public struct StartAuditMitigationActionsTaskInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         target: IoTClientTypes.AuditMitigationActionsTaskTarget? = nil,
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.auditCheckToActionsMapping = auditCheckToActionsMapping
         self.clientRequestToken = clientRequestToken
         self.target = target
@@ -17614,8 +18031,7 @@ public struct StartAuditMitigationActionsTaskOutput: Swift.Sendable {
 
     public init(
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskId = taskId
     }
 }
@@ -17648,8 +18064,7 @@ public struct StartDetectMitigationActionsTaskInput: Swift.Sendable {
         target: IoTClientTypes.DetectMitigationActionsTaskTarget? = nil,
         taskId: Swift.String? = nil,
         violationEventOccurrenceRange: IoTClientTypes.ViolationEventOccurrenceRange? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.clientRequestToken = clientRequestToken
         self.includeOnlyActiveViolations = includeOnlyActiveViolations
@@ -17666,8 +18081,7 @@ public struct StartDetectMitigationActionsTaskOutput: Swift.Sendable {
 
     public init(
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskId = taskId
     }
 }
@@ -17679,8 +18093,7 @@ public struct StartOnDemandAuditTaskInput: Swift.Sendable {
 
     public init(
         targetCheckNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.targetCheckNames = targetCheckNames
     }
 }
@@ -17691,8 +18104,7 @@ public struct StartOnDemandAuditTaskOutput: Swift.Sendable {
 
     public init(
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskId = taskId
     }
 }
@@ -17716,8 +18128,7 @@ public struct StartThingRegistrationTaskInput: Swift.Sendable {
         inputFileKey: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         templateBody: Swift.String? = nil
-    )
-    {
+    ) {
         self.inputFileBucket = inputFileBucket
         self.inputFileKey = inputFileKey
         self.roleArn = roleArn
@@ -17731,8 +18142,7 @@ public struct StartThingRegistrationTaskOutput: Swift.Sendable {
 
     public init(
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskId = taskId
     }
 }
@@ -17744,8 +18154,7 @@ public struct StopThingRegistrationTaskInput: Swift.Sendable {
 
     public init(
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskId = taskId
     }
 }
@@ -17766,8 +18175,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [IoTClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -17800,8 +18208,7 @@ public struct TestAuthorizationInput: Swift.Sendable {
         policyNamesToAdd: [Swift.String]? = nil,
         policyNamesToSkip: [Swift.String]? = nil,
         principal: Swift.String? = nil
-    )
-    {
+    ) {
         self.authInfos = authInfos
         self.clientId = clientId
         self.cognitoIdentityPoolId = cognitoIdentityPoolId
@@ -17817,16 +18224,15 @@ public struct TestAuthorizationOutput: Swift.Sendable {
 
     public init(
         authResults: [IoTClientTypes.AuthResult]? = nil
-    )
-    {
+    ) {
         self.authResults = authResults
     }
 }
 
 /// The response is invalid.
-public struct InvalidResponseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidResponseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -17842,8 +18248,7 @@ public struct InvalidResponseException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -17860,8 +18265,7 @@ extension IoTClientTypes {
         public init(
             headers: [Swift.String: Swift.String]? = nil,
             queryString: Swift.String? = nil
-        )
-        {
+        ) {
             self.headers = headers
             self.queryString = queryString
         }
@@ -17883,8 +18287,7 @@ extension IoTClientTypes {
             clientId: Swift.String? = nil,
             password: Foundation.Data? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientId = clientId
             self.password = password
             self.username = username
@@ -17901,8 +18304,7 @@ extension IoTClientTypes {
 
         public init(
             serverName: Swift.String? = nil
-        )
-        {
+        ) {
             self.serverName = serverName
         }
     }
@@ -17930,8 +18332,7 @@ public struct TestInvokeAuthorizerInput: Swift.Sendable {
         tlsContext: IoTClientTypes.TlsContext? = nil,
         token: Swift.String? = nil,
         tokenSignature: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorizerName = authorizerName
         self.httpContext = httpContext
         self.mqttContext = mqttContext
@@ -17959,8 +18360,7 @@ public struct TestInvokeAuthorizerOutput: Swift.Sendable {
         policyDocuments: [Swift.String]? = nil,
         principalId: Swift.String? = nil,
         refreshAfterInSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.disconnectAfterInSeconds = disconnectAfterInSeconds
         self.isAuthenticated = isAuthenticated
         self.policyDocuments = policyDocuments
@@ -17970,9 +18370,9 @@ public struct TestInvokeAuthorizerOutput: Swift.Sendable {
 }
 
 /// You can't transfer the certificate because authorization policies are still attached.
-public struct TransferConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TransferConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -17988,8 +18388,7 @@ public struct TransferConflictException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -18009,8 +18408,7 @@ public struct TransferCertificateInput: Swift.Sendable {
         certificateId: Swift.String? = nil,
         targetAwsAccount: Swift.String? = nil,
         transferMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateId = certificateId
         self.targetAwsAccount = targetAwsAccount
         self.transferMessage = transferMessage
@@ -18024,8 +18422,7 @@ public struct TransferCertificateOutput: Swift.Sendable {
 
     public init(
         transferredCertificateArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.transferredCertificateArn = transferredCertificateArn
     }
 }
@@ -18041,8 +18438,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -18065,8 +18461,7 @@ public struct UpdateAccountAuditConfigurationInput: Swift.Sendable {
         auditCheckConfigurations: [Swift.String: IoTClientTypes.AuditCheckConfiguration]? = nil,
         auditNotificationTargetConfigurations: [Swift.String: IoTClientTypes.AuditNotificationTarget]? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.auditCheckConfigurations = auditCheckConfigurations
         self.auditNotificationTargetConfigurations = auditNotificationTargetConfigurations
         self.roleArn = roleArn
@@ -18098,8 +18493,7 @@ public struct UpdateAuditSuppressionInput: Swift.Sendable {
         expirationDate: Foundation.Date? = nil,
         resourceIdentifier: IoTClientTypes.ResourceIdentifier? = nil,
         suppressIndefinitely: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.checkName = checkName
         self.description = description
         self.expirationDate = expirationDate
@@ -18135,8 +18529,7 @@ public struct UpdateAuthorizerInput: Swift.Sendable {
         status: IoTClientTypes.AuthorizerStatus? = nil,
         tokenKeyName: Swift.String? = nil,
         tokenSigningPublicKeys: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.authorizerFunctionArn = authorizerFunctionArn
         self.authorizerName = authorizerName
         self.enableCachingForHttp = enableCachingForHttp
@@ -18155,8 +18548,7 @@ public struct UpdateAuthorizerOutput: Swift.Sendable {
     public init(
         authorizerArn: Swift.String? = nil,
         authorizerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorizerArn = authorizerArn
         self.authorizerName = authorizerName
     }
@@ -18176,8 +18568,7 @@ public struct UpdateBillingGroupInput: Swift.Sendable {
         billingGroupName: Swift.String? = nil,
         billingGroupProperties: IoTClientTypes.BillingGroupProperties? = nil,
         expectedVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.billingGroupName = billingGroupName
         self.billingGroupProperties = billingGroupProperties
         self.expectedVersion = expectedVersion
@@ -18190,8 +18581,7 @@ public struct UpdateBillingGroupOutput: Swift.Sendable {
 
     public init(
         version: Swift.Int = 0
-    )
-    {
+    ) {
         self.version = version
     }
 }
@@ -18216,8 +18606,7 @@ public struct UpdateCACertificateInput: Swift.Sendable {
         newStatus: IoTClientTypes.CACertificateStatus? = nil,
         registrationConfig: IoTClientTypes.RegistrationConfig? = nil,
         removeAutoRegistration: Swift.Bool? = false
-    )
-    {
+    ) {
         self.certificateId = certificateId
         self.newAutoRegistrationStatus = newAutoRegistrationStatus
         self.newStatus = newStatus
@@ -18238,8 +18627,7 @@ public struct UpdateCertificateInput: Swift.Sendable {
     public init(
         certificateId: Swift.String? = nil,
         newStatus: IoTClientTypes.CertificateStatus? = nil
-    )
-    {
+    ) {
         self.certificateId = certificateId
         self.newStatus = newStatus
     }
@@ -18258,8 +18646,7 @@ public struct UpdateCertificateProviderInput: Swift.Sendable {
         accountDefaultForOperations: [IoTClientTypes.CertificateProviderOperation]? = nil,
         certificateProviderName: Swift.String? = nil,
         lambdaFunctionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountDefaultForOperations = accountDefaultForOperations
         self.certificateProviderName = certificateProviderName
         self.lambdaFunctionArn = lambdaFunctionArn
@@ -18275,10 +18662,60 @@ public struct UpdateCertificateProviderOutput: Swift.Sendable {
     public init(
         certificateProviderArn: Swift.String? = nil,
         certificateProviderName: Swift.String? = nil
-    )
-    {
+    ) {
         self.certificateProviderArn = certificateProviderArn
         self.certificateProviderName = certificateProviderName
+    }
+}
+
+public struct UpdateCommandInput: Swift.Sendable {
+    /// The unique identifier of the command to be updated.
+    /// This member is required.
+    public var commandId: Swift.String?
+    /// A boolean that you can use to specify whether to deprecate a command.
+    public var deprecated: Swift.Bool?
+    /// A short text description of the command.
+    public var description: Swift.String?
+    /// The new user-friendly name to use in the console for the command.
+    public var displayName: Swift.String?
+
+    public init(
+        commandId: Swift.String? = nil,
+        deprecated: Swift.Bool? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil
+    ) {
+        self.commandId = commandId
+        self.deprecated = deprecated
+        self.description = description
+        self.displayName = displayName
+    }
+}
+
+public struct UpdateCommandOutput: Swift.Sendable {
+    /// The unique identifier of the command.
+    public var commandId: Swift.String?
+    /// The boolean that indicates whether the command was deprecated.
+    public var deprecated: Swift.Bool?
+    /// The updated text description of the command.
+    public var description: Swift.String?
+    /// The updated user-friendly display name in the console for the command.
+    public var displayName: Swift.String?
+    /// The date and time (epoch timestamp in seconds) when the command was last updated.
+    public var lastUpdatedAt: Foundation.Date?
+
+    public init(
+        commandId: Swift.String? = nil,
+        deprecated: Swift.Bool? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil
+    ) {
+        self.commandId = commandId
+        self.deprecated = deprecated
+        self.description = description
+        self.displayName = displayName
+        self.lastUpdatedAt = lastUpdatedAt
     }
 }
 
@@ -18293,8 +18730,7 @@ public struct UpdateCustomMetricInput: Swift.Sendable {
     public init(
         displayName: Swift.String? = nil,
         metricName: Swift.String? = nil
-    )
-    {
+    ) {
         self.displayName = displayName
         self.metricName = metricName
     }
@@ -18321,8 +18757,7 @@ public struct UpdateCustomMetricOutput: Swift.Sendable {
         metricArn: Swift.String? = nil,
         metricName: Swift.String? = nil,
         metricType: IoTClientTypes.CustomMetricType? = nil
-    )
-    {
+    ) {
         self.creationDate = creationDate
         self.displayName = displayName
         self.lastModifiedDate = lastModifiedDate
@@ -18343,8 +18778,7 @@ public struct UpdateDimensionInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         stringValues: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.name = name
         self.stringValues = stringValues
     }
@@ -18371,8 +18805,7 @@ public struct UpdateDimensionOutput: Swift.Sendable {
         name: Swift.String? = nil,
         stringValues: [Swift.String]? = nil,
         type: IoTClientTypes.DimensionType? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationDate = creationDate
         self.lastModifiedDate = lastModifiedDate
@@ -18452,8 +18885,7 @@ public struct UpdateDomainConfigurationInput: Swift.Sendable {
         removeAuthorizerConfig: Swift.Bool? = false,
         serverCertificateConfig: IoTClientTypes.ServerCertificateConfig? = nil,
         tlsConfig: IoTClientTypes.TlsConfig? = nil
-    )
-    {
+    ) {
         self.applicationProtocol = applicationProtocol
         self.authenticationType = authenticationType
         self.authorizerConfig = authorizerConfig
@@ -18475,8 +18907,7 @@ public struct UpdateDomainConfigurationOutput: Swift.Sendable {
     public init(
         domainConfigurationArn: Swift.String? = nil,
         domainConfigurationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainConfigurationArn = domainConfigurationArn
         self.domainConfigurationName = domainConfigurationName
     }
@@ -18505,8 +18936,7 @@ public struct UpdateDynamicThingGroupInput: Swift.Sendable {
         queryVersion: Swift.String? = nil,
         thingGroupName: Swift.String? = nil,
         thingGroupProperties: IoTClientTypes.ThingGroupProperties? = nil
-    )
-    {
+    ) {
         self.expectedVersion = expectedVersion
         self.indexName = indexName
         self.queryString = queryString
@@ -18522,8 +18952,7 @@ public struct UpdateDynamicThingGroupOutput: Swift.Sendable {
 
     public init(
         version: Swift.Int = 0
-    )
-    {
+    ) {
         self.version = version
     }
 }
@@ -18534,8 +18963,7 @@ public struct UpdateEventConfigurationsInput: Swift.Sendable {
 
     public init(
         eventConfigurations: [Swift.String: IoTClientTypes.Configuration]? = nil
-    )
-    {
+    ) {
         self.eventConfigurations = eventConfigurations
     }
 }
@@ -18580,8 +19008,7 @@ public struct UpdateFleetMetricInput: Swift.Sendable {
         queryString: Swift.String? = nil,
         queryVersion: Swift.String? = nil,
         unit: IoTClientTypes.FleetMetricUnit? = nil
-    )
-    {
+    ) {
         self.aggregationField = aggregationField
         self.aggregationType = aggregationType
         self.description = description
@@ -18604,8 +19031,7 @@ public struct UpdateIndexingConfigurationInput: Swift.Sendable {
     public init(
         thingGroupIndexingConfiguration: IoTClientTypes.ThingGroupIndexingConfiguration? = nil,
         thingIndexingConfiguration: IoTClientTypes.ThingIndexingConfiguration? = nil
-    )
-    {
+    ) {
         self.thingGroupIndexingConfiguration = thingGroupIndexingConfiguration
         self.thingIndexingConfiguration = thingIndexingConfiguration
     }
@@ -18644,8 +19070,7 @@ public struct UpdateJobInput: Swift.Sendable {
         namespaceId: Swift.String? = nil,
         presignedUrlConfig: IoTClientTypes.PresignedUrlConfig? = nil,
         timeoutConfig: IoTClientTypes.TimeoutConfig? = nil
-    )
-    {
+    ) {
         self.abortConfig = abortConfig
         self.description = description
         self.jobExecutionsRetryConfig = jobExecutionsRetryConfig
@@ -18670,8 +19095,7 @@ public struct UpdateMitigationActionInput: Swift.Sendable {
         actionName: Swift.String? = nil,
         actionParams: IoTClientTypes.MitigationActionParams? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionName = actionName
         self.actionParams = actionParams
         self.roleArn = roleArn
@@ -18687,8 +19111,7 @@ public struct UpdateMitigationActionOutput: Swift.Sendable {
     public init(
         actionArn: Swift.String? = nil,
         actionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionArn = actionArn
         self.actionId = actionId
     }
@@ -18713,8 +19136,7 @@ public struct UpdatePackageInput: Swift.Sendable {
         description: Swift.String? = nil,
         packageName: Swift.String? = nil,
         unsetDefaultVersion: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.defaultVersionName = defaultVersionName
         self.description = description
@@ -18742,8 +19164,7 @@ public struct UpdatePackageConfigurationInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         versionUpdateByJobsConfig: IoTClientTypes.VersionUpdateByJobsConfig? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.versionUpdateByJobsConfig = versionUpdateByJobsConfig
     }
@@ -18812,8 +19233,7 @@ public struct UpdatePackageVersionInput: Swift.Sendable {
         packageName: Swift.String? = nil,
         recipe: Swift.String? = nil,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.action = action
         self.artifact = artifact
         self.attributes = attributes
@@ -18860,8 +19280,7 @@ public struct UpdateProvisioningTemplateInput: Swift.Sendable {
         provisioningRoleArn: Swift.String? = nil,
         removePreProvisioningHook: Swift.Bool? = nil,
         templateName: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultVersionId = defaultVersionId
         self.description = description
         self.enabled = enabled
@@ -18890,8 +19309,7 @@ public struct UpdateRoleAliasInput: Swift.Sendable {
         credentialDurationSeconds: Swift.Int? = nil,
         roleAlias: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.credentialDurationSeconds = credentialDurationSeconds
         self.roleAlias = roleAlias
         self.roleArn = roleArn
@@ -18907,8 +19325,7 @@ public struct UpdateRoleAliasOutput: Swift.Sendable {
     public init(
         roleAlias: Swift.String? = nil,
         roleAliasArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.roleAlias = roleAlias
         self.roleAliasArn = roleAliasArn
     }
@@ -18933,8 +19350,7 @@ public struct UpdateScheduledAuditInput: Swift.Sendable {
         frequency: IoTClientTypes.AuditFrequency? = nil,
         scheduledAuditName: Swift.String? = nil,
         targetCheckNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.dayOfMonth = dayOfMonth
         self.dayOfWeek = dayOfWeek
         self.frequency = frequency
@@ -18949,8 +19365,7 @@ public struct UpdateScheduledAuditOutput: Swift.Sendable {
 
     public init(
         scheduledAuditArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.scheduledAuditArn = scheduledAuditArn
     }
 }
@@ -18996,8 +19411,7 @@ public struct UpdateSecurityProfileInput: Swift.Sendable {
         metricsExportConfig: IoTClientTypes.MetricsExportConfig? = nil,
         securityProfileDescription: Swift.String? = nil,
         securityProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalMetricsToRetain = additionalMetricsToRetain
         self.additionalMetricsToRetainV2 = additionalMetricsToRetainV2
         self.alertTargets = alertTargets
@@ -19050,8 +19464,7 @@ public struct UpdateSecurityProfileOutput: Swift.Sendable {
         securityProfileDescription: Swift.String? = nil,
         securityProfileName: Swift.String? = nil,
         version: Swift.Int = 0
-    )
-    {
+    ) {
         self.additionalMetricsToRetain = additionalMetricsToRetain
         self.additionalMetricsToRetainV2 = additionalMetricsToRetainV2
         self.alertTargets = alertTargets
@@ -19082,8 +19495,7 @@ public struct UpdateStreamInput: Swift.Sendable {
         files: [IoTClientTypes.StreamFile]? = nil,
         roleArn: Swift.String? = nil,
         streamId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.files = files
         self.roleArn = roleArn
@@ -19106,8 +19518,7 @@ public struct UpdateStreamOutput: Swift.Sendable {
         streamArn: Swift.String? = nil,
         streamId: Swift.String? = nil,
         streamVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.description = description
         self.streamArn = streamArn
         self.streamId = streamId
@@ -19135,8 +19546,7 @@ public struct UpdateThingInput: Swift.Sendable {
         removeThingType: Swift.Bool? = false,
         thingName: Swift.String? = nil,
         thingTypeName: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributePayload = attributePayload
         self.expectedVersion = expectedVersion
         self.removeThingType = removeThingType
@@ -19165,8 +19575,7 @@ public struct UpdateThingGroupInput: Swift.Sendable {
         expectedVersion: Swift.Int? = nil,
         thingGroupName: Swift.String? = nil,
         thingGroupProperties: IoTClientTypes.ThingGroupProperties? = nil
-    )
-    {
+    ) {
         self.expectedVersion = expectedVersion
         self.thingGroupName = thingGroupName
         self.thingGroupProperties = thingGroupProperties
@@ -19179,8 +19588,7 @@ public struct UpdateThingGroupOutput: Swift.Sendable {
 
     public init(
         version: Swift.Int = 0
-    )
-    {
+    ) {
         self.version = version
     }
 }
@@ -19200,8 +19608,7 @@ public struct UpdateThingGroupsForThingInput: Swift.Sendable {
         thingGroupsToAdd: [Swift.String]? = nil,
         thingGroupsToRemove: [Swift.String]? = nil,
         thingName: Swift.String? = nil
-    )
-    {
+    ) {
         self.overrideDynamicGroups = overrideDynamicGroups
         self.thingGroupsToAdd = thingGroupsToAdd
         self.thingGroupsToRemove = thingGroupsToRemove
@@ -19210,6 +19617,27 @@ public struct UpdateThingGroupsForThingInput: Swift.Sendable {
 }
 
 public struct UpdateThingGroupsForThingOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateThingTypeInput: Swift.Sendable {
+    /// The name of a thing type.
+    /// This member is required.
+    public var thingTypeName: Swift.String?
+    /// The ThingTypeProperties contains information about the thing type including: a thing type description, and a list of searchable thing attribute names.
+    public var thingTypeProperties: IoTClientTypes.ThingTypeProperties?
+
+    public init(
+        thingTypeName: Swift.String? = nil,
+        thingTypeProperties: IoTClientTypes.ThingTypeProperties? = nil
+    ) {
+        self.thingTypeName = thingTypeName
+        self.thingTypeProperties = thingTypeProperties
+    }
+}
+
+public struct UpdateThingTypeOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -19225,8 +19653,7 @@ public struct UpdateTopicRuleDestinationInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         status: IoTClientTypes.TopicRuleDestinationStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.status = status
     }
@@ -19244,8 +19671,7 @@ public struct ValidateSecurityProfileBehaviorsInput: Swift.Sendable {
 
     public init(
         behaviors: [IoTClientTypes.Behavior]? = nil
-    )
-    {
+    ) {
         self.behaviors = behaviors
     }
 }
@@ -19259,8 +19685,7 @@ extension IoTClientTypes {
 
         public init(
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorMessage = errorMessage
         }
     }
@@ -19275,8 +19700,7 @@ public struct ValidateSecurityProfileBehaviorsOutput: Swift.Sendable {
     public init(
         valid: Swift.Bool = false,
         validationErrors: [IoTClientTypes.ValidationError]? = nil
-    )
-    {
+    ) {
         self.valid = valid
         self.validationErrors = validationErrors
     }
@@ -19441,6 +19865,18 @@ extension AttachThingPrincipalInput {
     }
 }
 
+extension AttachThingPrincipalInput {
+
+    static func queryItemProvider(_ value: AttachThingPrincipalInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let thingPrincipalType = value.thingPrincipalType {
+            let thingPrincipalTypeQueryItem = Smithy.URIQueryItem(name: "thingPrincipalType".urlPercentEncoding(), value: Swift.String(thingPrincipalType.rawValue).urlPercentEncoding())
+            items.append(thingPrincipalTypeQueryItem)
+        }
+        return items
+    }
+}
+
 extension CancelAuditMitigationActionsTaskInput {
 
     static func urlPathProvider(_ value: CancelAuditMitigationActionsTaskInput) -> Swift.String? {
@@ -19598,6 +20034,16 @@ extension CreateCertificateProviderInput {
             return nil
         }
         return "/certificate-providers/\(certificateProviderName.urlPercentEncoding())"
+    }
+}
+
+extension CreateCommandInput {
+
+    static func urlPathProvider(_ value: CreateCommandInput) -> Swift.String? {
+        guard let commandId = value.commandId else {
+            return nil
+        }
+        return "/commands/\(commandId.urlPercentEncoding())"
     }
 }
 
@@ -20023,6 +20469,40 @@ extension DeleteCertificateProviderInput {
             return nil
         }
         return "/certificate-providers/\(certificateProviderName.urlPercentEncoding())"
+    }
+}
+
+extension DeleteCommandInput {
+
+    static func urlPathProvider(_ value: DeleteCommandInput) -> Swift.String? {
+        guard let commandId = value.commandId else {
+            return nil
+        }
+        return "/commands/\(commandId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteCommandExecutionInput {
+
+    static func urlPathProvider(_ value: DeleteCommandExecutionInput) -> Swift.String? {
+        guard let executionId = value.executionId else {
+            return nil
+        }
+        return "/command-executions/\(executionId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteCommandExecutionInput {
+
+    static func queryItemProvider(_ value: DeleteCommandExecutionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let targetArn = value.targetArn else {
+            let message = "Creating a URL Query Item failed. targetArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let targetArnQueryItem = Smithy.URIQueryItem(name: "targetArn".urlPercentEncoding(), value: Swift.String(targetArn).urlPercentEncoding())
+        items.append(targetArnQueryItem)
+        return items
     }
 }
 
@@ -21008,6 +21488,44 @@ extension GetCardinalityInput {
     }
 }
 
+extension GetCommandInput {
+
+    static func urlPathProvider(_ value: GetCommandInput) -> Swift.String? {
+        guard let commandId = value.commandId else {
+            return nil
+        }
+        return "/commands/\(commandId.urlPercentEncoding())"
+    }
+}
+
+extension GetCommandExecutionInput {
+
+    static func urlPathProvider(_ value: GetCommandExecutionInput) -> Swift.String? {
+        guard let executionId = value.executionId else {
+            return nil
+        }
+        return "/command-executions/\(executionId.urlPercentEncoding())"
+    }
+}
+
+extension GetCommandExecutionInput {
+
+    static func queryItemProvider(_ value: GetCommandExecutionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let includeResult = value.includeResult {
+            let includeResultQueryItem = Smithy.URIQueryItem(name: "includeResult".urlPercentEncoding(), value: Swift.String(includeResult).urlPercentEncoding())
+            items.append(includeResultQueryItem)
+        }
+        guard let targetArn = value.targetArn else {
+            let message = "Creating a URL Query Item failed. targetArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let targetArnQueryItem = Smithy.URIQueryItem(name: "targetArn".urlPercentEncoding(), value: Swift.String(targetArn).urlPercentEncoding())
+        items.append(targetArnQueryItem)
+        return items
+    }
+}
+
 extension GetEffectivePoliciesInput {
 
     static func urlPathProvider(_ value: GetEffectivePoliciesInput) -> Swift.String? {
@@ -21144,6 +21662,16 @@ extension GetStatisticsInput {
 
     static func urlPathProvider(_ value: GetStatisticsInput) -> Swift.String? {
         return "/indices/statistics"
+    }
+}
+
+extension GetThingConnectivityDataInput {
+
+    static func urlPathProvider(_ value: GetThingConnectivityDataInput) -> Swift.String? {
+        guard let thingName = value.thingName else {
+            return nil
+        }
+        return "/things/\(thingName.urlPercentEncoding())/connectivity-data"
     }
 }
 
@@ -21554,6 +22082,64 @@ extension ListCertificatesByCAInput {
         if let pageSize = value.pageSize {
             let pageSizeQueryItem = Smithy.URIQueryItem(name: "pageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
             items.append(pageSizeQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListCommandExecutionsInput {
+
+    static func urlPathProvider(_ value: ListCommandExecutionsInput) -> Swift.String? {
+        return "/command-executions"
+    }
+}
+
+extension ListCommandExecutionsInput {
+
+    static func queryItemProvider(_ value: ListCommandExecutionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListCommandsInput {
+
+    static func urlPathProvider(_ value: ListCommandsInput) -> Swift.String? {
+        return "/commands"
+    }
+}
+
+extension ListCommandsInput {
+
+    static func queryItemProvider(_ value: ListCommandsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let sortOrder = value.sortOrder {
+            let sortOrderQueryItem = Smithy.URIQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
+            items.append(sortOrderQueryItem)
+        }
+        if let namespace = value.namespace {
+            let namespaceQueryItem = Smithy.URIQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace.rawValue).urlPercentEncoding())
+            items.append(namespaceQueryItem)
+        }
+        if let commandParameterName = value.commandParameterName {
+            let commandParameterNameQueryItem = Smithy.URIQueryItem(name: "commandParameterName".urlPercentEncoding(), value: Swift.String(commandParameterName).urlPercentEncoding())
+            items.append(commandParameterNameQueryItem)
         }
         return items
     }
@@ -22253,6 +22839,44 @@ extension ListPrincipalThingsInput {
     }
 }
 
+extension ListPrincipalThingsV2Input {
+
+    static func urlPathProvider(_ value: ListPrincipalThingsV2Input) -> Swift.String? {
+        return "/principals/things-v2"
+    }
+}
+
+extension ListPrincipalThingsV2Input {
+
+    static func headerProvider(_ value: ListPrincipalThingsV2Input) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let principal = value.principal {
+            items.add(SmithyHTTPAPI.Header(name: "x-amzn-principal", value: Swift.String(principal)))
+        }
+        return items
+    }
+}
+
+extension ListPrincipalThingsV2Input {
+
+    static func queryItemProvider(_ value: ListPrincipalThingsV2Input) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let thingPrincipalType = value.thingPrincipalType {
+            let thingPrincipalTypeQueryItem = Smithy.URIQueryItem(name: "thingPrincipalType".urlPercentEncoding(), value: Swift.String(thingPrincipalType.rawValue).urlPercentEncoding())
+            items.append(thingPrincipalTypeQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListProvisioningTemplatesInput {
 
     static func urlPathProvider(_ value: ListProvisioningTemplatesInput) -> Swift.String? {
@@ -22657,6 +23281,36 @@ extension ListThingPrincipalsInput {
 
     static func queryItemProvider(_ value: ListThingPrincipalsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListThingPrincipalsV2Input {
+
+    static func urlPathProvider(_ value: ListThingPrincipalsV2Input) -> Swift.String? {
+        guard let thingName = value.thingName else {
+            return nil
+        }
+        return "/things/\(thingName.urlPercentEncoding())/principals-v2"
+    }
+}
+
+extension ListThingPrincipalsV2Input {
+
+    static func queryItemProvider(_ value: ListThingPrincipalsV2Input) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let thingPrincipalType = value.thingPrincipalType {
+            let thingPrincipalTypeQueryItem = Smithy.URIQueryItem(name: "thingPrincipalType".urlPercentEncoding(), value: Swift.String(thingPrincipalType.rawValue).urlPercentEncoding())
+            items.append(thingPrincipalTypeQueryItem)
+        }
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
@@ -23339,6 +23993,16 @@ extension UpdateCertificateProviderInput {
     }
 }
 
+extension UpdateCommandInput {
+
+    static func urlPathProvider(_ value: UpdateCommandInput) -> Swift.String? {
+        guard let commandId = value.commandId else {
+            return nil
+        }
+        return "/commands/\(commandId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateCustomMetricInput {
 
     static func urlPathProvider(_ value: UpdateCustomMetricInput) -> Swift.String? {
@@ -23590,6 +24254,16 @@ extension UpdateThingGroupsForThingInput {
     }
 }
 
+extension UpdateThingTypeInput {
+
+    static func urlPathProvider(_ value: UpdateThingTypeInput) -> Swift.String? {
+        guard let thingTypeName = value.thingTypeName else {
+            return nil
+        }
+        return "/thing-types/\(thingTypeName.urlPercentEncoding())"
+    }
+}
+
 extension UpdateTopicRuleDestinationInput {
 
     static func urlPathProvider(_ value: UpdateTopicRuleDestinationInput) -> Swift.String? {
@@ -23721,6 +24395,20 @@ extension CreateCertificateProviderInput {
         try writer["accountDefaultForOperations"].writeList(value.accountDefaultForOperations, memberWritingClosure: SmithyReadWrite.WritingClosureBox<IoTClientTypes.CertificateProviderOperation>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["clientToken"].write(value.clientToken)
         try writer["lambdaFunctionArn"].write(value.lambdaFunctionArn)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: IoTClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CreateCommandInput {
+
+    static func write(value: CreateCommandInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["displayName"].write(value.displayName)
+        try writer["mandatoryParameters"].writeList(value.mandatoryParameters, memberWritingClosure: IoTClientTypes.CommandParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["namespace"].write(value.namespace)
+        try writer["payload"].write(value.payload, with: IoTClientTypes.CommandPayload.write(value:to:))
+        try writer["roleArn"].write(value.roleArn)
         try writer["tags"].writeList(value.tags, memberWritingClosure: IoTClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -24133,6 +24821,20 @@ extension ListAuditSuppressionsInput {
     }
 }
 
+extension ListCommandExecutionsInput {
+
+    static func write(value: ListCommandExecutionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["commandArn"].write(value.commandArn)
+        try writer["completedTimeFilter"].write(value.completedTimeFilter, with: IoTClientTypes.TimeFilter.write(value:to:))
+        try writer["namespace"].write(value.namespace)
+        try writer["sortOrder"].write(value.sortOrder)
+        try writer["startedTimeFilter"].write(value.startedTimeFilter, with: IoTClientTypes.TimeFilter.write(value:to:))
+        try writer["status"].write(value.status)
+        try writer["targetArn"].write(value.targetArn)
+    }
+}
+
 extension PutVerificationStateOnViolationInput {
 
     static func write(value: PutVerificationStateOnViolationInput?, to writer: SmithyJSON.Writer) throws {
@@ -24420,6 +25122,16 @@ extension UpdateCertificateProviderInput {
     }
 }
 
+extension UpdateCommandInput {
+
+    static func write(value: UpdateCommandInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["deprecated"].write(value.deprecated)
+        try writer["description"].write(value.description)
+        try writer["displayName"].write(value.displayName)
+    }
+}
+
 extension UpdateCustomMetricInput {
 
     static func write(value: UpdateCustomMetricInput?, to writer: SmithyJSON.Writer) throws {
@@ -24639,6 +25351,14 @@ extension UpdateThingGroupsForThingInput {
     }
 }
 
+extension UpdateThingTypeInput {
+
+    static func write(value: UpdateThingTypeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["thingTypeProperties"].write(value.thingTypeProperties, with: IoTClientTypes.ThingTypeProperties.write(value:to:))
+    }
+}
+
 extension UpdateTopicRuleDestinationInput {
 
     static func write(value: UpdateTopicRuleDestinationInput?, to writer: SmithyJSON.Writer) throws {
@@ -24854,6 +25574,19 @@ extension CreateCertificateProviderOutput {
         var value = CreateCertificateProviderOutput()
         value.certificateProviderArn = try reader["certificateProviderArn"].readIfPresent()
         value.certificateProviderName = try reader["certificateProviderName"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateCommandOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCommandOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateCommandOutput()
+        value.commandArn = try reader["commandArn"].readIfPresent()
+        value.commandId = try reader["commandId"].readIfPresent()
         return value
     }
 }
@@ -25264,6 +25997,22 @@ extension DeleteCertificateProviderOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCertificateProviderOutput {
         return DeleteCertificateProviderOutput()
+    }
+}
+
+extension DeleteCommandOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCommandOutput {
+        var value = DeleteCommandOutput()
+        value.statusCode = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension DeleteCommandExecutionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCommandExecutionOutput {
+        return DeleteCommandExecutionOutput()
     }
 }
 
@@ -26110,6 +26859,53 @@ extension GetCardinalityOutput {
     }
 }
 
+extension GetCommandOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCommandOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetCommandOutput()
+        value.commandArn = try reader["commandArn"].readIfPresent()
+        value.commandId = try reader["commandId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.deprecated = try reader["deprecated"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.mandatoryParameters = try reader["mandatoryParameters"].readListIfPresent(memberReadingClosure: IoTClientTypes.CommandParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.namespace = try reader["namespace"].readIfPresent()
+        value.payload = try reader["payload"].readIfPresent(with: IoTClientTypes.CommandPayload.read(from:))
+        value.pendingDeletion = try reader["pendingDeletion"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension GetCommandExecutionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCommandExecutionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetCommandExecutionOutput()
+        value.commandArn = try reader["commandArn"].readIfPresent()
+        value.completedAt = try reader["completedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.executionId = try reader["executionId"].readIfPresent()
+        value.executionTimeoutSeconds = try reader["executionTimeoutSeconds"].readIfPresent()
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: IoTClientTypes.CommandParameterValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.result = try reader["result"].readMapIfPresent(valueReadingClosure: IoTClientTypes.CommandExecutionResult.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent(with: IoTClientTypes.StatusReason.read(from:))
+        value.targetArn = try reader["targetArn"].readIfPresent()
+        value.timeToLive = try reader["timeToLive"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension GetEffectivePoliciesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetEffectivePoliciesOutput {
@@ -26294,6 +27090,21 @@ extension GetStatisticsOutput {
         let reader = responseReader
         var value = GetStatisticsOutput()
         value.statistics = try reader["statistics"].readIfPresent(with: IoTClientTypes.Statistics.read(from:))
+        return value
+    }
+}
+
+extension GetThingConnectivityDataOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetThingConnectivityDataOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetThingConnectivityDataOutput()
+        value.connected = try reader["connected"].readIfPresent()
+        value.disconnectReason = try reader["disconnectReason"].readIfPresent()
+        value.thingName = try reader["thingName"].readIfPresent()
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -26502,6 +27313,32 @@ extension ListCertificatesByCAOutput {
         var value = ListCertificatesByCAOutput()
         value.certificates = try reader["certificates"].readListIfPresent(memberReadingClosure: IoTClientTypes.Certificate.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextMarker = try reader["nextMarker"].readIfPresent()
+        return value
+    }
+}
+
+extension ListCommandExecutionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCommandExecutionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCommandExecutionsOutput()
+        value.commandExecutions = try reader["commandExecutions"].readListIfPresent(memberReadingClosure: IoTClientTypes.CommandExecutionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListCommandsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCommandsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCommandsOutput()
+        value.commands = try reader["commands"].readListIfPresent(memberReadingClosure: IoTClientTypes.CommandSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -26804,6 +27641,19 @@ extension ListPrincipalThingsOutput {
     }
 }
 
+extension ListPrincipalThingsV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPrincipalThingsV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPrincipalThingsV2Output()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.principalThingObjects = try reader["principalThingObjects"].readListIfPresent(memberReadingClosure: IoTClientTypes.PrincipalThingObject.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListProvisioningTemplatesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListProvisioningTemplatesOutput {
@@ -26995,6 +27845,19 @@ extension ListThingPrincipalsOutput {
         var value = ListThingPrincipalsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.principals = try reader["principals"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListThingPrincipalsV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListThingPrincipalsV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListThingPrincipalsV2Output()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.thingPrincipalObjects = try reader["thingPrincipalObjects"].readListIfPresent(memberReadingClosure: IoTClientTypes.ThingPrincipalObject.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -27447,6 +28310,22 @@ extension UpdateCertificateProviderOutput {
     }
 }
 
+extension UpdateCommandOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCommandOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateCommandOutput()
+        value.commandId = try reader["commandId"].readIfPresent()
+        value.deprecated = try reader["deprecated"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension UpdateCustomMetricOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCustomMetricOutput {
@@ -27660,6 +28539,13 @@ extension UpdateThingGroupsForThingOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateThingGroupsForThingOutput {
         return UpdateThingGroupsForThingOutput()
+    }
+}
+
+extension UpdateThingTypeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateThingTypeOutput {
+        return UpdateThingTypeOutput()
     }
 }
 
@@ -28085,6 +28971,24 @@ enum CreateCertificateProviderOutputError {
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateCommandOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -28716,6 +29620,40 @@ enum DeleteCertificateProviderOutputError {
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteCommandOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteCommandExecutionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -30019,6 +30957,40 @@ enum GetCardinalityOutputError {
     }
 }
 
+enum GetCommandOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetCommandExecutionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetEffectivePoliciesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -30248,6 +31220,26 @@ enum GetStatisticsOutputError {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidAggregationException": return try InvalidAggregationException.makeError(baseError: baseError)
             case "InvalidQueryException": return try InvalidQueryException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetThingConnectivityDataOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "IndexNotReadyException": return try IndexNotReadyException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
@@ -30527,6 +31519,39 @@ enum ListCertificatesByCAOutputError {
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListCommandExecutionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListCommandsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -30929,6 +31954,25 @@ enum ListPrincipalThingsOutputError {
     }
 }
 
+enum ListPrincipalThingsV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListProvisioningTemplatesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -31173,6 +32217,25 @@ enum ListThingGroupsForThingOutputError {
 }
 
 enum ListThingPrincipalsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListThingPrincipalsV2OutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -31959,6 +33022,24 @@ enum UpdateCertificateProviderOutputError {
     }
 }
 
+enum UpdateCommandOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateCustomMetricOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -32318,6 +33399,25 @@ enum UpdateThingGroupsForThingOutputError {
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateThingTypeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -33465,12 +34565,16 @@ extension IoTClientTypes.ServerCertificateConfig {
     static func write(value: IoTClientTypes.ServerCertificateConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["enableOCSPCheck"].write(value.enableOCSPCheck)
+        try writer["ocspAuthorizedResponderArn"].write(value.ocspAuthorizedResponderArn)
+        try writer["ocspLambdaArn"].write(value.ocspLambdaArn)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ServerCertificateConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.ServerCertificateConfig()
         value.enableOCSPCheck = try reader["enableOCSPCheck"].readIfPresent()
+        value.ocspLambdaArn = try reader["ocspLambdaArn"].readIfPresent()
+        value.ocspAuthorizedResponderArn = try reader["ocspAuthorizedResponderArn"].readIfPresent()
         return value
     }
 }
@@ -34124,6 +35228,7 @@ extension IoTClientTypes.ThingTypeProperties {
 
     static func write(value: IoTClientTypes.ThingTypeProperties?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["mqtt5Configuration"].write(value.mqtt5Configuration, with: IoTClientTypes.Mqtt5Configuration.write(value:to:))
         try writer["searchableAttributes"].writeList(value.searchableAttributes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["thingTypeDescription"].write(value.thingTypeDescription)
     }
@@ -34133,6 +35238,41 @@ extension IoTClientTypes.ThingTypeProperties {
         var value = IoTClientTypes.ThingTypeProperties()
         value.thingTypeDescription = try reader["thingTypeDescription"].readIfPresent()
         value.searchableAttributes = try reader["searchableAttributes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.mqtt5Configuration = try reader["mqtt5Configuration"].readIfPresent(with: IoTClientTypes.Mqtt5Configuration.read(from:))
+        return value
+    }
+}
+
+extension IoTClientTypes.Mqtt5Configuration {
+
+    static func write(value: IoTClientTypes.Mqtt5Configuration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["propagatingAttributes"].writeList(value.propagatingAttributes, memberWritingClosure: IoTClientTypes.PropagatingAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.Mqtt5Configuration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.Mqtt5Configuration()
+        value.propagatingAttributes = try reader["propagatingAttributes"].readListIfPresent(memberReadingClosure: IoTClientTypes.PropagatingAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IoTClientTypes.PropagatingAttribute {
+
+    static func write(value: IoTClientTypes.PropagatingAttribute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["connectionAttribute"].write(value.connectionAttribute)
+        try writer["thingAttribute"].write(value.thingAttribute)
+        try writer["userPropertyKey"].write(value.userPropertyKey)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.PropagatingAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.PropagatingAttribute()
+        value.userPropertyKey = try reader["userPropertyKey"].readIfPresent()
+        value.thingAttribute = try reader["thingAttribute"].readIfPresent()
+        value.connectionAttribute = try reader["connectionAttribute"].readIfPresent()
         return value
     }
 }
@@ -34171,6 +35311,94 @@ extension IoTClientTypes.Bucket {
         var value = IoTClientTypes.Bucket()
         value.keyValue = try reader["keyValue"].readIfPresent()
         value.count = try reader["count"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension IoTClientTypes.CommandParameter {
+
+    static func write(value: IoTClientTypes.CommandParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["defaultValue"].write(value.defaultValue, with: IoTClientTypes.CommandParameterValue.write(value:to:))
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["value"].write(value.value, with: IoTClientTypes.CommandParameterValue.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.CommandParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.CommandParameter()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent(with: IoTClientTypes.CommandParameterValue.read(from:))
+        value.defaultValue = try reader["defaultValue"].readIfPresent(with: IoTClientTypes.CommandParameterValue.read(from:))
+        value.description = try reader["description"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTClientTypes.CommandParameterValue {
+
+    static func write(value: IoTClientTypes.CommandParameterValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["B"].write(value.b)
+        try writer["BIN"].write(value.bin)
+        try writer["D"].write(value.d)
+        try writer["I"].write(value.i)
+        try writer["L"].write(value.l)
+        try writer["S"].write(value.s)
+        try writer["UL"].write(value.ul)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.CommandParameterValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.CommandParameterValue()
+        value.s = try reader["S"].readIfPresent()
+        value.b = try reader["B"].readIfPresent()
+        value.i = try reader["I"].readIfPresent()
+        value.l = try reader["L"].readIfPresent()
+        value.d = try reader["D"].readIfPresent()
+        value.bin = try reader["BIN"].readIfPresent()
+        value.ul = try reader["UL"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTClientTypes.CommandPayload {
+
+    static func write(value: IoTClientTypes.CommandPayload?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["content"].write(value.content)
+        try writer["contentType"].write(value.contentType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.CommandPayload {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.CommandPayload()
+        value.content = try reader["content"].readIfPresent()
+        value.contentType = try reader["contentType"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTClientTypes.StatusReason {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.StatusReason {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.StatusReason()
+        value.reasonCode = try reader["reasonCode"].readIfPresent() ?? ""
+        value.reasonDescription = try reader["reasonDescription"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTClientTypes.CommandExecutionResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.CommandExecutionResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.CommandExecutionResult()
+        value.s = try reader["S"].readIfPresent()
+        value.b = try reader["B"].readIfPresent()
+        value.bin = try reader["BIN"].readIfPresent()
         return value
     }
 }
@@ -35626,6 +36854,38 @@ extension IoTClientTypes.Certificate {
     }
 }
 
+extension IoTClientTypes.CommandExecutionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.CommandExecutionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.CommandExecutionSummary()
+        value.commandArn = try reader["commandArn"].readIfPresent()
+        value.executionId = try reader["executionId"].readIfPresent()
+        value.targetArn = try reader["targetArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.completedAt = try reader["completedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension IoTClientTypes.CommandSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.CommandSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.CommandSummary()
+        value.commandArn = try reader["commandArn"].readIfPresent()
+        value.commandId = try reader["commandId"].readIfPresent()
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.deprecated = try reader["deprecated"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.pendingDeletion = try reader["pendingDeletion"].readIfPresent()
+        return value
+    }
+}
+
 extension IoTClientTypes.DetectMitigationActionExecution {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.DetectMitigationActionExecution {
@@ -35838,6 +37098,17 @@ extension IoTClientTypes.PolicyVersion {
     }
 }
 
+extension IoTClientTypes.PrincipalThingObject {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.PrincipalThingObject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.PrincipalThingObject()
+        value.thingName = try reader["thingName"].readIfPresent() ?? ""
+        value.thingPrincipalType = try reader["thingPrincipalType"].readIfPresent()
+        return value
+    }
+}
+
 extension IoTClientTypes.ProvisioningTemplateSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ProvisioningTemplateSummary {
@@ -35951,6 +37222,17 @@ extension IoTClientTypes.Tag {
         var value = IoTClientTypes.Tag()
         value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTClientTypes.ThingPrincipalObject {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ThingPrincipalObject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.ThingPrincipalObject()
+        value.principal = try reader["principal"].readIfPresent() ?? ""
+        value.thingPrincipalType = try reader["thingPrincipalType"].readIfPresent()
         return value
     }
 }
@@ -36288,6 +37570,15 @@ extension IoTClientTypes.TermsAggregation {
     static func write(value: IoTClientTypes.TermsAggregation?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["maxBuckets"].write(value.maxBuckets)
+    }
+}
+
+extension IoTClientTypes.TimeFilter {
+
+    static func write(value: IoTClientTypes.TimeFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["after"].write(value.after)
+        try writer["before"].write(value.before)
     }
 }
 

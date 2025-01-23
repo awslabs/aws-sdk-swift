@@ -165,8 +165,7 @@ extension KMSClientTypes {
             creationDate: Foundation.Date? = nil,
             lastUpdatedDate: Foundation.Date? = nil,
             targetKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.aliasArn = aliasArn
             self.aliasName = aliasName
             self.creationDate = creationDate
@@ -177,9 +176,9 @@ extension KMSClientTypes {
 }
 
 /// The request was rejected because it attempted to create a resource that already exists.
-public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -194,16 +193,15 @@ public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The system timed out while trying to fulfill the request. You can retry the request.
-public struct DependencyTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DependencyTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -218,16 +216,15 @@ public struct DependencyTimeoutException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
-public struct InvalidArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -242,16 +239,15 @@ public struct InvalidArnException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because an internal exception occurred. The request can be retried.
-public struct KMSInternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KMSInternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -266,8 +262,7 @@ public struct KMSInternalException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -277,9 +272,9 @@ public struct KMSInternalException: ClientRuntime.ModeledError, AWSClientRuntime
 /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
 ///
 /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
-public struct KMSInvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KMSInvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -294,16 +289,15 @@ public struct KMSInvalidStateException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the specified entity or resource could not be found.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -318,8 +312,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -338,8 +331,7 @@ public struct CancelKeyDeletionInput: Swift.Sendable {
 
     public init(
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
     }
 }
@@ -350,16 +342,15 @@ public struct CancelKeyDeletionOutput: Swift.Sendable {
 
     public init(
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
     }
 }
 
 /// The request was rejected because the specified CloudHSM cluster is already associated with an CloudHSM key store in the account, or it shares a backup history with an CloudHSM key store in the account. Each CloudHSM key store in the account must be associated with a different CloudHSM cluster. CloudHSM clusters that share a backup history have the same cluster certificate. To view the cluster certificate of an CloudHSM cluster, use the [DescribeClusters](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/API_DescribeClusters.html) operation.
-public struct CloudHsmClusterInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CloudHsmClusterInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -374,8 +365,7 @@ public struct CloudHsmClusterInUseException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -390,9 +380,9 @@ public struct CloudHsmClusterInUseException: ClientRuntime.ModeledError, AWSClie
 ///
 ///
 /// For information about the requirements for an CloudHSM cluster that is associated with an CloudHSM key store, see [Assemble the Prerequisites](https://docs.aws.amazon.com/kms/latest/developerguide/create-keystore.html#before-keystore) in the Key Management Service Developer Guide. For information about creating a private subnet for an CloudHSM cluster, see [Create a Private Subnet](https://docs.aws.amazon.com/cloudhsm/latest/userguide/create-subnets.html) in the CloudHSM User Guide. For information about cluster security groups, see [Configure a Default Security Group](https://docs.aws.amazon.com/cloudhsm/latest/userguide/configure-sg.html) in the CloudHSM User Guide .
-public struct CloudHsmClusterInvalidConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CloudHsmClusterInvalidConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -407,16 +397,15 @@ public struct CloudHsmClusterInvalidConfigurationException: ClientRuntime.Modele
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the CloudHSM cluster associated with the CloudHSM key store is not active. Initialize and activate the cluster and try the command again. For detailed instructions, see [Getting Started](https://docs.aws.amazon.com/cloudhsm/latest/userguide/getting-started.html) in the CloudHSM User Guide.
-public struct CloudHsmClusterNotActiveException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CloudHsmClusterNotActiveException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -431,16 +420,15 @@ public struct CloudHsmClusterNotActiveException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because KMS cannot find the CloudHSM cluster with the specified cluster ID. Retry the request with a different cluster ID.
-public struct CloudHsmClusterNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CloudHsmClusterNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -455,16 +443,15 @@ public struct CloudHsmClusterNotFoundException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the specified CloudHSM cluster has a different cluster certificate than the original cluster. You cannot use the operation to specify an unrelated cluster for an CloudHSM key store. Specify an CloudHSM cluster that shares a backup history with the original cluster. This includes clusters that were created from a backup of the current cluster, and clusters that were created from the same backup that produced the current cluster. CloudHSM clusters that share a backup history have the same cluster certificate. To view the cluster certificate of an CloudHSM cluster, use the [DescribeClusters](https://docs.aws.amazon.com/cloudhsm/latest/APIReference/API_DescribeClusters.html) operation.
-public struct CloudHsmClusterNotRelatedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CloudHsmClusterNotRelatedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -479,16 +466,15 @@ public struct CloudHsmClusterNotRelatedException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because an automatic rotation of this key is currently in progress or scheduled to begin within the next 20 minutes.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -503,8 +489,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -520,9 +505,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 /// * You requested the [UpdateCustomKeyStore] or [DeleteCustomKeyStore] operation on a custom key store that is not disconnected. This operation is valid only when the custom key store ConnectionState is DISCONNECTED.
 ///
 /// * You requested the [GenerateRandom] operation in an CloudHSM key store that is not connected. This operation is valid only when the CloudHSM key store ConnectionState is CONNECTED.
-public struct CustomKeyStoreInvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CustomKeyStoreInvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -537,16 +522,15 @@ public struct CustomKeyStoreInvalidStateException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because KMS cannot find a custom key store with the specified key store name or ID.
-public struct CustomKeyStoreNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CustomKeyStoreNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -561,8 +545,7 @@ public struct CustomKeyStoreNotFoundException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -574,8 +557,7 @@ public struct ConnectCustomKeyStoreInput: Swift.Sendable {
 
     public init(
         customKeyStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.customKeyStoreId = customKeyStoreId
     }
 }
@@ -701,9 +683,9 @@ extension KMSClientTypes {
 }
 
 /// The request was rejected because the specified alias name is not valid.
-public struct InvalidAliasNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidAliasNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -718,16 +700,15 @@ public struct InvalidAliasNameException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because a quota was exceeded. For more information, see [Quotas](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html) in the Key Management Service Developer Guide.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -742,8 +723,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -766,17 +746,16 @@ public struct CreateAliasInput: Swift.Sendable {
     public init(
         aliasName: Swift.String? = nil,
         targetKeyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasName = aliasName
         self.targetKeyId = targetKeyId
     }
 }
 
 /// The request was rejected because the specified custom key store name is already assigned to another custom key store in the account. Try again with a custom key store name that is unique in the account.
-public struct CustomKeyStoreNameInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CustomKeyStoreNameInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -791,16 +770,15 @@ public struct CustomKeyStoreNameInUseException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the trust anchor certificate in the request to create an CloudHSM key store is not the trust anchor certificate for the specified CloudHSM cluster. When you [initialize the CloudHSM cluster](https://docs.aws.amazon.com/cloudhsm/latest/userguide/initialize-cluster.html#sign-csr), you create the trust anchor certificate and save it in the customerCA.crt file.
-public struct IncorrectTrustAnchorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IncorrectTrustAnchorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -815,16 +793,15 @@ public struct IncorrectTrustAnchorException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the proxy credentials failed to authenticate to the specified external key store proxy. The specified external key store proxy rejected a status request from KMS due to invalid credentials. This can indicate an error in the credentials or in the identification of the external key store proxy.
-public struct XksProxyIncorrectAuthenticationCredentialException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct XksProxyIncorrectAuthenticationCredentialException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -839,16 +816,15 @@ public struct XksProxyIncorrectAuthenticationCredentialException: ClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the external key store proxy is not configured correctly. To identify the cause, see the error message that accompanies the exception.
-public struct XksProxyInvalidConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct XksProxyInvalidConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -863,16 +839,15 @@ public struct XksProxyInvalidConfigurationException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// KMS cannot interpret the response it received from the external key store proxy. The problem might be a poorly constructed response, but it could also be a transient network issue. If you see this error repeatedly, report it to the proxy vendor.
-public struct XksProxyInvalidResponseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct XksProxyInvalidResponseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -887,16 +862,15 @@ public struct XksProxyInvalidResponseException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the XksProxyUriEndpoint is already associated with another external key store in this Amazon Web Services Region. To identify the cause, see the error message that accompanies the exception.
-public struct XksProxyUriEndpointInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct XksProxyUriEndpointInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -911,16 +885,15 @@ public struct XksProxyUriEndpointInUseException: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the concatenation of the XksProxyUriEndpoint and XksProxyUriPath is already associated with another external key store in this Amazon Web Services Region. Each external key store in a Region must use a unique external key store proxy API address.
-public struct XksProxyUriInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct XksProxyUriInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -935,16 +908,15 @@ public struct XksProxyUriInUseException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// KMS was unable to reach the specified XksProxyUriPath. The path must be reachable before you create the external key store or update its settings. This exception is also thrown when the external key store proxy response to a GetHealthStatus request indicates that all external key manager instances are unavailable.
-public struct XksProxyUriUnreachableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct XksProxyUriUnreachableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -959,16 +931,15 @@ public struct XksProxyUriUnreachableException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the specified Amazon VPC endpoint service is already associated with another external key store in this Amazon Web Services Region. Each external key store in a Region must use a different Amazon VPC endpoint service.
-public struct XksProxyVpcEndpointServiceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct XksProxyVpcEndpointServiceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -983,16 +954,15 @@ public struct XksProxyVpcEndpointServiceInUseException: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the Amazon VPC endpoint service configuration does not fulfill the requirements for an external key store. To identify the cause, see the error message that accompanies the exception and [review the requirements](https://docs.aws.amazon.com/kms/latest/developerguide/vpc-connectivity.html#xks-vpc-requirements) for Amazon VPC endpoint service connectivity for an external key store.
-public struct XksProxyVpcEndpointServiceInvalidConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct XksProxyVpcEndpointServiceInvalidConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1007,16 +977,15 @@ public struct XksProxyVpcEndpointServiceInvalidConfigurationException: ClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because KMS could not find the specified VPC endpoint service. Use [DescribeCustomKeyStores] to verify the VPC endpoint service name for the external key store. Also, confirm that the Allow principals list for the VPC endpoint service includes the KMS service principal for the Region, such as cks.kms.us-east-1.amazonaws.com.
-public struct XksProxyVpcEndpointServiceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct XksProxyVpcEndpointServiceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1031,8 +1000,7 @@ public struct XksProxyVpcEndpointServiceNotFoundException: ClientRuntime.Modeled
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1080,8 +1048,7 @@ extension KMSClientTypes {
         public init(
             accessKeyId: Swift.String? = nil,
             rawSecretAccessKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessKeyId = accessKeyId
             self.rawSecretAccessKey = rawSecretAccessKey
         }
@@ -1166,8 +1133,7 @@ public struct CreateCustomKeyStoreInput: Swift.Sendable {
         xksProxyUriEndpoint: Swift.String? = nil,
         xksProxyUriPath: Swift.String? = nil,
         xksProxyVpcEndpointServiceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.cloudHsmClusterId = cloudHsmClusterId
         self.customKeyStoreName = customKeyStoreName
         self.customKeyStoreType = customKeyStoreType
@@ -1192,16 +1158,15 @@ public struct CreateCustomKeyStoreOutput: Swift.Sendable {
 
     public init(
         customKeyStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.customKeyStoreId = customKeyStoreId
     }
 }
 
 /// The request was rejected because the specified KMS key is not enabled.
-public struct DisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1216,16 +1181,15 @@ public struct DisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the DryRun parameter was specified.
-public struct DryRunOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DryRunOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1240,16 +1204,15 @@ public struct DryRunOperationException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the specified grant token is not valid.
-public struct InvalidGrantTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidGrantTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1264,8 +1227,7 @@ public struct InvalidGrantTokenException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1282,8 +1244,7 @@ extension KMSClientTypes {
         public init(
             encryptionContextEquals: [Swift.String: Swift.String]? = nil,
             encryptionContextSubset: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.encryptionContextEquals = encryptionContextEquals
             self.encryptionContextSubset = encryptionContextSubset
         }
@@ -1401,8 +1362,7 @@ public struct CreateGrantInput: Swift.Sendable {
         name: Swift.String? = nil,
         operations: [KMSClientTypes.GrantOperation]? = nil,
         retiringPrincipal: Swift.String? = nil
-    )
-    {
+    ) {
         self.constraints = constraints
         self.dryRun = dryRun
         self.grantTokens = grantTokens
@@ -1423,17 +1383,16 @@ public struct CreateGrantOutput: Swift.Sendable {
     public init(
         grantId: Swift.String? = nil,
         grantToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.grantId = grantId
         self.grantToken = grantToken
     }
 }
 
 /// The request was rejected because the specified policy is not syntactically or semantically correct.
-public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1448,16 +1407,15 @@ public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because one or more tags are not valid.
-public struct TagException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TagException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1472,16 +1430,15 @@ public struct TagException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
-public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1496,16 +1453,15 @@ public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the (XksKeyId) is already associated with another KMS key in this external key store. Each KMS key in an external key store must be associated with a different external key.
-public struct XksKeyAlreadyInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct XksKeyAlreadyInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1520,16 +1476,15 @@ public struct XksKeyAlreadyInUseException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the external key specified by the XksKeyId parameter did not meet the configuration requirements for an external key store. The external key must be an AES-256 symmetric key that is enabled and performs encryption and decryption.
-public struct XksKeyInvalidConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct XksKeyInvalidConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1544,16 +1499,15 @@ public struct XksKeyInvalidConfigurationException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the external key store proxy could not find the external key. This exception is thrown when the value of the XksKeyId parameter doesn't identify a key in the external key manager associated with the external key proxy. Verify that the XksKeyId represents an existing key in the external key manager. Use the key identifier that the external key store proxy uses to identify the key. For details, see the documentation provided with your external key store proxy or key manager.
-public struct XksKeyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct XksKeyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1568,8 +1522,7 @@ public struct XksKeyNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1783,8 +1736,7 @@ extension KMSClientTypes {
         public init(
             tagKey: Swift.String? = nil,
             tagValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.tagKey = tagKey
             self.tagValue = tagValue
         }
@@ -1900,8 +1852,7 @@ public struct CreateKeyInput: Swift.Sendable {
         policy: Swift.String? = nil,
         tags: [KMSClientTypes.Tag]? = nil,
         xksKeyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheck
         self.customKeyStoreId = customKeyStoreId
         self.customerMasterKeySpec = customerMasterKeySpec
@@ -2158,8 +2109,7 @@ extension KMSClientTypes {
         public init(
             arn: Swift.String? = nil,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.region = region
         }
@@ -2181,8 +2131,7 @@ extension KMSClientTypes {
             multiRegionKeyType: KMSClientTypes.MultiRegionKeyType? = nil,
             primaryKey: KMSClientTypes.MultiRegionKey? = nil,
             replicaKeys: [KMSClientTypes.MultiRegionKey]? = nil
-        )
-        {
+        ) {
             self.multiRegionKeyType = multiRegionKeyType
             self.primaryKey = primaryKey
             self.replicaKeys = replicaKeys
@@ -2252,8 +2201,7 @@ extension KMSClientTypes {
 
         public init(
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -2348,8 +2296,7 @@ extension KMSClientTypes {
             signingAlgorithms: [KMSClientTypes.SigningAlgorithmSpec]? = nil,
             validTo: Foundation.Date? = nil,
             xksKeyConfiguration: KMSClientTypes.XksKeyConfigurationType? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.awsAccountId = awsAccountId
             self.cloudHsmClusterId = cloudHsmClusterId
@@ -2385,16 +2332,15 @@ public struct CreateKeyOutput: Swift.Sendable {
 
     public init(
         keyMetadata: KMSClientTypes.KeyMetadata? = nil
-    )
-    {
+    ) {
         self.keyMetadata = keyMetadata
     }
 }
 
 /// The request was rejected because the custom key store contains KMS keys. After verifying that you do not need to use the KMS keys, use the [ScheduleKeyDeletion] operation to delete the KMS keys. After they are deleted, you can delete the custom key store.
-public struct CustomKeyStoreHasCMKsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CustomKeyStoreHasCMKsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2409,8 +2355,7 @@ public struct CustomKeyStoreHasCMKsException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2436,8 +2381,7 @@ extension KMSClientTypes {
             uriEndpoint: Swift.String? = nil,
             uriPath: Swift.String? = nil,
             vpcEndpointServiceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessKeyId = accessKeyId
             self.connectivity = connectivity
             self.uriEndpoint = uriEndpoint
@@ -2546,8 +2490,7 @@ extension KMSClientTypes {
             customKeyStoreType: KMSClientTypes.CustomKeyStoreType? = nil,
             trustAnchorCertificate: Swift.String? = nil,
             xksProxyConfiguration: KMSClientTypes.XksProxyConfigurationType? = nil
-        )
-        {
+        ) {
             self.cloudHsmClusterId = cloudHsmClusterId
             self.connectionErrorCode = connectionErrorCode
             self.connectionState = connectionState
@@ -2638,9 +2581,9 @@ extension KMSClientTypes {
 }
 
 /// The request was rejected because the specified KMS key cannot decrypt the data. The KeyId in a [Decrypt] request and the SourceKeyId in a [ReEncrypt] request must identify the same KMS key that was used to encrypt the ciphertext.
-public struct IncorrectKeyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IncorrectKeyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2655,16 +2598,15 @@ public struct IncorrectKeyException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// From the [Decrypt] or [ReEncrypt] operation, the request was rejected because the specified ciphertext, or additional authenticated data incorporated into the ciphertext, such as the encryption context, is corrupted, missing, or otherwise invalid. From the [ImportKeyMaterial] operation, the request was rejected because KMS could not decrypt the encrypted (wrapped) key material.
-public struct InvalidCiphertextException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidCiphertextException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2679,8 +2621,7 @@ public struct InvalidCiphertextException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2693,9 +2634,9 @@ public struct InvalidCiphertextException: ClientRuntime.ModeledError, AWSClientR
 ///
 ///
 /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
-public struct InvalidKeyUsageException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidKeyUsageException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2710,16 +2651,15 @@ public struct InvalidKeyUsageException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the specified KMS key was not available. You can retry the request.
-public struct KeyUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KeyUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2734,8 +2674,7 @@ public struct KeyUnavailableException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2778,8 +2717,7 @@ extension KMSClientTypes {
         public init(
             attestationDocument: Foundation.Data? = nil,
             keyEncryptionAlgorithm: KMSClientTypes.KeyEncryptionMechanism? = nil
-        )
-        {
+        ) {
             self.attestationDocument = attestationDocument
             self.keyEncryptionAlgorithm = keyEncryptionAlgorithm
         }
@@ -2822,8 +2760,7 @@ public struct DecryptInput: Swift.Sendable {
         grantTokens: [Swift.String]? = nil,
         keyId: Swift.String? = nil,
         recipient: KMSClientTypes.RecipientInfo? = nil
-    )
-    {
+    ) {
         self.ciphertextBlob = ciphertextBlob
         self.dryRun = dryRun
         self.encryptionAlgorithm = encryptionAlgorithm
@@ -2849,8 +2786,7 @@ public struct DecryptOutput: Swift.Sendable {
         encryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec? = nil,
         keyId: Swift.String? = nil,
         plaintext: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.ciphertextForRecipient = ciphertextForRecipient
         self.encryptionAlgorithm = encryptionAlgorithm
         self.keyId = keyId
@@ -2870,8 +2806,7 @@ public struct DeleteAliasInput: Swift.Sendable {
 
     public init(
         aliasName: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasName = aliasName
     }
 }
@@ -2883,8 +2818,7 @@ public struct DeleteCustomKeyStoreInput: Swift.Sendable {
 
     public init(
         customKeyStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.customKeyStoreId = customKeyStoreId
     }
 }
@@ -2908,8 +2842,7 @@ public struct DeleteImportedKeyMaterialInput: Swift.Sendable {
 
     public init(
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
     }
 }
@@ -2949,8 +2882,7 @@ public struct DeriveSharedSecretInput: Swift.Sendable {
         keyId: Swift.String? = nil,
         publicKey: Foundation.Data? = nil,
         recipient: KMSClientTypes.RecipientInfo? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.grantTokens = grantTokens
         self.keyAgreementAlgorithm = keyAgreementAlgorithm
@@ -2978,8 +2910,7 @@ public struct DeriveSharedSecretOutput: Swift.Sendable {
         keyId: Swift.String? = nil,
         keyOrigin: KMSClientTypes.OriginType? = nil,
         sharedSecret: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.ciphertextForRecipient = ciphertextForRecipient
         self.keyAgreementAlgorithm = keyAgreementAlgorithm
         self.keyId = keyId
@@ -2994,9 +2925,9 @@ extension DeriveSharedSecretOutput: Swift.CustomDebugStringConvertible {
 }
 
 /// The request was rejected because the marker that specifies where pagination should next begin is not valid.
-public struct InvalidMarkerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidMarkerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3011,8 +2942,7 @@ public struct InvalidMarkerException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3032,8 +2962,7 @@ public struct DescribeCustomKeyStoresInput: Swift.Sendable {
         customKeyStoreName: Swift.String? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.customKeyStoreId = customKeyStoreId
         self.customKeyStoreName = customKeyStoreName
         self.limit = limit
@@ -3053,8 +2982,7 @@ public struct DescribeCustomKeyStoresOutput: Swift.Sendable {
         customKeyStores: [KMSClientTypes.CustomKeyStoresListEntry]? = nil,
         nextMarker: Swift.String? = nil,
         truncated: Swift.Bool = false
-    )
-    {
+    ) {
         self.customKeyStores = customKeyStores
         self.nextMarker = nextMarker
         self.truncated = truncated
@@ -3082,8 +3010,7 @@ public struct DescribeKeyInput: Swift.Sendable {
     public init(
         grantTokens: [Swift.String]? = nil,
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.grantTokens = grantTokens
         self.keyId = keyId
     }
@@ -3095,8 +3022,7 @@ public struct DescribeKeyOutput: Swift.Sendable {
 
     public init(
         keyMetadata: KMSClientTypes.KeyMetadata? = nil
-    )
-    {
+    ) {
         self.keyMetadata = keyMetadata
     }
 }
@@ -3115,8 +3041,7 @@ public struct DisableKeyInput: Swift.Sendable {
 
     public init(
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
     }
 }
@@ -3135,8 +3060,7 @@ public struct DisableKeyRotationInput: Swift.Sendable {
 
     public init(
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
     }
 }
@@ -3148,8 +3072,7 @@ public struct DisconnectCustomKeyStoreInput: Swift.Sendable {
 
     public init(
         customKeyStoreId: Swift.String? = nil
-    )
-    {
+    ) {
         self.customKeyStoreId = customKeyStoreId
     }
 }
@@ -3173,8 +3096,7 @@ public struct EnableKeyInput: Swift.Sendable {
 
     public init(
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
     }
 }
@@ -3196,8 +3118,7 @@ public struct EnableKeyRotationInput: Swift.Sendable {
     public init(
         keyId: Swift.String? = nil,
         rotationPeriodInDays: Swift.Int? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.rotationPeriodInDays = rotationPeriodInDays
     }
@@ -3237,8 +3158,7 @@ public struct EncryptInput: Swift.Sendable {
         grantTokens: [Swift.String]? = nil,
         keyId: Swift.String? = nil,
         plaintext: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.encryptionAlgorithm = encryptionAlgorithm
         self.encryptionContext = encryptionContext
@@ -3265,8 +3185,7 @@ public struct EncryptOutput: Swift.Sendable {
         ciphertextBlob: Foundation.Data? = nil,
         encryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec? = nil,
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ciphertextBlob = ciphertextBlob
         self.encryptionAlgorithm = encryptionAlgorithm
         self.keyId = keyId
@@ -3274,9 +3193,9 @@ public struct EncryptOutput: Swift.Sendable {
 }
 
 /// The request was rejected because the specified import token is expired. Use [GetParametersForImport] to get a new import token and public key, use the new public key to encrypt the key material, and then try the request again.
-public struct ExpiredImportTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ExpiredImportTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3291,8 +3210,7 @@ public struct ExpiredImportTokenException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3333,8 +3251,7 @@ public struct GenerateDataKeyInput: Swift.Sendable {
         keySpec: KMSClientTypes.DataKeySpec? = nil,
         numberOfBytes: Swift.Int? = nil,
         recipient: KMSClientTypes.RecipientInfo? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.encryptionContext = encryptionContext
         self.grantTokens = grantTokens
@@ -3360,8 +3277,7 @@ public struct GenerateDataKeyOutput: Swift.Sendable {
         ciphertextForRecipient: Foundation.Data? = nil,
         keyId: Swift.String? = nil,
         plaintext: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.ciphertextBlob = ciphertextBlob
         self.ciphertextForRecipient = ciphertextForRecipient
         self.keyId = keyId
@@ -3408,8 +3324,7 @@ public struct GenerateDataKeyPairInput: Swift.Sendable {
         keyId: Swift.String? = nil,
         keyPairSpec: KMSClientTypes.DataKeyPairSpec? = nil,
         recipient: KMSClientTypes.RecipientInfo? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.encryptionContext = encryptionContext
         self.grantTokens = grantTokens
@@ -3440,8 +3355,7 @@ public struct GenerateDataKeyPairOutput: Swift.Sendable {
         privateKeyCiphertextBlob: Foundation.Data? = nil,
         privateKeyPlaintext: Foundation.Data? = nil,
         publicKey: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.ciphertextForRecipient = ciphertextForRecipient
         self.keyId = keyId
         self.keyPairSpec = keyPairSpec
@@ -3487,8 +3401,7 @@ public struct GenerateDataKeyPairWithoutPlaintextInput: Swift.Sendable {
         grantTokens: [Swift.String]? = nil,
         keyId: Swift.String? = nil,
         keyPairSpec: KMSClientTypes.DataKeyPairSpec? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.encryptionContext = encryptionContext
         self.grantTokens = grantTokens
@@ -3512,8 +3425,7 @@ public struct GenerateDataKeyPairWithoutPlaintextOutput: Swift.Sendable {
         keyPairSpec: KMSClientTypes.DataKeyPairSpec? = nil,
         privateKeyCiphertextBlob: Foundation.Data? = nil,
         publicKey: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.keyPairSpec = keyPairSpec
         self.privateKeyCiphertextBlob = privateKeyCiphertextBlob
@@ -3554,8 +3466,7 @@ public struct GenerateDataKeyWithoutPlaintextInput: Swift.Sendable {
         keyId: Swift.String? = nil,
         keySpec: KMSClientTypes.DataKeySpec? = nil,
         numberOfBytes: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.encryptionContext = encryptionContext
         self.grantTokens = grantTokens
@@ -3574,8 +3485,7 @@ public struct GenerateDataKeyWithoutPlaintextOutput: Swift.Sendable {
     public init(
         ciphertextBlob: Foundation.Data? = nil,
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ciphertextBlob = ciphertextBlob
         self.keyId = keyId
     }
@@ -3602,8 +3512,7 @@ public struct GenerateMacInput: Swift.Sendable {
         keyId: Swift.String? = nil,
         macAlgorithm: KMSClientTypes.MacAlgorithmSpec? = nil,
         message: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.grantTokens = grantTokens
         self.keyId = keyId
@@ -3629,8 +3538,7 @@ public struct GenerateMacOutput: Swift.Sendable {
         keyId: Swift.String? = nil,
         mac: Foundation.Data? = nil,
         macAlgorithm: KMSClientTypes.MacAlgorithmSpec? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.mac = mac
         self.macAlgorithm = macAlgorithm
@@ -3649,8 +3557,7 @@ public struct GenerateRandomInput: Swift.Sendable {
         customKeyStoreId: Swift.String? = nil,
         numberOfBytes: Swift.Int? = nil,
         recipient: KMSClientTypes.RecipientInfo? = nil
-    )
-    {
+    ) {
         self.customKeyStoreId = customKeyStoreId
         self.numberOfBytes = numberOfBytes
         self.recipient = recipient
@@ -3666,8 +3573,7 @@ public struct GenerateRandomOutput: Swift.Sendable {
     public init(
         ciphertextForRecipient: Foundation.Data? = nil,
         plaintext: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.ciphertextForRecipient = ciphertextForRecipient
         self.plaintext = plaintext
     }
@@ -3695,8 +3601,7 @@ public struct GetKeyPolicyInput: Swift.Sendable {
     public init(
         keyId: Swift.String? = nil,
         policyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.policyName = policyName
     }
@@ -3711,8 +3616,7 @@ public struct GetKeyPolicyOutput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         policyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.policyName = policyName
     }
@@ -3732,8 +3636,7 @@ public struct GetKeyRotationStatusInput: Swift.Sendable {
 
     public init(
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
     }
 }
@@ -3756,8 +3659,7 @@ public struct GetKeyRotationStatusOutput: Swift.Sendable {
         nextRotationDate: Foundation.Date? = nil,
         onDemandRotationStartDate: Foundation.Date? = nil,
         rotationPeriodInDays: Swift.Int? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.keyRotationEnabled = keyRotationEnabled
         self.nextRotationDate = nextRotationDate
@@ -3833,8 +3735,7 @@ public struct GetParametersForImportInput: Swift.Sendable {
         keyId: Swift.String? = nil,
         wrappingAlgorithm: KMSClientTypes.AlgorithmSpec? = nil,
         wrappingKeySpec: KMSClientTypes.WrappingKeySpec? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.wrappingAlgorithm = wrappingAlgorithm
         self.wrappingKeySpec = wrappingKeySpec
@@ -3856,8 +3757,7 @@ public struct GetParametersForImportOutput: Swift.Sendable {
         keyId: Swift.String? = nil,
         parametersValidTo: Foundation.Date? = nil,
         publicKey: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.importToken = importToken
         self.keyId = keyId
         self.parametersValidTo = parametersValidTo
@@ -3891,8 +3791,7 @@ public struct GetPublicKeyInput: Swift.Sendable {
     public init(
         grantTokens: [Swift.String]? = nil,
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.grantTokens = grantTokens
         self.keyId = keyId
     }
@@ -3926,8 +3825,7 @@ public struct GetPublicKeyOutput: Swift.Sendable {
         keyUsage: KMSClientTypes.KeyUsageType? = nil,
         publicKey: Foundation.Data? = nil,
         signingAlgorithms: [KMSClientTypes.SigningAlgorithmSpec]? = nil
-    )
-    {
+    ) {
         self.customerMasterKeySpec = customerMasterKeySpec
         self.encryptionAlgorithms = encryptionAlgorithms
         self.keyAgreementAlgorithms = keyAgreementAlgorithms
@@ -3972,8 +3870,7 @@ extension KMSClientTypes {
             name: Swift.String? = nil,
             operations: [KMSClientTypes.GrantOperation]? = nil,
             retiringPrincipal: Swift.String? = nil
-        )
-        {
+        ) {
             self.constraints = constraints
             self.creationDate = creationDate
             self.grantId = grantId
@@ -3988,9 +3885,9 @@ extension KMSClientTypes {
 }
 
 /// The request was rejected because the key material in the request is, expired, invalid, or is not the same key material that was previously imported into this KMS key.
-public struct IncorrectKeyMaterialException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IncorrectKeyMaterialException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4005,16 +3902,15 @@ public struct IncorrectKeyMaterialException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the provided import token is invalid or is associated with a different KMS key.
-public struct InvalidImportTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidImportTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4029,8 +3925,7 @@ public struct InvalidImportTokenException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4063,8 +3958,7 @@ public struct ImportKeyMaterialInput: Swift.Sendable {
         importToken: Foundation.Data? = nil,
         keyId: Swift.String? = nil,
         validTo: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.encryptedKeyMaterial = encryptedKeyMaterial
         self.expirationModel = expirationModel
         self.importToken = importToken
@@ -4079,9 +3973,9 @@ public struct ImportKeyMaterialOutput: Swift.Sendable {
 }
 
 /// The request was rejected because the specified GrantId is not valid.
-public struct InvalidGrantIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidGrantIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4096,8 +3990,7 @@ public struct InvalidGrantIdException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4114,8 +4007,7 @@ extension KMSClientTypes {
         public init(
             keyArn: Swift.String? = nil,
             keyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.keyArn = keyArn
             self.keyId = keyId
         }
@@ -4123,9 +4015,9 @@ extension KMSClientTypes {
 }
 
 /// The request was rejected because the HMAC verification failed. HMAC verification fails when the HMAC computed by using the specified message, HMAC KMS key, and MAC algorithm does not match the HMAC specified in the request.
-public struct KMSInvalidMacException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KMSInvalidMacException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4140,16 +4032,15 @@ public struct KMSInvalidMacException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the signature verification failed. Signature verification fails when it cannot confirm that signature was produced by signing the specified message with the specified KMS key and signing algorithm.
-public struct KMSInvalidSignatureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KMSInvalidSignatureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4164,8 +4055,7 @@ public struct KMSInvalidSignatureException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4189,8 +4079,7 @@ public struct ListAliasesInput: Swift.Sendable {
         keyId: Swift.String? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.limit = limit
         self.marker = marker
@@ -4209,8 +4098,7 @@ public struct ListAliasesOutput: Swift.Sendable {
         aliases: [KMSClientTypes.AliasListEntry]? = nil,
         nextMarker: Swift.String? = nil,
         truncated: Swift.Bool = false
-    )
-    {
+    ) {
         self.aliases = aliases
         self.nextMarker = nextMarker
         self.truncated = truncated
@@ -4243,8 +4131,7 @@ public struct ListGrantsInput: Swift.Sendable {
         keyId: Swift.String? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.grantId = grantId
         self.granteePrincipal = granteePrincipal
         self.keyId = keyId
@@ -4265,8 +4152,7 @@ public struct ListGrantsOutput: Swift.Sendable {
         grants: [KMSClientTypes.GrantListEntry]? = nil,
         nextMarker: Swift.String? = nil,
         truncated: Swift.Bool = false
-    )
-    {
+    ) {
         self.grants = grants
         self.nextMarker = nextMarker
         self.truncated = truncated
@@ -4293,8 +4179,7 @@ public struct ListKeyPoliciesInput: Swift.Sendable {
         keyId: Swift.String? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.limit = limit
         self.marker = marker
@@ -4313,8 +4198,7 @@ public struct ListKeyPoliciesOutput: Swift.Sendable {
         nextMarker: Swift.String? = nil,
         policyNames: [Swift.String]? = nil,
         truncated: Swift.Bool = false
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.policyNames = policyNames
         self.truncated = truncated
@@ -4341,8 +4225,7 @@ public struct ListKeyRotationsInput: Swift.Sendable {
         keyId: Swift.String? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.limit = limit
         self.marker = marker
@@ -4393,8 +4276,7 @@ extension KMSClientTypes {
             keyId: Swift.String? = nil,
             rotationDate: Foundation.Date? = nil,
             rotationType: KMSClientTypes.RotationType? = nil
-        )
-        {
+        ) {
             self.keyId = keyId
             self.rotationDate = rotationDate
             self.rotationType = rotationType
@@ -4414,8 +4296,7 @@ public struct ListKeyRotationsOutput: Swift.Sendable {
         nextMarker: Swift.String? = nil,
         rotations: [KMSClientTypes.RotationsListEntry]? = nil,
         truncated: Swift.Bool = false
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.rotations = rotations
         self.truncated = truncated
@@ -4431,8 +4312,7 @@ public struct ListKeysInput: Swift.Sendable {
     public init(
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.marker = marker
     }
@@ -4450,8 +4330,7 @@ public struct ListKeysOutput: Swift.Sendable {
         keys: [KMSClientTypes.KeyListEntry]? = nil,
         nextMarker: Swift.String? = nil,
         truncated: Swift.Bool = false
-    )
-    {
+    ) {
         self.keys = keys
         self.nextMarker = nextMarker
         self.truncated = truncated
@@ -4478,8 +4357,7 @@ public struct ListResourceTagsInput: Swift.Sendable {
         keyId: Swift.String? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.limit = limit
         self.marker = marker
@@ -4498,8 +4376,7 @@ public struct ListResourceTagsOutput: Swift.Sendable {
         nextMarker: Swift.String? = nil,
         tags: [KMSClientTypes.Tag]? = nil,
         truncated: Swift.Bool = false
-    )
-    {
+    ) {
         self.nextMarker = nextMarker
         self.tags = tags
         self.truncated = truncated
@@ -4519,8 +4396,7 @@ public struct ListRetirableGrantsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil,
         retiringPrincipal: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.marker = marker
         self.retiringPrincipal = retiringPrincipal
@@ -4539,8 +4415,7 @@ public struct ListRetirableGrantsOutput: Swift.Sendable {
         grants: [KMSClientTypes.GrantListEntry]? = nil,
         nextMarker: Swift.String? = nil,
         truncated: Swift.Bool = false
-    )
-    {
+    ) {
         self.grants = grants
         self.nextMarker = nextMarker
         self.truncated = truncated
@@ -4616,8 +4491,7 @@ public struct PutKeyPolicyInput: Swift.Sendable {
         keyId: Swift.String? = nil,
         policy: Swift.String? = nil,
         policyName: Swift.String? = nil
-    )
-    {
+    ) {
         self.bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheck
         self.keyId = keyId
         self.policy = policy
@@ -4679,8 +4553,7 @@ public struct ReEncryptInput: Swift.Sendable {
         sourceEncryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec? = nil,
         sourceEncryptionContext: [Swift.String: Swift.String]? = nil,
         sourceKeyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ciphertextBlob = ciphertextBlob
         self.destinationEncryptionAlgorithm = destinationEncryptionAlgorithm
         self.destinationEncryptionContext = destinationEncryptionContext
@@ -4711,8 +4584,7 @@ public struct ReEncryptOutput: Swift.Sendable {
         keyId: Swift.String? = nil,
         sourceEncryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec? = nil,
         sourceKeyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ciphertextBlob = ciphertextBlob
         self.destinationEncryptionAlgorithm = destinationEncryptionAlgorithm
         self.keyId = keyId
@@ -4767,8 +4639,7 @@ public struct ReplicateKeyInput: Swift.Sendable {
         policy: Swift.String? = nil,
         replicaRegion: Swift.String? = nil,
         tags: [KMSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheck
         self.description = description
         self.keyId = keyId
@@ -4790,8 +4661,7 @@ public struct ReplicateKeyOutput: Swift.Sendable {
         replicaKeyMetadata: KMSClientTypes.KeyMetadata? = nil,
         replicaPolicy: Swift.String? = nil,
         replicaTags: [KMSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.replicaKeyMetadata = replicaKeyMetadata
         self.replicaPolicy = replicaPolicy
         self.replicaTags = replicaTags
@@ -4815,8 +4685,7 @@ public struct RetireGrantInput: Swift.Sendable {
         grantId: Swift.String? = nil,
         grantToken: Swift.String? = nil,
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.grantId = grantId
         self.grantToken = grantToken
@@ -4845,8 +4714,7 @@ public struct RevokeGrantInput: Swift.Sendable {
         dryRun: Swift.Bool? = nil,
         grantId: Swift.String? = nil,
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.grantId = grantId
         self.keyId = keyId
@@ -4867,8 +4735,7 @@ public struct RotateKeyOnDemandInput: Swift.Sendable {
 
     public init(
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
     }
 }
@@ -4879,8 +4746,7 @@ public struct RotateKeyOnDemandOutput: Swift.Sendable {
 
     public init(
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
     }
 }
@@ -4902,8 +4768,7 @@ public struct ScheduleKeyDeletionInput: Swift.Sendable {
     public init(
         keyId: Swift.String? = nil,
         pendingWindowInDays: Swift.Int? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.pendingWindowInDays = pendingWindowInDays
     }
@@ -4924,8 +4789,7 @@ public struct ScheduleKeyDeletionOutput: Swift.Sendable {
         keyId: Swift.String? = nil,
         keyState: KMSClientTypes.KeyState? = nil,
         pendingWindowInDays: Swift.Int? = nil
-    )
-    {
+    ) {
         self.deletionDate = deletionDate
         self.keyId = keyId
         self.keyState = keyState
@@ -4976,8 +4840,7 @@ public struct SignInput: Swift.Sendable {
         message: Foundation.Data? = nil,
         messageType: KMSClientTypes.MessageType? = nil,
         signingAlgorithm: KMSClientTypes.SigningAlgorithmSpec? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.grantTokens = grantTokens
         self.keyId = keyId
@@ -5011,8 +4874,7 @@ public struct SignOutput: Swift.Sendable {
         keyId: Swift.String? = nil,
         signature: Foundation.Data? = nil,
         signingAlgorithm: KMSClientTypes.SigningAlgorithmSpec? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.signature = signature
         self.signingAlgorithm = signingAlgorithm
@@ -5037,8 +4899,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         keyId: Swift.String? = nil,
         tags: [KMSClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.tags = tags
     }
@@ -5062,8 +4923,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         keyId: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.tagKeys = tagKeys
     }
@@ -5087,8 +4947,7 @@ public struct UpdateAliasInput: Swift.Sendable {
     public init(
         aliasName: Swift.String? = nil,
         targetKeyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.aliasName = aliasName
         self.targetKeyId = targetKeyId
     }
@@ -5125,8 +4984,7 @@ public struct UpdateCustomKeyStoreInput: Swift.Sendable {
         xksProxyUriEndpoint: Swift.String? = nil,
         xksProxyUriPath: Swift.String? = nil,
         xksProxyVpcEndpointServiceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.cloudHsmClusterId = cloudHsmClusterId
         self.customKeyStoreId = customKeyStoreId
         self.keyStorePassword = keyStorePassword
@@ -5167,8 +5025,7 @@ public struct UpdateKeyDescriptionInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         keyId: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.keyId = keyId
     }
@@ -5192,8 +5049,7 @@ public struct UpdatePrimaryRegionInput: Swift.Sendable {
     public init(
         keyId: Swift.String? = nil,
         primaryRegion: Swift.String? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.primaryRegion = primaryRegion
     }
@@ -5246,8 +5102,7 @@ public struct VerifyInput: Swift.Sendable {
         messageType: KMSClientTypes.MessageType? = nil,
         signature: Foundation.Data? = nil,
         signingAlgorithm: KMSClientTypes.SigningAlgorithmSpec? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.grantTokens = grantTokens
         self.keyId = keyId
@@ -5275,8 +5130,7 @@ public struct VerifyOutput: Swift.Sendable {
         keyId: Swift.String? = nil,
         signatureValid: Swift.Bool = false,
         signingAlgorithm: KMSClientTypes.SigningAlgorithmSpec? = nil
-    )
-    {
+    ) {
         self.keyId = keyId
         self.signatureValid = signatureValid
         self.signingAlgorithm = signingAlgorithm
@@ -5308,8 +5162,7 @@ public struct VerifyMacInput: Swift.Sendable {
         mac: Foundation.Data? = nil,
         macAlgorithm: KMSClientTypes.MacAlgorithmSpec? = nil,
         message: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.grantTokens = grantTokens
         self.keyId = keyId
@@ -5336,8 +5189,7 @@ public struct VerifyMacOutput: Swift.Sendable {
         keyId: Swift.String? = nil,
         macAlgorithm: KMSClientTypes.MacAlgorithmSpec? = nil,
         macValid: Swift.Bool = false
-    )
-    {
+    ) {
         self.keyId = keyId
         self.macAlgorithm = macAlgorithm
         self.macValid = macValid

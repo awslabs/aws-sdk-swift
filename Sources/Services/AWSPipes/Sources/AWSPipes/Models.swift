@@ -74,8 +74,7 @@ extension PipesClientTypes {
             assignPublicIp: PipesClientTypes.AssignPublicIp? = nil,
             securityGroups: [Swift.String]? = nil,
             subnets: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.assignPublicIp = assignPublicIp
             self.securityGroups = securityGroups
             self.subnets = subnets
@@ -97,8 +96,7 @@ extension PipesClientTypes {
 
         public init(
             size: Swift.Int? = nil
-        )
-        {
+        ) {
             self.size = size
         }
     }
@@ -116,8 +114,7 @@ extension PipesClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -170,8 +167,7 @@ extension PipesClientTypes {
         public init(
             type: PipesClientTypes.BatchResourceRequirementType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -196,8 +192,7 @@ extension PipesClientTypes {
             environment: [PipesClientTypes.BatchEnvironmentVariable]? = nil,
             instanceType: Swift.String? = nil,
             resourceRequirements: [PipesClientTypes.BatchResourceRequirement]? = nil
-        )
-        {
+        ) {
             self.command = command
             self.environment = environment
             self.instanceType = instanceType
@@ -247,8 +242,7 @@ extension PipesClientTypes {
         public init(
             jobId: Swift.String? = nil,
             type: PipesClientTypes.BatchJobDependencyType? = nil
-        )
-        {
+        ) {
             self.jobId = jobId
             self.type = type
         }
@@ -264,8 +258,7 @@ extension PipesClientTypes {
 
         public init(
             attempts: Swift.Int? = nil
-        )
-        {
+        ) {
             self.attempts = attempts
         }
     }
@@ -287,8 +280,7 @@ extension PipesClientTypes {
             base: Swift.Int = 0,
             capacityProvider: Swift.String? = nil,
             weight: Swift.Int = 0
-        )
-        {
+        ) {
             self.base = base
             self.capacityProvider = capacityProvider
             self.weight = weight
@@ -310,8 +302,7 @@ extension PipesClientTypes {
 
         public init(
             logGroupArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.logGroupArn = logGroupArn
         }
     }
@@ -327,17 +318,16 @@ extension PipesClientTypes {
 
         public init(
             logGroupArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.logGroupArn = logGroupArn
         }
     }
 }
 
 /// An action you attempted resulted in an exception.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The ID of the resource that caused the exception.
@@ -361,8 +351,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -370,9 +359,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// This exception occurs due to unexpected causes.
-public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The number of seconds to wait before retrying the action that caused the exception.
@@ -391,17 +380,16 @@ public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
 }
 
 /// An entity that you specified does not exist.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -416,16 +404,15 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A quota has been exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The identifier of the quota that caused the exception.
@@ -457,8 +444,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -468,9 +454,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// An action was throttled.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The identifier of the quota that caused the exception.
@@ -495,8 +481,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -518,8 +503,7 @@ extension PipesClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -527,9 +511,9 @@ extension PipesClientTypes {
 }
 
 /// Indicates that an error has occurred while performing a validate operation.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The list of fields for which validation failed and the corresponding failure messages.
         public internal(set) var fieldList: [PipesClientTypes.ValidationExceptionField]? = nil
         public internal(set) var message: Swift.String? = nil
@@ -547,8 +531,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         fieldList: [PipesClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
     }
@@ -598,8 +581,7 @@ extension PipesClientTypes {
             headerParameters: [Swift.String: Swift.String]? = nil,
             pathParameterValues: [Swift.String]? = nil,
             queryStringParameters: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.headerParameters = headerParameters
             self.pathParameterValues = pathParameterValues
             self.queryStringParameters = queryStringParameters
@@ -624,8 +606,7 @@ extension PipesClientTypes {
         public init(
             httpParameters: PipesClientTypes.PipeEnrichmentHttpParameters? = nil,
             inputTemplate: Swift.String? = nil
-        )
-        {
+        ) {
             self.httpParameters = httpParameters
             self.inputTemplate = inputTemplate
         }
@@ -647,8 +628,7 @@ extension PipesClientTypes {
 
         public init(
             deliveryStreamArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.deliveryStreamArn = deliveryStreamArn
         }
     }
@@ -767,8 +747,7 @@ extension PipesClientTypes {
             bucketOwner: Swift.String? = nil,
             outputFormat: PipesClientTypes.S3OutputFormat? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.bucketOwner = bucketOwner
             self.outputFormat = outputFormat
@@ -799,8 +778,7 @@ extension PipesClientTypes {
             includeExecutionData: [PipesClientTypes.IncludeExecutionDataOption]? = nil,
             level: PipesClientTypes.LogLevel? = nil,
             s3LogDestination: PipesClientTypes.S3LogDestinationParameters? = nil
-        )
-        {
+        ) {
             self.cloudwatchLogsLogDestination = cloudwatchLogsLogDestination
             self.firehoseLogDestination = firehoseLogDestination
             self.includeExecutionData = includeExecutionData
@@ -840,8 +818,7 @@ extension PipesClientTypes {
             credentials: PipesClientTypes.MQBrokerAccessCredentials? = nil,
             maximumBatchingWindowInSeconds: Swift.Int? = nil,
             queueName: Swift.String? = nil
-        )
-        {
+        ) {
             self.batchSize = batchSize
             self.credentials = credentials
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
@@ -864,8 +841,7 @@ extension PipesClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -957,8 +933,7 @@ extension PipesClientTypes {
             onPartialBatchItemFailure: PipesClientTypes.OnPartialBatchItemFailureStreams? = nil,
             parallelizationFactor: Swift.Int? = nil,
             startingPosition: PipesClientTypes.DynamoDBStreamStartPosition? = nil
-        )
-        {
+        ) {
             self.batchSize = batchSize
             self.deadLetterConfig = deadLetterConfig
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
@@ -980,8 +955,7 @@ extension PipesClientTypes {
 
         public init(
             pattern: Swift.String? = nil
-        )
-        {
+        ) {
             self.pattern = pattern
         }
     }
@@ -1001,8 +975,7 @@ extension PipesClientTypes {
 
         public init(
             filters: [PipesClientTypes.Filter]? = nil
-        )
-        {
+        ) {
             self.filters = filters
         }
     }
@@ -1074,8 +1047,7 @@ extension PipesClientTypes {
             parallelizationFactor: Swift.Int? = nil,
             startingPosition: PipesClientTypes.KinesisStreamStartPosition? = nil,
             startingPositionTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.batchSize = batchSize
             self.deadLetterConfig = deadLetterConfig
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
@@ -1155,8 +1127,7 @@ extension PipesClientTypes {
             maximumBatchingWindowInSeconds: Swift.Int? = nil,
             startingPosition: PipesClientTypes.MSKStartPosition? = nil,
             topicName: Swift.String? = nil
-        )
-        {
+        ) {
             self.batchSize = batchSize
             self.consumerGroupID = consumerGroupID
             self.credentials = credentials
@@ -1195,8 +1166,7 @@ extension PipesClientTypes {
             maximumBatchingWindowInSeconds: Swift.Int? = nil,
             queueName: Swift.String? = nil,
             virtualHost: Swift.String? = nil
-        )
-        {
+        ) {
             self.batchSize = batchSize
             self.credentials = credentials
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
@@ -1268,8 +1238,7 @@ extension PipesClientTypes {
         public init(
             securityGroup: [Swift.String]? = nil,
             subnets: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroup = securityGroup
             self.subnets = subnets
         }
@@ -1315,8 +1284,7 @@ extension PipesClientTypes {
             startingPosition: PipesClientTypes.SelfManagedKafkaStartPosition? = nil,
             topicName: Swift.String? = nil,
             vpc: PipesClientTypes.SelfManagedKafkaAccessConfigurationVpc? = nil
-        )
-        {
+        ) {
             self.additionalBootstrapServers = additionalBootstrapServers
             self.batchSize = batchSize
             self.consumerGroupID = consumerGroupID
@@ -1347,8 +1315,7 @@ extension PipesClientTypes {
         public init(
             batchSize: Swift.Int? = nil,
             maximumBatchingWindowInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.batchSize = batchSize
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
         }
@@ -1385,8 +1352,7 @@ extension PipesClientTypes {
             rabbitMQBrokerParameters: PipesClientTypes.PipeSourceRabbitMQBrokerParameters? = nil,
             selfManagedKafkaParameters: PipesClientTypes.PipeSourceSelfManagedKafkaParameters? = nil,
             sqsQueueParameters: PipesClientTypes.PipeSourceSqsQueueParameters? = nil
-        )
-        {
+        ) {
             self.activeMQBrokerParameters = activeMQBrokerParameters
             self.dynamoDBStreamParameters = dynamoDBStreamParameters
             self.filterCriteria = filterCriteria
@@ -1428,8 +1394,7 @@ extension PipesClientTypes {
             jobName: Swift.String? = nil,
             parameters: [Swift.String: Swift.String]? = nil,
             retryStrategy: PipesClientTypes.BatchRetryStrategy? = nil
-        )
-        {
+        ) {
             self.arrayProperties = arrayProperties
             self.containerOverrides = containerOverrides
             self.dependsOn = dependsOn
@@ -1453,8 +1418,7 @@ extension PipesClientTypes {
         public init(
             logStreamName: Swift.String? = nil,
             timestamp: Swift.String? = nil
-        )
-        {
+        ) {
             self.logStreamName = logStreamName
             self.timestamp = timestamp
         }
@@ -1502,8 +1466,7 @@ extension PipesClientTypes {
 
         public init(
             awsvpcConfiguration: PipesClientTypes.AwsVpcConfiguration? = nil
-        )
-        {
+        ) {
             self.awsvpcConfiguration = awsvpcConfiguration
         }
     }
@@ -1521,8 +1484,7 @@ extension PipesClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -1573,8 +1535,7 @@ extension PipesClientTypes {
         public init(
             type: PipesClientTypes.EcsEnvironmentFileType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -1624,8 +1585,7 @@ extension PipesClientTypes {
         public init(
             type: PipesClientTypes.EcsResourceRequirementType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -1662,8 +1622,7 @@ extension PipesClientTypes {
             memoryReservation: Swift.Int? = nil,
             name: Swift.String? = nil,
             resourceRequirements: [PipesClientTypes.EcsResourceRequirement]? = nil
-        )
-        {
+        ) {
             self.command = command
             self.cpu = cpu
             self.environment = environment
@@ -1686,8 +1645,7 @@ extension PipesClientTypes {
 
         public init(
             sizeInGiB: Swift.Int? = nil
-        )
-        {
+        ) {
             self.sizeInGiB = sizeInGiB
         }
     }
@@ -1705,8 +1663,7 @@ extension PipesClientTypes {
         public init(
             deviceName: Swift.String? = nil,
             deviceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.deviceName = deviceName
             self.deviceType = deviceType
         }
@@ -1744,8 +1701,7 @@ extension PipesClientTypes {
             inferenceAcceleratorOverrides: [PipesClientTypes.EcsInferenceAcceleratorOverride]? = nil,
             memory: Swift.String? = nil,
             taskRoleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerOverrides = containerOverrides
             self.cpu = cpu
             self.ephemeralStorage = ephemeralStorage
@@ -1798,8 +1754,7 @@ extension PipesClientTypes {
         public init(
             expression: Swift.String? = nil,
             type: PipesClientTypes.PlacementConstraintType? = nil
-        )
-        {
+        ) {
             self.expression = expression
             self.type = type
         }
@@ -1855,8 +1810,7 @@ extension PipesClientTypes {
         public init(
             field: Swift.String? = nil,
             type: PipesClientTypes.PlacementStrategyType? = nil
-        )
-        {
+        ) {
             self.field = field
             self.type = type
         }
@@ -1908,8 +1862,7 @@ extension PipesClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1973,8 +1926,7 @@ extension PipesClientTypes {
             tags: [PipesClientTypes.Tag]? = nil,
             taskCount: Swift.Int? = nil,
             taskDefinitionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.capacityProviderStrategy = capacityProviderStrategy
             self.enableECSManagedTags = enableECSManagedTags
             self.enableExecuteCommand = enableExecuteCommand
@@ -2020,8 +1972,7 @@ extension PipesClientTypes {
             resources: [Swift.String]? = nil,
             source: Swift.String? = nil,
             time: Swift.String? = nil
-        )
-        {
+        ) {
             self.detailType = detailType
             self.endpointId = endpointId
             self.resources = resources
@@ -2051,8 +2002,7 @@ extension PipesClientTypes {
             headerParameters: [Swift.String: Swift.String]? = nil,
             pathParameterValues: [Swift.String]? = nil,
             queryStringParameters: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.headerParameters = headerParameters
             self.pathParameterValues = pathParameterValues
             self.queryStringParameters = queryStringParameters
@@ -2075,8 +2025,7 @@ extension PipesClientTypes {
 
         public init(
             partitionKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.partitionKey = partitionKey
         }
     }
@@ -2132,8 +2081,7 @@ extension PipesClientTypes {
 
         public init(
             invocationType: PipesClientTypes.PipeTargetInvocationType? = nil
-        )
-        {
+        ) {
             self.invocationType = invocationType
         }
     }
@@ -2165,8 +2113,7 @@ extension PipesClientTypes {
             sqls: [Swift.String]? = nil,
             statementName: Swift.String? = nil,
             withEvent: Swift.Bool = false
-        )
-        {
+        ) {
             self.database = database
             self.dbUser = dbUser
             self.secretManagerArn = secretManagerArn
@@ -2196,8 +2143,7 @@ extension PipesClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -2218,8 +2164,7 @@ extension PipesClientTypes {
 
         public init(
             pipelineParameterList: [PipesClientTypes.SageMakerPipelineParameter]? = nil
-        )
-        {
+        ) {
             self.pipelineParameterList = pipelineParameterList
         }
     }
@@ -2237,8 +2182,7 @@ extension PipesClientTypes {
         public init(
             messageDeduplicationId: Swift.String? = nil,
             messageGroupId: Swift.String? = nil
-        )
-        {
+        ) {
             self.messageDeduplicationId = messageDeduplicationId
             self.messageGroupId = messageGroupId
         }
@@ -2266,8 +2210,7 @@ extension PipesClientTypes {
 
         public init(
             invocationType: PipesClientTypes.PipeTargetInvocationType? = nil
-        )
-        {
+        ) {
             self.invocationType = invocationType
         }
     }
@@ -2317,8 +2260,7 @@ extension PipesClientTypes {
             dimensionName: Swift.String? = nil,
             dimensionValue: Swift.String? = nil,
             dimensionValueType: PipesClientTypes.DimensionValueType? = nil
-        )
-        {
+        ) {
             self.dimensionName = dimensionName
             self.dimensionValue = dimensionValue
             self.dimensionValueType = dimensionValueType
@@ -2417,8 +2359,7 @@ extension PipesClientTypes {
             measureValue: Swift.String? = nil,
             measureValueType: PipesClientTypes.MeasureValueType? = nil,
             multiMeasureAttributeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.measureValue = measureValue
             self.measureValueType = measureValueType
             self.multiMeasureAttributeName = multiMeasureAttributeName
@@ -2440,8 +2381,7 @@ extension PipesClientTypes {
         public init(
             multiMeasureAttributeMappings: [PipesClientTypes.MultiMeasureAttributeMapping]? = nil,
             multiMeasureName: Swift.String? = nil
-        )
-        {
+        ) {
             self.multiMeasureAttributeMappings = multiMeasureAttributeMappings
             self.multiMeasureName = multiMeasureName
         }
@@ -2466,8 +2406,7 @@ extension PipesClientTypes {
             measureName: Swift.String? = nil,
             measureValue: Swift.String? = nil,
             measureValueType: PipesClientTypes.MeasureValueType? = nil
-        )
-        {
+        ) {
             self.measureName = measureName
             self.measureValue = measureValue
             self.measureValueType = measureValueType
@@ -2537,8 +2476,7 @@ extension PipesClientTypes {
             timeValue: Swift.String? = nil,
             timestampFormat: Swift.String? = nil,
             versionValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.dimensionMappings = dimensionMappings
             self.epochTimeUnit = epochTimeUnit
             self.multiMeasureMappings = multiMeasureMappings
@@ -2596,8 +2534,7 @@ extension PipesClientTypes {
             sqsQueueParameters: PipesClientTypes.PipeTargetSqsQueueParameters? = nil,
             stepFunctionStateMachineParameters: PipesClientTypes.PipeTargetStateMachineParameters? = nil,
             timestreamParameters: PipesClientTypes.PipeTargetTimestreamParameters? = nil
-        )
-        {
+        ) {
             self.batchJobParameters = batchJobParameters
             self.cloudWatchLogsParameters = cloudWatchLogsParameters
             self.ecsTaskParameters = ecsTaskParameters
@@ -2666,8 +2603,7 @@ public struct CreatePipeInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         target: Swift.String? = nil,
         targetParameters: PipesClientTypes.PipeTargetParameters? = nil
-    )
-    {
+    ) {
         self.description = description
         self.desiredState = desiredState
         self.enrichment = enrichment
@@ -2778,8 +2714,7 @@ public struct CreatePipeOutput: Swift.Sendable {
         desiredState: PipesClientTypes.RequestedPipeState? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.currentState = currentState
@@ -2796,8 +2731,7 @@ public struct DeletePipeInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2855,8 +2789,7 @@ public struct DeletePipeOutput: Swift.Sendable {
         desiredState: PipesClientTypes.RequestedPipeStateDescribeResponse? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.currentState = currentState
@@ -2873,8 +2806,7 @@ public struct DescribePipeInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -2888,8 +2820,7 @@ extension PipesClientTypes {
 
         public init(
             deliveryStreamArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.deliveryStreamArn = deliveryStreamArn
         }
     }
@@ -2913,8 +2844,7 @@ extension PipesClientTypes {
             bucketOwner: Swift.String? = nil,
             outputFormat: PipesClientTypes.S3OutputFormat? = nil,
             `prefix`: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.bucketOwner = bucketOwner
             self.outputFormat = outputFormat
@@ -2944,8 +2874,7 @@ extension PipesClientTypes {
             includeExecutionData: [PipesClientTypes.IncludeExecutionDataOption]? = nil,
             level: PipesClientTypes.LogLevel? = nil,
             s3LogDestination: PipesClientTypes.S3LogDestination? = nil
-        )
-        {
+        ) {
             self.cloudwatchLogsLogDestination = cloudwatchLogsLogDestination
             self.firehoseLogDestination = firehoseLogDestination
             self.includeExecutionData = includeExecutionData
@@ -3012,8 +2941,7 @@ public struct DescribePipeOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         target: Swift.String? = nil,
         targetParameters: PipesClientTypes.PipeTargetParameters? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.currentState = currentState
@@ -3064,8 +2992,7 @@ public struct ListPipesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sourcePrefix: Swift.String? = nil,
         targetPrefix: Swift.String? = nil
-    )
-    {
+    ) {
         self.currentState = currentState
         self.desiredState = desiredState
         self.limit = limit
@@ -3117,8 +3044,7 @@ extension PipesClientTypes {
             source: Swift.String? = nil,
             stateReason: Swift.String? = nil,
             target: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.currentState = currentState
@@ -3142,8 +3068,7 @@ public struct ListPipesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pipes: [PipesClientTypes.Pipe]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pipes = pipes
     }
@@ -3161,8 +3086,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3173,8 +3097,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -3191,8 +3114,7 @@ public struct StartPipeInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -3218,8 +3140,7 @@ public struct StartPipeOutput: Swift.Sendable {
         desiredState: PipesClientTypes.RequestedPipeState? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.currentState = currentState
@@ -3236,8 +3157,7 @@ public struct StopPipeInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -3263,8 +3183,7 @@ public struct StopPipeOutput: Swift.Sendable {
         desiredState: PipesClientTypes.RequestedPipeState? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.currentState = currentState
@@ -3290,8 +3209,7 @@ extension PipesClientTypes {
             batchSize: Swift.Int? = nil,
             credentials: PipesClientTypes.MQBrokerAccessCredentials? = nil,
             maximumBatchingWindowInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.batchSize = batchSize
             self.credentials = credentials
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
@@ -3326,8 +3244,7 @@ extension PipesClientTypes {
             maximumRetryAttempts: Swift.Int? = nil,
             onPartialBatchItemFailure: PipesClientTypes.OnPartialBatchItemFailureStreams? = nil,
             parallelizationFactor: Swift.Int? = nil
-        )
-        {
+        ) {
             self.batchSize = batchSize
             self.deadLetterConfig = deadLetterConfig
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
@@ -3366,8 +3283,7 @@ extension PipesClientTypes {
             maximumRetryAttempts: Swift.Int? = nil,
             onPartialBatchItemFailure: PipesClientTypes.OnPartialBatchItemFailureStreams? = nil,
             parallelizationFactor: Swift.Int? = nil
-        )
-        {
+        ) {
             self.batchSize = batchSize
             self.deadLetterConfig = deadLetterConfig
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
@@ -3394,8 +3310,7 @@ extension PipesClientTypes {
             batchSize: Swift.Int? = nil,
             credentials: PipesClientTypes.MSKAccessCredentials? = nil,
             maximumBatchingWindowInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.batchSize = batchSize
             self.credentials = credentials
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
@@ -3419,8 +3334,7 @@ extension PipesClientTypes {
             batchSize: Swift.Int? = nil,
             credentials: PipesClientTypes.MQBrokerAccessCredentials? = nil,
             maximumBatchingWindowInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.batchSize = batchSize
             self.credentials = credentials
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
@@ -3449,8 +3363,7 @@ extension PipesClientTypes {
             maximumBatchingWindowInSeconds: Swift.Int? = nil,
             serverRootCaCertificate: Swift.String? = nil,
             vpc: PipesClientTypes.SelfManagedKafkaAccessConfigurationVpc? = nil
-        )
-        {
+        ) {
             self.batchSize = batchSize
             self.credentials = credentials
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
@@ -3472,8 +3385,7 @@ extension PipesClientTypes {
         public init(
             batchSize: Swift.Int? = nil,
             maximumBatchingWindowInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.batchSize = batchSize
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
         }
@@ -3510,8 +3422,7 @@ extension PipesClientTypes {
             rabbitMQBrokerParameters: PipesClientTypes.UpdatePipeSourceRabbitMQBrokerParameters? = nil,
             selfManagedKafkaParameters: PipesClientTypes.UpdatePipeSourceSelfManagedKafkaParameters? = nil,
             sqsQueueParameters: PipesClientTypes.UpdatePipeSourceSqsQueueParameters? = nil
-        )
-        {
+        ) {
             self.activeMQBrokerParameters = activeMQBrokerParameters
             self.dynamoDBStreamParameters = dynamoDBStreamParameters
             self.filterCriteria = filterCriteria
@@ -3562,8 +3473,7 @@ public struct UpdatePipeInput: Swift.Sendable {
         sourceParameters: PipesClientTypes.UpdatePipeSourceParameters? = nil,
         target: Swift.String? = nil,
         targetParameters: PipesClientTypes.PipeTargetParameters? = nil
-    )
-    {
+    ) {
         self.description = description
         self.desiredState = desiredState
         self.enrichment = enrichment
@@ -3604,8 +3514,7 @@ public struct UpdatePipeOutput: Swift.Sendable {
         desiredState: PipesClientTypes.RequestedPipeState? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.currentState = currentState
@@ -3626,8 +3535,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -3654,8 +3562,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

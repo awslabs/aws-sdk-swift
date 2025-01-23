@@ -50,18 +50,24 @@ private object FlexibleChecksumResponseMiddleware : MiddlewareRenderable {
         val inputShapeName = MiddlewareShapeUtils.inputSymbol(ctx.symbolProvider, ctx.model, op).name
         val outputShapeName = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, ctx.model, op).name
         val httpChecksumTrait = op.getTrait(HttpChecksumTrait::class.java).orElse(null)
-        val inputMemberName = httpChecksumTrait?.requestValidationModeMember?.get()
-        val validationModeMember = ctx.model.expectShape(op.inputShape).getMember(inputMemberName)
-        val requestValidationModeEnumShape = ctx.model.expectShape(validationModeMember.orElse(null)?.target)
+        val validationModeMemberName = httpChecksumTrait?.requestValidationModeMember?.get()?.lowercaseFirstLetter()
+        val checksumAlgosSupportedByResponse = httpChecksumTrait?.responseAlgorithms?.let {
+            if (it.isEmpty()) { "" } else {
+                ", algosSupportedByOperation: " + it.joinToString(
+                    prefix = "[\"",
+                    postfix = "\"]",
+                    separator = "\", \""
+                )
+            }
+        } ?: ""
 
-        // Will pass the validation mode to validation middleware
-        val validationMode: Boolean = requestValidationModeEnumShape.members().map { it.memberName }.first().equals("ENABLED")
         writer.write(
-            "\$N<\$L, \$L>(validationMode: \$L)",
+            "\$N<\$L, \$L>(validationMode: input.\$L?.rawValue ?? \"unset\"\$L)",
             AWSClientRuntimeTypes.Core.FlexibleChecksumsResponseMiddleware,
             inputShapeName,
             outputShapeName,
-            validationMode,
+            validationModeMemberName,
+            checksumAlgosSupportedByResponse
         )
     }
 }

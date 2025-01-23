@@ -28,9 +28,9 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 
 /// The current account doesn't have the IAM permissions required to perform the specified operation.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -45,16 +45,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request you submitted conflicts with an existing request.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -69,16 +68,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// One or more parameters in this request are not valid.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The parameter field name for the invalid parameter exception.
         public internal(set) var fieldName: Swift.String? = nil
         /// This member is required.
@@ -97,17 +95,16 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         fieldName: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.fieldName = fieldName
         self.properties.message = message
     }
 }
 
 /// The request caused one or more limits to be exceeded.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The resource type that caused the limits to be exceeded.
         public internal(set) var resourceType: Swift.String? = nil
@@ -125,17 +122,16 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     public init(
         message: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceType = resourceType
     }
 }
 
 /// The resource you are trying to associate, has already been associated.
-public struct ResourceExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The resource type that caused the resource exists exception.
         public internal(set) var resourceType: Swift.String? = nil
@@ -153,17 +149,16 @@ public struct ResourceExistsException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceType = resourceType
     }
 }
 
 /// The resource you are associating is not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The resource type that caused the resource not found exception.
         public internal(set) var resourceType: Swift.String? = nil
@@ -181,17 +176,16 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceType = resourceType
     }
 }
 
 /// The request was throttled. Try again in a few minutes.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -206,16 +200,15 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You have provided an invalid command.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -230,8 +223,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -250,8 +242,7 @@ extension Route53ProfilesClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -276,8 +267,7 @@ public struct AssociateProfileInput: Swift.Sendable {
         profileId: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         tags: [Route53ProfilesClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.name = name
         self.profileId = profileId
         self.resourceId = resourceId
@@ -359,8 +349,7 @@ extension Route53ProfilesClientTypes {
             resourceId: Swift.String? = nil,
             status: Route53ProfilesClientTypes.ProfileStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.id = id
             self.modificationTime = modificationTime
@@ -380,16 +369,15 @@ public struct AssociateProfileOutput: Swift.Sendable {
 
     public init(
         profileAssociation: Route53ProfilesClientTypes.ProfileAssociation? = nil
-    )
-    {
+    ) {
         self.profileAssociation = profileAssociation
     }
 }
 
 /// An internal server error occured. Retry your request.
-public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -404,8 +392,7 @@ public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -428,8 +415,7 @@ public struct AssociateResourceToProfileInput: Swift.Sendable {
         profileId: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         resourceProperties: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.profileId = profileId
         self.resourceArn = resourceArn
@@ -476,8 +462,7 @@ extension Route53ProfilesClientTypes {
             resourceType: Swift.String? = nil,
             status: Route53ProfilesClientTypes.ProfileStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.id = id
             self.modificationTime = modificationTime
@@ -499,8 +484,7 @@ public struct AssociateResourceToProfileOutput: Swift.Sendable {
 
     public init(
         profileResourceAssociation: Route53ProfilesClientTypes.ProfileResourceAssociation? = nil
-    )
-    {
+    ) {
         self.profileResourceAssociation = profileResourceAssociation
     }
 }
@@ -519,8 +503,7 @@ public struct CreateProfileInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Route53ProfilesClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.name = name
         self.tags = tags
@@ -595,8 +578,7 @@ extension Route53ProfilesClientTypes {
             shareStatus: Route53ProfilesClientTypes.ShareStatus? = nil,
             status: Route53ProfilesClientTypes.ProfileStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.clientToken = clientToken
             self.creationTime = creationTime
@@ -617,8 +599,7 @@ public struct CreateProfileOutput: Swift.Sendable {
 
     public init(
         profile: Route53ProfilesClientTypes.Profile? = nil
-    )
-    {
+    ) {
         self.profile = profile
     }
 }
@@ -630,8 +611,7 @@ public struct DeleteProfileInput: Swift.Sendable {
 
     public init(
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileId = profileId
     }
 }
@@ -642,8 +622,7 @@ public struct DeleteProfileOutput: Swift.Sendable {
 
     public init(
         profile: Route53ProfilesClientTypes.Profile? = nil
-    )
-    {
+    ) {
         self.profile = profile
     }
 }
@@ -659,8 +638,7 @@ public struct DisassociateProfileInput: Swift.Sendable {
     public init(
         profileId: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileId = profileId
         self.resourceId = resourceId
     }
@@ -672,8 +650,7 @@ public struct DisassociateProfileOutput: Swift.Sendable {
 
     public init(
         profileAssociation: Route53ProfilesClientTypes.ProfileAssociation? = nil
-    )
-    {
+    ) {
         self.profileAssociation = profileAssociation
     }
 }
@@ -689,8 +666,7 @@ public struct DisassociateResourceFromProfileInput: Swift.Sendable {
     public init(
         profileId: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileId = profileId
         self.resourceArn = resourceArn
     }
@@ -702,8 +678,7 @@ public struct DisassociateResourceFromProfileOutput: Swift.Sendable {
 
     public init(
         profileResourceAssociation: Route53ProfilesClientTypes.ProfileResourceAssociation? = nil
-    )
-    {
+    ) {
         self.profileResourceAssociation = profileResourceAssociation
     }
 }
@@ -715,8 +690,7 @@ public struct GetProfileInput: Swift.Sendable {
 
     public init(
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileId = profileId
     }
 }
@@ -727,8 +701,7 @@ public struct GetProfileOutput: Swift.Sendable {
 
     public init(
         profile: Route53ProfilesClientTypes.Profile? = nil
-    )
-    {
+    ) {
         self.profile = profile
     }
 }
@@ -740,8 +713,7 @@ public struct GetProfileAssociationInput: Swift.Sendable {
 
     public init(
         profileAssociationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileAssociationId = profileAssociationId
     }
 }
@@ -752,8 +724,7 @@ public struct GetProfileAssociationOutput: Swift.Sendable {
 
     public init(
         profileAssociation: Route53ProfilesClientTypes.ProfileAssociation? = nil
-    )
-    {
+    ) {
         self.profileAssociation = profileAssociation
     }
 }
@@ -765,8 +736,7 @@ public struct GetProfileResourceAssociationInput: Swift.Sendable {
 
     public init(
         profileResourceAssociationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileResourceAssociationId = profileResourceAssociationId
     }
 }
@@ -777,16 +747,15 @@ public struct GetProfileResourceAssociationOutput: Swift.Sendable {
 
     public init(
         profileResourceAssociation: Route53ProfilesClientTypes.ProfileResourceAssociation? = nil
-    )
-    {
+    ) {
         self.profileResourceAssociation = profileResourceAssociation
     }
 }
 
 /// The NextToken you provided isn;t valid.
-public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -801,8 +770,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -822,8 +790,7 @@ public struct ListProfileAssociationsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         profileId: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.profileId = profileId
@@ -840,8 +807,7 @@ public struct ListProfileAssociationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         profileAssociations: [Route53ProfilesClientTypes.ProfileAssociation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.profileAssociations = profileAssociations
     }
@@ -863,8 +829,7 @@ public struct ListProfileResourceAssociationsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         profileId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.profileId = profileId
@@ -881,8 +846,7 @@ public struct ListProfileResourceAssociationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         profileResourceAssociations: [Route53ProfilesClientTypes.ProfileResourceAssociation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.profileResourceAssociations = profileResourceAssociations
     }
@@ -897,8 +861,7 @@ public struct ListProfilesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -922,8 +885,7 @@ extension Route53ProfilesClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             shareStatus: Route53ProfilesClientTypes.ShareStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.id = id
             self.name = name
@@ -941,8 +903,7 @@ public struct ListProfilesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         profileSummaries: [Route53ProfilesClientTypes.ProfileSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.profileSummaries = profileSummaries
     }
@@ -955,8 +916,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -968,8 +928,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -985,8 +944,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1008,8 +966,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1033,8 +990,7 @@ public struct UpdateProfileResourceAssociationInput: Swift.Sendable {
         name: Swift.String? = nil,
         profileResourceAssociationId: Swift.String? = nil,
         resourceProperties: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.profileResourceAssociationId = profileResourceAssociationId
         self.resourceProperties = resourceProperties
@@ -1047,8 +1003,7 @@ public struct UpdateProfileResourceAssociationOutput: Swift.Sendable {
 
     public init(
         profileResourceAssociation: Route53ProfilesClientTypes.ProfileResourceAssociation? = nil
-    )
-    {
+    ) {
         self.profileResourceAssociation = profileResourceAssociation
     }
 }

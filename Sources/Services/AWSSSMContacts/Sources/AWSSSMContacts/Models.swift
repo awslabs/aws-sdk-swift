@@ -58,9 +58,9 @@ extension SSMContactsClientTypes {
 }
 
 /// You don't have sufficient access to perform this operation.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -76,16 +76,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Unexpected error occurred while processing the request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Advice to clients on when the call can be safely retried
@@ -104,17 +103,16 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int = 0
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
 }
 
 /// Request references a resource that doesn't exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Hypothetical resource identifier that was not found
@@ -138,8 +136,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -147,9 +144,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Service Quotas requirement to identify originating service
@@ -174,8 +171,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int = 0,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -197,8 +193,7 @@ extension SSMContactsClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -241,9 +236,9 @@ extension SSMContactsClientTypes {
 }
 
 /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The fields that caused the error
         public internal(set) var fields: [SSMContactsClientTypes.ValidationExceptionField]? = nil
         /// This member is required.
@@ -265,8 +260,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fields: [SSMContactsClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: SSMContactsClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fields = fields
         self.properties.message = message
         self.properties.reason = reason
@@ -326,8 +320,7 @@ public struct AcceptPageInput: Swift.Sendable {
         contactChannelId: Swift.String? = nil,
         note: Swift.String? = nil,
         pageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptCode = acceptCode
         self.acceptCodeValidation = acceptCodeValidation
         self.acceptType = acceptType
@@ -353,8 +346,7 @@ public struct ActivateContactChannelInput: Swift.Sendable {
     public init(
         activationCode: Swift.String? = nil,
         contactChannelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.activationCode = activationCode
         self.contactChannelId = contactChannelId
     }
@@ -407,8 +399,7 @@ extension SSMContactsClientTypes {
         public init(
             contactChannelId: Swift.String? = nil,
             retryIntervalInMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.contactChannelId = contactChannelId
             self.retryIntervalInMinutes = retryIntervalInMinutes
         }
@@ -461,8 +452,7 @@ extension SSMContactsClientTypes {
         public init(
             dependentResourceIds: [Swift.String]? = nil,
             relationType: Swift.String? = nil
-        )
-        {
+        ) {
             self.dependentResourceIds = dependentResourceIds
             self.relationType = relationType
         }
@@ -470,9 +460,9 @@ extension SSMContactsClientTypes {
 }
 
 /// Updating or deleting a resource causes an inconsistent state.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// List of dependent entities containing information on relation type and resourceArns linked to the resource in use
         public internal(set) var dependentEntities: [SSMContactsClientTypes.DependentEntity]? = nil
         /// This member is required.
@@ -499,8 +489,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.dependentEntities = dependentEntities
         self.properties.message = message
         self.properties.resourceId = resourceId
@@ -561,8 +550,7 @@ extension SSMContactsClientTypes {
             contactArn: Swift.String? = nil,
             displayName: Swift.String? = nil,
             type: SSMContactsClientTypes.ContactType? = nil
-        )
-        {
+        ) {
             self.alias = alias
             self.contactArn = contactArn
             self.displayName = displayName
@@ -586,8 +574,7 @@ extension SSMContactsClientTypes {
 
         public init(
             simpleAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.simpleAddress = simpleAddress
         }
     }
@@ -628,8 +615,7 @@ extension SSMContactsClientTypes {
             deliveryAddress: SSMContactsClientTypes.ContactChannelAddress? = nil,
             name: Swift.String? = nil,
             type: SSMContactsClientTypes.ChannelType? = nil
-        )
-        {
+        ) {
             self.activationStatus = activationStatus
             self.contactArn = contactArn
             self.contactChannelArn = contactChannelArn
@@ -653,8 +639,7 @@ extension SSMContactsClientTypes {
         public init(
             contactId: Swift.String? = nil,
             isEssential: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.contactId = contactId
             self.isEssential = isEssential
         }
@@ -675,8 +660,7 @@ extension SSMContactsClientTypes {
         public init(
             hourOfDay: Swift.Int = 0,
             minuteOfHour: Swift.Int = 0
-        )
-        {
+        ) {
             self.hourOfDay = hourOfDay
             self.minuteOfHour = minuteOfHour
         }
@@ -695,8 +679,7 @@ extension SSMContactsClientTypes {
         public init(
             end: SSMContactsClientTypes.HandOffTime? = nil,
             start: SSMContactsClientTypes.HandOffTime? = nil
-        )
-        {
+        ) {
             self.end = end
             self.start = start
         }
@@ -704,9 +687,9 @@ extension SSMContactsClientTypes {
 }
 
 /// The operation failed to due an encryption key error.
-public struct DataEncryptionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DataEncryptionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -722,16 +705,15 @@ public struct DataEncryptionException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Request would cause a service quota to be exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Service Quotas requirement to identify originating service
@@ -761,8 +743,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -783,8 +764,7 @@ extension SSMContactsClientTypes {
         public init(
             channelTargetInfo: SSMContactsClientTypes.ChannelTargetInfo? = nil,
             contactTargetInfo: SSMContactsClientTypes.ContactTargetInfo? = nil
-        )
-        {
+        ) {
             self.channelTargetInfo = channelTargetInfo
             self.contactTargetInfo = contactTargetInfo
         }
@@ -805,8 +785,7 @@ extension SSMContactsClientTypes {
         public init(
             durationInMinutes: Swift.Int? = nil,
             targets: [SSMContactsClientTypes.Target]? = nil
-        )
-        {
+        ) {
             self.durationInMinutes = durationInMinutes
             self.targets = targets
         }
@@ -825,8 +804,7 @@ extension SSMContactsClientTypes {
         public init(
             rotationIds: [Swift.String]? = nil,
             stages: [SSMContactsClientTypes.Stage]? = nil
-        )
-        {
+        ) {
             self.rotationIds = rotationIds
             self.stages = stages
         }
@@ -845,8 +823,7 @@ extension SSMContactsClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -877,8 +854,7 @@ public struct CreateContactInput: Swift.Sendable {
         plan: SSMContactsClientTypes.Plan? = nil,
         tags: [SSMContactsClientTypes.Tag]? = nil,
         type: SSMContactsClientTypes.ContactType? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.displayName = displayName
         self.idempotencyToken = idempotencyToken
@@ -895,8 +871,7 @@ public struct CreateContactOutput: Swift.Sendable {
 
     public init(
         contactArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactArn = contactArn
     }
 }
@@ -938,8 +913,7 @@ public struct CreateContactChannelInput: Swift.Sendable {
         idempotencyToken: Swift.String? = nil,
         name: Swift.String? = nil,
         type: SSMContactsClientTypes.ChannelType? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.deferActivation = deferActivation
         self.deliveryAddress = deliveryAddress
@@ -956,8 +930,7 @@ public struct CreateContactChannelOutput: Swift.Sendable {
 
     public init(
         contactChannelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactChannelArn = contactChannelArn
     }
 }
@@ -976,8 +949,7 @@ extension SSMContactsClientTypes {
         public init(
             dayOfMonth: Swift.Int? = nil,
             handOffTime: SSMContactsClientTypes.HandOffTime? = nil
-        )
-        {
+        ) {
             self.dayOfMonth = dayOfMonth
             self.handOffTime = handOffTime
         }
@@ -1042,8 +1014,7 @@ extension SSMContactsClientTypes {
         public init(
             dayOfWeek: SSMContactsClientTypes.DayOfWeek? = nil,
             handOffTime: SSMContactsClientTypes.HandOffTime? = nil
-        )
-        {
+        ) {
             self.dayOfWeek = dayOfWeek
             self.handOffTime = handOffTime
         }
@@ -1076,8 +1047,7 @@ extension SSMContactsClientTypes {
             recurrenceMultiplier: Swift.Int? = nil,
             shiftCoverages: [Swift.String: [SSMContactsClientTypes.CoverageTime]]? = nil,
             weeklySettings: [SSMContactsClientTypes.WeeklySetting]? = nil
-        )
-        {
+        ) {
             self.dailySettings = dailySettings
             self.monthlySettings = monthlySettings
             self.numberOfOnCalls = numberOfOnCalls
@@ -1116,8 +1086,7 @@ public struct CreateRotationInput: Swift.Sendable {
         startTime: Foundation.Date? = nil,
         tags: [SSMContactsClientTypes.Tag]? = nil,
         timeZoneId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactIds = contactIds
         self.idempotencyToken = idempotencyToken
         self.name = name
@@ -1135,8 +1104,7 @@ public struct CreateRotationOutput: Swift.Sendable {
 
     public init(
         rotationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.rotationArn = rotationArn
     }
 }
@@ -1163,8 +1131,7 @@ public struct CreateRotationOverrideInput: Swift.Sendable {
         newContactIds: [Swift.String]? = nil,
         rotationId: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.idempotencyToken = idempotencyToken
         self.newContactIds = newContactIds
@@ -1180,8 +1147,7 @@ public struct CreateRotationOverrideOutput: Swift.Sendable {
 
     public init(
         rotationOverrideId: Swift.String? = nil
-    )
-    {
+    ) {
         self.rotationOverrideId = rotationOverrideId
     }
 }
@@ -1193,8 +1159,7 @@ public struct DeactivateContactChannelInput: Swift.Sendable {
 
     public init(
         contactChannelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactChannelId = contactChannelId
     }
 }
@@ -1211,8 +1176,7 @@ public struct DeleteContactInput: Swift.Sendable {
 
     public init(
         contactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
     }
 }
@@ -1229,8 +1193,7 @@ public struct DeleteContactChannelInput: Swift.Sendable {
 
     public init(
         contactChannelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactChannelId = contactChannelId
     }
 }
@@ -1247,8 +1210,7 @@ public struct DeleteRotationInput: Swift.Sendable {
 
     public init(
         rotationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.rotationId = rotationId
     }
 }
@@ -1269,8 +1231,7 @@ public struct DeleteRotationOverrideInput: Swift.Sendable {
     public init(
         rotationId: Swift.String? = nil,
         rotationOverrideId: Swift.String? = nil
-    )
-    {
+    ) {
         self.rotationId = rotationId
         self.rotationOverrideId = rotationOverrideId
     }
@@ -1288,8 +1249,7 @@ public struct DescribeEngagementInput: Swift.Sendable {
 
     public init(
         engagementId: Swift.String? = nil
-    )
-    {
+    ) {
         self.engagementId = engagementId
     }
 }
@@ -1332,8 +1292,7 @@ public struct DescribeEngagementOutput: Swift.Sendable {
         startTime: Foundation.Date? = nil,
         stopTime: Foundation.Date? = nil,
         subject: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactArn = contactArn
         self.content = content
         self.engagementArn = engagementArn
@@ -1354,8 +1313,7 @@ public struct DescribePageInput: Swift.Sendable {
 
     public init(
         pageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.pageId = pageId
     }
 }
@@ -1405,8 +1363,7 @@ public struct DescribePageOutput: Swift.Sendable {
         sender: Swift.String? = nil,
         sentTime: Foundation.Date? = nil,
         subject: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactArn = contactArn
         self.content = content
         self.deliveryTime = deliveryTime
@@ -1449,8 +1406,7 @@ extension SSMContactsClientTypes {
             sender: Swift.String? = nil,
             startTime: Foundation.Date? = nil,
             stopTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.contactArn = contactArn
             self.engagementArn = engagementArn
             self.incidentId = incidentId
@@ -1468,8 +1424,7 @@ public struct GetContactInput: Swift.Sendable {
 
     public init(
         contactId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
     }
 }
@@ -1496,8 +1451,7 @@ public struct GetContactOutput: Swift.Sendable {
         displayName: Swift.String? = nil,
         plan: SSMContactsClientTypes.Plan? = nil,
         type: SSMContactsClientTypes.ContactType? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.contactArn = contactArn
         self.displayName = displayName
@@ -1513,8 +1467,7 @@ public struct GetContactChannelInput: Swift.Sendable {
 
     public init(
         contactChannelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactChannelId = contactChannelId
     }
 }
@@ -1545,8 +1498,7 @@ public struct GetContactChannelOutput: Swift.Sendable {
         deliveryAddress: SSMContactsClientTypes.ContactChannelAddress? = nil,
         name: Swift.String? = nil,
         type: SSMContactsClientTypes.ChannelType? = nil
-    )
-    {
+    ) {
         self.activationStatus = activationStatus
         self.contactArn = contactArn
         self.contactChannelArn = contactChannelArn
@@ -1563,8 +1515,7 @@ public struct GetContactPolicyInput: Swift.Sendable {
 
     public init(
         contactArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactArn = contactArn
     }
 }
@@ -1578,8 +1529,7 @@ public struct GetContactPolicyOutput: Swift.Sendable {
     public init(
         contactArn: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactArn = contactArn
         self.policy = policy
     }
@@ -1592,8 +1542,7 @@ public struct GetRotationInput: Swift.Sendable {
 
     public init(
         rotationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.rotationId = rotationId
     }
 }
@@ -1625,8 +1574,7 @@ public struct GetRotationOutput: Swift.Sendable {
         rotationArn: Swift.String? = nil,
         startTime: Foundation.Date? = nil,
         timeZoneId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactIds = contactIds
         self.name = name
         self.recurrence = recurrence
@@ -1647,8 +1595,7 @@ public struct GetRotationOverrideInput: Swift.Sendable {
     public init(
         rotationId: Swift.String? = nil,
         rotationOverrideId: Swift.String? = nil
-    )
-    {
+    ) {
         self.rotationId = rotationId
         self.rotationOverrideId = rotationOverrideId
     }
@@ -1675,8 +1622,7 @@ public struct GetRotationOverrideOutput: Swift.Sendable {
         rotationArn: Swift.String? = nil,
         rotationOverrideId: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createTime = createTime
         self.endTime = endTime
         self.newContactIds = newContactIds
@@ -1699,8 +1645,7 @@ public struct ListContactChannelsInput: Swift.Sendable {
         contactId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1717,8 +1662,7 @@ public struct ListContactChannelsOutput: Swift.Sendable {
     public init(
         contactChannels: [SSMContactsClientTypes.ContactChannel]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactChannels = contactChannels
         self.nextToken = nextToken
     }
@@ -1739,8 +1683,7 @@ public struct ListContactsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         type: SSMContactsClientTypes.ContactType? = nil
-    )
-    {
+    ) {
         self.aliasPrefix = aliasPrefix
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1757,8 +1700,7 @@ public struct ListContactsOutput: Swift.Sendable {
     public init(
         contacts: [SSMContactsClientTypes.Contact]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contacts = contacts
         self.nextToken = nextToken
     }
@@ -1776,8 +1718,7 @@ extension SSMContactsClientTypes {
         public init(
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -1799,8 +1740,7 @@ public struct ListEngagementsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         timeRangeValue: SSMContactsClientTypes.TimeRange? = nil
-    )
-    {
+    ) {
         self.incidentId = incidentId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1818,8 +1758,7 @@ public struct ListEngagementsOutput: Swift.Sendable {
     public init(
         engagements: [SSMContactsClientTypes.Engagement]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.engagements = engagements
         self.nextToken = nextToken
     }
@@ -1838,8 +1777,7 @@ public struct ListPageReceiptsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         pageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.pageId = pageId
@@ -1904,8 +1842,7 @@ extension SSMContactsClientTypes {
             receiptInfo: Swift.String? = nil,
             receiptTime: Foundation.Date? = nil,
             receiptType: SSMContactsClientTypes.ReceiptType? = nil
-        )
-        {
+        ) {
             self.contactChannelArn = contactChannelArn
             self.receiptInfo = receiptInfo
             self.receiptTime = receiptTime
@@ -1923,8 +1860,7 @@ public struct ListPageReceiptsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         receipts: [SSMContactsClientTypes.Receipt]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.receipts = receipts
     }
@@ -1940,8 +1876,7 @@ public struct ListPageResolutionsInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pageId: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageId = pageId
     }
@@ -1964,8 +1899,7 @@ extension SSMContactsClientTypes {
             contactArn: Swift.String? = nil,
             stageIndex: Swift.Int? = 0,
             type: SSMContactsClientTypes.ContactType? = nil
-        )
-        {
+        ) {
             self.contactArn = contactArn
             self.stageIndex = stageIndex
             self.type = type
@@ -1983,8 +1917,7 @@ public struct ListPageResolutionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pageResolutions: [SSMContactsClientTypes.ResolutionContact]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageResolutions = pageResolutions
     }
@@ -2003,8 +1936,7 @@ public struct ListPagesByContactInput: Swift.Sendable {
         contactId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2045,8 +1977,7 @@ extension SSMContactsClientTypes {
             readTime: Foundation.Date? = nil,
             sender: Swift.String? = nil,
             sentTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.contactArn = contactArn
             self.deliveryTime = deliveryTime
             self.engagementArn = engagementArn
@@ -2069,8 +2000,7 @@ public struct ListPagesByContactOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pages: [SSMContactsClientTypes.Page]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pages = pages
     }
@@ -2089,8 +2019,7 @@ public struct ListPagesByEngagementInput: Swift.Sendable {
         engagementId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.engagementId = engagementId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2107,8 +2036,7 @@ public struct ListPagesByEngagementOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pages: [SSMContactsClientTypes.Page]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pages = pages
     }
@@ -2129,8 +2057,7 @@ extension SSMContactsClientTypes {
             endTime: Foundation.Date? = nil,
             newMembers: [Swift.String]? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.newMembers = newMembers
             self.startTime = startTime
@@ -2172,8 +2099,7 @@ public struct ListPreviewRotationShiftsInput: Swift.Sendable {
         rotationStartTime: Foundation.Date? = nil,
         startTime: Foundation.Date? = nil,
         timeZoneId: Swift.String? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.maxResults = maxResults
         self.members = members
@@ -2196,8 +2122,7 @@ extension SSMContactsClientTypes {
 
         public init(
             overriddenContactIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.overriddenContactIds = overriddenContactIds
         }
     }
@@ -2255,8 +2180,7 @@ extension SSMContactsClientTypes {
             shiftDetails: SSMContactsClientTypes.ShiftDetails? = nil,
             startTime: Foundation.Date? = nil,
             type: SSMContactsClientTypes.ShiftType? = nil
-        )
-        {
+        ) {
             self.contactIds = contactIds
             self.endTime = endTime
             self.shiftDetails = shiftDetails
@@ -2275,8 +2199,7 @@ public struct ListPreviewRotationShiftsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         rotationShifts: [SSMContactsClientTypes.RotationShift]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.rotationShifts = rotationShifts
     }
@@ -2303,8 +2226,7 @@ public struct ListRotationOverridesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         rotationId: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2339,8 +2261,7 @@ extension SSMContactsClientTypes {
             newContactIds: [Swift.String]? = nil,
             rotationOverrideId: Swift.String? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createTime = createTime
             self.endTime = endTime
             self.newContactIds = newContactIds
@@ -2359,8 +2280,7 @@ public struct ListRotationOverridesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         rotationOverrides: [SSMContactsClientTypes.RotationOverride]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.rotationOverrides = rotationOverrides
     }
@@ -2378,8 +2298,7 @@ public struct ListRotationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         rotationNamePrefix: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.rotationNamePrefix = rotationNamePrefix
@@ -2412,8 +2331,7 @@ extension SSMContactsClientTypes {
             rotationArn: Swift.String? = nil,
             startTime: Foundation.Date? = nil,
             timeZoneId: Swift.String? = nil
-        )
-        {
+        ) {
             self.contactIds = contactIds
             self.name = name
             self.recurrence = recurrence
@@ -2434,8 +2352,7 @@ public struct ListRotationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         rotations: [SSMContactsClientTypes.Rotation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.rotations = rotations
     }
@@ -2461,8 +2378,7 @@ public struct ListRotationShiftsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         rotationId: Swift.String? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2480,8 +2396,7 @@ public struct ListRotationShiftsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         rotationShifts: [SSMContactsClientTypes.RotationShift]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.rotationShifts = rotationShifts
     }
@@ -2494,8 +2409,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -2506,8 +2420,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [SSMContactsClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2523,8 +2436,7 @@ public struct PutContactPolicyInput: Swift.Sendable {
     public init(
         contactArn: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactArn = contactArn
         self.policy = policy
     }
@@ -2542,8 +2454,7 @@ public struct SendActivationCodeInput: Swift.Sendable {
 
     public init(
         contactChannelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactChannelId = contactChannelId
     }
 }
@@ -2584,8 +2495,7 @@ public struct StartEngagementInput: Swift.Sendable {
         publicSubject: Swift.String? = nil,
         sender: Swift.String? = nil,
         subject: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.content = content
         self.idempotencyToken = idempotencyToken
@@ -2604,8 +2514,7 @@ public struct StartEngagementOutput: Swift.Sendable {
 
     public init(
         engagementArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.engagementArn = engagementArn
     }
 }
@@ -2620,8 +2529,7 @@ public struct StopEngagementInput: Swift.Sendable {
     public init(
         engagementId: Swift.String? = nil,
         reason: Swift.String? = nil
-    )
-    {
+    ) {
         self.engagementId = engagementId
         self.reason = reason
     }
@@ -2643,8 +2551,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [SSMContactsClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -2666,8 +2573,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeys = tagKeys
     }
@@ -2691,8 +2597,7 @@ public struct UpdateContactInput: Swift.Sendable {
         contactId: Swift.String? = nil,
         displayName: Swift.String? = nil,
         plan: SSMContactsClientTypes.Plan? = nil
-    )
-    {
+    ) {
         self.contactId = contactId
         self.displayName = displayName
         self.plan = plan
@@ -2717,8 +2622,7 @@ public struct UpdateContactChannelInput: Swift.Sendable {
         contactChannelId: Swift.String? = nil,
         deliveryAddress: SSMContactsClientTypes.ContactChannelAddress? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactChannelId = contactChannelId
         self.deliveryAddress = deliveryAddress
         self.name = name
@@ -2750,8 +2654,7 @@ public struct UpdateRotationInput: Swift.Sendable {
         rotationId: Swift.String? = nil,
         startTime: Foundation.Date? = nil,
         timeZoneId: Swift.String? = nil
-    )
-    {
+    ) {
         self.contactIds = contactIds
         self.recurrence = recurrence
         self.rotationId = rotationId

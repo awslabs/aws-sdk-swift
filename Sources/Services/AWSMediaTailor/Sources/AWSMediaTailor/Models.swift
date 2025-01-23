@@ -57,8 +57,7 @@ extension MediaTailorClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -106,8 +105,7 @@ extension MediaTailorClientTypes {
         public init(
             sourceLocationName: Swift.String? = nil,
             vodSourceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceLocationName = sourceLocationName
             self.vodSourceName = vodSourceName
         }
@@ -132,8 +130,7 @@ extension MediaTailorClientTypes {
             availsExpected: Swift.Int? = nil,
             spliceEventId: Swift.Int? = nil,
             uniqueProgramId: Swift.Int? = nil
-        )
-        {
+        ) {
             self.availNum = availNum
             self.availsExpected = availsExpected
             self.spliceEventId = spliceEventId
@@ -172,8 +169,7 @@ extension MediaTailorClientTypes {
             segmentsExpected: Swift.Int? = nil,
             subSegmentNum: Swift.Int? = nil,
             subSegmentsExpected: Swift.Int? = nil
-        )
-        {
+        ) {
             self.segmentNum = segmentNum
             self.segmentationEventId = segmentationEventId
             self.segmentationTypeId = segmentationTypeId
@@ -195,8 +191,7 @@ extension MediaTailorClientTypes {
 
         public init(
             segmentationDescriptors: [MediaTailorClientTypes.SegmentationDescriptor]? = nil
-        )
-        {
+        ) {
             self.segmentationDescriptors = segmentationDescriptors
         }
     }
@@ -227,8 +222,7 @@ extension MediaTailorClientTypes {
             slate: MediaTailorClientTypes.SlateSource? = nil,
             spliceInsertMessage: MediaTailorClientTypes.SpliceInsertMessage? = nil,
             timeSignalMessage: MediaTailorClientTypes.TimeSignalMessage? = nil
-        )
-        {
+        ) {
             self.adBreakMetadata = adBreakMetadata
             self.messageType = messageType
             self.offsetMillis = offsetMillis
@@ -300,8 +294,7 @@ extension MediaTailorClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             relatedResourceArns: [Swift.String]? = nil,
             resourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.alertCode = alertCode
             self.alertMessage = alertMessage
             self.category = category
@@ -324,8 +317,7 @@ extension MediaTailorClientTypes {
         public init(
             endOffsetMillis: Swift.Int? = nil,
             startOffsetMillis: Swift.Int? = nil
-        )
-        {
+        ) {
             self.endOffsetMillis = endOffsetMillis
             self.startOffsetMillis = startOffsetMillis
         }
@@ -359,8 +351,7 @@ extension MediaTailorClientTypes {
             scheduledStartTimeMillis: Swift.Int? = nil,
             sourceLocationName: Swift.String? = nil,
             vodSourceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.adBreaks = adBreaks
             self.clipRange = clipRange
             self.durationMillis = durationMillis
@@ -384,8 +375,7 @@ extension MediaTailorClientTypes {
         public init(
             alternateMedia: [MediaTailorClientTypes.AlternateMedia]? = nil,
             audience: Swift.String? = nil
-        )
-        {
+        ) {
             self.alternateMedia = alternateMedia
             self.audience = audience
         }
@@ -432,8 +422,7 @@ extension MediaTailorClientTypes {
         public init(
             dynamicVariable: Swift.String? = nil,
             `operator`: MediaTailorClientTypes.Operator? = nil
-        )
-        {
+        ) {
             self.dynamicVariable = dynamicVariable
             self.`operator` = `operator`
         }
@@ -475,8 +464,7 @@ extension MediaTailorClientTypes {
 
         public init(
             logTypes: [MediaTailorClientTypes.LogType]? = nil
-        )
-        {
+        ) {
             self.logTypes = logTypes
         }
     }
@@ -500,8 +488,7 @@ extension MediaTailorClientTypes {
             minBufferTimeSeconds: Swift.Int? = nil,
             minUpdatePeriodSeconds: Swift.Int? = nil,
             suggestedPresentationDelaySeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.manifestWindowSeconds = manifestWindowSeconds
             self.minBufferTimeSeconds = minBufferTimeSeconds
             self.minUpdatePeriodSeconds = minUpdatePeriodSeconds
@@ -551,8 +538,7 @@ extension MediaTailorClientTypes {
         public init(
             adMarkupType: [MediaTailorClientTypes.AdMarkupType]? = nil,
             manifestWindowSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.adMarkupType = adMarkupType
             self.manifestWindowSeconds = manifestWindowSeconds
         }
@@ -583,8 +569,7 @@ extension MediaTailorClientTypes {
             manifestName: Swift.String? = nil,
             playbackUrl: Swift.String? = nil,
             sourceGroup: Swift.String? = nil
-        )
-        {
+        ) {
             self.dashPlaylistSettings = dashPlaylistSettings
             self.hlsPlaylistSettings = hlsPlaylistSettings
             self.manifestName = manifestName
@@ -643,8 +628,7 @@ extension MediaTailorClientTypes {
             playbackMode: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             tier: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.audiences = audiences
             self.channelName = channelName
@@ -708,8 +692,7 @@ extension MediaTailorClientTypes {
             path: Swift.String? = nil,
             sourceGroup: Swift.String? = nil,
             type: MediaTailorClientTypes.ModelType? = nil
-        )
-        {
+        ) {
             self.path = path
             self.sourceGroup = sourceGroup
             self.type = type
@@ -748,8 +731,7 @@ extension MediaTailorClientTypes {
             liveSourceName: Swift.String? = nil,
             sourceLocationName: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.httpPackageConfigurations = httpPackageConfigurations
@@ -837,8 +819,7 @@ extension MediaTailorClientTypes {
             fillPolicy: MediaTailorClientTypes.FillPolicy? = nil,
             mode: MediaTailorClientTypes.Mode? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.fillPolicy = fillPolicy
             self.mode = mode
             self.value = value
@@ -858,8 +839,7 @@ extension MediaTailorClientTypes {
         public init(
             endUrl: Swift.String? = nil,
             startUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.endUrl = endUrl
             self.startUrl = startUrl
         }
@@ -878,8 +858,7 @@ extension MediaTailorClientTypes {
         public init(
             adSegmentUrlPrefix: Swift.String? = nil,
             contentSegmentUrlPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.adSegmentUrlPrefix = adSegmentUrlPrefix
             self.contentSegmentUrlPrefix = contentSegmentUrlPrefix
         }
@@ -930,8 +909,7 @@ extension MediaTailorClientTypes {
             manifestEndpointPrefix: Swift.String? = nil,
             mpdLocation: Swift.String? = nil,
             originManifestType: MediaTailorClientTypes.OriginManifestType? = nil
-        )
-        {
+        ) {
             self.manifestEndpointPrefix = manifestEndpointPrefix
             self.mpdLocation = mpdLocation
             self.originManifestType = originManifestType
@@ -948,8 +926,7 @@ extension MediaTailorClientTypes {
 
         public init(
             manifestEndpointPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.manifestEndpointPrefix = manifestEndpointPrefix
         }
     }
@@ -997,8 +974,7 @@ extension MediaTailorClientTypes {
         public init(
             adDecisionServerUrl: Swift.String? = nil,
             maxDurationSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.maxDurationSeconds = maxDurationSeconds
         }
@@ -1015,8 +991,7 @@ extension MediaTailorClientTypes {
 
         public init(
             percentEnabled: Swift.Int? = nil
-        )
-        {
+        ) {
             self.percentEnabled = percentEnabled
         }
     }
@@ -1031,8 +1006,7 @@ extension MediaTailorClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -1047,8 +1021,7 @@ extension MediaTailorClientTypes {
 
         public init(
             adMarkerPassthrough: MediaTailorClientTypes.AdMarkerPassthrough? = nil
-        )
-        {
+        ) {
             self.adMarkerPassthrough = adMarkerPassthrough
         }
     }
@@ -1120,8 +1093,7 @@ extension MediaTailorClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             transcodeProfileName: Swift.String? = nil,
             videoContentSourceUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.adDecisionServerUrl = adDecisionServerUrl
             self.availSuppression = availSuppression
             self.bumper = bumper
@@ -1162,8 +1134,7 @@ extension MediaTailorClientTypes {
             availMatchingCriteria: [MediaTailorClientTypes.AvailMatchingCriteria]? = nil,
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.availMatchingCriteria = availMatchingCriteria
             self.endTime = endTime
             self.startTime = startTime
@@ -1187,8 +1158,7 @@ extension MediaTailorClientTypes {
             dynamicVariables: [Swift.String: Swift.String]? = nil,
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.dynamicVariables = dynamicVariables
             self.endTime = endTime
             self.startTime = startTime
@@ -1225,8 +1195,7 @@ extension MediaTailorClientTypes {
             playbackConfigurationName: Swift.String? = nil,
             retrieval: MediaTailorClientTypes.PrefetchRetrieval? = nil,
             streamId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.consumption = consumption
             self.name = name
@@ -1255,8 +1224,7 @@ extension MediaTailorClientTypes {
             approximateStartTime: Foundation.Date? = nil,
             sourceLocationName: Swift.String? = nil,
             vodSourceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.approximateDurationSeconds = approximateDurationSeconds
             self.approximateStartTime = approximateStartTime
             self.sourceLocationName = sourceLocationName
@@ -1340,8 +1308,7 @@ extension MediaTailorClientTypes {
             scheduleEntryType: MediaTailorClientTypes.ScheduleEntryType? = nil,
             sourceLocationName: Swift.String? = nil,
             vodSourceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.approximateDurationSeconds = approximateDurationSeconds
             self.approximateStartTime = approximateStartTime
             self.arn = arn
@@ -1369,8 +1336,7 @@ extension MediaTailorClientTypes {
         public init(
             baseUrl: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.baseUrl = baseUrl
             self.name = name
         }
@@ -1424,8 +1390,7 @@ extension MediaTailorClientTypes {
             headerName: Swift.String? = nil,
             secretArn: Swift.String? = nil,
             secretStringKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.headerName = headerName
             self.secretArn = secretArn
             self.secretStringKey = secretStringKey
@@ -1445,8 +1410,7 @@ extension MediaTailorClientTypes {
         public init(
             accessType: MediaTailorClientTypes.AccessType? = nil,
             secretsManagerAccessTokenConfiguration: MediaTailorClientTypes.SecretsManagerAccessTokenConfiguration? = nil
-        )
-        {
+        ) {
             self.accessType = accessType
             self.secretsManagerAccessTokenConfiguration = secretsManagerAccessTokenConfiguration
         }
@@ -1462,8 +1426,7 @@ extension MediaTailorClientTypes {
 
         public init(
             baseUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.baseUrl = baseUrl
         }
     }
@@ -1479,8 +1442,7 @@ extension MediaTailorClientTypes {
 
         public init(
             baseUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.baseUrl = baseUrl
         }
     }
@@ -1522,8 +1484,7 @@ extension MediaTailorClientTypes {
             segmentDeliveryConfigurations: [MediaTailorClientTypes.SegmentDeliveryConfiguration]? = nil,
             sourceLocationName: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.accessConfiguration = accessConfiguration
             self.arn = arn
             self.creationTime = creationTime
@@ -1568,8 +1529,7 @@ extension MediaTailorClientTypes {
             sourceLocationName: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             vodSourceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.httpPackageConfigurations = httpPackageConfigurations
@@ -1591,17 +1551,16 @@ extension MediaTailorClientTypes {
 
         public init(
             offsetMillis: Swift.Int? = nil
-        )
-        {
+        ) {
             self.offsetMillis = offsetMillis
         }
     }
 }
 
 /// A request contains unexpected data.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1616,8 +1575,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1629,8 +1587,7 @@ public struct DeleteChannelPolicyInput: Swift.Sendable {
 
     public init(
         channelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelName = channelName
     }
 }
@@ -1647,8 +1604,7 @@ public struct GetChannelPolicyInput: Swift.Sendable {
 
     public init(
         channelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelName = channelName
     }
 }
@@ -1659,8 +1615,7 @@ public struct GetChannelPolicyOutput: Swift.Sendable {
 
     public init(
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -1676,8 +1631,7 @@ public struct PutChannelPolicyInput: Swift.Sendable {
     public init(
         channelName: Swift.String? = nil,
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelName = channelName
         self.policy = policy
     }
@@ -1699,8 +1653,7 @@ public struct ConfigureLogsForChannelInput: Swift.Sendable {
     public init(
         channelName: Swift.String? = nil,
         logTypes: [MediaTailorClientTypes.LogType]? = nil
-    )
-    {
+    ) {
         self.channelName = channelName
         self.logTypes = logTypes
     }
@@ -1715,8 +1668,7 @@ public struct ConfigureLogsForChannelOutput: Swift.Sendable {
     public init(
         channelName: Swift.String? = nil,
         logTypes: [MediaTailorClientTypes.LogType]? = nil
-    )
-    {
+    ) {
         self.channelName = channelName
         self.logTypes = logTypes
     }
@@ -1742,8 +1694,7 @@ extension MediaTailorClientTypes {
             hlsPlaylistSettings: MediaTailorClientTypes.HlsPlaylistSettings? = nil,
             manifestName: Swift.String? = nil,
             sourceGroup: Swift.String? = nil
-        )
-        {
+        ) {
             self.dashPlaylistSettings = dashPlaylistSettings
             self.hlsPlaylistSettings = hlsPlaylistSettings
             self.manifestName = manifestName
@@ -1820,8 +1771,7 @@ extension MediaTailorClientTypes {
 
         public init(
             maxTimeDelaySeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxTimeDelaySeconds = maxTimeDelaySeconds
         }
     }
@@ -1857,8 +1807,7 @@ public struct CreateChannelInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         tier: MediaTailorClientTypes.Tier? = nil,
         timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration? = nil
-    )
-    {
+    ) {
         self.audiences = audiences
         self.channelName = channelName
         self.fillerSlate = fillerSlate
@@ -1938,8 +1887,7 @@ public struct CreateChannelOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         tier: Swift.String? = nil,
         timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.audiences = audiences
         self.channelName = channelName
@@ -1962,8 +1910,7 @@ public struct DeleteChannelInput: Swift.Sendable {
 
     public init(
         channelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelName = channelName
     }
 }
@@ -1980,8 +1927,7 @@ public struct DescribeChannelInput: Swift.Sendable {
 
     public init(
         channelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelName = channelName
     }
 }
@@ -2029,8 +1975,7 @@ public struct DescribeChannelOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         tier: Swift.String? = nil,
         timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.audiences = audiences
         self.channelName = channelName
@@ -2066,8 +2011,7 @@ public struct GetChannelScheduleInput: Swift.Sendable {
         durationMinutes: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.audience = audience
         self.channelName = channelName
         self.durationMinutes = durationMinutes
@@ -2085,8 +2029,7 @@ public struct GetChannelScheduleOutput: Swift.Sendable {
     public init(
         items: [MediaTailorClientTypes.ScheduleEntry]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -2101,8 +2044,7 @@ public struct ListChannelsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2117,8 +2059,7 @@ public struct ListChannelsOutput: Swift.Sendable {
     public init(
         items: [MediaTailorClientTypes.Channel]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -2176,8 +2117,7 @@ extension MediaTailorClientTypes {
             relativeProgram: Swift.String? = nil,
             scheduledStartTimeMillis: Swift.Int? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.durationMillis = durationMillis
             self.relativePosition = relativePosition
             self.relativeProgram = relativeProgram
@@ -2200,8 +2140,7 @@ extension MediaTailorClientTypes {
         public init(
             clipRange: MediaTailorClientTypes.ClipRange? = nil,
             transition: MediaTailorClientTypes.Transition? = nil
-        )
-        {
+        ) {
             self.clipRange = clipRange
             self.transition = transition
         }
@@ -2239,8 +2178,7 @@ public struct CreateProgramInput: Swift.Sendable {
         scheduleConfiguration: MediaTailorClientTypes.ScheduleConfiguration? = nil,
         sourceLocationName: Swift.String? = nil,
         vodSourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.adBreaks = adBreaks
         self.audienceMedia = audienceMedia
         self.channelName = channelName
@@ -2291,8 +2229,7 @@ public struct CreateProgramOutput: Swift.Sendable {
         scheduledStartTime: Foundation.Date? = nil,
         sourceLocationName: Swift.String? = nil,
         vodSourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.adBreaks = adBreaks
         self.arn = arn
         self.audienceMedia = audienceMedia
@@ -2319,8 +2256,7 @@ public struct DeleteProgramInput: Swift.Sendable {
     public init(
         channelName: Swift.String? = nil,
         programName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelName = channelName
         self.programName = programName
     }
@@ -2342,8 +2278,7 @@ public struct DescribeProgramInput: Swift.Sendable {
     public init(
         channelName: Swift.String? = nil,
         programName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelName = channelName
         self.programName = programName
     }
@@ -2388,8 +2323,7 @@ public struct DescribeProgramOutput: Swift.Sendable {
         scheduledStartTime: Foundation.Date? = nil,
         sourceLocationName: Swift.String? = nil,
         vodSourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.adBreaks = adBreaks
         self.arn = arn
         self.audienceMedia = audienceMedia
@@ -2417,8 +2351,7 @@ extension MediaTailorClientTypes {
         public init(
             durationMillis: Swift.Int? = nil,
             scheduledStartTimeMillis: Swift.Int? = nil
-        )
-        {
+        ) {
             self.durationMillis = durationMillis
             self.scheduledStartTimeMillis = scheduledStartTimeMillis
         }
@@ -2437,8 +2370,7 @@ extension MediaTailorClientTypes {
         public init(
             clipRange: MediaTailorClientTypes.ClipRange? = nil,
             transition: MediaTailorClientTypes.UpdateProgramTransition? = nil
-        )
-        {
+        ) {
             self.clipRange = clipRange
             self.transition = transition
         }
@@ -2466,8 +2398,7 @@ public struct UpdateProgramInput: Swift.Sendable {
         channelName: Swift.String? = nil,
         programName: Swift.String? = nil,
         scheduleConfiguration: MediaTailorClientTypes.UpdateProgramScheduleConfiguration? = nil
-    )
-    {
+    ) {
         self.adBreaks = adBreaks
         self.audienceMedia = audienceMedia
         self.channelName = channelName
@@ -2515,8 +2446,7 @@ public struct UpdateProgramOutput: Swift.Sendable {
         scheduledStartTime: Foundation.Date? = nil,
         sourceLocationName: Swift.String? = nil,
         vodSourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.adBreaks = adBreaks
         self.arn = arn
         self.audienceMedia = audienceMedia
@@ -2539,8 +2469,7 @@ public struct StartChannelInput: Swift.Sendable {
 
     public init(
         channelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelName = channelName
     }
 }
@@ -2557,8 +2486,7 @@ public struct StopChannelInput: Swift.Sendable {
 
     public init(
         channelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelName = channelName
     }
 }
@@ -2588,8 +2516,7 @@ public struct UpdateChannelInput: Swift.Sendable {
         fillerSlate: MediaTailorClientTypes.SlateSource? = nil,
         outputs: [MediaTailorClientTypes.RequestOutputItem]? = nil,
         timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration? = nil
-    )
-    {
+    ) {
         self.audiences = audiences
         self.channelName = channelName
         self.fillerSlate = fillerSlate
@@ -2637,8 +2564,7 @@ public struct UpdateChannelOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         tier: Swift.String? = nil,
         timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.audiences = audiences
         self.channelName = channelName
@@ -2666,8 +2592,7 @@ public struct ConfigureLogsForPlaybackConfigurationInput: Swift.Sendable {
     public init(
         percentEnabled: Swift.Int? = nil,
         playbackConfigurationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.percentEnabled = percentEnabled
         self.playbackConfigurationName = playbackConfigurationName
     }
@@ -2683,8 +2608,7 @@ public struct ConfigureLogsForPlaybackConfigurationOutput: Swift.Sendable {
     public init(
         percentEnabled: Swift.Int? = nil,
         playbackConfigurationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.percentEnabled = percentEnabled
         self.playbackConfigurationName = playbackConfigurationName
     }
@@ -2708,8 +2632,7 @@ public struct CreateLiveSourceInput: Swift.Sendable {
         liveSourceName: Swift.String? = nil,
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.httpPackageConfigurations = httpPackageConfigurations
         self.liveSourceName = liveSourceName
         self.sourceLocationName = sourceLocationName
@@ -2741,8 +2664,7 @@ public struct CreateLiveSourceOutput: Swift.Sendable {
         liveSourceName: Swift.String? = nil,
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.httpPackageConfigurations = httpPackageConfigurations
@@ -2775,8 +2697,7 @@ public struct CreatePrefetchScheduleInput: Swift.Sendable {
         playbackConfigurationName: Swift.String? = nil,
         retrieval: MediaTailorClientTypes.PrefetchRetrieval? = nil,
         streamId: Swift.String? = nil
-    )
-    {
+    ) {
         self.consumption = consumption
         self.name = name
         self.playbackConfigurationName = playbackConfigurationName
@@ -2806,8 +2727,7 @@ public struct CreatePrefetchScheduleOutput: Swift.Sendable {
         playbackConfigurationName: Swift.String? = nil,
         retrieval: MediaTailorClientTypes.PrefetchRetrieval? = nil,
         streamId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.consumption = consumption
         self.name = name
@@ -2840,8 +2760,7 @@ public struct CreateSourceLocationInput: Swift.Sendable {
         segmentDeliveryConfigurations: [MediaTailorClientTypes.SegmentDeliveryConfiguration]? = nil,
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.accessConfiguration = accessConfiguration
         self.defaultSegmentDeliveryConfiguration = defaultSegmentDeliveryConfiguration
         self.httpConfiguration = httpConfiguration
@@ -2881,8 +2800,7 @@ public struct CreateSourceLocationOutput: Swift.Sendable {
         segmentDeliveryConfigurations: [MediaTailorClientTypes.SegmentDeliveryConfiguration]? = nil,
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.accessConfiguration = accessConfiguration
         self.arn = arn
         self.creationTime = creationTime
@@ -2913,8 +2831,7 @@ public struct CreateVodSourceInput: Swift.Sendable {
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vodSourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.httpPackageConfigurations = httpPackageConfigurations
         self.sourceLocationName = sourceLocationName
         self.tags = tags
@@ -2946,8 +2863,7 @@ public struct CreateVodSourceOutput: Swift.Sendable {
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vodSourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.httpPackageConfigurations = httpPackageConfigurations
@@ -2970,8 +2886,7 @@ extension MediaTailorClientTypes {
         public init(
             mpdLocation: Swift.String? = nil,
             originManifestType: MediaTailorClientTypes.OriginManifestType? = nil
-        )
-        {
+        ) {
             self.mpdLocation = mpdLocation
             self.originManifestType = originManifestType
         }
@@ -2989,8 +2904,7 @@ public struct DeleteLiveSourceInput: Swift.Sendable {
     public init(
         liveSourceName: Swift.String? = nil,
         sourceLocationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.liveSourceName = liveSourceName
         self.sourceLocationName = sourceLocationName
     }
@@ -3008,8 +2922,7 @@ public struct DeletePlaybackConfigurationInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -3030,8 +2943,7 @@ public struct DeletePrefetchScheduleInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         playbackConfigurationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.playbackConfigurationName = playbackConfigurationName
     }
@@ -3049,8 +2961,7 @@ public struct DeleteSourceLocationInput: Swift.Sendable {
 
     public init(
         sourceLocationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceLocationName = sourceLocationName
     }
 }
@@ -3071,8 +2982,7 @@ public struct DeleteVodSourceInput: Swift.Sendable {
     public init(
         sourceLocationName: Swift.String? = nil,
         vodSourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceLocationName = sourceLocationName
         self.vodSourceName = vodSourceName
     }
@@ -3094,8 +3004,7 @@ public struct DescribeLiveSourceInput: Swift.Sendable {
     public init(
         liveSourceName: Swift.String? = nil,
         sourceLocationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.liveSourceName = liveSourceName
         self.sourceLocationName = sourceLocationName
     }
@@ -3125,8 +3034,7 @@ public struct DescribeLiveSourceOutput: Swift.Sendable {
         liveSourceName: Swift.String? = nil,
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.httpPackageConfigurations = httpPackageConfigurations
@@ -3144,8 +3052,7 @@ public struct DescribeSourceLocationInput: Swift.Sendable {
 
     public init(
         sourceLocationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceLocationName = sourceLocationName
     }
 }
@@ -3180,8 +3087,7 @@ public struct DescribeSourceLocationOutput: Swift.Sendable {
         segmentDeliveryConfigurations: [MediaTailorClientTypes.SegmentDeliveryConfiguration]? = nil,
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.accessConfiguration = accessConfiguration
         self.arn = arn
         self.creationTime = creationTime
@@ -3205,8 +3111,7 @@ public struct DescribeVodSourceInput: Swift.Sendable {
     public init(
         sourceLocationName: Swift.String? = nil,
         vodSourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceLocationName = sourceLocationName
         self.vodSourceName = vodSourceName
     }
@@ -3239,8 +3144,7 @@ public struct DescribeVodSourceOutput: Swift.Sendable {
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vodSourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.adBreakOpportunities = adBreakOpportunities
         self.arn = arn
         self.creationTime = creationTime
@@ -3259,8 +3163,7 @@ public struct GetPlaybackConfigurationInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -3328,8 +3231,7 @@ public struct GetPlaybackConfigurationOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         transcodeProfileName: Swift.String? = nil,
         videoContentSourceUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.adDecisionServerUrl = adDecisionServerUrl
         self.availSuppression = availSuppression
         self.bumper = bumper
@@ -3364,8 +3266,7 @@ public struct GetPrefetchScheduleInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         playbackConfigurationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.playbackConfigurationName = playbackConfigurationName
     }
@@ -3392,8 +3293,7 @@ public struct GetPrefetchScheduleOutput: Swift.Sendable {
         playbackConfigurationName: Swift.String? = nil,
         retrieval: MediaTailorClientTypes.PrefetchRetrieval? = nil,
         streamId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.consumption = consumption
         self.name = name
@@ -3416,8 +3316,7 @@ public struct ListAlertsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceArn = resourceArn
@@ -3433,8 +3332,7 @@ public struct ListAlertsOutput: Swift.Sendable {
     public init(
         items: [MediaTailorClientTypes.Alert]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3453,8 +3351,7 @@ public struct ListLiveSourcesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sourceLocationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.sourceLocationName = sourceLocationName
@@ -3470,8 +3367,7 @@ public struct ListLiveSourcesOutput: Swift.Sendable {
     public init(
         items: [MediaTailorClientTypes.LiveSource]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3486,8 +3382,7 @@ public struct ListPlaybackConfigurationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3502,8 +3397,7 @@ public struct ListPlaybackConfigurationsOutput: Swift.Sendable {
     public init(
         items: [MediaTailorClientTypes.PlaybackConfiguration]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3525,8 +3419,7 @@ public struct ListPrefetchSchedulesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         playbackConfigurationName: Swift.String? = nil,
         streamId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.playbackConfigurationName = playbackConfigurationName
@@ -3543,8 +3436,7 @@ public struct ListPrefetchSchedulesOutput: Swift.Sendable {
     public init(
         items: [MediaTailorClientTypes.PrefetchSchedule]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3559,8 +3451,7 @@ public struct ListSourceLocationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3575,8 +3466,7 @@ public struct ListSourceLocationsOutput: Swift.Sendable {
     public init(
         items: [MediaTailorClientTypes.SourceLocation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3589,8 +3479,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3601,8 +3490,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -3620,8 +3508,7 @@ public struct ListVodSourcesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sourceLocationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.sourceLocationName = sourceLocationName
@@ -3637,8 +3524,7 @@ public struct ListVodSourcesOutput: Swift.Sendable {
     public init(
         items: [MediaTailorClientTypes.VodSource]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3659,8 +3545,7 @@ public struct UpdateLiveSourceInput: Swift.Sendable {
         httpPackageConfigurations: [MediaTailorClientTypes.HttpPackageConfiguration]? = nil,
         liveSourceName: Swift.String? = nil,
         sourceLocationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.httpPackageConfigurations = httpPackageConfigurations
         self.liveSourceName = liveSourceName
         self.sourceLocationName = sourceLocationName
@@ -3691,8 +3576,7 @@ public struct UpdateLiveSourceOutput: Swift.Sendable {
         liveSourceName: Swift.String? = nil,
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.httpPackageConfigurations = httpPackageConfigurations
@@ -3752,8 +3636,7 @@ public struct PutPlaybackConfigurationInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         transcodeProfileName: Swift.String? = nil,
         videoContentSourceUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.adDecisionServerUrl = adDecisionServerUrl
         self.availSuppression = availSuppression
         self.bumper = bumper
@@ -3835,8 +3718,7 @@ public struct PutPlaybackConfigurationOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         transcodeProfileName: Swift.String? = nil,
         videoContentSourceUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.adDecisionServerUrl = adDecisionServerUrl
         self.availSuppression = availSuppression
         self.bumper = bumper
@@ -3880,8 +3762,7 @@ public struct UpdateSourceLocationInput: Swift.Sendable {
         httpConfiguration: MediaTailorClientTypes.HttpConfiguration? = nil,
         segmentDeliveryConfigurations: [MediaTailorClientTypes.SegmentDeliveryConfiguration]? = nil,
         sourceLocationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessConfiguration = accessConfiguration
         self.defaultSegmentDeliveryConfiguration = defaultSegmentDeliveryConfiguration
         self.httpConfiguration = httpConfiguration
@@ -3920,8 +3801,7 @@ public struct UpdateSourceLocationOutput: Swift.Sendable {
         segmentDeliveryConfigurations: [MediaTailorClientTypes.SegmentDeliveryConfiguration]? = nil,
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.accessConfiguration = accessConfiguration
         self.arn = arn
         self.creationTime = creationTime
@@ -3945,8 +3825,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -3963,8 +3842,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -3985,8 +3863,7 @@ public struct UpdateVodSourceInput: Swift.Sendable {
         httpPackageConfigurations: [MediaTailorClientTypes.HttpPackageConfiguration]? = nil,
         sourceLocationName: Swift.String? = nil,
         vodSourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.httpPackageConfigurations = httpPackageConfigurations
         self.sourceLocationName = sourceLocationName
         self.vodSourceName = vodSourceName
@@ -4017,8 +3894,7 @@ public struct UpdateVodSourceOutput: Swift.Sendable {
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vodSourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTime = creationTime
         self.httpPackageConfigurations = httpPackageConfigurations

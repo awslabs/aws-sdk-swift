@@ -24,9 +24,9 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Single error code. For this exception the value will be access_denied.
         public internal(set) var error: Swift.String? = nil
         /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
@@ -45,17 +45,16 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         error: Swift.String? = nil,
         error_description: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.error = error
         self.properties.error_description = error_description
     }
 }
 
 /// Indicates that a request to authorize a client with an access user session token is pending.
-public struct AuthorizationPendingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AuthorizationPendingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Single error code. For this exception the value will be authorization_pending.
         public internal(set) var error: Swift.String? = nil
         /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
@@ -74,17 +73,16 @@ public struct AuthorizationPendingException: ClientRuntime.ModeledError, AWSClie
     public init(
         error: Swift.String? = nil,
         error_description: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.error = error
         self.properties.error_description = error_description
     }
 }
 
 /// Indicates that the token issued by the service is expired and is no longer valid.
-public struct ExpiredTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ExpiredTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Single error code. For this exception the value will be expired_token.
         public internal(set) var error: Swift.String? = nil
         /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
@@ -103,17 +101,16 @@ public struct ExpiredTokenException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         error: Swift.String? = nil,
         error_description: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.error = error
         self.properties.error_description = error_description
     }
 }
 
 /// Indicates that an error from the service occurred while trying to process a request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Single error code. For this exception the value will be server_error.
         public internal(set) var error: Swift.String? = nil
         /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
@@ -132,17 +129,16 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         error: Swift.String? = nil,
         error_description: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.error = error
         self.properties.error_description = error_description
     }
 }
 
 /// Indicates that the clientId or clientSecret in the request is invalid. For example, this can occur when a client sends an incorrect clientId or an expired clientSecret.
-public struct InvalidClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Single error code. For this exception the value will be invalid_client.
         public internal(set) var error: Swift.String? = nil
         /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
@@ -161,17 +157,16 @@ public struct InvalidClientException: ClientRuntime.ModeledError, AWSClientRunti
     public init(
         error: Swift.String? = nil,
         error_description: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.error = error
         self.properties.error_description = error_description
     }
 }
 
 /// Indicates that a request contains an invalid grant. This can occur if a client makes a [CreateToken] request with an invalid grant type.
-public struct InvalidGrantException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidGrantException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Single error code. For this exception the value will be invalid_grant.
         public internal(set) var error: Swift.String? = nil
         /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
@@ -190,17 +185,16 @@ public struct InvalidGrantException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         error: Swift.String? = nil,
         error_description: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.error = error
         self.properties.error_description = error_description
     }
 }
 
 /// Indicates that something is wrong with the input to the request. For example, a required parameter might be missing or out of range.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Single error code. For this exception the value will be invalid_request.
         public internal(set) var error: Swift.String? = nil
         /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
@@ -219,17 +213,16 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         error: Swift.String? = nil,
         error_description: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.error = error
         self.properties.error_description = error_description
     }
 }
 
 /// Indicates that the scope provided in the request is invalid.
-public struct InvalidScopeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidScopeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Single error code. For this exception the value will be invalid_scope.
         public internal(set) var error: Swift.String? = nil
         /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
@@ -248,17 +241,16 @@ public struct InvalidScopeException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         error: Swift.String? = nil,
         error_description: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.error = error
         self.properties.error_description = error_description
     }
 }
 
 /// Indicates that the client is making the request too frequently and is more than the service can handle.
-public struct SlowDownException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SlowDownException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Single error code. For this exception the value will be slow_down.
         public internal(set) var error: Swift.String? = nil
         /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
@@ -277,17 +269,16 @@ public struct SlowDownException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         error: Swift.String? = nil,
         error_description: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.error = error
         self.properties.error_description = error_description
     }
 }
 
 /// Indicates that the client is not currently authorized to make the request. This can happen when a clientId is not issued for a public client.
-public struct UnauthorizedClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnauthorizedClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Single error code. For this exception the value will be unauthorized_client.
         public internal(set) var error: Swift.String? = nil
         /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
@@ -306,17 +297,16 @@ public struct UnauthorizedClientException: ClientRuntime.ModeledError, AWSClient
     public init(
         error: Swift.String? = nil,
         error_description: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.error = error
         self.properties.error_description = error_description
     }
 }
 
 /// Indicates that the grant type in the request is not supported by the service.
-public struct UnsupportedGrantTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedGrantTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Single error code. For this exception the value will be unsupported_grant_type.
         public internal(set) var error: Swift.String? = nil
         /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
@@ -335,8 +325,7 @@ public struct UnsupportedGrantTypeException: ClientRuntime.ModeledError, AWSClie
     public init(
         error: Swift.String? = nil,
         error_description: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.error = error
         self.properties.error_description = error_description
     }
@@ -375,8 +364,7 @@ public struct CreateTokenInput: Swift.Sendable {
         redirectUri: Swift.String? = nil,
         refreshToken: Swift.String? = nil,
         scope: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientId = clientId
         self.clientSecret = clientSecret
         self.code = code
@@ -412,8 +400,7 @@ public struct CreateTokenOutput: Swift.Sendable {
         idToken: Swift.String? = nil,
         refreshToken: Swift.String? = nil,
         tokenType: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
         self.expiresIn = expiresIn
         self.idToken = idToken
@@ -428,9 +415,9 @@ extension CreateTokenOutput: Swift.CustomDebugStringConvertible {
 }
 
 /// Indicates that a token provided as input to the request was issued by and is only usable by calling IAM Identity Center endpoints in another region.
-public struct InvalidRequestRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Indicates the IAM Identity Center endpoint which the requester may call with this token.
         public internal(set) var endpoint: Swift.String? = nil
         /// Single error code. For this exception the value will be invalid_request.
@@ -455,8 +442,7 @@ public struct InvalidRequestRegionException: ClientRuntime.ModeledError, AWSClie
         error: Swift.String? = nil,
         error_description: Swift.String? = nil,
         region: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.endpoint = endpoint
         self.properties.error = error
         self.properties.error_description = error_description
@@ -502,8 +488,7 @@ public struct CreateTokenWithIAMInput: Swift.Sendable {
         scope: [Swift.String]? = nil,
         subjectToken: Swift.String? = nil,
         subjectTokenType: Swift.String? = nil
-    )
-    {
+    ) {
         self.assertion = assertion
         self.clientId = clientId
         self.code = code
@@ -547,8 +532,7 @@ public struct CreateTokenWithIAMOutput: Swift.Sendable {
         refreshToken: Swift.String? = nil,
         scope: [Swift.String]? = nil,
         tokenType: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
         self.expiresIn = expiresIn
         self.idToken = idToken
@@ -565,9 +549,9 @@ extension CreateTokenWithIAMOutput: Swift.CustomDebugStringConvertible {
 }
 
 /// Indicates that the client information sent in the request during registration is invalid.
-public struct InvalidClientMetadataException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidClientMetadataException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Single error code. For this exception the value will be invalid_client_metadata.
         public internal(set) var error: Swift.String? = nil
         /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
@@ -586,17 +570,16 @@ public struct InvalidClientMetadataException: ClientRuntime.ModeledError, AWSCli
     public init(
         error: Swift.String? = nil,
         error_description: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.error = error
         self.properties.error_description = error_description
     }
 }
 
 /// Indicates that one or more redirect URI in the request is not supported for this operation.
-public struct InvalidRedirectUriException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRedirectUriException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Single error code. For this exception the value will be invalid_redirect_uri.
         public internal(set) var error: Swift.String? = nil
         /// Human-readable text providing additional information, used to assist the client developer in understanding the error that occurred.
@@ -615,8 +598,7 @@ public struct InvalidRedirectUriException: ClientRuntime.ModeledError, AWSClient
     public init(
         error: Swift.String? = nil,
         error_description: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.error = error
         self.properties.error_description = error_description
     }
@@ -648,8 +630,7 @@ public struct RegisterClientInput: Swift.Sendable {
         issuerUrl: Swift.String? = nil,
         redirectUris: [Swift.String]? = nil,
         scopes: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientName = clientName
         self.clientType = clientType
         self.entitledApplicationArn = entitledApplicationArn
@@ -681,8 +662,7 @@ public struct RegisterClientOutput: Swift.Sendable {
         clientSecret: Swift.String? = nil,
         clientSecretExpiresAt: Swift.Int = 0,
         tokenEndpoint: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorizationEndpoint = authorizationEndpoint
         self.clientId = clientId
         self.clientIdIssuedAt = clientIdIssuedAt
@@ -712,8 +692,7 @@ public struct StartDeviceAuthorizationInput: Swift.Sendable {
         clientId: Swift.String? = nil,
         clientSecret: Swift.String? = nil,
         startUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientId = clientId
         self.clientSecret = clientSecret
         self.startUrl = startUrl
@@ -746,8 +725,7 @@ public struct StartDeviceAuthorizationOutput: Swift.Sendable {
         userCode: Swift.String? = nil,
         verificationUri: Swift.String? = nil,
         verificationUriComplete: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceCode = deviceCode
         self.expiresIn = expiresIn
         self.interval = interval

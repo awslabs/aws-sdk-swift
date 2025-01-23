@@ -25,9 +25,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -42,8 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -95,8 +94,7 @@ extension MigrationHubClientTypes {
             applicationId: Swift.String? = nil,
             applicationStatus: MigrationHubClientTypes.ApplicationStatus? = nil,
             lastUpdatedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.applicationStatus = applicationStatus
             self.lastUpdatedTime = lastUpdatedTime
@@ -105,9 +103,9 @@ extension MigrationHubClientTypes {
 }
 
 /// Exception raised to indicate a successfully authorized action when the DryRun flag is set to "true".
-public struct DryRunOperation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DryRunOperation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -122,16 +120,15 @@ public struct DryRunOperation: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The home region is not set. Set the home region to continue.
-public struct HomeRegionNotSetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct HomeRegionNotSetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -146,16 +143,15 @@ public struct HomeRegionNotSetException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Exception raised when an internal, configuration, or dependency error is encountered.
-public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -170,16 +166,15 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
-public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -194,16 +189,15 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Exception raised when the request references a resource (Application Discovery Service configuration, update stream, migration task, etc.) that does not exist in Application Discovery Service (Application Discovery Service) or in Migration Hub's repository.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -218,16 +212,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Exception raised when there is an internal, configuration, or dependency error encountered.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -242,16 +235,15 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message that provides information about the exception.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
@@ -271,17 +263,16 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int = 0
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
 }
 
 /// Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
-public struct UnauthorizedOperation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnauthorizedOperation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -296,8 +287,7 @@ public struct UnauthorizedOperation: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -315,8 +305,7 @@ extension MigrationHubClientTypes {
         public init(
             description: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.name = name
         }
@@ -341,8 +330,7 @@ public struct AssociateCreatedArtifactInput: Swift.Sendable {
         dryRun: Swift.Bool? = false,
         migrationTaskName: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdArtifact = createdArtifact
         self.dryRun = dryRun
         self.migrationTaskName = migrationTaskName
@@ -356,9 +344,9 @@ public struct AssociateCreatedArtifactOutput: Swift.Sendable {
 }
 
 /// Exception raised when there are problems accessing Application Discovery Service (Application Discovery Service); most likely due to a misconfigured policy or the migrationhub-discovery role is missing or not configured correctly.
-public struct PolicyErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PolicyErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -373,8 +361,7 @@ public struct PolicyErrorException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -392,8 +379,7 @@ extension MigrationHubClientTypes {
         public init(
             configurationId: Swift.String? = nil,
             description: Swift.String? = nil
-        )
-        {
+        ) {
             self.configurationId = configurationId
             self.description = description
         }
@@ -418,8 +404,7 @@ public struct AssociateDiscoveredResourceInput: Swift.Sendable {
         dryRun: Swift.Bool? = false,
         migrationTaskName: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil
-    )
-    {
+    ) {
         self.discoveredResource = discoveredResource
         self.dryRun = dryRun
         self.migrationTaskName = migrationTaskName
@@ -428,6 +413,61 @@ public struct AssociateDiscoveredResourceInput: Swift.Sendable {
 }
 
 public struct AssociateDiscoveredResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension MigrationHubClientTypes {
+
+    /// A source resource can be a source server, a migration wave, an application, or any other resource that you track.
+    public struct SourceResource: Swift.Sendable {
+        /// A description that can be free-form text to record additional detail about the resource for clarity or later reference.
+        public var description: Swift.String?
+        /// This is the name that you want to use to identify the resource. If the resource is an AWS resource, we recommend that you set this parameter to the ARN of the resource.
+        /// This member is required.
+        public var name: Swift.String?
+        /// A free-form description of the status of the resource.
+        public var statusDetail: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            statusDetail: Swift.String? = nil
+        ) {
+            self.description = description
+            self.name = name
+            self.statusDetail = statusDetail
+        }
+    }
+}
+
+public struct AssociateSourceResourceInput: Swift.Sendable {
+    /// This is an optional parameter that you can use to test whether the call will succeed. Set this parameter to true to verify that you have the permissions that are required to make the call, and that you have specified the other parameters in the call correctly.
+    public var dryRun: Swift.Bool?
+    /// A unique identifier that references the migration task. Do not include sensitive data in this field.
+    /// This member is required.
+    public var migrationTaskName: Swift.String?
+    /// The name of the progress-update stream, which is used for access control as well as a namespace for migration-task names that is implicitly linked to your AWS account. The progress-update stream must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account.
+    /// This member is required.
+    public var progressUpdateStream: Swift.String?
+    /// The source resource that you want to associate.
+    /// This member is required.
+    public var sourceResource: MigrationHubClientTypes.SourceResource?
+
+    public init(
+        dryRun: Swift.Bool? = false,
+        migrationTaskName: Swift.String? = nil,
+        progressUpdateStream: Swift.String? = nil,
+        sourceResource: MigrationHubClientTypes.SourceResource? = nil
+    ) {
+        self.dryRun = dryRun
+        self.migrationTaskName = migrationTaskName
+        self.progressUpdateStream = progressUpdateStream
+        self.sourceResource = sourceResource
+    }
+}
+
+public struct AssociateSourceResourceOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -442,8 +482,7 @@ public struct CreateProgressUpdateStreamInput: Swift.Sendable {
     public init(
         dryRun: Swift.Bool? = false,
         progressUpdateStreamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.progressUpdateStreamName = progressUpdateStreamName
     }
@@ -464,8 +503,7 @@ public struct DeleteProgressUpdateStreamInput: Swift.Sendable {
     public init(
         dryRun: Swift.Bool? = false,
         progressUpdateStreamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.progressUpdateStreamName = progressUpdateStreamName
     }
@@ -483,8 +521,7 @@ public struct DescribeApplicationStateInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -498,8 +535,7 @@ public struct DescribeApplicationStateOutput: Swift.Sendable {
     public init(
         applicationStatus: MigrationHubClientTypes.ApplicationStatus? = nil,
         lastUpdatedTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.applicationStatus = applicationStatus
         self.lastUpdatedTime = lastUpdatedTime
     }
@@ -516,8 +552,7 @@ public struct DescribeMigrationTaskInput: Swift.Sendable {
     public init(
         migrationTaskName: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil
-    )
-    {
+    ) {
         self.migrationTaskName = migrationTaskName
         self.progressUpdateStream = progressUpdateStream
     }
@@ -578,7 +613,7 @@ extension MigrationHubClientTypes {
 
 extension MigrationHubClientTypes {
 
-    /// Attribute associated with a resource. Note the corresponding format required per type listed below: IPV4 x.x.x.x where x is an integer in the range [0,255] IPV6 y : y : y : y : y : y : y : y where y is a hexadecimal between 0 and FFFF. [0, FFFF] MAC_ADDRESS ^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$ FQDN ^[^<>{}\\/?,=\p{Cntrl}]{1,256}$
+    /// Attribute associated with a resource. Note the corresponding format required per type listed below: IPV4 x.x.x.x where x is an integer in the range [0,255] IPV6 y : y : y : y : y : y : y : y where y is a hexadecimal between 0 and FFFF. [0, FFFF] MAC_ADDRESS ^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$ FQDN ^[^<>{}\\\\/?,=\\p{Cntrl}]{1,256}$
     public struct ResourceAttribute: Swift.Sendable {
         /// Type of resource.
         /// This member is required.
@@ -590,8 +625,7 @@ extension MigrationHubClientTypes {
         public init(
             type: MigrationHubClientTypes.ResourceAttributeType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -649,8 +683,7 @@ extension MigrationHubClientTypes {
             progressPercent: Swift.Int? = nil,
             status: MigrationHubClientTypes.Status? = nil,
             statusDetail: Swift.String? = nil
-        )
-        {
+        ) {
             self.progressPercent = progressPercent
             self.status = status
             self.statusDetail = statusDetail
@@ -679,8 +712,7 @@ extension MigrationHubClientTypes {
             resourceAttributeList: [MigrationHubClientTypes.ResourceAttribute]? = nil,
             task: MigrationHubClientTypes.Task? = nil,
             updateDateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.migrationTaskName = migrationTaskName
             self.progressUpdateStream = progressUpdateStream
             self.resourceAttributeList = resourceAttributeList
@@ -696,8 +728,7 @@ public struct DescribeMigrationTaskOutput: Swift.Sendable {
 
     public init(
         migrationTask: MigrationHubClientTypes.MigrationTask? = nil
-    )
-    {
+    ) {
         self.migrationTask = migrationTask
     }
 }
@@ -720,8 +751,7 @@ public struct DisassociateCreatedArtifactInput: Swift.Sendable {
         dryRun: Swift.Bool? = false,
         migrationTaskName: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdArtifactName = createdArtifactName
         self.dryRun = dryRun
         self.migrationTaskName = migrationTaskName
@@ -752,8 +782,7 @@ public struct DisassociateDiscoveredResourceInput: Swift.Sendable {
         dryRun: Swift.Bool? = false,
         migrationTaskName: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationId = configurationId
         self.dryRun = dryRun
         self.migrationTaskName = migrationTaskName
@@ -762,6 +791,37 @@ public struct DisassociateDiscoveredResourceInput: Swift.Sendable {
 }
 
 public struct DisassociateDiscoveredResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DisassociateSourceResourceInput: Swift.Sendable {
+    /// This is an optional parameter that you can use to test whether the call will succeed. Set this parameter to true to verify that you have the permissions that are required to make the call, and that you have specified the other parameters in the call correctly.
+    public var dryRun: Swift.Bool?
+    /// A unique identifier that references the migration task. Do not include sensitive data in this field.
+    /// This member is required.
+    public var migrationTaskName: Swift.String?
+    /// The name of the progress-update stream, which is used for access control as well as a namespace for migration-task names that is implicitly linked to your AWS account. The progress-update stream must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account.
+    /// This member is required.
+    public var progressUpdateStream: Swift.String?
+    /// The name that was specified for the source resource.
+    /// This member is required.
+    public var sourceResourceName: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = false,
+        migrationTaskName: Swift.String? = nil,
+        progressUpdateStream: Swift.String? = nil,
+        sourceResourceName: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.migrationTaskName = migrationTaskName
+        self.progressUpdateStream = progressUpdateStream
+        self.sourceResourceName = sourceResourceName
+    }
+}
+
+public struct DisassociateSourceResourceOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -780,8 +840,7 @@ public struct ImportMigrationTaskInput: Swift.Sendable {
         dryRun: Swift.Bool? = false,
         migrationTaskName: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.migrationTaskName = migrationTaskName
         self.progressUpdateStream = progressUpdateStream
@@ -805,8 +864,7 @@ public struct ListApplicationStatesInput: Swift.Sendable {
         applicationIds: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationIds = applicationIds
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -822,8 +880,7 @@ public struct ListApplicationStatesOutput: Swift.Sendable {
     public init(
         applicationStateList: [MigrationHubClientTypes.ApplicationState]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationStateList = applicationStateList
         self.nextToken = nextToken
     }
@@ -846,8 +903,7 @@ public struct ListCreatedArtifactsInput: Swift.Sendable {
         migrationTaskName: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.migrationTaskName = migrationTaskName
         self.nextToken = nextToken
@@ -864,8 +920,7 @@ public struct ListCreatedArtifactsOutput: Swift.Sendable {
     public init(
         createdArtifactList: [MigrationHubClientTypes.CreatedArtifact]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdArtifactList = createdArtifactList
         self.nextToken = nextToken
     }
@@ -888,8 +943,7 @@ public struct ListDiscoveredResourcesInput: Swift.Sendable {
         migrationTaskName: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.migrationTaskName = migrationTaskName
         self.nextToken = nextToken
@@ -906,8 +960,7 @@ public struct ListDiscoveredResourcesOutput: Swift.Sendable {
     public init(
         discoveredResourceList: [MigrationHubClientTypes.DiscoveredResource]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.discoveredResourceList = discoveredResourceList
         self.nextToken = nextToken
     }
@@ -925,8 +978,7 @@ public struct ListMigrationTasksInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceName = resourceName
@@ -957,8 +1009,7 @@ extension MigrationHubClientTypes {
             status: MigrationHubClientTypes.Status? = nil,
             statusDetail: Swift.String? = nil,
             updateDateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.migrationTaskName = migrationTaskName
             self.progressPercent = progressPercent
             self.progressUpdateStream = progressUpdateStream
@@ -978,9 +1029,97 @@ public struct ListMigrationTasksOutput: Swift.Sendable {
     public init(
         migrationTaskSummaryList: [MigrationHubClientTypes.MigrationTaskSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.migrationTaskSummaryList = migrationTaskSummaryList
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListMigrationTaskUpdatesInput: Swift.Sendable {
+    /// The maximum number of results to include in the response. If more results exist than the value that you specify here for MaxResults, the response will include a token that you can use to retrieve the next set of results.
+    public var maxResults: Swift.Int?
+    /// A unique identifier that references the migration task. Do not include sensitive data in this field.
+    /// This member is required.
+    public var migrationTaskName: Swift.String?
+    /// If NextToken was returned by a previous call, there are more results available. The value of NextToken is a unique pagination token for each page. To retrieve the next page of results, specify the NextToken value that the previous call returned. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    public var nextToken: Swift.String?
+    /// The name of the progress-update stream, which is used for access control as well as a namespace for migration-task names that is implicitly linked to your AWS account. The progress-update stream must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account.
+    /// This member is required.
+    public var progressUpdateStream: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        migrationTaskName: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        progressUpdateStream: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.migrationTaskName = migrationTaskName
+        self.nextToken = nextToken
+        self.progressUpdateStream = progressUpdateStream
+    }
+}
+
+extension MigrationHubClientTypes {
+
+    public enum UpdateType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case migrationtaskstateupdated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpdateType] {
+            return [
+                .migrationtaskstateupdated
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .migrationtaskstateupdated: return "MIGRATION_TASK_STATE_UPDATED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MigrationHubClientTypes {
+
+    /// A migration-task progress update.
+    public struct MigrationTaskUpdate: Swift.Sendable {
+        /// Task object encapsulating task information.
+        public var migrationTaskState: MigrationHubClientTypes.Task?
+        /// The timestamp for the update.
+        public var updateDateTime: Foundation.Date?
+        /// The type of the update.
+        public var updateType: MigrationHubClientTypes.UpdateType?
+
+        public init(
+            migrationTaskState: MigrationHubClientTypes.Task? = nil,
+            updateDateTime: Foundation.Date? = nil,
+            updateType: MigrationHubClientTypes.UpdateType? = nil
+        ) {
+            self.migrationTaskState = migrationTaskState
+            self.updateDateTime = updateDateTime
+            self.updateType = updateType
+        }
+    }
+}
+
+public struct ListMigrationTaskUpdatesOutput: Swift.Sendable {
+    /// The list of migration-task updates.
+    public var migrationTaskUpdateList: [MigrationHubClientTypes.MigrationTaskUpdate]?
+    /// If the response includes a NextToken value, that means that there are more results available. The value of NextToken is a unique pagination token for each page. To retrieve the next page of results, call this API again and specify this NextToken value in the request. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    public var nextToken: Swift.String?
+
+    public init(
+        migrationTaskUpdateList: [MigrationHubClientTypes.MigrationTaskUpdate]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.migrationTaskUpdateList = migrationTaskUpdateList
         self.nextToken = nextToken
     }
 }
@@ -994,8 +1133,7 @@ public struct ListProgressUpdateStreamsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1010,8 +1148,7 @@ extension MigrationHubClientTypes {
 
         public init(
             progressUpdateStreamName: Swift.String? = nil
-        )
-        {
+        ) {
             self.progressUpdateStreamName = progressUpdateStreamName
         }
     }
@@ -1026,10 +1163,49 @@ public struct ListProgressUpdateStreamsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         progressUpdateStreamSummaryList: [MigrationHubClientTypes.ProgressUpdateStreamSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.progressUpdateStreamSummaryList = progressUpdateStreamSummaryList
+    }
+}
+
+public struct ListSourceResourcesInput: Swift.Sendable {
+    /// The maximum number of results to include in the response. If more results exist than the value that you specify here for MaxResults, the response will include a token that you can use to retrieve the next set of results.
+    public var maxResults: Swift.Int?
+    /// A unique identifier that references the migration task. Do not store confidential data in this field.
+    /// This member is required.
+    public var migrationTaskName: Swift.String?
+    /// If NextToken was returned by a previous call, there are more results available. The value of NextToken is a unique pagination token for each page. To retrieve the next page of results, specify the NextToken value that the previous call returned. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    public var nextToken: Swift.String?
+    /// The name of the progress-update stream, which is used for access control as well as a namespace for migration-task names that is implicitly linked to your AWS account. The progress-update stream must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account.
+    /// This member is required.
+    public var progressUpdateStream: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        migrationTaskName: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        progressUpdateStream: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.migrationTaskName = migrationTaskName
+        self.nextToken = nextToken
+        self.progressUpdateStream = progressUpdateStream
+    }
+}
+
+public struct ListSourceResourcesOutput: Swift.Sendable {
+    /// If the response includes a NextToken value, that means that there are more results available. The value of NextToken is a unique pagination token for each page. To retrieve the next page of results, call this API again and specify this NextToken value in the request. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    public var nextToken: Swift.String?
+    /// The list of source resources.
+    public var sourceResourceList: [MigrationHubClientTypes.SourceResource]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        sourceResourceList: [MigrationHubClientTypes.SourceResource]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.sourceResourceList = sourceResourceList
     }
 }
 
@@ -1050,8 +1226,7 @@ public struct NotifyApplicationStateInput: Swift.Sendable {
         dryRun: Swift.Bool? = false,
         status: MigrationHubClientTypes.ApplicationStatus? = nil,
         updateDateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.dryRun = dryRun
         self.status = status
@@ -1090,8 +1265,7 @@ public struct NotifyMigrationTaskStateInput: Swift.Sendable {
         progressUpdateStream: Swift.String? = nil,
         task: MigrationHubClientTypes.Task? = nil,
         updateDateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.migrationTaskName = migrationTaskName
         self.nextUpdateSeconds = nextUpdateSeconds
@@ -1128,8 +1302,7 @@ public struct PutResourceAttributesInput: Swift.Sendable {
         migrationTaskName: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil,
         resourceAttributeList: [MigrationHubClientTypes.ResourceAttribute]? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.migrationTaskName = migrationTaskName
         self.progressUpdateStream = progressUpdateStream
@@ -1152,6 +1325,13 @@ extension AssociateCreatedArtifactInput {
 extension AssociateDiscoveredResourceInput {
 
     static func urlPathProvider(_ value: AssociateDiscoveredResourceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension AssociateSourceResourceInput {
+
+    static func urlPathProvider(_ value: AssociateSourceResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1198,6 +1378,13 @@ extension DisassociateDiscoveredResourceInput {
     }
 }
 
+extension DisassociateSourceResourceInput {
+
+    static func urlPathProvider(_ value: DisassociateSourceResourceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ImportMigrationTaskInput {
 
     static func urlPathProvider(_ value: ImportMigrationTaskInput) -> Swift.String? {
@@ -1233,9 +1420,23 @@ extension ListMigrationTasksInput {
     }
 }
 
+extension ListMigrationTaskUpdatesInput {
+
+    static func urlPathProvider(_ value: ListMigrationTaskUpdatesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListProgressUpdateStreamsInput {
 
     static func urlPathProvider(_ value: ListProgressUpdateStreamsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListSourceResourcesInput {
+
+    static func urlPathProvider(_ value: ListSourceResourcesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1280,6 +1481,17 @@ extension AssociateDiscoveredResourceInput {
         try writer["DryRun"].write(value.dryRun)
         try writer["MigrationTaskName"].write(value.migrationTaskName)
         try writer["ProgressUpdateStream"].write(value.progressUpdateStream)
+    }
+}
+
+extension AssociateSourceResourceInput {
+
+    static func write(value: AssociateSourceResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["MigrationTaskName"].write(value.migrationTaskName)
+        try writer["ProgressUpdateStream"].write(value.progressUpdateStream)
+        try writer["SourceResource"].write(value.sourceResource, with: MigrationHubClientTypes.SourceResource.write(value:to:))
     }
 }
 
@@ -1340,6 +1552,17 @@ extension DisassociateDiscoveredResourceInput {
     }
 }
 
+extension DisassociateSourceResourceInput {
+
+    static func write(value: DisassociateSourceResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["MigrationTaskName"].write(value.migrationTaskName)
+        try writer["ProgressUpdateStream"].write(value.progressUpdateStream)
+        try writer["SourceResourceName"].write(value.sourceResourceName)
+    }
+}
+
 extension ImportMigrationTaskInput {
 
     static func write(value: ImportMigrationTaskInput?, to writer: SmithyJSON.Writer) throws {
@@ -1392,12 +1615,34 @@ extension ListMigrationTasksInput {
     }
 }
 
+extension ListMigrationTaskUpdatesInput {
+
+    static func write(value: ListMigrationTaskUpdatesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["MigrationTaskName"].write(value.migrationTaskName)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["ProgressUpdateStream"].write(value.progressUpdateStream)
+    }
+}
+
 extension ListProgressUpdateStreamsInput {
 
     static func write(value: ListProgressUpdateStreamsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension ListSourceResourcesInput {
+
+    static func write(value: ListSourceResourcesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["MigrationTaskName"].write(value.migrationTaskName)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["ProgressUpdateStream"].write(value.progressUpdateStream)
     }
 }
 
@@ -1447,6 +1692,13 @@ extension AssociateDiscoveredResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateDiscoveredResourceOutput {
         return AssociateDiscoveredResourceOutput()
+    }
+}
+
+extension AssociateSourceResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateSourceResourceOutput {
+        return AssociateSourceResourceOutput()
     }
 }
 
@@ -1500,6 +1752,13 @@ extension DisassociateDiscoveredResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateDiscoveredResourceOutput {
         return DisassociateDiscoveredResourceOutput()
+    }
+}
+
+extension DisassociateSourceResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateSourceResourceOutput {
+        return DisassociateSourceResourceOutput()
     }
 }
 
@@ -1562,6 +1821,19 @@ extension ListMigrationTasksOutput {
     }
 }
 
+extension ListMigrationTaskUpdatesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListMigrationTaskUpdatesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListMigrationTaskUpdatesOutput()
+        value.migrationTaskUpdateList = try reader["MigrationTaskUpdateList"].readListIfPresent(memberReadingClosure: MigrationHubClientTypes.MigrationTaskUpdate.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListProgressUpdateStreamsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListProgressUpdateStreamsOutput {
@@ -1571,6 +1843,19 @@ extension ListProgressUpdateStreamsOutput {
         var value = ListProgressUpdateStreamsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.progressUpdateStreamSummaryList = try reader["ProgressUpdateStreamSummaryList"].readListIfPresent(memberReadingClosure: MigrationHubClientTypes.ProgressUpdateStreamSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListSourceResourcesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSourceResourcesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListSourceResourcesOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.sourceResourceList = try reader["SourceResourceList"].readListIfPresent(memberReadingClosure: MigrationHubClientTypes.SourceResource.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -1632,6 +1917,27 @@ enum AssociateDiscoveredResourceOutputError {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "PolicyErrorException": return try PolicyErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedOperation": return try UnauthorizedOperation.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum AssociateSourceResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DryRunOperation": return try DryRunOperation.makeError(baseError: baseError)
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -1769,6 +2075,27 @@ enum DisassociateDiscoveredResourceOutputError {
     }
 }
 
+enum DisassociateSourceResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DryRunOperation": return try DryRunOperation.makeError(baseError: baseError)
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedOperation": return try UnauthorizedOperation.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ImportMigrationTaskOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1871,6 +2198,25 @@ enum ListMigrationTasksOutputError {
     }
 }
 
+enum ListMigrationTaskUpdatesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListProgressUpdateStreamsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1883,6 +2229,25 @@ enum ListProgressUpdateStreamsOutputError {
             case "HomeRegionNotSetException": return try HomeRegionNotSetException.makeError(baseError: baseError)
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListSourceResourcesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -2202,12 +2567,43 @@ extension MigrationHubClientTypes.MigrationTaskSummary {
     }
 }
 
+extension MigrationHubClientTypes.MigrationTaskUpdate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubClientTypes.MigrationTaskUpdate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MigrationHubClientTypes.MigrationTaskUpdate()
+        value.updateDateTime = try reader["UpdateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updateType = try reader["UpdateType"].readIfPresent()
+        value.migrationTaskState = try reader["MigrationTaskState"].readIfPresent(with: MigrationHubClientTypes.Task.read(from:))
+        return value
+    }
+}
+
 extension MigrationHubClientTypes.ProgressUpdateStreamSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubClientTypes.ProgressUpdateStreamSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MigrationHubClientTypes.ProgressUpdateStreamSummary()
         value.progressUpdateStreamName = try reader["ProgressUpdateStreamName"].readIfPresent()
+        return value
+    }
+}
+
+extension MigrationHubClientTypes.SourceResource {
+
+    static func write(value: MigrationHubClientTypes.SourceResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["Name"].write(value.name)
+        try writer["StatusDetail"].write(value.statusDetail)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubClientTypes.SourceResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MigrationHubClientTypes.SourceResource()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.statusDetail = try reader["StatusDetail"].readIfPresent()
         return value
     }
 }

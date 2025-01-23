@@ -31,9 +31,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -49,16 +49,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An unexpected error occurred during processing of a request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -74,16 +73,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request references a resource that does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -99,16 +97,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The ID of the service quota that was exceeded.
@@ -133,8 +130,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -143,9 +139,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// The input does not satisfy the constraints specified by an Amazon Web Services service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -161,8 +157,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -174,8 +169,7 @@ public struct GetBaselineOperationInput: Swift.Sendable {
 
     public init(
         operationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationIdentifier = operationIdentifier
     }
 }
@@ -271,8 +265,7 @@ extension ControlTowerClientTypes {
             startTime: Foundation.Date? = nil,
             status: ControlTowerClientTypes.BaselineOperationStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.operationIdentifier = operationIdentifier
             self.operationType = operationType
@@ -290,8 +283,7 @@ public struct GetBaselineOperationOutput: Swift.Sendable {
 
     public init(
         baselineOperation: ControlTowerClientTypes.BaselineOperation? = nil
-    )
-    {
+    ) {
         self.baselineOperation = baselineOperation
     }
 }
@@ -303,8 +295,7 @@ public struct GetBaselineInput: Swift.Sendable {
 
     public init(
         baselineIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.baselineIdentifier = baselineIdentifier
     }
 }
@@ -323,8 +314,7 @@ public struct GetBaselineOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.description = description
         self.name = name
@@ -340,8 +330,7 @@ public struct ListBaselinesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -364,8 +353,7 @@ extension ControlTowerClientTypes {
             arn: Swift.String? = nil,
             description: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.name = name
@@ -383,8 +371,7 @@ public struct ListBaselinesOutput: Swift.Sendable {
     public init(
         baselines: [ControlTowerClientTypes.BaselineSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.baselines = baselines
         self.nextToken = nextToken
     }
@@ -397,8 +384,7 @@ public struct GetControlOperationInput: Swift.Sendable {
 
     public init(
         operationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationIdentifier = operationIdentifier
     }
 }
@@ -503,8 +489,7 @@ extension ControlTowerClientTypes {
             status: ControlTowerClientTypes.ControlOperationStatus? = nil,
             statusMessage: Swift.String? = nil,
             targetIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.controlIdentifier = controlIdentifier
             self.enabledControlIdentifier = enabledControlIdentifier
             self.endTime = endTime
@@ -525,8 +510,7 @@ public struct GetControlOperationOutput: Swift.Sendable {
 
     public init(
         controlOperation: ControlTowerClientTypes.ControlOperation? = nil
-    )
-    {
+    ) {
         self.controlOperation = controlOperation
     }
 }
@@ -552,8 +536,7 @@ extension ControlTowerClientTypes {
             enabledControlIdentifiers: [Swift.String]? = nil,
             statuses: [ControlTowerClientTypes.ControlOperationStatus]? = nil,
             targetIdentifiers: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.controlIdentifiers = controlIdentifiers
             self.controlOperationTypes = controlOperationTypes
             self.enabledControlIdentifiers = enabledControlIdentifiers
@@ -575,8 +558,7 @@ public struct ListControlOperationsInput: Swift.Sendable {
         filter: ControlTowerClientTypes.ControlOperationFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -616,8 +598,7 @@ extension ControlTowerClientTypes {
             status: ControlTowerClientTypes.ControlOperationStatus? = nil,
             statusMessage: Swift.String? = nil,
             targetIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.controlIdentifier = controlIdentifier
             self.enabledControlIdentifier = enabledControlIdentifier
             self.endTime = endTime
@@ -641,17 +622,16 @@ public struct ListControlOperationsOutput: Swift.Sendable {
     public init(
         controlOperations: [ControlTowerClientTypes.ControlOperationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.controlOperations = controlOperations
         self.nextToken = nextToken
     }
 }
 
 /// Updating or deleting the resource can cause an inconsistent state.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -667,16 +647,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request would cause a service quota to be exceeded. The limit is 10 concurrent operations.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -692,8 +671,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -709,8 +687,7 @@ public struct DisableControlInput: Swift.Sendable {
     public init(
         controlIdentifier: Swift.String? = nil,
         targetIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.controlIdentifier = controlIdentifier
         self.targetIdentifier = targetIdentifier
     }
@@ -723,8 +700,7 @@ public struct DisableControlOutput: Swift.Sendable {
 
     public init(
         operationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationIdentifier = operationIdentifier
     }
 }
@@ -736,8 +712,7 @@ public struct DisableBaselineInput: Swift.Sendable {
 
     public init(
         enabledBaselineIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.enabledBaselineIdentifier = enabledBaselineIdentifier
     }
 }
@@ -749,8 +724,7 @@ public struct DisableBaselineOutput: Swift.Sendable {
 
     public init(
         operationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationIdentifier = operationIdentifier
     }
 }
@@ -769,8 +743,7 @@ extension ControlTowerClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Smithy.Document? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -798,8 +771,7 @@ public struct EnableBaselineInput: Swift.Sendable {
         parameters: [ControlTowerClientTypes.EnabledBaselineParameter]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         targetIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.baselineIdentifier = baselineIdentifier
         self.baselineVersion = baselineVersion
         self.parameters = parameters
@@ -819,8 +791,7 @@ public struct EnableBaselineOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         operationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.operationIdentifier = operationIdentifier
     }
@@ -833,8 +804,7 @@ public struct GetEnabledBaselineInput: Swift.Sendable {
 
     public init(
         enabledBaselineIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.enabledBaselineIdentifier = enabledBaselineIdentifier
     }
 }
@@ -853,8 +823,7 @@ extension ControlTowerClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Smithy.Document? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -911,8 +880,7 @@ extension ControlTowerClientTypes {
         public init(
             lastOperationIdentifier: Swift.String? = nil,
             status: ControlTowerClientTypes.EnablementStatus? = nil
-        )
-        {
+        ) {
             self.lastOperationIdentifier = lastOperationIdentifier
             self.status = status
         }
@@ -933,6 +901,8 @@ extension ControlTowerClientTypes {
         public var baselineVersion: Swift.String?
         /// Shows the parameters that are applied when enabling this Baseline.
         public var parameters: [ControlTowerClientTypes.EnabledBaselineParameterSummary]?
+        /// An ARN that represents the parent EnabledBaseline at the Organizational Unit (OU) level, from which the child EnabledBaseline inherits its configuration. The value is returned by GetEnabledBaseline.
+        public var parentIdentifier: Swift.String?
         /// The deployment summary of an EnabledControl or EnabledBaseline resource.
         /// This member is required.
         public var statusSummary: ControlTowerClientTypes.EnablementStatusSummary?
@@ -945,14 +915,15 @@ extension ControlTowerClientTypes {
             baselineIdentifier: Swift.String? = nil,
             baselineVersion: Swift.String? = nil,
             parameters: [ControlTowerClientTypes.EnabledBaselineParameterSummary]? = nil,
+            parentIdentifier: Swift.String? = nil,
             statusSummary: ControlTowerClientTypes.EnablementStatusSummary? = nil,
             targetIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.baselineIdentifier = baselineIdentifier
             self.baselineVersion = baselineVersion
             self.parameters = parameters
+            self.parentIdentifier = parentIdentifier
             self.statusSummary = statusSummary
             self.targetIdentifier = targetIdentifier
         }
@@ -965,8 +936,7 @@ public struct GetEnabledBaselineOutput: Swift.Sendable {
 
     public init(
         enabledBaselineDetails: ControlTowerClientTypes.EnabledBaselineDetails? = nil
-    )
-    {
+    ) {
         self.enabledBaselineDetails = enabledBaselineDetails
     }
 }
@@ -977,15 +947,18 @@ extension ControlTowerClientTypes {
     public struct EnabledBaselineFilter: Swift.Sendable {
         /// Identifiers for the Baseline objects returned as part of the filter operation.
         public var baselineIdentifiers: [Swift.String]?
+        /// An optional filter that sets up a list of parentIdentifiers to filter the results of the ListEnabledBaseline output.
+        public var parentIdentifiers: [Swift.String]?
         /// Identifiers for the targets of the Baseline filter operation.
         public var targetIdentifiers: [Swift.String]?
 
         public init(
             baselineIdentifiers: [Swift.String]? = nil,
+            parentIdentifiers: [Swift.String]? = nil,
             targetIdentifiers: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.baselineIdentifiers = baselineIdentifiers
+            self.parentIdentifiers = parentIdentifiers
             self.targetIdentifiers = targetIdentifiers
         }
     }
@@ -994,6 +967,8 @@ extension ControlTowerClientTypes {
 public struct ListEnabledBaselinesInput: Swift.Sendable {
     /// A filter applied on the ListEnabledBaseline operation. Allowed filters are baselineIdentifiers and targetIdentifiers. The filter can be applied for either, or both.
     public var filter: ControlTowerClientTypes.EnabledBaselineFilter?
+    /// A value that can be set to include the child enabled baselines in responses. The default value is false.
+    public var includeChildren: Swift.Bool?
     /// The maximum number of results to be shown.
     public var maxResults: Swift.Int?
     /// A pagination token.
@@ -1001,11 +976,12 @@ public struct ListEnabledBaselinesInput: Swift.Sendable {
 
     public init(
         filter: ControlTowerClientTypes.EnabledBaselineFilter? = nil,
+        includeChildren: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
+        self.includeChildren = includeChildren
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1023,6 +999,8 @@ extension ControlTowerClientTypes {
         public var baselineIdentifier: Swift.String?
         /// The enabled version of the baseline.
         public var baselineVersion: Swift.String?
+        /// An ARN that represents an object returned by ListEnabledBaseline, to describe an enabled baseline.
+        public var parentIdentifier: Swift.String?
         /// The deployment summary of an EnabledControl or EnabledBaseline resource.
         /// This member is required.
         public var statusSummary: ControlTowerClientTypes.EnablementStatusSummary?
@@ -1034,13 +1012,14 @@ extension ControlTowerClientTypes {
             arn: Swift.String? = nil,
             baselineIdentifier: Swift.String? = nil,
             baselineVersion: Swift.String? = nil,
+            parentIdentifier: Swift.String? = nil,
             statusSummary: ControlTowerClientTypes.EnablementStatusSummary? = nil,
             targetIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.baselineIdentifier = baselineIdentifier
             self.baselineVersion = baselineVersion
+            self.parentIdentifier = parentIdentifier
             self.statusSummary = statusSummary
             self.targetIdentifier = targetIdentifier
         }
@@ -1057,8 +1036,7 @@ public struct ListEnabledBaselinesOutput: Swift.Sendable {
     public init(
         enabledBaselines: [ControlTowerClientTypes.EnabledBaselineSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.enabledBaselines = enabledBaselines
         self.nextToken = nextToken
     }
@@ -1071,8 +1049,7 @@ public struct ResetEnabledBaselineInput: Swift.Sendable {
 
     public init(
         enabledBaselineIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.enabledBaselineIdentifier = enabledBaselineIdentifier
     }
 }
@@ -1084,8 +1061,7 @@ public struct ResetEnabledBaselineOutput: Swift.Sendable {
 
     public init(
         operationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationIdentifier = operationIdentifier
     }
 }
@@ -1104,8 +1080,7 @@ public struct UpdateEnabledBaselineInput: Swift.Sendable {
         baselineVersion: Swift.String? = nil,
         enabledBaselineIdentifier: Swift.String? = nil,
         parameters: [ControlTowerClientTypes.EnabledBaselineParameter]? = nil
-    )
-    {
+    ) {
         self.baselineVersion = baselineVersion
         self.enabledBaselineIdentifier = enabledBaselineIdentifier
         self.parameters = parameters
@@ -1119,8 +1094,7 @@ public struct UpdateEnabledBaselineOutput: Swift.Sendable {
 
     public init(
         operationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationIdentifier = operationIdentifier
     }
 }
@@ -1139,8 +1113,7 @@ extension ControlTowerClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Smithy.Document? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1164,8 +1137,7 @@ public struct EnableControlInput: Swift.Sendable {
         parameters: [ControlTowerClientTypes.EnabledControlParameter]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         targetIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.controlIdentifier = controlIdentifier
         self.parameters = parameters
         self.tags = tags
@@ -1183,8 +1155,7 @@ public struct EnableControlOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         operationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.operationIdentifier = operationIdentifier
     }
@@ -1197,8 +1168,7 @@ public struct GetEnabledControlInput: Swift.Sendable {
 
     public init(
         enabledControlIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.enabledControlIdentifier = enabledControlIdentifier
     }
 }
@@ -1255,8 +1225,7 @@ extension ControlTowerClientTypes {
 
         public init(
             driftStatus: ControlTowerClientTypes.DriftStatus? = nil
-        )
-        {
+        ) {
             self.driftStatus = driftStatus
         }
     }
@@ -1276,8 +1245,7 @@ extension ControlTowerClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Smithy.Document? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1293,8 +1261,7 @@ extension ControlTowerClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -1327,8 +1294,7 @@ extension ControlTowerClientTypes {
             statusSummary: ControlTowerClientTypes.EnablementStatusSummary? = nil,
             targetIdentifier: Swift.String? = nil,
             targetRegions: [ControlTowerClientTypes.Region]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.controlIdentifier = controlIdentifier
             self.driftStatusSummary = driftStatusSummary
@@ -1347,8 +1313,7 @@ public struct GetEnabledControlOutput: Swift.Sendable {
 
     public init(
         enabledControlDetails: ControlTowerClientTypes.EnabledControlDetails? = nil
-    )
-    {
+    ) {
         self.enabledControlDetails = enabledControlDetails
     }
 }
@@ -1368,8 +1333,7 @@ extension ControlTowerClientTypes {
             controlIdentifiers: [Swift.String]? = nil,
             driftStatuses: [ControlTowerClientTypes.DriftStatus]? = nil,
             statuses: [ControlTowerClientTypes.EnablementStatus]? = nil
-        )
-        {
+        ) {
             self.controlIdentifiers = controlIdentifiers
             self.driftStatuses = driftStatuses
             self.statuses = statuses
@@ -1392,8 +1356,7 @@ public struct ListEnabledControlsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         targetIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1422,8 +1385,7 @@ extension ControlTowerClientTypes {
             driftStatusSummary: ControlTowerClientTypes.DriftStatusSummary? = nil,
             statusSummary: ControlTowerClientTypes.EnablementStatusSummary? = nil,
             targetIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.controlIdentifier = controlIdentifier
             self.driftStatusSummary = driftStatusSummary
@@ -1443,8 +1405,7 @@ public struct ListEnabledControlsOutput: Swift.Sendable {
     public init(
         enabledControls: [ControlTowerClientTypes.EnabledControlSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.enabledControls = enabledControls
         self.nextToken = nextToken
     }
@@ -1457,8 +1418,7 @@ public struct ResetEnabledControlInput: Swift.Sendable {
 
     public init(
         enabledControlIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.enabledControlIdentifier = enabledControlIdentifier
     }
 }
@@ -1470,8 +1430,7 @@ public struct ResetEnabledControlOutput: Swift.Sendable {
 
     public init(
         operationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationIdentifier = operationIdentifier
     }
 }
@@ -1487,8 +1446,7 @@ public struct UpdateEnabledControlInput: Swift.Sendable {
     public init(
         enabledControlIdentifier: Swift.String? = nil,
         parameters: [ControlTowerClientTypes.EnabledControlParameter]? = nil
-    )
-    {
+    ) {
         self.enabledControlIdentifier = enabledControlIdentifier
         self.parameters = parameters
     }
@@ -1501,8 +1459,7 @@ public struct UpdateEnabledControlOutput: Swift.Sendable {
 
     public init(
         operationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationIdentifier = operationIdentifier
     }
 }
@@ -1514,8 +1471,7 @@ public struct GetLandingZoneOperationInput: Swift.Sendable {
 
     public init(
         operationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationIdentifier = operationIdentifier
     }
 }
@@ -1625,8 +1581,7 @@ extension ControlTowerClientTypes {
             startTime: Foundation.Date? = nil,
             status: ControlTowerClientTypes.LandingZoneOperationStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.operationIdentifier = operationIdentifier
             self.operationType = operationType
@@ -1644,8 +1599,7 @@ public struct GetLandingZoneOperationOutput: Swift.Sendable {
 
     public init(
         operationDetails: ControlTowerClientTypes.LandingZoneOperationDetail? = nil
-    )
-    {
+    ) {
         self.operationDetails = operationDetails
     }
 }
@@ -1662,8 +1616,7 @@ extension ControlTowerClientTypes {
         public init(
             statuses: [ControlTowerClientTypes.LandingZoneOperationStatus]? = nil,
             types: [ControlTowerClientTypes.LandingZoneOperationType]? = nil
-        )
-        {
+        ) {
             self.statuses = statuses
             self.types = types
         }
@@ -1682,8 +1635,7 @@ public struct ListLandingZoneOperationsInput: Swift.Sendable {
         filter: ControlTowerClientTypes.LandingZoneOperationFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1705,8 +1657,7 @@ extension ControlTowerClientTypes {
             operationIdentifier: Swift.String? = nil,
             operationType: ControlTowerClientTypes.LandingZoneOperationType? = nil,
             status: ControlTowerClientTypes.LandingZoneOperationStatus? = nil
-        )
-        {
+        ) {
             self.operationIdentifier = operationIdentifier
             self.operationType = operationType
             self.status = status
@@ -1724,8 +1675,7 @@ public struct ListLandingZoneOperationsOutput: Swift.Sendable {
     public init(
         landingZoneOperations: [ControlTowerClientTypes.LandingZoneOperationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.landingZoneOperations = landingZoneOperations
         self.nextToken = nextToken
     }
@@ -1745,8 +1695,7 @@ public struct CreateLandingZoneInput: Swift.Sendable {
         manifest: Smithy.Document? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.manifest = manifest
         self.tags = tags
         self.version = version
@@ -1764,8 +1713,7 @@ public struct CreateLandingZoneOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         operationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.operationIdentifier = operationIdentifier
     }
@@ -1778,8 +1726,7 @@ public struct DeleteLandingZoneInput: Swift.Sendable {
 
     public init(
         landingZoneIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.landingZoneIdentifier = landingZoneIdentifier
     }
 }
@@ -1791,8 +1738,7 @@ public struct DeleteLandingZoneOutput: Swift.Sendable {
 
     public init(
         operationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationIdentifier = operationIdentifier
     }
 }
@@ -1804,8 +1750,7 @@ public struct GetLandingZoneInput: Swift.Sendable {
 
     public init(
         landingZoneIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.landingZoneIdentifier = landingZoneIdentifier
     }
 }
@@ -1852,8 +1797,7 @@ extension ControlTowerClientTypes {
 
         public init(
             status: ControlTowerClientTypes.LandingZoneDriftStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -1917,8 +1861,7 @@ extension ControlTowerClientTypes {
             manifest: Smithy.Document? = nil,
             status: ControlTowerClientTypes.LandingZoneStatus? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.driftStatus = driftStatus
             self.latestAvailableVersion = latestAvailableVersion
@@ -1936,8 +1879,7 @@ public struct GetLandingZoneOutput: Swift.Sendable {
 
     public init(
         landingZone: ControlTowerClientTypes.LandingZoneDetail? = nil
-    )
-    {
+    ) {
         self.landingZone = landingZone
     }
 }
@@ -1951,8 +1893,7 @@ public struct ListLandingZonesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1967,8 +1908,7 @@ extension ControlTowerClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -1984,8 +1924,7 @@ public struct ListLandingZonesOutput: Swift.Sendable {
     public init(
         landingZones: [ControlTowerClientTypes.LandingZoneSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.landingZones = landingZones
         self.nextToken = nextToken
     }
@@ -1998,8 +1937,7 @@ public struct ResetLandingZoneInput: Swift.Sendable {
 
     public init(
         landingZoneIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.landingZoneIdentifier = landingZoneIdentifier
     }
 }
@@ -2011,8 +1949,7 @@ public struct ResetLandingZoneOutput: Swift.Sendable {
 
     public init(
         operationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationIdentifier = operationIdentifier
     }
 }
@@ -2032,8 +1969,7 @@ public struct UpdateLandingZoneInput: Swift.Sendable {
         landingZoneIdentifier: Swift.String? = nil,
         manifest: Smithy.Document? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.landingZoneIdentifier = landingZoneIdentifier
         self.manifest = manifest
         self.version = version
@@ -2047,8 +1983,7 @@ public struct UpdateLandingZoneOutput: Swift.Sendable {
 
     public init(
         operationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.operationIdentifier = operationIdentifier
     }
 }
@@ -2060,8 +1995,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2073,8 +2007,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2090,8 +2023,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -2113,8 +2045,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -2484,6 +2415,7 @@ extension ListEnabledBaselinesInput {
     static func write(value: ListEnabledBaselinesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["filter"].write(value.filter, with: ControlTowerClientTypes.EnabledBaselineFilter.write(value:to:))
+        try writer["includeChildren"].write(value.includeChildren)
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
     }
@@ -3568,6 +3500,7 @@ extension ControlTowerClientTypes.EnabledBaselineDetails {
         value.baselineIdentifier = try reader["baselineIdentifier"].readIfPresent() ?? ""
         value.baselineVersion = try reader["baselineVersion"].readIfPresent()
         value.targetIdentifier = try reader["targetIdentifier"].readIfPresent() ?? ""
+        value.parentIdentifier = try reader["parentIdentifier"].readIfPresent()
         value.statusSummary = try reader["statusSummary"].readIfPresent(with: ControlTowerClientTypes.EnablementStatusSummary.read(from:))
         value.parameters = try reader["parameters"].readListIfPresent(memberReadingClosure: ControlTowerClientTypes.EnabledBaselineParameterSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -3722,6 +3655,7 @@ extension ControlTowerClientTypes.EnabledBaselineSummary {
         value.baselineIdentifier = try reader["baselineIdentifier"].readIfPresent() ?? ""
         value.baselineVersion = try reader["baselineVersion"].readIfPresent()
         value.targetIdentifier = try reader["targetIdentifier"].readIfPresent() ?? ""
+        value.parentIdentifier = try reader["parentIdentifier"].readIfPresent()
         value.statusSummary = try reader["statusSummary"].readIfPresent(with: ControlTowerClientTypes.EnablementStatusSummary.read(from:))
         return value
     }
@@ -3798,6 +3732,7 @@ extension ControlTowerClientTypes.EnabledBaselineFilter {
     static func write(value: ControlTowerClientTypes.EnabledBaselineFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["baselineIdentifiers"].writeList(value.baselineIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["parentIdentifiers"].writeList(value.parentIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["targetIdentifiers"].writeList(value.targetIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }

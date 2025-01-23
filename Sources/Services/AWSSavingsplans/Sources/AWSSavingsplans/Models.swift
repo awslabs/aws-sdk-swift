@@ -28,9 +28,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// An unexpected error occurred.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -46,16 +46,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified resource was not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -71,16 +70,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A service quota has been exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -96,16 +94,15 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// One of the input parameters is not valid.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -121,8 +118,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -150,8 +146,7 @@ public struct CreateSavingsPlanInput: Swift.Sendable {
         savingsPlanOfferingId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         upfrontPaymentAmount: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.commitment = commitment
         self.purchaseTime = purchaseTime
@@ -167,8 +162,7 @@ public struct CreateSavingsPlanOutput: Swift.Sendable {
 
     public init(
         savingsPlanId: Swift.String? = nil
-    )
-    {
+    ) {
         self.savingsPlanId = savingsPlanId
     }
 }
@@ -180,8 +174,7 @@ public struct DeleteQueuedSavingsPlanInput: Swift.Sendable {
 
     public init(
         savingsPlanId: Swift.String? = nil
-    )
-    {
+    ) {
         self.savingsPlanId = savingsPlanId
     }
 }
@@ -250,8 +243,7 @@ extension SavingsplansClientTypes {
         public init(
             name: SavingsplansClientTypes.SavingsPlanRateFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -274,8 +266,7 @@ public struct DescribeSavingsPlanRatesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         savingsPlanId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -397,8 +388,7 @@ extension SavingsplansClientTypes {
         public init(
             name: SavingsplansClientTypes.SavingsPlanRatePropertyKey? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -505,8 +495,7 @@ extension SavingsplansClientTypes {
             serviceCode: SavingsplansClientTypes.SavingsPlanRateServiceCode? = nil,
             unit: SavingsplansClientTypes.SavingsPlanRateUnit? = nil,
             usageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.currency = currency
             self.operation = operation
             self.productType = productType
@@ -531,8 +520,7 @@ public struct DescribeSavingsPlanRatesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         savingsPlanId: Swift.String? = nil,
         searchResults: [SavingsplansClientTypes.SavingsPlanRate]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.savingsPlanId = savingsPlanId
         self.searchResults = searchResults
@@ -601,8 +589,7 @@ extension SavingsplansClientTypes {
         public init(
             name: SavingsplansClientTypes.SavingsPlansFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -677,8 +664,7 @@ public struct DescribeSavingsPlansInput: Swift.Sendable {
         savingsPlanArns: [Swift.String]? = nil,
         savingsPlanIds: [Swift.String]? = nil,
         states: [SavingsplansClientTypes.SavingsPlanState]? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -815,8 +801,7 @@ extension SavingsplansClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             termDurationInSeconds: Swift.Int = 0,
             upfrontPaymentAmount: Swift.String? = nil
-        )
-        {
+        ) {
             self.commitment = commitment
             self.currency = currency
             self.description = description
@@ -849,8 +834,7 @@ public struct DescribeSavingsPlansOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         savingsPlans: [SavingsplansClientTypes.SavingsPlan]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.savingsPlans = savingsPlans
     }
@@ -909,8 +893,7 @@ extension SavingsplansClientTypes {
         public init(
             name: SavingsplansClientTypes.SavingsPlanRateFilterAttribute? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -950,8 +933,7 @@ public struct DescribeSavingsPlansOfferingRatesInput: Swift.Sendable {
         savingsPlanTypes: [SavingsplansClientTypes.SavingsPlanType]? = nil,
         serviceCodes: [SavingsplansClientTypes.SavingsPlanRateServiceCode]? = nil,
         usageTypes: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -977,8 +959,7 @@ extension SavingsplansClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -1009,8 +990,7 @@ extension SavingsplansClientTypes {
             paymentOption: SavingsplansClientTypes.SavingsPlanPaymentOption? = nil,
             planDescription: Swift.String? = nil,
             planType: SavingsplansClientTypes.SavingsPlanType? = nil
-        )
-        {
+        ) {
             self.currency = currency
             self.durationSeconds = durationSeconds
             self.offeringId = offeringId
@@ -1051,8 +1031,7 @@ extension SavingsplansClientTypes {
             serviceCode: SavingsplansClientTypes.SavingsPlanRateServiceCode? = nil,
             unit: SavingsplansClientTypes.SavingsPlanRateUnit? = nil,
             usageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.operation = operation
             self.productType = productType
             self.properties = properties
@@ -1074,8 +1053,7 @@ public struct DescribeSavingsPlansOfferingRatesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         searchResults: [SavingsplansClientTypes.SavingsPlanOfferingRate]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.searchResults = searchResults
     }
@@ -1122,8 +1100,7 @@ extension SavingsplansClientTypes {
         public init(
             name: SavingsplansClientTypes.SavingsPlanOfferingFilterAttribute? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -1172,8 +1149,7 @@ public struct DescribeSavingsPlansOfferingsInput: Swift.Sendable {
         productType: SavingsplansClientTypes.SavingsPlanProductType? = nil,
         serviceCodes: [Swift.String]? = nil,
         usageTypes: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.currencies = currencies
         self.descriptions = descriptions
         self.durations = durations
@@ -1231,8 +1207,7 @@ extension SavingsplansClientTypes {
         public init(
             name: SavingsplansClientTypes.SavingsPlanOfferingPropertyKey? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -1278,8 +1253,7 @@ extension SavingsplansClientTypes {
             properties: [SavingsplansClientTypes.SavingsPlanOfferingProperty]? = nil,
             serviceCode: Swift.String? = nil,
             usageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.currency = currency
             self.description = description
             self.durationSeconds = durationSeconds
@@ -1304,8 +1278,7 @@ public struct DescribeSavingsPlansOfferingsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         searchResults: [SavingsplansClientTypes.SavingsPlanOffering]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.searchResults = searchResults
     }
@@ -1318,8 +1291,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1330,8 +1302,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1346,8 +1317,7 @@ public struct ReturnSavingsPlanInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         savingsPlanId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.savingsPlanId = savingsPlanId
     }
@@ -1359,8 +1329,7 @@ public struct ReturnSavingsPlanOutput: Swift.Sendable {
 
     public init(
         savingsPlanId: Swift.String? = nil
-    )
-    {
+    ) {
         self.savingsPlanId = savingsPlanId
     }
 }
@@ -1376,8 +1345,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1399,8 +1367,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

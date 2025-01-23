@@ -71,10 +71,10 @@ public struct UntagQueueOutput: Swift.Sendable {
     public init() { }
 }
 
-/// The accountId is invalid.
-public struct InvalidAddress: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+/// The specified ID is invalid.
+public struct InvalidAddress: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -89,16 +89,15 @@ public struct InvalidAddress: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
-/// When the request to a queue is not HTTPS and SigV4.
-public struct InvalidSecurity: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+/// The request was not made over HTTPS or did not use SigV4 for signing.
+public struct InvalidSecurity: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -113,16 +112,15 @@ public struct InvalidSecurity: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified action violates a limit. For example, ReceiveMessage returns this error if the maximum number of in flight messages is reached and AddPermission returns this error if the maximum number of permissions for the queue is reached.
-public struct OverLimit: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OverLimit: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -137,16 +135,15 @@ public struct OverLimit: ClientRuntime.ModeledError, AWSClientRuntime.AWSService
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
-/// The specified queue doesn't exist.
-public struct QueueDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+/// Ensure that the QueueUrl is correct and that the queue has not been deleted.
+public struct QueueDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -161,22 +158,19 @@ public struct QueueDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was denied due to request throttling.
 ///
-/// * The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.
+/// * Exceeds the permitted request rate for the queue or for the recipient of the request.
 ///
-/// * A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."
-///
-/// * Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
-public struct RequestThrottled: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+/// * Ensure that the request rate is within the Amazon SQS limits for sending messages. For more information, see [Amazon SQS quotas](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-quotas.html#quotas-requests) in the Amazon SQS Developer Guide.
+public struct RequestThrottled: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -191,16 +185,15 @@ public struct RequestThrottled: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Error code 400. Unsupported operation.
-public struct UnsupportedOperation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedOperation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -215,8 +208,7 @@ public struct UnsupportedOperation: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -241,8 +233,7 @@ public struct AddPermissionInput: Swift.Sendable {
         awsAccountIds: [Swift.String]? = nil,
         label: Swift.String? = nil,
         queueUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.awsAccountIds = awsAccountIds
         self.label = label
@@ -251,9 +242,9 @@ public struct AddPermissionInput: Swift.Sendable {
 }
 
 /// One or more specified resources don't exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -268,8 +259,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -281,8 +271,7 @@ public struct CancelMessageMoveTaskInput: Swift.Sendable {
 
     public init(
         taskHandle: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskHandle = taskHandle
     }
 }
@@ -293,14 +282,13 @@ public struct CancelMessageMoveTaskOutput: Swift.Sendable {
 
     public init(
         approximateNumberOfMessagesMoved: Swift.Int = 0
-    )
-    {
+    ) {
         self.approximateNumberOfMessagesMoved = approximateNumberOfMessagesMoved
     }
 }
 
 /// The specified message isn't in flight.
-public struct MessageNotInflight: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MessageNotInflight: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "AWS.SimpleQueueService.MessageNotInflight" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -313,9 +301,9 @@ public struct MessageNotInflight: ClientRuntime.ModeledError, AWSClientRuntime.A
 }
 
 /// The specified receipt handle isn't valid.
-public struct ReceiptHandleIsInvalid: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReceiptHandleIsInvalid: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -330,8 +318,7 @@ public struct ReceiptHandleIsInvalid: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -351,8 +338,7 @@ public struct ChangeMessageVisibilityInput: Swift.Sendable {
         queueUrl: Swift.String? = nil,
         receiptHandle: Swift.String? = nil,
         visibilityTimeout: Swift.Int? = nil
-    )
-    {
+    ) {
         self.queueUrl = queueUrl
         self.receiptHandle = receiptHandle
         self.visibilityTimeout = visibilityTimeout
@@ -360,9 +346,9 @@ public struct ChangeMessageVisibilityInput: Swift.Sendable {
 }
 
 /// Two or more batch entries in the request have the same Id.
-public struct BatchEntryIdsNotDistinct: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BatchEntryIdsNotDistinct: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -377,16 +363,15 @@ public struct BatchEntryIdsNotDistinct: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The batch request doesn't contain any entries.
-public struct EmptyBatchRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EmptyBatchRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -401,16 +386,15 @@ public struct EmptyBatchRequest: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The Id of a batch entry in a batch request doesn't abide by the specification.
-public struct InvalidBatchEntryId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidBatchEntryId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -425,16 +409,15 @@ public struct InvalidBatchEntryId: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
-/// The batch request contains more entries than permissible.
-public struct TooManyEntriesInBatchRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+/// The batch request contains more entries than permissible. For Amazon SQS, the maximum number of entries you can include in a single [SendMessageBatch](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_SendMessageBatch.html), [DeleteMessageBatch](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_DeleteMessageBatch.html), or [ChangeMessageVisibilityBatch](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_ChangeMessageVisibilityBatch.html) request is 10.
+public struct TooManyEntriesInBatchRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -449,8 +432,7 @@ public struct TooManyEntriesInBatchRequest: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -472,8 +454,7 @@ extension SQSClientTypes {
             id: Swift.String? = nil,
             receiptHandle: Swift.String? = nil,
             visibilityTimeout: Swift.Int? = nil
-        )
-        {
+        ) {
             self.id = id
             self.receiptHandle = receiptHandle
             self.visibilityTimeout = visibilityTimeout
@@ -493,8 +474,7 @@ public struct ChangeMessageVisibilityBatchInput: Swift.Sendable {
     public init(
         entries: [SQSClientTypes.ChangeMessageVisibilityBatchRequestEntry]? = nil,
         queueUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.entries = entries
         self.queueUrl = queueUrl
     }
@@ -521,8 +501,7 @@ extension SQSClientTypes {
             id: Swift.String? = nil,
             message: Swift.String? = nil,
             senderFault: Swift.Bool = false
-        )
-        {
+        ) {
             self.code = code
             self.id = id
             self.message = message
@@ -541,8 +520,7 @@ extension SQSClientTypes {
 
         public init(
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -560,17 +538,16 @@ public struct ChangeMessageVisibilityBatchOutput: Swift.Sendable {
     public init(
         failed: [SQSClientTypes.BatchResultErrorEntry]? = nil,
         successful: [SQSClientTypes.ChangeMessageVisibilityBatchResultEntry]? = nil
-    )
-    {
+    ) {
         self.failed = failed
         self.successful = successful
     }
 }
 
 /// The specified attribute doesn't exist.
-public struct InvalidAttributeName: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidAttributeName: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -585,16 +562,15 @@ public struct InvalidAttributeName: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A queue attribute value is invalid.
-public struct InvalidAttributeValue: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidAttributeValue: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -609,16 +585,15 @@ public struct InvalidAttributeValue: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You must wait 60 seconds after deleting a queue before you can create another queue with the same name.
-public struct QueueDeletedRecently: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct QueueDeletedRecently: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -633,16 +608,15 @@ public struct QueueDeletedRecently: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A queue with this name already exists. Amazon SQS returns this error only if the request includes attributes whose values differ from those of the existing queue.
-public struct QueueNameExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct QueueNameExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -657,8 +631,7 @@ public struct QueueNameExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -881,8 +854,7 @@ public struct CreateQueueInput: Swift.Sendable {
         attributes: [Swift.String: Swift.String]? = nil,
         queueName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.queueName = queueName
         self.tags = tags
@@ -896,15 +868,14 @@ public struct CreateQueueOutput: Swift.Sendable {
 
     public init(
         queueUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.queueUrl = queueUrl
     }
 }
 
 /// The specified receipt handle isn't valid for the current version.
 @available(*, deprecated, message: "exception has been included in ReceiptHandleIsInvalid")
-public struct InvalidIdFormat: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidIdFormat: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "InvalidIdFormat" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -928,8 +899,7 @@ public struct DeleteMessageInput: Swift.Sendable {
     public init(
         queueUrl: Swift.String? = nil,
         receiptHandle: Swift.String? = nil
-    )
-    {
+    ) {
         self.queueUrl = queueUrl
         self.receiptHandle = receiptHandle
     }
@@ -949,8 +919,7 @@ extension SQSClientTypes {
         public init(
             id: Swift.String? = nil,
             receiptHandle: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.receiptHandle = receiptHandle
         }
@@ -969,8 +938,7 @@ public struct DeleteMessageBatchInput: Swift.Sendable {
     public init(
         entries: [SQSClientTypes.DeleteMessageBatchRequestEntry]? = nil,
         queueUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.entries = entries
         self.queueUrl = queueUrl
     }
@@ -986,8 +954,7 @@ extension SQSClientTypes {
 
         public init(
             id: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
         }
     }
@@ -1005,8 +972,7 @@ public struct DeleteMessageBatchOutput: Swift.Sendable {
     public init(
         failed: [SQSClientTypes.BatchResultErrorEntry]? = nil,
         successful: [SQSClientTypes.DeleteMessageBatchResultEntry]? = nil
-    )
-    {
+    ) {
         self.failed = failed
         self.successful = successful
     }
@@ -1020,8 +986,7 @@ public struct DeleteQueueInput: Swift.Sendable {
 
     public init(
         queueUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.queueUrl = queueUrl
     }
 }
@@ -1126,8 +1091,7 @@ public struct GetQueueAttributesInput: Swift.Sendable {
     public init(
         attributeNames: [SQSClientTypes.QueueAttributeName]? = nil,
         queueUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributeNames = attributeNames
         self.queueUrl = queueUrl
     }
@@ -1140,25 +1104,23 @@ public struct GetQueueAttributesOutput: Swift.Sendable {
 
     public init(
         attributes: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
     }
 }
 
-///
+/// Retrieves the URL of an existing queue based on its name and, optionally, the Amazon Web Services account ID.
 public struct GetQueueUrlInput: Swift.Sendable {
-    /// The name of the queue whose URL must be fetched. Maximum 80 characters. Valid values: alphanumeric characters, hyphens (-), and underscores (_). Queue URLs and names are case-sensitive.
+    /// (Required) The name of the queue for which you want to fetch the URL. The name can be up to 80 characters long and can include alphanumeric characters, hyphens (-), and underscores (_). Queue URLs and names are case-sensitive.
     /// This member is required.
     public var queueName: Swift.String?
-    /// The Amazon Web Services account ID of the account that created the queue.
+    /// (Optional) The Amazon Web Services account ID of the account that created the queue. This is only required when you are attempting to access a queue owned by another Amazon Web Services account.
     public var queueOwnerAWSAccountId: Swift.String?
 
     public init(
         queueName: Swift.String? = nil,
         queueOwnerAWSAccountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.queueName = queueName
         self.queueOwnerAWSAccountId = queueOwnerAWSAccountId
     }
@@ -1171,8 +1133,7 @@ public struct GetQueueUrlOutput: Swift.Sendable {
 
     public init(
         queueUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.queueUrl = queueUrl
     }
 }
@@ -1191,8 +1152,7 @@ public struct ListDeadLetterSourceQueuesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         queueUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.queueUrl = queueUrl
@@ -1210,8 +1170,7 @@ public struct ListDeadLetterSourceQueuesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         queueUrls: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.queueUrls = queueUrls
     }
@@ -1227,8 +1186,7 @@ public struct ListMessageMoveTasksInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         sourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.sourceArn = sourceArn
     }
@@ -1267,8 +1225,7 @@ extension SQSClientTypes {
             startedTimestamp: Swift.Int = 0,
             status: Swift.String? = nil,
             taskHandle: Swift.String? = nil
-        )
-        {
+        ) {
             self.approximateNumberOfMessagesMoved = approximateNumberOfMessagesMoved
             self.approximateNumberOfMessagesToMove = approximateNumberOfMessagesToMove
             self.destinationArn = destinationArn
@@ -1288,8 +1245,7 @@ public struct ListMessageMoveTasksOutput: Swift.Sendable {
 
     public init(
         results: [SQSClientTypes.ListMessageMoveTasksResultEntry]? = nil
-    )
-    {
+    ) {
         self.results = results
     }
 }
@@ -1307,8 +1263,7 @@ public struct ListQueuesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         queueNamePrefix: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.queueNamePrefix = queueNamePrefix
@@ -1325,8 +1280,7 @@ public struct ListQueuesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         queueUrls: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.queueUrls = queueUrls
     }
@@ -1339,8 +1293,7 @@ public struct ListQueueTagsInput: Swift.Sendable {
 
     public init(
         queueUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.queueUrl = queueUrl
     }
 }
@@ -1351,16 +1304,15 @@ public struct ListQueueTagsOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
 
 /// Indicates that the specified queue previously received a PurgeQueue request within the last 60 seconds (the time it can take to delete the messages in the queue).
-public struct PurgeQueueInProgress: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PurgeQueueInProgress: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1375,8 +1327,7 @@ public struct PurgeQueueInProgress: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1389,16 +1340,15 @@ public struct PurgeQueueInput: Swift.Sendable {
 
     public init(
         queueUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.queueUrl = queueUrl
     }
 }
 
 /// The caller doesn't have the required KMS access.
-public struct KmsAccessDenied: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KmsAccessDenied: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1413,16 +1363,15 @@ public struct KmsAccessDenied: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was denied due to request throttling.
-public struct KmsDisabled: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KmsDisabled: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1437,8 +1386,7 @@ public struct KmsDisabled: ClientRuntime.ModeledError, AWSClientRuntime.AWSServi
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1448,9 +1396,9 @@ public struct KmsDisabled: ClientRuntime.ModeledError, AWSClientRuntime.AWSServi
 /// * The KeyUsage value of the KMS key is incompatible with the API operation.
 ///
 /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
-public struct KmsInvalidKeyUsage: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KmsInvalidKeyUsage: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1465,16 +1413,15 @@ public struct KmsInvalidKeyUsage: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the state of the specified resource is not valid for this request.
-public struct KmsInvalidState: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KmsInvalidState: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1489,16 +1436,15 @@ public struct KmsInvalidState: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the specified entity or resource could not be found.
-public struct KmsNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KmsNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1513,16 +1459,15 @@ public struct KmsNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServi
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the specified key policy isn't syntactically or semantically correct.
-public struct KmsOptInRequired: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KmsOptInRequired: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1537,16 +1482,15 @@ public struct KmsOptInRequired: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Amazon Web Services KMS throttles requests for the following conditions.
-public struct KmsThrottled: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KmsThrottled: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1561,8 +1505,7 @@ public struct KmsThrottled: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1620,9 +1563,9 @@ extension SQSClientTypes {
     }
 }
 
-///
+/// Retrieves one or more messages from a specified queue.
 public struct ReceiveMessageInput: Swift.Sendable {
-    /// This parameter has been deprecated but will be supported for backward compatibility. To provide attribute names, you are encouraged to use MessageSystemAttributeNames. A list of attributes that need to be returned along with each message. These attributes include:
+    /// This parameter has been discontinued but will be supported for backward compatibility. To provide attribute names, you are encouraged to use MessageSystemAttributeNames. A list of attributes that need to be returned along with each message. These attributes include:
     ///
     /// * All – Returns all values.
     ///
@@ -1718,9 +1661,20 @@ public struct ReceiveMessageInput: Swift.Sendable {
     ///
     /// The maximum length of ReceiveRequestAttemptId is 128 characters. ReceiveRequestAttemptId can contain alphanumeric characters (a-z, A-Z, 0-9) and punctuation (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~). For best practices of using ReceiveRequestAttemptId, see [Using the ReceiveRequestAttemptId Request Parameter](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-receiverequestattemptid-request-parameter.html) in the Amazon SQS Developer Guide.
     public var receiveRequestAttemptId: Swift.String?
-    /// The duration (in seconds) that the received messages are hidden from subsequent retrieve requests after being retrieved by a ReceiveMessage request.
+    /// The duration (in seconds) that the received messages are hidden from subsequent retrieve requests after being retrieved by a ReceiveMessage request. If not specified, the default visibility timeout for the queue is used, which is 30 seconds. Understanding VisibilityTimeout:
+    ///
+    /// * When a message is received from a queue, it becomes temporarily invisible to other consumers for the duration of the visibility timeout. This prevents multiple consumers from processing the same message simultaneously. If the message is not deleted or its visibility timeout is not extended before the timeout expires, it becomes visible again and can be retrieved by other consumers.
+    ///
+    /// * Setting an appropriate visibility timeout is crucial. If it's too short, the message might become visible again before processing is complete, leading to duplicate processing. If it's too long, it delays the reprocessing of messages if the initial processing fails.
+    ///
+    /// * You can adjust the visibility timeout using the --visibility-timeout parameter in the receive-message command to match the processing time required by your application.
+    ///
+    /// * A message that isn't deleted or a message whose visibility isn't extended before the visibility timeout expires counts as a failed receive. Depending on the configuration of the queue, the message might be sent to the dead-letter queue.
+    ///
+    ///
+    /// For more information, see [Visibility Timeout](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html) in the Amazon SQS Developer Guide.
     public var visibilityTimeout: Swift.Int?
-    /// The duration (in seconds) for which the call waits for a message to arrive in the queue before returning. If a message is available, the call returns sooner than WaitTimeSeconds. If no messages are available and the wait time expires, the call does not return a message list. To avoid HTTP errors, ensure that the HTTP response timeout for ReceiveMessage requests is longer than the WaitTimeSeconds parameter. For example, with the Java SDK, you can set HTTP transport settings using the [ NettyNioAsyncHttpClient](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/http/nio/netty/NettyNioAsyncHttpClient.html) for asynchronous clients, or the [ ApacheHttpClient](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/http/apache/ApacheHttpClient.html) for synchronous clients.
+    /// The duration (in seconds) for which the call waits for a message to arrive in the queue before returning. If a message is available, the call returns sooner than WaitTimeSeconds. If no messages are available and the wait time expires, the call does not return a message list. If you are using the Java SDK, it returns a ReceiveMessageResponse object, which has a empty list instead of a Null object. To avoid HTTP errors, ensure that the HTTP response timeout for ReceiveMessage requests is longer than the WaitTimeSeconds parameter. For example, with the Java SDK, you can set HTTP transport settings using the [ NettyNioAsyncHttpClient](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/http/nio/netty/NettyNioAsyncHttpClient.html) for asynchronous clients, or the [ ApacheHttpClient](https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/http/apache/ApacheHttpClient.html) for synchronous clients.
     public var waitTimeSeconds: Swift.Int?
 
     public init(
@@ -1732,8 +1686,7 @@ public struct ReceiveMessageInput: Swift.Sendable {
         receiveRequestAttemptId: Swift.String? = nil,
         visibilityTimeout: Swift.Int? = nil,
         waitTimeSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.attributeNames = attributeNames
         self.maxNumberOfMessages = maxNumberOfMessages
         self.messageAttributeNames = messageAttributeNames
@@ -1767,8 +1720,7 @@ extension SQSClientTypes {
             dataType: Swift.String? = nil,
             stringListValues: [Swift.String]? = nil,
             stringValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.binaryListValues = binaryListValues
             self.binaryValue = binaryValue
             self.dataType = dataType
@@ -1822,8 +1774,7 @@ extension SQSClientTypes {
             messageAttributes: [Swift.String: SQSClientTypes.MessageAttributeValue]? = nil,
             messageId: Swift.String? = nil,
             receiptHandle: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.body = body
             self.md5OfBody = md5OfBody
@@ -1842,8 +1793,7 @@ public struct ReceiveMessageOutput: Swift.Sendable {
 
     public init(
         messages: [SQSClientTypes.Message]? = nil
-    )
-    {
+    ) {
         self.messages = messages
     }
 }
@@ -1860,17 +1810,16 @@ public struct RemovePermissionInput: Swift.Sendable {
     public init(
         label: Swift.String? = nil,
         queueUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.label = label
         self.queueUrl = queueUrl
     }
 }
 
 /// The message contains characters outside the allowed set.
-public struct InvalidMessageContents: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidMessageContents: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1885,8 +1834,7 @@ public struct InvalidMessageContents: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1939,8 +1887,7 @@ extension SQSClientTypes {
             dataType: Swift.String? = nil,
             stringListValues: [Swift.String]? = nil,
             stringValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.binaryListValues = binaryListValues
             self.binaryValue = binaryValue
             self.dataType = dataType
@@ -2008,8 +1955,7 @@ public struct SendMessageInput: Swift.Sendable {
         messageGroupId: Swift.String? = nil,
         messageSystemAttributes: [Swift.String: SQSClientTypes.MessageSystemAttributeValue]? = nil,
         queueUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.delaySeconds = delaySeconds
         self.messageAttributes = messageAttributes
         self.messageBody = messageBody
@@ -2039,8 +1985,7 @@ public struct SendMessageOutput: Swift.Sendable {
         md5OfMessageSystemAttributes: Swift.String? = nil,
         messageId: Swift.String? = nil,
         sequenceNumber: Swift.String? = nil
-    )
-    {
+    ) {
         self.md5OfMessageAttributes = md5OfMessageAttributes
         self.md5OfMessageBody = md5OfMessageBody
         self.md5OfMessageSystemAttributes = md5OfMessageSystemAttributes
@@ -2050,9 +1995,9 @@ public struct SendMessageOutput: Swift.Sendable {
 }
 
 /// The length of all the messages put together is more than the limit.
-public struct BatchRequestTooLong: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BatchRequestTooLong: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2067,8 +2012,7 @@ public struct BatchRequestTooLong: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2133,8 +2077,7 @@ extension SQSClientTypes {
             messageDeduplicationId: Swift.String? = nil,
             messageGroupId: Swift.String? = nil,
             messageSystemAttributes: [Swift.String: SQSClientTypes.MessageSystemAttributeValue]? = nil
-        )
-        {
+        ) {
             self.delaySeconds = delaySeconds
             self.id = id
             self.messageAttributes = messageAttributes
@@ -2158,8 +2101,7 @@ public struct SendMessageBatchInput: Swift.Sendable {
     public init(
         entries: [SQSClientTypes.SendMessageBatchRequestEntry]? = nil,
         queueUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.entries = entries
         self.queueUrl = queueUrl
     }
@@ -2192,8 +2134,7 @@ extension SQSClientTypes {
             md5OfMessageSystemAttributes: Swift.String? = nil,
             messageId: Swift.String? = nil,
             sequenceNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.md5OfMessageAttributes = md5OfMessageAttributes
             self.md5OfMessageBody = md5OfMessageBody
@@ -2216,8 +2157,7 @@ public struct SendMessageBatchOutput: Swift.Sendable {
     public init(
         failed: [SQSClientTypes.BatchResultErrorEntry]? = nil,
         successful: [SQSClientTypes.SendMessageBatchResultEntry]? = nil
-    )
-    {
+    ) {
         self.failed = failed
         self.successful = successful
     }
@@ -2328,8 +2268,7 @@ public struct SetQueueAttributesInput: Swift.Sendable {
     public init(
         attributes: [Swift.String: Swift.String]? = nil,
         queueUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.queueUrl = queueUrl
     }
@@ -2348,8 +2287,7 @@ public struct StartMessageMoveTaskInput: Swift.Sendable {
         destinationArn: Swift.String? = nil,
         maxNumberOfMessagesPerSecond: Swift.Int? = nil,
         sourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationArn = destinationArn
         self.maxNumberOfMessagesPerSecond = maxNumberOfMessagesPerSecond
         self.sourceArn = sourceArn
@@ -2362,8 +2300,7 @@ public struct StartMessageMoveTaskOutput: Swift.Sendable {
 
     public init(
         taskHandle: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskHandle = taskHandle
     }
 }
@@ -2379,8 +2316,7 @@ public struct TagQueueInput: Swift.Sendable {
     public init(
         queueUrl: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.queueUrl = queueUrl
         self.tags = tags
     }
@@ -2397,8 +2333,7 @@ public struct UntagQueueInput: Swift.Sendable {
     public init(
         queueUrl: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.queueUrl = queueUrl
         self.tagKeys = tagKeys
     }
@@ -3032,7 +2967,7 @@ enum AddPermissionOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleAWSJsonError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3052,7 +2987,7 @@ enum CancelMessageMoveTaskOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleAWSJsonError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3071,7 +3006,7 @@ enum ChangeMessageVisibilityOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleAWSJsonError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3092,7 +3027,7 @@ enum ChangeMessageVisibilityBatchOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleAWSJsonError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AWS.SimpleQueueService.BatchEntryIdsNotDistinct": return try BatchEntryIdsNotDistinct.makeError(baseError: baseError)
@@ -3115,7 +3050,7 @@ enum CreateQueueOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleAWSJsonError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3137,7 +3072,7 @@ enum DeleteMessageOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleAWSJsonError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3158,7 +3093,7 @@ enum DeleteMessageBatchOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleAWSJsonError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AWS.SimpleQueueService.BatchEntryIdsNotDistinct": return try BatchEntryIdsNotDistinct.makeError(baseError: baseError)
@@ -3181,7 +3116,7 @@ enum DeleteQueueOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleAWSJsonError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3200,7 +3135,7 @@ enum GetQueueAttributesOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleAWSJsonError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3220,7 +3155,7 @@ enum GetQueueUrlOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleAWSJsonError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3239,7 +3174,7 @@ enum ListDeadLetterSourceQueuesOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleAWSJsonError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3258,7 +3193,7 @@ enum ListMessageMoveTasksOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleAWSJsonError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3277,7 +3212,7 @@ enum ListQueuesOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleAWSJsonError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3295,7 +3230,7 @@ enum ListQueueTagsOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleAWSJsonError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3314,7 +3249,7 @@ enum PurgeQueueOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleAWSJsonError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3334,7 +3269,7 @@ enum ReceiveMessageOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleAWSJsonError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3361,7 +3296,7 @@ enum RemovePermissionOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleAWSJsonError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3380,7 +3315,7 @@ enum SendMessageOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleAWSJsonError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3407,7 +3342,7 @@ enum SendMessageBatchOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleAWSJsonError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AWS.SimpleQueueService.BatchEntryIdsNotDistinct": return try BatchEntryIdsNotDistinct.makeError(baseError: baseError)
@@ -3438,7 +3373,7 @@ enum SetQueueAttributesOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleAWSJsonError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3460,7 +3395,7 @@ enum StartMessageMoveTaskOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleAWSJsonError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3479,7 +3414,7 @@ enum TagQueueOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleAWSJsonError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)
@@ -3498,7 +3433,7 @@ enum UntagQueueOutputError {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let errorDetails = httpResponse.headers.value(for: "x-amzn-query-error")
-        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleAWSJsonError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
+        let baseError = try AWSClientRuntime.AWSJSONError.makeQueryCompatibleError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false, errorDetails: errorDetails)
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidAddress": return try InvalidAddress.makeError(baseError: baseError)

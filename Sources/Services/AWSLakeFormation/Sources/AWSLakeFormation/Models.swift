@@ -30,9 +30,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// Access to a resource was denied.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -48,16 +48,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Two processes are trying to modify a resource simultaneously.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -73,16 +72,15 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A specified entity does not exist.
-public struct EntityNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EntityNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -98,16 +96,15 @@ public struct EntityNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An internal service error occurred.
-public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -123,16 +120,15 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The input provided was not valid.
-public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -148,16 +144,15 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The operation timed out.
-public struct OperationTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OperationTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -173,8 +168,7 @@ public struct OperationTimeoutException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -196,8 +190,7 @@ extension LakeFormationClientTypes {
             catalogId: Swift.String? = nil,
             tagKey: Swift.String? = nil,
             tagValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.tagKey = tagKey
             self.tagValues = tagValues
@@ -209,8 +202,14 @@ extension LakeFormationClientTypes {
 
     /// A structure for the catalog object.
     public struct CatalogResource: Swift.Sendable {
+        /// An identifier for the catalog resource.
+        public var id: Swift.String?
 
-        public init() { }
+        public init(
+            id: Swift.String? = nil
+        ) {
+            self.id = id
+        }
     }
 }
 
@@ -227,8 +226,7 @@ extension LakeFormationClientTypes {
         public init(
             catalogId: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.name = name
         }
@@ -253,8 +251,7 @@ extension LakeFormationClientTypes {
             name: Swift.String? = nil,
             tableCatalogId: Swift.String? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.databaseName = databaseName
             self.name = name
             self.tableCatalogId = tableCatalogId
@@ -276,8 +273,7 @@ extension LakeFormationClientTypes {
         public init(
             catalogId: Swift.String? = nil,
             resourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.resourceArn = resourceArn
         }
@@ -301,8 +297,7 @@ extension LakeFormationClientTypes {
             catalogId: Swift.String? = nil,
             tagKey: Swift.String? = nil,
             tagValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.tagKey = tagKey
             self.tagValues = tagValues
@@ -323,8 +318,7 @@ extension LakeFormationClientTypes {
         public init(
             catalogId: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.name = name
         }
@@ -345,8 +339,7 @@ extension LakeFormationClientTypes {
         public init(
             tagKey: Swift.String? = nil,
             tagValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.tagKey = tagKey
             self.tagValues = tagValues
         }
@@ -401,8 +394,7 @@ extension LakeFormationClientTypes {
             expression: [LakeFormationClientTypes.LFTag]? = [],
             expressionName: Swift.String? = nil,
             resourceType: LakeFormationClientTypes.ResourceType? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.expression = expression
             self.expressionName = expressionName
@@ -439,8 +431,7 @@ extension LakeFormationClientTypes {
             databaseName: Swift.String? = nil,
             name: Swift.String? = nil,
             tableWildcard: LakeFormationClientTypes.TableWildcard? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.name = name
@@ -458,8 +449,7 @@ extension LakeFormationClientTypes {
 
         public init(
             excludedColumnNames: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.excludedColumnNames = excludedColumnNames
         }
     }
@@ -488,8 +478,7 @@ extension LakeFormationClientTypes {
             columnWildcard: LakeFormationClientTypes.ColumnWildcard? = nil,
             databaseName: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.columnNames = columnNames
             self.columnWildcard = columnWildcard
@@ -532,8 +521,7 @@ extension LakeFormationClientTypes {
             lfTagPolicy: LakeFormationClientTypes.LFTagPolicyResource? = nil,
             table: LakeFormationClientTypes.TableResource? = nil,
             tableWithColumns: LakeFormationClientTypes.TableWithColumnsResource? = nil
-        )
-        {
+        ) {
             self.catalog = catalog
             self.dataCellsFilter = dataCellsFilter
             self.dataLocation = dataLocation
@@ -561,8 +549,7 @@ public struct AddLFTagsToResourceInput: Swift.Sendable {
         catalogId: Swift.String? = nil,
         lfTags: [LakeFormationClientTypes.LFTagPair]? = nil,
         resource: LakeFormationClientTypes.Resource? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.lfTags = lfTags
         self.resource = resource
@@ -581,8 +568,7 @@ extension LakeFormationClientTypes {
         public init(
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
         }
@@ -601,8 +587,7 @@ extension LakeFormationClientTypes {
         public init(
             error: LakeFormationClientTypes.ErrorDetail? = nil,
             lfTag: LakeFormationClientTypes.LFTagPair? = nil
-        )
-        {
+        ) {
             self.error = error
             self.lfTag = lfTag
         }
@@ -615,8 +600,7 @@ public struct AddLFTagsToResourceOutput: Swift.Sendable {
 
     public init(
         failures: [LakeFormationClientTypes.LFTagError]? = nil
-    )
-    {
+    ) {
         self.failures = failures
     }
 }
@@ -642,8 +626,7 @@ extension LakeFormationClientTypes {
             partitionValues: [Swift.String]? = nil,
             size: Swift.Int = 0,
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.eTag = eTag
             self.partitionValues = partitionValues
             self.size = size
@@ -662,9 +645,9 @@ extension LakeFormationClientTypes {
 }
 
 /// A resource to be created or added already exists.
-public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -680,8 +663,7 @@ public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -733,8 +715,7 @@ public struct AssumeDecoratedRoleWithSAMLInput: Swift.Sendable {
         principalArn: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         samlAssertion: Swift.String? = nil
-    )
-    {
+    ) {
         self.durationSeconds = durationSeconds
         self.principalArn = principalArn
         self.roleArn = roleArn
@@ -757,8 +738,7 @@ public struct AssumeDecoratedRoleWithSAMLOutput: Swift.Sendable {
         expiration: Foundation.Date? = nil,
         secretAccessKey: Swift.String? = nil,
         sessionToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessKeyId = accessKeyId
         self.expiration = expiration
         self.secretAccessKey = secretAccessKey
@@ -775,8 +755,7 @@ extension LakeFormationClientTypes {
 
         public init(
             additionalAuditContext: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalAuditContext = additionalAuditContext
         }
     }
@@ -788,6 +767,7 @@ extension LakeFormationClientTypes {
         case all
         case alter
         case associate
+        case createCatalog
         case createDatabase
         case createLfTag
         case createLfTagExpression
@@ -799,6 +779,7 @@ extension LakeFormationClientTypes {
         case grantWithLfTagExpression
         case insert
         case select
+        case superUser
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Permission] {
@@ -806,6 +787,7 @@ extension LakeFormationClientTypes {
                 .all,
                 .alter,
                 .associate,
+                .createCatalog,
                 .createDatabase,
                 .createLfTag,
                 .createLfTagExpression,
@@ -816,7 +798,8 @@ extension LakeFormationClientTypes {
                 .drop,
                 .grantWithLfTagExpression,
                 .insert,
-                .select
+                .select,
+                .superUser
             ]
         }
 
@@ -830,6 +813,7 @@ extension LakeFormationClientTypes {
             case .all: return "ALL"
             case .alter: return "ALTER"
             case .associate: return "ASSOCIATE"
+            case .createCatalog: return "CREATE_CATALOG"
             case .createDatabase: return "CREATE_DATABASE"
             case .createLfTag: return "CREATE_LF_TAG"
             case .createLfTagExpression: return "CREATE_LF_TAG_EXPRESSION"
@@ -841,6 +825,7 @@ extension LakeFormationClientTypes {
             case .grantWithLfTagExpression: return "GRANT_WITH_LF_TAG_EXPRESSION"
             case .insert: return "INSERT"
             case .select: return "SELECT"
+            case .superUser: return "SUPER_USER"
             case let .sdkUnknown(s): return s
             }
         }
@@ -856,8 +841,7 @@ extension LakeFormationClientTypes {
 
         public init(
             dataLakePrincipalIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataLakePrincipalIdentifier = dataLakePrincipalIdentifier
         }
     }
@@ -885,8 +869,7 @@ extension LakeFormationClientTypes {
             permissionsWithGrantOption: [LakeFormationClientTypes.Permission]? = nil,
             principal: LakeFormationClientTypes.DataLakePrincipal? = nil,
             resource: LakeFormationClientTypes.Resource? = nil
-        )
-        {
+        ) {
             self.id = id
             self.permissions = permissions
             self.permissionsWithGrantOption = permissionsWithGrantOption
@@ -906,8 +889,7 @@ public struct BatchGrantPermissionsInput: Swift.Sendable {
     public init(
         catalogId: Swift.String? = nil,
         entries: [LakeFormationClientTypes.BatchPermissionsRequestEntry]? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.entries = entries
     }
@@ -925,8 +907,7 @@ extension LakeFormationClientTypes {
         public init(
             error: LakeFormationClientTypes.ErrorDetail? = nil,
             requestEntry: LakeFormationClientTypes.BatchPermissionsRequestEntry? = nil
-        )
-        {
+        ) {
             self.error = error
             self.requestEntry = requestEntry
         }
@@ -939,8 +920,7 @@ public struct BatchGrantPermissionsOutput: Swift.Sendable {
 
     public init(
         failures: [LakeFormationClientTypes.BatchPermissionsFailureEntry]? = nil
-    )
-    {
+    ) {
         self.failures = failures
     }
 }
@@ -955,8 +935,7 @@ public struct BatchRevokePermissionsInput: Swift.Sendable {
     public init(
         catalogId: Swift.String? = nil,
         entries: [LakeFormationClientTypes.BatchPermissionsRequestEntry]? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.entries = entries
     }
@@ -968,16 +947,15 @@ public struct BatchRevokePermissionsOutput: Swift.Sendable {
 
     public init(
         failures: [LakeFormationClientTypes.BatchPermissionsFailureEntry]? = nil
-    )
-    {
+    ) {
         self.failures = failures
     }
 }
 
 /// Contains details about an error related to a transaction commit that was in progress.
-public struct TransactionCommitInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TransactionCommitInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -993,16 +971,15 @@ public struct TransactionCommitInProgressException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Contains details about an error where the specified transaction has already been committed and cannot be used for UpdateTableObjects.
-public struct TransactionCommittedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TransactionCommittedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1018,8 +995,7 @@ public struct TransactionCommittedException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1031,8 +1007,7 @@ public struct CancelTransactionInput: Swift.Sendable {
 
     public init(
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.transactionId = transactionId
     }
 }
@@ -1043,9 +1018,9 @@ public struct CancelTransactionOutput: Swift.Sendable {
 }
 
 /// Contains details about an error related to a transaction that was cancelled.
-public struct TransactionCanceledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TransactionCanceledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1061,8 +1036,7 @@ public struct TransactionCanceledException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1074,8 +1048,7 @@ public struct CommitTransactionInput: Swift.Sendable {
 
     public init(
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.transactionId = transactionId
     }
 }
@@ -1121,16 +1094,15 @@ public struct CommitTransactionOutput: Swift.Sendable {
 
     public init(
         transactionStatus: LakeFormationClientTypes.TransactionStatus? = nil
-    )
-    {
+    ) {
         self.transactionStatus = transactionStatus
     }
 }
 
 /// A resource numerical limit was exceeded.
-public struct ResourceNumberLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNumberLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1146,8 +1118,7 @@ public struct ResourceNumberLimitExceededException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1164,8 +1135,7 @@ extension LakeFormationClientTypes {
         public init(
             allRowsWildcard: LakeFormationClientTypes.AllRowsWildcard? = nil,
             filterExpression: Swift.String? = nil
-        )
-        {
+        ) {
             self.allRowsWildcard = allRowsWildcard
             self.filterExpression = filterExpression
         }
@@ -1206,8 +1176,7 @@ extension LakeFormationClientTypes {
             tableCatalogId: Swift.String? = nil,
             tableName: Swift.String? = nil,
             versionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.columnNames = columnNames
             self.columnWildcard = columnWildcard
             self.databaseName = databaseName
@@ -1227,8 +1196,7 @@ public struct CreateDataCellsFilterInput: Swift.Sendable {
 
     public init(
         tableData: LakeFormationClientTypes.DataCellsFilter? = nil
-    )
-    {
+    ) {
         self.tableData = tableData
     }
 }
@@ -1281,8 +1249,7 @@ extension LakeFormationClientTypes {
         public init(
             authorizedTargets: [Swift.String]? = nil,
             status: LakeFormationClientTypes.EnableStatus? = nil
-        )
-        {
+        ) {
             self.authorizedTargets = authorizedTargets
             self.status = status
         }
@@ -1304,8 +1271,7 @@ public struct CreateLakeFormationIdentityCenterConfigurationInput: Swift.Sendabl
         externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration? = nil,
         instanceArn: Swift.String? = nil,
         shareRecipients: [LakeFormationClientTypes.DataLakePrincipal]? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.externalFiltering = externalFiltering
         self.instanceArn = instanceArn
@@ -1319,8 +1285,7 @@ public struct CreateLakeFormationIdentityCenterConfigurationOutput: Swift.Sendab
 
     public init(
         applicationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
     }
 }
@@ -1336,8 +1301,7 @@ public struct CreateLakeFormationOptInInput: Swift.Sendable {
     public init(
         principal: LakeFormationClientTypes.DataLakePrincipal? = nil,
         resource: LakeFormationClientTypes.Resource? = nil
-    )
-    {
+    ) {
         self.principal = principal
         self.resource = resource
     }
@@ -1362,8 +1326,7 @@ public struct CreateLFTagInput: Swift.Sendable {
         catalogId: Swift.String? = nil,
         tagKey: Swift.String? = nil,
         tagValues: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.tagKey = tagKey
         self.tagValues = tagValues
@@ -1392,8 +1355,7 @@ public struct CreateLFTagExpressionInput: Swift.Sendable {
         description: Swift.String? = nil,
         expression: [LakeFormationClientTypes.LFTag]? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.description = description
         self.expression = expression
@@ -1421,8 +1383,7 @@ public struct DeleteDataCellsFilterInput: Swift.Sendable {
         name: Swift.String? = nil,
         tableCatalogId: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
         self.name = name
         self.tableCatalogId = tableCatalogId
@@ -1441,8 +1402,7 @@ public struct DeleteLakeFormationIdentityCenterConfigurationInput: Swift.Sendabl
 
     public init(
         catalogId: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
     }
 }
@@ -1463,8 +1423,7 @@ public struct DeleteLakeFormationOptInInput: Swift.Sendable {
     public init(
         principal: LakeFormationClientTypes.DataLakePrincipal? = nil,
         resource: LakeFormationClientTypes.Resource? = nil
-    )
-    {
+    ) {
         self.principal = principal
         self.resource = resource
     }
@@ -1485,8 +1444,7 @@ public struct DeleteLFTagInput: Swift.Sendable {
     public init(
         catalogId: Swift.String? = nil,
         tagKey: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.tagKey = tagKey
     }
@@ -1507,8 +1465,7 @@ public struct DeleteLFTagExpressionInput: Swift.Sendable {
     public init(
         catalogId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.name = name
     }
@@ -1520,9 +1477,9 @@ public struct DeleteLFTagExpressionOutput: Swift.Sendable {
 }
 
 /// Contains details about an error related to a resource which is not ready for a transaction.
-public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1538,8 +1495,7 @@ public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1557,8 +1513,7 @@ extension LakeFormationClientTypes {
         public init(
             eTag: Swift.String? = nil,
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.eTag = eTag
             self.uri = uri
         }
@@ -1587,8 +1542,7 @@ public struct DeleteObjectsOnCancelInput: Swift.Sendable {
         objects: [LakeFormationClientTypes.VirtualObject]? = nil,
         tableName: Swift.String? = nil,
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.objects = objects
@@ -1609,8 +1563,7 @@ public struct DeregisterResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1626,8 +1579,7 @@ public struct DescribeLakeFormationIdentityCenterConfigurationInput: Swift.Senda
 
     public init(
         catalogId: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
     }
 }
@@ -1653,8 +1605,7 @@ public struct DescribeLakeFormationIdentityCenterConfigurationOutput: Swift.Send
         instanceArn: Swift.String? = nil,
         resourceShare: Swift.String? = nil,
         shareRecipients: [LakeFormationClientTypes.DataLakePrincipal]? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
         self.catalogId = catalogId
         self.externalFiltering = externalFiltering
@@ -1671,8 +1622,7 @@ public struct DescribeResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1698,8 +1648,7 @@ extension LakeFormationClientTypes {
             resourceArn: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             withFederation: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.hybridAccessEnabled = hybridAccessEnabled
             self.lastModified = lastModified
             self.resourceArn = resourceArn
@@ -1715,8 +1664,7 @@ public struct DescribeResourceOutput: Swift.Sendable {
 
     public init(
         resourceInfo: LakeFormationClientTypes.ResourceInfo? = nil
-    )
-    {
+    ) {
         self.resourceInfo = resourceInfo
     }
 }
@@ -1728,8 +1676,7 @@ public struct DescribeTransactionInput: Swift.Sendable {
 
     public init(
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.transactionId = transactionId
     }
 }
@@ -1752,8 +1699,7 @@ extension LakeFormationClientTypes {
             transactionId: Swift.String? = nil,
             transactionStartTime: Foundation.Date? = nil,
             transactionStatus: LakeFormationClientTypes.TransactionStatus? = nil
-        )
-        {
+        ) {
             self.transactionEndTime = transactionEndTime
             self.transactionId = transactionId
             self.transactionStartTime = transactionStartTime
@@ -1768,8 +1714,7 @@ public struct DescribeTransactionOutput: Swift.Sendable {
 
     public init(
         transactionDescription: LakeFormationClientTypes.TransactionDescription? = nil
-    )
-    {
+    ) {
         self.transactionDescription = transactionDescription
     }
 }
@@ -1780,8 +1725,7 @@ public struct ExtendTransactionInput: Swift.Sendable {
 
     public init(
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.transactionId = transactionId
     }
 }
@@ -1810,8 +1754,7 @@ public struct GetDataCellsFilterInput: Swift.Sendable {
         name: Swift.String? = nil,
         tableCatalogId: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
         self.name = name
         self.tableCatalogId = tableCatalogId
@@ -1825,8 +1768,7 @@ public struct GetDataCellsFilterOutput: Swift.Sendable {
 
     public init(
         dataCellsFilter: LakeFormationClientTypes.DataCellsFilter? = nil
-    )
-    {
+    ) {
         self.dataCellsFilter = dataCellsFilter
     }
 }
@@ -1842,8 +1784,7 @@ public struct GetDataLakePrincipalOutput: Swift.Sendable {
 
     public init(
         identity: Swift.String? = nil
-    )
-    {
+    ) {
         self.identity = identity
     }
 }
@@ -1854,8 +1795,7 @@ public struct GetDataLakeSettingsInput: Swift.Sendable {
 
     public init(
         catalogId: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
     }
 }
@@ -1872,8 +1812,7 @@ extension LakeFormationClientTypes {
         public init(
             permissions: [LakeFormationClientTypes.Permission]? = nil,
             principal: LakeFormationClientTypes.DataLakePrincipal? = nil
-        )
-        {
+        ) {
             self.permissions = permissions
             self.principal = principal
         }
@@ -1916,8 +1855,7 @@ extension LakeFormationClientTypes {
             parameters: [Swift.String: Swift.String]? = nil,
             readOnlyAdmins: [LakeFormationClientTypes.DataLakePrincipal]? = nil,
             trustedResourceOwners: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.allowExternalDataFiltering = allowExternalDataFiltering
             self.allowFullTableExternalDataAccess = allowFullTableExternalDataAccess
             self.authorizedSessionTagValueList = authorizedSessionTagValueList
@@ -1938,8 +1876,7 @@ public struct GetDataLakeSettingsOutput: Swift.Sendable {
 
     public init(
         dataLakeSettings: LakeFormationClientTypes.DataLakeSettings? = nil
-    )
-    {
+    ) {
         self.dataLakeSettings = dataLakeSettings
     }
 }
@@ -1960,8 +1897,7 @@ public struct GetEffectivePermissionsForPathInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1978,9 +1914,23 @@ extension LakeFormationClientTypes {
 
         public init(
             resourceShare: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.resourceShare = resourceShare
+        }
+    }
+}
+
+extension LakeFormationClientTypes {
+
+    /// A Lake Formation condition, which applies to permissions and opt-ins that contain an expression.
+    public struct Condition: Swift.Sendable {
+        /// An expression written based on the Cedar Policy Language used to match the principal attributes.
+        public var expression: Swift.String?
+
+        public init(
+            expression: Swift.String? = nil
+        ) {
+            self.expression = expression
         }
     }
 }
@@ -1991,6 +1941,8 @@ extension LakeFormationClientTypes {
     public struct PrincipalResourcePermissions: Swift.Sendable {
         /// This attribute can be used to return any additional details of PrincipalResourcePermissions. Currently returns only as a RAM resource share ARN.
         public var additionalDetails: LakeFormationClientTypes.DetailsMap?
+        /// A Lake Formation condition, which applies to permissions and opt-ins that contain an expression.
+        public var condition: LakeFormationClientTypes.Condition?
         /// The date and time when the resource was last updated.
         public var lastUpdated: Foundation.Date?
         /// The user who updated the record.
@@ -2006,15 +1958,16 @@ extension LakeFormationClientTypes {
 
         public init(
             additionalDetails: LakeFormationClientTypes.DetailsMap? = nil,
+            condition: LakeFormationClientTypes.Condition? = nil,
             lastUpdated: Foundation.Date? = nil,
             lastUpdatedBy: Swift.String? = nil,
             permissions: [LakeFormationClientTypes.Permission]? = nil,
             permissionsWithGrantOption: [LakeFormationClientTypes.Permission]? = nil,
             principal: LakeFormationClientTypes.DataLakePrincipal? = nil,
             resource: LakeFormationClientTypes.Resource? = nil
-        )
-        {
+        ) {
             self.additionalDetails = additionalDetails
+            self.condition = condition
             self.lastUpdated = lastUpdated
             self.lastUpdatedBy = lastUpdatedBy
             self.permissions = permissions
@@ -2034,8 +1987,7 @@ public struct GetEffectivePermissionsForPathOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         permissions: [LakeFormationClientTypes.PrincipalResourcePermissions]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.permissions = permissions
     }
@@ -2051,8 +2003,7 @@ public struct GetLFTagInput: Swift.Sendable {
     public init(
         catalogId: Swift.String? = nil,
         tagKey: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.tagKey = tagKey
     }
@@ -2070,8 +2021,7 @@ public struct GetLFTagOutput: Swift.Sendable {
         catalogId: Swift.String? = nil,
         tagKey: Swift.String? = nil,
         tagValues: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.tagKey = tagKey
         self.tagValues = tagValues
@@ -2088,8 +2038,7 @@ public struct GetLFTagExpressionInput: Swift.Sendable {
     public init(
         catalogId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.name = name
     }
@@ -2110,8 +2059,7 @@ public struct GetLFTagExpressionOutput: Swift.Sendable {
         description: Swift.String? = nil,
         expression: [LakeFormationClientTypes.LFTag]? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.description = description
         self.expression = expression
@@ -2126,8 +2074,7 @@ public struct GetQueryStateInput: Swift.Sendable {
 
     public init(
         queryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.queryId = queryId
     }
 }
@@ -2189,17 +2136,16 @@ public struct GetQueryStateOutput: Swift.Sendable {
     public init(
         error: Swift.String? = nil,
         state: LakeFormationClientTypes.QueryStateString? = nil
-    )
-    {
+    ) {
         self.error = error
         self.state = state
     }
 }
 
 /// Contains details about an error where the query request expired.
-public struct ExpiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ExpiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2215,16 +2161,15 @@ public struct ExpiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Contains details about an error related to statistics not being ready.
-public struct StatisticsNotReadyYetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StatisticsNotReadyYetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2240,16 +2185,15 @@ public struct StatisticsNotReadyYetException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Contains details about an error where the query request was throttled.
-public struct ThrottledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2265,8 +2209,7 @@ public struct ThrottledException: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2278,8 +2221,7 @@ public struct GetQueryStatisticsInput: Swift.Sendable {
 
     public init(
         queryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.queryId = queryId
     }
 }
@@ -2299,8 +2241,7 @@ extension LakeFormationClientTypes {
             averageExecutionTimeMillis: Swift.Int = 0,
             dataScannedBytes: Swift.Int = 0,
             workUnitsExecutedCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.averageExecutionTimeMillis = averageExecutionTimeMillis
             self.dataScannedBytes = dataScannedBytes
             self.workUnitsExecutedCount = workUnitsExecutedCount
@@ -2326,8 +2267,7 @@ extension LakeFormationClientTypes {
             planningTimeMillis: Swift.Int = 0,
             queueTimeMillis: Swift.Int = 0,
             workUnitsGeneratedCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.estimatedDataToScanBytes = estimatedDataToScanBytes
             self.planningTimeMillis = planningTimeMillis
             self.queueTimeMillis = queueTimeMillis
@@ -2348,8 +2288,7 @@ public struct GetQueryStatisticsOutput: Swift.Sendable {
         executionStatistics: LakeFormationClientTypes.ExecutionStatistics? = nil,
         planningStatistics: LakeFormationClientTypes.PlanningStatistics? = nil,
         querySubmissionTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.executionStatistics = executionStatistics
         self.planningStatistics = planningStatistics
         self.querySubmissionTime = querySubmissionTime
@@ -2357,9 +2296,9 @@ public struct GetQueryStatisticsOutput: Swift.Sendable {
 }
 
 /// An encryption operation failed.
-public struct GlueEncryptionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GlueEncryptionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2375,8 +2314,7 @@ public struct GlueEncryptionException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2394,8 +2332,7 @@ public struct GetResourceLFTagsInput: Swift.Sendable {
         catalogId: Swift.String? = nil,
         resource: LakeFormationClientTypes.Resource? = nil,
         showAssignedLFTags: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.resource = resource
         self.showAssignedLFTags = showAssignedLFTags
@@ -2414,8 +2351,7 @@ extension LakeFormationClientTypes {
         public init(
             lfTags: [LakeFormationClientTypes.LFTagPair]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.lfTags = lfTags
             self.name = name
         }
@@ -2434,8 +2370,7 @@ public struct GetResourceLFTagsOutput: Swift.Sendable {
         lfTagOnDatabase: [LakeFormationClientTypes.LFTagPair]? = nil,
         lfTagsOnColumns: [LakeFormationClientTypes.ColumnLFTag]? = nil,
         lfTagsOnTable: [LakeFormationClientTypes.LFTagPair]? = nil
-    )
-    {
+    ) {
         self.lfTagOnDatabase = lfTagOnDatabase
         self.lfTagsOnColumns = lfTagsOnColumns
         self.lfTagsOnTable = lfTagsOnTable
@@ -2477,8 +2412,7 @@ public struct GetTableObjectsInput: Swift.Sendable {
         queryAsOfTime: Foundation.Date? = nil,
         tableName: Swift.String? = nil,
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.maxResults = maxResults
@@ -2505,8 +2439,7 @@ extension LakeFormationClientTypes {
             eTag: Swift.String? = nil,
             size: Swift.Int = 0,
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.eTag = eTag
             self.size = size
             self.uri = uri
@@ -2526,8 +2459,7 @@ extension LakeFormationClientTypes {
         public init(
             objects: [LakeFormationClientTypes.TableObject]? = nil,
             partitionValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.objects = objects
             self.partitionValues = partitionValues
         }
@@ -2543,17 +2475,16 @@ public struct GetTableObjectsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         objects: [LakeFormationClientTypes.PartitionObjects]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.objects = objects
     }
 }
 
 /// The engine does not support filtering data based on the enforced permissions. For example, if you call the GetTemporaryGlueTableCredentials operation with SupportedPermissionType equal to ColumnPermission, but cell-level permissions exist on the table, this exception is thrown.
-public struct PermissionTypeMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PermissionTypeMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2569,8 +2500,7 @@ public struct PermissionTypeMismatchException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2585,8 +2515,7 @@ extension LakeFormationClientTypes {
 
         public init(
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.values = values
         }
     }
@@ -2650,8 +2579,7 @@ public struct GetTemporaryGluePartitionCredentialsInput: Swift.Sendable {
         permissions: [LakeFormationClientTypes.Permission]? = nil,
         supportedPermissionTypes: [LakeFormationClientTypes.PermissionType]? = nil,
         tableArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.auditContext = auditContext
         self.durationSeconds = durationSeconds
         self.partition = partition
@@ -2676,8 +2604,7 @@ public struct GetTemporaryGluePartitionCredentialsOutput: Swift.Sendable {
         expiration: Foundation.Date? = nil,
         secretAccessKey: Swift.String? = nil,
         sessionToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessKeyId = accessKeyId
         self.expiration = expiration
         self.secretAccessKey = secretAccessKey
@@ -2706,8 +2633,7 @@ extension LakeFormationClientTypes {
             queryAuthorizationId: Swift.String? = nil,
             queryId: Swift.String? = nil,
             queryStartTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.additionalContext = additionalContext
             self.clusterId = clusterId
             self.queryAuthorizationId = queryAuthorizationId
@@ -2742,8 +2668,7 @@ public struct GetTemporaryGlueTableCredentialsInput: Swift.Sendable {
         s3Path: Swift.String? = nil,
         supportedPermissionTypes: [LakeFormationClientTypes.PermissionType]? = nil,
         tableArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.auditContext = auditContext
         self.durationSeconds = durationSeconds
         self.permissions = permissions
@@ -2772,8 +2697,7 @@ public struct GetTemporaryGlueTableCredentialsOutput: Swift.Sendable {
         secretAccessKey: Swift.String? = nil,
         sessionToken: Swift.String? = nil,
         vendedS3Path: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accessKeyId = accessKeyId
         self.expiration = expiration
         self.secretAccessKey = secretAccessKey
@@ -2797,8 +2721,7 @@ public struct GetWorkUnitResultsInput: Swift.Sendable {
         queryId: Swift.String? = nil,
         workUnitId: Swift.Int? = 0,
         workUnitToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.queryId = queryId
         self.workUnitId = workUnitId
         self.workUnitToken = workUnitToken
@@ -2816,17 +2739,16 @@ public struct GetWorkUnitResultsOutput: Swift.Sendable {
     public var resultStream: Smithy.ByteStream?
 
     public init(
-        resultStream: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8))
-    )
-    {
+        resultStream: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: ""))
+    ) {
         self.resultStream = resultStream
     }
 }
 
 /// Contains details about an error related to work units not being ready.
-public struct WorkUnitsNotReadyYetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WorkUnitsNotReadyYetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2842,8 +2764,7 @@ public struct WorkUnitsNotReadyYetException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2861,8 +2782,7 @@ public struct GetWorkUnitsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil,
         queryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pageSize = pageSize
         self.queryId = queryId
@@ -2887,8 +2807,7 @@ extension LakeFormationClientTypes {
             workUnitIdMax: Swift.Int = 0,
             workUnitIdMin: Swift.Int = 0,
             workUnitToken: Swift.String? = nil
-        )
-        {
+        ) {
             self.workUnitIdMax = workUnitIdMax
             self.workUnitIdMin = workUnitIdMin
             self.workUnitToken = workUnitToken
@@ -2911,8 +2830,7 @@ public struct GetWorkUnitsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         queryId: Swift.String? = nil,
         workUnitRanges: [LakeFormationClientTypes.WorkUnitRange]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.queryId = queryId
         self.workUnitRanges = workUnitRanges
@@ -2940,8 +2858,7 @@ public struct GrantPermissionsInput: Swift.Sendable {
         permissionsWithGrantOption: [LakeFormationClientTypes.Permission]? = nil,
         principal: LakeFormationClientTypes.DataLakePrincipal? = nil,
         resource: LakeFormationClientTypes.Resource? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.permissions = permissions
         self.permissionsWithGrantOption = permissionsWithGrantOption
@@ -2967,8 +2884,7 @@ public struct ListDataCellsFilterInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         table: LakeFormationClientTypes.TableResource? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.table = table
@@ -2984,8 +2900,7 @@ public struct ListDataCellsFilterOutput: Swift.Sendable {
     public init(
         dataCellsFilters: [LakeFormationClientTypes.DataCellsFilter]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataCellsFilters = dataCellsFilters
         self.nextToken = nextToken
     }
@@ -3006,8 +2921,7 @@ public struct ListLakeFormationOptInsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         principal: LakeFormationClientTypes.DataLakePrincipal? = nil,
         resource: LakeFormationClientTypes.Resource? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.principal = principal
@@ -3019,6 +2933,8 @@ extension LakeFormationClientTypes {
 
     /// A single principal-resource pair that has Lake Formation permissins enforced.
     public struct LakeFormationOptInsInfo: Swift.Sendable {
+        /// A Lake Formation condition, which applies to permissions and opt-ins that contain an expression.
+        public var condition: LakeFormationClientTypes.Condition?
         /// The last modified date and time of the record.
         public var lastModified: Foundation.Date?
         /// The user who updated the record.
@@ -3029,12 +2945,13 @@ extension LakeFormationClientTypes {
         public var resource: LakeFormationClientTypes.Resource?
 
         public init(
+            condition: LakeFormationClientTypes.Condition? = nil,
             lastModified: Foundation.Date? = nil,
             lastUpdatedBy: Swift.String? = nil,
             principal: LakeFormationClientTypes.DataLakePrincipal? = nil,
             resource: LakeFormationClientTypes.Resource? = nil
-        )
-        {
+        ) {
+            self.condition = condition
             self.lastModified = lastModified
             self.lastUpdatedBy = lastUpdatedBy
             self.principal = principal
@@ -3052,8 +2969,7 @@ public struct ListLakeFormationOptInsOutput: Swift.Sendable {
     public init(
         lakeFormationOptInsInfoList: [LakeFormationClientTypes.LakeFormationOptInsInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.lakeFormationOptInsInfoList = lakeFormationOptInsInfoList
         self.nextToken = nextToken
     }
@@ -3071,8 +2987,7 @@ public struct ListLFTagExpressionsInput: Swift.Sendable {
         catalogId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3097,8 +3012,7 @@ extension LakeFormationClientTypes {
             description: Swift.String? = nil,
             expression: [LakeFormationClientTypes.LFTag]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.description = description
             self.expression = expression
@@ -3116,8 +3030,7 @@ public struct ListLFTagExpressionsOutput: Swift.Sendable {
     public init(
         lfTagExpressions: [LakeFormationClientTypes.LFTagExpression]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.lfTagExpressions = lfTagExpressions
         self.nextToken = nextToken
     }
@@ -3167,8 +3080,7 @@ public struct ListLFTagsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceShareType: LakeFormationClientTypes.ResourceShareType? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3185,8 +3097,7 @@ public struct ListLFTagsOutput: Swift.Sendable {
     public init(
         lfTags: [LakeFormationClientTypes.LFTagPair]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.lfTags = lfTags
         self.nextToken = nextToken
     }
@@ -3266,8 +3177,7 @@ public struct ListPermissionsInput: Swift.Sendable {
         principal: LakeFormationClientTypes.DataLakePrincipal? = nil,
         resource: LakeFormationClientTypes.Resource? = nil,
         resourceType: LakeFormationClientTypes.DataLakeResourceType? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.includeRelated = includeRelated
         self.maxResults = maxResults
@@ -3287,8 +3197,7 @@ public struct ListPermissionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         principalResourcePermissions: [LakeFormationClientTypes.PrincipalResourcePermissions]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.principalResourcePermissions = principalResourcePermissions
     }
@@ -3397,8 +3306,7 @@ extension LakeFormationClientTypes {
             comparisonOperator: LakeFormationClientTypes.ComparisonOperator? = nil,
             field: LakeFormationClientTypes.FieldNameString? = nil,
             stringValueList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.comparisonOperator = comparisonOperator
             self.field = field
             self.stringValueList = stringValueList
@@ -3418,8 +3326,7 @@ public struct ListResourcesInput: Swift.Sendable {
         filterConditionList: [LakeFormationClientTypes.FilterCondition]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filterConditionList = filterConditionList
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3435,8 +3342,7 @@ public struct ListResourcesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceInfoList: [LakeFormationClientTypes.ResourceInfo]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceInfoList = resourceInfoList
     }
@@ -3497,8 +3403,7 @@ public struct ListTableStorageOptimizersInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         storageOptimizerType: LakeFormationClientTypes.OptimizerType? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.maxResults = maxResults
@@ -3529,8 +3434,7 @@ extension LakeFormationClientTypes {
             lastRunDetails: Swift.String? = nil,
             storageOptimizerType: LakeFormationClientTypes.OptimizerType? = nil,
             warnings: Swift.String? = nil
-        )
-        {
+        ) {
             self.config = config
             self.errorMessage = errorMessage
             self.lastRunDetails = lastRunDetails
@@ -3549,8 +3453,7 @@ public struct ListTableStorageOptimizersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         storageOptimizerList: [LakeFormationClientTypes.StorageOptimizer]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.storageOptimizerList = storageOptimizerList
     }
@@ -3609,8 +3512,7 @@ public struct ListTransactionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         statusFilter: LakeFormationClientTypes.TransactionStatusFilter? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3627,8 +3529,7 @@ public struct ListTransactionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         transactions: [LakeFormationClientTypes.TransactionDescription]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.transactions = transactions
     }
@@ -3644,8 +3545,7 @@ public struct PutDataLakeSettingsInput: Swift.Sendable {
     public init(
         catalogId: Swift.String? = nil,
         dataLakeSettings: LakeFormationClientTypes.DataLakeSettings? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.dataLakeSettings = dataLakeSettings
     }
@@ -3675,8 +3575,7 @@ public struct RegisterResourceInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         useServiceLinkedRole: Swift.Bool? = nil,
         withFederation: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.hybridAccessEnabled = hybridAccessEnabled
         self.resourceArn = resourceArn
         self.roleArn = roleArn
@@ -3704,8 +3603,7 @@ public struct RemoveLFTagsFromResourceInput: Swift.Sendable {
         catalogId: Swift.String? = nil,
         lfTags: [LakeFormationClientTypes.LFTagPair]? = nil,
         resource: LakeFormationClientTypes.Resource? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.lfTags = lfTags
         self.resource = resource
@@ -3718,8 +3616,7 @@ public struct RemoveLFTagsFromResourceOutput: Swift.Sendable {
 
     public init(
         failures: [LakeFormationClientTypes.LFTagError]? = nil
-    )
-    {
+    ) {
         self.failures = failures
     }
 }
@@ -3745,8 +3642,7 @@ public struct RevokePermissionsInput: Swift.Sendable {
         permissionsWithGrantOption: [LakeFormationClientTypes.Permission]? = nil,
         principal: LakeFormationClientTypes.DataLakePrincipal? = nil,
         resource: LakeFormationClientTypes.Resource? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.permissions = permissions
         self.permissionsWithGrantOption = permissionsWithGrantOption
@@ -3776,8 +3672,7 @@ public struct SearchDatabasesByLFTagsInput: Swift.Sendable {
         expression: [LakeFormationClientTypes.LFTag]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.expression = expression
         self.maxResults = maxResults
@@ -3797,8 +3692,7 @@ extension LakeFormationClientTypes {
         public init(
             database: LakeFormationClientTypes.DatabaseResource? = nil,
             lfTags: [LakeFormationClientTypes.LFTagPair]? = nil
-        )
-        {
+        ) {
             self.database = database
             self.lfTags = lfTags
         }
@@ -3814,8 +3708,7 @@ public struct SearchDatabasesByLFTagsOutput: Swift.Sendable {
     public init(
         databaseList: [LakeFormationClientTypes.TaggedDatabase]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseList = databaseList
         self.nextToken = nextToken
     }
@@ -3837,8 +3730,7 @@ public struct SearchTablesByLFTagsInput: Swift.Sendable {
         expression: [LakeFormationClientTypes.LFTag]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.expression = expression
         self.maxResults = maxResults
@@ -3864,8 +3756,7 @@ extension LakeFormationClientTypes {
             lfTagsOnColumns: [LakeFormationClientTypes.ColumnLFTag]? = nil,
             lfTagsOnTable: [LakeFormationClientTypes.LFTagPair]? = nil,
             table: LakeFormationClientTypes.TableResource? = nil
-        )
-        {
+        ) {
             self.lfTagOnDatabase = lfTagOnDatabase
             self.lfTagsOnColumns = lfTagsOnColumns
             self.lfTagsOnTable = lfTagsOnTable
@@ -3883,8 +3774,7 @@ public struct SearchTablesByLFTagsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tableList: [LakeFormationClientTypes.TaggedTable]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tableList = tableList
     }
@@ -3912,8 +3802,7 @@ extension LakeFormationClientTypes {
             queryAsOfTime: Foundation.Date? = nil,
             queryParameters: [Swift.String: Swift.String]? = nil,
             transactionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.queryAsOfTime = queryAsOfTime
@@ -3934,8 +3823,7 @@ public struct StartQueryPlanningInput: Swift.Sendable {
     public init(
         queryPlanningContext: LakeFormationClientTypes.QueryPlanningContext? = nil,
         queryString: Swift.String? = nil
-    )
-    {
+    ) {
         self.queryPlanningContext = queryPlanningContext
         self.queryString = queryString
     }
@@ -3954,8 +3842,7 @@ public struct StartQueryPlanningOutput: Swift.Sendable {
 
     public init(
         queryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.queryId = queryId
     }
 }
@@ -3995,8 +3882,7 @@ public struct StartTransactionInput: Swift.Sendable {
 
     public init(
         transactionType: LakeFormationClientTypes.TransactionType? = nil
-    )
-    {
+    ) {
         self.transactionType = transactionType
     }
 }
@@ -4007,8 +3893,7 @@ public struct StartTransactionOutput: Swift.Sendable {
 
     public init(
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.transactionId = transactionId
     }
 }
@@ -4020,8 +3905,7 @@ public struct UpdateDataCellsFilterInput: Swift.Sendable {
 
     public init(
         tableData: LakeFormationClientTypes.DataCellsFilter? = nil
-    )
-    {
+    ) {
         self.tableData = tableData
     }
 }
@@ -4046,8 +3930,7 @@ public struct UpdateLakeFormationIdentityCenterConfigurationInput: Swift.Sendabl
         catalogId: Swift.String? = nil,
         externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration? = nil,
         shareRecipients: [LakeFormationClientTypes.DataLakePrincipal]? = nil
-    )
-    {
+    ) {
         self.applicationStatus = applicationStatus
         self.catalogId = catalogId
         self.externalFiltering = externalFiltering
@@ -4076,8 +3959,7 @@ public struct UpdateLFTagInput: Swift.Sendable {
         tagKey: Swift.String? = nil,
         tagValuesToAdd: [Swift.String]? = nil,
         tagValuesToDelete: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.tagKey = tagKey
         self.tagValuesToAdd = tagValuesToAdd
@@ -4107,8 +3989,7 @@ public struct UpdateLFTagExpressionInput: Swift.Sendable {
         description: Swift.String? = nil,
         expression: [LakeFormationClientTypes.LFTag]? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.description = description
         self.expression = expression
@@ -4138,8 +4019,7 @@ public struct UpdateResourceInput: Swift.Sendable {
         resourceArn: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         withFederation: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.hybridAccessEnabled = hybridAccessEnabled
         self.resourceArn = resourceArn
         self.roleArn = roleArn
@@ -4168,8 +4048,7 @@ extension LakeFormationClientTypes {
             eTag: Swift.String? = nil,
             partitionValues: [Swift.String]? = nil,
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.eTag = eTag
             self.partitionValues = partitionValues
             self.uri = uri
@@ -4189,8 +4068,7 @@ extension LakeFormationClientTypes {
         public init(
             addObject: LakeFormationClientTypes.AddObjectInput? = nil,
             deleteObject: LakeFormationClientTypes.DeleteObjectInput? = nil
-        )
-        {
+        ) {
             self.addObject = addObject
             self.deleteObject = deleteObject
         }
@@ -4218,8 +4096,7 @@ public struct UpdateTableObjectsInput: Swift.Sendable {
         tableName: Swift.String? = nil,
         transactionId: Swift.String? = nil,
         writeOperations: [LakeFormationClientTypes.WriteOperation]? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.tableName = tableName
@@ -4251,8 +4128,7 @@ public struct UpdateTableStorageOptimizerInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         storageOptimizerConfig: [Swift.String: [Swift.String: Swift.String]]? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.storageOptimizerConfig = storageOptimizerConfig
@@ -4266,8 +4142,7 @@ public struct UpdateTableStorageOptimizerOutput: Swift.Sendable {
 
     public init(
         result: Swift.String? = nil
-    )
-    {
+    ) {
         self.result = result
     }
 }
@@ -7560,13 +7435,15 @@ extension LakeFormationClientTypes.DatabaseResource {
 extension LakeFormationClientTypes.CatalogResource {
 
     static func write(value: LakeFormationClientTypes.CatalogResource?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["Id"].write(value.id)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.CatalogResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return LakeFormationClientTypes.CatalogResource()
+        var value = LakeFormationClientTypes.CatalogResource()
+        value.id = try reader["Id"].readIfPresent()
+        return value
     }
 }
 
@@ -7745,6 +7622,7 @@ extension LakeFormationClientTypes.PrincipalResourcePermissions {
         var value = LakeFormationClientTypes.PrincipalResourcePermissions()
         value.principal = try reader["Principal"].readIfPresent(with: LakeFormationClientTypes.DataLakePrincipal.read(from:))
         value.resource = try reader["Resource"].readIfPresent(with: LakeFormationClientTypes.Resource.read(from:))
+        value.condition = try reader["Condition"].readIfPresent(with: LakeFormationClientTypes.Condition.read(from:))
         value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LakeFormationClientTypes.Permission>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.permissionsWithGrantOption = try reader["PermissionsWithGrantOption"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LakeFormationClientTypes.Permission>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.additionalDetails = try reader["AdditionalDetails"].readIfPresent(with: LakeFormationClientTypes.DetailsMap.read(from:))
@@ -7760,6 +7638,16 @@ extension LakeFormationClientTypes.DetailsMap {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LakeFormationClientTypes.DetailsMap()
         value.resourceShare = try reader["ResourceShare"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LakeFormationClientTypes.Condition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.Condition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.Condition()
+        value.expression = try reader["Expression"].readIfPresent()
         return value
     }
 }
@@ -7842,6 +7730,7 @@ extension LakeFormationClientTypes.LakeFormationOptInsInfo {
         var value = LakeFormationClientTypes.LakeFormationOptInsInfo()
         value.resource = try reader["Resource"].readIfPresent(with: LakeFormationClientTypes.Resource.read(from:))
         value.principal = try reader["Principal"].readIfPresent(with: LakeFormationClientTypes.DataLakePrincipal.read(from:))
+        value.condition = try reader["Condition"].readIfPresent(with: LakeFormationClientTypes.Condition.read(from:))
         value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdatedBy = try reader["LastUpdatedBy"].readIfPresent()
         return value

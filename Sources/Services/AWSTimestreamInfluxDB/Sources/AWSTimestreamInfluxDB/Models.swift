@@ -35,9 +35,9 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -53,16 +53,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request conflicts with an existing resource in Timestream for InfluxDB.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The identifier for the Timestream for InfluxDB resource associated with the request.
@@ -86,8 +85,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -95,9 +93,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// The request processing has failed because of an unknown error, exception or failure.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -113,16 +111,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The requested resource was not found or does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The identifier for the Timestream for InfluxDB resource associated with the request.
@@ -146,8 +143,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -155,9 +151,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The request exceeds the service quota.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -173,16 +169,15 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The number of seconds the caller should wait before retrying.
@@ -201,8 +196,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -238,9 +232,9 @@ extension TimestreamInfluxDBClientTypes {
 }
 
 /// The input fails to satisfy the constraints specified by Timestream for InfluxDB.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The reason that validation failed.
@@ -260,8 +254,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         reason: TimestreamInfluxDBClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -389,8 +382,7 @@ extension TimestreamInfluxDBClientTypes {
         public init(
             bucketName: Swift.String? = nil,
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.bucketName = bucketName
             self.enabled = enabled
         }
@@ -407,9 +399,37 @@ extension TimestreamInfluxDBClientTypes {
 
         public init(
             s3Configuration: TimestreamInfluxDBClientTypes.S3Configuration? = nil
-        )
-        {
+        ) {
             self.s3Configuration = s3Configuration
+        }
+    }
+}
+
+extension TimestreamInfluxDBClientTypes {
+
+    public enum NetworkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dual
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NetworkType] {
+            return [
+                .dual,
+                .ipv4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dual: return "DUAL"
+            case .ipv4: return "IPV4"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -440,9 +460,11 @@ public struct CreateDbInstanceInput: Swift.Sendable {
     /// The name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands. This name will also be a prefix included in the endpoint. DB instance names must be unique per customer and per region.
     /// This member is required.
     public var name: Swift.String?
+    /// Specifies whether the networkType of the Timestream for InfluxDB instance is IPV4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
+    public var networkType: TimestreamInfluxDBClientTypes.NetworkType?
     /// The name of the initial organization for the initial admin user in InfluxDB. An InfluxDB organization is a workspace for a group of users.
     public var organization: Swift.String?
-    /// The password of the initial admin user created in InfluxDB. This password will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a Secret created in AWS SecretManager in your account.
+    /// The password of the initial admin user created in InfluxDB. This password will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a Secret created in Amazon Web Services SecretManager in your account.
     /// This member is required.
     public var password: Swift.String?
     /// The port number on which InfluxDB accepts connections. Valid Values: 1024-65535 Default: 8086 Constraints: The value can't be 2375-2376, 7788-7799, 8090, or 51678-51680
@@ -469,6 +491,7 @@ public struct CreateDbInstanceInput: Swift.Sendable {
         deploymentType: TimestreamInfluxDBClientTypes.DeploymentType? = nil,
         logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
         name: Swift.String? = nil,
+        networkType: TimestreamInfluxDBClientTypes.NetworkType? = nil,
         organization: Swift.String? = nil,
         password: Swift.String? = nil,
         port: Swift.Int? = nil,
@@ -477,8 +500,7 @@ public struct CreateDbInstanceInput: Swift.Sendable {
         username: Swift.String? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil,
         vpcSubnetIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.allocatedStorage = allocatedStorage
         self.bucket = bucket
         self.dbInstanceType = dbInstanceType
@@ -487,6 +509,7 @@ public struct CreateDbInstanceInput: Swift.Sendable {
         self.deploymentType = deploymentType
         self.logDeliveryConfiguration = logDeliveryConfiguration
         self.name = name
+        self.networkType = networkType
         self.organization = organization
         self.password = password
         self.port = port
@@ -500,7 +523,7 @@ public struct CreateDbInstanceInput: Swift.Sendable {
 
 extension CreateDbInstanceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateDbInstanceInput(allocatedStorage: \(Swift.String(describing: allocatedStorage)), bucket: \(Swift.String(describing: bucket)), dbInstanceType: \(Swift.String(describing: dbInstanceType)), dbParameterGroupIdentifier: \(Swift.String(describing: dbParameterGroupIdentifier)), dbStorageType: \(Swift.String(describing: dbStorageType)), deploymentType: \(Swift.String(describing: deploymentType)), logDeliveryConfiguration: \(Swift.String(describing: logDeliveryConfiguration)), name: \(Swift.String(describing: name)), organization: \(Swift.String(describing: organization)), port: \(Swift.String(describing: port)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), tags: \(Swift.String(describing: tags)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), vpcSubnetIds: \(Swift.String(describing: vpcSubnetIds)), password: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
+        "CreateDbInstanceInput(allocatedStorage: \(Swift.String(describing: allocatedStorage)), bucket: \(Swift.String(describing: bucket)), dbInstanceType: \(Swift.String(describing: dbInstanceType)), dbParameterGroupIdentifier: \(Swift.String(describing: dbParameterGroupIdentifier)), dbStorageType: \(Swift.String(describing: dbStorageType)), deploymentType: \(Swift.String(describing: deploymentType)), logDeliveryConfiguration: \(Swift.String(describing: logDeliveryConfiguration)), name: \(Swift.String(describing: name)), networkType: \(Swift.String(describing: networkType)), organization: \(Swift.String(describing: organization)), port: \(Swift.String(describing: port)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), tags: \(Swift.String(describing: tags)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), vpcSubnetIds: \(Swift.String(describing: vpcSubnetIds)), password: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
 }
 
 extension TimestreamInfluxDBClientTypes {
@@ -574,13 +597,15 @@ public struct CreateDbInstanceOutput: Swift.Sendable {
     /// A service-generated unique identifier.
     /// This member is required.
     public var id: Swift.String?
-    /// The Amazon Resource Name (ARN) of the AWS Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
     public var influxAuthParametersSecretArn: Swift.String?
     /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
     public var logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration?
     /// The customer-supplied name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
     /// This member is required.
     public var name: Swift.String?
+    /// Specifies whether the networkType of the Timestream for InfluxDB instance is IPV4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
+    public var networkType: TimestreamInfluxDBClientTypes.NetworkType?
     /// The port number on which InfluxDB accepts connections. The default value is 8086.
     public var port: Swift.Int?
     /// Indicates if the DB instance has a public IP to facilitate access.
@@ -608,14 +633,14 @@ public struct CreateDbInstanceOutput: Swift.Sendable {
         influxAuthParametersSecretArn: Swift.String? = nil,
         logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
         name: Swift.String? = nil,
+        networkType: TimestreamInfluxDBClientTypes.NetworkType? = nil,
         port: Swift.Int? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         secondaryAvailabilityZone: Swift.String? = nil,
         status: TimestreamInfluxDBClientTypes.Status? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil,
         vpcSubnetIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.allocatedStorage = allocatedStorage
         self.arn = arn
         self.availabilityZone = availabilityZone
@@ -628,6 +653,7 @@ public struct CreateDbInstanceOutput: Swift.Sendable {
         self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
         self.logDeliveryConfiguration = logDeliveryConfiguration
         self.name = name
+        self.networkType = networkType
         self.port = port
         self.publiclyAccessible = publiclyAccessible
         self.secondaryAvailabilityZone = secondaryAvailabilityZone
@@ -644,8 +670,7 @@ public struct DeleteDbInstanceInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -671,13 +696,15 @@ public struct DeleteDbInstanceOutput: Swift.Sendable {
     /// A service-generated unique identifier.
     /// This member is required.
     public var id: Swift.String?
-    /// The Amazon Resource Name (ARN) of the AWS Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
     public var influxAuthParametersSecretArn: Swift.String?
     /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
     public var logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration?
     /// The customer-supplied name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
     /// This member is required.
     public var name: Swift.String?
+    /// Specifies whether the networkType of the Timestream for InfluxDB instance is IPV4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
+    public var networkType: TimestreamInfluxDBClientTypes.NetworkType?
     /// The port number on which InfluxDB accepts connections.
     public var port: Swift.Int?
     /// Indicates if the DB instance has a public IP to facilitate access.
@@ -705,14 +732,14 @@ public struct DeleteDbInstanceOutput: Swift.Sendable {
         influxAuthParametersSecretArn: Swift.String? = nil,
         logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
         name: Swift.String? = nil,
+        networkType: TimestreamInfluxDBClientTypes.NetworkType? = nil,
         port: Swift.Int? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         secondaryAvailabilityZone: Swift.String? = nil,
         status: TimestreamInfluxDBClientTypes.Status? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil,
         vpcSubnetIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.allocatedStorage = allocatedStorage
         self.arn = arn
         self.availabilityZone = availabilityZone
@@ -725,6 +752,7 @@ public struct DeleteDbInstanceOutput: Swift.Sendable {
         self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
         self.logDeliveryConfiguration = logDeliveryConfiguration
         self.name = name
+        self.networkType = networkType
         self.port = port
         self.publiclyAccessible = publiclyAccessible
         self.secondaryAvailabilityZone = secondaryAvailabilityZone
@@ -741,8 +769,7 @@ public struct GetDbInstanceInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -768,13 +795,15 @@ public struct GetDbInstanceOutput: Swift.Sendable {
     /// A service-generated unique identifier.
     /// This member is required.
     public var id: Swift.String?
-    /// The Amazon Resource Name (ARN) of the AWS Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
     public var influxAuthParametersSecretArn: Swift.String?
     /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
     public var logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration?
     /// The customer-supplied name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
     /// This member is required.
     public var name: Swift.String?
+    /// Specifies whether the networkType of the Timestream for InfluxDB instance is IPV4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
+    public var networkType: TimestreamInfluxDBClientTypes.NetworkType?
     /// The port number on which InfluxDB accepts connections.
     public var port: Swift.Int?
     /// Indicates if the DB instance has a public IP to facilitate access.
@@ -802,14 +831,14 @@ public struct GetDbInstanceOutput: Swift.Sendable {
         influxAuthParametersSecretArn: Swift.String? = nil,
         logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
         name: Swift.String? = nil,
+        networkType: TimestreamInfluxDBClientTypes.NetworkType? = nil,
         port: Swift.Int? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         secondaryAvailabilityZone: Swift.String? = nil,
         status: TimestreamInfluxDBClientTypes.Status? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil,
         vpcSubnetIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.allocatedStorage = allocatedStorage
         self.arn = arn
         self.availabilityZone = availabilityZone
@@ -822,6 +851,7 @@ public struct GetDbInstanceOutput: Swift.Sendable {
         self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
         self.logDeliveryConfiguration = logDeliveryConfiguration
         self.name = name
+        self.networkType = networkType
         self.port = port
         self.publiclyAccessible = publiclyAccessible
         self.secondaryAvailabilityZone = secondaryAvailabilityZone
@@ -840,8 +870,7 @@ public struct ListDbInstancesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -867,9 +896,11 @@ extension TimestreamInfluxDBClientTypes {
         /// The service-generated unique identifier of the DB instance.
         /// This member is required.
         public var id: Swift.String?
-        /// This customer-supplied name uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and AWS CLI commands.
+        /// This customer-supplied name uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and Amazon Web Services CLI commands.
         /// This member is required.
         public var name: Swift.String?
+        /// Specifies whether the networkType of the Timestream for InfluxDB instance is IPV4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
+        public var networkType: TimestreamInfluxDBClientTypes.NetworkType?
         /// The port number on which InfluxDB accepts connections.
         public var port: Swift.Int?
         /// The status of the DB instance.
@@ -884,10 +915,10 @@ extension TimestreamInfluxDBClientTypes {
             endpoint: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
+            networkType: TimestreamInfluxDBClientTypes.NetworkType? = nil,
             port: Swift.Int? = nil,
             status: TimestreamInfluxDBClientTypes.Status? = nil
-        )
-        {
+        ) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.dbInstanceType = dbInstanceType
@@ -896,6 +927,7 @@ extension TimestreamInfluxDBClientTypes {
             self.endpoint = endpoint
             self.id = id
             self.name = name
+            self.networkType = networkType
             self.port = port
             self.status = status
         }
@@ -912,8 +944,7 @@ public struct ListDbInstancesOutput: Swift.Sendable {
     public init(
         items: [TimestreamInfluxDBClientTypes.DbInstanceSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -941,8 +972,7 @@ public struct UpdateDbInstanceInput: Swift.Sendable {
         identifier: Swift.String? = nil,
         logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
         port: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dbInstanceType = dbInstanceType
         self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
         self.deploymentType = deploymentType
@@ -973,13 +1003,15 @@ public struct UpdateDbInstanceOutput: Swift.Sendable {
     /// A service-generated unique identifier.
     /// This member is required.
     public var id: Swift.String?
-    /// The Amazon Resource Name (ARN) of the AWS Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
     public var influxAuthParametersSecretArn: Swift.String?
     /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
     public var logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration?
-    /// This customer-supplied name uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and AWS CLI commands.
+    /// This customer-supplied name uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and Amazon Web Services CLI commands.
     /// This member is required.
     public var name: Swift.String?
+    /// Specifies whether the networkType of the Timestream for InfluxDB instance is IPV4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
+    public var networkType: TimestreamInfluxDBClientTypes.NetworkType?
     /// The port number on which InfluxDB accepts connections.
     public var port: Swift.Int?
     /// Indicates if the DB instance has a public IP to facilitate access.
@@ -1007,14 +1039,14 @@ public struct UpdateDbInstanceOutput: Swift.Sendable {
         influxAuthParametersSecretArn: Swift.String? = nil,
         logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
         name: Swift.String? = nil,
+        networkType: TimestreamInfluxDBClientTypes.NetworkType? = nil,
         port: Swift.Int? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         secondaryAvailabilityZone: Swift.String? = nil,
         status: TimestreamInfluxDBClientTypes.Status? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil,
         vpcSubnetIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.allocatedStorage = allocatedStorage
         self.arn = arn
         self.availabilityZone = availabilityZone
@@ -1027,6 +1059,7 @@ public struct UpdateDbInstanceOutput: Swift.Sendable {
         self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
         self.logDeliveryConfiguration = logDeliveryConfiguration
         self.name = name
+        self.networkType = networkType
         self.port = port
         self.publiclyAccessible = publiclyAccessible
         self.secondaryAvailabilityZone = secondaryAvailabilityZone
@@ -1085,8 +1118,7 @@ extension TimestreamInfluxDBClientTypes {
         public init(
             durationType: TimestreamInfluxDBClientTypes.DurationType? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.durationType = durationType
             self.value = value
         }
@@ -1262,8 +1294,7 @@ extension TimestreamInfluxDBClientTypes {
             storageWalMaxWriteDelay: TimestreamInfluxDBClientTypes.Duration? = nil,
             tracingType: TimestreamInfluxDBClientTypes.TracingType? = nil,
             uiDisabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.fluxLogEnabled = fluxLogEnabled
             self.httpIdleTimeout = httpIdleTimeout
             self.httpReadHeaderTimeout = httpReadHeaderTimeout
@@ -1328,8 +1359,7 @@ public struct CreateDbParameterGroupInput: Swift.Sendable {
         name: Swift.String? = nil,
         parameters: TimestreamInfluxDBClientTypes.Parameters? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.parameters = parameters
@@ -1358,8 +1388,7 @@ public struct CreateDbParameterGroupOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         parameters: TimestreamInfluxDBClientTypes.Parameters? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.description = description
         self.id = id
@@ -1375,8 +1404,7 @@ public struct GetDbParameterGroupInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -1402,8 +1430,7 @@ public struct GetDbParameterGroupOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         parameters: TimestreamInfluxDBClientTypes.Parameters? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.description = description
         self.id = id
@@ -1421,8 +1448,7 @@ public struct ListDbParameterGroupsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1449,8 +1475,7 @@ extension TimestreamInfluxDBClientTypes {
             description: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.id = id
@@ -1469,8 +1494,7 @@ public struct ListDbParameterGroupsOutput: Swift.Sendable {
     public init(
         items: [TimestreamInfluxDBClientTypes.DbParameterGroupSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -1483,8 +1507,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1495,8 +1518,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1512,8 +1534,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1530,8 +1551,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1626,6 +1646,7 @@ extension CreateDbInstanceInput {
         try writer["deploymentType"].write(value.deploymentType)
         try writer["logDeliveryConfiguration"].write(value.logDeliveryConfiguration, with: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration.write(value:to:))
         try writer["name"].write(value.name)
+        try writer["networkType"].write(value.networkType)
         try writer["organization"].write(value.organization)
         try writer["password"].write(value.password)
         try writer["port"].write(value.port)
@@ -1747,6 +1768,7 @@ extension CreateDbInstanceOutput {
         value.influxAuthParametersSecretArn = try reader["influxAuthParametersSecretArn"].readIfPresent()
         value.logDeliveryConfiguration = try reader["logDeliveryConfiguration"].readIfPresent(with: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.networkType = try reader["networkType"].readIfPresent()
         value.port = try reader["port"].readIfPresent()
         value.publiclyAccessible = try reader["publiclyAccessible"].readIfPresent()
         value.secondaryAvailabilityZone = try reader["secondaryAvailabilityZone"].readIfPresent()
@@ -1792,6 +1814,7 @@ extension DeleteDbInstanceOutput {
         value.influxAuthParametersSecretArn = try reader["influxAuthParametersSecretArn"].readIfPresent()
         value.logDeliveryConfiguration = try reader["logDeliveryConfiguration"].readIfPresent(with: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.networkType = try reader["networkType"].readIfPresent()
         value.port = try reader["port"].readIfPresent()
         value.publiclyAccessible = try reader["publiclyAccessible"].readIfPresent()
         value.secondaryAvailabilityZone = try reader["secondaryAvailabilityZone"].readIfPresent()
@@ -1821,6 +1844,7 @@ extension GetDbInstanceOutput {
         value.influxAuthParametersSecretArn = try reader["influxAuthParametersSecretArn"].readIfPresent()
         value.logDeliveryConfiguration = try reader["logDeliveryConfiguration"].readIfPresent(with: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.networkType = try reader["networkType"].readIfPresent()
         value.port = try reader["port"].readIfPresent()
         value.publiclyAccessible = try reader["publiclyAccessible"].readIfPresent()
         value.secondaryAvailabilityZone = try reader["secondaryAvailabilityZone"].readIfPresent()
@@ -1918,6 +1942,7 @@ extension UpdateDbInstanceOutput {
         value.influxAuthParametersSecretArn = try reader["influxAuthParametersSecretArn"].readIfPresent()
         value.logDeliveryConfiguration = try reader["logDeliveryConfiguration"].readIfPresent(with: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.networkType = try reader["networkType"].readIfPresent()
         value.port = try reader["port"].readIfPresent()
         value.publiclyAccessible = try reader["publiclyAccessible"].readIfPresent()
         value.secondaryAvailabilityZone = try reader["secondaryAvailabilityZone"].readIfPresent()
@@ -2082,6 +2107,7 @@ enum TagResourceOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2385,6 +2411,7 @@ extension TimestreamInfluxDBClientTypes.DbInstanceSummary {
         value.status = try reader["status"].readIfPresent()
         value.endpoint = try reader["endpoint"].readIfPresent()
         value.port = try reader["port"].readIfPresent()
+        value.networkType = try reader["networkType"].readIfPresent()
         value.dbInstanceType = try reader["dbInstanceType"].readIfPresent()
         value.dbStorageType = try reader["dbStorageType"].readIfPresent()
         value.allocatedStorage = try reader["allocatedStorage"].readIfPresent()

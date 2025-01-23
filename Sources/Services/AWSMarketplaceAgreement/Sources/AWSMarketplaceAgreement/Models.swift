@@ -33,8 +33,7 @@ extension MarketplaceAgreementClientTypes {
 
         public init(
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -54,8 +53,7 @@ extension MarketplaceAgreementClientTypes {
         public init(
             dimensionKey: Swift.String? = nil,
             dimensionValue: Swift.Int = 0
-        )
-        {
+        ) {
             self.dimensionKey = dimensionKey
             self.dimensionValue = dimensionValue
         }
@@ -76,8 +74,7 @@ extension MarketplaceAgreementClientTypes {
         public init(
             dimensions: [MarketplaceAgreementClientTypes.Dimension]? = nil,
             selectorValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.dimensions = dimensions
             self.selectorValue = selectorValue
         }
@@ -96,8 +93,7 @@ extension MarketplaceAgreementClientTypes {
         public init(
             multipleDimensionSelection: Swift.String? = nil,
             quantityConfiguration: Swift.String? = nil
-        )
-        {
+        ) {
             self.multipleDimensionSelection = multipleDimensionSelection
             self.quantityConfiguration = quantityConfiguration
         }
@@ -116,8 +112,7 @@ extension MarketplaceAgreementClientTypes {
         public init(
             dimensionKey: Swift.String? = nil,
             price: Swift.String? = nil
-        )
-        {
+        ) {
             self.dimensionKey = dimensionKey
             self.price = price
         }
@@ -136,8 +131,7 @@ extension MarketplaceAgreementClientTypes {
         public init(
             type: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -159,8 +153,7 @@ extension MarketplaceAgreementClientTypes {
             constraints: MarketplaceAgreementClientTypes.Constraints? = nil,
             rateCard: [MarketplaceAgreementClientTypes.RateCardItem]? = nil,
             selector: MarketplaceAgreementClientTypes.Selector? = nil
-        )
-        {
+        ) {
             self.constraints = constraints
             self.rateCard = rateCard
             self.selector = selector
@@ -186,8 +179,7 @@ extension MarketplaceAgreementClientTypes {
             currencyCode: Swift.String? = nil,
             rateCards: [MarketplaceAgreementClientTypes.ConfigurableUpfrontRateCardItem]? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.currencyCode = currencyCode
             self.rateCards = rateCards
@@ -208,8 +200,7 @@ extension MarketplaceAgreementClientTypes {
         public init(
             dimensionKey: Swift.String? = nil,
             maxQuantity: Swift.Int? = 1
-        )
-        {
+        ) {
             self.dimensionKey = dimensionKey
             self.maxQuantity = maxQuantity
         }
@@ -237,8 +228,7 @@ extension MarketplaceAgreementClientTypes {
             grants: [MarketplaceAgreementClientTypes.GrantItem]? = nil,
             price: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.currencyCode = currencyCode
             self.duration = duration
             self.grants = grants
@@ -263,8 +253,7 @@ extension MarketplaceAgreementClientTypes {
             duration: Swift.String? = nil,
             grants: [MarketplaceAgreementClientTypes.GrantItem]? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.duration = duration
             self.grants = grants
             self.type = type
@@ -295,8 +284,7 @@ extension MarketplaceAgreementClientTypes {
             type: Swift.String? = nil,
             url: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.type = type
             self.url = url
             self.version = version
@@ -316,8 +304,7 @@ extension MarketplaceAgreementClientTypes {
         public init(
             documents: [MarketplaceAgreementClientTypes.DocumentItem]? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.documents = documents
             self.type = type
         }
@@ -336,8 +323,7 @@ extension MarketplaceAgreementClientTypes {
         public init(
             chargeAmount: Swift.String? = nil,
             chargeDate: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.chargeAmount = chargeAmount
             self.chargeDate = chargeDate
         }
@@ -359,8 +345,7 @@ extension MarketplaceAgreementClientTypes {
             currencyCode: Swift.String? = nil,
             schedule: [MarketplaceAgreementClientTypes.ScheduleItem]? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.currencyCode = currencyCode
             self.schedule = schedule
             self.type = type
@@ -386,8 +371,7 @@ extension MarketplaceAgreementClientTypes {
             currencyCode: Swift.String? = nil,
             price: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.billingPeriod = billingPeriod
             self.currencyCode = currencyCode
             self.price = price
@@ -406,8 +390,7 @@ extension MarketplaceAgreementClientTypes {
 
         public init(
             enableAutoRenew: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enableAutoRenew = enableAutoRenew
         }
     }
@@ -425,8 +408,7 @@ extension MarketplaceAgreementClientTypes {
         public init(
             configuration: MarketplaceAgreementClientTypes.RenewalTermConfiguration? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.type = type
         }
@@ -445,8 +427,7 @@ extension MarketplaceAgreementClientTypes {
         public init(
             refundPolicy: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.refundPolicy = refundPolicy
             self.type = type
         }
@@ -462,8 +443,7 @@ extension MarketplaceAgreementClientTypes {
 
         public init(
             rateCard: [MarketplaceAgreementClientTypes.RateCardItem]? = nil
-        )
-        {
+        ) {
             self.rateCard = rateCard
         }
     }
@@ -484,8 +464,7 @@ extension MarketplaceAgreementClientTypes {
             currencyCode: Swift.String? = nil,
             rateCards: [MarketplaceAgreementClientTypes.UsageBasedRateCardItem]? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.currencyCode = currencyCode
             self.rateCards = rateCards
             self.type = type
@@ -511,8 +490,7 @@ extension MarketplaceAgreementClientTypes {
             agreementEndDate: Foundation.Date? = nil,
             agreementStartDate: Foundation.Date? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.agreementDuration = agreementDuration
             self.agreementEndDate = agreementEndDate
             self.agreementStartDate = agreementStartDate
@@ -560,17 +538,16 @@ extension MarketplaceAgreementClientTypes {
 
         public init(
             accountId: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
         }
     }
 }
 
 /// User does not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The unique identifier for the error.
         public internal(set) var requestId: Swift.String? = nil
@@ -588,8 +565,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -657,8 +633,7 @@ extension MarketplaceAgreementClientTypes {
         public init(
             id: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.type = type
         }
@@ -677,8 +652,7 @@ extension MarketplaceAgreementClientTypes {
         public init(
             offerId: Swift.String? = nil,
             resources: [MarketplaceAgreementClientTypes.Resource]? = nil
-        )
-        {
+        ) {
             self.offerId = offerId
             self.resources = resources
         }
@@ -694,8 +668,7 @@ extension MarketplaceAgreementClientTypes {
 
         public init(
             accountId: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
         }
     }
@@ -734,8 +707,7 @@ extension MarketplaceAgreementClientTypes {
             proposer: MarketplaceAgreementClientTypes.Proposer? = nil,
             startTime: Foundation.Date? = nil,
             status: MarketplaceAgreementClientTypes.AgreementStatus? = nil
-        )
-        {
+        ) {
             self.acceptanceTime = acceptanceTime
             self.acceptor = acceptor
             self.agreementId = agreementId
@@ -750,9 +722,9 @@ extension MarketplaceAgreementClientTypes {
 }
 
 /// Unexpected error during processing of request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The unique identifier for the error.
         public internal(set) var requestId: Swift.String? = nil
@@ -770,8 +742,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -804,9 +775,9 @@ extension MarketplaceAgreementClientTypes {
 }
 
 /// Request references a resource which does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The unique identifier for the error.
         public internal(set) var requestId: Swift.String? = nil
@@ -830,8 +801,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         requestId: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: MarketplaceAgreementClientTypes.ResourceType? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
         self.properties.resourceId = resourceId
@@ -840,9 +810,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The unique identifier for the error.
         public internal(set) var requestId: Swift.String? = nil
@@ -860,8 +830,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.requestId = requestId
     }
@@ -881,8 +850,7 @@ extension MarketplaceAgreementClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -946,9 +914,9 @@ extension MarketplaceAgreementClientTypes {
 }
 
 /// The input fails to satisfy the constraints specified by the service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The fields associated with the error.
         public internal(set) var fields: [MarketplaceAgreementClientTypes.ValidationExceptionField]? = nil
         public internal(set) var message: Swift.String? = nil
@@ -972,8 +940,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         message: Swift.String? = nil,
         reason: MarketplaceAgreementClientTypes.ValidationExceptionReason? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.fields = fields
         self.properties.message = message
         self.properties.reason = reason
@@ -988,8 +955,7 @@ public struct DescribeAgreementInput: Swift.Sendable {
 
     public init(
         agreementId: Swift.String? = nil
-    )
-    {
+    ) {
         self.agreementId = agreementId
     }
 }
@@ -1006,8 +972,7 @@ extension MarketplaceAgreementClientTypes {
         public init(
             agreementValue: Swift.String? = nil,
             currencyCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.agreementValue = agreementValue
             self.currencyCode = currencyCode
         }
@@ -1065,8 +1030,7 @@ public struct DescribeAgreementOutput: Swift.Sendable {
         proposer: MarketplaceAgreementClientTypes.Proposer? = nil,
         startTime: Foundation.Date? = nil,
         status: MarketplaceAgreementClientTypes.AgreementStatus? = nil
-    )
-    {
+    ) {
         self.acceptanceTime = acceptanceTime
         self.acceptor = acceptor
         self.agreementId = agreementId
@@ -1093,8 +1057,7 @@ public struct GetAgreementTermsInput: Swift.Sendable {
         agreementId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.agreementId = agreementId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1110,8 +1073,7 @@ public struct GetAgreementTermsOutput: Swift.Sendable {
     public init(
         acceptedTerms: [MarketplaceAgreementClientTypes.AcceptedTerm]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.acceptedTerms = acceptedTerms
         self.nextToken = nextToken
     }
@@ -1129,8 +1091,7 @@ extension MarketplaceAgreementClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -1178,8 +1139,7 @@ extension MarketplaceAgreementClientTypes {
         public init(
             sortBy: Swift.String? = nil,
             sortOrder: MarketplaceAgreementClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.sortBy = sortBy
             self.sortOrder = sortOrder
         }
@@ -1222,8 +1182,7 @@ public struct SearchAgreementsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sort: MarketplaceAgreementClientTypes.Sort? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.filters = filters
         self.maxResults = maxResults
@@ -1241,8 +1200,7 @@ public struct SearchAgreementsOutput: Swift.Sendable {
     public init(
         agreementViewSummaries: [MarketplaceAgreementClientTypes.AgreementViewSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.agreementViewSummaries = agreementViewSummaries
         self.nextToken = nextToken
     }

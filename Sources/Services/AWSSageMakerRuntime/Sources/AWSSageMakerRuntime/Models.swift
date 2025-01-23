@@ -31,9 +31,9 @@ import struct SmithyHTTPAPI.Headers
 import typealias SmithyEventStreamsAPI.UnmarshalClosure
 
 /// Your request caused an exception with an internal dependency. Contact customer support.
-public struct InternalDependencyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalDependencyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -48,16 +48,15 @@ public struct InternalDependencyException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An internal failure occurred.
-public struct InternalFailure: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalFailure: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -72,16 +71,15 @@ public struct InternalFailure: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Model (owned by the customer in the container) returned 4xx or 5xx error code.
-public struct ModelError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ModelError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the log stream.
         public internal(set) var logStreamArn: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
@@ -105,8 +103,7 @@ public struct ModelError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServic
         message: Swift.String? = nil,
         originalMessage: Swift.String? = nil,
         originalStatusCode: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.logStreamArn = logStreamArn
         self.properties.message = message
         self.properties.originalMessage = originalMessage
@@ -115,9 +112,9 @@ public struct ModelError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServic
 }
 
 /// Either a serverless endpoint variant's resources are still being provisioned, or a multi-model endpoint is still downloading or loading the target model. Wait and try your request again.
-public struct ModelNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ModelNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -132,16 +129,15 @@ public struct ModelNotReadyException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The service is unavailable. Try your call again.
-public struct ServiceUnavailable: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailable: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -156,16 +152,15 @@ public struct ServiceUnavailable: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Inspect your request and try again.
-public struct ValidationError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -180,8 +175,7 @@ public struct ValidationError: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -234,8 +228,7 @@ public struct InvokeEndpointInput: Swift.Sendable {
         targetContainerHostname: Swift.String? = nil,
         targetModel: Swift.String? = nil,
         targetVariant: Swift.String? = nil
-    )
-    {
+    ) {
         self.accept = accept
         self.body = body
         self.contentType = contentType
@@ -278,8 +271,7 @@ public struct InvokeEndpointOutput: Swift.Sendable {
         customAttributes: Swift.String? = nil,
         invokedProductionVariant: Swift.String? = nil,
         newSessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.body = body
         self.closedSessionId = closedSessionId
         self.contentType = contentType
@@ -323,8 +315,7 @@ public struct InvokeEndpointAsyncInput: Swift.Sendable {
         inputLocation: Swift.String? = nil,
         invocationTimeoutSeconds: Swift.Int? = nil,
         requestTTLSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.accept = accept
         self.contentType = contentType
         self.customAttributes = customAttributes
@@ -353,8 +344,7 @@ public struct InvokeEndpointAsyncOutput: Swift.Sendable {
         failureLocation: Swift.String? = nil,
         inferenceId: Swift.String? = nil,
         outputLocation: Swift.String? = nil
-    )
-    {
+    ) {
         self.failureLocation = failureLocation
         self.inferenceId = inferenceId
         self.outputLocation = outputLocation
@@ -362,9 +352,9 @@ public struct InvokeEndpointAsyncOutput: Swift.Sendable {
 }
 
 /// The stream processing failed because of an unknown error, exception or failure. Try your request again.
-public struct InternalStreamFailure: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalStreamFailure: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -379,16 +369,15 @@ public struct InternalStreamFailure: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An error occurred while streaming the response body. This error can have the following error codes: ModelInvocationTimeExceeded The model failed to finish sending the response within the timeout period allowed by Amazon SageMaker. StreamBroken The Transmission Control Protocol (TCP) connection between the client and the model was reset or closed.
-public struct ModelStreamError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ModelStreamError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This error can have the following error codes: ModelInvocationTimeExceeded The model failed to finish sending the response within the timeout period allowed by Amazon SageMaker. StreamBroken The Transmission Control Protocol (TCP) connection between the client and the model was reset or closed.
         public internal(set) var errorCode: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
@@ -406,8 +395,7 @@ public struct ModelStreamError: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -448,8 +436,7 @@ public struct InvokeEndpointWithResponseStreamInput: Swift.Sendable {
         sessionId: Swift.String? = nil,
         targetContainerHostname: Swift.String? = nil,
         targetVariant: Swift.String? = nil
-    )
-    {
+    ) {
         self.accept = accept
         self.body = body
         self.contentType = contentType
@@ -477,8 +464,7 @@ extension SageMakerRuntimeClientTypes {
 
         public init(
             bytes: Foundation.Data? = nil
-        )
-        {
+        ) {
             self.bytes = bytes
         }
     }
@@ -515,8 +501,7 @@ public struct InvokeEndpointWithResponseStreamOutput: Swift.Sendable {
         contentType: Swift.String? = nil,
         customAttributes: Swift.String? = nil,
         invokedProductionVariant: Swift.String? = nil
-    )
-    {
+    ) {
         self.body = body
         self.contentType = contentType
         self.customAttributes = customAttributes

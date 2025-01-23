@@ -26,9 +26,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// The current account doesn't have the IAM permissions required to perform the specified Resolver operation. This error can also be thrown when a customer has reached the 5120 character limit for a resource policy for CloudWatch Logs.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -43,8 +43,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -82,9 +81,9 @@ extension Route53ResolverClientTypes {
 }
 
 /// The requested state transition isn't valid. For example, you can't delete a firewall domain list if it is in the process of being deleted, or you can't import domains into a domain list that is in the process of being deleted.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -99,16 +98,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// We encountered an unknown error. Try again in a few minutes.
-public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -123,16 +121,15 @@ public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request caused one or more limits to be exceeded.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// For a LimitExceededException error, the type of resource that exceeded the current limit.
         public internal(set) var resourceType: Swift.String? = nil
@@ -150,17 +147,16 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     public init(
         message: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceType = resourceType
     }
 }
 
 /// The specified resource doesn't exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// For a ResourceNotFoundException error, the type of resource that doesn't exist.
         public internal(set) var resourceType: Swift.String? = nil
@@ -178,17 +174,16 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceType = resourceType
     }
 }
 
 /// The request was throttled. Try again in a few minutes.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -203,16 +198,15 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -227,8 +221,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -276,8 +269,7 @@ extension Route53ResolverClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -313,8 +305,7 @@ public struct AssociateFirewallRuleGroupInput: Swift.Sendable {
         priority: Swift.Int? = nil,
         tags: [Route53ResolverClientTypes.Tag]? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.creatorRequestId = creatorRequestId
         self.firewallRuleGroupId = firewallRuleGroupId
         self.mutationProtection = mutationProtection
@@ -402,8 +393,7 @@ extension Route53ResolverClientTypes {
             status: Route53ResolverClientTypes.FirewallRuleGroupAssociationStatus? = nil,
             statusMessage: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.creatorRequestId = creatorRequestId
@@ -427,16 +417,15 @@ public struct AssociateFirewallRuleGroupOutput: Swift.Sendable {
 
     public init(
         firewallRuleGroupAssociation: Route53ResolverClientTypes.FirewallRuleGroupAssociation? = nil
-    )
-    {
+    ) {
         self.firewallRuleGroupAssociation = firewallRuleGroupAssociation
     }
 }
 
 /// One or more parameters in this request are not valid.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// For an InvalidParameterException error, the name of the parameter that's invalid.
         public internal(set) var fieldName: Swift.String? = nil
         /// This member is required.
@@ -455,17 +444,16 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         fieldName: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.fieldName = fieldName
         self.properties.message = message
     }
 }
 
 /// The request is invalid.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -480,16 +468,15 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The resource that you tried to create already exists.
-public struct ResourceExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// For a ResourceExistsException error, the type of resource that the error applies to.
         public internal(set) var resourceType: Swift.String? = nil
@@ -507,8 +494,7 @@ public struct ResourceExistsException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceType = resourceType
     }
@@ -532,8 +518,7 @@ extension Route53ResolverClientTypes {
             ipId: Swift.String? = nil,
             ipv6: Swift.String? = nil,
             subnetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.ip = ip
             self.ipId = ipId
             self.ipv6 = ipv6
@@ -553,8 +538,7 @@ public struct AssociateResolverEndpointIpAddressInput: Swift.Sendable {
     public init(
         ipAddress: Route53ResolverClientTypes.IpAddressUpdate? = nil,
         resolverEndpointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ipAddress = ipAddress
         self.resolverEndpointId = resolverEndpointId
     }
@@ -794,8 +778,7 @@ extension Route53ResolverClientTypes {
             securityGroupIds: [Swift.String]? = nil,
             status: Route53ResolverClientTypes.ResolverEndpointStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.creatorRequestId = creatorRequestId
@@ -822,8 +805,7 @@ public struct AssociateResolverEndpointIpAddressOutput: Swift.Sendable {
 
     public init(
         resolverEndpoint: Route53ResolverClientTypes.ResolverEndpoint? = nil
-    )
-    {
+    ) {
         self.resolverEndpoint = resolverEndpoint
     }
 }
@@ -839,8 +821,7 @@ public struct AssociateResolverQueryLogConfigInput: Swift.Sendable {
     public init(
         resolverQueryLogConfigId: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resolverQueryLogConfigId = resolverQueryLogConfigId
         self.resourceId = resourceId
     }
@@ -946,7 +927,7 @@ extension Route53ResolverClientTypes {
         ///
         /// * CREATING: Resolver is creating an association between an Amazon VPC and a query logging configuration.
         ///
-        /// * CREATED: The association between an Amazon VPC and a query logging configuration was successfully created. Resolver is logging queries that originate in the specified VPC.
+        /// * ACTIVE: The association between an Amazon VPC and a query logging configuration was successfully created. Resolver is logging queries that originate in the specified VPC.
         ///
         /// * DELETING: Resolver is deleting this query logging association.
         ///
@@ -961,8 +942,7 @@ extension Route53ResolverClientTypes {
             resolverQueryLogConfigId: Swift.String? = nil,
             resourceId: Swift.String? = nil,
             status: Route53ResolverClientTypes.ResolverQueryLogConfigAssociationStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.error = error
             self.errorMessage = errorMessage
@@ -980,16 +960,15 @@ public struct AssociateResolverQueryLogConfigOutput: Swift.Sendable {
 
     public init(
         resolverQueryLogConfigAssociation: Route53ResolverClientTypes.ResolverQueryLogConfigAssociation? = nil
-    )
-    {
+    ) {
         self.resolverQueryLogConfigAssociation = resolverQueryLogConfigAssociation
     }
 }
 
 /// The specified resource isn't available.
-public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// For a ResourceUnavailableException error, the type of resource that isn't available.
         public internal(set) var resourceType: Swift.String? = nil
@@ -1007,8 +986,7 @@ public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClien
     public init(
         message: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceType = resourceType
     }
@@ -1028,8 +1006,7 @@ public struct AssociateResolverRuleInput: Swift.Sendable {
         name: Swift.String? = nil,
         resolverRuleId: Swift.String? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.resolverRuleId = resolverRuleId
         self.vpcId = vpcId
@@ -1098,8 +1075,7 @@ extension Route53ResolverClientTypes {
             status: Route53ResolverClientTypes.ResolverRuleAssociationStatus? = nil,
             statusMessage: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.name = name
             self.resolverRuleId = resolverRuleId
@@ -1116,8 +1092,7 @@ public struct AssociateResolverRuleOutput: Swift.Sendable {
 
     public init(
         resolverRuleAssociation: Route53ResolverClientTypes.ResolverRuleAssociation? = nil
-    )
-    {
+    ) {
         self.resolverRuleAssociation = resolverRuleAssociation
     }
 }
@@ -1212,6 +1187,38 @@ extension Route53ResolverClientTypes {
     }
 }
 
+extension Route53ResolverClientTypes {
+
+    public enum ConfidenceThreshold: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConfidenceThreshold] {
+            return [
+                .high,
+                .low,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateFirewallDomainListInput: Swift.Sendable {
     /// A unique string that identifies the request and that allows you to retry failed requests without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
     /// This member is required.
@@ -1226,8 +1233,7 @@ public struct CreateFirewallDomainListInput: Swift.Sendable {
         creatorRequestId: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Route53ResolverClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.creatorRequestId = creatorRequestId
         self.name = name
         self.tags = tags
@@ -1308,8 +1314,7 @@ extension Route53ResolverClientTypes {
             name: Swift.String? = nil,
             status: Route53ResolverClientTypes.FirewallDomainListStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.creatorRequestId = creatorRequestId
@@ -1330,9 +1335,37 @@ public struct CreateFirewallDomainListOutput: Swift.Sendable {
 
     public init(
         firewallDomainList: Route53ResolverClientTypes.FirewallDomainList? = nil
-    )
-    {
+    ) {
         self.firewallDomainList = firewallDomainList
+    }
+}
+
+extension Route53ResolverClientTypes {
+
+    public enum DnsThreatProtection: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dga
+        case dnsTunneling
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DnsThreatProtection] {
+            return [
+                .dga,
+                .dnsTunneling
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dga: return "DGA"
+            case .dnsTunneling: return "DNS_TUNNELING"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -1366,9 +1399,9 @@ extension Route53ResolverClientTypes {
 }
 
 public struct CreateFirewallRuleInput: Swift.Sendable {
-    /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list:
+    /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule:
     ///
-    /// * ALLOW - Permit the request to go through.
+    /// * ALLOW - Permit the request to go through. Not available for DNS Firewall Advanced rules.
     ///
     /// * ALERT - Permit the request and send metrics and logs to Cloud Watch.
     ///
@@ -1392,13 +1425,22 @@ public struct CreateFirewallRuleInput: Swift.Sendable {
     ///
     /// This setting is required if the rule action setting is BLOCK.
     public var blockResponse: Route53ResolverClientTypes.BlockResponse?
+    /// The confidence threshold for DNS Firewall Advanced. You must provide this value when you create a DNS Firewall Advanced rule. The confidence level values mean:
+    ///
+    /// * LOW: Provides the highest detection rate for threats, but also increases false positives.
+    ///
+    /// * MEDIUM: Provides a balance between detecting threats and false positives.
+    ///
+    /// * HIGH: Detects only the most well corroborated threats with a low rate of false positives.
+    public var confidenceThreshold: Route53ResolverClientTypes.ConfidenceThreshold?
     /// A unique string that identifies the request and that allows you to retry failed requests without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
     /// This member is required.
     public var creatorRequestId: Swift.String?
-    /// The ID of the domain list that you want to use in the rule.
-    /// This member is required.
+    /// Use to create a DNS Firewall Advanced rule.
+    public var dnsThreatProtection: Route53ResolverClientTypes.DnsThreatProtection?
+    /// The ID of the domain list that you want to use in the rule. Can't be used together with DnsThreatProtecton.
     public var firewallDomainListId: Swift.String?
-    /// How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME or DNAME. Inspect_Redirection_Domain (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be added to the domain list. Trust_Redirection_Domain  inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to the domain list.
+    /// How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME or DNAME. INSPECT_REDIRECTION_DOMAIN: (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be added to the domain list. TRUST_REDIRECTION_DOMAIN: Inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to the domain list.
     public var firewallDomainRedirectionAction: Route53ResolverClientTypes.FirewallDomainRedirectionAction?
     /// The unique identifier of the firewall rule group where you want to create the rule.
     /// This member is required.
@@ -1446,21 +1488,24 @@ public struct CreateFirewallRuleInput: Swift.Sendable {
         blockOverrideDomain: Swift.String? = nil,
         blockOverrideTtl: Swift.Int? = nil,
         blockResponse: Route53ResolverClientTypes.BlockResponse? = nil,
+        confidenceThreshold: Route53ResolverClientTypes.ConfidenceThreshold? = nil,
         creatorRequestId: Swift.String? = nil,
+        dnsThreatProtection: Route53ResolverClientTypes.DnsThreatProtection? = nil,
         firewallDomainListId: Swift.String? = nil,
         firewallDomainRedirectionAction: Route53ResolverClientTypes.FirewallDomainRedirectionAction? = nil,
         firewallRuleGroupId: Swift.String? = nil,
         name: Swift.String? = nil,
         priority: Swift.Int? = nil,
         qtype: Swift.String? = nil
-    )
-    {
+    ) {
         self.action = action
         self.blockOverrideDnsType = blockOverrideDnsType
         self.blockOverrideDomain = blockOverrideDomain
         self.blockOverrideTtl = blockOverrideTtl
         self.blockResponse = blockResponse
+        self.confidenceThreshold = confidenceThreshold
         self.creatorRequestId = creatorRequestId
+        self.dnsThreatProtection = dnsThreatProtection
         self.firewallDomainListId = firewallDomainListId
         self.firewallDomainRedirectionAction = firewallDomainRedirectionAction
         self.firewallRuleGroupId = firewallRuleGroupId
@@ -1474,9 +1519,9 @@ extension Route53ResolverClientTypes {
 
     /// A single firewall rule in a rule group.
     public struct FirewallRule: Swift.Sendable {
-        /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list:
+        /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule:
         ///
-        /// * ALLOW - Permit the request to go through.
+        /// * ALLOW - Permit the request to go through. Not available for DNS Firewall Advanced rules.
         ///
         /// * ALERT - Permit the request to go through but send an alert to the logs.
         ///
@@ -1496,16 +1541,32 @@ extension Route53ResolverClientTypes {
         ///
         /// * OVERRIDE - Provide a custom override in the response. This option requires custom handling details in the rule's BlockOverride* settings.
         public var blockResponse: Route53ResolverClientTypes.BlockResponse?
+        /// The confidence threshold for DNS Firewall Advanced. You must provide this value when you create a DNS Firewall Advanced rule. The confidence level values mean:
+        ///
+        /// * LOW: Provides the highest detection rate for threats, but also increases false positives.
+        ///
+        /// * MEDIUM: Provides a balance between detecting threats and false positives.
+        ///
+        /// * HIGH: Detects only the most well corroborated threats with a low rate of false positives.
+        public var confidenceThreshold: Route53ResolverClientTypes.ConfidenceThreshold?
         /// The date and time that the rule was created, in Unix time format and Coordinated Universal Time (UTC).
         public var creationTime: Swift.String?
         /// A unique string defined by you to identify the request. This allows you to retry failed requests without the risk of executing the operation twice. This can be any unique string, for example, a timestamp.
         public var creatorRequestId: Swift.String?
+        /// The type of the DNS Firewall Advanced rule. Valid values are:
+        ///
+        /// * DGA: Domain generation algorithms detection. DGAs are used by attackers to generate a large number of domains to to launch malware attacks.
+        ///
+        /// * DNS_TUNNELING: DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without making a network connection to the client.
+        public var dnsThreatProtection: Route53ResolverClientTypes.DnsThreatProtection?
         /// The ID of the domain list that's used in the rule.
         public var firewallDomainListId: Swift.String?
-        /// How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME or DNAME. Inspect_Redirection_Domain (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be added to the domain list. Trust_Redirection_Domain  inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to the domain list.
+        /// How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME or DNAME. INSPECT_REDIRECTION_DOMAIN: (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be added to the domain list. TRUST_REDIRECTION_DOMAIN: Inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to the domain list.
         public var firewallDomainRedirectionAction: Route53ResolverClientTypes.FirewallDomainRedirectionAction?
-        /// The unique identifier of the firewall rule group of the rule.
+        /// The unique identifier of the Firewall rule group of the rule.
         public var firewallRuleGroupId: Swift.String?
+        /// ID of the DNS Firewall Advanced rule.
+        public var firewallThreatProtectionId: Swift.String?
         /// The date and time that the rule was last modified, in Unix time format and Coordinated Universal Time (UTC).
         public var modificationTime: Swift.String?
         /// The name of the rule.
@@ -1549,27 +1610,32 @@ extension Route53ResolverClientTypes {
             blockOverrideDomain: Swift.String? = nil,
             blockOverrideTtl: Swift.Int? = nil,
             blockResponse: Route53ResolverClientTypes.BlockResponse? = nil,
+            confidenceThreshold: Route53ResolverClientTypes.ConfidenceThreshold? = nil,
             creationTime: Swift.String? = nil,
             creatorRequestId: Swift.String? = nil,
+            dnsThreatProtection: Route53ResolverClientTypes.DnsThreatProtection? = nil,
             firewallDomainListId: Swift.String? = nil,
             firewallDomainRedirectionAction: Route53ResolverClientTypes.FirewallDomainRedirectionAction? = nil,
             firewallRuleGroupId: Swift.String? = nil,
+            firewallThreatProtectionId: Swift.String? = nil,
             modificationTime: Swift.String? = nil,
             name: Swift.String? = nil,
             priority: Swift.Int? = nil,
             qtype: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.blockOverrideDnsType = blockOverrideDnsType
             self.blockOverrideDomain = blockOverrideDomain
             self.blockOverrideTtl = blockOverrideTtl
             self.blockResponse = blockResponse
+            self.confidenceThreshold = confidenceThreshold
             self.creationTime = creationTime
             self.creatorRequestId = creatorRequestId
+            self.dnsThreatProtection = dnsThreatProtection
             self.firewallDomainListId = firewallDomainListId
             self.firewallDomainRedirectionAction = firewallDomainRedirectionAction
             self.firewallRuleGroupId = firewallRuleGroupId
+            self.firewallThreatProtectionId = firewallThreatProtectionId
             self.modificationTime = modificationTime
             self.name = name
             self.priority = priority
@@ -1584,8 +1650,7 @@ public struct CreateFirewallRuleOutput: Swift.Sendable {
 
     public init(
         firewallRule: Route53ResolverClientTypes.FirewallRule? = nil
-    )
-    {
+    ) {
         self.firewallRule = firewallRule
     }
 }
@@ -1604,8 +1669,7 @@ public struct CreateFirewallRuleGroupInput: Swift.Sendable {
         creatorRequestId: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Route53ResolverClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.creatorRequestId = creatorRequestId
         self.name = name
         self.tags = tags
@@ -1715,8 +1779,7 @@ extension Route53ResolverClientTypes {
             shareStatus: Route53ResolverClientTypes.ShareStatus? = nil,
             status: Route53ResolverClientTypes.FirewallRuleGroupStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.creatorRequestId = creatorRequestId
@@ -1738,16 +1801,15 @@ public struct CreateFirewallRuleGroupOutput: Swift.Sendable {
 
     public init(
         firewallRuleGroup: Route53ResolverClientTypes.FirewallRuleGroup? = nil
-    )
-    {
+    ) {
         self.firewallRuleGroup = firewallRuleGroup
     }
 }
 
 /// Fulfilling the request would cause one or more quotas to be exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1762,8 +1824,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1793,8 +1854,7 @@ public struct CreateOutpostResolverInput: Swift.Sendable {
         outpostArn: Swift.String? = nil,
         preferredInstanceType: Swift.String? = nil,
         tags: [Route53ResolverClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.creatorRequestId = creatorRequestId
         self.instanceCount = instanceCount
         self.name = name
@@ -1887,8 +1947,7 @@ extension Route53ResolverClientTypes {
             preferredInstanceType: Swift.String? = nil,
             status: Route53ResolverClientTypes.OutpostResolverStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.creatorRequestId = creatorRequestId
@@ -1910,8 +1969,7 @@ public struct CreateOutpostResolverOutput: Swift.Sendable {
 
     public init(
         outpostResolver: Route53ResolverClientTypes.OutpostResolver? = nil
-    )
-    {
+    ) {
         self.outpostResolver = outpostResolver
     }
 }
@@ -1932,8 +1990,7 @@ extension Route53ResolverClientTypes {
             ip: Swift.String? = nil,
             ipv6: Swift.String? = nil,
             subnetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.ip = ip
             self.ipv6 = ipv6
             self.subnetId = subnetId
@@ -2005,8 +2062,7 @@ public struct CreateResolverEndpointInput: Swift.Sendable {
         resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType? = nil,
         securityGroupIds: [Swift.String]? = nil,
         tags: [Route53ResolverClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.creatorRequestId = creatorRequestId
         self.direction = direction
         self.ipAddresses = ipAddresses
@@ -2026,8 +2082,7 @@ public struct CreateResolverEndpointOutput: Swift.Sendable {
 
     public init(
         resolverEndpoint: Route53ResolverClientTypes.ResolverEndpoint? = nil
-    )
-    {
+    ) {
         self.resolverEndpoint = resolverEndpoint
     }
 }
@@ -2056,8 +2111,7 @@ public struct CreateResolverQueryLogConfigInput: Swift.Sendable {
         destinationArn: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Route53ResolverClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.creatorRequestId = creatorRequestId
         self.destinationArn = destinationArn
         self.name = name
@@ -2148,8 +2202,7 @@ extension Route53ResolverClientTypes {
             ownerId: Swift.String? = nil,
             shareStatus: Route53ResolverClientTypes.ShareStatus? = nil,
             status: Route53ResolverClientTypes.ResolverQueryLogConfigStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.associationCount = associationCount
             self.creationTime = creationTime
@@ -2170,8 +2223,7 @@ public struct CreateResolverQueryLogConfigOutput: Swift.Sendable {
 
     public init(
         resolverQueryLogConfig: Route53ResolverClientTypes.ResolverQueryLogConfig? = nil
-    )
-    {
+    ) {
         self.resolverQueryLogConfig = resolverQueryLogConfig
     }
 }
@@ -2218,30 +2270,7 @@ extension Route53ResolverClientTypes {
         public var ipv6: Swift.String?
         /// The port at Ip that you want to forward DNS queries to.
         public var port: Swift.Int?
-        /// The protocols for the Resolver endpoints. DoH-FIPS is applicable for inbound endpoints only. For an inbound endpoint you can apply the protocols as follows:
-        ///
-        /// * Do53 and DoH in combination.
-        ///
-        /// * Do53 and DoH-FIPS in combination.
-        ///
-        /// * Do53 alone.
-        ///
-        /// * DoH alone.
-        ///
-        /// * DoH-FIPS alone.
-        ///
-        /// * None, which is treated as Do53.
-        ///
-        ///
-        /// For an outbound endpoint you can apply the protocols as follows:
-        ///
-        /// * Do53 and DoH in combination.
-        ///
-        /// * Do53 alone.
-        ///
-        /// * DoH alone.
-        ///
-        /// * None, which is treated as Do53.
+        /// The protocols for the target address. The protocol you choose needs to be supported by the outbound endpoint of the Resolver rule.
         public var `protocol`: Route53ResolverClientTypes.ModelProtocol?
         /// The Server Name Indication of the DoH server that you want to forward queries to. This is only used if the Protocol of the TargetAddress is DoH.
         public var serverNameIndication: Swift.String?
@@ -2252,8 +2281,7 @@ extension Route53ResolverClientTypes {
             port: Swift.Int? = nil,
             `protocol`: Route53ResolverClientTypes.ModelProtocol? = nil,
             serverNameIndication: Swift.String? = nil
-        )
-        {
+        ) {
             self.ip = ip
             self.ipv6 = ipv6
             self.port = port
@@ -2289,8 +2317,7 @@ public struct CreateResolverRuleInput: Swift.Sendable {
         ruleType: Route53ResolverClientTypes.RuleTypeOption? = nil,
         tags: [Route53ResolverClientTypes.Tag]? = nil,
         targetIps: [Route53ResolverClientTypes.TargetAddress]? = nil
-    )
-    {
+    ) {
         self.creatorRequestId = creatorRequestId
         self.domainName = domainName
         self.name = name
@@ -2384,8 +2411,7 @@ extension Route53ResolverClientTypes {
             status: Route53ResolverClientTypes.ResolverRuleStatus? = nil,
             statusMessage: Swift.String? = nil,
             targetIps: [Route53ResolverClientTypes.TargetAddress]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.creatorRequestId = creatorRequestId
@@ -2410,8 +2436,7 @@ public struct CreateResolverRuleOutput: Swift.Sendable {
 
     public init(
         resolverRule: Route53ResolverClientTypes.ResolverRule? = nil
-    )
-    {
+    ) {
         self.resolverRule = resolverRule
     }
 }
@@ -2423,8 +2448,7 @@ public struct DeleteFirewallDomainListInput: Swift.Sendable {
 
     public init(
         firewallDomainListId: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallDomainListId = firewallDomainListId
     }
 }
@@ -2435,19 +2459,19 @@ public struct DeleteFirewallDomainListOutput: Swift.Sendable {
 
     public init(
         firewallDomainList: Route53ResolverClientTypes.FirewallDomainList? = nil
-    )
-    {
+    ) {
         self.firewallDomainList = firewallDomainList
     }
 }
 
 public struct DeleteFirewallRuleInput: Swift.Sendable {
     /// The ID of the domain list that's used in the rule.
-    /// This member is required.
     public var firewallDomainListId: Swift.String?
     /// The unique identifier of the firewall rule group that you want to delete the rule from.
     /// This member is required.
     public var firewallRuleGroupId: Swift.String?
+    /// The ID that is created for a DNS Firewall Advanced rule.
+    public var firewallThreatProtectionId: Swift.String?
     /// The DNS query type that the rule you are deleting evaluates. Allowed values are;
     ///
     /// * A: Returns an IPv4 address.
@@ -2482,11 +2506,12 @@ public struct DeleteFirewallRuleInput: Swift.Sendable {
     public init(
         firewallDomainListId: Swift.String? = nil,
         firewallRuleGroupId: Swift.String? = nil,
+        firewallThreatProtectionId: Swift.String? = nil,
         qtype: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallDomainListId = firewallDomainListId
         self.firewallRuleGroupId = firewallRuleGroupId
+        self.firewallThreatProtectionId = firewallThreatProtectionId
         self.qtype = qtype
     }
 }
@@ -2497,8 +2522,7 @@ public struct DeleteFirewallRuleOutput: Swift.Sendable {
 
     public init(
         firewallRule: Route53ResolverClientTypes.FirewallRule? = nil
-    )
-    {
+    ) {
         self.firewallRule = firewallRule
     }
 }
@@ -2510,8 +2534,7 @@ public struct DeleteFirewallRuleGroupInput: Swift.Sendable {
 
     public init(
         firewallRuleGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallRuleGroupId = firewallRuleGroupId
     }
 }
@@ -2522,8 +2545,7 @@ public struct DeleteFirewallRuleGroupOutput: Swift.Sendable {
 
     public init(
         firewallRuleGroup: Route53ResolverClientTypes.FirewallRuleGroup? = nil
-    )
-    {
+    ) {
         self.firewallRuleGroup = firewallRuleGroup
     }
 }
@@ -2535,8 +2557,7 @@ public struct DeleteOutpostResolverInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -2547,8 +2568,7 @@ public struct DeleteOutpostResolverOutput: Swift.Sendable {
 
     public init(
         outpostResolver: Route53ResolverClientTypes.OutpostResolver? = nil
-    )
-    {
+    ) {
         self.outpostResolver = outpostResolver
     }
 }
@@ -2560,8 +2580,7 @@ public struct DeleteResolverEndpointInput: Swift.Sendable {
 
     public init(
         resolverEndpointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resolverEndpointId = resolverEndpointId
     }
 }
@@ -2572,8 +2591,7 @@ public struct DeleteResolverEndpointOutput: Swift.Sendable {
 
     public init(
         resolverEndpoint: Route53ResolverClientTypes.ResolverEndpoint? = nil
-    )
-    {
+    ) {
         self.resolverEndpoint = resolverEndpoint
     }
 }
@@ -2585,8 +2603,7 @@ public struct DeleteResolverQueryLogConfigInput: Swift.Sendable {
 
     public init(
         resolverQueryLogConfigId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resolverQueryLogConfigId = resolverQueryLogConfigId
     }
 }
@@ -2597,16 +2614,15 @@ public struct DeleteResolverQueryLogConfigOutput: Swift.Sendable {
 
     public init(
         resolverQueryLogConfig: Route53ResolverClientTypes.ResolverQueryLogConfig? = nil
-    )
-    {
+    ) {
         self.resolverQueryLogConfig = resolverQueryLogConfig
     }
 }
 
 /// The resource that you tried to update or delete is currently in use.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// For a ResourceInUseException error, the type of resource that is currently in use.
         public internal(set) var resourceType: Swift.String? = nil
@@ -2624,8 +2640,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     public init(
         message: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceType = resourceType
     }
@@ -2638,8 +2653,7 @@ public struct DeleteResolverRuleInput: Swift.Sendable {
 
     public init(
         resolverRuleId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resolverRuleId = resolverRuleId
     }
 }
@@ -2650,8 +2664,7 @@ public struct DeleteResolverRuleOutput: Swift.Sendable {
 
     public init(
         resolverRule: Route53ResolverClientTypes.ResolverRule? = nil
-    )
-    {
+    ) {
         self.resolverRule = resolverRule
     }
 }
@@ -2663,8 +2676,7 @@ public struct DisassociateFirewallRuleGroupInput: Swift.Sendable {
 
     public init(
         firewallRuleGroupAssociationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallRuleGroupAssociationId = firewallRuleGroupAssociationId
     }
 }
@@ -2675,8 +2687,7 @@ public struct DisassociateFirewallRuleGroupOutput: Swift.Sendable {
 
     public init(
         firewallRuleGroupAssociation: Route53ResolverClientTypes.FirewallRuleGroupAssociation? = nil
-    )
-    {
+    ) {
         self.firewallRuleGroupAssociation = firewallRuleGroupAssociation
     }
 }
@@ -2692,8 +2703,7 @@ public struct DisassociateResolverEndpointIpAddressInput: Swift.Sendable {
     public init(
         ipAddress: Route53ResolverClientTypes.IpAddressUpdate? = nil,
         resolverEndpointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.ipAddress = ipAddress
         self.resolverEndpointId = resolverEndpointId
     }
@@ -2705,8 +2715,7 @@ public struct DisassociateResolverEndpointIpAddressOutput: Swift.Sendable {
 
     public init(
         resolverEndpoint: Route53ResolverClientTypes.ResolverEndpoint? = nil
-    )
-    {
+    ) {
         self.resolverEndpoint = resolverEndpoint
     }
 }
@@ -2722,8 +2731,7 @@ public struct DisassociateResolverQueryLogConfigInput: Swift.Sendable {
     public init(
         resolverQueryLogConfigId: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resolverQueryLogConfigId = resolverQueryLogConfigId
         self.resourceId = resourceId
     }
@@ -2735,8 +2743,7 @@ public struct DisassociateResolverQueryLogConfigOutput: Swift.Sendable {
 
     public init(
         resolverQueryLogConfigAssociation: Route53ResolverClientTypes.ResolverQueryLogConfigAssociation? = nil
-    )
-    {
+    ) {
         self.resolverQueryLogConfigAssociation = resolverQueryLogConfigAssociation
     }
 }
@@ -2752,8 +2759,7 @@ public struct DisassociateResolverRuleInput: Swift.Sendable {
     public init(
         resolverRuleId: Swift.String? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resolverRuleId = resolverRuleId
         self.vpcId = vpcId
     }
@@ -2765,8 +2771,7 @@ public struct DisassociateResolverRuleOutput: Swift.Sendable {
 
     public init(
         resolverRuleAssociation: Route53ResolverClientTypes.ResolverRuleAssociation? = nil
-    )
-    {
+    ) {
         self.resolverRuleAssociation = resolverRuleAssociation
     }
 }
@@ -2872,8 +2877,7 @@ extension Route53ResolverClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -2937,8 +2941,7 @@ extension Route53ResolverClientTypes {
             id: Swift.String? = nil,
             ownerId: Swift.String? = nil,
             resourceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.firewallFailOpen = firewallFailOpen
             self.id = id
             self.ownerId = ownerId
@@ -2994,8 +2997,7 @@ extension Route53ResolverClientTypes {
             id: Swift.String? = nil,
             managedOwnerName: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creatorRequestId = creatorRequestId
             self.id = id
@@ -3061,8 +3063,7 @@ extension Route53ResolverClientTypes {
             name: Swift.String? = nil,
             ownerId: Swift.String? = nil,
             shareStatus: Route53ResolverClientTypes.ShareStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.creatorRequestId = creatorRequestId
             self.id = id
@@ -3080,8 +3081,7 @@ public struct GetFirewallConfigInput: Swift.Sendable {
 
     public init(
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
     }
 }
@@ -3092,8 +3092,7 @@ public struct GetFirewallConfigOutput: Swift.Sendable {
 
     public init(
         firewallConfig: Route53ResolverClientTypes.FirewallConfig? = nil
-    )
-    {
+    ) {
         self.firewallConfig = firewallConfig
     }
 }
@@ -3105,8 +3104,7 @@ public struct GetFirewallDomainListInput: Swift.Sendable {
 
     public init(
         firewallDomainListId: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallDomainListId = firewallDomainListId
     }
 }
@@ -3117,8 +3115,7 @@ public struct GetFirewallDomainListOutput: Swift.Sendable {
 
     public init(
         firewallDomainList: Route53ResolverClientTypes.FirewallDomainList? = nil
-    )
-    {
+    ) {
         self.firewallDomainList = firewallDomainList
     }
 }
@@ -3130,8 +3127,7 @@ public struct GetFirewallRuleGroupInput: Swift.Sendable {
 
     public init(
         firewallRuleGroupId: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallRuleGroupId = firewallRuleGroupId
     }
 }
@@ -3142,8 +3138,7 @@ public struct GetFirewallRuleGroupOutput: Swift.Sendable {
 
     public init(
         firewallRuleGroup: Route53ResolverClientTypes.FirewallRuleGroup? = nil
-    )
-    {
+    ) {
         self.firewallRuleGroup = firewallRuleGroup
     }
 }
@@ -3155,8 +3150,7 @@ public struct GetFirewallRuleGroupAssociationInput: Swift.Sendable {
 
     public init(
         firewallRuleGroupAssociationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallRuleGroupAssociationId = firewallRuleGroupAssociationId
     }
 }
@@ -3167,8 +3161,7 @@ public struct GetFirewallRuleGroupAssociationOutput: Swift.Sendable {
 
     public init(
         firewallRuleGroupAssociation: Route53ResolverClientTypes.FirewallRuleGroupAssociation? = nil
-    )
-    {
+    ) {
         self.firewallRuleGroupAssociation = firewallRuleGroupAssociation
     }
 }
@@ -3180,8 +3173,7 @@ public struct GetFirewallRuleGroupPolicyInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -3192,8 +3184,7 @@ public struct GetFirewallRuleGroupPolicyOutput: Swift.Sendable {
 
     public init(
         firewallRuleGroupPolicy: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallRuleGroupPolicy = firewallRuleGroupPolicy
     }
 }
@@ -3205,8 +3196,7 @@ public struct GetOutpostResolverInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -3217,8 +3207,7 @@ public struct GetOutpostResolverOutput: Swift.Sendable {
 
     public init(
         outpostResolver: Route53ResolverClientTypes.OutpostResolver? = nil
-    )
-    {
+    ) {
         self.outpostResolver = outpostResolver
     }
 }
@@ -3230,8 +3219,7 @@ public struct GetResolverConfigInput: Swift.Sendable {
 
     public init(
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
     }
 }
@@ -3303,8 +3291,7 @@ extension Route53ResolverClientTypes {
             id: Swift.String? = nil,
             ownerId: Swift.String? = nil,
             resourceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.autodefinedReverse = autodefinedReverse
             self.id = id
             self.ownerId = ownerId
@@ -3319,8 +3306,7 @@ public struct GetResolverConfigOutput: Swift.Sendable {
 
     public init(
         resolverConfig: Route53ResolverClientTypes.ResolverConfig? = nil
-    )
-    {
+    ) {
         self.resolverConfig = resolverConfig
     }
 }
@@ -3332,8 +3318,7 @@ public struct GetResolverDnssecConfigInput: Swift.Sendable {
 
     public init(
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
     }
 }
@@ -3405,8 +3390,7 @@ extension Route53ResolverClientTypes {
             ownerId: Swift.String? = nil,
             resourceId: Swift.String? = nil,
             validationStatus: Route53ResolverClientTypes.ResolverDNSSECValidationStatus? = nil
-        )
-        {
+        ) {
             self.id = id
             self.ownerId = ownerId
             self.resourceId = resourceId
@@ -3421,8 +3405,7 @@ public struct GetResolverDnssecConfigOutput: Swift.Sendable {
 
     public init(
         resolverDNSSECConfig: Route53ResolverClientTypes.ResolverDnssecConfig? = nil
-    )
-    {
+    ) {
         self.resolverDNSSECConfig = resolverDNSSECConfig
     }
 }
@@ -3434,8 +3417,7 @@ public struct GetResolverEndpointInput: Swift.Sendable {
 
     public init(
         resolverEndpointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resolverEndpointId = resolverEndpointId
     }
 }
@@ -3446,8 +3428,7 @@ public struct GetResolverEndpointOutput: Swift.Sendable {
 
     public init(
         resolverEndpoint: Route53ResolverClientTypes.ResolverEndpoint? = nil
-    )
-    {
+    ) {
         self.resolverEndpoint = resolverEndpoint
     }
 }
@@ -3459,8 +3440,7 @@ public struct GetResolverQueryLogConfigInput: Swift.Sendable {
 
     public init(
         resolverQueryLogConfigId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resolverQueryLogConfigId = resolverQueryLogConfigId
     }
 }
@@ -3471,8 +3451,7 @@ public struct GetResolverQueryLogConfigOutput: Swift.Sendable {
 
     public init(
         resolverQueryLogConfig: Route53ResolverClientTypes.ResolverQueryLogConfig? = nil
-    )
-    {
+    ) {
         self.resolverQueryLogConfig = resolverQueryLogConfig
     }
 }
@@ -3484,8 +3463,7 @@ public struct GetResolverQueryLogConfigAssociationInput: Swift.Sendable {
 
     public init(
         resolverQueryLogConfigAssociationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resolverQueryLogConfigAssociationId = resolverQueryLogConfigAssociationId
     }
 }
@@ -3496,16 +3474,15 @@ public struct GetResolverQueryLogConfigAssociationOutput: Swift.Sendable {
 
     public init(
         resolverQueryLogConfigAssociation: Route53ResolverClientTypes.ResolverQueryLogConfigAssociation? = nil
-    )
-    {
+    ) {
         self.resolverQueryLogConfigAssociation = resolverQueryLogConfigAssociation
     }
 }
 
 /// The specified resource doesn't exist.
-public struct UnknownResourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnknownResourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3520,8 +3497,7 @@ public struct UnknownResourceException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3533,8 +3509,7 @@ public struct GetResolverQueryLogConfigPolicyInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -3545,8 +3520,7 @@ public struct GetResolverQueryLogConfigPolicyOutput: Swift.Sendable {
 
     public init(
         resolverQueryLogConfigPolicy: Swift.String? = nil
-    )
-    {
+    ) {
         self.resolverQueryLogConfigPolicy = resolverQueryLogConfigPolicy
     }
 }
@@ -3558,8 +3532,7 @@ public struct GetResolverRuleInput: Swift.Sendable {
 
     public init(
         resolverRuleId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resolverRuleId = resolverRuleId
     }
 }
@@ -3570,8 +3543,7 @@ public struct GetResolverRuleOutput: Swift.Sendable {
 
     public init(
         resolverRule: Route53ResolverClientTypes.ResolverRule? = nil
-    )
-    {
+    ) {
         self.resolverRule = resolverRule
     }
 }
@@ -3583,8 +3555,7 @@ public struct GetResolverRuleAssociationInput: Swift.Sendable {
 
     public init(
         resolverRuleAssociationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resolverRuleAssociationId = resolverRuleAssociationId
     }
 }
@@ -3595,8 +3566,7 @@ public struct GetResolverRuleAssociationOutput: Swift.Sendable {
 
     public init(
         resolverRuleAssociation: Route53ResolverClientTypes.ResolverRuleAssociation? = nil
-    )
-    {
+    ) {
         self.resolverRuleAssociation = resolverRuleAssociation
     }
 }
@@ -3608,8 +3578,7 @@ public struct GetResolverRulePolicyInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -3620,8 +3589,7 @@ public struct GetResolverRulePolicyOutput: Swift.Sendable {
 
     public init(
         resolverRulePolicy: Swift.String? = nil
-    )
-    {
+    ) {
         self.resolverRulePolicy = resolverRulePolicy
     }
 }
@@ -3641,8 +3609,7 @@ public struct ImportFirewallDomainsInput: Swift.Sendable {
         domainFileUrl: Swift.String? = nil,
         firewallDomainListId: Swift.String? = nil,
         operation: Route53ResolverClientTypes.FirewallDomainImportOperation? = nil
-    )
-    {
+    ) {
         self.domainFileUrl = domainFileUrl
         self.firewallDomainListId = firewallDomainListId
         self.operation = operation
@@ -3664,8 +3631,7 @@ public struct ImportFirewallDomainsOutput: Swift.Sendable {
         name: Swift.String? = nil,
         status: Route53ResolverClientTypes.FirewallDomainListStatus? = nil,
         statusMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.name = name
         self.status = status
@@ -3674,9 +3640,9 @@ public struct ImportFirewallDomainsOutput: Swift.Sendable {
 }
 
 /// The value that you specified for NextToken in a List request isn't valid.
-public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3691,16 +3657,15 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified Resolver rule policy is invalid.
-public struct InvalidPolicyDocument: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPolicyDocument: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3715,16 +3680,15 @@ public struct InvalidPolicyDocument: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified tag is invalid.
-public struct InvalidTagException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTagException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3739,8 +3703,7 @@ public struct InvalidTagException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3834,8 +3797,7 @@ extension Route53ResolverClientTypes {
             status: Route53ResolverClientTypes.IpAddressStatus? = nil,
             statusMessage: Swift.String? = nil,
             subnetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.ip = ip
             self.ipId = ipId
@@ -3857,8 +3819,7 @@ public struct ListFirewallConfigsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3873,8 +3834,7 @@ public struct ListFirewallConfigsOutput: Swift.Sendable {
     public init(
         firewallConfigs: [Route53ResolverClientTypes.FirewallConfig]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallConfigs = firewallConfigs
         self.nextToken = nextToken
     }
@@ -3889,8 +3849,7 @@ public struct ListFirewallDomainListsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3905,8 +3864,7 @@ public struct ListFirewallDomainListsOutput: Swift.Sendable {
     public init(
         firewallDomainLists: [Route53ResolverClientTypes.FirewallDomainListMetadata]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallDomainLists = firewallDomainLists
         self.nextToken = nextToken
     }
@@ -3925,8 +3883,7 @@ public struct ListFirewallDomainsInput: Swift.Sendable {
         firewallDomainListId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallDomainListId = firewallDomainListId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3942,8 +3899,7 @@ public struct ListFirewallDomainsOutput: Swift.Sendable {
     public init(
         domains: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domains = domains
         self.nextToken = nextToken
     }
@@ -3970,8 +3926,7 @@ public struct ListFirewallRuleGroupAssociationsInput: Swift.Sendable {
         priority: Swift.Int? = nil,
         status: Route53ResolverClientTypes.FirewallRuleGroupAssociationStatus? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallRuleGroupId = firewallRuleGroupId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3990,8 +3945,7 @@ public struct ListFirewallRuleGroupAssociationsOutput: Swift.Sendable {
     public init(
         firewallRuleGroupAssociations: [Route53ResolverClientTypes.FirewallRuleGroupAssociation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallRuleGroupAssociations = firewallRuleGroupAssociations
         self.nextToken = nextToken
     }
@@ -4006,8 +3960,7 @@ public struct ListFirewallRuleGroupsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4022,17 +3975,16 @@ public struct ListFirewallRuleGroupsOutput: Swift.Sendable {
     public init(
         firewallRuleGroups: [Route53ResolverClientTypes.FirewallRuleGroupMetadata]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallRuleGroups = firewallRuleGroups
         self.nextToken = nextToken
     }
 }
 
 public struct ListFirewallRulesInput: Swift.Sendable {
-    /// Optional additional filter for the rules to retrieve. The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list:
+    /// Optional additional filter for the rules to retrieve. The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule:
     ///
-    /// * ALLOW - Permit the request to go through.
+    /// * ALLOW - Permit the request to go through. Not availabe for DNS Firewall Advanced rules.
     ///
     /// * ALERT - Permit the request to go through but send an alert to the logs.
     ///
@@ -4054,8 +4006,7 @@ public struct ListFirewallRulesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         priority: Swift.Int? = nil
-    )
-    {
+    ) {
         self.action = action
         self.firewallRuleGroupId = firewallRuleGroupId
         self.maxResults = maxResults
@@ -4073,8 +4024,7 @@ public struct ListFirewallRulesOutput: Swift.Sendable {
     public init(
         firewallRules: [Route53ResolverClientTypes.FirewallRule]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallRules = firewallRules
         self.nextToken = nextToken
     }
@@ -4092,8 +4042,7 @@ public struct ListOutpostResolversInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         outpostArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.outpostArn = outpostArn
@@ -4109,8 +4058,7 @@ public struct ListOutpostResolversOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         outpostResolvers: [Route53ResolverClientTypes.OutpostResolver]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.outpostResolvers = outpostResolvers
     }
@@ -4125,8 +4073,7 @@ public struct ListResolverConfigsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4141,8 +4088,7 @@ public struct ListResolverConfigsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resolverConfigs: [Route53ResolverClientTypes.ResolverConfig]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resolverConfigs = resolverConfigs
     }
@@ -4160,8 +4106,7 @@ public struct ListResolverDnssecConfigsInput: Swift.Sendable {
         filters: [Route53ResolverClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4177,8 +4122,7 @@ public struct ListResolverDnssecConfigsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resolverDnssecConfigs: [Route53ResolverClientTypes.ResolverDnssecConfig]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resolverDnssecConfigs = resolverDnssecConfigs
     }
@@ -4197,8 +4141,7 @@ public struct ListResolverEndpointIpAddressesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resolverEndpointId: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resolverEndpointId = resolverEndpointId
@@ -4217,8 +4160,7 @@ public struct ListResolverEndpointIpAddressesOutput: Swift.Sendable {
         ipAddresses: [Route53ResolverClientTypes.IpAddressResponse]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.ipAddresses = ipAddresses
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4237,8 +4179,7 @@ public struct ListResolverEndpointsInput: Swift.Sendable {
         filters: [Route53ResolverClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4257,8 +4198,7 @@ public struct ListResolverEndpointsOutput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resolverEndpoints: [Route53ResolverClientTypes.ResolverEndpoint]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resolverEndpoints = resolverEndpoints
@@ -4343,8 +4283,7 @@ public struct ListResolverQueryLogConfigAssociationsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: Swift.String? = nil,
         sortOrder: Route53ResolverClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4368,8 +4307,7 @@ public struct ListResolverQueryLogConfigAssociationsOutput: Swift.Sendable {
         resolverQueryLogConfigAssociations: [Route53ResolverClientTypes.ResolverQueryLogConfigAssociation]? = nil,
         totalCount: Swift.Int = 0,
         totalFilteredCount: Swift.Int = 0
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resolverQueryLogConfigAssociations = resolverQueryLogConfigAssociations
         self.totalCount = totalCount
@@ -4427,8 +4365,7 @@ public struct ListResolverQueryLogConfigsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: Swift.String? = nil,
         sortOrder: Route53ResolverClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4452,8 +4389,7 @@ public struct ListResolverQueryLogConfigsOutput: Swift.Sendable {
         resolverQueryLogConfigs: [Route53ResolverClientTypes.ResolverQueryLogConfig]? = nil,
         totalCount: Swift.Int = 0,
         totalFilteredCount: Swift.Int = 0
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resolverQueryLogConfigs = resolverQueryLogConfigs
         self.totalCount = totalCount
@@ -4473,8 +4409,7 @@ public struct ListResolverRuleAssociationsInput: Swift.Sendable {
         filters: [Route53ResolverClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4493,8 +4428,7 @@ public struct ListResolverRuleAssociationsOutput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resolverRuleAssociations: [Route53ResolverClientTypes.ResolverRuleAssociation]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resolverRuleAssociations = resolverRuleAssociations
@@ -4513,8 +4447,7 @@ public struct ListResolverRulesInput: Swift.Sendable {
         filters: [Route53ResolverClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4533,8 +4466,7 @@ public struct ListResolverRulesOutput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resolverRules: [Route53ResolverClientTypes.ResolverRule]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resolverRules = resolverRules
@@ -4554,8 +4486,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceArn = resourceArn
@@ -4571,8 +4502,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [Route53ResolverClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -4589,8 +4519,7 @@ public struct PutFirewallRuleGroupPolicyInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         firewallRuleGroupPolicy: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.firewallRuleGroupPolicy = firewallRuleGroupPolicy
     }
@@ -4602,8 +4531,7 @@ public struct PutFirewallRuleGroupPolicyOutput: Swift.Sendable {
 
     public init(
         returnValue: Swift.Bool = false
-    )
-    {
+    ) {
         self.returnValue = returnValue
     }
 }
@@ -4628,8 +4556,7 @@ public struct PutResolverQueryLogConfigPolicyInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         resolverQueryLogConfigPolicy: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.resolverQueryLogConfigPolicy = resolverQueryLogConfigPolicy
     }
@@ -4642,8 +4569,7 @@ public struct PutResolverQueryLogConfigPolicyOutput: Swift.Sendable {
 
     public init(
         returnValue: Swift.Bool = false
-    )
-    {
+    ) {
         self.returnValue = returnValue
     }
 }
@@ -4672,8 +4598,7 @@ public struct PutResolverRulePolicyInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         resolverRulePolicy: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.resolverRulePolicy = resolverRulePolicy
     }
@@ -4686,8 +4611,7 @@ public struct PutResolverRulePolicyOutput: Swift.Sendable {
 
     public init(
         returnValue: Swift.Bool = false
-    )
-    {
+    ) {
         self.returnValue = returnValue
     }
 }
@@ -4707,8 +4631,7 @@ extension Route53ResolverClientTypes {
             name: Swift.String? = nil,
             resolverEndpointId: Swift.String? = nil,
             targetIps: [Route53ResolverClientTypes.TargetAddress]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.resolverEndpointId = resolverEndpointId
             self.targetIps = targetIps
@@ -4739,8 +4662,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Route53ResolverClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -4774,8 +4696,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -4804,8 +4725,7 @@ public struct UpdateFirewallConfigInput: Swift.Sendable {
     public init(
         firewallFailOpen: Route53ResolverClientTypes.FirewallFailOpenStatus? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.firewallFailOpen = firewallFailOpen
         self.resourceId = resourceId
     }
@@ -4817,8 +4737,7 @@ public struct UpdateFirewallConfigOutput: Swift.Sendable {
 
     public init(
         firewallConfig: Route53ResolverClientTypes.FirewallConfig? = nil
-    )
-    {
+    ) {
         self.firewallConfig = firewallConfig
     }
 }
@@ -4850,8 +4769,7 @@ public struct UpdateFirewallDomainsInput: Swift.Sendable {
         domains: [Swift.String]? = nil,
         firewallDomainListId: Swift.String? = nil,
         operation: Route53ResolverClientTypes.FirewallDomainUpdateOperation? = nil
-    )
-    {
+    ) {
         self.domains = domains
         self.firewallDomainListId = firewallDomainListId
         self.operation = operation
@@ -4873,8 +4791,7 @@ public struct UpdateFirewallDomainsOutput: Swift.Sendable {
         name: Swift.String? = nil,
         status: Route53ResolverClientTypes.FirewallDomainListStatus? = nil,
         statusMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.name = name
         self.status = status
@@ -4883,9 +4800,9 @@ public struct UpdateFirewallDomainsOutput: Swift.Sendable {
 }
 
 public struct UpdateFirewallRuleInput: Swift.Sendable {
-    /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list:
+    /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule:
     ///
-    /// * ALLOW - Permit the request to go through.
+    /// * ALLOW - Permit the request to go through. Not available for DNS Firewall Advanced rules.
     ///
     /// * ALERT - Permit the request to go through but send an alert to the logs.
     ///
@@ -4905,14 +4822,29 @@ public struct UpdateFirewallRuleInput: Swift.Sendable {
     ///
     /// * OVERRIDE - Provide a custom override in the response. This option requires custom handling details in the rule's BlockOverride* settings.
     public var blockResponse: Route53ResolverClientTypes.BlockResponse?
+    /// The confidence threshold for DNS Firewall Advanced. You must provide this value when you create a DNS Firewall Advanced rule. The confidence level values mean:
+    ///
+    /// * LOW: Provides the highest detection rate for threats, but also increases false positives.
+    ///
+    /// * MEDIUM: Provides a balance between detecting threats and false positives.
+    ///
+    /// * HIGH: Detects only the most well corroborated threats with a low rate of false positives.
+    public var confidenceThreshold: Route53ResolverClientTypes.ConfidenceThreshold?
+    /// The type of the DNS Firewall Advanced rule. Valid values are:
+    ///
+    /// * DGA: Domain generation algorithms detection. DGAs are used by attackers to generate a large number of domains to to launch malware attacks.
+    ///
+    /// * DNS_TUNNELING: DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without making a network connection to the client.
+    public var dnsThreatProtection: Route53ResolverClientTypes.DnsThreatProtection?
     /// The ID of the domain list to use in the rule.
-    /// This member is required.
     public var firewallDomainListId: Swift.String?
-    /// How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME or DNAME. Inspect_Redirection_Domain (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be added to the domain list. Trust_Redirection_Domain  inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to the domain list.
+    /// How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME or DNAME. INSPECT_REDIRECTION_DOMAIN: (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be added to the domain list. TRUST_REDIRECTION_DOMAIN: Inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to the domain list.
     public var firewallDomainRedirectionAction: Route53ResolverClientTypes.FirewallDomainRedirectionAction?
     /// The unique identifier of the firewall rule group for the rule.
     /// This member is required.
     public var firewallRuleGroupId: Swift.String?
+    /// The DNS Firewall Advanced rule ID.
+    public var firewallThreatProtectionId: Swift.String?
     /// The name of the rule.
     public var name: Swift.String?
     /// The setting that determines the processing order of the rule in the rule group. DNS Firewall processes the rules in a rule group by order of priority, starting from the lowest setting. You must specify a unique priority for each rule in a rule group. To make it easier to insert rules later, leave space between the numbers, for example, use 100, 200, and so on. You can change the priority setting for the rules in a rule group at any time.
@@ -4954,22 +4886,27 @@ public struct UpdateFirewallRuleInput: Swift.Sendable {
         blockOverrideDomain: Swift.String? = nil,
         blockOverrideTtl: Swift.Int? = nil,
         blockResponse: Route53ResolverClientTypes.BlockResponse? = nil,
+        confidenceThreshold: Route53ResolverClientTypes.ConfidenceThreshold? = nil,
+        dnsThreatProtection: Route53ResolverClientTypes.DnsThreatProtection? = nil,
         firewallDomainListId: Swift.String? = nil,
         firewallDomainRedirectionAction: Route53ResolverClientTypes.FirewallDomainRedirectionAction? = nil,
         firewallRuleGroupId: Swift.String? = nil,
+        firewallThreatProtectionId: Swift.String? = nil,
         name: Swift.String? = nil,
         priority: Swift.Int? = nil,
         qtype: Swift.String? = nil
-    )
-    {
+    ) {
         self.action = action
         self.blockOverrideDnsType = blockOverrideDnsType
         self.blockOverrideDomain = blockOverrideDomain
         self.blockOverrideTtl = blockOverrideTtl
         self.blockResponse = blockResponse
+        self.confidenceThreshold = confidenceThreshold
+        self.dnsThreatProtection = dnsThreatProtection
         self.firewallDomainListId = firewallDomainListId
         self.firewallDomainRedirectionAction = firewallDomainRedirectionAction
         self.firewallRuleGroupId = firewallRuleGroupId
+        self.firewallThreatProtectionId = firewallThreatProtectionId
         self.name = name
         self.priority = priority
         self.qtype = qtype
@@ -4982,8 +4919,7 @@ public struct UpdateFirewallRuleOutput: Swift.Sendable {
 
     public init(
         firewallRule: Route53ResolverClientTypes.FirewallRule? = nil
-    )
-    {
+    ) {
         self.firewallRule = firewallRule
     }
 }
@@ -5004,8 +4940,7 @@ public struct UpdateFirewallRuleGroupAssociationInput: Swift.Sendable {
         mutationProtection: Route53ResolverClientTypes.MutationProtectionStatus? = nil,
         name: Swift.String? = nil,
         priority: Swift.Int? = nil
-    )
-    {
+    ) {
         self.firewallRuleGroupAssociationId = firewallRuleGroupAssociationId
         self.mutationProtection = mutationProtection
         self.name = name
@@ -5019,8 +4954,7 @@ public struct UpdateFirewallRuleGroupAssociationOutput: Swift.Sendable {
 
     public init(
         firewallRuleGroupAssociation: Route53ResolverClientTypes.FirewallRuleGroupAssociation? = nil
-    )
-    {
+    ) {
         self.firewallRuleGroupAssociation = firewallRuleGroupAssociation
     }
 }
@@ -5041,8 +4975,7 @@ public struct UpdateOutpostResolverInput: Swift.Sendable {
         instanceCount: Swift.Int? = nil,
         name: Swift.String? = nil,
         preferredInstanceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.instanceCount = instanceCount
         self.name = name
@@ -5056,8 +4989,7 @@ public struct UpdateOutpostResolverOutput: Swift.Sendable {
 
     public init(
         outpostResolver: Route53ResolverClientTypes.OutpostResolver? = nil
-    )
-    {
+    ) {
         self.outpostResolver = outpostResolver
     }
 }
@@ -5073,8 +5005,7 @@ public struct UpdateResolverConfigInput: Swift.Sendable {
     public init(
         autodefinedReverseFlag: Route53ResolverClientTypes.AutodefinedReverseFlag? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.autodefinedReverseFlag = autodefinedReverseFlag
         self.resourceId = resourceId
     }
@@ -5086,8 +5017,7 @@ public struct UpdateResolverConfigOutput: Swift.Sendable {
 
     public init(
         resolverConfig: Route53ResolverClientTypes.ResolverConfig? = nil
-    )
-    {
+    ) {
         self.resolverConfig = resolverConfig
     }
 }
@@ -5135,8 +5065,7 @@ public struct UpdateResolverDnssecConfigInput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         validation: Route53ResolverClientTypes.Validation? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.validation = validation
     }
@@ -5148,8 +5077,7 @@ public struct UpdateResolverDnssecConfigOutput: Swift.Sendable {
 
     public init(
         resolverDNSSECConfig: Route53ResolverClientTypes.ResolverDnssecConfig? = nil
-    )
-    {
+    ) {
         self.resolverDNSSECConfig = resolverDNSSECConfig
     }
 }
@@ -5168,8 +5096,7 @@ extension Route53ResolverClientTypes {
         public init(
             ipId: Swift.String? = nil,
             ipv6: Swift.String? = nil
-        )
-        {
+        ) {
             self.ipId = ipId
             self.ipv6 = ipv6
         }
@@ -5221,8 +5148,7 @@ public struct UpdateResolverEndpointInput: Swift.Sendable {
         resolverEndpointId: Swift.String? = nil,
         resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType? = nil,
         updateIpAddresses: [Route53ResolverClientTypes.UpdateIpAddress]? = nil
-    )
-    {
+    ) {
         self.name = name
         self.protocols = protocols
         self.resolverEndpointId = resolverEndpointId
@@ -5237,8 +5163,7 @@ public struct UpdateResolverEndpointOutput: Swift.Sendable {
 
     public init(
         resolverEndpoint: Route53ResolverClientTypes.ResolverEndpoint? = nil
-    )
-    {
+    ) {
         self.resolverEndpoint = resolverEndpoint
     }
 }
@@ -5254,8 +5179,7 @@ public struct UpdateResolverRuleInput: Swift.Sendable {
     public init(
         config: Route53ResolverClientTypes.ResolverRuleConfig? = nil,
         resolverRuleId: Swift.String? = nil
-    )
-    {
+    ) {
         self.config = config
         self.resolverRuleId = resolverRuleId
     }
@@ -5267,8 +5191,7 @@ public struct UpdateResolverRuleOutput: Swift.Sendable {
 
     public init(
         resolverRule: Route53ResolverClientTypes.ResolverRule? = nil
-    )
-    {
+    ) {
         self.resolverRule = resolverRule
     }
 }
@@ -5810,7 +5733,9 @@ extension CreateFirewallRuleInput {
         try writer["BlockOverrideDomain"].write(value.blockOverrideDomain)
         try writer["BlockOverrideTtl"].write(value.blockOverrideTtl)
         try writer["BlockResponse"].write(value.blockResponse)
+        try writer["ConfidenceThreshold"].write(value.confidenceThreshold)
         try writer["CreatorRequestId"].write(value.creatorRequestId)
+        try writer["DnsThreatProtection"].write(value.dnsThreatProtection)
         try writer["FirewallDomainListId"].write(value.firewallDomainListId)
         try writer["FirewallDomainRedirectionAction"].write(value.firewallDomainRedirectionAction)
         try writer["FirewallRuleGroupId"].write(value.firewallRuleGroupId)
@@ -5899,6 +5824,7 @@ extension DeleteFirewallRuleInput {
         guard let value else { return }
         try writer["FirewallDomainListId"].write(value.firewallDomainListId)
         try writer["FirewallRuleGroupId"].write(value.firewallRuleGroupId)
+        try writer["FirewallThreatProtectionId"].write(value.firewallThreatProtectionId)
         try writer["Qtype"].write(value.qtype)
     }
 }
@@ -6346,9 +6272,12 @@ extension UpdateFirewallRuleInput {
         try writer["BlockOverrideDomain"].write(value.blockOverrideDomain)
         try writer["BlockOverrideTtl"].write(value.blockOverrideTtl)
         try writer["BlockResponse"].write(value.blockResponse)
+        try writer["ConfidenceThreshold"].write(value.confidenceThreshold)
+        try writer["DnsThreatProtection"].write(value.dnsThreatProtection)
         try writer["FirewallDomainListId"].write(value.firewallDomainListId)
         try writer["FirewallDomainRedirectionAction"].write(value.firewallDomainRedirectionAction)
         try writer["FirewallRuleGroupId"].write(value.firewallRuleGroupId)
+        try writer["FirewallThreatProtectionId"].write(value.firewallThreatProtectionId)
         try writer["Name"].write(value.name)
         try writer["Priority"].write(value.priority)
         try writer["Qtype"].write(value.qtype)
@@ -7502,6 +7431,7 @@ enum DeleteFirewallRuleOutputError {
             case "InternalServiceErrorException": return try InternalServiceErrorException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -8852,6 +8782,7 @@ extension Route53ResolverClientTypes.FirewallRule {
         var value = Route53ResolverClientTypes.FirewallRule()
         value.firewallRuleGroupId = try reader["FirewallRuleGroupId"].readIfPresent()
         value.firewallDomainListId = try reader["FirewallDomainListId"].readIfPresent()
+        value.firewallThreatProtectionId = try reader["FirewallThreatProtectionId"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.priority = try reader["Priority"].readIfPresent()
         value.action = try reader["Action"].readIfPresent()
@@ -8864,6 +8795,8 @@ extension Route53ResolverClientTypes.FirewallRule {
         value.modificationTime = try reader["ModificationTime"].readIfPresent()
         value.firewallDomainRedirectionAction = try reader["FirewallDomainRedirectionAction"].readIfPresent()
         value.qtype = try reader["Qtype"].readIfPresent()
+        value.dnsThreatProtection = try reader["DnsThreatProtection"].readIfPresent()
+        value.confidenceThreshold = try reader["ConfidenceThreshold"].readIfPresent()
         return value
     }
 }

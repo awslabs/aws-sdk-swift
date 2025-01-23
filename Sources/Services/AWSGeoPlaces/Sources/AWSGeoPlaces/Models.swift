@@ -27,9 +27,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// You don't have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -45,8 +45,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -60,8 +59,7 @@ extension GeoPlacesClientTypes {
 
         public init(
             position: [Swift.Double]? = nil
-        )
-        {
+        ) {
             self.position = position
         }
     }
@@ -92,8 +90,7 @@ extension GeoPlacesClientTypes {
             localizedName: Swift.String? = nil,
             name: Swift.String? = nil,
             primary: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.id = id
             self.localizedName = localizedName
             self.name = name
@@ -114,8 +111,7 @@ extension GeoPlacesClientTypes {
         public init(
             categories: [GeoPlacesClientTypes.Category]? = nil,
             restricted: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.categories = categories
             self.restricted = restricted
         }
@@ -137,8 +133,7 @@ extension GeoPlacesClientTypes {
             code2: Swift.String? = nil,
             code3: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.code2 = code2
             self.code3 = code3
             self.name = name
@@ -158,8 +153,7 @@ extension GeoPlacesClientTypes {
         public init(
             code: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.name = name
         }
@@ -225,8 +219,7 @@ extension GeoPlacesClientTypes {
             type: Swift.String? = nil,
             typePlacement: GeoPlacesClientTypes.TypePlacement? = nil,
             typeSeparator: Swift.String? = nil
-        )
-        {
+        ) {
             self.baseName = baseName
             self.direction = direction
             self.language = language
@@ -251,8 +244,7 @@ extension GeoPlacesClientTypes {
         public init(
             code: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.name = name
         }
@@ -310,8 +302,7 @@ extension GeoPlacesClientTypes {
             subBlock: Swift.String? = nil,
             subDistrict: Swift.String? = nil,
             subRegion: GeoPlacesClientTypes.SubRegion? = nil
-        )
-        {
+        ) {
             self.addressNumber = addressNumber
             self.block = block
             self.building = building
@@ -373,8 +364,7 @@ extension GeoPlacesClientTypes {
             subBlock: Swift.Double = 0.0,
             subDistrict: Swift.Double = 0.0,
             subRegion: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.addressNumber = addressNumber
             self.block = block
             self.building = building
@@ -406,8 +396,7 @@ extension GeoPlacesClientTypes {
             language: Swift.String? = nil,
             preferred: Swift.Bool? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.language = language
             self.preferred = preferred
             self.value = value
@@ -448,8 +437,7 @@ extension GeoPlacesClientTypes {
             subBlock: [GeoPlacesClientTypes.PhonemeTranscription]? = nil,
             subDistrict: [GeoPlacesClientTypes.PhonemeTranscription]? = nil,
             subRegion: [GeoPlacesClientTypes.PhonemeTranscription]? = nil
-        )
-        {
+        ) {
             self.block = block
             self.country = country
             self.district = district
@@ -464,9 +452,9 @@ extension GeoPlacesClientTypes {
 }
 
 /// The request processing has failed because of an unknown error, exception or failure.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -482,16 +470,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -507,8 +494,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -527,8 +513,7 @@ extension GeoPlacesClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -583,9 +568,9 @@ extension GeoPlacesClientTypes {
 }
 
 /// The input fails to satisfy the constraints specified by an AWS service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Test stub for FieldList.
         /// This member is required.
         public internal(set) var fieldList: [GeoPlacesClientTypes.ValidationExceptionField]? = nil
@@ -609,8 +594,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [GeoPlacesClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: GeoPlacesClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -657,8 +641,7 @@ extension GeoPlacesClientTypes {
         public init(
             center: [Swift.Double]? = nil,
             radius: Swift.Int? = 0
-        )
-        {
+        ) {
             self.center = center
             self.radius = radius
         }
@@ -718,8 +701,7 @@ extension GeoPlacesClientTypes {
             circle: GeoPlacesClientTypes.FilterCircle? = nil,
             includeCountries: [Swift.String]? = nil,
             includePlaceTypes: [GeoPlacesClientTypes.AutocompleteFilterPlaceType]? = nil
-        )
-        {
+        ) {
             self.boundingBox = boundingBox
             self.circle = circle
             self.includeCountries = includeCountries
@@ -823,8 +805,7 @@ public struct AutocompleteInput: Swift.Sendable {
         politicalView: Swift.String? = nil,
         postalCodeMode: GeoPlacesClientTypes.PostalCodeMode? = nil,
         queryText: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalFeatures = additionalFeatures
         self.biasPosition = biasPosition
         self.filter = filter
@@ -858,8 +839,7 @@ extension GeoPlacesClientTypes {
             endIndex: Swift.Int? = nil,
             startIndex: Swift.Int? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.endIndex = endIndex
             self.startIndex = startIndex
             self.value = value
@@ -879,8 +859,7 @@ extension GeoPlacesClientTypes {
         public init(
             code: [GeoPlacesClientTypes.Highlight]? = nil,
             name: [GeoPlacesClientTypes.Highlight]? = nil
-        )
-        {
+        ) {
             self.code = code
             self.name = name
         }
@@ -899,8 +878,7 @@ extension GeoPlacesClientTypes {
         public init(
             code: [GeoPlacesClientTypes.Highlight]? = nil,
             name: [GeoPlacesClientTypes.Highlight]? = nil
-        )
-        {
+        ) {
             self.code = code
             self.name = name
         }
@@ -919,8 +897,7 @@ extension GeoPlacesClientTypes {
         public init(
             code: [GeoPlacesClientTypes.Highlight]? = nil,
             name: [GeoPlacesClientTypes.Highlight]? = nil
-        )
-        {
+        ) {
             self.code = code
             self.name = name
         }
@@ -975,8 +952,7 @@ extension GeoPlacesClientTypes {
             subBlock: [GeoPlacesClientTypes.Highlight]? = nil,
             subDistrict: [GeoPlacesClientTypes.Highlight]? = nil,
             subRegion: GeoPlacesClientTypes.SubRegionHighlights? = nil
-        )
-        {
+        ) {
             self.addressNumber = addressNumber
             self.block = block
             self.building = building
@@ -1007,8 +983,7 @@ extension GeoPlacesClientTypes {
         public init(
             address: GeoPlacesClientTypes.AutocompleteAddressHighlights? = nil,
             title: [GeoPlacesClientTypes.Highlight]? = nil
-        )
-        {
+        ) {
             self.address = address
             self.title = title
         }
@@ -1113,8 +1088,7 @@ extension GeoPlacesClientTypes {
             placeType: GeoPlacesClientTypes.PlaceType? = nil,
             politicalView: Swift.String? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.address = address
             self.distance = distance
             self.highlights = highlights
@@ -1137,8 +1111,7 @@ public struct AutocompleteOutput: Swift.Sendable {
     public init(
         pricingBucket: Swift.String? = nil,
         resultItems: [GeoPlacesClientTypes.AutocompleteResultItem]? = nil
-    )
-    {
+    ) {
         self.pricingBucket = pricingBucket
         self.resultItems = resultItems
     }
@@ -1156,8 +1129,7 @@ extension GeoPlacesClientTypes {
         public init(
             id: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.name = name
         }
@@ -1176,8 +1148,7 @@ extension GeoPlacesClientTypes {
         public init(
             address: GeoPlacesClientTypes.AddressComponentMatchScores? = nil,
             title: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.address = address
             self.title = title
         }
@@ -1199,8 +1170,7 @@ extension GeoPlacesClientTypes {
             categories: [GeoPlacesClientTypes.Category]? = nil,
             label: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.categories = categories
             self.label = label
             self.value = value
@@ -1226,8 +1196,7 @@ extension GeoPlacesClientTypes {
             faxes: [GeoPlacesClientTypes.ContactDetails]? = nil,
             phones: [GeoPlacesClientTypes.ContactDetails]? = nil,
             websites: [GeoPlacesClientTypes.ContactDetails]? = nil
-        )
-        {
+        ) {
             self.emails = emails
             self.faxes = faxes
             self.phones = phones
@@ -1252,8 +1221,7 @@ extension GeoPlacesClientTypes {
             id: Swift.String? = nil,
             localizedName: Swift.String? = nil,
             primary: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.id = id
             self.localizedName = localizedName
             self.primary = primary
@@ -1343,8 +1311,7 @@ extension GeoPlacesClientTypes {
         public init(
             includeCountries: [Swift.String]? = nil,
             includePlaceTypes: [GeoPlacesClientTypes.GeocodeFilterPlaceType]? = nil
-        )
-        {
+        ) {
             self.includeCountries = includeCountries
             self.includePlaceTypes = includePlaceTypes
         }
@@ -1412,8 +1379,7 @@ extension GeoPlacesClientTypes {
             region: Swift.String? = nil,
             street: Swift.String? = nil,
             subRegion: Swift.String? = nil
-        )
-        {
+        ) {
             self.addressNumber = addressNumber
             self.country = country
             self.district = district
@@ -1464,8 +1430,7 @@ public struct GeocodeInput: Swift.Sendable {
         politicalView: Swift.String? = nil,
         queryComponents: GeoPlacesClientTypes.GeocodeQueryComponents? = nil,
         queryText: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalFeatures = additionalFeatures
         self.biasPosition = biasPosition
         self.filter = filter
@@ -1496,8 +1461,7 @@ extension GeoPlacesClientTypes {
         public init(
             components: GeoPlacesClientTypes.ComponentMatchScores? = nil,
             overall: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.components = components
             self.overall = overall
         }
@@ -1600,8 +1564,7 @@ extension GeoPlacesClientTypes {
 
         public init(
             zipClassificationCode: GeoPlacesClientTypes.ZipClassificationCode? = nil
-        )
-        {
+        ) {
             self.zipClassificationCode = zipClassificationCode
         }
     }
@@ -1657,8 +1620,7 @@ extension GeoPlacesClientTypes {
 
         public init(
             recordTypeCode: GeoPlacesClientTypes.RecordTypeCode? = nil
-        )
-        {
+        ) {
             self.recordTypeCode = recordTypeCode
         }
     }
@@ -1685,8 +1647,7 @@ extension GeoPlacesClientTypes {
             postalCodeType: GeoPlacesClientTypes.PostalCodeType? = nil,
             uspsZip: GeoPlacesClientTypes.UspsZip? = nil,
             uspsZipPlus4: GeoPlacesClientTypes.UspsZipPlus4? = nil
-        )
-        {
+        ) {
             self.postalAuthority = postalAuthority
             self.postalCode = postalCode
             self.postalCodeType = postalCodeType
@@ -1712,8 +1673,7 @@ extension GeoPlacesClientTypes {
             name: Swift.String? = nil,
             offset: Swift.String? = nil,
             offsetSeconds: Swift.Int = 0
-        )
-        {
+        ) {
             self.name = name
             self.offset = offset
             self.offsetSeconds = offsetSeconds
@@ -1775,8 +1735,7 @@ extension GeoPlacesClientTypes {
             postalCodeDetails: [GeoPlacesClientTypes.PostalCodeDetails]? = nil,
             timeZone: GeoPlacesClientTypes.TimeZone? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessPoints = accessPoints
             self.address = address
             self.addressNumberCorrected = addressNumberCorrected
@@ -1811,8 +1770,7 @@ public struct GeocodeOutput: Swift.Sendable {
     public init(
         pricingBucket: Swift.String? = nil,
         resultItems: [GeoPlacesClientTypes.GeocodeResultItem]? = nil
-    )
-    {
+    ) {
         self.pricingBucket = pricingBucket
         self.resultItems = resultItems
     }
@@ -1906,8 +1864,7 @@ public struct GetPlaceInput: Swift.Sendable {
         language: Swift.String? = nil,
         placeId: Swift.String? = nil,
         politicalView: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalFeatures = additionalFeatures
         self.intendedUse = intendedUse
         self.key = key
@@ -1937,8 +1894,7 @@ extension GeoPlacesClientTypes {
             openDuration: Swift.String? = nil,
             openTime: Swift.String? = nil,
             recurrence: Swift.String? = nil
-        )
-        {
+        ) {
             self.openDuration = openDuration
             self.openTime = openTime
             self.recurrence = recurrence
@@ -1964,8 +1920,7 @@ extension GeoPlacesClientTypes {
             components: [GeoPlacesClientTypes.OpeningHoursComponents]? = nil,
             display: [Swift.String]? = nil,
             openNow: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.categories = categories
             self.components = components
             self.display = display
@@ -1986,8 +1941,7 @@ extension GeoPlacesClientTypes {
         public init(
             address: GeoPlacesClientTypes.AddressComponentPhonemes? = nil,
             title: [GeoPlacesClientTypes.PhonemeTranscription]? = nil
-        )
-        {
+        ) {
             self.address = address
             self.title = title
         }
@@ -2058,8 +2012,7 @@ public struct GetPlaceOutput: Swift.Sendable {
         pricingBucket: Swift.String? = nil,
         timeZone: GeoPlacesClientTypes.TimeZone? = nil,
         title: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessPoints = accessPoints
         self.accessRestrictions = accessRestrictions
         self.address = address
@@ -2163,8 +2116,7 @@ extension GeoPlacesClientTypes {
 
         public init(
             includePlaceTypes: [GeoPlacesClientTypes.ReverseGeocodeFilterPlaceType]? = nil
-        )
-        {
+        ) {
             self.includePlaceTypes = includePlaceTypes
         }
     }
@@ -2232,8 +2184,7 @@ public struct ReverseGeocodeInput: Swift.Sendable {
         politicalView: Swift.String? = nil,
         queryPosition: [Swift.Double]? = nil,
         queryRadius: Swift.Int? = 0
-    )
-    {
+    ) {
         self.additionalFeatures = additionalFeatures
         self.filter = filter
         self.intendedUse = intendedUse
@@ -2302,8 +2253,7 @@ extension GeoPlacesClientTypes {
             postalCodeDetails: [GeoPlacesClientTypes.PostalCodeDetails]? = nil,
             timeZone: GeoPlacesClientTypes.TimeZone? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessPoints = accessPoints
             self.address = address
             self.addressNumberCorrected = addressNumberCorrected
@@ -2337,8 +2287,7 @@ public struct ReverseGeocodeOutput: Swift.Sendable {
     public init(
         pricingBucket: Swift.String? = nil,
         resultItems: [GeoPlacesClientTypes.ReverseGeocodeResultItem]? = nil
-    )
-    {
+    ) {
         self.pricingBucket = pricingBucket
         self.resultItems = resultItems
     }
@@ -2409,8 +2358,7 @@ extension GeoPlacesClientTypes {
             includeCategories: [Swift.String]? = nil,
             includeCountries: [Swift.String]? = nil,
             includeFoodTypes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.boundingBox = boundingBox
             self.excludeBusinessChains = excludeBusinessChains
             self.excludeCategories = excludeCategories
@@ -2493,8 +2441,7 @@ public struct SearchNearbyInput: Swift.Sendable {
         politicalView: Swift.String? = nil,
         queryPosition: [Swift.Double]? = nil,
         queryRadius: Swift.Int? = 0
-    )
-    {
+    ) {
         self.additionalFeatures = additionalFeatures
         self.filter = filter
         self.intendedUse = intendedUse
@@ -2576,8 +2523,7 @@ extension GeoPlacesClientTypes {
             position: [Swift.Double]? = nil,
             timeZone: GeoPlacesClientTypes.TimeZone? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessPoints = accessPoints
             self.accessRestrictions = accessRestrictions
             self.address = address
@@ -2618,8 +2564,7 @@ public struct SearchNearbyOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         pricingBucket: Swift.String? = nil,
         resultItems: [GeoPlacesClientTypes.SearchNearbyResultItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pricingBucket = pricingBucket
         self.resultItems = resultItems
@@ -2676,8 +2621,7 @@ extension GeoPlacesClientTypes {
             boundingBox: [Swift.Double]? = nil,
             circle: GeoPlacesClientTypes.FilterCircle? = nil,
             includeCountries: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.boundingBox = boundingBox
             self.circle = circle
             self.includeCountries = includeCountries
@@ -2757,8 +2701,7 @@ public struct SearchTextInput: Swift.Sendable {
         politicalView: Swift.String? = nil,
         queryId: Swift.String? = nil,
         queryText: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalFeatures = additionalFeatures
         self.biasPosition = biasPosition
         self.filter = filter
@@ -2841,8 +2784,7 @@ extension GeoPlacesClientTypes {
             position: [Swift.Double]? = nil,
             timeZone: GeoPlacesClientTypes.TimeZone? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessPoints = accessPoints
             self.accessRestrictions = accessRestrictions
             self.address = address
@@ -2883,8 +2825,7 @@ public struct SearchTextOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         pricingBucket: Swift.String? = nil,
         resultItems: [GeoPlacesClientTypes.SearchTextResultItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pricingBucket = pricingBucket
         self.resultItems = resultItems
@@ -2941,8 +2882,7 @@ extension GeoPlacesClientTypes {
             boundingBox: [Swift.Double]? = nil,
             circle: GeoPlacesClientTypes.FilterCircle? = nil,
             includeCountries: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.boundingBox = boundingBox
             self.circle = circle
             self.includeCountries = includeCountries
@@ -3016,8 +2956,7 @@ public struct SuggestInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         politicalView: Swift.String? = nil,
         queryText: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalFeatures = additionalFeatures
         self.biasPosition = biasPosition
         self.filter = filter
@@ -3058,8 +2997,7 @@ extension GeoPlacesClientTypes {
             originalTerm: Swift.String? = nil,
             refinedTerm: Swift.String? = nil,
             startIndex: Swift.Int? = nil
-        )
-        {
+        ) {
             self.endIndex = endIndex
             self.originalTerm = originalTerm
             self.refinedTerm = refinedTerm
@@ -3077,8 +3015,7 @@ extension GeoPlacesClientTypes {
 
         public init(
             label: [GeoPlacesClientTypes.Highlight]? = nil
-        )
-        {
+        ) {
             self.label = label
         }
     }
@@ -3096,8 +3033,7 @@ extension GeoPlacesClientTypes {
         public init(
             address: GeoPlacesClientTypes.SuggestAddressHighlights? = nil,
             title: [GeoPlacesClientTypes.Highlight]? = nil
-        )
-        {
+        ) {
             self.address = address
             self.title = title
         }
@@ -3152,8 +3088,7 @@ extension GeoPlacesClientTypes {
             politicalView: Swift.String? = nil,
             position: [Swift.Double]? = nil,
             timeZone: GeoPlacesClientTypes.TimeZone? = nil
-        )
-        {
+        ) {
             self.accessPoints = accessPoints
             self.accessRestrictions = accessRestrictions
             self.address = address
@@ -3218,8 +3153,7 @@ extension GeoPlacesClientTypes {
         public init(
             queryId: Swift.String? = nil,
             queryType: GeoPlacesClientTypes.QueryType? = nil
-        )
-        {
+        ) {
             self.queryId = queryId
             self.queryType = queryType
         }
@@ -3278,8 +3212,7 @@ extension GeoPlacesClientTypes {
             query: GeoPlacesClientTypes.SuggestQueryResult? = nil,
             suggestResultItemType: GeoPlacesClientTypes.SuggestResultItemType? = nil,
             title: Swift.String? = nil
-        )
-        {
+        ) {
             self.highlights = highlights
             self.place = place
             self.query = query
@@ -3302,8 +3235,7 @@ public struct SuggestOutput: Swift.Sendable {
         pricingBucket: Swift.String? = nil,
         queryRefinements: [GeoPlacesClientTypes.QueryRefinement]? = nil,
         resultItems: [GeoPlacesClientTypes.SuggestResultItem]? = nil
-    )
-    {
+    ) {
         self.pricingBucket = pricingBucket
         self.queryRefinements = queryRefinements
         self.resultItems = resultItems

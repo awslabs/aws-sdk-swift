@@ -26,9 +26,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// An internal error has occurred. Retry your request. If the problem persists, post a message with details on the AWS forums.
-public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -43,16 +43,15 @@ public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// One or more parameters in your request was invalid.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -67,16 +66,15 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The calls to the GetEntitlements API are throttled.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -91,8 +89,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -143,8 +140,7 @@ public struct GetEntitlementsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         productCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -170,8 +166,7 @@ extension MarketplaceEntitlementClientTypes {
             doubleValue: Swift.Double? = nil,
             integerValue: Swift.Int? = nil,
             stringValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.booleanValue = booleanValue
             self.doubleValue = doubleValue
             self.integerValue = integerValue
@@ -201,8 +196,7 @@ extension MarketplaceEntitlementClientTypes {
             expirationDate: Foundation.Date? = nil,
             productCode: Swift.String? = nil,
             value: MarketplaceEntitlementClientTypes.EntitlementValue? = nil
-        )
-        {
+        ) {
             self.customerIdentifier = customerIdentifier
             self.dimension = dimension
             self.expirationDate = expirationDate
@@ -222,8 +216,7 @@ public struct GetEntitlementsOutput: Swift.Sendable {
     public init(
         entitlements: [MarketplaceEntitlementClientTypes.Entitlement]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entitlements = entitlements
         self.nextToken = nextToken
     }

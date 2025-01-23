@@ -52,8 +52,7 @@ extension MqClientTypes {
         public init(
             actionRequiredCode: Swift.String? = nil,
             actionRequiredInfo: Swift.String? = nil
-        )
-        {
+        ) {
             self.actionRequiredCode = actionRequiredCode
             self.actionRequiredInfo = actionRequiredInfo
         }
@@ -69,8 +68,7 @@ extension MqClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -115,8 +113,7 @@ extension MqClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -134,8 +131,7 @@ extension MqClientTypes {
         public init(
             engineType: MqClientTypes.EngineType? = nil,
             engineVersions: [MqClientTypes.EngineVersion]? = nil
-        )
-        {
+        ) {
             self.engineType = engineType
             self.engineVersions = engineVersions
         }
@@ -157,8 +153,7 @@ extension MqClientTypes {
             consoleURL: Swift.String? = nil,
             endpoints: [Swift.String]? = nil,
             ipAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.consoleURL = consoleURL
             self.endpoints = endpoints
             self.ipAddress = ipAddress
@@ -253,8 +248,7 @@ extension MqClientTypes {
             storageType: MqClientTypes.BrokerStorageType? = nil,
             supportedDeploymentModes: [MqClientTypes.DeploymentMode]? = nil,
             supportedEngineVersions: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.availabilityZones = availabilityZones
             self.engineType = engineType
             self.hostInstanceType = hostInstanceType
@@ -342,8 +336,7 @@ extension MqClientTypes {
             deploymentMode: MqClientTypes.DeploymentMode? = nil,
             engineType: MqClientTypes.EngineType? = nil,
             hostInstanceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.brokerArn = brokerArn
             self.brokerId = brokerId
             self.brokerName = brokerName
@@ -403,8 +396,7 @@ extension MqClientTypes {
             created: Foundation.Date? = nil,
             description: Swift.String? = nil,
             revision: Swift.Int? = nil
-        )
-        {
+        ) {
             self.created = created
             self.description = description
             self.revision = revision
@@ -457,8 +449,7 @@ extension MqClientTypes {
             latestRevision: MqClientTypes.ConfigurationRevision? = nil,
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.authenticationStrategy = authenticationStrategy
             self.created = created
@@ -486,8 +477,7 @@ extension MqClientTypes {
         public init(
             id: Swift.String? = nil,
             revision: Swift.Int? = nil
-        )
-        {
+        ) {
             self.id = id
             self.revision = revision
         }
@@ -543,8 +533,7 @@ extension MqClientTypes {
             attributeName: Swift.String? = nil,
             elementName: Swift.String? = nil,
             reason: MqClientTypes.SanitizationWarningReason? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.elementName = elementName
             self.reason = reason
@@ -582,8 +571,7 @@ extension MqClientTypes {
             password: Swift.String? = nil,
             replicationUser: Swift.Bool? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.consoleAccess = consoleAccess
             self.groups = groups
             self.password = password
@@ -639,8 +627,7 @@ extension MqClientTypes {
         public init(
             pendingChange: MqClientTypes.ChangeType? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.pendingChange = pendingChange
             self.username = username
         }
@@ -648,9 +635,9 @@ extension MqClientTypes {
 }
 
 /// Returns information about an error.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The attribute which caused the error.
         public internal(set) var errorAttribute: Swift.String? = nil
         /// The explanation of the error.
@@ -669,8 +656,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         errorAttribute: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorAttribute = errorAttribute
         self.properties.message = message
     }
@@ -691,8 +677,7 @@ extension MqClientTypes {
             current: MqClientTypes.ConfigurationId? = nil,
             history: [MqClientTypes.ConfigurationId]? = nil,
             pending: MqClientTypes.ConfigurationId? = nil
-        )
-        {
+        ) {
             self.current = current
             self.history = history
             self.pending = pending
@@ -701,9 +686,9 @@ extension MqClientTypes {
 }
 
 /// Returns information about an error.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The attribute which caused the error.
         public internal(set) var errorAttribute: Swift.String? = nil
         /// The explanation of the error.
@@ -722,17 +707,16 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         errorAttribute: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorAttribute = errorAttribute
         self.properties.message = message
     }
 }
 
 /// Returns information about an error.
-public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The attribute which caused the error.
         public internal(set) var errorAttribute: Swift.String? = nil
         /// The explanation of the error.
@@ -751,17 +735,16 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     public init(
         errorAttribute: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorAttribute = errorAttribute
         self.properties.message = message
     }
 }
 
 /// Returns information about an error.
-public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The attribute which caused the error.
         public internal(set) var errorAttribute: Swift.String? = nil
         /// The explanation of the error.
@@ -780,17 +763,16 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     public init(
         errorAttribute: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorAttribute = errorAttribute
         self.properties.message = message
     }
 }
 
 /// Returns information about an error.
-public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The attribute which caused the error.
         public internal(set) var errorAttribute: Swift.String? = nil
         /// The explanation of the error.
@@ -809,8 +791,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         errorAttribute: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorAttribute = errorAttribute
         self.properties.message = message
     }
@@ -859,8 +840,7 @@ extension MqClientTypes {
         public init(
             kmsKeyId: Swift.String? = nil,
             useAwsOwnedKey: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.useAwsOwnedKey = useAwsOwnedKey
         }
@@ -913,8 +893,7 @@ extension MqClientTypes {
             userRoleName: Swift.String? = nil,
             userSearchMatching: Swift.String? = nil,
             userSearchSubtree: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.hosts = hosts
             self.roleBase = roleBase
             self.roleName = roleName
@@ -942,8 +921,7 @@ extension MqClientTypes {
         public init(
             audit: Swift.Bool? = nil,
             general: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.audit = audit
             self.general = general
         }
@@ -1011,8 +989,7 @@ extension MqClientTypes {
             dayOfWeek: MqClientTypes.DayOfWeek? = nil,
             timeOfDay: Swift.String? = nil,
             timeZone: Swift.String? = nil
-        )
-        {
+        ) {
             self.dayOfWeek = dayOfWeek
             self.timeOfDay = timeOfDay
             self.timeZone = timeZone
@@ -1093,8 +1070,7 @@ public struct CreateBrokerInput: Swift.Sendable {
         subnetIds: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         users: [MqClientTypes.User]? = nil
-    )
-    {
+    ) {
         self.authenticationStrategy = authenticationStrategy
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.brokerName = brokerName
@@ -1128,8 +1104,7 @@ public struct CreateBrokerOutput: Swift.Sendable {
     public init(
         brokerArn: Swift.String? = nil,
         brokerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.brokerArn = brokerArn
         self.brokerId = brokerId
     }
@@ -1156,8 +1131,7 @@ public struct CreateConfigurationInput: Swift.Sendable {
         engineVersion: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.authenticationStrategy = authenticationStrategy
         self.engineType = engineType
         self.engineVersion = engineVersion
@@ -1187,8 +1161,7 @@ public struct CreateConfigurationOutput: Swift.Sendable {
         id: Swift.String? = nil,
         latestRevision: MqClientTypes.ConfigurationRevision? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.authenticationStrategy = authenticationStrategy
         self.created = created
@@ -1199,9 +1172,9 @@ public struct CreateConfigurationOutput: Swift.Sendable {
 }
 
 /// Returns information about an error.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The attribute which caused the error.
         public internal(set) var errorAttribute: Swift.String? = nil
         /// The explanation of the error.
@@ -1220,8 +1193,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         errorAttribute: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorAttribute = errorAttribute
         self.properties.message = message
     }
@@ -1238,8 +1210,7 @@ public struct CreateTagsInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1270,8 +1241,7 @@ public struct CreateUserInput: Swift.Sendable {
         password: Swift.String? = nil,
         replicationUser: Swift.Bool? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.brokerId = brokerId
         self.consoleAccess = consoleAccess
         self.groups = groups
@@ -1300,8 +1270,7 @@ extension MqClientTypes {
         public init(
             brokerId: Swift.String? = nil,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.brokerId = brokerId
             self.region = region
         }
@@ -1321,8 +1290,7 @@ extension MqClientTypes {
         public init(
             dataReplicationCounterpart: MqClientTypes.DataReplicationCounterpart? = nil,
             dataReplicationRole: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataReplicationCounterpart = dataReplicationCounterpart
             self.dataReplicationRole = dataReplicationRole
         }
@@ -1336,8 +1304,7 @@ public struct DeleteBrokerInput: Swift.Sendable {
 
     public init(
         brokerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.brokerId = brokerId
     }
 }
@@ -1348,8 +1315,7 @@ public struct DeleteBrokerOutput: Swift.Sendable {
 
     public init(
         brokerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.brokerId = brokerId
     }
 }
@@ -1365,8 +1331,7 @@ public struct DeleteTagsInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1383,8 +1348,7 @@ public struct DeleteUserInput: Swift.Sendable {
     public init(
         brokerId: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.brokerId = brokerId
         self.username = username
     }
@@ -1402,8 +1366,7 @@ public struct DescribeBrokerInput: Swift.Sendable {
 
     public init(
         brokerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.brokerId = brokerId
     }
 }
@@ -1450,8 +1413,7 @@ extension MqClientTypes {
             userRoleName: Swift.String? = nil,
             userSearchMatching: Swift.String? = nil,
             userSearchSubtree: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.hosts = hosts
             self.roleBase = roleBase
             self.roleName = roleName
@@ -1478,8 +1440,7 @@ extension MqClientTypes {
         public init(
             audit: Swift.Bool? = nil,
             general: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.audit = audit
             self.general = general
         }
@@ -1509,8 +1470,7 @@ extension MqClientTypes {
             general: Swift.Bool? = nil,
             generalLogGroup: Swift.String? = nil,
             pending: MqClientTypes.PendingLogs? = nil
-        )
-        {
+        ) {
             self.audit = audit
             self.auditLogGroup = auditLogGroup
             self.general = general
@@ -1622,8 +1582,7 @@ public struct DescribeBrokerOutput: Swift.Sendable {
         subnetIds: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         users: [MqClientTypes.UserSummary]? = nil
-    )
-    {
+    ) {
         self.actionsRequired = actionsRequired
         self.authenticationStrategy = authenticationStrategy
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -1672,8 +1631,7 @@ public struct DescribeBrokerEngineTypesInput: Swift.Sendable {
         engineType: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.engineType = engineType
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1692,8 +1650,7 @@ public struct DescribeBrokerEngineTypesOutput: Swift.Sendable {
         brokerEngineTypes: [MqClientTypes.BrokerEngineType]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.brokerEngineTypes = brokerEngineTypes
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1718,8 +1675,7 @@ public struct DescribeBrokerInstanceOptionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         storageType: Swift.String? = nil
-    )
-    {
+    ) {
         self.engineType = engineType
         self.hostInstanceType = hostInstanceType
         self.maxResults = maxResults
@@ -1740,8 +1696,7 @@ public struct DescribeBrokerInstanceOptionsOutput: Swift.Sendable {
         brokerInstanceOptions: [MqClientTypes.BrokerInstanceOption]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.brokerInstanceOptions = brokerInstanceOptions
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1755,8 +1710,7 @@ public struct DescribeConfigurationInput: Swift.Sendable {
 
     public init(
         configurationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationId = configurationId
     }
 }
@@ -1794,8 +1748,7 @@ public struct DescribeConfigurationOutput: Swift.Sendable {
         latestRevision: MqClientTypes.ConfigurationRevision? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.authenticationStrategy = authenticationStrategy
         self.created = created
@@ -1820,8 +1773,7 @@ public struct DescribeConfigurationRevisionInput: Swift.Sendable {
     public init(
         configurationId: Swift.String? = nil,
         configurationRevision: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationId = configurationId
         self.configurationRevision = configurationRevision
     }
@@ -1842,8 +1794,7 @@ public struct DescribeConfigurationRevisionOutput: Swift.Sendable {
         created: Foundation.Date? = nil,
         data: Swift.String? = nil,
         description: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationId = configurationId
         self.created = created
         self.data = data
@@ -1862,8 +1813,7 @@ public struct DescribeUserInput: Swift.Sendable {
     public init(
         brokerId: Swift.String? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.brokerId = brokerId
         self.username = username
     }
@@ -1885,8 +1835,7 @@ extension MqClientTypes {
             consoleAccess: Swift.Bool? = nil,
             groups: [Swift.String]? = nil,
             pendingChange: MqClientTypes.ChangeType? = nil
-        )
-        {
+        ) {
             self.consoleAccess = consoleAccess
             self.groups = groups
             self.pendingChange = pendingChange
@@ -1915,8 +1864,7 @@ public struct DescribeUserOutput: Swift.Sendable {
         pending: MqClientTypes.UserPendingChanges? = nil,
         replicationUser: Swift.Bool? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.brokerId = brokerId
         self.consoleAccess = consoleAccess
         self.groups = groups
@@ -1935,8 +1883,7 @@ public struct ListBrokersInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1951,8 +1898,7 @@ public struct ListBrokersOutput: Swift.Sendable {
     public init(
         brokerSummaries: [MqClientTypes.BrokerSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.brokerSummaries = brokerSummaries
         self.nextToken = nextToken
     }
@@ -1971,8 +1917,7 @@ public struct ListConfigurationRevisionsInput: Swift.Sendable {
         configurationId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationId = configurationId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1994,8 +1939,7 @@ public struct ListConfigurationRevisionsOutput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         revisions: [MqClientTypes.ConfigurationRevision]? = nil
-    )
-    {
+    ) {
         self.configurationId = configurationId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2012,8 +1956,7 @@ public struct ListConfigurationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2031,8 +1974,7 @@ public struct ListConfigurationsOutput: Swift.Sendable {
         configurations: [MqClientTypes.Configuration]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurations = configurations
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2046,8 +1988,7 @@ public struct ListTagsInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2058,8 +1999,7 @@ public struct ListTagsOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2077,8 +2017,7 @@ public struct ListUsersInput: Swift.Sendable {
         brokerId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.brokerId = brokerId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2100,8 +2039,7 @@ public struct ListUsersOutput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         users: [MqClientTypes.UserSummary]? = nil
-    )
-    {
+    ) {
         self.brokerId = brokerId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2151,8 +2089,7 @@ public struct PromoteInput: Swift.Sendable {
     public init(
         brokerId: Swift.String? = nil,
         mode: MqClientTypes.PromoteMode? = nil
-    )
-    {
+    ) {
         self.brokerId = brokerId
         self.mode = mode
     }
@@ -2164,8 +2101,7 @@ public struct PromoteOutput: Swift.Sendable {
 
     public init(
         brokerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.brokerId = brokerId
     }
 }
@@ -2177,8 +2113,7 @@ public struct RebootBrokerInput: Swift.Sendable {
 
     public init(
         brokerId: Swift.String? = nil
-    )
-    {
+    ) {
         self.brokerId = brokerId
     }
 }
@@ -2226,8 +2161,7 @@ public struct UpdateBrokerInput: Swift.Sendable {
         logs: MqClientTypes.Logs? = nil,
         maintenanceWindowStartTime: MqClientTypes.WeeklyStartTime? = nil,
         securityGroups: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.authenticationStrategy = authenticationStrategy
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.brokerId = brokerId
@@ -2287,8 +2221,7 @@ public struct UpdateBrokerOutput: Swift.Sendable {
         pendingDataReplicationMetadata: MqClientTypes.DataReplicationMetadataOutput? = nil,
         pendingDataReplicationMode: MqClientTypes.DataReplicationMode? = nil,
         securityGroups: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.authenticationStrategy = authenticationStrategy
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.brokerId = brokerId
@@ -2321,8 +2254,7 @@ public struct UpdateConfigurationInput: Swift.Sendable {
         configurationId: Swift.String? = nil,
         data: Swift.String? = nil,
         description: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationId = configurationId
         self.data = data
         self.description = description
@@ -2350,8 +2282,7 @@ public struct UpdateConfigurationOutput: Swift.Sendable {
         latestRevision: MqClientTypes.ConfigurationRevision? = nil,
         name: Swift.String? = nil,
         warnings: [MqClientTypes.SanitizationWarning]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.created = created
         self.id = id
@@ -2385,8 +2316,7 @@ public struct UpdateUserInput: Swift.Sendable {
         password: Swift.String? = nil,
         replicationUser: Swift.Bool? = nil,
         username: Swift.String? = nil
-    )
-    {
+    ) {
         self.brokerId = brokerId
         self.consoleAccess = consoleAccess
         self.groups = groups

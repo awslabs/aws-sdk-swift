@@ -21,7 +21,6 @@ import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 
 const val ENDPOINT_RESOLVER = "endpointResolver"
 const val AUTH_SCHEME_RESOLVER = "authSchemeResolver"
-const val ENDPOINT_PARAMS = "endpointParams"
 
 class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.GenerationContext) :
     ServiceConfig(writer, ctx.symbolProvider.toSymbol(ctx.service).name, ctx.service.sdkId) {

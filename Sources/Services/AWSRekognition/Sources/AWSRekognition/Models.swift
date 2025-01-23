@@ -29,9 +29,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You are not authorized to perform the action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         /// A universally unique identifier (UUID) for the request.
         public internal(set) var logref: Swift.String? = nil
@@ -51,8 +51,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
         code: Swift.String? = nil,
         logref: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.logref = logref
         self.properties.message = message
@@ -71,8 +70,7 @@ extension RekognitionClientTypes {
         public init(
             high: Swift.Int? = nil,
             low: Swift.Int? = nil
-        )
-        {
+        ) {
             self.high = high
             self.low = low
         }
@@ -94,8 +92,7 @@ extension RekognitionClientTypes {
             bucket: Swift.String? = nil,
             name: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.name = name
             self.version = version
@@ -112,8 +109,7 @@ extension RekognitionClientTypes {
 
         public init(
             s3Object: RekognitionClientTypes.S3Object? = nil
-        )
-        {
+        ) {
             self.s3Object = s3Object
         }
     }
@@ -128,8 +124,7 @@ extension RekognitionClientTypes {
 
         public init(
             groundTruthManifest: RekognitionClientTypes.GroundTruthManifest? = nil
-        )
-        {
+        ) {
             self.groundTruthManifest = groundTruthManifest
         }
     }
@@ -144,17 +139,16 @@ extension RekognitionClientTypes {
 
         public init(
             faceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.faceId = faceId
         }
     }
 }
 
 /// A User with the same Id already exists within the collection, or the update or deletion of the User caused an inconsistent state. **
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         /// A universally unique identifier (UUID) for the request.
         public internal(set) var logref: Swift.String? = nil
@@ -174,8 +168,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         code: Swift.String? = nil,
         logref: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.logref = logref
         self.properties.message = message
@@ -183,9 +176,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// A ClientRequestToken input parameter was reused with an operation, but at least one of the other input parameters is different from the previous call to the operation.
-public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         /// A universally unique identifier (UUID) for the request.
         public internal(set) var logref: Swift.String? = nil
@@ -205,8 +198,7 @@ public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, 
         code: Swift.String? = nil,
         logref: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.logref = logref
         self.properties.message = message
@@ -214,9 +206,9 @@ public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, 
 }
 
 /// Amazon Rekognition experienced a service issue. Try your call again.
-public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         /// A universally unique identifier (UUID) for the request.
         public internal(set) var logref: Swift.String? = nil
@@ -236,8 +228,7 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
         code: Swift.String? = nil,
         logref: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.logref = logref
         self.properties.message = message
@@ -245,9 +236,9 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// Input parameter violated a constraint. Validate your parameter before calling the API operation again.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         /// A universally unique identifier (UUID) for the request.
         public internal(set) var logref: Swift.String? = nil
@@ -267,8 +258,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
         code: Swift.String? = nil,
         logref: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.logref = logref
         self.properties.message = message
@@ -276,9 +266,9 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The number of requests exceeded your throughput limit. If you want to increase this limit, contact Amazon Rekognition.
-public struct ProvisionedThroughputExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ProvisionedThroughputExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         /// A universally unique identifier (UUID) for the request.
         public internal(set) var logref: Swift.String? = nil
@@ -298,8 +288,7 @@ public struct ProvisionedThroughputExceededException: ClientRuntime.ModeledError
         code: Swift.String? = nil,
         logref: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.logref = logref
         self.properties.message = message
@@ -307,9 +296,9 @@ public struct ProvisionedThroughputExceededException: ClientRuntime.ModeledError
 }
 
 /// The resource specified in the request cannot be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         /// A universally unique identifier (UUID) for the request.
         public internal(set) var logref: Swift.String? = nil
@@ -329,8 +318,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         code: Swift.String? = nil,
         logref: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.logref = logref
         self.properties.message = message
@@ -338,9 +326,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The size of the collection exceeds the allowed limit. For more information, see Guidelines and quotas in Amazon Rekognition in the Amazon Rekognition Developer Guide.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         /// A universally unique identifier (UUID) for the request.
         public internal(set) var logref: Swift.String? = nil
@@ -360,8 +348,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         code: Swift.String? = nil,
         logref: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.logref = logref
         self.properties.message = message
@@ -369,9 +356,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// Amazon Rekognition is temporarily unable to process the request. Try your call again.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         /// A universally unique identifier (UUID) for the request.
         public internal(set) var logref: Swift.String? = nil
@@ -391,8 +378,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         code: Swift.String? = nil,
         logref: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.logref = logref
         self.properties.message = message
@@ -420,8 +406,7 @@ public struct AssociateFacesInput: Swift.Sendable {
         faceIds: [Swift.String]? = nil,
         userId: Swift.String? = nil,
         userMatchThreshold: Swift.Float? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.collectionId = collectionId
         self.faceIds = faceIds
@@ -480,8 +465,7 @@ extension RekognitionClientTypes {
             faceId: Swift.String? = nil,
             reasons: [RekognitionClientTypes.UnsuccessfulFaceAssociationReason]? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.confidence = confidence
             self.faceId = faceId
             self.reasons = reasons
@@ -537,8 +521,7 @@ public struct AssociateFacesOutput: Swift.Sendable {
         associatedFaces: [RekognitionClientTypes.AssociatedFace]? = nil,
         unsuccessfulFaceAssociations: [RekognitionClientTypes.UnsuccessfulFaceAssociation]? = nil,
         userStatus: RekognitionClientTypes.UserStatus? = nil
-    )
-    {
+    ) {
         self.associatedFaces = associatedFaces
         self.unsuccessfulFaceAssociations = unsuccessfulFaceAssociations
         self.userStatus = userStatus
@@ -628,8 +611,7 @@ extension RekognitionClientTypes {
             durationMillis: Swift.Int? = nil,
             numberOfChannels: Swift.Int? = nil,
             sampleRate: Swift.Int? = nil
-        )
-        {
+        ) {
             self.codec = codec
             self.durationMillis = durationMillis
             self.numberOfChannels = numberOfChannels
@@ -656,8 +638,7 @@ extension RekognitionClientTypes {
             `left`: Swift.Float? = nil,
             top: Swift.Float? = nil,
             width: Swift.Float? = nil
-        )
-        {
+        ) {
             self.height = height
             self.`left` = `left`
             self.top = top
@@ -681,8 +662,7 @@ extension RekognitionClientTypes {
             boundingBox: RekognitionClientTypes.BoundingBox? = nil,
             bytes: Foundation.Data? = nil,
             s3Object: RekognitionClientTypes.S3Object? = nil
-        )
-        {
+        ) {
             self.boundingBox = boundingBox
             self.bytes = bytes
             self.s3Object = s3Object
@@ -707,8 +687,7 @@ extension RekognitionClientTypes {
         public init(
             confidence: Swift.Float? = nil,
             value: Swift.Bool = false
-        )
-        {
+        ) {
             self.confidence = confidence
             self.value = value
         }
@@ -727,8 +706,7 @@ extension RekognitionClientTypes {
         public init(
             maxPixelThreshold: Swift.Float? = nil,
             minCoveragePercentage: Swift.Float? = nil
-        )
-        {
+        ) {
             self.maxPixelThreshold = maxPixelThreshold
             self.minCoveragePercentage = minCoveragePercentage
         }
@@ -782,8 +760,7 @@ extension RekognitionClientTypes {
         public init(
             confidence: Swift.Float? = nil,
             value: Swift.Bool = false
-        )
-        {
+        ) {
             self.confidence = confidence
             self.value = value
         }
@@ -840,8 +817,7 @@ extension RekognitionClientTypes {
             confidence: Swift.Float? = nil,
             coversBodyPart: RekognitionClientTypes.CoversBodyPart? = nil,
             type: RekognitionClientTypes.ProtectiveEquipmentType? = nil
-        )
-        {
+        ) {
             self.boundingBox = boundingBox
             self.confidence = confidence
             self.coversBodyPart = coversBodyPart
@@ -865,8 +841,7 @@ extension RekognitionClientTypes {
             confidence: Swift.Float? = nil,
             equipmentDetections: [RekognitionClientTypes.EquipmentDetection]? = nil,
             name: RekognitionClientTypes.BodyPart? = nil
-        )
-        {
+        ) {
             self.confidence = confidence
             self.equipmentDetections = equipmentDetections
             self.name = name
@@ -936,8 +911,7 @@ extension RekognitionClientTypes {
         public init(
             confidence: Swift.Float? = nil,
             type: RekognitionClientTypes.EmotionName? = nil
-        )
-        {
+        ) {
             self.confidence = confidence
             self.type = type
         }
@@ -1072,8 +1046,7 @@ extension RekognitionClientTypes {
             type: RekognitionClientTypes.LandmarkType? = nil,
             x: Swift.Float? = nil,
             y: Swift.Float? = nil
-        )
-        {
+        ) {
             self.type = type
             self.x = x
             self.y = y
@@ -1096,8 +1069,7 @@ extension RekognitionClientTypes {
             pitch: Swift.Float? = nil,
             roll: Swift.Float? = nil,
             yaw: Swift.Float? = nil
-        )
-        {
+        ) {
             self.pitch = pitch
             self.roll = roll
             self.yaw = yaw
@@ -1117,8 +1089,7 @@ extension RekognitionClientTypes {
         public init(
             brightness: Swift.Float? = nil,
             sharpness: Swift.Float? = nil
-        )
-        {
+        ) {
             self.brightness = brightness
             self.sharpness = sharpness
         }
@@ -1137,8 +1108,7 @@ extension RekognitionClientTypes {
         public init(
             confidence: Swift.Float? = nil,
             value: Swift.Bool = false
-        )
-        {
+        ) {
             self.confidence = confidence
             self.value = value
         }
@@ -1172,8 +1142,7 @@ extension RekognitionClientTypes {
             pose: RekognitionClientTypes.Pose? = nil,
             quality: RekognitionClientTypes.ImageQuality? = nil,
             smile: RekognitionClientTypes.Smile? = nil
-        )
-        {
+        ) {
             self.boundingBox = boundingBox
             self.confidence = confidence
             self.emotions = emotions
@@ -1230,8 +1199,7 @@ extension RekognitionClientTypes {
 
         public init(
             type: RekognitionClientTypes.KnownGenderType? = nil
-        )
-        {
+        ) {
             self.type = type
         }
     }
@@ -1261,8 +1229,7 @@ extension RekognitionClientTypes {
             matchConfidence: Swift.Float? = nil,
             name: Swift.String? = nil,
             urls: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.face = face
             self.id = id
             self.knownGender = knownGender
@@ -1288,8 +1255,7 @@ extension RekognitionClientTypes {
             confidence: Swift.Float? = nil,
             pitch: Swift.Float? = nil,
             yaw: Swift.Float? = nil
-        )
-        {
+        ) {
             self.confidence = confidence
             self.pitch = pitch
             self.yaw = yaw
@@ -1309,8 +1275,7 @@ extension RekognitionClientTypes {
         public init(
             confidence: Swift.Float? = nil,
             value: Swift.Bool = false
-        )
-        {
+        ) {
             self.confidence = confidence
             self.value = value
         }
@@ -1329,8 +1294,7 @@ extension RekognitionClientTypes {
         public init(
             confidence: Swift.Float? = nil,
             value: Swift.Bool = false
-        )
-        {
+        ) {
             self.confidence = confidence
             self.value = value
         }
@@ -1349,8 +1313,7 @@ extension RekognitionClientTypes {
         public init(
             confidence: Swift.Float? = nil,
             value: Swift.Bool = false
-        )
-        {
+        ) {
             self.confidence = confidence
             self.value = value
         }
@@ -1398,8 +1361,7 @@ extension RekognitionClientTypes {
         public init(
             confidence: Swift.Float? = nil,
             value: RekognitionClientTypes.GenderType? = nil
-        )
-        {
+        ) {
             self.confidence = confidence
             self.value = value
         }
@@ -1418,8 +1380,7 @@ extension RekognitionClientTypes {
         public init(
             confidence: Swift.Float? = nil,
             value: Swift.Bool = false
-        )
-        {
+        ) {
             self.confidence = confidence
             self.value = value
         }
@@ -1438,8 +1399,7 @@ extension RekognitionClientTypes {
         public init(
             confidence: Swift.Float? = nil,
             value: Swift.Bool = false
-        )
-        {
+        ) {
             self.confidence = confidence
             self.value = value
         }
@@ -1458,8 +1418,7 @@ extension RekognitionClientTypes {
         public init(
             confidence: Swift.Float? = nil,
             value: Swift.Bool = false
-        )
-        {
+        ) {
             self.confidence = confidence
             self.value = value
         }
@@ -1532,8 +1491,7 @@ extension RekognitionClientTypes {
             quality: RekognitionClientTypes.ImageQuality? = nil,
             smile: RekognitionClientTypes.Smile? = nil,
             sunglasses: RekognitionClientTypes.Sunglasses? = nil
-        )
-        {
+        ) {
             self.ageRange = ageRange
             self.beard = beard
             self.boundingBox = boundingBox
@@ -1582,8 +1540,7 @@ extension RekognitionClientTypes {
             knownGender: RekognitionClientTypes.KnownGender? = nil,
             name: Swift.String? = nil,
             urls: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.boundingBox = boundingBox
             self.confidence = confidence
             self.face = face
@@ -1607,8 +1564,7 @@ extension RekognitionClientTypes {
         public init(
             celebrity: RekognitionClientTypes.CelebrityDetail? = nil,
             timestamp: Swift.Int = 0
-        )
-        {
+        ) {
             self.celebrity = celebrity
             self.timestamp = timestamp
         }
@@ -1656,8 +1612,7 @@ extension RekognitionClientTypes {
         public init(
             boundingBox: RekognitionClientTypes.BoundingBox? = nil,
             confidence: Swift.Float? = nil
-        )
-        {
+        ) {
             self.boundingBox = boundingBox
             self.confidence = confidence
         }
@@ -1665,9 +1620,9 @@ extension RekognitionClientTypes {
 }
 
 /// The input image size exceeds the allowed limit. If you are calling DetectProtectiveEquipment, the image size or resolution exceeds the allowed limit. For more information, see Guidelines and quotas in Amazon Rekognition in the Amazon Rekognition Developer Guide.
-public struct ImageTooLargeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ImageTooLargeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         /// A universally unique identifier (UUID) for the request.
         public internal(set) var logref: Swift.String? = nil
@@ -1687,8 +1642,7 @@ public struct ImageTooLargeException: ClientRuntime.ModeledError, AWSClientRunti
         code: Swift.String? = nil,
         logref: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.logref = logref
         self.properties.message = message
@@ -1696,9 +1650,9 @@ public struct ImageTooLargeException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// The provided image format is not supported.
-public struct InvalidImageFormatException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidImageFormatException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         /// A universally unique identifier (UUID) for the request.
         public internal(set) var logref: Swift.String? = nil
@@ -1718,8 +1672,7 @@ public struct InvalidImageFormatException: ClientRuntime.ModeledError, AWSClient
         code: Swift.String? = nil,
         logref: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.logref = logref
         self.properties.message = message
@@ -1727,9 +1680,9 @@ public struct InvalidImageFormatException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// Amazon Rekognition is unable to access the S3 object specified in the request.
-public struct InvalidS3ObjectException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidS3ObjectException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         /// A universally unique identifier (UUID) for the request.
         public internal(set) var logref: Swift.String? = nil
@@ -1749,8 +1702,7 @@ public struct InvalidS3ObjectException: ClientRuntime.ModeledError, AWSClientRun
         code: Swift.String? = nil,
         logref: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.logref = logref
         self.properties.message = message
@@ -1807,8 +1759,7 @@ extension RekognitionClientTypes {
         public init(
             bytes: Foundation.Data? = nil,
             s3Object: RekognitionClientTypes.S3Object? = nil
-        )
-        {
+        ) {
             self.bytes = bytes
             self.s3Object = s3Object
         }
@@ -1832,8 +1783,7 @@ public struct CompareFacesInput: Swift.Sendable {
         similarityThreshold: Swift.Float? = nil,
         sourceImage: RekognitionClientTypes.Image? = nil,
         targetImage: RekognitionClientTypes.Image? = nil
-    )
-    {
+    ) {
         self.qualityFilter = qualityFilter
         self.similarityThreshold = similarityThreshold
         self.sourceImage = sourceImage
@@ -1853,8 +1803,7 @@ extension RekognitionClientTypes {
         public init(
             face: RekognitionClientTypes.ComparedFace? = nil,
             similarity: Swift.Float? = nil
-        )
-        {
+        ) {
             self.face = face
             self.similarity = similarity
         }
@@ -1914,8 +1863,7 @@ public struct CompareFacesOutput: Swift.Sendable {
         sourceImageOrientationCorrection: RekognitionClientTypes.OrientationCorrection? = nil,
         targetImageOrientationCorrection: RekognitionClientTypes.OrientationCorrection? = nil,
         unmatchedFaces: [RekognitionClientTypes.ComparedFace]? = nil
-    )
-    {
+    ) {
         self.faceMatches = faceMatches
         self.sourceImageFace = sourceImageFace
         self.sourceImageOrientationCorrection = sourceImageOrientationCorrection
@@ -1937,8 +1885,7 @@ extension RekognitionClientTypes {
         public init(
             labels: [Swift.String]? = nil,
             minConfidence: Swift.Float? = nil
-        )
-        {
+        ) {
             self.labels = labels
             self.minConfidence = minConfidence
         }
@@ -1957,8 +1904,7 @@ extension RekognitionClientTypes {
         public init(
             labels: [Swift.String]? = nil,
             minConfidence: Swift.Float? = nil
-        )
-        {
+        ) {
             self.labels = labels
             self.minConfidence = minConfidence
         }
@@ -2035,8 +1981,7 @@ extension RekognitionClientTypes {
         public init(
             confidence: Swift.Float? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.confidence = confidence
             self.name = name
         }
@@ -2061,8 +2006,7 @@ extension RekognitionClientTypes {
             name: Swift.String? = nil,
             parentName: Swift.String? = nil,
             taxonomyLevel: Swift.Int? = nil
-        )
-        {
+        ) {
             self.confidence = confidence
             self.name = name
             self.parentName = parentName
@@ -2095,8 +2039,7 @@ extension RekognitionClientTypes {
             moderationLabel: RekognitionClientTypes.ModerationLabel? = nil,
             startTimestampMillis: Swift.Int? = nil,
             timestamp: Swift.Int = 0
-        )
-        {
+        ) {
             self.contentTypes = contentTypes
             self.durationMillis = durationMillis
             self.endTimestampMillis = endTimestampMillis
@@ -2137,9 +2080,9 @@ extension RekognitionClientTypes {
 }
 
 /// An Amazon Rekognition service limit was exceeded. For example, if you start too many jobs concurrently, subsequent calls to start operations (ex: StartLabelDetection) will raise a LimitExceededException exception (HTTP status code: 400) until the number of concurrently running jobs is below the Amazon Rekognition service limit.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         /// A universally unique identifier (UUID) for the request.
         public internal(set) var logref: Swift.String? = nil
@@ -2159,8 +2102,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
         code: Swift.String? = nil,
         logref: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.logref = logref
         self.properties.message = message
@@ -2168,9 +2110,9 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// The specified resource is already being used.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         /// A universally unique identifier (UUID) for the request.
         public internal(set) var logref: Swift.String? = nil
@@ -2190,8 +2132,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
         code: Swift.String? = nil,
         logref: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.logref = logref
         self.properties.message = message
@@ -2210,8 +2151,7 @@ extension RekognitionClientTypes {
         public init(
             s3Bucket: Swift.String? = nil,
             s3KeyPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Bucket = s3Bucket
             self.s3KeyPrefix = s3KeyPrefix
         }
@@ -2258,8 +2198,7 @@ public struct CopyProjectVersionInput: Swift.Sendable {
         sourceProjectVersionArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationProjectArn = destinationProjectArn
         self.kmsKeyId = kmsKeyId
         self.outputConfig = outputConfig
@@ -2276,16 +2215,15 @@ public struct CopyProjectVersionOutput: Swift.Sendable {
 
     public init(
         projectVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.projectVersionArn = projectVersionArn
     }
 }
 
 /// A resource with the specified ID already exists.
-public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         /// A universally unique identifier (UUID) for the request.
         public internal(set) var logref: Swift.String? = nil
@@ -2305,8 +2243,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
         code: Swift.String? = nil,
         logref: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.logref = logref
         self.properties.message = message
@@ -2323,8 +2260,7 @@ public struct CreateCollectionInput: Swift.Sendable {
     public init(
         collectionId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.collectionId = collectionId
         self.tags = tags
     }
@@ -2342,8 +2278,7 @@ public struct CreateCollectionOutput: Swift.Sendable {
         collectionArn: Swift.String? = nil,
         faceModelVersion: Swift.String? = nil,
         statusCode: Swift.Int? = nil
-    )
-    {
+    ) {
         self.collectionArn = collectionArn
         self.faceModelVersion = faceModelVersion
         self.statusCode = statusCode
@@ -2362,8 +2297,7 @@ extension RekognitionClientTypes {
         public init(
             datasetArn: Swift.String? = nil,
             groundTruthManifest: RekognitionClientTypes.GroundTruthManifest? = nil
-        )
-        {
+        ) {
             self.datasetArn = datasetArn
             self.groundTruthManifest = groundTruthManifest
         }
@@ -2416,8 +2350,7 @@ public struct CreateDatasetInput: Swift.Sendable {
         datasetType: RekognitionClientTypes.DatasetType? = nil,
         projectArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.datasetSource = datasetSource
         self.datasetType = datasetType
         self.projectArn = projectArn
@@ -2431,8 +2364,7 @@ public struct CreateDatasetOutput: Swift.Sendable {
 
     public init(
         datasetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetArn = datasetArn
     }
 }
@@ -2450,8 +2382,7 @@ extension RekognitionClientTypes {
         public init(
             s3Bucket: Swift.String? = nil,
             s3KeyPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Bucket = s3Bucket
             self.s3KeyPrefix = s3KeyPrefix
         }
@@ -2470,8 +2401,7 @@ extension RekognitionClientTypes {
         public init(
             auditImagesLimit: Swift.Int? = nil,
             outputConfig: RekognitionClientTypes.LivenessOutputConfig? = nil
-        )
-        {
+        ) {
             self.auditImagesLimit = auditImagesLimit
             self.outputConfig = outputConfig
         }
@@ -2490,8 +2420,7 @@ public struct CreateFaceLivenessSessionInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         settings: RekognitionClientTypes.CreateFaceLivenessSessionRequestSettings? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.kmsKeyId = kmsKeyId
         self.settings = settings
@@ -2505,8 +2434,7 @@ public struct CreateFaceLivenessSessionOutput: Swift.Sendable {
 
     public init(
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sessionId = sessionId
     }
 }
@@ -2585,8 +2513,7 @@ public struct CreateProjectInput: Swift.Sendable {
         feature: RekognitionClientTypes.CustomizationFeature? = nil,
         projectName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.autoUpdate = autoUpdate
         self.feature = feature
         self.projectName = projectName
@@ -2600,8 +2527,7 @@ public struct CreateProjectOutput: Swift.Sendable {
 
     public init(
         projectArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.projectArn = projectArn
     }
 }
@@ -2615,8 +2541,7 @@ extension RekognitionClientTypes {
 
         public init(
             confidenceThreshold: Swift.Float? = nil
-        )
-        {
+        ) {
             self.confidenceThreshold = confidenceThreshold
         }
     }
@@ -2631,8 +2556,7 @@ extension RekognitionClientTypes {
 
         public init(
             contentModeration: RekognitionClientTypes.CustomizationFeatureContentModerationConfig? = nil
-        )
-        {
+        ) {
             self.contentModeration = contentModeration
         }
     }
@@ -2650,8 +2574,7 @@ extension RekognitionClientTypes {
         public init(
             assets: [RekognitionClientTypes.Asset]? = nil,
             autoCreate: Swift.Bool = false
-        )
-        {
+        ) {
             self.assets = assets
             self.autoCreate = autoCreate
         }
@@ -2667,8 +2590,7 @@ extension RekognitionClientTypes {
 
         public init(
             assets: [RekognitionClientTypes.Asset]? = nil
-        )
-        {
+        ) {
             self.assets = assets
         }
     }
@@ -2718,8 +2640,7 @@ public struct CreateProjectVersionInput: Swift.Sendable {
         trainingData: RekognitionClientTypes.TrainingData? = nil,
         versionDescription: Swift.String? = nil,
         versionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.featureConfig = featureConfig
         self.kmsKeyId = kmsKeyId
         self.outputConfig = outputConfig
@@ -2738,8 +2659,7 @@ public struct CreateProjectVersionOutput: Swift.Sendable {
 
     public init(
         projectVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.projectVersionArn = projectVersionArn
     }
 }
@@ -2754,8 +2674,7 @@ extension RekognitionClientTypes {
 
         public init(
             optIn: Swift.Bool = false
-        )
-        {
+        ) {
             self.optIn = optIn
         }
     }
@@ -2770,8 +2689,7 @@ extension RekognitionClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -2786,8 +2704,7 @@ extension RekognitionClientTypes {
 
         public init(
             kinesisVideoStream: RekognitionClientTypes.KinesisVideoStream? = nil
-        )
-        {
+        ) {
             self.kinesisVideoStream = kinesisVideoStream
         }
     }
@@ -2803,8 +2720,7 @@ extension RekognitionClientTypes {
 
         public init(
             snsTopicArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.snsTopicArn = snsTopicArn
         }
     }
@@ -2819,8 +2735,7 @@ extension RekognitionClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -2838,8 +2753,7 @@ extension RekognitionClientTypes {
         public init(
             bucket: Swift.String? = nil,
             keyPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.keyPrefix = keyPrefix
         }
@@ -2858,8 +2772,7 @@ extension RekognitionClientTypes {
         public init(
             kinesisDataStream: RekognitionClientTypes.KinesisDataStream? = nil,
             s3Destination: RekognitionClientTypes.S3Destination? = nil
-        )
-        {
+        ) {
             self.kinesisDataStream = kinesisDataStream
             self.s3Destination = s3Destination
         }
@@ -2878,8 +2791,7 @@ extension RekognitionClientTypes {
         public init(
             x: Swift.Float? = nil,
             y: Swift.Float? = nil
-        )
-        {
+        ) {
             self.x = x
             self.y = y
         }
@@ -2898,8 +2810,7 @@ extension RekognitionClientTypes {
         public init(
             boundingBox: RekognitionClientTypes.BoundingBox? = nil,
             polygon: [RekognitionClientTypes.Point]? = nil
-        )
-        {
+        ) {
             self.boundingBox = boundingBox
             self.polygon = polygon
         }
@@ -2918,8 +2829,7 @@ extension RekognitionClientTypes {
         public init(
             collectionId: Swift.String? = nil,
             faceMatchThreshold: Swift.Float? = nil
-        )
-        {
+        ) {
             self.collectionId = collectionId
             self.faceMatchThreshold = faceMatchThreshold
         }
@@ -2938,8 +2848,7 @@ extension RekognitionClientTypes {
         public init(
             connectedHome: RekognitionClientTypes.ConnectedHomeSettings? = nil,
             faceSearch: RekognitionClientTypes.FaceSearchSettings? = nil
-        )
-        {
+        ) {
             self.connectedHome = connectedHome
             self.faceSearch = faceSearch
         }
@@ -2984,8 +2893,7 @@ public struct CreateStreamProcessorInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         settings: RekognitionClientTypes.StreamProcessorSettings? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.dataSharingPreference = dataSharingPreference
         self.input = input
         self.kmsKeyId = kmsKeyId
@@ -3005,8 +2913,7 @@ public struct CreateStreamProcessorOutput: Swift.Sendable {
 
     public init(
         streamProcessorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.streamProcessorArn = streamProcessorArn
     }
 }
@@ -3025,8 +2932,7 @@ public struct CreateUserInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         collectionId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.collectionId = collectionId
         self.userId = userId
@@ -3050,8 +2956,7 @@ extension RekognitionClientTypes {
         public init(
             boundingBox: RekognitionClientTypes.BoundingBox? = nil,
             polygon: [RekognitionClientTypes.Point]? = nil
-        )
-        {
+        ) {
             self.boundingBox = boundingBox
             self.polygon = polygon
         }
@@ -3073,8 +2978,7 @@ extension RekognitionClientTypes {
             confidence: Swift.Float? = nil,
             geometry: RekognitionClientTypes.Geometry? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.confidence = confidence
             self.geometry = geometry
             self.name = name
@@ -3092,8 +2996,7 @@ extension RekognitionClientTypes {
 
         public init(
             groundTruth: Foundation.Data? = nil
-        )
-        {
+        ) {
             self.groundTruth = groundTruth
         }
     }
@@ -3117,8 +3020,7 @@ extension RekognitionClientTypes {
             labeledEntries: Swift.Int? = nil,
             totalEntries: Swift.Int? = nil,
             totalLabels: Swift.Int? = nil
-        )
-        {
+        ) {
             self.errorEntries = errorEntries
             self.labeledEntries = labeledEntries
             self.totalEntries = totalEntries
@@ -3227,8 +3129,7 @@ extension RekognitionClientTypes {
             status: RekognitionClientTypes.DatasetStatus? = nil,
             statusMessage: Swift.String? = nil,
             statusMessageCode: RekognitionClientTypes.DatasetStatusMessageCode? = nil
-        )
-        {
+        ) {
             self.creationTimestamp = creationTimestamp
             self.datasetStats = datasetStats
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
@@ -3251,8 +3152,7 @@ extension RekognitionClientTypes {
         public init(
             boundingBoxCount: Swift.Int? = nil,
             entryCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.boundingBoxCount = boundingBoxCount
             self.entryCount = entryCount
         }
@@ -3271,8 +3171,7 @@ extension RekognitionClientTypes {
         public init(
             labelName: Swift.String? = nil,
             labelStats: RekognitionClientTypes.DatasetLabelStats? = nil
-        )
-        {
+        ) {
             self.labelName = labelName
             self.labelStats = labelStats
         }
@@ -3303,8 +3202,7 @@ extension RekognitionClientTypes {
             status: RekognitionClientTypes.DatasetStatus? = nil,
             statusMessage: Swift.String? = nil,
             statusMessageCode: RekognitionClientTypes.DatasetStatusMessageCode? = nil
-        )
-        {
+        ) {
             self.creationTimestamp = creationTimestamp
             self.datasetArn = datasetArn
             self.datasetType = datasetType
@@ -3322,8 +3220,7 @@ public struct DeleteCollectionInput: Swift.Sendable {
 
     public init(
         collectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.collectionId = collectionId
     }
 }
@@ -3334,8 +3231,7 @@ public struct DeleteCollectionOutput: Swift.Sendable {
 
     public init(
         statusCode: Swift.Int? = nil
-    )
-    {
+    ) {
         self.statusCode = statusCode
     }
 }
@@ -3347,8 +3243,7 @@ public struct DeleteDatasetInput: Swift.Sendable {
 
     public init(
         datasetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetArn = datasetArn
     }
 }
@@ -3369,8 +3264,7 @@ public struct DeleteFacesInput: Swift.Sendable {
     public init(
         collectionId: Swift.String? = nil,
         faceIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.collectionId = collectionId
         self.faceIds = faceIds
     }
@@ -3420,8 +3314,7 @@ extension RekognitionClientTypes {
             faceId: Swift.String? = nil,
             reasons: [RekognitionClientTypes.UnsuccessfulFaceDeletionReason]? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.faceId = faceId
             self.reasons = reasons
             self.userId = userId
@@ -3438,8 +3331,7 @@ public struct DeleteFacesOutput: Swift.Sendable {
     public init(
         deletedFaces: [Swift.String]? = nil,
         unsuccessfulFaceDeletions: [RekognitionClientTypes.UnsuccessfulFaceDeletion]? = nil
-    )
-    {
+    ) {
         self.deletedFaces = deletedFaces
         self.unsuccessfulFaceDeletions = unsuccessfulFaceDeletions
     }
@@ -3452,8 +3344,7 @@ public struct DeleteProjectInput: Swift.Sendable {
 
     public init(
         projectArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.projectArn = projectArn
     }
 }
@@ -3496,16 +3387,15 @@ public struct DeleteProjectOutput: Swift.Sendable {
 
     public init(
         status: RekognitionClientTypes.ProjectStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
 
 /// The supplied revision id for the project policy is invalid.
-public struct InvalidPolicyRevisionIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPolicyRevisionIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         /// A universally unique identifier (UUID) for the request.
         public internal(set) var logref: Swift.String? = nil
@@ -3525,8 +3415,7 @@ public struct InvalidPolicyRevisionIdException: ClientRuntime.ModeledError, AWSC
         code: Swift.String? = nil,
         logref: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.logref = logref
         self.properties.message = message
@@ -3547,8 +3436,7 @@ public struct DeleteProjectPolicyInput: Swift.Sendable {
         policyName: Swift.String? = nil,
         policyRevisionId: Swift.String? = nil,
         projectArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyName = policyName
         self.policyRevisionId = policyRevisionId
         self.projectArn = projectArn
@@ -3567,8 +3455,7 @@ public struct DeleteProjectVersionInput: Swift.Sendable {
 
     public init(
         projectVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.projectVersionArn = projectVersionArn
     }
 }
@@ -3644,8 +3531,7 @@ public struct DeleteProjectVersionOutput: Swift.Sendable {
 
     public init(
         status: RekognitionClientTypes.ProjectVersionStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -3657,8 +3543,7 @@ public struct DeleteStreamProcessorInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -3682,8 +3567,7 @@ public struct DeleteUserInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         collectionId: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.collectionId = collectionId
         self.userId = userId
@@ -3702,8 +3586,7 @@ public struct DescribeCollectionInput: Swift.Sendable {
 
     public init(
         collectionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.collectionId = collectionId
     }
 }
@@ -3726,8 +3609,7 @@ public struct DescribeCollectionOutput: Swift.Sendable {
         faceCount: Swift.Int? = nil,
         faceModelVersion: Swift.String? = nil,
         userCount: Swift.Int? = nil
-    )
-    {
+    ) {
         self.collectionARN = collectionARN
         self.creationTimestamp = creationTimestamp
         self.faceCount = faceCount
@@ -3743,8 +3625,7 @@ public struct DescribeDatasetInput: Swift.Sendable {
 
     public init(
         datasetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetArn = datasetArn
     }
 }
@@ -3755,16 +3636,15 @@ public struct DescribeDatasetOutput: Swift.Sendable {
 
     public init(
         datasetDescription: RekognitionClientTypes.DatasetDescription? = nil
-    )
-    {
+    ) {
         self.datasetDescription = datasetDescription
     }
 }
 
 /// Pagination token in the request is not valid.
-public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         /// A universally unique identifier (UUID) for the request.
         public internal(set) var logref: Swift.String? = nil
@@ -3784,8 +3664,7 @@ public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSCl
         code: Swift.String? = nil,
         logref: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.logref = logref
         self.properties.message = message
@@ -3807,8 +3686,7 @@ public struct DescribeProjectsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         projectNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.features = features
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3840,8 +3718,7 @@ extension RekognitionClientTypes {
             feature: RekognitionClientTypes.CustomizationFeature? = nil,
             projectArn: Swift.String? = nil,
             status: RekognitionClientTypes.ProjectStatus? = nil
-        )
-        {
+        ) {
             self.autoUpdate = autoUpdate
             self.creationTimestamp = creationTimestamp
             self.datasets = datasets
@@ -3861,8 +3738,7 @@ public struct DescribeProjectsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         projectDescriptions: [RekognitionClientTypes.ProjectDescription]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.projectDescriptions = projectDescriptions
     }
@@ -3884,8 +3760,7 @@ public struct DescribeProjectVersionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         projectArn: Swift.String? = nil,
         versionNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.projectArn = projectArn
@@ -3902,8 +3777,7 @@ extension RekognitionClientTypes {
 
         public init(
             s3Object: RekognitionClientTypes.S3Object? = nil
-        )
-        {
+        ) {
             self.s3Object = s3Object
         }
     }
@@ -3921,8 +3795,7 @@ extension RekognitionClientTypes {
         public init(
             f1Score: Swift.Float? = nil,
             summary: RekognitionClientTypes.Summary? = nil
-        )
-        {
+        ) {
             self.f1Score = f1Score
             self.summary = summary
         }
@@ -3938,8 +3811,7 @@ extension RekognitionClientTypes {
 
         public init(
             assets: [RekognitionClientTypes.Asset]? = nil
-        )
-        {
+        ) {
             self.assets = assets
         }
     }
@@ -3960,8 +3832,7 @@ extension RekognitionClientTypes {
             input: RekognitionClientTypes.TestingData? = nil,
             output: RekognitionClientTypes.TestingData? = nil,
             validation: RekognitionClientTypes.ValidationData? = nil
-        )
-        {
+        ) {
             self.input = input
             self.output = output
             self.validation = validation
@@ -3984,8 +3855,7 @@ extension RekognitionClientTypes {
             input: RekognitionClientTypes.TrainingData? = nil,
             output: RekognitionClientTypes.TrainingData? = nil,
             validation: RekognitionClientTypes.ValidationData? = nil
-        )
-        {
+        ) {
             self.input = input
             self.output = output
             self.validation = validation
@@ -4056,8 +3926,7 @@ extension RekognitionClientTypes {
             trainingDataResult: RekognitionClientTypes.TrainingDataResult? = nil,
             trainingEndTimestamp: Foundation.Date? = nil,
             versionDescription: Swift.String? = nil
-        )
-        {
+        ) {
             self.baseModelVersion = baseModelVersion
             self.billableTrainingTimeInSeconds = billableTrainingTimeInSeconds
             self.creationTimestamp = creationTimestamp
@@ -4090,8 +3959,7 @@ public struct DescribeProjectVersionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         projectVersionDescriptions: [RekognitionClientTypes.ProjectVersionDescription]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.projectVersionDescriptions = projectVersionDescriptions
     }
@@ -4104,8 +3972,7 @@ public struct DescribeStreamProcessorInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -4196,8 +4063,7 @@ public struct DescribeStreamProcessorOutput: Swift.Sendable {
         status: RekognitionClientTypes.StreamProcessorStatus? = nil,
         statusMessage: Swift.String? = nil,
         streamProcessorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTimestamp = creationTimestamp
         self.dataSharingPreference = dataSharingPreference
         self.input = input
@@ -4216,9 +4082,9 @@ public struct DescribeStreamProcessorOutput: Swift.Sendable {
 }
 
 /// The requested resource isn't ready. For example, this exception occurs when you call DetectCustomLabels with a model version that isn't deployed.
-public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         /// A universally unique identifier (UUID) for the request.
         public internal(set) var logref: Swift.String? = nil
@@ -4238,8 +4104,7 @@ public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRu
         code: Swift.String? = nil,
         logref: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.logref = logref
         self.properties.message = message
@@ -4263,8 +4128,7 @@ public struct DetectCustomLabelsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         minConfidence: Swift.Float? = nil,
         projectVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.image = image
         self.maxResults = maxResults
         self.minConfidence = minConfidence
@@ -4278,8 +4142,7 @@ public struct DetectCustomLabelsOutput: Swift.Sendable {
 
     public init(
         customLabels: [RekognitionClientTypes.CustomLabel]? = nil
-    )
-    {
+    ) {
         self.customLabels = customLabels
     }
 }
@@ -4294,8 +4157,7 @@ public struct DetectFacesInput: Swift.Sendable {
     public init(
         attributes: [RekognitionClientTypes.Attribute]? = nil,
         image: RekognitionClientTypes.Image? = nil
-    )
-    {
+    ) {
         self.attributes = attributes
         self.image = image
     }
@@ -4310,8 +4172,7 @@ public struct DetectFacesOutput: Swift.Sendable {
     public init(
         faceDetails: [RekognitionClientTypes.FaceDetail]? = nil,
         orientationCorrection: RekognitionClientTypes.OrientationCorrection? = nil
-    )
-    {
+    ) {
         self.faceDetails = faceDetails
         self.orientationCorrection = orientationCorrection
     }
@@ -4332,8 +4193,7 @@ extension RekognitionClientTypes {
             minBoundingBoxHeight: Swift.Float? = nil,
             minBoundingBoxWidth: Swift.Float? = nil,
             minConfidence: Swift.Float? = nil
-        )
-        {
+        ) {
             self.minBoundingBoxHeight = minBoundingBoxHeight
             self.minBoundingBoxWidth = minBoundingBoxWidth
             self.minConfidence = minConfidence
@@ -4388,8 +4248,7 @@ extension RekognitionClientTypes {
             labelCategoryInclusionFilters: [Swift.String]? = nil,
             labelExclusionFilters: [Swift.String]? = nil,
             labelInclusionFilters: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.labelCategoryExclusionFilters = labelCategoryExclusionFilters
             self.labelCategoryInclusionFilters = labelCategoryInclusionFilters
             self.labelExclusionFilters = labelExclusionFilters
@@ -4407,8 +4266,7 @@ extension RekognitionClientTypes {
 
         public init(
             maxDominantColors: Swift.Int = 0
-        )
-        {
+        ) {
             self.maxDominantColors = maxDominantColors
         }
     }
@@ -4426,8 +4284,7 @@ extension RekognitionClientTypes {
         public init(
             generalLabels: RekognitionClientTypes.GeneralLabelsSettings? = nil,
             imageProperties: RekognitionClientTypes.DetectLabelsImagePropertiesSettings? = nil
-        )
-        {
+        ) {
             self.generalLabels = generalLabels
             self.imageProperties = imageProperties
         }
@@ -4453,8 +4310,7 @@ public struct DetectLabelsInput: Swift.Sendable {
         maxLabels: Swift.Int? = nil,
         minConfidence: Swift.Float? = nil,
         settings: RekognitionClientTypes.DetectLabelsSettings? = nil
-    )
-    {
+    ) {
         self.features = features
         self.image = image
         self.maxLabels = maxLabels
@@ -4490,8 +4346,7 @@ extension RekognitionClientTypes {
             pixelPercent: Swift.Float? = nil,
             red: Swift.Int? = nil,
             simplifiedColor: Swift.String? = nil
-        )
-        {
+        ) {
             self.blue = blue
             self.cssColor = cssColor
             self.green = green
@@ -4518,8 +4373,7 @@ extension RekognitionClientTypes {
             brightness: Swift.Float? = nil,
             contrast: Swift.Float? = nil,
             sharpness: Swift.Float? = nil
-        )
-        {
+        ) {
             self.brightness = brightness
             self.contrast = contrast
             self.sharpness = sharpness
@@ -4539,8 +4393,7 @@ extension RekognitionClientTypes {
         public init(
             dominantColors: [RekognitionClientTypes.DominantColor]? = nil,
             quality: RekognitionClientTypes.DetectLabelsImageQuality? = nil
-        )
-        {
+        ) {
             self.dominantColors = dominantColors
             self.quality = quality
         }
@@ -4559,8 +4412,7 @@ extension RekognitionClientTypes {
         public init(
             dominantColors: [RekognitionClientTypes.DominantColor]? = nil,
             quality: RekognitionClientTypes.DetectLabelsImageQuality? = nil
-        )
-        {
+        ) {
             self.dominantColors = dominantColors
             self.quality = quality
         }
@@ -4585,8 +4437,7 @@ extension RekognitionClientTypes {
             dominantColors: [RekognitionClientTypes.DominantColor]? = nil,
             foreground: RekognitionClientTypes.DetectLabelsImageForeground? = nil,
             quality: RekognitionClientTypes.DetectLabelsImageQuality? = nil
-        )
-        {
+        ) {
             self.background = background
             self.dominantColors = dominantColors
             self.foreground = foreground
@@ -4604,8 +4455,7 @@ extension RekognitionClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -4620,8 +4470,7 @@ extension RekognitionClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -4642,8 +4491,7 @@ extension RekognitionClientTypes {
             boundingBox: RekognitionClientTypes.BoundingBox? = nil,
             confidence: Swift.Float? = nil,
             dominantColors: [RekognitionClientTypes.DominantColor]? = nil
-        )
-        {
+        ) {
             self.boundingBox = boundingBox
             self.confidence = confidence
             self.dominantColors = dominantColors
@@ -4660,8 +4508,7 @@ extension RekognitionClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -4691,8 +4538,7 @@ extension RekognitionClientTypes {
             instances: [RekognitionClientTypes.Instance]? = nil,
             name: Swift.String? = nil,
             parents: [RekognitionClientTypes.Parent]? = nil
-        )
-        {
+        ) {
             self.aliases = aliases
             self.categories = categories
             self.confidence = confidence
@@ -4718,8 +4564,7 @@ public struct DetectLabelsOutput: Swift.Sendable {
         labelModelVersion: Swift.String? = nil,
         labels: [RekognitionClientTypes.Label]? = nil,
         orientationCorrection: RekognitionClientTypes.OrientationCorrection? = nil
-    )
-    {
+    ) {
         self.imageProperties = imageProperties
         self.labelModelVersion = labelModelVersion
         self.labels = labels
@@ -4728,9 +4573,9 @@ public struct DetectLabelsOutput: Swift.Sendable {
 }
 
 /// The number of in-progress human reviews you have has exceeded the number allowed.
-public struct HumanLoopQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct HumanLoopQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         /// A universally unique identifier (UUID) for the request.
         public internal(set) var logref: Swift.String? = nil
@@ -4759,8 +4604,7 @@ public struct HumanLoopQuotaExceededException: ClientRuntime.ModeledError, AWSCl
         quotaCode: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.logref = logref
         self.properties.message = message
@@ -4779,8 +4623,7 @@ extension RekognitionClientTypes {
 
         public init(
             contentClassifiers: [RekognitionClientTypes.ContentClassifier]? = nil
-        )
-        {
+        ) {
             self.contentClassifiers = contentClassifiers
         }
     }
@@ -4803,8 +4646,7 @@ extension RekognitionClientTypes {
             dataAttributes: RekognitionClientTypes.HumanLoopDataAttributes? = nil,
             flowDefinitionArn: Swift.String? = nil,
             humanLoopName: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataAttributes = dataAttributes
             self.flowDefinitionArn = flowDefinitionArn
             self.humanLoopName = humanLoopName
@@ -4828,8 +4670,7 @@ public struct DetectModerationLabelsInput: Swift.Sendable {
         image: RekognitionClientTypes.Image? = nil,
         minConfidence: Swift.Float? = nil,
         projectVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.humanLoopConfig = humanLoopConfig
         self.image = image
         self.minConfidence = minConfidence
@@ -4852,8 +4693,7 @@ extension RekognitionClientTypes {
             humanLoopActivationConditionsEvaluationResults: Swift.String? = nil,
             humanLoopActivationReasons: [Swift.String]? = nil,
             humanLoopArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.humanLoopActivationConditionsEvaluationResults = humanLoopActivationConditionsEvaluationResults
             self.humanLoopActivationReasons = humanLoopActivationReasons
             self.humanLoopArn = humanLoopArn
@@ -4879,8 +4719,7 @@ public struct DetectModerationLabelsOutput: Swift.Sendable {
         moderationLabels: [RekognitionClientTypes.ModerationLabel]? = nil,
         moderationModelVersion: Swift.String? = nil,
         projectVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.contentTypes = contentTypes
         self.humanLoopActivationOutput = humanLoopActivationOutput
         self.moderationLabels = moderationLabels
@@ -4903,8 +4742,7 @@ extension RekognitionClientTypes {
         public init(
             minConfidence: Swift.Float? = nil,
             requiredEquipmentTypes: [RekognitionClientTypes.ProtectiveEquipmentType]? = nil
-        )
-        {
+        ) {
             self.minConfidence = minConfidence
             self.requiredEquipmentTypes = requiredEquipmentTypes
         }
@@ -4921,8 +4759,7 @@ public struct DetectProtectiveEquipmentInput: Swift.Sendable {
     public init(
         image: RekognitionClientTypes.Image? = nil,
         summarizationAttributes: RekognitionClientTypes.ProtectiveEquipmentSummarizationAttributes? = nil
-    )
-    {
+    ) {
         self.image = image
         self.summarizationAttributes = summarizationAttributes
     }
@@ -4946,8 +4783,7 @@ extension RekognitionClientTypes {
             boundingBox: RekognitionClientTypes.BoundingBox? = nil,
             confidence: Swift.Float? = nil,
             id: Swift.Int? = nil
-        )
-        {
+        ) {
             self.bodyParts = bodyParts
             self.boundingBox = boundingBox
             self.confidence = confidence
@@ -4971,8 +4807,7 @@ extension RekognitionClientTypes {
             personsIndeterminate: [Swift.Int]? = nil,
             personsWithRequiredEquipment: [Swift.Int]? = nil,
             personsWithoutRequiredEquipment: [Swift.Int]? = nil
-        )
-        {
+        ) {
             self.personsIndeterminate = personsIndeterminate
             self.personsWithRequiredEquipment = personsWithRequiredEquipment
             self.personsWithoutRequiredEquipment = personsWithoutRequiredEquipment
@@ -4992,8 +4827,7 @@ public struct DetectProtectiveEquipmentOutput: Swift.Sendable {
         persons: [RekognitionClientTypes.ProtectiveEquipmentPerson]? = nil,
         protectiveEquipmentModelVersion: Swift.String? = nil,
         summary: RekognitionClientTypes.ProtectiveEquipmentSummary? = nil
-    )
-    {
+    ) {
         self.persons = persons
         self.protectiveEquipmentModelVersion = protectiveEquipmentModelVersion
         self.summary = summary
@@ -5012,8 +4846,7 @@ extension RekognitionClientTypes {
         public init(
             regionsOfInterest: [RekognitionClientTypes.RegionOfInterest]? = nil,
             wordFilter: RekognitionClientTypes.DetectionFilter? = nil
-        )
-        {
+        ) {
             self.regionsOfInterest = regionsOfInterest
             self.wordFilter = wordFilter
         }
@@ -5030,8 +4863,7 @@ public struct DetectTextInput: Swift.Sendable {
     public init(
         filters: RekognitionClientTypes.DetectTextFilters? = nil,
         image: RekognitionClientTypes.Image? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.image = image
     }
@@ -5090,8 +4922,7 @@ extension RekognitionClientTypes {
             id: Swift.Int? = nil,
             parentId: Swift.Int? = nil,
             type: RekognitionClientTypes.TextTypes? = nil
-        )
-        {
+        ) {
             self.confidence = confidence
             self.detectedText = detectedText
             self.geometry = geometry
@@ -5111,8 +4942,7 @@ public struct DetectTextOutput: Swift.Sendable {
     public init(
         textDetections: [RekognitionClientTypes.TextDetection]? = nil,
         textModelVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.textDetections = textDetections
         self.textModelVersion = textModelVersion
     }
@@ -5127,8 +4957,7 @@ extension RekognitionClientTypes {
 
         public init(
             faceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.faceId = faceId
         }
     }
@@ -5152,8 +4981,7 @@ public struct DisassociateFacesInput: Swift.Sendable {
         collectionId: Swift.String? = nil,
         faceIds: [Swift.String]? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.collectionId = collectionId
         self.faceIds = faceIds
@@ -5205,8 +5033,7 @@ extension RekognitionClientTypes {
             faceId: Swift.String? = nil,
             reasons: [RekognitionClientTypes.UnsuccessfulFaceDisassociationReason]? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.faceId = faceId
             self.reasons = reasons
             self.userId = userId
@@ -5226,8 +5053,7 @@ public struct DisassociateFacesOutput: Swift.Sendable {
         disassociatedFaces: [RekognitionClientTypes.DisassociatedFace]? = nil,
         unsuccessfulFaceDisassociations: [RekognitionClientTypes.UnsuccessfulFaceDisassociation]? = nil,
         userStatus: RekognitionClientTypes.UserStatus? = nil
-    )
-    {
+    ) {
         self.disassociatedFaces = disassociatedFaces
         self.unsuccessfulFaceDisassociations = unsuccessfulFaceDisassociations
         self.userStatus = userStatus
@@ -5244,8 +5070,7 @@ extension RekognitionClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -5258,8 +5083,7 @@ public struct DistributeDatasetEntriesInput: Swift.Sendable {
 
     public init(
         datasets: [RekognitionClientTypes.DistributeDataset]? = nil
-    )
-    {
+    ) {
         self.datasets = datasets
     }
 }
@@ -5296,8 +5120,7 @@ extension RekognitionClientTypes {
             imageId: Swift.String? = nil,
             indexFacesModelVersion: Swift.String? = nil,
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.boundingBox = boundingBox
             self.confidence = confidence
             self.externalImageId = externalImageId
@@ -5350,8 +5173,7 @@ extension RekognitionClientTypes {
         public init(
             face: RekognitionClientTypes.FaceDetail? = nil,
             timestamp: Swift.Int = 0
-        )
-        {
+        ) {
             self.face = face
             self.timestamp = timestamp
         }
@@ -5370,8 +5192,7 @@ extension RekognitionClientTypes {
         public init(
             face: RekognitionClientTypes.Face? = nil,
             similarity: Swift.Float? = nil
-        )
-        {
+        ) {
             self.face = face
             self.similarity = similarity
         }
@@ -5390,8 +5211,7 @@ extension RekognitionClientTypes {
         public init(
             face: RekognitionClientTypes.Face? = nil,
             faceDetail: RekognitionClientTypes.FaceDetail? = nil
-        )
-        {
+        ) {
             self.face = face
             self.faceDetail = faceDetail
         }
@@ -5434,8 +5254,7 @@ public struct GetCelebrityInfoInput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -5452,8 +5271,7 @@ public struct GetCelebrityInfoOutput: Swift.Sendable {
         knownGender: RekognitionClientTypes.KnownGender? = nil,
         name: Swift.String? = nil,
         urls: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.knownGender = knownGender
         self.name = name
         self.urls = urls
@@ -5476,8 +5294,7 @@ public struct GetCelebrityRecognitionInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: RekognitionClientTypes.CelebrityRecognitionSortBy? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5526,8 +5343,7 @@ extension RekognitionClientTypes {
 
         public init(
             s3Object: RekognitionClientTypes.S3Object? = nil
-        )
-        {
+        ) {
             self.s3Object = s3Object
         }
     }
@@ -5589,8 +5405,7 @@ extension RekognitionClientTypes {
             frameHeight: Swift.Int? = nil,
             frameRate: Swift.Float? = nil,
             frameWidth: Swift.Int? = nil
-        )
-        {
+        ) {
             self.codec = codec
             self.colorRange = colorRange
             self.durationMillis = durationMillis
@@ -5629,8 +5444,7 @@ public struct GetCelebrityRecognitionOutput: Swift.Sendable {
         statusMessage: Swift.String? = nil,
         video: RekognitionClientTypes.Video? = nil,
         videoMetadata: RekognitionClientTypes.VideoMetadata? = nil
-    )
-    {
+    ) {
         self.celebrities = celebrities
         self.jobId = jobId
         self.jobStatus = jobStatus
@@ -5661,8 +5475,7 @@ public struct GetContentModerationInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: RekognitionClientTypes.ContentModerationSortBy? = nil
-    )
-    {
+    ) {
         self.aggregateBy = aggregateBy
         self.jobId = jobId
         self.maxResults = maxResults
@@ -5683,8 +5496,7 @@ extension RekognitionClientTypes {
         public init(
             aggregateBy: RekognitionClientTypes.ContentModerationAggregateBy? = nil,
             sortBy: RekognitionClientTypes.ContentModerationSortBy? = nil
-        )
-        {
+        ) {
             self.aggregateBy = aggregateBy
             self.sortBy = sortBy
         }
@@ -5724,8 +5536,7 @@ public struct GetContentModerationOutput: Swift.Sendable {
         statusMessage: Swift.String? = nil,
         video: RekognitionClientTypes.Video? = nil,
         videoMetadata: RekognitionClientTypes.VideoMetadata? = nil
-    )
-    {
+    ) {
         self.getRequestMetadata = getRequestMetadata
         self.jobId = jobId
         self.jobStatus = jobStatus
@@ -5752,8 +5563,7 @@ public struct GetFaceDetectionInput: Swift.Sendable {
         jobId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5787,8 +5597,7 @@ public struct GetFaceDetectionOutput: Swift.Sendable {
         statusMessage: Swift.String? = nil,
         video: RekognitionClientTypes.Video? = nil,
         videoMetadata: RekognitionClientTypes.VideoMetadata? = nil
-    )
-    {
+    ) {
         self.faces = faces
         self.jobId = jobId
         self.jobStatus = jobStatus
@@ -5801,9 +5610,9 @@ public struct GetFaceDetectionOutput: Swift.Sendable {
 }
 
 /// Occurs when a given sessionId is not found.
-public struct SessionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SessionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         /// A universally unique identifier (UUID) for the request.
         public internal(set) var logref: Swift.String? = nil
@@ -5823,8 +5632,7 @@ public struct SessionNotFoundException: ClientRuntime.ModeledError, AWSClientRun
         code: Swift.String? = nil,
         logref: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.logref = logref
         self.properties.message = message
@@ -5838,8 +5646,7 @@ public struct GetFaceLivenessSessionResultsInput: Swift.Sendable {
 
     public init(
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sessionId = sessionId
     }
 }
@@ -5902,8 +5709,7 @@ public struct GetFaceLivenessSessionResultsOutput: Swift.Sendable {
         referenceImage: RekognitionClientTypes.AuditImage? = nil,
         sessionId: Swift.String? = nil,
         status: RekognitionClientTypes.LivenessSessionStatus? = nil
-    )
-    {
+    ) {
         self.auditImages = auditImages
         self.confidence = confidence
         self.referenceImage = referenceImage
@@ -5928,8 +5734,7 @@ public struct GetFaceSearchInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: RekognitionClientTypes.FaceSearchSortBy? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5952,8 +5757,7 @@ extension RekognitionClientTypes {
             boundingBox: RekognitionClientTypes.BoundingBox? = nil,
             face: RekognitionClientTypes.FaceDetail? = nil,
             index: Swift.Int = 0
-        )
-        {
+        ) {
             self.boundingBox = boundingBox
             self.face = face
             self.index = index
@@ -5976,8 +5780,7 @@ extension RekognitionClientTypes {
             faceMatches: [RekognitionClientTypes.FaceMatch]? = nil,
             person: RekognitionClientTypes.PersonDetail? = nil,
             timestamp: Swift.Int = 0
-        )
-        {
+        ) {
             self.faceMatches = faceMatches
             self.person = person
             self.timestamp = timestamp
@@ -6012,8 +5815,7 @@ public struct GetFaceSearchOutput: Swift.Sendable {
         statusMessage: Swift.String? = nil,
         video: RekognitionClientTypes.Video? = nil,
         videoMetadata: RekognitionClientTypes.VideoMetadata? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.jobStatus = jobStatus
         self.jobTag = jobTag
@@ -6102,8 +5904,7 @@ public struct GetLabelDetectionInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: RekognitionClientTypes.LabelDetectionSortBy? = nil
-    )
-    {
+    ) {
         self.aggregateBy = aggregateBy
         self.jobId = jobId
         self.maxResults = maxResults
@@ -6124,8 +5925,7 @@ extension RekognitionClientTypes {
         public init(
             aggregateBy: RekognitionClientTypes.LabelDetectionAggregateBy? = nil,
             sortBy: RekognitionClientTypes.LabelDetectionSortBy? = nil
-        )
-        {
+        ) {
             self.aggregateBy = aggregateBy
             self.sortBy = sortBy
         }
@@ -6153,8 +5953,7 @@ extension RekognitionClientTypes {
             label: RekognitionClientTypes.Label? = nil,
             startTimestampMillis: Swift.Int? = nil,
             timestamp: Swift.Int = 0
-        )
-        {
+        ) {
             self.durationMillis = durationMillis
             self.endTimestampMillis = endTimestampMillis
             self.label = label
@@ -6197,8 +5996,7 @@ public struct GetLabelDetectionOutput: Swift.Sendable {
         statusMessage: Swift.String? = nil,
         video: RekognitionClientTypes.Video? = nil,
         videoMetadata: RekognitionClientTypes.VideoMetadata? = nil
-    )
-    {
+    ) {
         self.getRequestMetadata = getRequestMetadata
         self.jobId = jobId
         self.jobStatus = jobStatus
@@ -6219,8 +6017,7 @@ public struct GetMediaAnalysisJobInput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -6287,8 +6084,7 @@ extension RekognitionClientTypes {
         public init(
             code: RekognitionClientTypes.MediaAnalysisJobFailureCode? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -6305,8 +6101,7 @@ extension RekognitionClientTypes {
 
         public init(
             s3Object: RekognitionClientTypes.S3Object? = nil
-        )
-        {
+        ) {
             self.s3Object = s3Object
         }
     }
@@ -6321,8 +6116,7 @@ extension RekognitionClientTypes {
 
         public init(
             s3Object: RekognitionClientTypes.S3Object? = nil
-        )
-        {
+        ) {
             self.s3Object = s3Object
         }
     }
@@ -6340,8 +6134,7 @@ extension RekognitionClientTypes {
         public init(
             minConfidence: Swift.Float? = nil,
             projectVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.minConfidence = minConfidence
             self.projectVersion = projectVersion
         }
@@ -6357,8 +6150,7 @@ extension RekognitionClientTypes {
 
         public init(
             detectModerationLabels: RekognitionClientTypes.MediaAnalysisDetectModerationLabelsConfig? = nil
-        )
-        {
+        ) {
             self.detectModerationLabels = detectModerationLabels
         }
     }
@@ -6377,8 +6169,7 @@ extension RekognitionClientTypes {
         public init(
             s3Bucket: Swift.String? = nil,
             s3KeyPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Bucket = s3Bucket
             self.s3KeyPrefix = s3KeyPrefix
         }
@@ -6394,8 +6185,7 @@ extension RekognitionClientTypes {
 
         public init(
             moderation: Swift.String? = nil
-        )
-        {
+        ) {
             self.moderation = moderation
         }
     }
@@ -6413,8 +6203,7 @@ extension RekognitionClientTypes {
         public init(
             modelVersions: RekognitionClientTypes.MediaAnalysisModelVersions? = nil,
             s3Object: RekognitionClientTypes.S3Object? = nil
-        )
-        {
+        ) {
             self.modelVersions = modelVersions
             self.s3Object = s3Object
         }
@@ -6504,8 +6293,7 @@ public struct GetMediaAnalysisJobOutput: Swift.Sendable {
         outputConfig: RekognitionClientTypes.MediaAnalysisOutputConfig? = nil,
         results: RekognitionClientTypes.MediaAnalysisResults? = nil,
         status: RekognitionClientTypes.MediaAnalysisJobStatus? = nil
-    )
-    {
+    ) {
         self.completionTimestamp = completionTimestamp
         self.creationTimestamp = creationTimestamp
         self.failureDetails = failureDetails
@@ -6566,8 +6354,7 @@ public struct GetPersonTrackingInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: RekognitionClientTypes.PersonTrackingSortBy? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6587,8 +6374,7 @@ extension RekognitionClientTypes {
         public init(
             person: RekognitionClientTypes.PersonDetail? = nil,
             timestamp: Swift.Int = 0
-        )
-        {
+        ) {
             self.person = person
             self.timestamp = timestamp
         }
@@ -6622,8 +6408,7 @@ public struct GetPersonTrackingOutput: Swift.Sendable {
         statusMessage: Swift.String? = nil,
         video: RekognitionClientTypes.Video? = nil,
         videoMetadata: RekognitionClientTypes.VideoMetadata? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.jobStatus = jobStatus
         self.jobTag = jobTag
@@ -6648,8 +6433,7 @@ public struct GetSegmentDetectionInput: Swift.Sendable {
         jobId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6668,8 +6452,7 @@ extension RekognitionClientTypes {
         public init(
             confidence: Swift.Float? = nil,
             index: Swift.Int? = nil
-        )
-        {
+        ) {
             self.confidence = confidence
             self.index = index
         }
@@ -6732,8 +6515,7 @@ extension RekognitionClientTypes {
         public init(
             confidence: Swift.Float? = nil,
             type: RekognitionClientTypes.TechnicalCueType? = nil
-        )
-        {
+        ) {
             self.confidence = confidence
             self.type = type
         }
@@ -6811,8 +6593,7 @@ extension RekognitionClientTypes {
             startTimestampMillis: Swift.Int = 0,
             technicalCueSegment: RekognitionClientTypes.TechnicalCueSegment? = nil,
             type: RekognitionClientTypes.SegmentType? = nil
-        )
-        {
+        ) {
             self.durationFrames = durationFrames
             self.durationMillis = durationMillis
             self.durationSMPTE = durationSMPTE
@@ -6841,8 +6622,7 @@ extension RekognitionClientTypes {
         public init(
             modelVersion: Swift.String? = nil,
             type: RekognitionClientTypes.SegmentType? = nil
-        )
-        {
+        ) {
             self.modelVersion = modelVersion
             self.type = type
         }
@@ -6882,8 +6662,7 @@ public struct GetSegmentDetectionOutput: Swift.Sendable {
         statusMessage: Swift.String? = nil,
         video: RekognitionClientTypes.Video? = nil,
         videoMetadata: [RekognitionClientTypes.VideoMetadata]? = nil
-    )
-    {
+    ) {
         self.audioMetadata = audioMetadata
         self.jobId = jobId
         self.jobStatus = jobStatus
@@ -6910,8 +6689,7 @@ public struct GetTextDetectionInput: Swift.Sendable {
         jobId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6930,8 +6708,7 @@ extension RekognitionClientTypes {
         public init(
             textDetection: RekognitionClientTypes.TextDetection? = nil,
             timestamp: Swift.Int = 0
-        )
-        {
+        ) {
             self.textDetection = textDetection
             self.timestamp = timestamp
         }
@@ -6968,8 +6745,7 @@ public struct GetTextDetectionOutput: Swift.Sendable {
         textModelVersion: Swift.String? = nil,
         video: RekognitionClientTypes.Video? = nil,
         videoMetadata: RekognitionClientTypes.VideoMetadata? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.jobStatus = jobStatus
         self.jobTag = jobTag
@@ -7005,8 +6781,7 @@ public struct IndexFacesInput: Swift.Sendable {
         image: RekognitionClientTypes.Image? = nil,
         maxFaces: Swift.Int? = nil,
         qualityFilter: RekognitionClientTypes.QualityFilter? = nil
-    )
-    {
+    ) {
         self.collectionId = collectionId
         self.detectionAttributes = detectionAttributes
         self.externalImageId = externalImageId
@@ -7084,8 +6859,7 @@ extension RekognitionClientTypes {
         public init(
             faceDetail: RekognitionClientTypes.FaceDetail? = nil,
             reasons: [RekognitionClientTypes.Reason]? = nil
-        )
-        {
+        ) {
             self.faceDetail = faceDetail
             self.reasons = reasons
         }
@@ -7114,8 +6888,7 @@ public struct IndexFacesOutput: Swift.Sendable {
         faceRecords: [RekognitionClientTypes.FaceRecord]? = nil,
         orientationCorrection: RekognitionClientTypes.OrientationCorrection? = nil,
         unindexedFaces: [RekognitionClientTypes.UnindexedFace]? = nil
-    )
-    {
+    ) {
         self.faceModelVersion = faceModelVersion
         self.faceRecords = faceRecords
         self.orientationCorrection = orientationCorrection
@@ -7124,9 +6897,9 @@ public struct IndexFacesOutput: Swift.Sendable {
 }
 
 /// Indicates that a provided manifest file is empty or larger than the allowed limit.
-public struct InvalidManifestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidManifestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         /// A universally unique identifier (UUID) for the request.
         public internal(set) var logref: Swift.String? = nil
@@ -7146,8 +6919,7 @@ public struct InvalidManifestException: ClientRuntime.ModeledError, AWSClientRun
         code: Swift.String? = nil,
         logref: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.logref = logref
         self.properties.message = message
@@ -7166,8 +6938,7 @@ extension RekognitionClientTypes {
         public init(
             fragmentNumber: Swift.String? = nil,
             producerTimestamp: Swift.Int? = nil
-        )
-        {
+        ) {
             self.fragmentNumber = fragmentNumber
             self.producerTimestamp = producerTimestamp
         }
@@ -7209,8 +6980,7 @@ extension RekognitionClientTypes {
 
         public init(
             generalLabels: RekognitionClientTypes.GeneralLabelsSettings? = nil
-        )
-        {
+        ) {
             self.generalLabels = generalLabels
         }
     }
@@ -7225,8 +6995,7 @@ public struct ListCollectionsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -7244,8 +7013,7 @@ public struct ListCollectionsOutput: Swift.Sendable {
         collectionIds: [Swift.String]? = nil,
         faceModelVersions: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.collectionIds = collectionIds
         self.faceModelVersions = faceModelVersions
         self.nextToken = nextToken
@@ -7277,8 +7045,7 @@ public struct ListDatasetEntriesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sourceRefContains: Swift.String? = nil
-    )
-    {
+    ) {
         self.containsLabels = containsLabels
         self.datasetArn = datasetArn
         self.hasErrors = hasErrors
@@ -7298,8 +7065,7 @@ public struct ListDatasetEntriesOutput: Swift.Sendable {
     public init(
         datasetEntries: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetEntries = datasetEntries
         self.nextToken = nextToken
     }
@@ -7318,8 +7084,7 @@ public struct ListDatasetLabelsInput: Swift.Sendable {
         datasetArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetArn = datasetArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7335,8 +7100,7 @@ public struct ListDatasetLabelsOutput: Swift.Sendable {
     public init(
         datasetLabelDescriptions: [RekognitionClientTypes.DatasetLabelDescription]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.datasetLabelDescriptions = datasetLabelDescriptions
         self.nextToken = nextToken
     }
@@ -7361,8 +7125,7 @@ public struct ListFacesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         userId: Swift.String? = nil
-    )
-    {
+    ) {
         self.collectionId = collectionId
         self.faceIds = faceIds
         self.maxResults = maxResults
@@ -7383,8 +7146,7 @@ public struct ListFacesOutput: Swift.Sendable {
         faceModelVersion: Swift.String? = nil,
         faces: [RekognitionClientTypes.Face]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.faceModelVersion = faceModelVersion
         self.faces = faces
         self.nextToken = nextToken
@@ -7400,8 +7162,7 @@ public struct ListMediaAnalysisJobsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -7455,8 +7216,7 @@ extension RekognitionClientTypes {
             outputConfig: RekognitionClientTypes.MediaAnalysisOutputConfig? = nil,
             results: RekognitionClientTypes.MediaAnalysisResults? = nil,
             status: RekognitionClientTypes.MediaAnalysisJobStatus? = nil
-        )
-        {
+        ) {
             self.completionTimestamp = completionTimestamp
             self.creationTimestamp = creationTimestamp
             self.failureDetails = failureDetails
@@ -7483,8 +7243,7 @@ public struct ListMediaAnalysisJobsOutput: Swift.Sendable {
     public init(
         mediaAnalysisJobs: [RekognitionClientTypes.MediaAnalysisJobDescription]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.mediaAnalysisJobs = mediaAnalysisJobs
         self.nextToken = nextToken
     }
@@ -7503,8 +7262,7 @@ public struct ListProjectPoliciesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         projectArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.projectArn = projectArn
@@ -7535,8 +7293,7 @@ extension RekognitionClientTypes {
             policyName: Swift.String? = nil,
             policyRevisionId: Swift.String? = nil,
             projectArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTimestamp = creationTimestamp
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
             self.policyDocument = policyDocument
@@ -7556,8 +7313,7 @@ public struct ListProjectPoliciesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         projectPolicies: [RekognitionClientTypes.ProjectPolicy]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.projectPolicies = projectPolicies
     }
@@ -7572,8 +7328,7 @@ public struct ListStreamProcessorsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -7591,8 +7346,7 @@ extension RekognitionClientTypes {
         public init(
             name: Swift.String? = nil,
             status: RekognitionClientTypes.StreamProcessorStatus? = nil
-        )
-        {
+        ) {
             self.name = name
             self.status = status
         }
@@ -7608,8 +7362,7 @@ public struct ListStreamProcessorsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         streamProcessors: [RekognitionClientTypes.StreamProcessor]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.streamProcessors = streamProcessors
     }
@@ -7622,8 +7375,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -7634,8 +7386,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -7653,8 +7404,7 @@ public struct ListUsersInput: Swift.Sendable {
         collectionId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.collectionId = collectionId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7673,8 +7423,7 @@ extension RekognitionClientTypes {
         public init(
             userId: Swift.String? = nil,
             userStatus: RekognitionClientTypes.UserStatus? = nil
-        )
-        {
+        ) {
             self.userId = userId
             self.userStatus = userStatus
         }
@@ -7690,17 +7439,16 @@ public struct ListUsersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         users: [RekognitionClientTypes.User]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.users = users
     }
 }
 
 /// The format of the project policy document that you supplied to PutProjectPolicy is incorrect.
-public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         /// A universally unique identifier (UUID) for the request.
         public internal(set) var logref: Swift.String? = nil
@@ -7720,8 +7468,7 @@ public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSC
         code: Swift.String? = nil,
         logref: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.logref = logref
         self.properties.message = message
@@ -7740,8 +7487,7 @@ extension RekognitionClientTypes {
         public init(
             userId: Swift.String? = nil,
             userStatus: RekognitionClientTypes.UserStatus? = nil
-        )
-        {
+        ) {
             self.userId = userId
             self.userStatus = userStatus
         }
@@ -7762,8 +7508,7 @@ extension RekognitionClientTypes {
         public init(
             roleArn: Swift.String? = nil,
             snsTopicArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.roleArn = roleArn
             self.snsTopicArn = snsTopicArn
         }
@@ -7788,8 +7533,7 @@ public struct PutProjectPolicyInput: Swift.Sendable {
         policyName: Swift.String? = nil,
         policyRevisionId: Swift.String? = nil,
         projectArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyDocument = policyDocument
         self.policyName = policyName
         self.policyRevisionId = policyRevisionId
@@ -7803,8 +7547,7 @@ public struct PutProjectPolicyOutput: Swift.Sendable {
 
     public init(
         policyRevisionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyRevisionId = policyRevisionId
     }
 }
@@ -7816,8 +7559,7 @@ public struct RecognizeCelebritiesInput: Swift.Sendable {
 
     public init(
         image: RekognitionClientTypes.Image? = nil
-    )
-    {
+    ) {
         self.image = image
     }
 }
@@ -7834,8 +7576,7 @@ public struct RecognizeCelebritiesOutput: Swift.Sendable {
         celebrityFaces: [RekognitionClientTypes.Celebrity]? = nil,
         orientationCorrection: RekognitionClientTypes.OrientationCorrection? = nil,
         unrecognizedFaces: [RekognitionClientTypes.ComparedFace]? = nil
-    )
-    {
+    ) {
         self.celebrityFaces = celebrityFaces
         self.orientationCorrection = orientationCorrection
         self.unrecognizedFaces = unrecognizedFaces
@@ -7859,8 +7600,7 @@ public struct SearchFacesInput: Swift.Sendable {
         faceId: Swift.String? = nil,
         faceMatchThreshold: Swift.Float? = nil,
         maxFaces: Swift.Int? = nil
-    )
-    {
+    ) {
         self.collectionId = collectionId
         self.faceId = faceId
         self.faceMatchThreshold = faceMatchThreshold
@@ -7880,8 +7620,7 @@ public struct SearchFacesOutput: Swift.Sendable {
         faceMatches: [RekognitionClientTypes.FaceMatch]? = nil,
         faceModelVersion: Swift.String? = nil,
         searchedFaceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.faceMatches = faceMatches
         self.faceModelVersion = faceModelVersion
         self.searchedFaceId = searchedFaceId
@@ -7908,8 +7647,7 @@ public struct SearchFacesByImageInput: Swift.Sendable {
         image: RekognitionClientTypes.Image? = nil,
         maxFaces: Swift.Int? = nil,
         qualityFilter: RekognitionClientTypes.QualityFilter? = nil
-    )
-    {
+    ) {
         self.collectionId = collectionId
         self.faceMatchThreshold = faceMatchThreshold
         self.image = image
@@ -7933,8 +7671,7 @@ public struct SearchFacesByImageOutput: Swift.Sendable {
         faceModelVersion: Swift.String? = nil,
         searchedFaceBoundingBox: RekognitionClientTypes.BoundingBox? = nil,
         searchedFaceConfidence: Swift.Float? = nil
-    )
-    {
+    ) {
         self.faceMatches = faceMatches
         self.faceModelVersion = faceModelVersion
         self.searchedFaceBoundingBox = searchedFaceBoundingBox
@@ -7961,8 +7698,7 @@ public struct SearchUsersInput: Swift.Sendable {
         maxUsers: Swift.Int? = nil,
         userId: Swift.String? = nil,
         userMatchThreshold: Swift.Float? = nil
-    )
-    {
+    ) {
         self.collectionId = collectionId
         self.faceId = faceId
         self.maxUsers = maxUsers
@@ -7980,8 +7716,7 @@ extension RekognitionClientTypes {
 
         public init(
             faceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.faceId = faceId
         }
     }
@@ -7996,8 +7731,7 @@ extension RekognitionClientTypes {
 
         public init(
             userId: Swift.String? = nil
-        )
-        {
+        ) {
             self.userId = userId
         }
     }
@@ -8015,8 +7749,7 @@ extension RekognitionClientTypes {
         public init(
             similarity: Swift.Float? = nil,
             user: RekognitionClientTypes.MatchedUser? = nil
-        )
-        {
+        ) {
             self.similarity = similarity
             self.user = user
         }
@@ -8038,8 +7771,7 @@ public struct SearchUsersOutput: Swift.Sendable {
         searchedFace: RekognitionClientTypes.SearchedFace? = nil,
         searchedUser: RekognitionClientTypes.SearchedUser? = nil,
         userMatches: [RekognitionClientTypes.UserMatch]? = nil
-    )
-    {
+    ) {
         self.faceModelVersion = faceModelVersion
         self.searchedFace = searchedFace
         self.searchedUser = searchedUser
@@ -8067,8 +7799,7 @@ public struct SearchUsersByImageInput: Swift.Sendable {
         maxUsers: Swift.Int? = nil,
         qualityFilter: RekognitionClientTypes.QualityFilter? = nil,
         userMatchThreshold: Swift.Float? = nil
-    )
-    {
+    ) {
         self.collectionId = collectionId
         self.image = image
         self.maxUsers = maxUsers
@@ -8095,8 +7826,7 @@ extension RekognitionClientTypes {
 
         public init(
             faceDetail: RekognitionClientTypes.FaceDetail? = nil
-        )
-        {
+        ) {
             self.faceDetail = faceDetail
         }
     }
@@ -8170,8 +7900,7 @@ extension RekognitionClientTypes {
         public init(
             faceDetails: RekognitionClientTypes.FaceDetail? = nil,
             reasons: [RekognitionClientTypes.UnsearchedFaceReason]? = nil
-        )
-        {
+        ) {
             self.faceDetails = faceDetails
             self.reasons = reasons
         }
@@ -8193,8 +7922,7 @@ public struct SearchUsersByImageOutput: Swift.Sendable {
         searchedFace: RekognitionClientTypes.SearchedFaceDetails? = nil,
         unsearchedFaces: [RekognitionClientTypes.UnsearchedFace]? = nil,
         userMatches: [RekognitionClientTypes.UserMatch]? = nil
-    )
-    {
+    ) {
         self.faceModelVersion = faceModelVersion
         self.searchedFace = searchedFace
         self.unsearchedFaces = unsearchedFaces
@@ -8203,9 +7931,9 @@ public struct SearchUsersByImageOutput: Swift.Sendable {
 }
 
 /// The file size or duration of the supplied media is too large. The maximum file size is 10GB. The maximum duration is 6 hours.
-public struct VideoTooLargeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct VideoTooLargeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         /// A universally unique identifier (UUID) for the request.
         public internal(set) var logref: Swift.String? = nil
@@ -8225,8 +7953,7 @@ public struct VideoTooLargeException: ClientRuntime.ModeledError, AWSClientRunti
         code: Swift.String? = nil,
         logref: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.logref = logref
         self.properties.message = message
@@ -8249,8 +7976,7 @@ public struct StartCelebrityRecognitionInput: Swift.Sendable {
         jobTag: Swift.String? = nil,
         notificationChannel: RekognitionClientTypes.NotificationChannel? = nil,
         video: RekognitionClientTypes.Video? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.jobTag = jobTag
         self.notificationChannel = notificationChannel
@@ -8264,8 +7990,7 @@ public struct StartCelebrityRecognitionOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -8289,8 +8014,7 @@ public struct StartContentModerationInput: Swift.Sendable {
         minConfidence: Swift.Float? = nil,
         notificationChannel: RekognitionClientTypes.NotificationChannel? = nil,
         video: RekognitionClientTypes.Video? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.jobTag = jobTag
         self.minConfidence = minConfidence
@@ -8305,8 +8029,7 @@ public struct StartContentModerationOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -8330,8 +8053,7 @@ public struct StartFaceDetectionInput: Swift.Sendable {
         jobTag: Swift.String? = nil,
         notificationChannel: RekognitionClientTypes.NotificationChannel? = nil,
         video: RekognitionClientTypes.Video? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.faceAttributes = faceAttributes
         self.jobTag = jobTag
@@ -8346,8 +8068,7 @@ public struct StartFaceDetectionOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -8375,8 +8096,7 @@ public struct StartFaceSearchInput: Swift.Sendable {
         jobTag: Swift.String? = nil,
         notificationChannel: RekognitionClientTypes.NotificationChannel? = nil,
         video: RekognitionClientTypes.Video? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.collectionId = collectionId
         self.faceMatchThreshold = faceMatchThreshold
@@ -8392,8 +8112,7 @@ public struct StartFaceSearchOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -8423,8 +8142,7 @@ public struct StartLabelDetectionInput: Swift.Sendable {
         notificationChannel: RekognitionClientTypes.NotificationChannel? = nil,
         settings: RekognitionClientTypes.LabelDetectionSettings? = nil,
         video: RekognitionClientTypes.Video? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.features = features
         self.jobTag = jobTag
@@ -8441,8 +8159,7 @@ public struct StartLabelDetectionOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -8471,8 +8188,7 @@ public struct StartMediaAnalysisJobInput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         operationsConfig: RekognitionClientTypes.MediaAnalysisOperationsConfig? = nil,
         outputConfig: RekognitionClientTypes.MediaAnalysisOutputConfig? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.input = input
         self.jobName = jobName
@@ -8489,8 +8205,7 @@ public struct StartMediaAnalysisJobOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -8511,8 +8226,7 @@ public struct StartPersonTrackingInput: Swift.Sendable {
         jobTag: Swift.String? = nil,
         notificationChannel: RekognitionClientTypes.NotificationChannel? = nil,
         video: RekognitionClientTypes.Video? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.jobTag = jobTag
         self.notificationChannel = notificationChannel
@@ -8526,8 +8240,7 @@ public struct StartPersonTrackingOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -8546,8 +8259,7 @@ public struct StartProjectVersionInput: Swift.Sendable {
         maxInferenceUnits: Swift.Int? = nil,
         minInferenceUnits: Swift.Int? = nil,
         projectVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxInferenceUnits = maxInferenceUnits
         self.minInferenceUnits = minInferenceUnits
         self.projectVersionArn = projectVersionArn
@@ -8560,8 +8272,7 @@ public struct StartProjectVersionOutput: Swift.Sendable {
 
     public init(
         status: RekognitionClientTypes.ProjectVersionStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -8575,8 +8286,7 @@ extension RekognitionClientTypes {
 
         public init(
             minSegmentConfidence: Swift.Float? = nil
-        )
-        {
+        ) {
             self.minSegmentConfidence = minSegmentConfidence
         }
     }
@@ -8594,8 +8304,7 @@ extension RekognitionClientTypes {
         public init(
             blackFrame: RekognitionClientTypes.BlackFrame? = nil,
             minSegmentConfidence: Swift.Float? = nil
-        )
-        {
+        ) {
             self.blackFrame = blackFrame
             self.minSegmentConfidence = minSegmentConfidence
         }
@@ -8614,8 +8323,7 @@ extension RekognitionClientTypes {
         public init(
             shotFilter: RekognitionClientTypes.StartShotDetectionFilter? = nil,
             technicalCueFilter: RekognitionClientTypes.StartTechnicalCueDetectionFilter? = nil
-        )
-        {
+        ) {
             self.shotFilter = shotFilter
             self.technicalCueFilter = technicalCueFilter
         }
@@ -8645,8 +8353,7 @@ public struct StartSegmentDetectionInput: Swift.Sendable {
         notificationChannel: RekognitionClientTypes.NotificationChannel? = nil,
         segmentTypes: [RekognitionClientTypes.SegmentType]? = nil,
         video: RekognitionClientTypes.Video? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.filters = filters
         self.jobTag = jobTag
@@ -8662,8 +8369,7 @@ public struct StartSegmentDetectionOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -8677,8 +8383,7 @@ extension RekognitionClientTypes {
 
         public init(
             kvsStreamStartSelector: RekognitionClientTypes.KinesisVideoStreamStartSelector? = nil
-        )
-        {
+        ) {
             self.kvsStreamStartSelector = kvsStreamStartSelector
         }
     }
@@ -8693,8 +8398,7 @@ extension RekognitionClientTypes {
 
         public init(
             maxDurationInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxDurationInSeconds = maxDurationInSeconds
         }
     }
@@ -8713,8 +8417,7 @@ public struct StartStreamProcessorInput: Swift.Sendable {
         name: Swift.String? = nil,
         startSelector: RekognitionClientTypes.StreamProcessingStartSelector? = nil,
         stopSelector: RekognitionClientTypes.StreamProcessingStopSelector? = nil
-    )
-    {
+    ) {
         self.name = name
         self.startSelector = startSelector
         self.stopSelector = stopSelector
@@ -8727,8 +8430,7 @@ public struct StartStreamProcessorOutput: Swift.Sendable {
 
     public init(
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.sessionId = sessionId
     }
 }
@@ -8745,8 +8447,7 @@ extension RekognitionClientTypes {
         public init(
             regionsOfInterest: [RekognitionClientTypes.RegionOfInterest]? = nil,
             wordFilter: RekognitionClientTypes.DetectionFilter? = nil
-        )
-        {
+        ) {
             self.regionsOfInterest = regionsOfInterest
             self.wordFilter = wordFilter
         }
@@ -8772,8 +8473,7 @@ public struct StartTextDetectionInput: Swift.Sendable {
         jobTag: Swift.String? = nil,
         notificationChannel: RekognitionClientTypes.NotificationChannel? = nil,
         video: RekognitionClientTypes.Video? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.filters = filters
         self.jobTag = jobTag
@@ -8788,8 +8488,7 @@ public struct StartTextDetectionOutput: Swift.Sendable {
 
     public init(
         jobId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
     }
 }
@@ -8801,8 +8500,7 @@ public struct StopProjectVersionInput: Swift.Sendable {
 
     public init(
         projectVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.projectVersionArn = projectVersionArn
     }
 }
@@ -8813,8 +8511,7 @@ public struct StopProjectVersionOutput: Swift.Sendable {
 
     public init(
         status: RekognitionClientTypes.ProjectVersionStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -8826,8 +8523,7 @@ public struct StopStreamProcessorInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -8848,8 +8544,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -8871,8 +8566,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -8894,8 +8588,7 @@ public struct UpdateDatasetEntriesInput: Swift.Sendable {
     public init(
         changes: RekognitionClientTypes.DatasetChanges? = nil,
         datasetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.changes = changes
         self.datasetArn = datasetArn
     }
@@ -8944,8 +8637,7 @@ extension RekognitionClientTypes {
 
         public init(
             connectedHomeForUpdate: RekognitionClientTypes.ConnectedHomeSettingsForUpdate? = nil
-        )
-        {
+        ) {
             self.connectedHomeForUpdate = connectedHomeForUpdate
         }
     }
@@ -8970,8 +8662,7 @@ public struct UpdateStreamProcessorInput: Swift.Sendable {
         parametersToDelete: [RekognitionClientTypes.StreamProcessorParameterToDelete]? = nil,
         regionsOfInterestForUpdate: [RekognitionClientTypes.RegionOfInterest]? = nil,
         settingsForUpdate: RekognitionClientTypes.StreamProcessorSettingsForUpdate? = nil
-    )
-    {
+    ) {
         self.dataSharingPreferenceForUpdate = dataSharingPreferenceForUpdate
         self.name = name
         self.parametersToDelete = parametersToDelete

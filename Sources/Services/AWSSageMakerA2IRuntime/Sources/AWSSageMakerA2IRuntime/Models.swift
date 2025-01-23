@@ -28,9 +28,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// We couldn't process your request because of an issue with the server. Try again later.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -45,16 +45,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// We couldn't find the requested resource. Check that your resources exists and were created in the same AWS Region as your request, and try your request again.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -69,16 +68,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You exceeded the maximum number of requests.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -93,16 +91,15 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request isn't valid. Check the syntax and try again.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -117,8 +114,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -130,8 +126,7 @@ public struct DeleteHumanLoopInput: Swift.Sendable {
 
     public init(
         humanLoopName: Swift.String? = nil
-    )
-    {
+    ) {
         self.humanLoopName = humanLoopName
     }
 }
@@ -148,8 +143,7 @@ public struct DescribeHumanLoopInput: Swift.Sendable {
 
     public init(
         humanLoopName: Swift.String? = nil
-    )
-    {
+    ) {
         self.humanLoopName = humanLoopName
     }
 }
@@ -164,8 +158,7 @@ extension SageMakerA2IRuntimeClientTypes {
 
         public init(
             outputS3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.outputS3Uri = outputS3Uri
         }
     }
@@ -241,8 +234,7 @@ public struct DescribeHumanLoopOutput: Swift.Sendable {
         humanLoopName: Swift.String? = nil,
         humanLoopOutput: SageMakerA2IRuntimeClientTypes.HumanLoopOutput? = nil,
         humanLoopStatus: SageMakerA2IRuntimeClientTypes.HumanLoopStatus? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.failureCode = failureCode
         self.failureReason = failureReason
@@ -305,8 +297,7 @@ public struct ListHumanLoopsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortOrder: SageMakerA2IRuntimeClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.flowDefinitionArn = flowDefinitionArn
@@ -337,8 +328,7 @@ extension SageMakerA2IRuntimeClientTypes {
             flowDefinitionArn: Swift.String? = nil,
             humanLoopName: Swift.String? = nil,
             humanLoopStatus: SageMakerA2IRuntimeClientTypes.HumanLoopStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.failureReason = failureReason
             self.flowDefinitionArn = flowDefinitionArn
@@ -358,17 +348,16 @@ public struct ListHumanLoopsOutput: Swift.Sendable {
     public init(
         humanLoopSummaries: [SageMakerA2IRuntimeClientTypes.HumanLoopSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.humanLoopSummaries = humanLoopSummaries
         self.nextToken = nextToken
     }
 }
 
 /// Your request has the same name as another active human loop but has different input data. You cannot start two human loops with the same name and different input data.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -383,16 +372,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You exceeded your service quota. Service quotas, also referred to as limits, are the maximum number of service resources or operations for your AWS account. For a list of Amazon A2I service quotes, see [Amazon Augmented AI Service Quotes](https://docs.aws.amazon.com/general/latest/gr/a2i.html). Delete some resources or request an increase in your service quota. You can request a quota increase using Service Quotas or the AWS Support Center. To request an increase, see [AWS Service Quotas](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) in the AWS General Reference.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -407,8 +395,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -452,8 +439,7 @@ extension SageMakerA2IRuntimeClientTypes {
 
         public init(
             contentClassifiers: [SageMakerA2IRuntimeClientTypes.ContentClassifier]? = nil
-        )
-        {
+        ) {
             self.contentClassifiers = contentClassifiers
         }
     }
@@ -469,8 +455,7 @@ extension SageMakerA2IRuntimeClientTypes {
 
         public init(
             inputContent: Swift.String? = nil
-        )
-        {
+        ) {
             self.inputContent = inputContent
         }
     }
@@ -494,8 +479,7 @@ public struct StartHumanLoopInput: Swift.Sendable {
         flowDefinitionArn: Swift.String? = nil,
         humanLoopInput: SageMakerA2IRuntimeClientTypes.HumanLoopInput? = nil,
         humanLoopName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataAttributes = dataAttributes
         self.flowDefinitionArn = flowDefinitionArn
         self.humanLoopInput = humanLoopInput
@@ -509,8 +493,7 @@ public struct StartHumanLoopOutput: Swift.Sendable {
 
     public init(
         humanLoopArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.humanLoopArn = humanLoopArn
     }
 }
@@ -522,8 +505,7 @@ public struct StopHumanLoopInput: Swift.Sendable {
 
     public init(
         humanLoopName: Swift.String? = nil
-    )
-    {
+    ) {
         self.humanLoopName = humanLoopName
     }
 }

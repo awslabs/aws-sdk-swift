@@ -30,9 +30,9 @@ import struct SmithyHTTPAPI.Headers
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -48,8 +48,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -72,8 +71,7 @@ extension BillingconductorClientTypes {
             accountId: Swift.String? = nil,
             accountName: Swift.String? = nil,
             billingGroupArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountEmail = accountEmail
             self.accountId = accountId
             self.accountName = accountName
@@ -100,8 +98,7 @@ extension BillingconductorClientTypes {
         public init(
             autoAssociate: Swift.Bool? = nil,
             linkedAccountIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.autoAssociate = autoAssociate
             self.linkedAccountIds = linkedAccountIds
         }
@@ -147,9 +144,9 @@ extension BillingconductorClientTypes {
 }
 
 /// You can cause an inconsistent state by updating or deleting a resource.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Reason for the inconsistent state.
@@ -176,8 +173,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         reason: BillingconductorClientTypes.ConflictExceptionReason? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
         self.properties.resourceId = resourceId
@@ -186,9 +182,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// An unexpected error occurred while processing a request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Number of seconds you can retry after the call.
@@ -207,17 +203,16 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int = 0
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
 }
 
 /// The request references a resource that doesn't exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Resource identifier that was not found.
@@ -241,8 +236,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -250,9 +244,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The request would cause a service limit to exceed.
-public struct ServiceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The unique code identifier of the service limit that is being exceeded.
         /// This member is required.
         public internal(set) var limitCode: Swift.String? = nil
@@ -282,8 +276,7 @@ public struct ServiceLimitExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.limitCode = limitCode
         self.properties.message = message
         self.properties.resourceId = resourceId
@@ -293,9 +286,9 @@ public struct ServiceLimitExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Number of seconds you can safely retry after the call.
@@ -314,8 +307,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int = 0
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -335,8 +327,7 @@ extension BillingconductorClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -547,9 +538,9 @@ extension BillingconductorClientTypes {
 }
 
 /// The input doesn't match with the constraints specified by Amazon Web Services.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The fields that caused the error, if applicable.
         public internal(set) var fields: [BillingconductorClientTypes.ValidationExceptionField]? = nil
         /// This member is required.
@@ -571,8 +562,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fields: [BillingconductorClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: BillingconductorClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fields = fields
         self.properties.message = message
         self.properties.reason = reason
@@ -590,8 +580,7 @@ public struct AssociateAccountsInput: Swift.Sendable {
     public init(
         accountIds: [Swift.String]? = nil,
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.arn = arn
     }
@@ -603,8 +592,7 @@ public struct AssociateAccountsOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -620,8 +608,7 @@ public struct AssociatePricingRulesInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         pricingRuleArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.pricingRuleArns = pricingRuleArns
     }
@@ -633,8 +620,7 @@ public struct AssociatePricingRulesOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -689,8 +675,7 @@ extension BillingconductorClientTypes {
         public init(
             message: Swift.String? = nil,
             reason: BillingconductorClientTypes.AssociateResourceErrorReason? = nil
-        )
-        {
+        ) {
             self.message = message
             self.reason = reason
         }
@@ -709,8 +694,7 @@ extension BillingconductorClientTypes {
         public init(
             arn: Swift.String? = nil,
             error: BillingconductorClientTypes.AssociateResourceError? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.error = error
         }
@@ -729,8 +713,7 @@ extension BillingconductorClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -747,8 +730,7 @@ extension BillingconductorClientTypes {
 
         public init(
             pricingPlanArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.pricingPlanArn = pricingPlanArn
         }
     }
@@ -781,8 +763,7 @@ public struct CreateBillingGroupInput: Swift.Sendable {
         name: Swift.String? = nil,
         primaryAccountId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountGrouping = accountGrouping
         self.clientToken = clientToken
         self.computationPreference = computationPreference
@@ -804,8 +785,7 @@ public struct CreateBillingGroupOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -817,8 +797,7 @@ public struct DeleteBillingGroupInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -829,8 +808,7 @@ public struct DeleteBillingGroupOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -846,8 +824,7 @@ public struct DisassociateAccountsInput: Swift.Sendable {
     public init(
         accountIds: [Swift.String]? = nil,
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.arn = arn
     }
@@ -859,8 +836,7 @@ public struct DisassociateAccountsOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -912,8 +888,7 @@ extension BillingconductorClientTypes {
             autoAssociate: Swift.Bool? = nil,
             pricingPlan: Swift.String? = nil,
             statuses: [BillingconductorClientTypes.BillingGroupStatus]? = nil
-        )
-        {
+        ) {
             self.arns = arns
             self.autoAssociate = autoAssociate
             self.pricingPlan = pricingPlan
@@ -937,8 +912,7 @@ public struct ListBillingGroupsInput: Swift.Sendable {
         filters: BillingconductorClientTypes.ListBillingGroupsFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.billingPeriod = billingPeriod
         self.filters = filters
         self.maxResults = maxResults
@@ -955,8 +929,7 @@ extension BillingconductorClientTypes {
 
         public init(
             autoAssociate: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.autoAssociate = autoAssociate
         }
     }
@@ -1001,8 +974,7 @@ extension BillingconductorClientTypes {
             size: Swift.Int = 0,
             status: BillingconductorClientTypes.BillingGroupStatus? = nil,
             statusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountGrouping = accountGrouping
             self.arn = arn
             self.computationPreference = computationPreference
@@ -1032,8 +1004,7 @@ public struct ListBillingGroupsOutput: Swift.Sendable {
     public init(
         billingGroups: [BillingconductorClientTypes.BillingGroupListElement]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.billingGroups = billingGroups
         self.nextToken = nextToken
     }
@@ -1048,8 +1019,7 @@ extension BillingconductorClientTypes {
 
         public init(
             autoAssociate: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.autoAssociate = autoAssociate
         }
     }
@@ -1077,8 +1047,7 @@ public struct UpdateBillingGroupInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         status: BillingconductorClientTypes.BillingGroupStatus? = nil
-    )
-    {
+    ) {
         self.accountGrouping = accountGrouping
         self.arn = arn
         self.computationPreference = computationPreference
@@ -1126,8 +1095,7 @@ public struct UpdateBillingGroupOutput: Swift.Sendable {
         size: Swift.Int = 0,
         status: BillingconductorClientTypes.BillingGroupStatus? = nil,
         statusReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountGrouping = accountGrouping
         self.arn = arn
         self.description = description
@@ -1159,8 +1127,7 @@ extension BillingconductorClientTypes {
         public init(
             exclusiveEndBillingPeriod: Swift.String? = nil,
             inclusiveStartBillingPeriod: Swift.String? = nil
-        )
-        {
+        ) {
             self.exclusiveEndBillingPeriod = exclusiveEndBillingPeriod
             self.inclusiveStartBillingPeriod = inclusiveStartBillingPeriod
         }
@@ -1181,8 +1148,7 @@ public struct BatchAssociateResourcesToCustomLineItemInput: Swift.Sendable {
         billingPeriodRange: BillingconductorClientTypes.CustomLineItemBillingPeriodRange? = nil,
         resourceArns: [Swift.String]? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.billingPeriodRange = billingPeriodRange
         self.resourceArns = resourceArns
         self.targetArn = targetArn
@@ -1198,8 +1164,7 @@ public struct BatchAssociateResourcesToCustomLineItemOutput: Swift.Sendable {
     public init(
         failedAssociatedResources: [BillingconductorClientTypes.AssociateResourceResponseElement]? = nil,
         successfullyAssociatedResources: [BillingconductorClientTypes.AssociateResourceResponseElement]? = nil
-    )
-    {
+    ) {
         self.failedAssociatedResources = failedAssociatedResources
         self.successfullyAssociatedResources = successfullyAssociatedResources
     }
@@ -1219,8 +1184,7 @@ public struct BatchDisassociateResourcesFromCustomLineItemInput: Swift.Sendable 
         billingPeriodRange: BillingconductorClientTypes.CustomLineItemBillingPeriodRange? = nil,
         resourceArns: [Swift.String]? = nil,
         targetArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.billingPeriodRange = billingPeriodRange
         self.resourceArns = resourceArns
         self.targetArn = targetArn
@@ -1239,8 +1203,7 @@ extension BillingconductorClientTypes {
         public init(
             arn: Swift.String? = nil,
             error: BillingconductorClientTypes.AssociateResourceError? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.error = error
         }
@@ -1256,8 +1219,7 @@ public struct BatchDisassociateResourcesFromCustomLineItemOutput: Swift.Sendable
     public init(
         failedDisassociatedResources: [BillingconductorClientTypes.DisassociateResourceResponseElement]? = nil,
         successfullyDisassociatedResources: [BillingconductorClientTypes.DisassociateResourceResponseElement]? = nil
-    )
-    {
+    ) {
         self.failedDisassociatedResources = failedDisassociatedResources
         self.successfullyDisassociatedResources = successfullyDisassociatedResources
     }
@@ -1273,8 +1235,7 @@ extension BillingconductorClientTypes {
 
         public init(
             chargeValue: Swift.Double? = nil
-        )
-        {
+        ) {
             self.chargeValue = chargeValue
         }
     }
@@ -1376,8 +1337,7 @@ extension BillingconductorClientTypes {
             attribute: BillingconductorClientTypes.LineItemFilterAttributeName? = nil,
             matchOption: BillingconductorClientTypes.MatchOption? = nil,
             values: [BillingconductorClientTypes.LineItemFilterValue]? = nil
-        )
-        {
+        ) {
             self.attribute = attribute
             self.matchOption = matchOption
             self.values = values
@@ -1398,8 +1358,7 @@ extension BillingconductorClientTypes {
         public init(
             associatedValues: [Swift.String]? = nil,
             percentageValue: Swift.Double? = nil
-        )
-        {
+        ) {
             self.associatedValues = associatedValues
             self.percentageValue = percentageValue
         }
@@ -1454,8 +1413,7 @@ extension BillingconductorClientTypes {
             lineItemFilters: [BillingconductorClientTypes.LineItemFilter]? = nil,
             percentage: BillingconductorClientTypes.CustomLineItemPercentageChargeDetails? = nil,
             type: BillingconductorClientTypes.CustomLineItemType? = nil
-        )
-        {
+        ) {
             self.flat = flat
             self.lineItemFilters = lineItemFilters
             self.percentage = percentage
@@ -1495,8 +1453,7 @@ public struct CreateCustomLineItemInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
         self.billingGroupArn = billingGroupArn
         self.billingPeriodRange = billingPeriodRange
@@ -1519,8 +1476,7 @@ public struct CreateCustomLineItemOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -1535,8 +1491,7 @@ public struct DeleteCustomLineItemInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         billingPeriodRange: BillingconductorClientTypes.CustomLineItemBillingPeriodRange? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.billingPeriodRange = billingPeriodRange
     }
@@ -1548,8 +1503,7 @@ public struct DeleteCustomLineItemOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -1572,8 +1526,7 @@ extension BillingconductorClientTypes {
             arns: [Swift.String]? = nil,
             billingGroups: [Swift.String]? = nil,
             names: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.accountIds = accountIds
             self.arns = arns
             self.billingGroups = billingGroups
@@ -1602,8 +1555,7 @@ public struct ListCustomLineItemsInput: Swift.Sendable {
         filters: BillingconductorClientTypes.ListCustomLineItemsFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.billingPeriod = billingPeriod
         self.filters = filters
         self.maxResults = maxResults
@@ -1621,8 +1573,7 @@ extension BillingconductorClientTypes {
 
         public init(
             chargeValue: Swift.Double? = nil
-        )
-        {
+        ) {
             self.chargeValue = chargeValue
         }
     }
@@ -1638,8 +1589,7 @@ extension BillingconductorClientTypes {
 
         public init(
             percentageValue: Swift.Double? = nil
-        )
-        {
+        ) {
             self.percentageValue = percentageValue
         }
     }
@@ -1664,8 +1614,7 @@ extension BillingconductorClientTypes {
             lineItemFilters: [BillingconductorClientTypes.LineItemFilter]? = nil,
             percentage: BillingconductorClientTypes.ListCustomLineItemPercentageChargeDetails? = nil,
             type: BillingconductorClientTypes.CustomLineItemType? = nil
-        )
-        {
+        ) {
             self.flat = flat
             self.lineItemFilters = lineItemFilters
             self.percentage = percentage
@@ -1742,8 +1691,7 @@ extension BillingconductorClientTypes {
             lastModifiedTime: Swift.Int = 0,
             name: Swift.String? = nil,
             productCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.arn = arn
             self.associationSize = associationSize
@@ -1773,8 +1721,7 @@ public struct ListCustomLineItemsOutput: Swift.Sendable {
     public init(
         customLineItems: [BillingconductorClientTypes.CustomLineItemListElement]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.customLineItems = customLineItems
         self.nextToken = nextToken
     }
@@ -1792,8 +1739,7 @@ extension BillingconductorClientTypes {
         public init(
             endBillingPeriod: Swift.String? = nil,
             startBillingPeriod: Swift.String? = nil
-        )
-        {
+        ) {
             self.endBillingPeriod = endBillingPeriod
             self.startBillingPeriod = startBillingPeriod
         }
@@ -1809,8 +1755,7 @@ extension BillingconductorClientTypes {
 
         public init(
             billingPeriodRange: BillingconductorClientTypes.ListCustomLineItemVersionsBillingPeriodRangeFilter? = nil
-        )
-        {
+        ) {
             self.billingPeriodRange = billingPeriodRange
         }
     }
@@ -1832,8 +1777,7 @@ public struct ListCustomLineItemVersionsInput: Swift.Sendable {
         filters: BillingconductorClientTypes.ListCustomLineItemVersionsFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.filters = filters
         self.maxResults = maxResults
@@ -1889,8 +1833,7 @@ extension BillingconductorClientTypes {
             productCode: Swift.String? = nil,
             startBillingPeriod: Swift.String? = nil,
             startTime: Swift.Int = 0
-        )
-        {
+        ) {
             self.accountId = accountId
             self.arn = arn
             self.associationSize = associationSize
@@ -1923,8 +1866,7 @@ public struct ListCustomLineItemVersionsOutput: Swift.Sendable {
     public init(
         customLineItemVersions: [BillingconductorClientTypes.CustomLineItemVersionListElement]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.customLineItemVersions = customLineItemVersions
         self.nextToken = nextToken
     }
@@ -1968,8 +1910,7 @@ extension BillingconductorClientTypes {
 
         public init(
             relationship: BillingconductorClientTypes.CustomLineItemRelationship? = nil
-        )
-        {
+        ) {
             self.relationship = relationship
         }
     }
@@ -1994,8 +1935,7 @@ public struct ListResourcesAssociatedToCustomLineItemInput: Swift.Sendable {
         filters: BillingconductorClientTypes.ListResourcesAssociatedToCustomLineItemFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.billingPeriod = billingPeriod
         self.filters = filters
@@ -2019,8 +1959,7 @@ extension BillingconductorClientTypes {
             arn: Swift.String? = nil,
             endBillingPeriod: Swift.String? = nil,
             relationship: BillingconductorClientTypes.CustomLineItemRelationship? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.endBillingPeriod = endBillingPeriod
             self.relationship = relationship
@@ -2040,8 +1979,7 @@ public struct ListResourcesAssociatedToCustomLineItemOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         associatedResources: [BillingconductorClientTypes.ListResourcesAssociatedToCustomLineItemResponseElement]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.associatedResources = associatedResources
         self.nextToken = nextToken
@@ -2058,8 +1996,7 @@ extension BillingconductorClientTypes {
 
         public init(
             chargeValue: Swift.Double? = nil
-        )
-        {
+        ) {
             self.chargeValue = chargeValue
         }
     }
@@ -2075,8 +2012,7 @@ extension BillingconductorClientTypes {
 
         public init(
             percentageValue: Swift.Double? = nil
-        )
-        {
+        ) {
             self.percentageValue = percentageValue
         }
     }
@@ -2097,8 +2033,7 @@ extension BillingconductorClientTypes {
             flat: BillingconductorClientTypes.UpdateCustomLineItemFlatChargeDetails? = nil,
             lineItemFilters: [BillingconductorClientTypes.LineItemFilter]? = nil,
             percentage: BillingconductorClientTypes.UpdateCustomLineItemPercentageChargeDetails? = nil
-        )
-        {
+        ) {
             self.flat = flat
             self.lineItemFilters = lineItemFilters
             self.percentage = percentage
@@ -2125,8 +2060,7 @@ public struct UpdateCustomLineItemInput: Swift.Sendable {
         chargeDetails: BillingconductorClientTypes.UpdateCustomLineItemChargeDetails? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.billingPeriodRange = billingPeriodRange
         self.chargeDetails = chargeDetails
@@ -2164,8 +2098,7 @@ public struct UpdateCustomLineItemOutput: Swift.Sendable {
         description: Swift.String? = nil,
         lastModifiedTime: Swift.Int = 0,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.associationSize = associationSize
         self.billingGroupArn = billingGroupArn
@@ -2195,8 +2128,7 @@ extension BillingconductorClientTypes {
         public init(
             exclusiveEndBillingPeriod: Swift.String? = nil,
             inclusiveStartBillingPeriod: Swift.String? = nil
-        )
-        {
+        ) {
             self.exclusiveEndBillingPeriod = exclusiveEndBillingPeriod
             self.inclusiveStartBillingPeriod = inclusiveStartBillingPeriod
         }
@@ -2251,8 +2183,7 @@ public struct GetBillingGroupCostReportInput: Swift.Sendable {
         groupBy: [BillingconductorClientTypes.GroupByAttributeName]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.billingPeriodRange = billingPeriodRange
         self.groupBy = groupBy
@@ -2288,8 +2219,7 @@ extension BillingconductorClientTypes {
             margin: Swift.String? = nil,
             marginPercentage: Swift.String? = nil,
             proformaCost: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.attributes = attributes
             self.awsCost = awsCost
@@ -2310,8 +2240,7 @@ public struct GetBillingGroupCostReportOutput: Swift.Sendable {
     public init(
         billingGroupCostReportResults: [BillingconductorClientTypes.BillingGroupCostReportResultElement]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.billingGroupCostReportResults = billingGroupCostReportResults
         self.nextToken = nextToken
     }
@@ -2332,8 +2261,7 @@ extension BillingconductorClientTypes {
             accountId: Swift.String? = nil,
             accountIds: [Swift.String]? = nil,
             association: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.accountIds = accountIds
             self.association = association
@@ -2353,8 +2281,7 @@ public struct ListAccountAssociationsInput: Swift.Sendable {
         billingPeriod: Swift.String? = nil,
         filters: BillingconductorClientTypes.ListAccountAssociationsFilter? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.billingPeriod = billingPeriod
         self.filters = filters
         self.nextToken = nextToken
@@ -2370,8 +2297,7 @@ public struct ListAccountAssociationsOutput: Swift.Sendable {
     public init(
         linkedAccounts: [BillingconductorClientTypes.AccountAssociationsListElement]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.linkedAccounts = linkedAccounts
         self.nextToken = nextToken
     }
@@ -2386,8 +2312,7 @@ extension BillingconductorClientTypes {
 
         public init(
             billingGroupArns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.billingGroupArns = billingGroupArns
         }
     }
@@ -2408,8 +2333,7 @@ public struct ListBillingGroupCostReportsInput: Swift.Sendable {
         filters: BillingconductorClientTypes.ListBillingGroupCostReportsFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.billingPeriod = billingPeriod
         self.filters = filters
         self.maxResults = maxResults
@@ -2441,8 +2365,7 @@ extension BillingconductorClientTypes {
             margin: Swift.String? = nil,
             marginPercentage: Swift.String? = nil,
             proformaCost: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.awsCost = awsCost
             self.currency = currency
@@ -2462,8 +2385,7 @@ public struct ListBillingGroupCostReportsOutput: Swift.Sendable {
     public init(
         billingGroupCostReports: [BillingconductorClientTypes.BillingGroupCostReportElement]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.billingGroupCostReports = billingGroupCostReports
         self.nextToken = nextToken
     }
@@ -2476,8 +2398,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2488,8 +2409,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2513,8 +2433,7 @@ public struct CreatePricingPlanInput: Swift.Sendable {
         name: Swift.String? = nil,
         pricingRuleArns: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.name = name
@@ -2534,8 +2453,7 @@ public struct CreatePricingPlanOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -2547,8 +2465,7 @@ public struct DeletePricingPlanInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -2559,8 +2476,7 @@ public struct DeletePricingPlanOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -2576,8 +2492,7 @@ public struct DisassociatePricingRulesInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         pricingRuleArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.pricingRuleArns = pricingRuleArns
     }
@@ -2589,8 +2504,7 @@ public struct DisassociatePricingRulesOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -2604,8 +2518,7 @@ extension BillingconductorClientTypes {
 
         public init(
             arns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.arns = arns
         }
     }
@@ -2626,8 +2539,7 @@ public struct ListPricingPlansInput: Swift.Sendable {
         filters: BillingconductorClientTypes.ListPricingPlansFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.billingPeriod = billingPeriod
         self.filters = filters
         self.maxResults = maxResults
@@ -2659,8 +2571,7 @@ extension BillingconductorClientTypes {
             lastModifiedTime: Swift.Int = 0,
             name: Swift.String? = nil,
             size: Swift.Int = 0
-        )
-        {
+        ) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
@@ -2688,8 +2599,7 @@ public struct ListPricingPlansOutput: Swift.Sendable {
         billingPeriod: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         pricingPlans: [BillingconductorClientTypes.PricingPlanListElement]? = nil
-    )
-    {
+    ) {
         self.billingPeriod = billingPeriod
         self.nextToken = nextToken
         self.pricingPlans = pricingPlans
@@ -2712,8 +2622,7 @@ public struct ListPricingPlansAssociatedWithPricingRuleInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         pricingRuleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.billingPeriod = billingPeriod
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2736,8 +2645,7 @@ public struct ListPricingPlansAssociatedWithPricingRuleOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         pricingPlanArns: [Swift.String]? = nil,
         pricingRuleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.billingPeriod = billingPeriod
         self.nextToken = nextToken
         self.pricingPlanArns = pricingPlanArns
@@ -2758,8 +2666,7 @@ public struct UpdatePricingPlanInput: Swift.Sendable {
         arn: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.description = description
         self.name = name
@@ -2789,8 +2696,7 @@ public struct UpdatePricingPlanOutput: Swift.Sendable {
         lastModifiedTime: Swift.Int = 0,
         name: Swift.String? = nil,
         size: Swift.Int = 0
-    )
-    {
+    ) {
         self.arn = arn
         self.description = description
         self.lastModifiedTime = lastModifiedTime
@@ -2849,8 +2755,7 @@ extension BillingconductorClientTypes {
 
         public init(
             activated: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.activated = activated
         }
     }
@@ -2866,8 +2771,7 @@ extension BillingconductorClientTypes {
 
         public init(
             freeTier: BillingconductorClientTypes.CreateFreeTierConfig? = nil
-        )
-        {
+        ) {
             self.freeTier = freeTier
         }
     }
@@ -2947,8 +2851,7 @@ public struct CreatePricingRuleInput: Swift.Sendable {
         tiering: BillingconductorClientTypes.CreateTieringInput? = nil,
         type: BillingconductorClientTypes.PricingRuleType? = nil,
         usageType: Swift.String? = nil
-    )
-    {
+    ) {
         self.billingEntity = billingEntity
         self.clientToken = clientToken
         self.description = description
@@ -2975,8 +2878,7 @@ public struct CreatePricingRuleOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -2988,8 +2890,7 @@ public struct DeletePricingRuleInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -3000,8 +2901,7 @@ public struct DeletePricingRuleOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -3015,8 +2915,7 @@ extension BillingconductorClientTypes {
 
         public init(
             arns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.arns = arns
         }
     }
@@ -3037,8 +2936,7 @@ public struct ListPricingRulesInput: Swift.Sendable {
         filters: BillingconductorClientTypes.ListPricingRulesFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.billingPeriod = billingPeriod
         self.filters = filters
         self.maxResults = maxResults
@@ -3056,8 +2954,7 @@ extension BillingconductorClientTypes {
 
         public init(
             activated: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.activated = activated
         }
     }
@@ -3073,8 +2970,7 @@ extension BillingconductorClientTypes {
 
         public init(
             freeTier: BillingconductorClientTypes.FreeTierConfig? = nil
-        )
-        {
+        ) {
             self.freeTier = freeTier
         }
     }
@@ -3128,8 +3024,7 @@ extension BillingconductorClientTypes {
             tiering: BillingconductorClientTypes.Tiering? = nil,
             type: BillingconductorClientTypes.PricingRuleType? = nil,
             usageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.associatedPricingPlanCount = associatedPricingPlanCount
             self.billingEntity = billingEntity
@@ -3165,8 +3060,7 @@ public struct ListPricingRulesOutput: Swift.Sendable {
         billingPeriod: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         pricingRules: [BillingconductorClientTypes.PricingRuleListElement]? = nil
-    )
-    {
+    ) {
         self.billingPeriod = billingPeriod
         self.nextToken = nextToken
         self.pricingRules = pricingRules
@@ -3189,8 +3083,7 @@ public struct ListPricingRulesAssociatedToPricingPlanInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         pricingPlanArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.billingPeriod = billingPeriod
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3213,8 +3106,7 @@ public struct ListPricingRulesAssociatedToPricingPlanOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         pricingPlanArn: Swift.String? = nil,
         pricingRuleArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.billingPeriod = billingPeriod
         self.nextToken = nextToken
         self.pricingPlanArn = pricingPlanArn
@@ -3232,8 +3124,7 @@ extension BillingconductorClientTypes {
 
         public init(
             activated: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.activated = activated
         }
     }
@@ -3249,8 +3140,7 @@ extension BillingconductorClientTypes {
 
         public init(
             freeTier: BillingconductorClientTypes.UpdateFreeTierConfig? = nil
-        )
-        {
+        ) {
             self.freeTier = freeTier
         }
     }
@@ -3278,8 +3168,7 @@ public struct UpdatePricingRuleInput: Swift.Sendable {
         name: Swift.String? = nil,
         tiering: BillingconductorClientTypes.UpdateTieringInput? = nil,
         type: BillingconductorClientTypes.PricingRuleType? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.description = description
         self.modifierPercentage = modifierPercentage
@@ -3336,8 +3225,7 @@ public struct UpdatePricingRuleOutput: Swift.Sendable {
         tiering: BillingconductorClientTypes.UpdateTieringInput? = nil,
         type: BillingconductorClientTypes.PricingRuleType? = nil,
         usageType: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.associatedPricingPlanCount = associatedPricingPlanCount
         self.billingEntity = billingEntity
@@ -3370,8 +3258,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -3393,8 +3280,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

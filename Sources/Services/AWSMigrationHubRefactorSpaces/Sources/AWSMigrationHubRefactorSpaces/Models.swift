@@ -30,9 +30,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// The user does not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -48,8 +48,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -110,8 +109,7 @@ extension MigrationHubRefactorSpacesClientTypes {
             proxyUrl: Swift.String? = nil,
             stageName: Swift.String? = nil,
             vpcLinkId: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiGatewayId = apiGatewayId
             self.endpointType = endpointType
             self.nlbArn = nlbArn
@@ -135,8 +133,7 @@ extension MigrationHubRefactorSpacesClientTypes {
         public init(
             endpointType: MigrationHubRefactorSpacesClientTypes.ApiGatewayEndpointType? = nil,
             stageName: Swift.String? = nil
-        )
-        {
+        ) {
             self.endpointType = endpointType
             self.stageName = stageName
         }
@@ -170,8 +167,7 @@ extension MigrationHubRefactorSpacesClientTypes {
             proxyUrl: Swift.String? = nil,
             stageName: Swift.String? = nil,
             vpcLinkId: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiGatewayId = apiGatewayId
             self.endpointType = endpointType
             self.nlbArn = nlbArn
@@ -384,8 +380,7 @@ extension MigrationHubRefactorSpacesClientTypes {
             message: Swift.String? = nil,
             resourceIdentifier: Swift.String? = nil,
             resourceType: MigrationHubRefactorSpacesClientTypes.ErrorResourceType? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.additionalDetails = additionalDetails
             self.code = code
@@ -470,8 +465,7 @@ extension MigrationHubRefactorSpacesClientTypes {
             state: MigrationHubRefactorSpacesClientTypes.ApplicationState? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.apiGatewayProxy = apiGatewayProxy
             self.applicationId = applicationId
             self.arn = arn
@@ -496,9 +490,9 @@ extension MigrationHubRefactorSpacesClientTypes.ApplicationSummary: Swift.Custom
 }
 
 /// Updating or deleting a resource can cause an inconsistent state.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The ID of the resource.
@@ -522,8 +516,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -531,9 +524,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// An unexpected error occurred while processing the request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -549,16 +542,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request references a resource that does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The ID of the resource.
@@ -582,8 +574,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -591,9 +582,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The request would cause a service quota to be exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Service quota requirement to identify originating quota. Reached throttling quota exception.
@@ -624,8 +615,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -635,9 +625,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// Request was denied because the request was throttled.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// Service quota requirement to identify originating quota. Reached throttling quota exception.
@@ -662,8 +652,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int = 0,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -672,9 +661,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// The input does not satisfy the constraints specified by an Amazon Web Service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -690,8 +679,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -724,8 +712,7 @@ public struct CreateApplicationInput: Swift.Sendable {
         proxyType: MigrationHubRefactorSpacesClientTypes.ProxyType? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiGatewayProxy = apiGatewayProxy
         self.clientToken = clientToken
         self.environmentIdentifier = environmentIdentifier
@@ -783,8 +770,7 @@ public struct CreateApplicationOutput: Swift.Sendable {
         state: MigrationHubRefactorSpacesClientTypes.ApplicationState? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiGatewayProxy = apiGatewayProxy
         self.applicationId = applicationId
         self.arn = arn
@@ -855,8 +841,7 @@ public struct CreateEnvironmentInput: Swift.Sendable {
         name: Swift.String? = nil,
         networkFabricType: MigrationHubRefactorSpacesClientTypes.NetworkFabricType? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.name = name
@@ -938,8 +923,7 @@ public struct CreateEnvironmentOutput: Swift.Sendable {
         ownerAccountId: Swift.String? = nil,
         state: MigrationHubRefactorSpacesClientTypes.EnvironmentState? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdTime = createdTime
         self.description = description
@@ -996,8 +980,7 @@ extension MigrationHubRefactorSpacesClientTypes {
 
         public init(
             activationState: MigrationHubRefactorSpacesClientTypes.RouteActivationState? = nil
-        )
-        {
+        ) {
             self.activationState = activationState
         }
     }
@@ -1099,8 +1082,7 @@ extension MigrationHubRefactorSpacesClientTypes {
             includeChildPaths: Swift.Bool? = nil,
             methods: [MigrationHubRefactorSpacesClientTypes.HttpMethod]? = nil,
             sourcePath: Swift.String? = nil
-        )
-        {
+        ) {
             self.activationState = activationState
             self.appendSourcePath = appendSourcePath
             self.includeChildPaths = includeChildPaths
@@ -1141,8 +1123,7 @@ public struct CreateRouteInput: Swift.Sendable {
         serviceIdentifier: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         uriPathRoute: MigrationHubRefactorSpacesClientTypes.UriPathRouteInput? = nil
-    )
-    {
+    ) {
         self.applicationIdentifier = applicationIdentifier
         self.clientToken = clientToken
         self.defaultRoute = defaultRoute
@@ -1239,8 +1220,7 @@ public struct CreateRouteOutput: Swift.Sendable {
         state: MigrationHubRefactorSpacesClientTypes.RouteState? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         uriPathRoute: MigrationHubRefactorSpacesClientTypes.UriPathRouteInput? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.arn = arn
         self.createdByAccountId = createdByAccountId
@@ -1300,8 +1280,7 @@ extension MigrationHubRefactorSpacesClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -1320,8 +1299,7 @@ extension MigrationHubRefactorSpacesClientTypes {
         public init(
             healthUrl: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.healthUrl = healthUrl
             self.url = url
         }
@@ -1365,8 +1343,7 @@ public struct CreateServiceInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         urlEndpoint: MigrationHubRefactorSpacesClientTypes.UrlEndpointInput? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationIdentifier = applicationIdentifier
         self.clientToken = clientToken
         self.description = description
@@ -1471,8 +1448,7 @@ public struct CreateServiceOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         urlEndpoint: MigrationHubRefactorSpacesClientTypes.UrlEndpointInput? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.arn = arn
         self.createdByAccountId = createdByAccountId
@@ -1508,8 +1484,7 @@ public struct DeleteApplicationInput: Swift.Sendable {
     public init(
         applicationIdentifier: Swift.String? = nil,
         environmentIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationIdentifier = applicationIdentifier
         self.environmentIdentifier = environmentIdentifier
     }
@@ -1536,8 +1511,7 @@ public struct DeleteApplicationOutput: Swift.Sendable {
         lastUpdatedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         state: MigrationHubRefactorSpacesClientTypes.ApplicationState? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.arn = arn
         self.environmentId = environmentId
@@ -1554,8 +1528,7 @@ public struct DeleteEnvironmentInput: Swift.Sendable {
 
     public init(
         environmentIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentIdentifier = environmentIdentifier
     }
 }
@@ -1578,8 +1551,7 @@ public struct DeleteEnvironmentOutput: Swift.Sendable {
         lastUpdatedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         state: MigrationHubRefactorSpacesClientTypes.EnvironmentState? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.environmentId = environmentId
         self.lastUpdatedTime = lastUpdatedTime
@@ -1595,8 +1567,7 @@ public struct DeleteResourcePolicyInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -1621,8 +1592,7 @@ public struct DeleteRouteInput: Swift.Sendable {
         applicationIdentifier: Swift.String? = nil,
         environmentIdentifier: Swift.String? = nil,
         routeIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationIdentifier = applicationIdentifier
         self.environmentIdentifier = environmentIdentifier
         self.routeIdentifier = routeIdentifier
@@ -1650,8 +1620,7 @@ public struct DeleteRouteOutput: Swift.Sendable {
         routeId: Swift.String? = nil,
         serviceId: Swift.String? = nil,
         state: MigrationHubRefactorSpacesClientTypes.RouteState? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.arn = arn
         self.lastUpdatedTime = lastUpdatedTime
@@ -1676,8 +1645,7 @@ public struct DeleteServiceInput: Swift.Sendable {
         applicationIdentifier: Swift.String? = nil,
         environmentIdentifier: Swift.String? = nil,
         serviceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationIdentifier = applicationIdentifier
         self.environmentIdentifier = environmentIdentifier
         self.serviceIdentifier = serviceIdentifier
@@ -1708,8 +1676,7 @@ public struct DeleteServiceOutput: Swift.Sendable {
         name: Swift.String? = nil,
         serviceId: Swift.String? = nil,
         state: MigrationHubRefactorSpacesClientTypes.ServiceState? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.arn = arn
         self.environmentId = environmentId
@@ -1762,8 +1729,7 @@ extension MigrationHubRefactorSpacesClientTypes {
             state: MigrationHubRefactorSpacesClientTypes.EnvironmentState? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             transitGatewayId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
@@ -1812,8 +1778,7 @@ extension MigrationHubRefactorSpacesClientTypes {
             lastUpdatedTime: Foundation.Date? = nil,
             vpcId: Swift.String? = nil,
             vpcName: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.cidrBlocks = cidrBlocks
             self.createdTime = createdTime
@@ -1836,8 +1801,7 @@ public struct GetApplicationInput: Swift.Sendable {
     public init(
         applicationIdentifier: Swift.String? = nil,
         environmentIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationIdentifier = applicationIdentifier
         self.environmentIdentifier = environmentIdentifier
     }
@@ -1888,8 +1852,7 @@ public struct GetApplicationOutput: Swift.Sendable {
         state: MigrationHubRefactorSpacesClientTypes.ApplicationState? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiGatewayProxy = apiGatewayProxy
         self.applicationId = applicationId
         self.arn = arn
@@ -1919,8 +1882,7 @@ public struct GetEnvironmentInput: Swift.Sendable {
 
     public init(
         environmentIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentIdentifier = environmentIdentifier
     }
 }
@@ -1964,8 +1926,7 @@ public struct GetEnvironmentOutput: Swift.Sendable {
         state: MigrationHubRefactorSpacesClientTypes.EnvironmentState? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         transitGatewayId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdTime = createdTime
         self.description = description
@@ -1993,8 +1954,7 @@ public struct GetResourcePolicyInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.identifier = identifier
     }
 }
@@ -2005,8 +1965,7 @@ public struct GetResourcePolicyOutput: Swift.Sendable {
 
     public init(
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -2026,8 +1985,7 @@ public struct GetRouteInput: Swift.Sendable {
         applicationIdentifier: Swift.String? = nil,
         environmentIdentifier: Swift.String? = nil,
         routeIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationIdentifier = applicationIdentifier
         self.environmentIdentifier = environmentIdentifier
         self.routeIdentifier = routeIdentifier
@@ -2091,8 +2049,7 @@ public struct GetRouteOutput: Swift.Sendable {
         sourcePath: Swift.String? = nil,
         state: MigrationHubRefactorSpacesClientTypes.RouteState? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.appendSourcePath = appendSourcePath
         self.applicationId = applicationId
         self.arn = arn
@@ -2134,8 +2091,7 @@ public struct GetServiceInput: Swift.Sendable {
         applicationIdentifier: Swift.String? = nil,
         environmentIdentifier: Swift.String? = nil,
         serviceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationIdentifier = applicationIdentifier
         self.environmentIdentifier = environmentIdentifier
         self.serviceIdentifier = serviceIdentifier
@@ -2151,8 +2107,7 @@ extension MigrationHubRefactorSpacesClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -2170,8 +2125,7 @@ extension MigrationHubRefactorSpacesClientTypes {
         public init(
             healthUrl: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.healthUrl = healthUrl
             self.url = url
         }
@@ -2232,8 +2186,7 @@ public struct GetServiceOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         urlEndpoint: MigrationHubRefactorSpacesClientTypes.UrlEndpointConfig? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.arn = arn
         self.createdByAccountId = createdByAccountId
@@ -2260,9 +2213,9 @@ extension GetServiceOutput: Swift.CustomDebugStringConvertible {
 }
 
 /// The resource policy is not valid.
-public struct InvalidResourcePolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidResourcePolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2278,8 +2231,7 @@ public struct InvalidResourcePolicyException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2293,8 +2245,7 @@ extension MigrationHubRefactorSpacesClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -2313,8 +2264,7 @@ public struct ListApplicationsInput: Swift.Sendable {
         environmentIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentIdentifier = environmentIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2330,8 +2280,7 @@ public struct ListApplicationsOutput: Swift.Sendable {
     public init(
         applicationSummaryList: [MigrationHubRefactorSpacesClientTypes.ApplicationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationSummaryList = applicationSummaryList
         self.nextToken = nextToken
     }
@@ -2346,8 +2295,7 @@ public struct ListEnvironmentsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -2362,8 +2310,7 @@ public struct ListEnvironmentsOutput: Swift.Sendable {
     public init(
         environmentSummaryList: [MigrationHubRefactorSpacesClientTypes.EnvironmentSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentSummaryList = environmentSummaryList
         self.nextToken = nextToken
     }
@@ -2382,8 +2329,7 @@ public struct ListEnvironmentVpcsInput: Swift.Sendable {
         environmentIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentIdentifier = environmentIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2399,8 +2345,7 @@ public struct ListEnvironmentVpcsOutput: Swift.Sendable {
     public init(
         environmentVpcList: [MigrationHubRefactorSpacesClientTypes.EnvironmentVpc]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentVpcList = environmentVpcList
         self.nextToken = nextToken
     }
@@ -2423,8 +2368,7 @@ public struct ListRoutesInput: Swift.Sendable {
         environmentIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationIdentifier = applicationIdentifier
         self.environmentIdentifier = environmentIdentifier
         self.maxResults = maxResults
@@ -2492,8 +2436,7 @@ extension MigrationHubRefactorSpacesClientTypes {
             sourcePath: Swift.String? = nil,
             state: MigrationHubRefactorSpacesClientTypes.RouteState? = nil,
             tags: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.appendSourcePath = appendSourcePath
             self.applicationId = applicationId
             self.arn = arn
@@ -2530,8 +2473,7 @@ public struct ListRoutesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         routeSummaryList: [MigrationHubRefactorSpacesClientTypes.RouteSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.routeSummaryList = routeSummaryList
     }
@@ -2554,8 +2496,7 @@ public struct ListServicesInput: Swift.Sendable {
         environmentIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationIdentifier = applicationIdentifier
         self.environmentIdentifier = environmentIdentifier
         self.maxResults = maxResults
@@ -2575,8 +2516,7 @@ extension MigrationHubRefactorSpacesClientTypes {
         public init(
             healthUrl: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.healthUrl = healthUrl
             self.url = url
         }
@@ -2640,8 +2580,7 @@ extension MigrationHubRefactorSpacesClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             urlEndpoint: MigrationHubRefactorSpacesClientTypes.UrlEndpointSummary? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.arn = arn
             self.createdByAccountId = createdByAccountId
@@ -2677,8 +2616,7 @@ public struct ListServicesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         serviceSummaryList: [MigrationHubRefactorSpacesClientTypes.ServiceSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.serviceSummaryList = serviceSummaryList
     }
@@ -2691,8 +2629,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2703,8 +2640,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -2725,8 +2661,7 @@ public struct PutResourcePolicyInput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.resourceArn = resourceArn
     }
@@ -2748,8 +2683,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -2776,8 +2710,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -2812,8 +2745,7 @@ public struct UpdateRouteInput: Swift.Sendable {
         applicationIdentifier: Swift.String? = nil,
         environmentIdentifier: Swift.String? = nil,
         routeIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.activationState = activationState
         self.applicationIdentifier = applicationIdentifier
         self.environmentIdentifier = environmentIdentifier
@@ -2842,8 +2774,7 @@ public struct UpdateRouteOutput: Swift.Sendable {
         routeId: Swift.String? = nil,
         serviceId: Swift.String? = nil,
         state: MigrationHubRefactorSpacesClientTypes.RouteState? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.arn = arn
         self.lastUpdatedTime = lastUpdatedTime

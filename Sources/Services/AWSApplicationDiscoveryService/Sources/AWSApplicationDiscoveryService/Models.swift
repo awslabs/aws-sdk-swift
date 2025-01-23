@@ -49,8 +49,7 @@ extension ApplicationDiscoveryClientTypes {
             agentId: Swift.String? = nil,
             description: Swift.String? = nil,
             operationSucceeded: Swift.Bool = false
-        )
-        {
+        ) {
             self.agentId = agentId
             self.description = description
             self.operationSucceeded = operationSucceeded
@@ -70,8 +69,7 @@ extension ApplicationDiscoveryClientTypes {
         public init(
             ipAddress: Swift.String? = nil,
             macAddress: Swift.String? = nil
-        )
-        {
+        ) {
             self.ipAddress = ipAddress
             self.macAddress = macAddress
         }
@@ -161,8 +159,7 @@ extension ApplicationDiscoveryClientTypes {
             lastHealthPingTime: Swift.String? = nil,
             registeredTime: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.agentId = agentId
             self.agentNetworkInfoList = agentNetworkInfoList
             self.agentType = agentType
@@ -183,9 +180,9 @@ extension ApplicationDiscoveryClientTypes.AgentInfo: Swift.CustomDebugStringConv
 }
 
 /// The user does not have permission to perform the action. Check the IAM policy associated with this user.
-public struct AuthorizationErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AuthorizationErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -200,16 +197,15 @@ public struct AuthorizationErrorException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The home Region is not set. Set the home Region to continue.
-public struct HomeRegionNotSetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct HomeRegionNotSetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -224,16 +220,15 @@ public struct HomeRegionNotSetException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// One or more parameters are not valid. Verify the parameters and try again.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -248,16 +243,15 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
-public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -272,16 +266,15 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The server experienced an internal error. Try again.
-public struct ServerInternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServerInternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -296,8 +289,7 @@ public struct ServerInternalErrorException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -313,8 +305,7 @@ public struct AssociateConfigurationItemsToApplicationInput: Swift.Sendable {
     public init(
         applicationConfigurationId: Swift.String? = nil,
         configurationIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.applicationConfigurationId = applicationConfigurationId
         self.configurationIds = configurationIds
     }
@@ -338,8 +329,7 @@ extension ApplicationDiscoveryClientTypes {
         public init(
             agentId: Swift.String? = nil,
             force: Swift.Bool = false
-        )
-        {
+        ) {
             self.agentId = agentId
             self.force = force
         }
@@ -353,8 +343,7 @@ public struct BatchDeleteAgentsInput: Swift.Sendable {
 
     public init(
         deleteAgents: [ApplicationDiscoveryClientTypes.DeleteAgent]? = nil
-    )
-    {
+    ) {
         self.deleteAgents = deleteAgents
     }
 }
@@ -409,8 +398,7 @@ extension ApplicationDiscoveryClientTypes {
             agentId: Swift.String? = nil,
             errorCode: ApplicationDiscoveryClientTypes.DeleteAgentErrorCode? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.agentId = agentId
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -424,8 +412,7 @@ public struct BatchDeleteAgentsOutput: Swift.Sendable {
 
     public init(
         errors: [ApplicationDiscoveryClientTypes.BatchDeleteAgentError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -440,8 +427,7 @@ public struct BatchDeleteImportDataInput: Swift.Sendable {
     public init(
         deleteHistory: Swift.Bool? = false,
         importTaskIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.deleteHistory = deleteHistory
         self.importTaskIds = importTaskIds
     }
@@ -494,8 +480,7 @@ extension ApplicationDiscoveryClientTypes {
             errorCode: ApplicationDiscoveryClientTypes.BatchDeleteImportDataErrorCode? = nil,
             errorDescription: Swift.String? = nil,
             importTaskId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorDescription = errorDescription
             self.importTaskId = importTaskId
@@ -509,45 +494,46 @@ public struct BatchDeleteImportDataOutput: Swift.Sendable {
 
     public init(
         errors: [ApplicationDiscoveryClientTypes.BatchDeleteImportDataError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
 
 public struct CreateApplicationInput: Swift.Sendable {
-    /// Description of the application to be created.
+    /// The description of the application to be created.
     public var description: Swift.String?
-    /// Name of the application to be created.
+    /// The name of the application to be created.
     /// This member is required.
     public var name: Swift.String?
+    /// The name of the migration wave of the application to be created.
+    public var wave: Swift.String?
 
     public init(
         description: Swift.String? = nil,
-        name: Swift.String? = nil
-    )
-    {
+        name: Swift.String? = nil,
+        wave: Swift.String? = nil
+    ) {
         self.description = description
         self.name = name
+        self.wave = wave
     }
 }
 
 public struct CreateApplicationOutput: Swift.Sendable {
-    /// Configuration ID of an application to be created.
+    /// The configuration ID of an application to be created.
     public var configurationId: Swift.String?
 
     public init(
         configurationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurationId = configurationId
     }
 }
 
 /// The specified configuration ID was not located. Verify the configuration ID and try again.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -562,8 +548,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -582,8 +567,7 @@ extension ApplicationDiscoveryClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -601,8 +585,7 @@ public struct CreateTagsInput: Swift.Sendable {
     public init(
         configurationIds: [Swift.String]? = nil,
         tags: [ApplicationDiscoveryClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.configurationIds = configurationIds
         self.tags = tags
     }
@@ -620,8 +603,7 @@ public struct DeleteApplicationsInput: Swift.Sendable {
 
     public init(
         configurationIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.configurationIds = configurationIds
     }
 }
@@ -641,8 +623,7 @@ public struct DeleteTagsInput: Swift.Sendable {
     public init(
         configurationIds: [Swift.String]? = nil,
         tags: [ApplicationDiscoveryClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.configurationIds = configurationIds
         self.tags = tags
     }
@@ -671,8 +652,7 @@ extension ApplicationDiscoveryClientTypes {
             condition: Swift.String? = nil,
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.condition = condition
             self.name = name
             self.values = values
@@ -695,8 +675,7 @@ public struct DescribeAgentsInput: Swift.Sendable {
         filters: [ApplicationDiscoveryClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentIds = agentIds
         self.filters = filters
         self.maxResults = maxResults
@@ -713,8 +692,7 @@ public struct DescribeAgentsOutput: Swift.Sendable {
     public init(
         agentsInfo: [ApplicationDiscoveryClientTypes.AgentInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.agentsInfo = agentsInfo
         self.nextToken = nextToken
     }
@@ -727,8 +705,7 @@ public struct DescribeBatchDeleteConfigurationTaskInput: Swift.Sendable {
 
     public init(
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskId = taskId
     }
 }
@@ -774,8 +751,7 @@ extension ApplicationDiscoveryClientTypes {
             configurationId: Swift.String? = nil,
             warningCode: Swift.Int = 0,
             warningText: Swift.String? = nil
-        )
-        {
+        ) {
             self.configurationId = configurationId
             self.warningCode = warningCode
             self.warningText = warningText
@@ -798,8 +774,7 @@ extension ApplicationDiscoveryClientTypes {
             configurationId: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             errorStatusCode: Swift.Int = 0
-        )
-        {
+        ) {
             self.configurationId = configurationId
             self.errorMessage = errorMessage
             self.errorStatusCode = errorStatusCode
@@ -878,8 +853,7 @@ extension ApplicationDiscoveryClientTypes {
             startTime: Foundation.Date? = nil,
             status: ApplicationDiscoveryClientTypes.BatchDeleteConfigurationTaskStatus? = nil,
             taskId: Swift.String? = nil
-        )
-        {
+        ) {
             self.configurationType = configurationType
             self.deletedConfigurations = deletedConfigurations
             self.deletionWarnings = deletionWarnings
@@ -899,8 +873,7 @@ public struct DescribeBatchDeleteConfigurationTaskOutput: Swift.Sendable {
 
     public init(
         task: ApplicationDiscoveryClientTypes.BatchDeleteConfigurationTask? = nil
-    )
-    {
+    ) {
         self.task = task
     }
 }
@@ -912,8 +885,7 @@ public struct DescribeConfigurationsInput: Swift.Sendable {
 
     public init(
         configurationIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.configurationIds = configurationIds
     }
 }
@@ -924,16 +896,15 @@ public struct DescribeConfigurationsOutput: Swift.Sendable {
 
     public init(
         configurations: [[Swift.String: Swift.String]]? = nil
-    )
-    {
+    ) {
         self.configurations = configurations
     }
 }
 
 /// This operation is not permitted.
-public struct OperationNotPermittedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OperationNotPermittedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -948,8 +919,7 @@ public struct OperationNotPermittedException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -966,8 +936,7 @@ public struct DescribeContinuousExportsInput: Swift.Sendable {
         exportIds: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportIds = exportIds
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1120,8 +1089,7 @@ extension ApplicationDiscoveryClientTypes {
             status: ApplicationDiscoveryClientTypes.ContinuousExportStatus? = nil,
             statusDetail: Swift.String? = nil,
             stopTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.dataSource = dataSource
             self.exportId = exportId
             self.s3Bucket = s3Bucket
@@ -1143,8 +1111,7 @@ public struct DescribeContinuousExportsOutput: Swift.Sendable {
     public init(
         descriptions: [ApplicationDiscoveryClientTypes.ContinuousExportDescription]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.descriptions = descriptions
         self.nextToken = nextToken
     }
@@ -1162,8 +1129,7 @@ public struct DescribeExportConfigurationsInput: Swift.Sendable {
         exportIds: [Swift.String]? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportIds = exportIds
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1236,8 +1202,7 @@ extension ApplicationDiscoveryClientTypes {
             requestedEndTime: Foundation.Date? = nil,
             requestedStartTime: Foundation.Date? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.configurationsDownloadUrl = configurationsDownloadUrl
             self.exportId = exportId
             self.exportRequestTime = exportRequestTime
@@ -1259,8 +1224,7 @@ public struct DescribeExportConfigurationsOutput: Swift.Sendable {
     public init(
         exportsInfo: [ApplicationDiscoveryClientTypes.ExportInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportsInfo = exportsInfo
         self.nextToken = nextToken
     }
@@ -1284,8 +1248,7 @@ extension ApplicationDiscoveryClientTypes {
             condition: Swift.String? = nil,
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.condition = condition
             self.name = name
             self.values = values
@@ -1310,8 +1273,7 @@ public struct DescribeExportTasksInput: Swift.Sendable {
         filters: [ApplicationDiscoveryClientTypes.ExportFilter]? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportIds = exportIds
         self.filters = filters
         self.maxResults = maxResults
@@ -1328,8 +1290,7 @@ public struct DescribeExportTasksOutput: Swift.Sendable {
     public init(
         exportsInfo: [ApplicationDiscoveryClientTypes.ExportInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportsInfo = exportsInfo
         self.nextToken = nextToken
     }
@@ -1338,6 +1299,7 @@ public struct DescribeExportTasksOutput: Swift.Sendable {
 extension ApplicationDiscoveryClientTypes {
 
     public enum ImportTaskFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fileClassification
         case importTaskId
         case name
         case status
@@ -1345,6 +1307,7 @@ extension ApplicationDiscoveryClientTypes {
 
         public static var allCases: [ImportTaskFilterName] {
             return [
+                .fileClassification,
                 .importTaskId,
                 .name,
                 .status
@@ -1358,6 +1321,7 @@ extension ApplicationDiscoveryClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .fileClassification: return "FILE_CLASSIFICATION"
             case .importTaskId: return "IMPORT_TASK_ID"
             case .name: return "NAME"
             case .status: return "STATUS"
@@ -1379,8 +1343,7 @@ extension ApplicationDiscoveryClientTypes {
         public init(
             name: ApplicationDiscoveryClientTypes.ImportTaskFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -1399,11 +1362,45 @@ public struct DescribeImportTasksInput: Swift.Sendable {
         filters: [ApplicationDiscoveryClientTypes.ImportTaskFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
+    }
+}
+
+extension ApplicationDiscoveryClientTypes {
+
+    public enum FileClassification: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case importTemplate
+        case modelizeitExport
+        case rvtoolsExport
+        case vmwareNsxExport
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FileClassification] {
+            return [
+                .importTemplate,
+                .modelizeitExport,
+                .rvtoolsExport,
+                .vmwareNsxExport
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .importTemplate: return "IMPORT_TEMPLATE"
+            case .modelizeitExport: return "MODELIZEIT_EXPORT"
+            case .rvtoolsExport: return "RVTOOLS_EXPORT"
+            case .vmwareNsxExport: return "VMWARE_NSX_EXPORT"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -1419,6 +1416,7 @@ extension ApplicationDiscoveryClientTypes {
         case importFailed
         case importFailedRecordLimitExceeded
         case importFailedServerLimitExceeded
+        case importFailedUnsupportedFileType
         case importInProgress
         case internalError
         case sdkUnknown(Swift.String)
@@ -1434,6 +1432,7 @@ extension ApplicationDiscoveryClientTypes {
                 .importFailed,
                 .importFailedRecordLimitExceeded,
                 .importFailedServerLimitExceeded,
+                .importFailedUnsupportedFileType,
                 .importInProgress,
                 .internalError
             ]
@@ -1455,6 +1454,7 @@ extension ApplicationDiscoveryClientTypes {
             case .importFailed: return "IMPORT_FAILED"
             case .importFailedRecordLimitExceeded: return "IMPORT_FAILED_RECORD_LIMIT_EXCEEDED"
             case .importFailedServerLimitExceeded: return "IMPORT_FAILED_SERVER_LIMIT_EXCEEDED"
+            case .importFailedUnsupportedFileType: return "IMPORT_FAILED_UNSUPPORTED_FILE_TYPE"
             case .importInProgress: return "IMPORT_IN_PROGRESS"
             case .internalError: return "INTERNAL_ERROR"
             case let .sdkUnknown(s): return s
@@ -1475,6 +1475,8 @@ extension ApplicationDiscoveryClientTypes {
         public var clientRequestToken: Swift.String?
         /// A link to a compressed archive folder (in the ZIP format) that contains an error log and a file of failed records. You can use these two files to quickly identify records that failed, why they failed, and correct those records. Afterward, you can upload the corrected file to your Amazon S3 bucket and create another import task request. This field also includes authorization information so you can confirm the authenticity of the compressed archive before you download it. If some records failed to be imported we recommend that you correct the records in the failed entries file and then imports that failed entries file. This prevents you from having to correct and update the larger original file and attempt importing it again.
         public var errorsAndFailedEntriesZip: Swift.String?
+        /// The type of file detected by the import task.
+        public var fileClassification: ApplicationDiscoveryClientTypes.FileClassification?
         /// The time that the import task request finished, presented in the Unix time stamp format.
         public var importCompletionTime: Foundation.Date?
         /// The time that the import task request was deleted, presented in the Unix time stamp format.
@@ -1499,6 +1501,7 @@ extension ApplicationDiscoveryClientTypes {
             applicationImportSuccess: Swift.Int = 0,
             clientRequestToken: Swift.String? = nil,
             errorsAndFailedEntriesZip: Swift.String? = nil,
+            fileClassification: ApplicationDiscoveryClientTypes.FileClassification? = nil,
             importCompletionTime: Foundation.Date? = nil,
             importDeletedTime: Foundation.Date? = nil,
             importRequestTime: Foundation.Date? = nil,
@@ -1508,12 +1511,12 @@ extension ApplicationDiscoveryClientTypes {
             serverImportFailure: Swift.Int = 0,
             serverImportSuccess: Swift.Int = 0,
             status: ApplicationDiscoveryClientTypes.ImportStatus? = nil
-        )
-        {
+        ) {
             self.applicationImportFailure = applicationImportFailure
             self.applicationImportSuccess = applicationImportSuccess
             self.clientRequestToken = clientRequestToken
             self.errorsAndFailedEntriesZip = errorsAndFailedEntriesZip
+            self.fileClassification = fileClassification
             self.importCompletionTime = importCompletionTime
             self.importDeletedTime = importDeletedTime
             self.importRequestTime = importRequestTime
@@ -1536,8 +1539,7 @@ public struct DescribeImportTasksOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tasks: [ApplicationDiscoveryClientTypes.ImportTask]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tasks = tasks
     }
@@ -1557,8 +1559,7 @@ extension ApplicationDiscoveryClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -1577,8 +1578,7 @@ public struct DescribeTagsInput: Swift.Sendable {
         filters: [ApplicationDiscoveryClientTypes.TagFilter]? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1641,8 +1641,7 @@ extension ApplicationDiscoveryClientTypes {
             key: Swift.String? = nil,
             timeOfCreation: Foundation.Date? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.configurationId = configurationId
             self.configurationType = configurationType
             self.key = key
@@ -1661,8 +1660,7 @@ public struct DescribeTagsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [ApplicationDiscoveryClientTypes.ConfigurationTag]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -1679,8 +1677,7 @@ public struct DisassociateConfigurationItemsFromApplicationInput: Swift.Sendable
     public init(
         applicationConfigurationId: Swift.String? = nil,
         configurationIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.applicationConfigurationId = applicationConfigurationId
         self.configurationIds = configurationIds
     }
@@ -1697,8 +1694,7 @@ public struct ExportConfigurationsOutput: Swift.Sendable {
 
     public init(
         exportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportId = exportId
     }
 }
@@ -1742,8 +1738,7 @@ extension ApplicationDiscoveryClientTypes {
             totalAgentlessCollectors: Swift.Int = 0,
             unhealthyAgentlessCollectors: Swift.Int = 0,
             unknownAgentlessCollectors: Swift.Int = 0
-        )
-        {
+        ) {
             self.activeAgentlessCollectors = activeAgentlessCollectors
             self.denyListedAgentlessCollectors = denyListedAgentlessCollectors
             self.healthyAgentlessCollectors = healthyAgentlessCollectors
@@ -1789,8 +1784,7 @@ extension ApplicationDiscoveryClientTypes {
             totalAgents: Swift.Int = 0,
             unhealthyAgents: Swift.Int = 0,
             unknownAgents: Swift.Int = 0
-        )
-        {
+        ) {
             self.activeAgents = activeAgents
             self.blackListedAgents = blackListedAgents
             self.healthyAgents = healthyAgents
@@ -1836,8 +1830,7 @@ extension ApplicationDiscoveryClientTypes {
             totalConnectors: Swift.Int = 0,
             unhealthyConnectors: Swift.Int = 0,
             unknownConnectors: Swift.Int = 0
-        )
-        {
+        ) {
             self.activeConnectors = activeConnectors
             self.blackListedConnectors = blackListedConnectors
             self.healthyConnectors = healthyConnectors
@@ -1883,8 +1876,7 @@ extension ApplicationDiscoveryClientTypes {
             totalMeCollectors: Swift.Int = 0,
             unhealthyMeCollectors: Swift.Int = 0,
             unknownMeCollectors: Swift.Int = 0
-        )
-        {
+        ) {
             self.activeMeCollectors = activeMeCollectors
             self.denyListedMeCollectors = denyListedMeCollectors
             self.healthyMeCollectors = healthyMeCollectors
@@ -1923,8 +1915,7 @@ public struct GetDiscoverySummaryOutput: Swift.Sendable {
         servers: Swift.Int = 0,
         serversMappedToApplications: Swift.Int = 0,
         serversMappedtoTags: Swift.Int = 0
-    )
-    {
+    ) {
         self.agentSummary = agentSummary
         self.agentlessCollectorSummary = agentlessCollectorSummary
         self.applications = applications
@@ -1978,8 +1969,7 @@ extension ApplicationDiscoveryClientTypes {
         public init(
             fieldName: Swift.String? = nil,
             sortOrder: ApplicationDiscoveryClientTypes.OrderString? = nil
-        )
-        {
+        ) {
             self.fieldName = fieldName
             self.sortOrder = sortOrder
         }
@@ -2005,8 +1995,7 @@ public struct ListConfigurationsInput: Swift.Sendable {
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil,
         orderBy: [ApplicationDiscoveryClientTypes.OrderByElement]? = nil
-    )
-    {
+    ) {
         self.configurationType = configurationType
         self.filters = filters
         self.maxResults = maxResults
@@ -2024,8 +2013,7 @@ public struct ListConfigurationsOutput: Swift.Sendable {
     public init(
         configurations: [[Swift.String: Swift.String]]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurations = configurations
         self.nextToken = nextToken
     }
@@ -2050,8 +2038,7 @@ public struct ListServerNeighborsInput: Swift.Sendable {
         neighborConfigurationIds: [Swift.String]? = nil,
         nextToken: Swift.String? = nil,
         portInformationNeeded: Swift.Bool? = false
-    )
-    {
+    ) {
         self.configurationId = configurationId
         self.maxResults = maxResults
         self.neighborConfigurationIds = neighborConfigurationIds
@@ -2084,8 +2071,7 @@ extension ApplicationDiscoveryClientTypes {
             destinationServerId: Swift.String? = nil,
             sourceServerId: Swift.String? = nil,
             transportProtocol: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectionsCount = connectionsCount
             self.destinationPort = destinationPort
             self.destinationServerId = destinationServerId
@@ -2108,8 +2094,7 @@ public struct ListServerNeighborsOutput: Swift.Sendable {
         knownDependencyCount: Swift.Int = 0,
         neighbors: [ApplicationDiscoveryClientTypes.NeighborConnectionDetail]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.knownDependencyCount = knownDependencyCount
         self.neighbors = neighbors
         self.nextToken = nextToken
@@ -2117,9 +2102,9 @@ public struct ListServerNeighborsOutput: Swift.Sendable {
 }
 
 /// The limit of 200 configuration IDs per request has been exceeded.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2134,8 +2119,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2151,8 +2135,7 @@ public struct StartBatchDeleteConfigurationTaskInput: Swift.Sendable {
     public init(
         configurationIds: [Swift.String]? = nil,
         configurationType: ApplicationDiscoveryClientTypes.DeletionConfigurationItemType? = nil
-    )
-    {
+    ) {
         self.configurationIds = configurationIds
         self.configurationType = configurationType
     }
@@ -2164,16 +2147,15 @@ public struct StartBatchDeleteConfigurationTaskOutput: Swift.Sendable {
 
     public init(
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskId = taskId
     }
 }
 
 /// Conflict error.
-public struct ConflictErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2188,16 +2170,15 @@ public struct ConflictErrorException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This issue occurs when the same clientRequestToken is used with the StartImportTask action, but with different parameters. For example, you use the same request token but have two different import URLs, you can encounter this issue. If the import tasks are meant to be different, use a different clientRequestToken, and try again.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2212,8 +2193,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2243,8 +2223,7 @@ public struct StartContinuousExportOutput: Swift.Sendable {
         s3Bucket: Swift.String? = nil,
         schemaStorageConfig: [Swift.String: Swift.String]? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.dataSource = dataSource
         self.exportId = exportId
         self.s3Bucket = s3Bucket
@@ -2260,8 +2239,7 @@ public struct StartDataCollectionByAgentIdsInput: Swift.Sendable {
 
     public init(
         agentIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.agentIds = agentIds
     }
 }
@@ -2272,8 +2250,7 @@ public struct StartDataCollectionByAgentIdsOutput: Swift.Sendable {
 
     public init(
         agentsConfigurationStatus: [ApplicationDiscoveryClientTypes.AgentConfigurationStatus]? = nil
-    )
-    {
+    ) {
         self.agentsConfigurationStatus = agentsConfigurationStatus
     }
 }
@@ -2316,8 +2293,7 @@ extension ApplicationDiscoveryClientTypes {
         public init(
             name: Swift.String? = nil,
             percentageAdjust: Swift.Double? = nil
-        )
-        {
+        ) {
             self.name = name
             self.percentageAdjust = percentageAdjust
         }
@@ -2432,8 +2408,7 @@ extension ApplicationDiscoveryClientTypes {
             offeringClass: ApplicationDiscoveryClientTypes.OfferingClass? = nil,
             purchasingOption: ApplicationDiscoveryClientTypes.PurchasingOption? = nil,
             termLength: ApplicationDiscoveryClientTypes.TermLength? = nil
-        )
-        {
+        ) {
             self.offeringClass = offeringClass
             self.purchasingOption = purchasingOption
             self.termLength = termLength
@@ -2497,8 +2472,7 @@ extension ApplicationDiscoveryClientTypes {
             ramPerformanceMetricBasis: ApplicationDiscoveryClientTypes.UsageMetricBasis? = nil,
             reservedInstanceOptions: ApplicationDiscoveryClientTypes.ReservedInstanceOptions? = nil,
             tenancy: ApplicationDiscoveryClientTypes.Tenancy? = nil
-        )
-        {
+        ) {
             self.cpuPerformanceMetricBasis = cpuPerformanceMetricBasis
             self.enabled = enabled
             self.excludedInstanceTypes = excludedInstanceTypes
@@ -2538,8 +2512,7 @@ public struct StartExportTaskInput: Swift.Sendable {
         filters: [ApplicationDiscoveryClientTypes.ExportFilter]? = nil,
         preferences: ApplicationDiscoveryClientTypes.ExportPreferences? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.exportDataFormat = exportDataFormat
         self.filters = filters
@@ -2554,8 +2527,7 @@ public struct StartExportTaskOutput: Swift.Sendable {
 
     public init(
         exportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportId = exportId
     }
 }
@@ -2574,8 +2546,7 @@ public struct StartImportTaskInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         importUrl: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.importUrl = importUrl
         self.name = name
@@ -2588,8 +2559,7 @@ public struct StartImportTaskOutput: Swift.Sendable {
 
     public init(
         task: ApplicationDiscoveryClientTypes.ImportTask? = nil
-    )
-    {
+    ) {
         self.task = task
     }
 }
@@ -2601,8 +2571,7 @@ public struct StopContinuousExportInput: Swift.Sendable {
 
     public init(
         exportId: Swift.String? = nil
-    )
-    {
+    ) {
         self.exportId = exportId
     }
 }
@@ -2616,8 +2585,7 @@ public struct StopContinuousExportOutput: Swift.Sendable {
     public init(
         startTime: Foundation.Date? = nil,
         stopTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.startTime = startTime
         self.stopTime = stopTime
     }
@@ -2630,8 +2598,7 @@ public struct StopDataCollectionByAgentIdsInput: Swift.Sendable {
 
     public init(
         agentIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.agentIds = agentIds
     }
 }
@@ -2642,8 +2609,7 @@ public struct StopDataCollectionByAgentIdsOutput: Swift.Sendable {
 
     public init(
         agentsConfigurationStatus: [ApplicationDiscoveryClientTypes.AgentConfigurationStatus]? = nil
-    )
-    {
+    ) {
         self.agentsConfigurationStatus = agentsConfigurationStatus
     }
 }
@@ -2656,16 +2622,19 @@ public struct UpdateApplicationInput: Swift.Sendable {
     public var description: Swift.String?
     /// New name of the application to be updated.
     public var name: Swift.String?
+    /// The new migration wave of the application that you want to update.
+    public var wave: Swift.String?
 
     public init(
         configurationId: Swift.String? = nil,
         description: Swift.String? = nil,
-        name: Swift.String? = nil
-    )
-    {
+        name: Swift.String? = nil,
+        wave: Swift.String? = nil
+    ) {
         self.configurationId = configurationId
         self.description = description
         self.name = name
+        self.wave = wave
     }
 }
 
@@ -2902,6 +2871,7 @@ extension CreateApplicationInput {
         guard let value else { return }
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
+        try writer["wave"].write(value.wave)
     }
 }
 
@@ -3128,6 +3098,7 @@ extension UpdateApplicationInput {
         try writer["configurationId"].write(value.configurationId)
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
+        try writer["wave"].write(value.wave)
     }
 }
 
@@ -3834,6 +3805,7 @@ enum StartBatchDeleteConfigurationTaskOutputError {
         switch baseError.code {
             case "AuthorizationErrorException": return try AuthorizationErrorException.makeError(baseError: baseError)
             case "HomeRegionNotSetException": return try HomeRegionNotSetException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "OperationNotPermittedException": return try OperationNotPermittedException.makeError(baseError: baseError)
@@ -4250,6 +4222,7 @@ extension ApplicationDiscoveryClientTypes.ImportTask {
         value.importRequestTime = try reader["importRequestTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.importCompletionTime = try reader["importCompletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.importDeletedTime = try reader["importDeletedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.fileClassification = try reader["fileClassification"].readIfPresent()
         value.serverImportSuccess = try reader["serverImportSuccess"].readIfPresent() ?? 0
         value.serverImportFailure = try reader["serverImportFailure"].readIfPresent() ?? 0
         value.applicationImportSuccess = try reader["applicationImportSuccess"].readIfPresent() ?? 0

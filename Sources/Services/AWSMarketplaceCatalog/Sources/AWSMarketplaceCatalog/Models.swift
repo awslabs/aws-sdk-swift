@@ -29,9 +29,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// Access is denied. HTTP status code: 403
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -46,8 +46,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -61,8 +60,7 @@ extension MarketplaceCatalogClientTypes {
 
         public init(
             valueList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.valueList = valueList
         }
     }
@@ -80,8 +78,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             afterValue: Swift.String? = nil,
             beforeValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.afterValue = afterValue
             self.beforeValue = beforeValue
         }
@@ -97,8 +94,7 @@ extension MarketplaceCatalogClientTypes {
 
         public init(
             dateRange: MarketplaceCatalogClientTypes.AmiProductLastModifiedDateFilterDateRange? = nil
-        )
-        {
+        ) {
             self.dateRange = dateRange
         }
     }
@@ -116,8 +112,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             valueList: [Swift.String]? = nil,
             wildCardValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.valueList = valueList
             self.wildCardValue = wildCardValue
         }
@@ -168,8 +163,7 @@ extension MarketplaceCatalogClientTypes {
 
         public init(
             valueList: [MarketplaceCatalogClientTypes.AmiProductVisibilityString]? = nil
-        )
-        {
+        ) {
             self.valueList = valueList
         }
     }
@@ -193,8 +187,7 @@ extension MarketplaceCatalogClientTypes {
             lastModifiedDate: MarketplaceCatalogClientTypes.AmiProductLastModifiedDateFilter? = nil,
             productTitle: MarketplaceCatalogClientTypes.AmiProductTitleFilter? = nil,
             visibility: MarketplaceCatalogClientTypes.AmiProductVisibilityFilter? = nil
-        )
-        {
+        ) {
             self.entityId = entityId
             self.lastModifiedDate = lastModifiedDate
             self.productTitle = productTitle
@@ -279,8 +272,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             sortBy: MarketplaceCatalogClientTypes.AmiProductSortBy? = nil,
             sortOrder: MarketplaceCatalogClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.sortBy = sortBy
             self.sortOrder = sortOrder
         }
@@ -299,8 +291,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             productTitle: Swift.String? = nil,
             visibility: MarketplaceCatalogClientTypes.AmiProductVisibilityString? = nil
-        )
-        {
+        ) {
             self.productTitle = productTitle
             self.visibility = visibility
         }
@@ -308,9 +299,9 @@ extension MarketplaceCatalogClientTypes {
 }
 
 /// There was an internal service exception. HTTP status code: 500
-public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -325,16 +316,15 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Too many requests. HTTP status code: 429
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -349,16 +339,15 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An error occurred during validation. HTTP status code: 422
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -373,8 +362,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -393,8 +381,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             catalog: Swift.String? = nil,
             entityId: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalog = catalog
             self.entityId = entityId
         }
@@ -408,8 +395,7 @@ public struct BatchDescribeEntitiesInput: Swift.Sendable {
 
     public init(
         entityRequestList: [MarketplaceCatalogClientTypes.EntityRequest]? = nil
-    )
-    {
+    ) {
         self.entityRequestList = entityRequestList
     }
 }
@@ -435,8 +421,7 @@ extension MarketplaceCatalogClientTypes {
             entityIdentifier: Swift.String? = nil,
             entityType: Swift.String? = nil,
             lastModifiedDate: Swift.String? = nil
-        )
-        {
+        ) {
             self.detailsDocument = detailsDocument
             self.entityArn = entityArn
             self.entityIdentifier = entityIdentifier
@@ -458,8 +443,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
         }
@@ -475,17 +459,16 @@ public struct BatchDescribeEntitiesOutput: Swift.Sendable {
     public init(
         entityDetails: [Swift.String: MarketplaceCatalogClientTypes.EntityDetail]? = nil,
         errors: [Swift.String: MarketplaceCatalogClientTypes.BatchDescribeErrorDetail]? = nil
-    )
-    {
+    ) {
         self.entityDetails = entityDetails
         self.errors = errors
     }
 }
 
 /// The resource is currently in use.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -500,16 +483,15 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified resource wasn't found. HTTP status code: 404
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -524,8 +506,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -541,8 +522,7 @@ public struct CancelChangeSetInput: Swift.Sendable {
     public init(
         catalog: Swift.String? = nil,
         changeSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.changeSetId = changeSetId
     }
@@ -557,8 +537,7 @@ public struct CancelChangeSetOutput: Swift.Sendable {
     public init(
         changeSetArn: Swift.String? = nil,
         changeSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeSetArn = changeSetArn
         self.changeSetId = changeSetId
     }
@@ -571,8 +550,7 @@ public struct DeleteResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -593,8 +571,7 @@ public struct DescribeChangeSetInput: Swift.Sendable {
     public init(
         catalog: Swift.String? = nil,
         changeSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.changeSetId = changeSetId
     }
@@ -613,8 +590,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             identifier: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.identifier = identifier
             self.type = type
         }
@@ -633,8 +609,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
         }
@@ -665,8 +640,7 @@ extension MarketplaceCatalogClientTypes {
             detailsDocument: Smithy.Document? = nil,
             entity: MarketplaceCatalogClientTypes.Entity? = nil,
             errorDetailList: [MarketplaceCatalogClientTypes.ErrorDetail]? = nil
-        )
-        {
+        ) {
             self.changeName = changeName
             self.changeType = changeType
             self.details = details
@@ -806,8 +780,7 @@ public struct DescribeChangeSetOutput: Swift.Sendable {
         intent: MarketplaceCatalogClientTypes.Intent? = nil,
         startTime: Swift.String? = nil,
         status: MarketplaceCatalogClientTypes.ChangeStatus? = nil
-    )
-    {
+    ) {
         self.changeSet = changeSet
         self.changeSetArn = changeSetArn
         self.changeSetId = changeSetId
@@ -822,9 +795,9 @@ public struct DescribeChangeSetOutput: Swift.Sendable {
 }
 
 /// Currently, the specified resource is not supported.
-public struct ResourceNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -839,8 +812,7 @@ public struct ResourceNotSupportedException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -856,8 +828,7 @@ public struct DescribeEntityInput: Swift.Sendable {
     public init(
         catalog: Swift.String? = nil,
         entityId: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.entityId = entityId
     }
@@ -884,8 +855,7 @@ public struct DescribeEntityOutput: Swift.Sendable {
         entityIdentifier: Swift.String? = nil,
         entityType: Swift.String? = nil,
         lastModifiedDate: Swift.String? = nil
-    )
-    {
+    ) {
         self.details = details
         self.detailsDocument = detailsDocument
         self.entityArn = entityArn
@@ -902,8 +872,7 @@ public struct GetResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -914,8 +883,7 @@ public struct GetResourcePolicyOutput: Swift.Sendable {
 
     public init(
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -946,8 +914,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             name: Swift.String? = nil,
             valueList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.valueList = valueList
         }
@@ -966,8 +933,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             sortBy: Swift.String? = nil,
             sortOrder: MarketplaceCatalogClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.sortBy = sortBy
             self.sortOrder = sortOrder
         }
@@ -993,8 +959,7 @@ public struct ListChangeSetsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sort: MarketplaceCatalogClientTypes.Sort? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.filterList = filterList
         self.maxResults = maxResults
@@ -1033,8 +998,7 @@ extension MarketplaceCatalogClientTypes {
             failureCode: MarketplaceCatalogClientTypes.FailureCode? = nil,
             startTime: Swift.String? = nil,
             status: MarketplaceCatalogClientTypes.ChangeStatus? = nil
-        )
-        {
+        ) {
             self.changeSetArn = changeSetArn
             self.changeSetId = changeSetId
             self.changeSetName = changeSetName
@@ -1056,8 +1020,7 @@ public struct ListChangeSetsOutput: Swift.Sendable {
     public init(
         changeSetSummaryList: [MarketplaceCatalogClientTypes.ChangeSetSummaryListItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeSetSummaryList = changeSetSummaryList
         self.nextToken = nextToken
     }
@@ -1072,8 +1035,7 @@ extension MarketplaceCatalogClientTypes {
 
         public init(
             valueList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.valueList = valueList
         }
     }
@@ -1091,8 +1053,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             afterValue: Swift.String? = nil,
             beforeValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.afterValue = afterValue
             self.beforeValue = beforeValue
         }
@@ -1108,8 +1069,7 @@ extension MarketplaceCatalogClientTypes {
 
         public init(
             dateRange: MarketplaceCatalogClientTypes.ContainerProductLastModifiedDateFilterDateRange? = nil
-        )
-        {
+        ) {
             self.dateRange = dateRange
         }
     }
@@ -1127,8 +1087,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             valueList: [Swift.String]? = nil,
             wildCardValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.valueList = valueList
             self.wildCardValue = wildCardValue
         }
@@ -1179,8 +1138,7 @@ extension MarketplaceCatalogClientTypes {
 
         public init(
             valueList: [MarketplaceCatalogClientTypes.ContainerProductVisibilityString]? = nil
-        )
-        {
+        ) {
             self.valueList = valueList
         }
     }
@@ -1204,8 +1162,7 @@ extension MarketplaceCatalogClientTypes {
             lastModifiedDate: MarketplaceCatalogClientTypes.ContainerProductLastModifiedDateFilter? = nil,
             productTitle: MarketplaceCatalogClientTypes.ContainerProductTitleFilter? = nil,
             visibility: MarketplaceCatalogClientTypes.ContainerProductVisibilityFilter? = nil
-        )
-        {
+        ) {
             self.entityId = entityId
             self.lastModifiedDate = lastModifiedDate
             self.productTitle = productTitle
@@ -1223,8 +1180,7 @@ extension MarketplaceCatalogClientTypes {
 
         public init(
             valueList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.valueList = valueList
         }
     }
@@ -1242,8 +1198,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             afterValue: Swift.String? = nil,
             beforeValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.afterValue = afterValue
             self.beforeValue = beforeValue
         }
@@ -1259,8 +1214,7 @@ extension MarketplaceCatalogClientTypes {
 
         public init(
             dateRange: MarketplaceCatalogClientTypes.DataProductLastModifiedDateFilterDateRange? = nil
-        )
-        {
+        ) {
             self.dateRange = dateRange
         }
     }
@@ -1278,8 +1232,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             valueList: [Swift.String]? = nil,
             wildCardValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.valueList = valueList
             self.wildCardValue = wildCardValue
         }
@@ -1333,8 +1286,7 @@ extension MarketplaceCatalogClientTypes {
 
         public init(
             valueList: [MarketplaceCatalogClientTypes.DataProductVisibilityString]? = nil
-        )
-        {
+        ) {
             self.valueList = valueList
         }
     }
@@ -1358,8 +1310,7 @@ extension MarketplaceCatalogClientTypes {
             lastModifiedDate: MarketplaceCatalogClientTypes.DataProductLastModifiedDateFilter? = nil,
             productTitle: MarketplaceCatalogClientTypes.DataProductTitleFilter? = nil,
             visibility: MarketplaceCatalogClientTypes.DataProductVisibilityFilter? = nil
-        )
-        {
+        ) {
             self.entityId = entityId
             self.lastModifiedDate = lastModifiedDate
             self.productTitle = productTitle
@@ -1380,8 +1331,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             afterValue: Swift.String? = nil,
             beforeValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.afterValue = afterValue
             self.beforeValue = beforeValue
         }
@@ -1397,8 +1347,7 @@ extension MarketplaceCatalogClientTypes {
 
         public init(
             dateRange: MarketplaceCatalogClientTypes.OfferAvailabilityEndDateFilterDateRange? = nil
-        )
-        {
+        ) {
             self.dateRange = dateRange
         }
     }
@@ -1413,8 +1362,7 @@ extension MarketplaceCatalogClientTypes {
 
         public init(
             wildCardValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.wildCardValue = wildCardValue
         }
     }
@@ -1429,8 +1377,7 @@ extension MarketplaceCatalogClientTypes {
 
         public init(
             valueList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.valueList = valueList
         }
     }
@@ -1448,8 +1395,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             afterValue: Swift.String? = nil,
             beforeValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.afterValue = afterValue
             self.beforeValue = beforeValue
         }
@@ -1465,8 +1411,7 @@ extension MarketplaceCatalogClientTypes {
 
         public init(
             dateRange: MarketplaceCatalogClientTypes.OfferLastModifiedDateFilterDateRange? = nil
-        )
-        {
+        ) {
             self.dateRange = dateRange
         }
     }
@@ -1484,8 +1429,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             valueList: [Swift.String]? = nil,
             wildCardValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.valueList = valueList
             self.wildCardValue = wildCardValue
         }
@@ -1501,8 +1445,7 @@ extension MarketplaceCatalogClientTypes {
 
         public init(
             valueList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.valueList = valueList
         }
     }
@@ -1520,8 +1463,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             afterValue: Swift.String? = nil,
             beforeValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.afterValue = afterValue
             self.beforeValue = beforeValue
         }
@@ -1537,8 +1479,7 @@ extension MarketplaceCatalogClientTypes {
 
         public init(
             dateRange: MarketplaceCatalogClientTypes.OfferReleaseDateFilterDateRange? = nil
-        )
-        {
+        ) {
             self.dateRange = dateRange
         }
     }
@@ -1553,8 +1494,7 @@ extension MarketplaceCatalogClientTypes {
 
         public init(
             valueList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.valueList = valueList
         }
     }
@@ -1598,8 +1538,7 @@ extension MarketplaceCatalogClientTypes {
 
         public init(
             valueList: [MarketplaceCatalogClientTypes.OfferStateString]? = nil
-        )
-        {
+        ) {
             self.valueList = valueList
         }
     }
@@ -1649,8 +1588,7 @@ extension MarketplaceCatalogClientTypes {
 
         public init(
             valueList: [MarketplaceCatalogClientTypes.OfferTargetingString]? = nil
-        )
-        {
+        ) {
             self.valueList = valueList
         }
     }
@@ -1692,8 +1630,7 @@ extension MarketplaceCatalogClientTypes {
             resaleAuthorizationId: MarketplaceCatalogClientTypes.OfferResaleAuthorizationIdFilter? = nil,
             state: MarketplaceCatalogClientTypes.OfferStateFilter? = nil,
             targeting: MarketplaceCatalogClientTypes.OfferTargetingFilter? = nil
-        )
-        {
+        ) {
             self.availabilityEndDate = availabilityEndDate
             self.buyerAccounts = buyerAccounts
             self.entityId = entityId
@@ -1720,8 +1657,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             afterValue: Swift.String? = nil,
             beforeValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.afterValue = afterValue
             self.beforeValue = beforeValue
         }
@@ -1740,8 +1676,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             dateRange: MarketplaceCatalogClientTypes.ResaleAuthorizationAvailabilityEndDateFilterDateRange? = nil,
             valueList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.dateRange = dateRange
             self.valueList = valueList
         }
@@ -1760,8 +1695,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             afterValue: Swift.String? = nil,
             beforeValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.afterValue = afterValue
             self.beforeValue = beforeValue
         }
@@ -1780,8 +1714,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             dateRange: MarketplaceCatalogClientTypes.ResaleAuthorizationCreatedDateFilterDateRange? = nil,
             valueList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.dateRange = dateRange
             self.valueList = valueList
         }
@@ -1797,8 +1730,7 @@ extension MarketplaceCatalogClientTypes {
 
         public init(
             valueList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.valueList = valueList
         }
     }
@@ -1816,8 +1748,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             afterValue: Swift.String? = nil,
             beforeValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.afterValue = afterValue
             self.beforeValue = beforeValue
         }
@@ -1833,8 +1764,7 @@ extension MarketplaceCatalogClientTypes {
 
         public init(
             dateRange: MarketplaceCatalogClientTypes.ResaleAuthorizationLastModifiedDateFilterDateRange? = nil
-        )
-        {
+        ) {
             self.dateRange = dateRange
         }
     }
@@ -1852,8 +1782,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             valueList: [Swift.String]? = nil,
             wildCardValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.valueList = valueList
             self.wildCardValue = wildCardValue
         }
@@ -1872,8 +1801,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             valueList: [Swift.String]? = nil,
             wildCardValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.valueList = valueList
             self.wildCardValue = wildCardValue
         }
@@ -1892,8 +1820,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             valueList: [Swift.String]? = nil,
             wildCardValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.valueList = valueList
             self.wildCardValue = wildCardValue
         }
@@ -1909,8 +1836,7 @@ extension MarketplaceCatalogClientTypes {
 
         public init(
             valueList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.valueList = valueList
         }
     }
@@ -1928,8 +1854,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             valueList: [Swift.String]? = nil,
             wildCardValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.valueList = valueList
             self.wildCardValue = wildCardValue
         }
@@ -1948,8 +1873,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             valueList: [Swift.String]? = nil,
             wildCardValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.valueList = valueList
             self.wildCardValue = wildCardValue
         }
@@ -1968,8 +1892,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             valueList: [Swift.String]? = nil,
             wildCardValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.valueList = valueList
             self.wildCardValue = wildCardValue
         }
@@ -1988,8 +1911,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             valueList: [Swift.String]? = nil,
             wildCardValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.valueList = valueList
             self.wildCardValue = wildCardValue
         }
@@ -2037,8 +1959,7 @@ extension MarketplaceCatalogClientTypes {
 
         public init(
             valueList: [MarketplaceCatalogClientTypes.ResaleAuthorizationStatusString]? = nil
-        )
-        {
+        ) {
             self.valueList = valueList
         }
     }
@@ -2089,8 +2010,7 @@ extension MarketplaceCatalogClientTypes {
             resellerAccountID: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerAccountIDFilter? = nil,
             resellerLegalName: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerLegalNameFilter? = nil,
             status: MarketplaceCatalogClientTypes.ResaleAuthorizationStatusFilter? = nil
-        )
-        {
+        ) {
             self.availabilityEndDate = availabilityEndDate
             self.createdDate = createdDate
             self.entityId = entityId
@@ -2117,8 +2037,7 @@ extension MarketplaceCatalogClientTypes {
 
         public init(
             valueList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.valueList = valueList
         }
     }
@@ -2136,8 +2055,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             afterValue: Swift.String? = nil,
             beforeValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.afterValue = afterValue
             self.beforeValue = beforeValue
         }
@@ -2153,8 +2071,7 @@ extension MarketplaceCatalogClientTypes {
 
         public init(
             dateRange: MarketplaceCatalogClientTypes.SaaSProductLastModifiedDateFilterDateRange? = nil
-        )
-        {
+        ) {
             self.dateRange = dateRange
         }
     }
@@ -2172,8 +2089,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             valueList: [Swift.String]? = nil,
             wildCardValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.valueList = valueList
             self.wildCardValue = wildCardValue
         }
@@ -2224,8 +2140,7 @@ extension MarketplaceCatalogClientTypes {
 
         public init(
             valueList: [MarketplaceCatalogClientTypes.SaaSProductVisibilityString]? = nil
-        )
-        {
+        ) {
             self.valueList = valueList
         }
     }
@@ -2249,8 +2164,7 @@ extension MarketplaceCatalogClientTypes {
             lastModifiedDate: MarketplaceCatalogClientTypes.SaaSProductLastModifiedDateFilter? = nil,
             productTitle: MarketplaceCatalogClientTypes.SaaSProductTitleFilter? = nil,
             visibility: MarketplaceCatalogClientTypes.SaaSProductVisibilityFilter? = nil
-        )
-        {
+        ) {
             self.entityId = entityId
             self.lastModifiedDate = lastModifiedDate
             self.productTitle = productTitle
@@ -2326,8 +2240,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             sortBy: MarketplaceCatalogClientTypes.ContainerProductSortBy? = nil,
             sortOrder: MarketplaceCatalogClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.sortBy = sortBy
             self.sortOrder = sortOrder
         }
@@ -2381,8 +2294,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             sortBy: MarketplaceCatalogClientTypes.DataProductSortBy? = nil,
             sortOrder: MarketplaceCatalogClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.sortBy = sortBy
             self.sortOrder = sortOrder
         }
@@ -2454,8 +2366,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             sortBy: MarketplaceCatalogClientTypes.OfferSortBy? = nil,
             sortOrder: MarketplaceCatalogClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.sortBy = sortBy
             self.sortOrder = sortOrder
         }
@@ -2536,8 +2447,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             sortBy: MarketplaceCatalogClientTypes.ResaleAuthorizationSortBy? = nil,
             sortOrder: MarketplaceCatalogClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.sortBy = sortBy
             self.sortOrder = sortOrder
         }
@@ -2591,8 +2501,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             sortBy: MarketplaceCatalogClientTypes.SaaSProductSortBy? = nil,
             sortOrder: MarketplaceCatalogClientTypes.SortOrder? = nil
-        )
-        {
+        ) {
             self.sortBy = sortBy
             self.sortOrder = sortOrder
         }
@@ -2680,8 +2589,7 @@ public struct ListEntitiesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         ownershipType: MarketplaceCatalogClientTypes.OwnershipType? = nil,
         sort: MarketplaceCatalogClientTypes.Sort? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.entityType = entityType
         self.entityTypeFilters = entityTypeFilters
@@ -2706,8 +2614,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             productTitle: Swift.String? = nil,
             visibility: MarketplaceCatalogClientTypes.ContainerProductVisibilityString? = nil
-        )
-        {
+        ) {
             self.productTitle = productTitle
             self.visibility = visibility
         }
@@ -2726,8 +2633,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             productTitle: Swift.String? = nil,
             visibility: MarketplaceCatalogClientTypes.DataProductVisibilityString? = nil
-        )
-        {
+        ) {
             self.productTitle = productTitle
             self.visibility = visibility
         }
@@ -2764,8 +2670,7 @@ extension MarketplaceCatalogClientTypes {
             resaleAuthorizationId: Swift.String? = nil,
             state: MarketplaceCatalogClientTypes.OfferStateString? = nil,
             targeting: [MarketplaceCatalogClientTypes.OfferTargetingString]? = nil
-        )
-        {
+        ) {
             self.availabilityEndDate = availabilityEndDate
             self.buyerAccounts = buyerAccounts
             self.name = name
@@ -2817,8 +2722,7 @@ extension MarketplaceCatalogClientTypes {
             resellerAccountID: Swift.String? = nil,
             resellerLegalName: Swift.String? = nil,
             status: MarketplaceCatalogClientTypes.ResaleAuthorizationStatusString? = nil
-        )
-        {
+        ) {
             self.availabilityEndDate = availabilityEndDate
             self.createdDate = createdDate
             self.manufacturerAccountId = manufacturerAccountId
@@ -2846,8 +2750,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             productTitle: Swift.String? = nil,
             visibility: MarketplaceCatalogClientTypes.SaaSProductVisibilityString? = nil
-        )
-        {
+        ) {
             self.productTitle = productTitle
             self.visibility = visibility
         }
@@ -2896,8 +2799,7 @@ extension MarketplaceCatalogClientTypes {
             resaleAuthorizationSummary: MarketplaceCatalogClientTypes.ResaleAuthorizationSummary? = nil,
             saaSProductSummary: MarketplaceCatalogClientTypes.SaaSProductSummary? = nil,
             visibility: Swift.String? = nil
-        )
-        {
+        ) {
             self.amiProductSummary = amiProductSummary
             self.containerProductSummary = containerProductSummary
             self.dataProductSummary = dataProductSummary
@@ -2923,8 +2825,7 @@ public struct ListEntitiesOutput: Swift.Sendable {
     public init(
         entitySummaryList: [MarketplaceCatalogClientTypes.EntitySummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.entitySummaryList = entitySummaryList
         self.nextToken = nextToken
     }
@@ -2937,8 +2838,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2957,8 +2857,7 @@ extension MarketplaceCatalogClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -2974,8 +2873,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [MarketplaceCatalogClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -2992,8 +2890,7 @@ public struct PutResourcePolicyInput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.resourceArn = resourceArn
     }
@@ -3005,9 +2902,9 @@ public struct PutResourcePolicyOutput: Swift.Sendable {
 }
 
 /// The maximum number of open requests per account has been exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3022,8 +2919,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3054,8 +2950,7 @@ extension MarketplaceCatalogClientTypes {
             detailsDocument: Smithy.Document? = nil,
             entity: MarketplaceCatalogClientTypes.Entity? = nil,
             entityTags: [MarketplaceCatalogClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.changeName = changeName
             self.changeType = changeType
             self.details = details
@@ -3089,8 +2984,7 @@ public struct StartChangeSetInput: Swift.Sendable {
         changeSetTags: [MarketplaceCatalogClientTypes.Tag]? = nil,
         clientRequestToken: Swift.String? = nil,
         intent: MarketplaceCatalogClientTypes.Intent? = nil
-    )
-    {
+    ) {
         self.catalog = catalog
         self.changeSet = changeSet
         self.changeSetName = changeSetName
@@ -3109,8 +3003,7 @@ public struct StartChangeSetOutput: Swift.Sendable {
     public init(
         changeSetArn: Swift.String? = nil,
         changeSetId: Swift.String? = nil
-    )
-    {
+    ) {
         self.changeSetArn = changeSetArn
         self.changeSetId = changeSetId
     }
@@ -3127,8 +3020,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [MarketplaceCatalogClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -3150,8 +3042,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }

@@ -27,14 +27,15 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+import struct Smithy.Document
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// Access to a resource was denied.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -50,8 +51,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -65,8 +65,7 @@ extension GlueClientTypes {
 
         public init(
             notifyDelayAfter: Swift.Int? = nil
-        )
-        {
+        ) {
             self.notifyDelayAfter = notifyDelayAfter
         }
     }
@@ -96,8 +95,7 @@ extension GlueClientTypes {
             notificationProperty: GlueClientTypes.NotificationProperty? = nil,
             securityConfiguration: Swift.String? = nil,
             timeout: Swift.Int? = nil
-        )
-        {
+        ) {
             self.arguments = arguments
             self.crawlerName = crawlerName
             self.jobName = jobName
@@ -219,8 +217,7 @@ extension GlueClientTypes {
         public init(
             aggFunc: GlueClientTypes.AggFunction? = nil,
             column: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.aggFunc = aggFunc
             self.column = column
         }
@@ -249,8 +246,7 @@ extension GlueClientTypes {
             groups: [[Swift.String]]? = nil,
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.aggs = aggs
             self.groups = groups
             self.inputs = inputs
@@ -259,10 +255,30 @@ extension GlueClientTypes {
     }
 }
 
-/// A resource to be created or added already exists.
-public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+extension GlueClientTypes {
 
-    public struct Properties {
+    /// An object representing a value allowed for a property.
+    public struct AllowedValue: Swift.Sendable {
+        /// A description of the allowed value.
+        public var description: Swift.String?
+        /// The value allowed for the property.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.description = description
+            self.value = value
+        }
+    }
+}
+
+/// A resource to be created or added already exists.
+public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -278,8 +294,7 @@ public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -296,8 +311,7 @@ extension GlueClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -319,8 +333,7 @@ extension GlueClientTypes {
             description: Swift.String? = nil,
             label: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.label = label
             self.value = value
@@ -412,8 +425,7 @@ extension GlueClientTypes {
             tableSchema: [GlueClientTypes.Option]? = nil,
             tempDir: Swift.String? = nil,
             upsert: Swift.Bool = false
-        )
-        {
+        ) {
             self.accessType = accessType
             self.action = action
             self.advancedOptions = advancedOptions
@@ -456,8 +468,7 @@ extension GlueClientTypes {
         public init(
             data: GlueClientTypes.AmazonRedshiftNodeData? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.data = data
             self.name = name
         }
@@ -479,8 +490,7 @@ extension GlueClientTypes {
             data: GlueClientTypes.AmazonRedshiftNodeData? = nil,
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.data = data
             self.inputs = inputs
             self.name = name
@@ -503,8 +513,7 @@ extension GlueClientTypes {
             failureReason: Swift.String? = nil,
             profileId: Swift.String? = nil,
             statisticId: Swift.String? = nil
-        )
-        {
+        ) {
             self.failureReason = failureReason
             self.profileId = profileId
             self.statisticId = statisticId
@@ -553,8 +562,7 @@ extension GlueClientTypes {
         public init(
             lastModifiedOn: Foundation.Date? = nil,
             value: GlueClientTypes.InclusionAnnotationValue? = nil
-        )
-        {
+        ) {
             self.lastModifiedOn = lastModifiedOn
             self.value = value
         }
@@ -579,8 +587,7 @@ extension GlueClientTypes {
             profileId: Swift.String? = nil,
             statisticId: Swift.String? = nil,
             statisticRecordedOn: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.inclusionAnnotation = inclusionAnnotation
             self.profileId = profileId
             self.statisticId = statisticId
@@ -602,8 +609,7 @@ extension GlueClientTypes {
         public init(
             name: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
         }
@@ -619,8 +625,7 @@ extension GlueClientTypes {
 
         public init(
             columns: [GlueClientTypes.GlueStudioSchemaColumn]? = nil
-        )
-        {
+        ) {
             self.columns = columns
         }
     }
@@ -658,8 +663,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil,
             schemaName: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectionName = connectionName
             self.connectionTable = connectionTable
             self.connectionType = connectionType
@@ -686,8 +690,7 @@ extension GlueClientTypes {
             additionalAuditContext: Swift.String? = nil,
             allColumnsRequested: Swift.Bool? = nil,
             requestedColumns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.additionalAuditContext = additionalAuditContext
             self.allColumnsRequested = allColumnsRequested
             self.requestedColumns = requestedColumns
@@ -697,9 +700,152 @@ extension GlueClientTypes {
 
 extension GlueClientTypes {
 
+    public enum DataOperation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case read
+        case write
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataOperation] {
+            return [
+                .read,
+                .write
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .read: return "READ"
+            case .write: return "WRITE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum PropertyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case readOnly
+        case secret
+        case secretOrUserInput
+        case unused
+        case userInput
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PropertyType] {
+            return [
+                .readOnly,
+                .secret,
+                .secretOrUserInput,
+                .unused,
+                .userInput
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .readOnly: return "READ_ONLY"
+            case .secret: return "SECRET"
+            case .secretOrUserInput: return "SECRET_OR_USER_INPUT"
+            case .unused: return "UNUSED"
+            case .userInput: return "USER_INPUT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// An object that defines a connection type for a compute environment.
+    public struct Property: Swift.Sendable {
+        /// A list of AllowedValue objects representing the values allowed for the property.
+        public var allowedValues: [GlueClientTypes.AllowedValue]?
+        /// Indicates which data operations are applicable to the property.
+        public var dataOperationScopes: [GlueClientTypes.DataOperation]?
+        /// The default value for the property.
+        public var defaultValue: Swift.String?
+        /// A description of the property.
+        /// This member is required.
+        public var description: Swift.String?
+        /// The name of the property.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Describes the type of property.
+        /// This member is required.
+        public var propertyTypes: [GlueClientTypes.PropertyType]?
+        /// Indicates whether the property is required.
+        /// This member is required.
+        public var `required`: Swift.Bool?
+
+        public init(
+            allowedValues: [GlueClientTypes.AllowedValue]? = nil,
+            dataOperationScopes: [GlueClientTypes.DataOperation]? = nil,
+            defaultValue: Swift.String? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            propertyTypes: [GlueClientTypes.PropertyType]? = [],
+            `required`: Swift.Bool? = nil
+        ) {
+            self.allowedValues = allowedValues
+            self.dataOperationScopes = dataOperationScopes
+            self.defaultValue = defaultValue
+            self.description = description
+            self.name = name
+            self.propertyTypes = propertyTypes
+            self.`required` = `required`
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The authentication configuration for a connection returned by the DescribeConnectionType API.
+    public struct AuthConfiguration: Swift.Sendable {
+        /// The type of authentication for a connection.
+        /// This member is required.
+        public var authenticationType: GlueClientTypes.Property?
+        /// A map of key-value pairs for the OAuth2 properties. Each value is a a Property object.
+        public var basicAuthenticationProperties: [Swift.String: GlueClientTypes.Property]?
+        /// A map of key-value pairs for the custom authentication properties. Each value is a a Property object.
+        public var customAuthenticationProperties: [Swift.String: GlueClientTypes.Property]?
+        /// A map of key-value pairs for the OAuth2 properties. Each value is a a Property object.
+        public var oAuth2Properties: [Swift.String: GlueClientTypes.Property]?
+        /// The Amazon Resource Name (ARN) for the Secrets Manager.
+        public var secretArn: GlueClientTypes.Property?
+
+        public init(
+            authenticationType: GlueClientTypes.Property? = nil,
+            basicAuthenticationProperties: [Swift.String: GlueClientTypes.Property]? = nil,
+            customAuthenticationProperties: [Swift.String: GlueClientTypes.Property]? = nil,
+            oAuth2Properties: [Swift.String: GlueClientTypes.Property]? = nil,
+            secretArn: GlueClientTypes.Property? = nil
+        ) {
+            self.authenticationType = authenticationType
+            self.basicAuthenticationProperties = basicAuthenticationProperties
+            self.customAuthenticationProperties = customAuthenticationProperties
+            self.oAuth2Properties = oAuth2Properties
+            self.secretArn = secretArn
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     public enum AuthenticationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case basic
         case custom
+        case iam
         case oauth2
         case sdkUnknown(Swift.String)
 
@@ -707,6 +853,7 @@ extension GlueClientTypes {
             return [
                 .basic,
                 .custom,
+                .iam,
                 .oauth2
             ]
         }
@@ -720,6 +867,7 @@ extension GlueClientTypes {
             switch self {
             case .basic: return "BASIC"
             case .custom: return "CUSTOM"
+            case .iam: return "IAM"
             case .oauth2: return "OAUTH2"
             case let .sdkUnknown(s): return s
             }
@@ -739,8 +887,7 @@ extension GlueClientTypes {
         public init(
             awsManagedClientApplicationReference: Swift.String? = nil,
             userManagedClientApplicationClientId: Swift.String? = nil
-        )
-        {
+        ) {
             self.awsManagedClientApplicationReference = awsManagedClientApplicationReference
             self.userManagedClientApplicationClientId = userManagedClientApplicationClientId
         }
@@ -797,8 +944,7 @@ extension GlueClientTypes {
             oAuth2GrantType: GlueClientTypes.OAuth2GrantType? = nil,
             tokenUrl: Swift.String? = nil,
             tokenUrlParametersMap: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.oAuth2ClientApplication = oAuth2ClientApplication
             self.oAuth2GrantType = oAuth2GrantType
             self.tokenUrl = tokenUrl
@@ -822,13 +968,36 @@ extension GlueClientTypes {
             authenticationType: GlueClientTypes.AuthenticationType? = nil,
             oAuth2Properties: GlueClientTypes.OAuth2Properties? = nil,
             secretArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.authenticationType = authenticationType
             self.oAuth2Properties = oAuth2Properties
             self.secretArn = secretArn
         }
     }
+}
+
+extension GlueClientTypes {
+
+    /// For supplying basic auth credentials when not providing a SecretArn value.
+    public struct BasicAuthenticationCredentials: Swift.Sendable {
+        /// The password to connect to the data source.
+        public var password: Swift.String?
+        /// The username to connect to the data source.
+        public var username: Swift.String?
+
+        public init(
+            password: Swift.String? = nil,
+            username: Swift.String? = nil
+        ) {
+            self.password = password
+            self.username = username
+        }
+    }
+}
+
+extension GlueClientTypes.BasicAuthenticationCredentials: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BasicAuthenticationCredentials(username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
 }
 
 extension GlueClientTypes {
@@ -843,8 +1012,7 @@ extension GlueClientTypes {
         public init(
             authorizationCode: Swift.String? = nil,
             redirectUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.authorizationCode = authorizationCode
             self.redirectUri = redirectUri
         }
@@ -858,12 +1026,46 @@ extension GlueClientTypes.AuthorizationCodeProperties: Swift.CustomDebugStringCo
 
 extension GlueClientTypes {
 
+    /// The credentials used when the authentication type is OAuth2 authentication.
+    public struct OAuth2Credentials: Swift.Sendable {
+        /// The access token used when the authentication type is OAuth2.
+        public var accessToken: Swift.String?
+        /// The JSON Web Token (JWT) used when the authentication type is OAuth2.
+        public var jwtToken: Swift.String?
+        /// The refresh token used when the authentication type is OAuth2.
+        public var refreshToken: Swift.String?
+        /// The client application client secret if the client application is user managed.
+        public var userManagedClientApplicationClientSecret: Swift.String?
+
+        public init(
+            accessToken: Swift.String? = nil,
+            jwtToken: Swift.String? = nil,
+            refreshToken: Swift.String? = nil,
+            userManagedClientApplicationClientSecret: Swift.String? = nil
+        ) {
+            self.accessToken = accessToken
+            self.jwtToken = jwtToken
+            self.refreshToken = refreshToken
+            self.userManagedClientApplicationClientSecret = userManagedClientApplicationClientSecret
+        }
+    }
+}
+
+extension GlueClientTypes.OAuth2Credentials: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OAuth2Credentials(accessToken: \"CONTENT_REDACTED\", jwtToken: \"CONTENT_REDACTED\", refreshToken: \"CONTENT_REDACTED\", userManagedClientApplicationClientSecret: \"CONTENT_REDACTED\")"}
+}
+
+extension GlueClientTypes {
+
     /// A structure containing properties for OAuth2 in the CreateConnection request.
     public struct OAuth2PropertiesInput: Swift.Sendable {
         /// The set of properties required for the the OAuth2 AUTHORIZATION_CODE grant type.
         public var authorizationCodeProperties: GlueClientTypes.AuthorizationCodeProperties?
         /// The client application type in the CreateConnection request. For example, AWS_MANAGED or USER_MANAGED.
         public var oAuth2ClientApplication: GlueClientTypes.OAuth2ClientApplication?
+        /// The credentials used when the authentication type is OAuth2 authentication.
+        public var oAuth2Credentials: GlueClientTypes.OAuth2Credentials?
         /// The OAuth2 grant type in the CreateConnection request. For example, AUTHORIZATION_CODE, JWT_BEARER, or CLIENT_CREDENTIALS.
         public var oAuth2GrantType: GlueClientTypes.OAuth2GrantType?
         /// The URL of the provider's authentication server, to exchange an authorization code for an access token.
@@ -874,13 +1076,14 @@ extension GlueClientTypes {
         public init(
             authorizationCodeProperties: GlueClientTypes.AuthorizationCodeProperties? = nil,
             oAuth2ClientApplication: GlueClientTypes.OAuth2ClientApplication? = nil,
+            oAuth2Credentials: GlueClientTypes.OAuth2Credentials? = nil,
             oAuth2GrantType: GlueClientTypes.OAuth2GrantType? = nil,
             tokenUrl: Swift.String? = nil,
             tokenUrlParametersMap: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.authorizationCodeProperties = authorizationCodeProperties
             self.oAuth2ClientApplication = oAuth2ClientApplication
+            self.oAuth2Credentials = oAuth2Credentials
             self.oAuth2GrantType = oAuth2GrantType
             self.tokenUrl = tokenUrl
             self.tokenUrlParametersMap = tokenUrlParametersMap
@@ -894,6 +1097,12 @@ extension GlueClientTypes {
     public struct AuthenticationConfigurationInput: Swift.Sendable {
         /// A structure containing the authentication configuration in the CreateConnection request.
         public var authenticationType: GlueClientTypes.AuthenticationType?
+        /// The credentials used when the authentication type is basic authentication.
+        public var basicAuthenticationCredentials: GlueClientTypes.BasicAuthenticationCredentials?
+        /// The credentials used when the authentication type is custom authentication.
+        public var customAuthenticationCredentials: [Swift.String: Swift.String]?
+        /// The ARN of the KMS key used to encrypt the connection. Only taken an as input in the request and stored in the Secret Manager.
+        public var kmsKeyArn: Swift.String?
         /// The properties for OAuth2 authentication in the CreateConnection request.
         public var oAuth2Properties: GlueClientTypes.OAuth2PropertiesInput?
         /// The secret manager ARN to store credentials in the CreateConnection request.
@@ -901,21 +1110,31 @@ extension GlueClientTypes {
 
         public init(
             authenticationType: GlueClientTypes.AuthenticationType? = nil,
+            basicAuthenticationCredentials: GlueClientTypes.BasicAuthenticationCredentials? = nil,
+            customAuthenticationCredentials: [Swift.String: Swift.String]? = nil,
+            kmsKeyArn: Swift.String? = nil,
             oAuth2Properties: GlueClientTypes.OAuth2PropertiesInput? = nil,
             secretArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.authenticationType = authenticationType
+            self.basicAuthenticationCredentials = basicAuthenticationCredentials
+            self.customAuthenticationCredentials = customAuthenticationCredentials
+            self.kmsKeyArn = kmsKeyArn
             self.oAuth2Properties = oAuth2Properties
             self.secretArn = secretArn
         }
     }
 }
 
-/// A specified entity does not exist
-public struct EntityNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+extension GlueClientTypes.AuthenticationConfigurationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AuthenticationConfigurationInput(authenticationType: \(Swift.String(describing: authenticationType)), basicAuthenticationCredentials: \(Swift.String(describing: basicAuthenticationCredentials)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), oAuth2Properties: \(Swift.String(describing: oAuth2Properties)), secretArn: \(Swift.String(describing: secretArn)), customAuthenticationCredentials: \"CONTENT_REDACTED\")"}
+}
 
-    public struct Properties {
+/// A specified entity does not exist
+public struct EntityNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
         /// Indicates whether or not the exception relates to a federated source.
         public internal(set) var fromFederationSource: Swift.Bool? = nil
         /// A message describing the problem.
@@ -934,17 +1153,16 @@ public struct EntityNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         fromFederationSource: Swift.Bool? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.fromFederationSource = fromFederationSource
         self.properties.message = message
     }
 }
 
 /// An encryption operation failed.
-public struct GlueEncryptionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GlueEncryptionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -960,16 +1178,15 @@ public struct GlueEncryptionException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An internal service error occurred.
-public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -985,16 +1202,15 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The input provided was not valid.
-public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Indicates whether or not the exception relates to a federated source.
         public internal(set) var fromFederationSource: Swift.Bool? = nil
         /// A message describing the problem.
@@ -1013,17 +1229,16 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         fromFederationSource: Swift.Bool? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.fromFederationSource = fromFederationSource
         self.properties.message = message
     }
 }
 
 /// The operation timed out.
-public struct OperationTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OperationTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1039,16 +1254,15 @@ public struct OperationTimeoutException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A resource numerical limit was exceeded.
-public struct ResourceNumberLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNumberLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1064,8 +1278,7 @@ public struct ResourceNumberLimitExceededException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1089,8 +1302,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             parameters: [Swift.String: Swift.String]? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.comment = comment
             self.name = name
             self.parameters = parameters
@@ -1114,8 +1326,7 @@ extension GlueClientTypes {
             registryName: Swift.String? = nil,
             schemaArn: Swift.String? = nil,
             schemaName: Swift.String? = nil
-        )
-        {
+        ) {
             self.registryName = registryName
             self.schemaArn = schemaArn
             self.schemaName = schemaName
@@ -1138,8 +1349,7 @@ extension GlueClientTypes {
             schemaId: GlueClientTypes.SchemaId? = nil,
             schemaVersionId: Swift.String? = nil,
             schemaVersionNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.schemaId = schemaId
             self.schemaVersionId = schemaVersionId
             self.schemaVersionNumber = schemaVersionNumber
@@ -1162,8 +1372,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             parameters: [Swift.String: Swift.String]? = nil,
             serializationLibrary: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.parameters = parameters
             self.serializationLibrary = serializationLibrary
@@ -1186,8 +1395,7 @@ extension GlueClientTypes {
             skewedColumnNames: [Swift.String]? = nil,
             skewedColumnValueLocationMaps: [Swift.String: Swift.String]? = nil,
             skewedColumnValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.skewedColumnNames = skewedColumnNames
             self.skewedColumnValueLocationMaps = skewedColumnValueLocationMaps
             self.skewedColumnValues = skewedColumnValues
@@ -1209,8 +1417,7 @@ extension GlueClientTypes {
         public init(
             column: Swift.String? = nil,
             sortOrder: Swift.Int = 0
-        )
-        {
+        ) {
             self.column = column
             self.sortOrder = sortOrder
         }
@@ -1265,8 +1472,7 @@ extension GlueClientTypes {
             skewedInfo: GlueClientTypes.SkewedInfo? = nil,
             sortColumns: [GlueClientTypes.Order]? = nil,
             storedAsSubDirectories: Swift.Bool = false
-        )
-        {
+        ) {
             self.additionalLocations = additionalLocations
             self.bucketColumns = bucketColumns
             self.columns = columns
@@ -1306,8 +1512,7 @@ extension GlueClientTypes {
             parameters: [Swift.String: Swift.String]? = nil,
             storageDescriptor: GlueClientTypes.StorageDescriptor? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.lastAccessTime = lastAccessTime
             self.lastAnalyzedTime = lastAnalyzedTime
             self.parameters = parameters
@@ -1335,8 +1540,7 @@ public struct BatchCreatePartitionInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         partitionInputList: [GlueClientTypes.PartitionInput]? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.partitionInputList = partitionInputList
@@ -1356,8 +1560,7 @@ extension GlueClientTypes {
         public init(
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
         }
@@ -1376,8 +1579,7 @@ extension GlueClientTypes {
         public init(
             errorDetail: GlueClientTypes.ErrorDetail? = nil,
             partitionValues: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.errorDetail = errorDetail
             self.partitionValues = partitionValues
         }
@@ -1390,8 +1592,7 @@ public struct BatchCreatePartitionOutput: Swift.Sendable {
 
     public init(
         errors: [GlueClientTypes.PartitionError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -1406,8 +1607,7 @@ public struct BatchDeleteConnectionInput: Swift.Sendable {
     public init(
         catalogId: Swift.String? = nil,
         connectionNameList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.connectionNameList = connectionNameList
     }
@@ -1422,8 +1622,7 @@ public struct BatchDeleteConnectionOutput: Swift.Sendable {
     public init(
         errors: [Swift.String: GlueClientTypes.ErrorDetail]? = nil,
         succeeded: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.succeeded = succeeded
     }
@@ -1439,8 +1638,7 @@ extension GlueClientTypes {
 
         public init(
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.values = values
         }
     }
@@ -1464,8 +1662,7 @@ public struct BatchDeletePartitionInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         partitionsToDelete: [GlueClientTypes.PartitionValueList]? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.partitionsToDelete = partitionsToDelete
@@ -1479,16 +1676,15 @@ public struct BatchDeletePartitionOutput: Swift.Sendable {
 
     public init(
         errors: [GlueClientTypes.PartitionError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
 
 /// A resource was not ready for a transaction.
-public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1504,8 +1700,7 @@ public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1527,8 +1722,7 @@ public struct BatchDeleteTableInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         tablesToDelete: [Swift.String]? = nil,
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.tablesToDelete = tablesToDelete
@@ -1548,8 +1742,7 @@ extension GlueClientTypes {
         public init(
             errorDetail: GlueClientTypes.ErrorDetail? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorDetail = errorDetail
             self.tableName = tableName
         }
@@ -1562,8 +1755,7 @@ public struct BatchDeleteTableOutput: Swift.Sendable {
 
     public init(
         errors: [GlueClientTypes.TableError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -1586,8 +1778,7 @@ public struct BatchDeleteTableVersionInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil,
         versionIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.tableName = tableName
@@ -1610,8 +1801,7 @@ extension GlueClientTypes {
             errorDetail: GlueClientTypes.ErrorDetail? = nil,
             tableName: Swift.String? = nil,
             versionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorDetail = errorDetail
             self.tableName = tableName
             self.versionId = versionId
@@ -1625,8 +1815,7 @@ public struct BatchDeleteTableVersionOutput: Swift.Sendable {
 
     public init(
         errors: [GlueClientTypes.TableVersionError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -1644,8 +1833,7 @@ public struct BatchGetBlueprintsInput: Swift.Sendable {
         includeBlueprint: Swift.Bool? = nil,
         includeParameterSpec: Swift.Bool? = nil,
         names: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.includeBlueprint = includeBlueprint
         self.includeParameterSpec = includeParameterSpec
         self.names = names
@@ -1673,8 +1861,7 @@ extension GlueClientTypes {
             description: Swift.String? = nil,
             lastModifiedOn: Foundation.Date? = nil,
             parameterSpec: Swift.String? = nil
-        )
-        {
+        ) {
             self.blueprintLocation = blueprintLocation
             self.blueprintServiceLocation = blueprintServiceLocation
             self.description = description
@@ -1763,8 +1950,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             parameterSpec: Swift.String? = nil,
             status: GlueClientTypes.BlueprintStatus? = nil
-        )
-        {
+        ) {
             self.blueprintLocation = blueprintLocation
             self.blueprintServiceLocation = blueprintServiceLocation
             self.createdOn = createdOn
@@ -1788,8 +1974,7 @@ public struct BatchGetBlueprintsOutput: Swift.Sendable {
     public init(
         blueprints: [GlueClientTypes.Blueprint]? = nil,
         missingBlueprints: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.blueprints = blueprints
         self.missingBlueprints = missingBlueprints
     }
@@ -1802,8 +1987,7 @@ public struct BatchGetCrawlersInput: Swift.Sendable {
 
     public init(
         crawlerNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.crawlerNames = crawlerNames
     }
 }
@@ -1820,8 +2004,7 @@ extension GlueClientTypes {
         public init(
             accountId: Swift.String? = nil,
             useLakeFormationCredentials: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.useLakeFormationCredentials = useLakeFormationCredentials
         }
@@ -1884,8 +2067,7 @@ extension GlueClientTypes {
             messagePrefix: Swift.String? = nil,
             startTime: Foundation.Date? = nil,
             status: GlueClientTypes.LastCrawlStatus? = nil
-        )
-        {
+        ) {
             self.errorMessage = errorMessage
             self.logGroup = logGroup
             self.logStream = logStream
@@ -1938,8 +2120,7 @@ extension GlueClientTypes {
 
         public init(
             crawlerLineageSettings: GlueClientTypes.CrawlerLineageSettings? = nil
-        )
-        {
+        ) {
             self.crawlerLineageSettings = crawlerLineageSettings
         }
     }
@@ -1986,8 +2167,7 @@ extension GlueClientTypes {
 
         public init(
             recrawlBehavior: GlueClientTypes.RecrawlBehavior? = nil
-        )
-        {
+        ) {
             self.recrawlBehavior = recrawlBehavior
         }
     }
@@ -2037,8 +2217,7 @@ extension GlueClientTypes {
         public init(
             scheduleExpression: Swift.String? = nil,
             state: GlueClientTypes.ScheduleState? = nil
-        )
-        {
+        ) {
             self.scheduleExpression = scheduleExpression
             self.state = state
         }
@@ -2118,8 +2297,7 @@ extension GlueClientTypes {
         public init(
             deleteBehavior: GlueClientTypes.DeleteBehavior? = nil,
             updateBehavior: GlueClientTypes.UpdateBehavior? = nil
-        )
-        {
+        ) {
             self.deleteBehavior = deleteBehavior
             self.updateBehavior = updateBehavior
         }
@@ -2181,8 +2359,7 @@ extension GlueClientTypes {
             dlqEventQueueArn: Swift.String? = nil,
             eventQueueArn: Swift.String? = nil,
             tables: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.connectionName = connectionName
             self.databaseName = databaseName
             self.dlqEventQueueArn = dlqEventQueueArn
@@ -2210,8 +2387,7 @@ extension GlueClientTypes {
             createNativeDeltaTable: Swift.Bool? = nil,
             deltaTables: [Swift.String]? = nil,
             writeManifest: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.connectionName = connectionName
             self.createNativeDeltaTable = createNativeDeltaTable
             self.deltaTables = deltaTables
@@ -2235,8 +2411,7 @@ extension GlueClientTypes {
             path: Swift.String? = nil,
             scanAll: Swift.Bool? = nil,
             scanRate: Swift.Double? = nil
-        )
-        {
+        ) {
             self.path = path
             self.scanAll = scanAll
             self.scanRate = scanRate
@@ -2262,8 +2437,7 @@ extension GlueClientTypes {
             exclusions: [Swift.String]? = nil,
             maximumTraversalDepth: Swift.Int? = nil,
             paths: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.connectionName = connectionName
             self.exclusions = exclusions
             self.maximumTraversalDepth = maximumTraversalDepth
@@ -2290,8 +2464,7 @@ extension GlueClientTypes {
             exclusions: [Swift.String]? = nil,
             maximumTraversalDepth: Swift.Int? = nil,
             paths: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.connectionName = connectionName
             self.exclusions = exclusions
             self.maximumTraversalDepth = maximumTraversalDepth
@@ -2347,8 +2520,7 @@ extension GlueClientTypes {
             enableAdditionalMetadata: [GlueClientTypes.JdbcMetadataEntry]? = nil,
             exclusions: [Swift.String]? = nil,
             path: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectionName = connectionName
             self.enableAdditionalMetadata = enableAdditionalMetadata
             self.exclusions = exclusions
@@ -2372,8 +2544,7 @@ extension GlueClientTypes {
             connectionName: Swift.String? = nil,
             path: Swift.String? = nil,
             scanAll: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.connectionName = connectionName
             self.path = path
             self.scanAll = scanAll
@@ -2405,8 +2576,7 @@ extension GlueClientTypes {
             exclusions: [Swift.String]? = nil,
             path: Swift.String? = nil,
             sampleSize: Swift.Int? = nil
-        )
-        {
+        ) {
             self.connectionName = connectionName
             self.dlqEventQueueArn = dlqEventQueueArn
             self.eventQueueArn = eventQueueArn
@@ -2447,8 +2617,7 @@ extension GlueClientTypes {
             jdbcTargets: [GlueClientTypes.JdbcTarget]? = nil,
             mongoDBTargets: [GlueClientTypes.MongoDBTarget]? = nil,
             s3Targets: [GlueClientTypes.S3Target]? = nil
-        )
-        {
+        ) {
             self.catalogTargets = catalogTargets
             self.deltaTargets = deltaTargets
             self.dynamoDBTargets = dynamoDBTargets
@@ -2527,8 +2696,7 @@ extension GlueClientTypes {
             tablePrefix: Swift.String? = nil,
             targets: GlueClientTypes.CrawlerTargets? = nil,
             version: Swift.Int = 0
-        )
-        {
+        ) {
             self.classifiers = classifiers
             self.configuration = configuration
             self.crawlElapsedTime = crawlElapsedTime
@@ -2562,8 +2730,7 @@ public struct BatchGetCrawlersOutput: Swift.Sendable {
     public init(
         crawlers: [GlueClientTypes.Crawler]? = nil,
         crawlersNotFound: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.crawlers = crawlers
         self.crawlersNotFound = crawlersNotFound
     }
@@ -2576,8 +2743,7 @@ public struct BatchGetCustomEntityTypesInput: Swift.Sendable {
 
     public init(
         names: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.names = names
     }
 }
@@ -2599,8 +2765,7 @@ extension GlueClientTypes {
             contextWords: [Swift.String]? = nil,
             name: Swift.String? = nil,
             regexString: Swift.String? = nil
-        )
-        {
+        ) {
             self.contextWords = contextWords
             self.name = name
             self.regexString = regexString
@@ -2617,8 +2782,7 @@ public struct BatchGetCustomEntityTypesOutput: Swift.Sendable {
     public init(
         customEntityTypes: [GlueClientTypes.CustomEntityType]? = nil,
         customEntityTypesNotFound: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.customEntityTypes = customEntityTypes
         self.customEntityTypesNotFound = customEntityTypesNotFound
     }
@@ -2631,8 +2795,7 @@ public struct BatchGetDataQualityResultInput: Swift.Sendable {
 
     public init(
         resultIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resultIds = resultIds
     }
 }
@@ -2655,8 +2818,7 @@ extension GlueClientTypes {
             evaluatedMetrics: [Swift.String: Swift.Double]? = nil,
             evaluationMessage: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.evaluatedMetrics = evaluatedMetrics
             self.evaluationMessage = evaluationMessage
@@ -2697,8 +2859,7 @@ extension GlueClientTypes {
             connectionName: Swift.String? = nil,
             databaseName: Swift.String? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalOptions = additionalOptions
             self.catalogId = catalogId
             self.connectionName = connectionName
@@ -2718,8 +2879,7 @@ extension GlueClientTypes {
 
         public init(
             glueTable: GlueClientTypes.GlueTable? = nil
-        )
-        {
+        ) {
             self.glueTable = glueTable
         }
     }
@@ -2743,8 +2903,7 @@ extension GlueClientTypes {
             expectedValue: Swift.Double? = nil,
             lowerLimit: Swift.Double? = nil,
             upperLimit: Swift.Double? = nil
-        )
-        {
+        ) {
             self.actualValue = actualValue
             self.expectedValue = expectedValue
             self.lowerLimit = lowerLimit
@@ -2771,8 +2930,7 @@ extension GlueClientTypes {
             metricValues: GlueClientTypes.DataQualityMetricValues? = nil,
             newRules: [Swift.String]? = nil,
             statisticId: Swift.String? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
             self.metricValues = metricValues
             self.newRules = newRules
@@ -2793,8 +2951,7 @@ extension GlueClientTypes {
         public init(
             description: Swift.String? = nil,
             metricBasedObservation: GlueClientTypes.MetricBasedObservation? = nil
-        )
-        {
+        ) {
             self.description = description
             self.metricBasedObservation = metricBasedObservation
         }
@@ -2862,8 +3019,7 @@ extension GlueClientTypes {
             evaluationMessage: Swift.String? = nil,
             name: Swift.String? = nil,
             result: GlueClientTypes.DataQualityRuleResultStatus? = nil
-        )
-        {
+        ) {
             self.description = description
             self.evaluatedMetrics = evaluatedMetrics
             self.evaluatedRule = evaluatedRule
@@ -2927,8 +3083,7 @@ extension GlueClientTypes {
             rulesetName: Swift.String? = nil,
             score: Swift.Double? = nil,
             startedOn: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.analyzerResults = analyzerResults
             self.completedOn = completedOn
             self.dataSource = dataSource
@@ -2957,8 +3112,7 @@ public struct BatchGetDataQualityResultOutput: Swift.Sendable {
     public init(
         results: [GlueClientTypes.DataQualityResult]? = nil,
         resultsNotFound: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.results = results
         self.resultsNotFound = resultsNotFound
     }
@@ -2971,8 +3125,7 @@ public struct BatchGetDevEndpointsInput: Swift.Sendable {
 
     public init(
         devEndpointNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.devEndpointNames = devEndpointNames
     }
 }
@@ -3116,8 +3269,7 @@ extension GlueClientTypes {
             workerType: GlueClientTypes.WorkerType? = nil,
             yarnEndpointAddress: Swift.String? = nil,
             zeppelinRemoteSparkInterpreterPort: Swift.Int = 0
-        )
-        {
+        ) {
             self.arguments = arguments
             self.availabilityZone = availabilityZone
             self.createdTimestamp = createdTimestamp
@@ -3156,8 +3308,7 @@ public struct BatchGetDevEndpointsOutput: Swift.Sendable {
     public init(
         devEndpoints: [GlueClientTypes.DevEndpoint]? = nil,
         devEndpointsNotFound: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.devEndpoints = devEndpoints
         self.devEndpointsNotFound = devEndpointsNotFound
     }
@@ -3170,8 +3321,7 @@ public struct BatchGetJobsInput: Swift.Sendable {
 
     public init(
         jobNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.jobNames = jobNames
     }
 }
@@ -3200,8 +3350,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalDeltaOptions = additionalDeltaOptions
             self.database = database
             self.name = name
@@ -3235,8 +3384,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalHudiOptions = additionalHudiOptions
             self.database = database
             self.name = name
@@ -3258,8 +3406,7 @@ extension GlueClientTypes {
         public init(
             pollingTime: Swift.Int? = nil,
             recordPollingLimit: Swift.Int? = nil
-        )
-        {
+        ) {
             self.pollingTime = pollingTime
             self.recordPollingLimit = recordPollingLimit
         }
@@ -3329,8 +3476,7 @@ extension GlueClientTypes {
             startingTimestamp: Foundation.Date? = nil,
             subscribePattern: Swift.String? = nil,
             topicName: Swift.String? = nil
-        )
-        {
+        ) {
             self.addRecordTimestamp = addRecordTimestamp
             self.assign = assign
             self.bootstrapServers = bootstrapServers
@@ -3384,8 +3530,7 @@ extension GlueClientTypes {
             streamingOptions: GlueClientTypes.KafkaStreamingSourceOptions? = nil,
             table: Swift.String? = nil,
             windowSize: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dataPreviewOptions = dataPreviewOptions
             self.database = database
             self.detectSchema = detectSchema
@@ -3501,8 +3646,7 @@ extension GlueClientTypes {
             startingTimestamp: Foundation.Date? = nil,
             streamArn: Swift.String? = nil,
             streamName: Swift.String? = nil
-        )
-        {
+        ) {
             self.addIdleTimeBetweenReads = addIdleTimeBetweenReads
             self.addRecordTimestamp = addRecordTimestamp
             self.avoidEmptyBatches = avoidEmptyBatches
@@ -3558,8 +3702,7 @@ extension GlueClientTypes {
             streamingOptions: GlueClientTypes.KinesisStreamingSourceOptions? = nil,
             table: Swift.String? = nil,
             windowSize: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dataPreviewOptions = dataPreviewOptions
             self.database = database
             self.detectSchema = detectSchema
@@ -3589,8 +3732,7 @@ extension GlueClientTypes {
             database: Swift.String? = nil,
             name: Swift.String? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.name = name
             self.table = table
@@ -3623,8 +3765,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             partitionKeys: [[Swift.String]]? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.inputs = inputs
             self.name = name
@@ -3669,8 +3810,7 @@ extension GlueClientTypes {
             data: [Swift.String: Swift.String]? = nil,
             name: Swift.String? = nil,
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil
-        )
-        {
+        ) {
             self.connectionType = connectionType
             self.data = data
             self.name = name
@@ -3714,8 +3854,7 @@ extension GlueClientTypes {
             data: [Swift.String: Swift.String]? = nil,
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectionType = connectionType
             self.data = data
             self.inputs = inputs
@@ -3749,8 +3888,7 @@ extension GlueClientTypes {
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil,
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil
-        )
-        {
+        ) {
             self.className = className
             self.code = code
             self.inputs = inputs
@@ -3827,8 +3965,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             redshiftTmpDir: Swift.String? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectionName = connectionName
             self.connectionType = connectionType
             self.database = database
@@ -3861,8 +3998,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             streamingOptions: GlueClientTypes.KafkaStreamingSourceOptions? = nil,
             windowSize: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dataPreviewOptions = dataPreviewOptions
             self.detectSchema = detectSchema
             self.name = name
@@ -3894,8 +4030,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             streamingOptions: GlueClientTypes.KinesisStreamingSourceOptions? = nil,
             windowSize: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dataPreviewOptions = dataPreviewOptions
             self.detectSchema = detectSchema
             self.name = name
@@ -3922,8 +4057,7 @@ extension GlueClientTypes {
             columns: [[Swift.String]]? = nil,
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.columns = columns
             self.inputs = inputs
             self.name = name
@@ -3949,8 +4083,7 @@ extension GlueClientTypes {
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil,
             paths: [[Swift.String]]? = nil
-        )
-        {
+        ) {
             self.inputs = inputs
             self.name = name
             self.paths = paths
@@ -3973,8 +4106,7 @@ extension GlueClientTypes {
             isEmpty: Swift.Bool? = nil,
             isNegOne: Swift.Bool? = nil,
             isNullString: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.isEmpty = isEmpty
             self.isNegOne = isNegOne
             self.isNullString = isNullString
@@ -3996,8 +4128,7 @@ extension GlueClientTypes {
         public init(
             id: Swift.String? = nil,
             label: Swift.String? = nil
-        )
-        {
+        ) {
             self.id = id
             self.label = label
         }
@@ -4018,8 +4149,7 @@ extension GlueClientTypes {
         public init(
             datatype: GlueClientTypes.Datatype? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.datatype = datatype
             self.value = value
         }
@@ -4046,8 +4176,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             nullCheckBoxList: GlueClientTypes.NullCheckBoxList? = nil,
             nullTextList: [GlueClientTypes.NullValueField]? = nil
-        )
-        {
+        ) {
             self.inputs = inputs
             self.name = name
             self.nullCheckBoxList = nullCheckBoxList
@@ -4129,8 +4258,7 @@ extension GlueClientTypes {
             validationMessage: Swift.String? = nil,
             validationRule: Swift.String? = nil,
             value: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.isOptional = isOptional
             self.listType = listType
             self.name = name
@@ -4177,8 +4305,7 @@ extension GlueClientTypes {
             path: Swift.String? = nil,
             transformName: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.functionName = functionName
             self.inputs = inputs
             self.name = name
@@ -4209,8 +4336,7 @@ extension GlueClientTypes {
             database: Swift.String? = nil,
             name: Swift.String? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.name = name
             self.table = table
@@ -4265,8 +4391,7 @@ extension GlueClientTypes {
             evaluationContext: Swift.String? = nil,
             resultsPublishingEnabled: Swift.Bool? = nil,
             resultsS3Prefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
             self.evaluationContext = evaluationContext
             self.resultsPublishingEnabled = resultsPublishingEnabled
@@ -4313,8 +4438,7 @@ extension GlueClientTypes {
 
         public init(
             stopJobOnFailureTiming: GlueClientTypes.DQStopJobOnFailureTiming? = nil
-        )
-        {
+        ) {
             self.stopJobOnFailureTiming = stopJobOnFailureTiming
         }
     }
@@ -4347,8 +4471,7 @@ extension GlueClientTypes {
             publishingOptions: GlueClientTypes.DQResultsPublishingOptions? = nil,
             ruleset: Swift.String? = nil,
             stopJobOnFailureOptions: GlueClientTypes.DQStopJobOnFailureOptions? = nil
-        )
-        {
+        ) {
             self.inputs = inputs
             self.name = name
             self.output = output
@@ -4389,8 +4512,7 @@ extension GlueClientTypes {
             publishingOptions: GlueClientTypes.DQResultsPublishingOptions? = nil,
             ruleset: Swift.String? = nil,
             stopJobOnFailureOptions: GlueClientTypes.DQStopJobOnFailureOptions? = nil
-        )
-        {
+        ) {
             self.additionalDataSources = additionalDataSources
             self.additionalOptions = additionalOptions
             self.inputs = inputs
@@ -4423,8 +4545,7 @@ extension GlueClientTypes {
             imputedPath: Swift.String? = nil,
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.filledPath = filledPath
             self.imputedPath = imputedPath
             self.inputs = inputs
@@ -4520,8 +4641,7 @@ extension GlueClientTypes {
         public init(
             type: GlueClientTypes.FilterValueType? = nil,
             value: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -4545,8 +4665,7 @@ extension GlueClientTypes {
             negated: Swift.Bool? = nil,
             operation: GlueClientTypes.FilterOperation? = nil,
             values: [GlueClientTypes.FilterValue]? = nil
-        )
-        {
+        ) {
             self.negated = negated
             self.operation = operation
             self.values = values
@@ -4605,8 +4724,7 @@ extension GlueClientTypes {
             inputs: [Swift.String]? = nil,
             logicalOperator: GlueClientTypes.FilterLogicalOperator? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.filters = filters
             self.inputs = inputs
             self.logicalOperator = logicalOperator
@@ -4627,8 +4745,7 @@ extension GlueClientTypes {
         public init(
             boundedFiles: Swift.Int? = nil,
             boundedSize: Swift.Int? = nil
-        )
-        {
+        ) {
             self.boundedFiles = boundedFiles
             self.boundedSize = boundedSize
         }
@@ -4659,8 +4776,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             partitionPredicate: Swift.String? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalOptions = additionalOptions
             self.database = database
             self.name = name
@@ -4711,8 +4827,7 @@ extension GlueClientTypes {
         public init(
             enableUpdateCatalog: Swift.Bool? = nil,
             updateBehavior: GlueClientTypes.UpdateCatalogBehavior? = nil
-        )
-        {
+        ) {
             self.enableUpdateCatalog = enableUpdateCatalog
             self.updateBehavior = updateBehavior
         }
@@ -4747,8 +4862,7 @@ extension GlueClientTypes {
             partitionKeys: [[Swift.String]]? = nil,
             schemaChangePolicy: GlueClientTypes.CatalogSchemaChangePolicy? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.inputs = inputs
             self.name = name
@@ -4982,8 +5096,7 @@ extension GlueClientTypes {
             numPartitions: Swift.Int? = nil,
             partitionColumn: Swift.String? = nil,
             upperBound: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dataTypeMapping = dataTypeMapping
             self.filterPredicate = filterPredicate
             self.jobBookmarkKeys = jobBookmarkKeys
@@ -5030,8 +5143,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil,
             query: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalOptions = additionalOptions
             self.connectionName = connectionName
             self.connectionTable = connectionTable
@@ -5080,8 +5192,7 @@ extension GlueClientTypes {
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil,
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil
-        )
-        {
+        ) {
             self.additionalOptions = additionalOptions
             self.connectionName = connectionName
             self.connectionTable = connectionTable
@@ -5108,8 +5219,7 @@ extension GlueClientTypes {
         public init(
             from: Swift.String? = nil,
             keys: [[Swift.String]]? = nil
-        )
-        {
+        ) {
             self.from = from
             self.keys = keys
         }
@@ -5179,8 +5289,7 @@ extension GlueClientTypes {
             inputs: [Swift.String]? = nil,
             joinType: GlueClientTypes.JoinType? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.columns = columns
             self.inputs = inputs
             self.joinType = joinType
@@ -5211,8 +5320,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             primaryKeys: [[Swift.String]]? = nil,
             source: Swift.String? = nil
-        )
-        {
+        ) {
             self.inputs = inputs
             self.name = name
             self.primaryKeys = primaryKeys
@@ -5239,8 +5347,7 @@ extension GlueClientTypes {
             database: Swift.String? = nil,
             name: Swift.String? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.name = name
             self.table = table
@@ -5270,8 +5377,7 @@ extension GlueClientTypes {
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.inputs = inputs
             self.name = name
@@ -5298,8 +5404,7 @@ extension GlueClientTypes {
             database: Swift.String? = nil,
             name: Swift.String? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.name = name
             self.table = table
@@ -5329,8 +5434,7 @@ extension GlueClientTypes {
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.inputs = inputs
             self.name = name
@@ -5357,8 +5461,7 @@ extension GlueClientTypes {
             database: Swift.String? = nil,
             name: Swift.String? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.name = name
             self.table = table
@@ -5388,8 +5491,7 @@ extension GlueClientTypes {
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.inputs = inputs
             self.name = name
@@ -5467,8 +5569,7 @@ extension GlueClientTypes {
             piiType: GlueClientTypes.PiiType? = nil,
             sampleFraction: Swift.Double? = nil,
             thresholdFraction: Swift.Double? = nil
-        )
-        {
+        ) {
             self.entityTypesToDetect = entityTypesToDetect
             self.inputs = inputs
             self.maskValue = maskValue
@@ -5499,8 +5600,7 @@ extension GlueClientTypes {
             database: Swift.String? = nil,
             name: Swift.String? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.name = name
             self.table = table
@@ -5530,8 +5630,7 @@ extension GlueClientTypes {
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.inputs = inputs
             self.name = name
@@ -5554,8 +5653,7 @@ extension GlueClientTypes {
         public init(
             recipeArn: Swift.String? = nil,
             recipeVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.recipeArn = recipeArn
             self.recipeVersion = recipeVersion
         }
@@ -5575,8 +5673,7 @@ extension GlueClientTypes {
         public init(
             operation: Swift.String? = nil,
             parameters: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.operation = operation
             self.parameters = parameters
         }
@@ -5600,8 +5697,7 @@ extension GlueClientTypes {
             condition: Swift.String? = nil,
             targetColumn: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.condition = condition
             self.targetColumn = targetColumn
             self.value = value
@@ -5622,8 +5718,7 @@ extension GlueClientTypes {
         public init(
             action: GlueClientTypes.RecipeAction? = nil,
             conditionExpressions: [GlueClientTypes.ConditionExpression]? = nil
-        )
-        {
+        ) {
             self.action = action
             self.conditionExpressions = conditionExpressions
         }
@@ -5650,8 +5745,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             recipeReference: GlueClientTypes.RecipeReference? = nil,
             recipeSteps: [GlueClientTypes.RecipeStep]? = nil
-        )
-        {
+        ) {
             self.inputs = inputs
             self.name = name
             self.recipeReference = recipeReference
@@ -5684,8 +5778,7 @@ extension GlueClientTypes {
             redshiftTmpDir: Swift.String? = nil,
             table: Swift.String? = nil,
             tmpDirIAMRole: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.name = name
             self.redshiftTmpDir = redshiftTmpDir
@@ -5710,8 +5803,7 @@ extension GlueClientTypes {
             connectionName: Swift.String? = nil,
             tableLocation: Swift.String? = nil,
             upsertKeys: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.connectionName = connectionName
             self.tableLocation = tableLocation
             self.upsertKeys = upsertKeys
@@ -5750,8 +5842,7 @@ extension GlueClientTypes {
             table: Swift.String? = nil,
             tmpDirIAMRole: Swift.String? = nil,
             upsertRedshiftOptions: GlueClientTypes.UpsertRedshiftTargetOptions? = nil
-        )
-        {
+        ) {
             self.database = database
             self.inputs = inputs
             self.name = name
@@ -5781,8 +5872,7 @@ extension GlueClientTypes {
             database: Swift.String? = nil,
             name: Swift.String? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.name = name
             self.table = table
@@ -5812,8 +5902,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             sourcePath: [Swift.String]? = nil,
             targetPath: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.inputs = inputs
             self.name = name
             self.sourcePath = sourcePath
@@ -5846,8 +5935,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalDeltaOptions = additionalDeltaOptions
             self.database = database
             self.name = name
@@ -5881,8 +5969,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalHudiOptions = additionalHudiOptions
             self.database = database
             self.name = name
@@ -5916,8 +6003,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             partitionPredicate: Swift.String? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalOptions = additionalOptions
             self.database = database
             self.name = name
@@ -5955,8 +6041,7 @@ extension GlueClientTypes {
             partitionKeys: [[Swift.String]]? = nil,
             schemaChangePolicy: GlueClientTypes.CatalogSchemaChangePolicy? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.database = database
             self.inputs = inputs
             self.name = name
@@ -5985,8 +6070,7 @@ extension GlueClientTypes {
             boundedSize: Swift.Int? = nil,
             enableSamplePath: Swift.Bool? = nil,
             samplePath: Swift.String? = nil
-        )
-        {
+        ) {
             self.boundedFiles = boundedFiles
             self.boundedSize = boundedSize
             self.enableSamplePath = enableSamplePath
@@ -6164,8 +6248,7 @@ extension GlueClientTypes {
             skipFirst: Swift.Bool? = nil,
             withHeader: Swift.Bool? = nil,
             writeHeader: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.additionalOptions = additionalOptions
             self.compressionType = compressionType
             self.escaper = escaper
@@ -6220,8 +6303,7 @@ extension GlueClientTypes {
             partitionKeys: [[Swift.String]]? = nil,
             schemaChangePolicy: GlueClientTypes.CatalogSchemaChangePolicy? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalOptions = additionalOptions
             self.database = database
             self.inputs = inputs
@@ -6324,8 +6406,7 @@ extension GlueClientTypes {
             enableUpdateCatalog: Swift.Bool? = nil,
             table: Swift.String? = nil,
             updateBehavior: GlueClientTypes.UpdateCatalogBehavior? = nil
-        )
-        {
+        ) {
             self.database = database
             self.enableUpdateCatalog = enableUpdateCatalog
             self.table = table
@@ -6369,8 +6450,7 @@ extension GlueClientTypes {
             partitionKeys: [[Swift.String]]? = nil,
             path: Swift.String? = nil,
             schemaChangePolicy: GlueClientTypes.DirectSchemaChangePolicy? = nil
-        )
-        {
+        ) {
             self.additionalOptions = additionalOptions
             self.compression = compression
             self.format = format
@@ -6406,8 +6486,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil,
             paths: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.additionalDeltaOptions = additionalDeltaOptions
             self.additionalOptions = additionalOptions
             self.name = name
@@ -6448,8 +6527,7 @@ extension GlueClientTypes {
             partitionKeys: [[Swift.String]]? = nil,
             path: Swift.String? = nil,
             schemaChangePolicy: GlueClientTypes.DirectSchemaChangePolicy? = nil
-        )
-        {
+        ) {
             self.compression = compression
             self.format = format
             self.inputs = inputs
@@ -6526,8 +6604,7 @@ extension GlueClientTypes {
             partitionKeys: [[Swift.String]]? = nil,
             path: Swift.String? = nil,
             schemaChangePolicy: GlueClientTypes.DirectSchemaChangePolicy? = nil
-        )
-        {
+        ) {
             self.compression = compression
             self.inputs = inputs
             self.name = name
@@ -6570,8 +6647,7 @@ extension GlueClientTypes {
             partitionKeys: [[Swift.String]]? = nil,
             schemaChangePolicy: GlueClientTypes.CatalogSchemaChangePolicy? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalOptions = additionalOptions
             self.database = database
             self.inputs = inputs
@@ -6654,8 +6730,7 @@ extension GlueClientTypes {
             partitionKeys: [[Swift.String]]? = nil,
             path: Swift.String? = nil,
             schemaChangePolicy: GlueClientTypes.DirectSchemaChangePolicy? = nil
-        )
-        {
+        ) {
             self.additionalOptions = additionalOptions
             self.compression = compression
             self.format = format
@@ -6691,8 +6766,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil,
             paths: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.additionalHudiOptions = additionalHudiOptions
             self.additionalOptions = additionalOptions
             self.name = name
@@ -6749,8 +6823,7 @@ extension GlueClientTypes {
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil,
             paths: [Swift.String]? = nil,
             recurse: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.additionalOptions = additionalOptions
             self.compressionType = compressionType
             self.exclusions = exclusions
@@ -6809,8 +6882,7 @@ extension GlueClientTypes {
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil,
             paths: [Swift.String]? = nil,
             recurse: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.additionalOptions = additionalOptions
             self.compressionType = compressionType
             self.exclusions = exclusions
@@ -6844,8 +6916,7 @@ extension GlueClientTypes {
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil,
             paths: [[Swift.String]]? = nil
-        )
-        {
+        ) {
             self.inputs = inputs
             self.name = name
             self.paths = paths
@@ -6871,8 +6942,7 @@ extension GlueClientTypes {
             index: Swift.Int = 0,
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.index = index
             self.inputs = inputs
             self.name = name
@@ -6949,8 +7019,7 @@ extension GlueClientTypes {
             tableSchema: [GlueClientTypes.Option]? = nil,
             tempDir: Swift.String? = nil,
             upsert: Swift.Bool = false
-        )
-        {
+        ) {
             self.action = action
             self.additionalOptions = additionalOptions
             self.autoPushdown = autoPushdown
@@ -6993,8 +7062,7 @@ extension GlueClientTypes {
             data: GlueClientTypes.SnowflakeNodeData? = nil,
             name: Swift.String? = nil,
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil
-        )
-        {
+        ) {
             self.data = data
             self.name = name
             self.outputSchemas = outputSchemas
@@ -7019,8 +7087,7 @@ extension GlueClientTypes {
             data: GlueClientTypes.SnowflakeNodeData? = nil,
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.data = data
             self.inputs = inputs
             self.name = name
@@ -7056,8 +7123,7 @@ extension GlueClientTypes {
             connectorName: Swift.String? = nil,
             name: Swift.String? = nil,
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil
-        )
-        {
+        ) {
             self.additionalOptions = additionalOptions
             self.connectionName = connectionName
             self.connectionType = connectionType
@@ -7100,8 +7166,7 @@ extension GlueClientTypes {
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil,
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil
-        )
-        {
+        ) {
             self.additionalOptions = additionalOptions
             self.connectionName = connectionName
             self.connectionType = connectionType
@@ -7127,8 +7192,7 @@ extension GlueClientTypes {
         public init(
             alias: Swift.String? = nil,
             from: Swift.String? = nil
-        )
-        {
+        ) {
             self.alias = alias
             self.from = from
         }
@@ -7160,8 +7224,7 @@ extension GlueClientTypes {
             outputSchemas: [GlueClientTypes.GlueSchema]? = nil,
             sqlAliases: [GlueClientTypes.SqlAlias]? = nil,
             sqlQuery: Swift.String? = nil
-        )
-        {
+        ) {
             self.inputs = inputs
             self.name = name
             self.outputSchemas = outputSchemas
@@ -7195,8 +7258,7 @@ extension GlueClientTypes {
             path: Swift.String? = nil,
             prob: Swift.Double? = nil,
             topk: Swift.Int? = nil
-        )
-        {
+        ) {
             self.inputs = inputs
             self.name = name
             self.path = path
@@ -7224,8 +7286,7 @@ extension GlueClientTypes {
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil,
             paths: [[Swift.String]]? = nil
-        )
-        {
+        ) {
             self.inputs = inputs
             self.name = name
             self.paths = paths
@@ -7280,8 +7341,7 @@ extension GlueClientTypes {
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil,
             unionType: GlueClientTypes.UnionType? = nil
-        )
-        {
+        ) {
             self.inputs = inputs
             self.name = name
             self.unionType = unionType
@@ -7307,8 +7367,7 @@ extension GlueClientTypes {
             pythonVersion: Swift.String? = nil,
             runtime: Swift.String? = nil,
             scriptLocation: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.pythonVersion = pythonVersion
             self.runtime = runtime
@@ -7326,8 +7385,7 @@ extension GlueClientTypes {
 
         public init(
             connections: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.connections = connections
         }
     }
@@ -7371,8 +7429,7 @@ extension GlueClientTypes {
 
         public init(
             maxConcurrentRuns: Swift.Int = 0
-        )
-        {
+        ) {
             self.maxConcurrentRuns = maxConcurrentRuns
         }
     }
@@ -7504,8 +7561,7 @@ extension GlueClientTypes {
             owner: Swift.String? = nil,
             provider: GlueClientTypes.SourceControlProvider? = nil,
             repository: Swift.String? = nil
-        )
-        {
+        ) {
             self.authStrategy = authStrategy
             self.authToken = authToken
             self.branch = branch
@@ -7572,9 +7628,9 @@ extension GlueClientTypes {
 }
 
 /// A federation source failed.
-public struct FederationSourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FederationSourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error code of the problem.
         public internal(set) var federationSourceErrorCode: GlueClientTypes.FederationSourceErrorCode? = nil
         /// The message describing the problem.
@@ -7593,17 +7649,16 @@ public struct FederationSourceException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         federationSourceErrorCode: GlueClientTypes.FederationSourceErrorCode? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.federationSourceErrorCode = federationSourceErrorCode
         self.properties.message = message
     }
 }
 
 /// A federation source failed, but the operation may be retried.
-public struct FederationSourceRetryableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FederationSourceRetryableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -7619,16 +7674,15 @@ public struct FederationSourceRetryableException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An error that indicates your data is in an invalid state.
-public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -7644,8 +7698,7 @@ public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7668,8 +7721,7 @@ public struct BatchGetPartitionInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         partitionsToGet: [GlueClientTypes.PartitionValueList]? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.partitionsToGet = partitionsToGet
@@ -7710,8 +7762,7 @@ extension GlueClientTypes {
             storageDescriptor: GlueClientTypes.StorageDescriptor? = nil,
             tableName: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.creationTime = creationTime
             self.databaseName = databaseName
@@ -7734,17 +7785,16 @@ public struct BatchGetPartitionOutput: Swift.Sendable {
     public init(
         partitions: [GlueClientTypes.Partition]? = nil,
         unprocessedKeys: [GlueClientTypes.PartitionValueList]? = nil
-    )
-    {
+    ) {
         self.partitions = partitions
         self.unprocessedKeys = unprocessedKeys
     }
 }
 
 /// The throttling threshhold was exceeded.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -7760,8 +7810,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -7816,8 +7865,7 @@ extension GlueClientTypes {
             databaseName: Swift.String? = nil,
             tableName: Swift.String? = nil,
             type: GlueClientTypes.TableOptimizerType? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.tableName = tableName
@@ -7833,8 +7881,7 @@ public struct BatchGetTableOptimizerInput: Swift.Sendable {
 
     public init(
         entries: [GlueClientTypes.BatchGetTableOptimizerEntry]? = nil
-    )
-    {
+    ) {
         self.entries = entries
     }
 }
@@ -7860,8 +7907,7 @@ extension GlueClientTypes {
             error: GlueClientTypes.ErrorDetail? = nil,
             tableName: Swift.String? = nil,
             type: GlueClientTypes.TableOptimizerType? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.error = error
@@ -7883,8 +7929,7 @@ extension GlueClientTypes {
         public init(
             location: Swift.String? = nil,
             orphanFileRetentionPeriodInDays: Swift.Int? = nil
-        )
-        {
+        ) {
             self.location = location
             self.orphanFileRetentionPeriodInDays = orphanFileRetentionPeriodInDays
         }
@@ -7900,8 +7945,7 @@ extension GlueClientTypes {
 
         public init(
             icebergConfiguration: GlueClientTypes.IcebergOrphanFileDeletionConfiguration? = nil
-        )
-        {
+        ) {
             self.icebergConfiguration = icebergConfiguration
         }
     }
@@ -7922,8 +7966,7 @@ extension GlueClientTypes {
             cleanExpiredFiles: Swift.Bool? = nil,
             numberOfSnapshotsToRetain: Swift.Int? = nil,
             snapshotRetentionPeriodInDays: Swift.Int? = nil
-        )
-        {
+        ) {
             self.cleanExpiredFiles = cleanExpiredFiles
             self.numberOfSnapshotsToRetain = numberOfSnapshotsToRetain
             self.snapshotRetentionPeriodInDays = snapshotRetentionPeriodInDays
@@ -7940,10 +7983,19 @@ extension GlueClientTypes {
 
         public init(
             icebergConfiguration: GlueClientTypes.IcebergRetentionConfiguration? = nil
-        )
-        {
+        ) {
             self.icebergConfiguration = icebergConfiguration
         }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// An object that describes the VPC configuration for a table optimizer. This configuration is necessary to perform optimization on tables that are in a customer VPC.
+    public enum TableOptimizerVpcConfiguration: Swift.Sendable {
+        /// The name of the Glue connection used for the VPC for the table optimizer.
+        case glueconnectionname(Swift.String)
+        case sdkUnknown(Swift.String)
     }
 }
 
@@ -7959,18 +8011,21 @@ extension GlueClientTypes {
         public var retentionConfiguration: GlueClientTypes.RetentionConfiguration?
         /// A role passed by the caller which gives the service permission to update the resources associated with the optimizer on the caller's behalf.
         public var roleArn: Swift.String?
+        /// A TableOptimizerVpcConfiguration object representing the VPC configuration for a table optimizer. This configuration is necessary to perform optimization on tables that are in a customer VPC.
+        public var vpcConfiguration: GlueClientTypes.TableOptimizerVpcConfiguration?
 
         public init(
             enabled: Swift.Bool? = nil,
             orphanFileDeletionConfiguration: GlueClientTypes.OrphanFileDeletionConfiguration? = nil,
             retentionConfiguration: GlueClientTypes.RetentionConfiguration? = nil,
-            roleArn: Swift.String? = nil
-        )
-        {
+            roleArn: Swift.String? = nil,
+            vpcConfiguration: GlueClientTypes.TableOptimizerVpcConfiguration? = nil
+        ) {
             self.enabled = enabled
             self.orphanFileDeletionConfiguration = orphanFileDeletionConfiguration
             self.retentionConfiguration = retentionConfiguration
             self.roleArn = roleArn
+            self.vpcConfiguration = vpcConfiguration
         }
     }
 }
@@ -7993,8 +8048,7 @@ extension GlueClientTypes {
             numberOfBytesCompacted: Swift.Int = 0,
             numberOfDpus: Swift.Int = 0,
             numberOfFilesCompacted: Swift.Int = 0
-        )
-        {
+        ) {
             self.jobDurationInHour = jobDurationInHour
             self.numberOfBytesCompacted = numberOfBytesCompacted
             self.numberOfDpus = numberOfDpus
@@ -8012,8 +8066,7 @@ extension GlueClientTypes {
 
         public init(
             icebergMetrics: GlueClientTypes.IcebergCompactionMetrics? = nil
-        )
-        {
+        ) {
             self.icebergMetrics = icebergMetrics
         }
     }
@@ -8072,8 +8125,7 @@ extension GlueClientTypes {
             numberOfBytesCompacted: Swift.String? = nil,
             numberOfDpus: Swift.String? = nil,
             numberOfFilesCompacted: Swift.String? = nil
-        )
-        {
+        ) {
             self.jobDurationInHour = jobDurationInHour
             self.numberOfBytesCompacted = numberOfBytesCompacted
             self.numberOfDpus = numberOfDpus
@@ -8097,8 +8149,7 @@ extension GlueClientTypes {
             jobDurationInHour: Swift.Double = 0.0,
             numberOfDpus: Swift.Int = 0,
             numberOfOrphanFilesDeleted: Swift.Int = 0
-        )
-        {
+        ) {
             self.jobDurationInHour = jobDurationInHour
             self.numberOfDpus = numberOfDpus
             self.numberOfOrphanFilesDeleted = numberOfOrphanFilesDeleted
@@ -8115,8 +8166,7 @@ extension GlueClientTypes {
 
         public init(
             icebergMetrics: GlueClientTypes.IcebergOrphanFileDeletionMetrics? = nil
-        )
-        {
+        ) {
             self.icebergMetrics = icebergMetrics
         }
     }
@@ -8143,8 +8193,7 @@ extension GlueClientTypes {
             numberOfDpus: Swift.Int = 0,
             numberOfManifestFilesDeleted: Swift.Int = 0,
             numberOfManifestListsDeleted: Swift.Int = 0
-        )
-        {
+        ) {
             self.jobDurationInHour = jobDurationInHour
             self.numberOfDataFilesDeleted = numberOfDataFilesDeleted
             self.numberOfDpus = numberOfDpus
@@ -8163,8 +8212,7 @@ extension GlueClientTypes {
 
         public init(
             icebergMetrics: GlueClientTypes.IcebergRetentionMetrics? = nil
-        )
-        {
+        ) {
             self.icebergMetrics = icebergMetrics
         }
     }
@@ -8201,8 +8249,7 @@ extension GlueClientTypes {
             orphanFileDeletionMetrics: GlueClientTypes.OrphanFileDeletionMetrics? = nil,
             retentionMetrics: GlueClientTypes.RetentionMetrics? = nil,
             startTimestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.compactionMetrics = compactionMetrics
             self.endTimestamp = endTimestamp
             self.error = error
@@ -8236,8 +8283,7 @@ extension GlueClientTypes {
             configuration: GlueClientTypes.TableOptimizerConfiguration? = nil,
             lastRun: GlueClientTypes.TableOptimizerRun? = nil,
             type: GlueClientTypes.TableOptimizerType? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.lastRun = lastRun
             self.type = type
@@ -8263,8 +8309,7 @@ extension GlueClientTypes {
             databaseName: Swift.String? = nil,
             tableName: Swift.String? = nil,
             tableOptimizer: GlueClientTypes.TableOptimizer? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.tableName = tableName
@@ -8282,8 +8327,7 @@ public struct BatchGetTableOptimizerOutput: Swift.Sendable {
     public init(
         failures: [GlueClientTypes.BatchGetTableOptimizerError]? = nil,
         tableOptimizers: [GlueClientTypes.BatchTableOptimizer]? = nil
-    )
-    {
+    ) {
         self.failures = failures
         self.tableOptimizers = tableOptimizers
     }
@@ -8296,8 +8340,7 @@ public struct BatchGetTriggersInput: Swift.Sendable {
 
     public init(
         triggerNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.triggerNames = triggerNames
     }
 }
@@ -8315,8 +8358,7 @@ extension GlueClientTypes {
         public init(
             batchSize: Swift.Int? = nil,
             batchWindow: Swift.Int? = nil
-        )
-        {
+        ) {
             self.batchSize = batchSize
             self.batchWindow = batchWindow
         }
@@ -8464,8 +8506,7 @@ extension GlueClientTypes {
             jobName: Swift.String? = nil,
             logicalOperator: GlueClientTypes.LogicalOperator? = nil,
             state: GlueClientTypes.JobRunState? = nil
-        )
-        {
+        ) {
             self.crawlState = crawlState
             self.crawlerName = crawlerName
             self.jobName = jobName
@@ -8516,8 +8557,7 @@ extension GlueClientTypes {
         public init(
             conditions: [GlueClientTypes.Condition]? = nil,
             logical: GlueClientTypes.Logical? = nil
-        )
-        {
+        ) {
             self.conditions = conditions
             self.logical = logical
         }
@@ -8642,8 +8682,7 @@ extension GlueClientTypes {
             state: GlueClientTypes.TriggerState? = nil,
             type: GlueClientTypes.TriggerType? = nil,
             workflowName: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.description = description
             self.eventBatchingCondition = eventBatchingCondition
@@ -8667,8 +8706,7 @@ public struct BatchGetTriggersOutput: Swift.Sendable {
     public init(
         triggers: [GlueClientTypes.Trigger]? = nil,
         triggersNotFound: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.triggers = triggers
         self.triggersNotFound = triggersNotFound
     }
@@ -8684,8 +8722,7 @@ public struct BatchGetWorkflowsInput: Swift.Sendable {
     public init(
         includeGraph: Swift.Bool? = nil,
         names: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.includeGraph = includeGraph
         self.names = names
     }
@@ -8703,8 +8740,7 @@ extension GlueClientTypes {
         public init(
             blueprintName: Swift.String? = nil,
             runId: Swift.String? = nil
-        )
-        {
+        ) {
             self.blueprintName = blueprintName
             self.runId = runId
         }
@@ -8723,8 +8759,7 @@ extension GlueClientTypes {
         public init(
             destinationId: Swift.String? = nil,
             sourceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationId = destinationId
             self.sourceId = sourceId
         }
@@ -8755,8 +8790,7 @@ extension GlueClientTypes {
             logStream: Swift.String? = nil,
             startedOn: Foundation.Date? = nil,
             state: GlueClientTypes.CrawlState? = nil
-        )
-        {
+        ) {
             self.completedOn = completedOn
             self.errorMessage = errorMessage
             self.logGroup = logGroup
@@ -8776,8 +8810,7 @@ extension GlueClientTypes {
 
         public init(
             crawls: [GlueClientTypes.Crawl]? = nil
-        )
-        {
+        ) {
             self.crawls = crawls
         }
     }
@@ -8795,8 +8828,7 @@ extension GlueClientTypes {
         public init(
             jobName: Swift.String? = nil,
             runId: Swift.String? = nil
-        )
-        {
+        ) {
             self.jobName = jobName
             self.runId = runId
         }
@@ -8873,23 +8905,23 @@ extension GlueClientTypes {
         public var startedOn: Foundation.Date?
         /// This field holds details that pertain to the state of a job run. The field is nullable. For example, when a job run is in a WAITING state as a result of job run queuing, the field has the reason why the job run is in that state.
         public var stateDetail: Swift.String?
-        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job. Streaming jobs must have timeout values less than 7 days or 10080 minutes. When the value is left blank, the job will be restarted after 7 days based if you have not setup a maintenance window. If you have setup maintenance window, it will be restarted during the maintenance window after 7 days.
+        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2880 minutes. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day.
         public var timeout: Swift.Int?
         /// The name of the trigger that started this job run.
         public var triggerName: Swift.String?
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
         ///
-        /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
+        /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
         ///
-        /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
+        /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
         ///
-        /// * For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).
+        /// * For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).
         ///
-        /// * For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.
+        /// * For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.
         ///
-        /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
+        /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk, and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 or later streaming jobs.
         ///
-        /// * For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
+        /// * For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
         public var workerType: GlueClientTypes.WorkerType?
 
         public init(
@@ -8922,8 +8954,7 @@ extension GlueClientTypes {
             timeout: Swift.Int? = nil,
             triggerName: Swift.String? = nil,
             workerType: GlueClientTypes.WorkerType? = nil
-        )
-        {
+        ) {
             self.allocatedCapacity = allocatedCapacity
             self.arguments = arguments
             self.attempt = attempt
@@ -8966,8 +8997,7 @@ extension GlueClientTypes {
 
         public init(
             jobRuns: [GlueClientTypes.JobRun]? = nil
-        )
-        {
+        ) {
             self.jobRuns = jobRuns
         }
     }
@@ -8982,8 +9012,7 @@ extension GlueClientTypes {
 
         public init(
             trigger: GlueClientTypes.Trigger? = nil
-        )
-        {
+        ) {
             self.trigger = trigger
         }
     }
@@ -9045,8 +9074,7 @@ extension GlueClientTypes {
             triggerDetails: GlueClientTypes.TriggerNodeDetails? = nil,
             type: GlueClientTypes.NodeType? = nil,
             uniqueId: Swift.String? = nil
-        )
-        {
+        ) {
             self.crawlerDetails = crawlerDetails
             self.jobDetails = jobDetails
             self.name = name
@@ -9069,8 +9097,7 @@ extension GlueClientTypes {
         public init(
             edges: [GlueClientTypes.Edge]? = nil,
             nodes: [GlueClientTypes.Node]? = nil
-        )
-        {
+        ) {
             self.edges = edges
             self.nodes = nodes
         }
@@ -9089,8 +9116,7 @@ extension GlueClientTypes {
         public init(
             batchSize: Swift.Int? = nil,
             batchWindow: Swift.Int? = nil
-        )
-        {
+        ) {
             self.batchSize = batchSize
             self.batchWindow = batchWindow
         }
@@ -9127,8 +9153,7 @@ extension GlueClientTypes {
             timeoutActions: Swift.Int = 0,
             totalActions: Swift.Int = 0,
             waitingActions: Swift.Int = 0
-        )
-        {
+        ) {
             self.erroredActions = erroredActions
             self.failedActions = failedActions
             self.runningActions = runningActions
@@ -9218,8 +9243,7 @@ extension GlueClientTypes {
             status: GlueClientTypes.WorkflowRunStatus? = nil,
             workflowRunId: Swift.String? = nil,
             workflowRunProperties: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.completedOn = completedOn
             self.errorMessage = errorMessage
             self.graph = graph
@@ -9268,8 +9292,7 @@ extension GlueClientTypes {
             lastRun: GlueClientTypes.WorkflowRun? = nil,
             maxConcurrentRuns: Swift.Int? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.blueprintDetails = blueprintDetails
             self.createdOn = createdOn
             self.defaultRunProperties = defaultRunProperties
@@ -9292,8 +9315,7 @@ public struct BatchGetWorkflowsOutput: Swift.Sendable {
     public init(
         missingWorkflows: [Swift.String]? = nil,
         workflows: [GlueClientTypes.Workflow]? = nil
-    )
-    {
+    ) {
         self.missingWorkflows = missingWorkflows
         self.workflows = workflows
     }
@@ -9314,8 +9336,7 @@ extension GlueClientTypes {
             inclusionAnnotation: GlueClientTypes.InclusionAnnotationValue? = nil,
             profileId: Swift.String? = nil,
             statisticId: Swift.String? = nil
-        )
-        {
+        ) {
             self.inclusionAnnotation = inclusionAnnotation
             self.profileId = profileId
             self.statisticId = statisticId
@@ -9333,8 +9354,7 @@ public struct BatchPutDataQualityStatisticAnnotationInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         inclusionAnnotations: [GlueClientTypes.DatapointInclusionAnnotation]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.inclusionAnnotations = inclusionAnnotations
     }
@@ -9346,8 +9366,7 @@ public struct BatchPutDataQualityStatisticAnnotationOutput: Swift.Sendable {
 
     public init(
         failedInclusionAnnotations: [GlueClientTypes.AnnotationError]? = nil
-    )
-    {
+    ) {
         self.failedInclusionAnnotations = failedInclusionAnnotations
     }
 }
@@ -9363,8 +9382,7 @@ public struct BatchStopJobRunInput: Swift.Sendable {
     public init(
         jobName: Swift.String? = nil,
         jobRunIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
         self.jobRunIds = jobRunIds
     }
@@ -9385,8 +9403,7 @@ extension GlueClientTypes {
             errorDetail: GlueClientTypes.ErrorDetail? = nil,
             jobName: Swift.String? = nil,
             jobRunId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorDetail = errorDetail
             self.jobName = jobName
             self.jobRunId = jobRunId
@@ -9406,8 +9423,7 @@ extension GlueClientTypes {
         public init(
             jobName: Swift.String? = nil,
             jobRunId: Swift.String? = nil
-        )
-        {
+        ) {
             self.jobName = jobName
             self.jobRunId = jobRunId
         }
@@ -9423,8 +9439,7 @@ public struct BatchStopJobRunOutput: Swift.Sendable {
     public init(
         errors: [GlueClientTypes.BatchStopJobRunError]? = nil,
         successfulSubmissions: [GlueClientTypes.BatchStopJobRunSuccessfulSubmission]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.successfulSubmissions = successfulSubmissions
     }
@@ -9444,8 +9459,7 @@ extension GlueClientTypes {
         public init(
             partitionInput: GlueClientTypes.PartitionInput? = nil,
             partitionValueList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.partitionInput = partitionInput
             self.partitionValueList = partitionValueList
         }
@@ -9470,8 +9484,7 @@ public struct BatchUpdatePartitionInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         entries: [GlueClientTypes.BatchUpdatePartitionRequestEntry]? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.entries = entries
@@ -9491,8 +9504,7 @@ extension GlueClientTypes {
         public init(
             errorDetail: GlueClientTypes.ErrorDetail? = nil,
             partitionValueList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.errorDetail = errorDetail
             self.partitionValueList = partitionValueList
         }
@@ -9505,8 +9517,7 @@ public struct BatchUpdatePartitionOutput: Swift.Sendable {
 
     public init(
         errors: [GlueClientTypes.BatchUpdatePartitionFailureEntry]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -9518,8 +9529,7 @@ public struct CancelDataQualityRuleRecommendationRunInput: Swift.Sendable {
 
     public init(
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.runId = runId
     }
 }
@@ -9536,8 +9546,7 @@ public struct CancelDataQualityRulesetEvaluationRunInput: Swift.Sendable {
 
     public init(
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.runId = runId
     }
 }
@@ -9558,8 +9567,7 @@ public struct CancelMLTaskRunInput: Swift.Sendable {
     public init(
         taskRunId: Swift.String? = nil,
         transformId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskRunId = taskRunId
         self.transformId = transformId
     }
@@ -9621,8 +9629,7 @@ public struct CancelMLTaskRunOutput: Swift.Sendable {
         status: GlueClientTypes.TaskStatusType? = nil,
         taskRunId: Swift.String? = nil,
         transformId: Swift.String? = nil
-    )
-    {
+    ) {
         self.status = status
         self.taskRunId = taskRunId
         self.transformId = transformId
@@ -9630,9 +9637,9 @@ public struct CancelMLTaskRunOutput: Swift.Sendable {
 }
 
 /// The session is in an invalid state to perform a requested operation.
-public struct IllegalSessionStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IllegalSessionStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -9648,8 +9655,7 @@ public struct IllegalSessionStateException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -9668,8 +9674,7 @@ public struct CancelStatementInput: Swift.Sendable {
         id: Swift.Int? = 0,
         requestOrigin: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.requestOrigin = requestOrigin
         self.sessionId = sessionId
@@ -9724,8 +9729,7 @@ public struct CheckSchemaVersionValidityInput: Swift.Sendable {
     public init(
         dataFormat: GlueClientTypes.DataFormat? = nil,
         schemaDefinition: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataFormat = dataFormat
         self.schemaDefinition = schemaDefinition
     }
@@ -9740,8 +9744,7 @@ public struct CheckSchemaVersionValidityOutput: Swift.Sendable {
     public init(
         error: Swift.String? = nil,
         valid: Swift.Bool = false
-    )
-    {
+    ) {
         self.error = error
         self.valid = valid
     }
@@ -9764,8 +9767,7 @@ public struct CreateBlueprintInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.blueprintLocation = blueprintLocation
         self.description = description
         self.name = name
@@ -9779,10 +9781,291 @@ public struct CreateBlueprintOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
+}
+
+/// Two processes are trying to modify a resource simultaneously.
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConcurrentModificationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// A federated resource already exists.
+public struct FederatedResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The associated Glue resource already exists.
+        public internal(set) var associatedGlueResource: Swift.String? = nil
+        /// The message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "FederatedResourceAlreadyExistsException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        associatedGlueResource: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.associatedGlueResource = associatedGlueResource
+        self.properties.message = message
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Input properties to configure data lake access for your catalog resource in the Glue Data Catalog.
+    public struct DataLakeAccessProperties: Swift.Sendable {
+        /// Specifies a federated catalog type for the native catalog resource. The currently supported type is aws:redshift.
+        public var catalogType: Swift.String?
+        /// Turns on or off data lake access for Apache Spark applications that access Amazon Redshift databases in the Data Catalog from any non-Redshift engine, such as Amazon Athena, Amazon EMR, or Glue ETL.
+        public var dataLakeAccess: Swift.Bool
+        /// A role that will be assumed by Glue for transferring data into/out of the staging bucket during a query.
+        public var dataTransferRole: Swift.String?
+        /// An encryption key that will be used for the staging bucket that will be created along with the catalog.
+        public var kmsKey: Swift.String?
+
+        public init(
+            catalogType: Swift.String? = nil,
+            dataLakeAccess: Swift.Bool = false,
+            dataTransferRole: Swift.String? = nil,
+            kmsKey: Swift.String? = nil
+        ) {
+            self.catalogType = catalogType
+            self.dataLakeAccess = dataLakeAccess
+            self.dataTransferRole = dataTransferRole
+            self.kmsKey = kmsKey
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A structure that specifies data lake access properties and other custom properties.
+    public struct CatalogProperties: Swift.Sendable {
+        /// Additional key-value properties for the catalog, such as column statistics optimizations.
+        public var customProperties: [Swift.String: Swift.String]?
+        /// A DataLakeAccessProperties object that specifies properties to configure data lake access for your catalog resource in the Glue Data Catalog.
+        public var dataLakeAccessProperties: GlueClientTypes.DataLakeAccessProperties?
+
+        public init(
+            customProperties: [Swift.String: Swift.String]? = nil,
+            dataLakeAccessProperties: GlueClientTypes.DataLakeAccessProperties? = nil
+        ) {
+            self.customProperties = customProperties
+            self.dataLakeAccessProperties = dataLakeAccessProperties
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum Permission: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case alter
+        case createDatabase
+        case createTable
+        case dataLocationAccess
+        case delete
+        case drop
+        case insert
+        case select
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Permission] {
+            return [
+                .all,
+                .alter,
+                .createDatabase,
+                .createTable,
+                .dataLocationAccess,
+                .delete,
+                .drop,
+                .insert,
+                .select
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .alter: return "ALTER"
+            case .createDatabase: return "CREATE_DATABASE"
+            case .createTable: return "CREATE_TABLE"
+            case .dataLocationAccess: return "DATA_LOCATION_ACCESS"
+            case .delete: return "DELETE"
+            case .drop: return "DROP"
+            case .insert: return "INSERT"
+            case .select: return "SELECT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The Lake Formation principal.
+    public struct DataLakePrincipal: Swift.Sendable {
+        /// An identifier for the Lake Formation principal.
+        public var dataLakePrincipalIdentifier: Swift.String?
+
+        public init(
+            dataLakePrincipalIdentifier: Swift.String? = nil
+        ) {
+            self.dataLakePrincipalIdentifier = dataLakePrincipalIdentifier
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Permissions granted to a principal.
+    public struct PrincipalPermissions: Swift.Sendable {
+        /// The permissions that are granted to the principal.
+        public var permissions: [GlueClientTypes.Permission]?
+        /// The principal who is granted permissions.
+        public var principal: GlueClientTypes.DataLakePrincipal?
+
+        public init(
+            permissions: [GlueClientTypes.Permission]? = nil,
+            principal: GlueClientTypes.DataLakePrincipal? = nil
+        ) {
+            self.permissions = permissions
+            self.principal = principal
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A catalog that points to an entity outside the Glue Data Catalog.
+    public struct FederatedCatalog: Swift.Sendable {
+        /// The name of the connection to an external data source, for example a Redshift-federated catalog.
+        public var connectionName: Swift.String?
+        /// A unique identifier for the federated catalog.
+        public var identifier: Swift.String?
+
+        public init(
+            connectionName: Swift.String? = nil,
+            identifier: Swift.String? = nil
+        ) {
+            self.connectionName = connectionName
+            self.identifier = identifier
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A structure that describes a target catalog for resource linking.
+    public struct TargetRedshiftCatalog: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the catalog resource.
+        /// This member is required.
+        public var catalogArn: Swift.String?
+
+        public init(
+            catalogArn: Swift.String? = nil
+        ) {
+            self.catalogArn = catalogArn
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A structure that describes catalog properties.
+    public struct CatalogInput: Swift.Sendable {
+        /// A CatalogProperties object that specifies data lake access properties and other custom properties.
+        public var catalogProperties: GlueClientTypes.CatalogProperties?
+        /// An array of PrincipalPermissions objects. Creates a set of default permissions on the database(s) for principals. Used by Amazon Web Services Lake Formation. Typically should be explicitly set as an empty list.
+        public var createDatabaseDefaultPermissions: [GlueClientTypes.PrincipalPermissions]?
+        /// An array of PrincipalPermissions objects. Creates a set of default permissions on the table(s) for principals. Used by Amazon Web Services Lake Formation. Typically should be explicitly set as an empty list.
+        public var createTableDefaultPermissions: [GlueClientTypes.PrincipalPermissions]?
+        /// Description string, not more than 2048 bytes long, matching the URI address multi-line string pattern. A description of the catalog.
+        public var description: Swift.String?
+        /// A FederatedCatalog object. A FederatedCatalog structure that references an entity outside the Glue Data Catalog, for example a Redshift database.
+        public var federatedCatalog: GlueClientTypes.FederatedCatalog?
+        /// A map array of key-value pairs that define the parameters and properties of the catalog.
+        public var parameters: [Swift.String: Swift.String]?
+        /// A TargetRedshiftCatalog object that describes a target catalog for resource linking.
+        public var targetRedshiftCatalog: GlueClientTypes.TargetRedshiftCatalog?
+
+        public init(
+            catalogProperties: GlueClientTypes.CatalogProperties? = nil,
+            createDatabaseDefaultPermissions: [GlueClientTypes.PrincipalPermissions]? = nil,
+            createTableDefaultPermissions: [GlueClientTypes.PrincipalPermissions]? = nil,
+            description: Swift.String? = nil,
+            federatedCatalog: GlueClientTypes.FederatedCatalog? = nil,
+            parameters: [Swift.String: Swift.String]? = nil,
+            targetRedshiftCatalog: GlueClientTypes.TargetRedshiftCatalog? = nil
+        ) {
+            self.catalogProperties = catalogProperties
+            self.createDatabaseDefaultPermissions = createDatabaseDefaultPermissions
+            self.createTableDefaultPermissions = createTableDefaultPermissions
+            self.description = description
+            self.federatedCatalog = federatedCatalog
+            self.parameters = parameters
+            self.targetRedshiftCatalog = targetRedshiftCatalog
+        }
+    }
+}
+
+public struct CreateCatalogInput: Swift.Sendable {
+    /// A CatalogInput object that defines the metadata for the catalog.
+    /// This member is required.
+    public var catalogInput: GlueClientTypes.CatalogInput?
+    /// The name of the catalog to create.
+    /// This member is required.
+    public var name: Swift.String?
+    /// A map array of key-value pairs, not more than 50 pairs. Each key is a UTF-8 string, not less than 1 or more than 128 bytes long. Each value is a UTF-8 string, not more than 256 bytes long. The tags you assign to the catalog.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        catalogInput: GlueClientTypes.CatalogInput? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.catalogInput = catalogInput
+        self.name = name
+        self.tags = tags
+    }
+}
+
+public struct CreateCatalogOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 extension GlueClientTypes {
@@ -9886,8 +10169,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             quoteSymbol: Swift.String? = nil,
             serde: GlueClientTypes.CsvSerdeOption? = nil
-        )
-        {
+        ) {
             self.allowSingleColumn = allowSingleColumn
             self.containsHeader = containsHeader
             self.customDatatypeConfigured = customDatatypeConfigured
@@ -9923,8 +10205,7 @@ extension GlueClientTypes {
             customPatterns: Swift.String? = nil,
             grokPattern: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.classification = classification
             self.customPatterns = customPatterns
             self.grokPattern = grokPattern
@@ -9947,8 +10228,7 @@ extension GlueClientTypes {
         public init(
             jsonPath: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.jsonPath = jsonPath
             self.name = name
         }
@@ -9972,8 +10252,7 @@ extension GlueClientTypes {
             classification: Swift.String? = nil,
             name: Swift.String? = nil,
             rowTag: Swift.String? = nil
-        )
-        {
+        ) {
             self.classification = classification
             self.name = name
             self.rowTag = rowTag
@@ -9996,8 +10275,7 @@ public struct CreateClassifierInput: Swift.Sendable {
         grokClassifier: GlueClientTypes.CreateGrokClassifierRequest? = nil,
         jsonClassifier: GlueClientTypes.CreateJsonClassifierRequest? = nil,
         xmlClassifier: GlueClientTypes.CreateXMLClassifierRequest? = nil
-    )
-    {
+    ) {
         self.csvClassifier = csvClassifier
         self.grokClassifier = grokClassifier
         self.jsonClassifier = jsonClassifier
@@ -10011,9 +10289,9 @@ public struct CreateClassifierOutput: Swift.Sendable {
 }
 
 /// An exception thrown when you try to start another job while running a column stats generation job.
-public struct ColumnStatisticsTaskRunningException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ColumnStatisticsTaskRunningException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -10029,8 +10307,7 @@ public struct ColumnStatisticsTaskRunningException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -10068,8 +10345,7 @@ public struct CreateColumnStatisticsTaskSettingsInput: Swift.Sendable {
         securityConfiguration: Swift.String? = nil,
         tableName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.catalogID = catalogID
         self.columnNameList = columnNameList
         self.databaseName = databaseName
@@ -10104,6 +10380,8 @@ extension GlueClientTypes {
         case encryptedKafkaSaslPlainPassword
         case encryptedKafkaSaslScramPassword
         case encryptedPassword
+        case endpoint
+        case endpointType
         case host
         case instanceId
         case jdbcConnectionUrl
@@ -10155,6 +10433,8 @@ extension GlueClientTypes {
                 .encryptedKafkaSaslPlainPassword,
                 .encryptedKafkaSaslScramPassword,
                 .encryptedPassword,
+                .endpoint,
+                .endpointType,
                 .host,
                 .instanceId,
                 .jdbcConnectionUrl,
@@ -10212,6 +10492,8 @@ extension GlueClientTypes {
             case .encryptedKafkaSaslPlainPassword: return "ENCRYPTED_KAFKA_SASL_PLAIN_PASSWORD"
             case .encryptedKafkaSaslScramPassword: return "ENCRYPTED_KAFKA_SASL_SCRAM_PASSWORD"
             case .encryptedPassword: return "ENCRYPTED_PASSWORD"
+            case .endpoint: return "ENDPOINT"
+            case .endpointType: return "ENDPOINT_TYPE"
             case .host: return "HOST"
             case .instanceId: return "INSTANCE_ID"
             case .jdbcConnectionUrl: return "JDBC_CONNECTION_URL"
@@ -10255,29 +10537,67 @@ extension GlueClientTypes {
 
     public enum ConnectionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case custom
+        case facebookads
+        case googleads
+        case googleanalytics4
+        case googlesheets
+        case hubspot
+        case instagramads
+        case intercom
         case jdbc
+        case jiracloud
         case kafka
+        case marketo
         case marketplace
         case mongodb
+        case netsuiteerp
         case network
         case salesforce
+        case salesforcemarketingcloud
+        case salesforcepardot
+        case sapodata
+        case servicenow
         case sftp
+        case slack
+        case snapchatads
+        case stripe
         case viewValidationAthena
         case viewValidationRedshift
+        case zendesk
+        case zohocrm
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ConnectionType] {
             return [
                 .custom,
+                .facebookads,
+                .googleads,
+                .googleanalytics4,
+                .googlesheets,
+                .hubspot,
+                .instagramads,
+                .intercom,
                 .jdbc,
+                .jiracloud,
                 .kafka,
+                .marketo,
                 .marketplace,
                 .mongodb,
+                .netsuiteerp,
                 .network,
                 .salesforce,
+                .salesforcemarketingcloud,
+                .salesforcepardot,
+                .sapodata,
+                .servicenow,
                 .sftp,
+                .slack,
+                .snapchatads,
+                .stripe,
                 .viewValidationAthena,
-                .viewValidationRedshift
+                .viewValidationRedshift,
+                .zendesk,
+                .zohocrm
             ]
         }
 
@@ -10289,15 +10609,34 @@ extension GlueClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .custom: return "CUSTOM"
+            case .facebookads: return "FACEBOOKADS"
+            case .googleads: return "GOOGLEADS"
+            case .googleanalytics4: return "GOOGLEANALYTICS4"
+            case .googlesheets: return "GOOGLESHEETS"
+            case .hubspot: return "HUBSPOT"
+            case .instagramads: return "INSTAGRAMADS"
+            case .intercom: return "INTERCOM"
             case .jdbc: return "JDBC"
+            case .jiracloud: return "JIRACLOUD"
             case .kafka: return "KAFKA"
+            case .marketo: return "MARKETO"
             case .marketplace: return "MARKETPLACE"
             case .mongodb: return "MONGODB"
+            case .netsuiteerp: return "NETSUITEERP"
             case .network: return "NETWORK"
             case .salesforce: return "SALESFORCE"
+            case .salesforcemarketingcloud: return "SALESFORCEMARKETINGCLOUD"
+            case .salesforcepardot: return "SALESFORCEPARDOT"
+            case .sapodata: return "SAPODATA"
+            case .servicenow: return "SERVICENOW"
             case .sftp: return "SFTP"
+            case .slack: return "SLACK"
+            case .snapchatads: return "SNAPCHATADS"
+            case .stripe: return "STRIPE"
             case .viewValidationAthena: return "VIEW_VALIDATION_ATHENA"
             case .viewValidationRedshift: return "VIEW_VALIDATION_REDSHIFT"
+            case .zendesk: return "ZENDESK"
+            case .zohocrm: return "ZOHOCRM"
             case let .sdkUnknown(s): return s
             }
         }
@@ -10319,8 +10658,7 @@ extension GlueClientTypes {
             availabilityZone: Swift.String? = nil,
             securityGroupIdList: [Swift.String]? = nil,
             subnetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.securityGroupIdList = securityGroupIdList
             self.subnetId = subnetId
@@ -10330,11 +10668,43 @@ extension GlueClientTypes {
 
 extension GlueClientTypes {
 
+    public enum ComputeEnvironment: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case athena
+        case python
+        case spark
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ComputeEnvironment] {
+            return [
+                .athena,
+                .python,
+                .spark
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .athena: return "ATHENA"
+            case .python: return "PYTHON"
+            case .spark: return "SPARK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     /// A structure that is used to specify a connection to create or update.
     public struct ConnectionInput: Swift.Sendable {
-        /// This field is not currently used.
+        /// Connection properties specific to the Athena compute environment.
         public var athenaProperties: [Swift.String: Swift.String]?
-        /// The authentication properties of the connection. Used for a Salesforce connection.
+        /// The authentication properties of the connection.
         public var authenticationConfiguration: GlueClientTypes.AuthenticationConfigurationInput?
         /// These key-value pairs define parameters for the connection.
         /// This member is required.
@@ -10378,13 +10748,6 @@ extension GlueClientTypes {
         ///
         ///
         ///
-        /// * SALESFORCE - Designates a connection to Salesforce using OAuth authencation.
-        ///
-        /// * Requires the AuthenticationConfiguration member to be configured.
-        ///
-        ///
-        ///
-        ///
         /// * VIEW_VALIDATION_REDSHIFT - Designates a connection used for view validation by Amazon Redshift.
         ///
         /// * VIEW_VALIDATION_ATHENA - Designates a connection used for view validation by Amazon Athena.
@@ -10403,7 +10766,50 @@ extension GlueClientTypes {
         /// * CUSTOM - Uses configuration settings contained in a custom connector to read from and write to data stores that are not natively supported by Glue.
         ///
         ///
-        /// SFTP is not supported. For more information about how optional ConnectionProperties are used to configure features in Glue, consult [Glue connection properties](https://docs.aws.amazon.com/glue/latest/dg/connection-defining.html). For more information about how optional ConnectionProperties are used to configure features in Glue Studio, consult [Using connectors and connections](https://docs.aws.amazon.com/glue/latest/ug/connectors-chapter.html).
+        /// Additionally, a ConnectionType for the following SaaS connectors is supported:
+        ///
+        /// * FACEBOOKADS - Designates a connection to Facebook Ads.
+        ///
+        /// * GOOGLEADS - Designates a connection to Google Ads.
+        ///
+        /// * GOOGLESHEETS - Designates a connection to Google Sheets.
+        ///
+        /// * GOOGLEANALYTICS4 - Designates a connection to Google Analytics 4.
+        ///
+        /// * HUBSPOT - Designates a connection to HubSpot.
+        ///
+        /// * INSTAGRAMADS - Designates a connection to Instagram Ads.
+        ///
+        /// * INTERCOM - Designates a connection to Intercom.
+        ///
+        /// * JIRACLOUD - Designates a connection to Jira Cloud.
+        ///
+        /// * MARKETO - Designates a connection to Adobe Marketo Engage.
+        ///
+        /// * NETSUITEERP - Designates a connection to Oracle NetSuite.
+        ///
+        /// * SALESFORCE - Designates a connection to Salesforce using OAuth authentication.
+        ///
+        /// * SALESFORCEMARKETINGCLOUD - Designates a connection to Salesforce Marketing Cloud.
+        ///
+        /// * SALESFORCEPARDOT - Designates a connection to Salesforce Marketing Cloud Account Engagement (MCAE).
+        ///
+        /// * SAPODATA - Designates a connection to SAP OData.
+        ///
+        /// * SERVICENOW - Designates a connection to ServiceNow.
+        ///
+        /// * SLACK - Designates a connection to Slack.
+        ///
+        /// * SNAPCHATADS - Designates a connection to Snapchat Ads.
+        ///
+        /// * STRIPE - Designates a connection to Stripe.
+        ///
+        /// * ZENDESK - Designates a connection to Zendesk.
+        ///
+        /// * ZOHOCRM - Designates a connection to Zoho CRM.
+        ///
+        ///
+        /// For more information on the connection parameters needed for a particular connector, see the documentation for the connector in [Adding an Glue connection](https://docs.aws.amazon.com/glue/latest/dg/console-connections.html)in the Glue User Guide. SFTP is not supported. For more information about how optional ConnectionProperties are used to configure features in Glue, consult [Glue connection properties](https://docs.aws.amazon.com/glue/latest/dg/connection-defining.html). For more information about how optional ConnectionProperties are used to configure features in Glue Studio, consult [Using connectors and connections](https://docs.aws.amazon.com/glue/latest/ug/connectors-chapter.html).
         /// This member is required.
         public var connectionType: GlueClientTypes.ConnectionType?
         /// The description of the connection.
@@ -10415,8 +10821,14 @@ extension GlueClientTypes {
         public var name: Swift.String?
         /// The physical connection requirements, such as virtual private cloud (VPC) and SecurityGroup, that are needed to successfully make this connection.
         public var physicalConnectionRequirements: GlueClientTypes.PhysicalConnectionRequirements?
-        /// A flag to validate the credentials during create connection. Used for a Salesforce connection. Default is true.
+        /// Connection properties specific to the Python compute environment.
+        public var pythonProperties: [Swift.String: Swift.String]?
+        /// Connection properties specific to the Spark compute environment.
+        public var sparkProperties: [Swift.String: Swift.String]?
+        /// A flag to validate the credentials during create connection. Default is true.
         public var validateCredentials: Swift.Bool
+        /// The compute environments that the specified connection properties are validated against.
+        public var validateForComputeEnvironments: [GlueClientTypes.ComputeEnvironment]?
 
         public init(
             athenaProperties: [Swift.String: Swift.String]? = nil,
@@ -10427,9 +10839,11 @@ extension GlueClientTypes {
             matchCriteria: [Swift.String]? = nil,
             name: Swift.String? = nil,
             physicalConnectionRequirements: GlueClientTypes.PhysicalConnectionRequirements? = nil,
-            validateCredentials: Swift.Bool = false
-        )
-        {
+            pythonProperties: [Swift.String: Swift.String]? = nil,
+            sparkProperties: [Swift.String: Swift.String]? = nil,
+            validateCredentials: Swift.Bool = false,
+            validateForComputeEnvironments: [GlueClientTypes.ComputeEnvironment]? = nil
+        ) {
             self.athenaProperties = athenaProperties
             self.authenticationConfiguration = authenticationConfiguration
             self.connectionProperties = connectionProperties
@@ -10438,7 +10852,10 @@ extension GlueClientTypes {
             self.matchCriteria = matchCriteria
             self.name = name
             self.physicalConnectionRequirements = physicalConnectionRequirements
+            self.pythonProperties = pythonProperties
+            self.sparkProperties = sparkProperties
             self.validateCredentials = validateCredentials
+            self.validateForComputeEnvironments = validateForComputeEnvironments
         }
     }
 }
@@ -10456,8 +10873,7 @@ public struct CreateConnectionInput: Swift.Sendable {
         catalogId: Swift.String? = nil,
         connectionInput: GlueClientTypes.ConnectionInput? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.connectionInput = connectionInput
         self.tags = tags
@@ -10502,8 +10918,7 @@ public struct CreateConnectionOutput: Swift.Sendable {
 
     public init(
         createConnectionStatus: GlueClientTypes.ConnectionStatus? = nil
-    )
-    {
+    ) {
         self.createConnectionStatus = createConnectionStatus
     }
 }
@@ -10559,8 +10974,7 @@ public struct CreateCrawlerInput: Swift.Sendable {
         tablePrefix: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         targets: GlueClientTypes.CrawlerTargets? = nil
-    )
-    {
+    ) {
         self.classifiers = classifiers
         self.configuration = configuration
         self.crawlerSecurityConfiguration = crawlerSecurityConfiguration
@@ -10585,9 +10999,9 @@ public struct CreateCrawlerOutput: Swift.Sendable {
 }
 
 /// The same unique identifier was associated with two different records.
-public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -10603,8 +11017,7 @@ public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -10626,8 +11039,7 @@ public struct CreateCustomEntityTypeInput: Swift.Sendable {
         name: Swift.String? = nil,
         regexString: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.contextWords = contextWords
         self.name = name
         self.regexString = regexString
@@ -10641,149 +11053,8 @@ public struct CreateCustomEntityTypeOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
-    }
-}
-
-/// Two processes are trying to modify a resource simultaneously.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// A message describing the problem.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConcurrentModificationException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
-/// A federated resource already exists.
-public struct FederatedResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// The associated Glue resource already exists.
-        public internal(set) var associatedGlueResource: Swift.String? = nil
-        /// The message describing the problem.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "FederatedResourceAlreadyExistsException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        associatedGlueResource: Swift.String? = nil,
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.associatedGlueResource = associatedGlueResource
-        self.properties.message = message
-    }
-}
-
-extension GlueClientTypes {
-
-    public enum Permission: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case all
-        case alter
-        case createDatabase
-        case createTable
-        case dataLocationAccess
-        case delete
-        case drop
-        case insert
-        case select
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [Permission] {
-            return [
-                .all,
-                .alter,
-                .createDatabase,
-                .createTable,
-                .dataLocationAccess,
-                .delete,
-                .drop,
-                .insert,
-                .select
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .all: return "ALL"
-            case .alter: return "ALTER"
-            case .createDatabase: return "CREATE_DATABASE"
-            case .createTable: return "CREATE_TABLE"
-            case .dataLocationAccess: return "DATA_LOCATION_ACCESS"
-            case .delete: return "DELETE"
-            case .drop: return "DROP"
-            case .insert: return "INSERT"
-            case .select: return "SELECT"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension GlueClientTypes {
-
-    /// The Lake Formation principal.
-    public struct DataLakePrincipal: Swift.Sendable {
-        /// An identifier for the Lake Formation principal.
-        public var dataLakePrincipalIdentifier: Swift.String?
-
-        public init(
-            dataLakePrincipalIdentifier: Swift.String? = nil
-        )
-        {
-            self.dataLakePrincipalIdentifier = dataLakePrincipalIdentifier
-        }
-    }
-}
-
-extension GlueClientTypes {
-
-    /// Permissions granted to a principal.
-    public struct PrincipalPermissions: Swift.Sendable {
-        /// The permissions that are granted to the principal.
-        public var permissions: [GlueClientTypes.Permission]?
-        /// The principal who is granted permissions.
-        public var principal: GlueClientTypes.DataLakePrincipal?
-
-        public init(
-            permissions: [GlueClientTypes.Permission]? = nil,
-            principal: GlueClientTypes.DataLakePrincipal? = nil
-        )
-        {
-            self.permissions = permissions
-            self.principal = principal
-        }
     }
 }
 
@@ -10799,8 +11070,7 @@ extension GlueClientTypes {
         public init(
             connectionName: Swift.String? = nil,
             identifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectionName = connectionName
             self.identifier = identifier
         }
@@ -10822,8 +11092,7 @@ extension GlueClientTypes {
             catalogId: Swift.String? = nil,
             databaseName: Swift.String? = nil,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.region = region
@@ -10859,8 +11128,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             parameters: [Swift.String: Swift.String]? = nil,
             targetDatabase: GlueClientTypes.DatabaseIdentifier? = nil
-        )
-        {
+        ) {
             self.createTableDefaultPermissions = createTableDefaultPermissions
             self.description = description
             self.federatedDatabase = federatedDatabase
@@ -10885,8 +11153,7 @@ public struct CreateDatabaseInput: Swift.Sendable {
         catalogId: Swift.String? = nil,
         databaseInput: GlueClientTypes.DatabaseInput? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseInput = databaseInput
         self.tags = tags
@@ -10915,8 +11182,7 @@ extension GlueClientTypes {
             catalogId: Swift.String? = nil,
             databaseName: Swift.String? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.tableName = tableName
@@ -10950,8 +11216,7 @@ public struct CreateDataQualityRulesetInput: Swift.Sendable {
         ruleset: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         targetTable: GlueClientTypes.DataQualityTargetTable? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.dataQualitySecurityConfiguration = dataQualitySecurityConfiguration
         self.description = description
@@ -10968,16 +11233,15 @@ public struct CreateDataQualityRulesetOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
 
 /// A value could not be validated.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -10993,8 +11257,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -11058,8 +11321,7 @@ public struct CreateDevEndpointInput: Swift.Sendable {
         subnetId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         workerType: GlueClientTypes.WorkerType? = nil
-    )
-    {
+    ) {
         self.arguments = arguments
         self.endpointName = endpointName
         self.extraJarsS3Path = extraJarsS3Path
@@ -11143,8 +11405,7 @@ public struct CreateDevEndpointOutput: Swift.Sendable {
         workerType: GlueClientTypes.WorkerType? = nil,
         yarnEndpointAddress: Swift.String? = nil,
         zeppelinRemoteSparkInterpreterPort: Swift.Int = 0
-    )
-    {
+    ) {
         self.arguments = arguments
         self.availabilityZone = availabilityZone
         self.createdTimestamp = createdTimestamp
@@ -11167,14 +11428,569 @@ public struct CreateDevEndpointOutput: Swift.Sendable {
     }
 }
 
+/// The CreatePartitions API was called on a table that has indexes enabled.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The requested operation conflicts with another operation.
+public struct IntegrationConflictOperationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IntegrationConflictOperationFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The data processed through your integration exceeded your quota.
+public struct IntegrationQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IntegrationQuotaExceededFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// An internal server error occurred.
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The KMS key specified is not accessible.
+public struct KMSKeyNotAccessibleFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KMSKeyNotAccessibleFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The resource could not be found.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The Tag object represents a label that you can assign to an Amazon Web Services resource. Each tag consists of a key and an optional value, both of which you define. For more information about tags, and controlling access to resources in Glue, see [Amazon Web Services Tags in Glue](https://docs.aws.amazon.com/glue/latest/dg/monitor-tags.html) and [Specifying Glue Resource ARNs](https://docs.aws.amazon.com/glue/latest/dg/glue-specifying-resource-arns.html) in the developer guide.
+    public struct Tag: Swift.Sendable {
+        /// The tag key. The key is required when you create a tag on an object. The key is case-sensitive, and must not contain the prefix aws.
+        public var key: Swift.String?
+        /// The tag value. The value is optional when you create a tag on an object. The value is case-sensitive, and must not contain the prefix aws.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+public struct CreateIntegrationInput: Swift.Sendable {
+    /// An optional set of non-secret key–value pairs that contains additional contextual information for encryption. This can only be provided if KMSKeyId is provided.
+    public var additionalEncryptionContext: [Swift.String: Swift.String]?
+    /// Selects source tables for the integration using Maxwell filter syntax.
+    public var dataFilter: Swift.String?
+    /// A description of the integration.
+    public var description: Swift.String?
+    /// A unique name for an integration in Glue.
+    /// This member is required.
+    public var integrationName: Swift.String?
+    /// The ARN of a KMS key used for encrypting the channel.
+    public var kmsKeyId: Swift.String?
+    /// The ARN of the source resource for the integration.
+    /// This member is required.
+    public var sourceArn: Swift.String?
+    /// Metadata assigned to the resource consisting of a list of key-value pairs.
+    public var tags: [GlueClientTypes.Tag]?
+    /// The ARN of the target resource for the integration.
+    /// This member is required.
+    public var targetArn: Swift.String?
+
+    public init(
+        additionalEncryptionContext: [Swift.String: Swift.String]? = nil,
+        dataFilter: Swift.String? = nil,
+        description: Swift.String? = nil,
+        integrationName: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        sourceArn: Swift.String? = nil,
+        tags: [GlueClientTypes.Tag]? = nil,
+        targetArn: Swift.String? = nil
+    ) {
+        self.additionalEncryptionContext = additionalEncryptionContext
+        self.dataFilter = dataFilter
+        self.description = description
+        self.integrationName = integrationName
+        self.kmsKeyId = kmsKeyId
+        self.sourceArn = sourceArn
+        self.tags = tags
+        self.targetArn = targetArn
+    }
+}
+
+extension GlueClientTypes {
+
+    /// An error associated with a zero-ETL integration.
+    public struct IntegrationError: Swift.Sendable {
+        /// The code associated with this error.
+        public var errorCode: Swift.String?
+        /// A message describing the error.
+        public var errorMessage: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil
+        ) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum IntegrationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case failed
+        case modifying
+        case needsAttention
+        case syncing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IntegrationStatus] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .failed,
+                .modifying,
+                .needsAttention,
+                .syncing
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .modifying: return "MODIFYING"
+            case .needsAttention: return "NEEDS_ATTENTION"
+            case .syncing: return "SYNCING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateIntegrationOutput: Swift.Sendable {
+    /// An optional set of non-secret key–value pairs that contains additional contextual information for encryption.
+    public var additionalEncryptionContext: [Swift.String: Swift.String]?
+    /// The time when the integration was created, in UTC.
+    /// This member is required.
+    public var createTime: Foundation.Date?
+    /// Selects source tables for the integration using Maxwell filter syntax.
+    public var dataFilter: Swift.String?
+    /// A description of the integration.
+    public var description: Swift.String?
+    /// A list of errors associated with the integration creation.
+    public var errors: [GlueClientTypes.IntegrationError]?
+    /// The Amazon Resource Name (ARN) for the created integration.
+    /// This member is required.
+    public var integrationArn: Swift.String?
+    /// A unique name for an integration in Glue.
+    /// This member is required.
+    public var integrationName: Swift.String?
+    /// The ARN of a KMS key used for encrypting the channel.
+    public var kmsKeyId: Swift.String?
+    /// The ARN of the source resource for the integration.
+    /// This member is required.
+    public var sourceArn: Swift.String?
+    /// The status of the integration being created. The possible statuses are:
+    ///
+    /// * CREATING: The integration is being created.
+    ///
+    /// * ACTIVE: The integration creation succeeds.
+    ///
+    /// * MODIFYING: The integration is being modified.
+    ///
+    /// * FAILED: The integration creation fails.
+    ///
+    /// * DELETING: The integration is deleted.
+    ///
+    /// * SYNCING: The integration is synchronizing.
+    ///
+    /// * NEEDS_ATTENTION: The integration needs attention, such as synchronization.
+    /// This member is required.
+    public var status: GlueClientTypes.IntegrationStatus?
+    /// Metadata assigned to the resource consisting of a list of key-value pairs.
+    public var tags: [GlueClientTypes.Tag]?
+    /// The ARN of the target resource for the integration.
+    /// This member is required.
+    public var targetArn: Swift.String?
+
+    public init(
+        additionalEncryptionContext: [Swift.String: Swift.String]? = nil,
+        createTime: Foundation.Date? = nil,
+        dataFilter: Swift.String? = nil,
+        description: Swift.String? = nil,
+        errors: [GlueClientTypes.IntegrationError]? = nil,
+        integrationArn: Swift.String? = nil,
+        integrationName: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        sourceArn: Swift.String? = nil,
+        status: GlueClientTypes.IntegrationStatus? = nil,
+        tags: [GlueClientTypes.Tag]? = nil,
+        targetArn: Swift.String? = nil
+    ) {
+        self.additionalEncryptionContext = additionalEncryptionContext
+        self.createTime = createTime
+        self.dataFilter = dataFilter
+        self.description = description
+        self.errors = errors
+        self.integrationArn = integrationArn
+        self.integrationName = integrationName
+        self.kmsKeyId = kmsKeyId
+        self.sourceArn = sourceArn
+        self.status = status
+        self.tags = tags
+        self.targetArn = targetArn
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The resource properties associated with the integration source.
+    public struct SourceProcessingProperties: Swift.Sendable {
+        /// The IAM role to access the Glue connection.
+        public var roleArn: Swift.String?
+
+        public init(
+            roleArn: Swift.String? = nil
+        ) {
+            self.roleArn = roleArn
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The resource properties associated with the integration target.
+    public struct TargetProcessingProperties: Swift.Sendable {
+        /// The Glue network connection to configure the Glue job running in the customer VPC.
+        public var connectionName: Swift.String?
+        /// The ARN of an Eventbridge event bus to receive the integration status notification.
+        public var eventBusArn: Swift.String?
+        /// The ARN of the KMS key used for encryption.
+        public var kmsArn: Swift.String?
+        /// The IAM role to access the Glue database.
+        public var roleArn: Swift.String?
+
+        public init(
+            connectionName: Swift.String? = nil,
+            eventBusArn: Swift.String? = nil,
+            kmsArn: Swift.String? = nil,
+            roleArn: Swift.String? = nil
+        ) {
+            self.connectionName = connectionName
+            self.eventBusArn = eventBusArn
+            self.kmsArn = kmsArn
+            self.roleArn = roleArn
+        }
+    }
+}
+
+public struct CreateIntegrationResourcePropertyInput: Swift.Sendable {
+    /// The connection ARN of the source, or the database ARN of the target.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The resource properties associated with the integration source.
+    public var sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties?
+    /// The resource properties associated with the integration target.
+    public var targetProcessingProperties: GlueClientTypes.TargetProcessingProperties?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties? = nil,
+        targetProcessingProperties: GlueClientTypes.TargetProcessingProperties? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.sourceProcessingProperties = sourceProcessingProperties
+        self.targetProcessingProperties = targetProcessingProperties
+    }
+}
+
+public struct CreateIntegrationResourcePropertyOutput: Swift.Sendable {
+    /// The connection ARN of the source, or the database ARN of the target.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The resource properties associated with the integration source.
+    public var sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties?
+    /// The resource properties associated with the integration target.
+    public var targetProcessingProperties: GlueClientTypes.TargetProcessingProperties?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties? = nil,
+        targetProcessingProperties: GlueClientTypes.TargetProcessingProperties? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.sourceProcessingProperties = sourceProcessingProperties
+        self.targetProcessingProperties = targetProcessingProperties
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Properties used by the source leg to process data from the source.
+    public struct SourceTableConfig: Swift.Sendable {
+        /// A list of fields used for column-level filtering.
+        public var fields: [Swift.String]?
+        /// A condition clause used for row-level filtering.
+        public var filterPredicate: Swift.String?
+        /// Unique identifier of a record.
+        public var primaryKey: [Swift.String]?
+        /// Incremental pull timestamp-based field.
+        public var recordUpdateField: Swift.String?
+
+        public init(
+            fields: [Swift.String]? = nil,
+            filterPredicate: Swift.String? = nil,
+            primaryKey: [Swift.String]? = nil,
+            recordUpdateField: Swift.String? = nil
+        ) {
+            self.fields = fields
+            self.filterPredicate = filterPredicate
+            self.primaryKey = primaryKey
+            self.recordUpdateField = recordUpdateField
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A structure that describes how data is partitioned on the target.
+    public struct IntegrationPartition: Swift.Sendable {
+        /// The field name used to partition data on the target.
+        public var fieldName: Swift.String?
+        /// Specifies a function used to partition data on the target.
+        public var functionSpec: Swift.String?
+
+        public init(
+            fieldName: Swift.String? = nil,
+            functionSpec: Swift.String? = nil
+        ) {
+            self.fieldName = fieldName
+            self.functionSpec = functionSpec
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum UnnestSpec: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case full
+        case nounnest
+        case toplevel
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UnnestSpec] {
+            return [
+                .full,
+                .nounnest,
+                .toplevel
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .full: return "FULL"
+            case .nounnest: return "NOUNNEST"
+            case .toplevel: return "TOPLEVEL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Properties used by the target leg to partition the data on the target.
+    public struct TargetTableConfig: Swift.Sendable {
+        /// Determines the file layout on the target.
+        public var partitionSpec: [GlueClientTypes.IntegrationPartition]?
+        /// The optional name of a target table.
+        public var targetTableName: Swift.String?
+        /// Specifies how nested objects are flattened to top-level elements. Valid values are: "TOPLEVEL", "FULL", or "NOUNNEST".
+        public var unnestSpec: GlueClientTypes.UnnestSpec?
+
+        public init(
+            partitionSpec: [GlueClientTypes.IntegrationPartition]? = nil,
+            targetTableName: Swift.String? = nil,
+            unnestSpec: GlueClientTypes.UnnestSpec? = nil
+        ) {
+            self.partitionSpec = partitionSpec
+            self.targetTableName = targetTableName
+            self.unnestSpec = unnestSpec
+        }
+    }
+}
+
+public struct CreateIntegrationTablePropertiesInput: Swift.Sendable {
+    /// The connection ARN of the source, or the database ARN of the target.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// A structure for the source table configuration.
+    public var sourceTableConfig: GlueClientTypes.SourceTableConfig?
+    /// The name of the table to be replicated.
+    /// This member is required.
+    public var tableName: Swift.String?
+    /// A structure for the target table configuration.
+    public var targetTableConfig: GlueClientTypes.TargetTableConfig?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        sourceTableConfig: GlueClientTypes.SourceTableConfig? = nil,
+        tableName: Swift.String? = nil,
+        targetTableConfig: GlueClientTypes.TargetTableConfig? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.sourceTableConfig = sourceTableConfig
+        self.tableName = tableName
+        self.targetTableConfig = targetTableConfig
+    }
+}
+
+public struct CreateIntegrationTablePropertiesOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct CreateJobOutput: Swift.Sendable {
     /// The unique name that was provided for this job definition.
     public var name: Swift.String?
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -11197,8 +12013,7 @@ extension GlueClientTypes {
             enforceProvidedLabels: Swift.Bool? = nil,
             precisionRecallTradeoff: Swift.Double? = nil,
             primaryKeyColumnName: Swift.String? = nil
-        )
-        {
+        ) {
             self.accuracyCostTradeoff = accuracyCostTradeoff
             self.enforceProvidedLabels = enforceProvidedLabels
             self.precisionRecallTradeoff = precisionRecallTradeoff
@@ -11246,8 +12061,7 @@ extension GlueClientTypes {
         public init(
             findMatchesParameters: GlueClientTypes.FindMatchesParameters? = nil,
             transformType: GlueClientTypes.TransformType? = nil
-        )
-        {
+        ) {
             self.findMatchesParameters = findMatchesParameters
             self.transformType = transformType
         }
@@ -11300,8 +12114,7 @@ extension GlueClientTypes {
         public init(
             kmsKeyId: Swift.String? = nil,
             mlUserDataEncryptionMode: GlueClientTypes.MLUserDataEncryptionModeString? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.mlUserDataEncryptionMode = mlUserDataEncryptionMode
         }
@@ -11320,8 +12133,7 @@ extension GlueClientTypes {
         public init(
             mlUserDataEncryption: GlueClientTypes.MLUserDataEncryption? = nil,
             taskRunSecurityConfigurationName: Swift.String? = nil
-        )
-        {
+        ) {
             self.mlUserDataEncryption = mlUserDataEncryption
             self.taskRunSecurityConfigurationName = taskRunSecurityConfigurationName
         }
@@ -11406,8 +12218,7 @@ public struct CreateMLTransformInput: Swift.Sendable {
         timeout: Swift.Int? = nil,
         transformEncryption: GlueClientTypes.TransformEncryption? = nil,
         workerType: GlueClientTypes.WorkerType? = nil
-    )
-    {
+    ) {
         self.description = description
         self.glueVersion = glueVersion
         self.inputRecordTables = inputRecordTables
@@ -11430,8 +12241,7 @@ public struct CreateMLTransformOutput: Swift.Sendable {
 
     public init(
         transformId: Swift.String? = nil
-    )
-    {
+    ) {
         self.transformId = transformId
     }
 }
@@ -11454,8 +12264,7 @@ public struct CreatePartitionInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         partitionInput: GlueClientTypes.PartitionInput? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.partitionInput = partitionInput
@@ -11482,8 +12291,7 @@ extension GlueClientTypes {
         public init(
             indexName: Swift.String? = nil,
             keys: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.indexName = indexName
             self.keys = keys
         }
@@ -11508,8 +12316,7 @@ public struct CreatePartitionIndexInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         partitionIndex: GlueClientTypes.PartitionIndex? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.partitionIndex = partitionIndex
@@ -11535,8 +12342,7 @@ public struct CreateRegistryInput: Swift.Sendable {
         description: Swift.String? = nil,
         registryName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.registryName = registryName
         self.tags = tags
@@ -11558,8 +12364,7 @@ public struct CreateRegistryOutput: Swift.Sendable {
         registryArn: Swift.String? = nil,
         registryName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.registryArn = registryArn
         self.registryName = registryName
@@ -11626,8 +12431,7 @@ extension GlueClientTypes {
         public init(
             registryArn: Swift.String? = nil,
             registryName: Swift.String? = nil
-        )
-        {
+        ) {
             self.registryArn = registryArn
             self.registryName = registryName
         }
@@ -11676,8 +12480,7 @@ public struct CreateSchemaInput: Swift.Sendable {
         schemaDefinition: Swift.String? = nil,
         schemaName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.compatibility = compatibility
         self.dataFormat = dataFormat
         self.description = description
@@ -11800,8 +12603,7 @@ public struct CreateSchemaOutput: Swift.Sendable {
         schemaVersionId: Swift.String? = nil,
         schemaVersionStatus: GlueClientTypes.SchemaVersionStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.compatibility = compatibility
         self.dataFormat = dataFormat
         self.description = description
@@ -11836,8 +12638,7 @@ extension GlueClientTypes {
             source: Swift.String? = nil,
             target: Swift.String? = nil,
             targetParameter: Swift.String? = nil
-        )
-        {
+        ) {
             self.source = source
             self.target = target
             self.targetParameter = targetParameter
@@ -11862,8 +12663,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             param: Swift.Bool = false,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.param = param
             self.value = value
@@ -11892,8 +12692,7 @@ extension GlueClientTypes {
             id: Swift.String? = nil,
             lineNumber: Swift.Int = 0,
             nodeType: Swift.String? = nil
-        )
-        {
+        ) {
             self.args = args
             self.id = id
             self.lineNumber = lineNumber
@@ -11943,8 +12742,7 @@ public struct CreateScriptInput: Swift.Sendable {
         dagEdges: [GlueClientTypes.CodeGenEdge]? = nil,
         dagNodes: [GlueClientTypes.CodeGenNode]? = nil,
         language: GlueClientTypes.Language? = nil
-    )
-    {
+    ) {
         self.dagEdges = dagEdges
         self.dagNodes = dagNodes
         self.language = language
@@ -11960,8 +12758,7 @@ public struct CreateScriptOutput: Swift.Sendable {
     public init(
         pythonScript: Swift.String? = nil,
         scalaCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.pythonScript = pythonScript
         self.scalaCode = scalaCode
     }
@@ -12008,9 +12805,56 @@ extension GlueClientTypes {
         public init(
             cloudWatchEncryptionMode: GlueClientTypes.CloudWatchEncryptionMode? = nil,
             kmsKeyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.cloudWatchEncryptionMode = cloudWatchEncryptionMode
+            self.kmsKeyArn = kmsKeyArn
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum DataQualityEncryptionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case ssekms
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataQualityEncryptionMode] {
+            return [
+                .disabled,
+                .ssekms
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .ssekms: return "SSE-KMS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Specifies how Data Quality assets in your account should be encrypted.
+    public struct DataQualityEncryption: Swift.Sendable {
+        /// The encryption mode to use for encrypting Data Quality assets. These assets include data quality rulesets, results, statistics, anomaly detection models and observations. Valid values are SSEKMS for encryption using a customer-managed KMS key, or DISABLED.
+        public var dataQualityEncryptionMode: GlueClientTypes.DataQualityEncryptionMode?
+        /// The Amazon Resource Name (ARN) of the KMS key to be used to encrypt the data.
+        public var kmsKeyArn: Swift.String?
+
+        public init(
+            dataQualityEncryptionMode: GlueClientTypes.DataQualityEncryptionMode? = nil,
+            kmsKeyArn: Swift.String? = nil
+        ) {
+            self.dataQualityEncryptionMode = dataQualityEncryptionMode
             self.kmsKeyArn = kmsKeyArn
         }
     }
@@ -12057,8 +12901,7 @@ extension GlueClientTypes {
         public init(
             jobBookmarksEncryptionMode: GlueClientTypes.JobBookmarksEncryptionMode? = nil,
             kmsKeyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.jobBookmarksEncryptionMode = jobBookmarksEncryptionMode
             self.kmsKeyArn = kmsKeyArn
         }
@@ -12109,8 +12952,7 @@ extension GlueClientTypes {
         public init(
             kmsKeyArn: Swift.String? = nil,
             s3EncryptionMode: GlueClientTypes.S3EncryptionMode? = nil
-        )
-        {
+        ) {
             self.kmsKeyArn = kmsKeyArn
             self.s3EncryptionMode = s3EncryptionMode
         }
@@ -12123,6 +12965,8 @@ extension GlueClientTypes {
     public struct EncryptionConfiguration: Swift.Sendable {
         /// The encryption configuration for Amazon CloudWatch.
         public var cloudWatchEncryption: GlueClientTypes.CloudWatchEncryption?
+        /// The encryption configuration for Glue Data Quality assets.
+        public var dataQualityEncryption: GlueClientTypes.DataQualityEncryption?
         /// The encryption configuration for job bookmarks.
         public var jobBookmarksEncryption: GlueClientTypes.JobBookmarksEncryption?
         /// The encryption configuration for Amazon Simple Storage Service (Amazon S3) data.
@@ -12130,11 +12974,12 @@ extension GlueClientTypes {
 
         public init(
             cloudWatchEncryption: GlueClientTypes.CloudWatchEncryption? = nil,
+            dataQualityEncryption: GlueClientTypes.DataQualityEncryption? = nil,
             jobBookmarksEncryption: GlueClientTypes.JobBookmarksEncryption? = nil,
             s3Encryption: [GlueClientTypes.S3Encryption]? = nil
-        )
-        {
+        ) {
             self.cloudWatchEncryption = cloudWatchEncryption
+            self.dataQualityEncryption = dataQualityEncryption
             self.jobBookmarksEncryption = jobBookmarksEncryption
             self.s3Encryption = s3Encryption
         }
@@ -12152,8 +12997,7 @@ public struct CreateSecurityConfigurationInput: Swift.Sendable {
     public init(
         encryptionConfiguration: GlueClientTypes.EncryptionConfiguration? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.encryptionConfiguration = encryptionConfiguration
         self.name = name
     }
@@ -12168,8 +13012,7 @@ public struct CreateSecurityConfigurationOutput: Swift.Sendable {
     public init(
         createdTimestamp: Foundation.Date? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdTimestamp = createdTimestamp
         self.name = name
     }
@@ -12187,8 +13030,7 @@ extension GlueClientTypes {
         public init(
             name: Swift.String? = nil,
             pythonVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.pythonVersion = pythonVersion
         }
@@ -12230,15 +13072,15 @@ public struct CreateSessionInput: Swift.Sendable {
     public var timeout: Swift.Int?
     /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, or G.8X for Spark jobs. Accepts the value Z.2X for Ray notebooks.
     ///
-    /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
+    /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
     ///
-    /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
+    /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
     ///
-    /// * For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).
+    /// * For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).
     ///
-    /// * For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.
+    /// * For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.
     ///
-    /// * For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
+    /// * For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
     public var workerType: GlueClientTypes.WorkerType?
 
     public init(
@@ -12257,8 +13099,7 @@ public struct CreateSessionInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         timeout: Swift.Int? = nil,
         workerType: GlueClientTypes.WorkerType? = nil
-    )
-    {
+    ) {
         self.command = command
         self.connections = connections
         self.defaultArguments = defaultArguments
@@ -12384,8 +13225,7 @@ extension GlueClientTypes {
             securityConfiguration: Swift.String? = nil,
             status: GlueClientTypes.SessionStatus? = nil,
             workerType: GlueClientTypes.WorkerType? = nil
-        )
-        {
+        ) {
             self.command = command
             self.completedOn = completedOn
             self.connections = connections
@@ -12416,8 +13256,7 @@ public struct CreateSessionOutput: Swift.Sendable {
 
     public init(
         session: GlueClientTypes.Session? = nil
-    )
-    {
+    ) {
         self.session = session
     }
 }
@@ -12461,8 +13300,7 @@ extension GlueClientTypes {
         public init(
             metadataOperation: GlueClientTypes.MetadataOperation? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.metadataOperation = metadataOperation
             self.version = version
         }
@@ -12478,8 +13316,7 @@ extension GlueClientTypes {
 
         public init(
             icebergInput: GlueClientTypes.IcebergInput? = nil
-        )
-        {
+        ) {
             self.icebergInput = icebergInput
         }
     }
@@ -12503,8 +13340,7 @@ extension GlueClientTypes {
             databaseName: Swift.String? = nil,
             name: Swift.String? = nil,
             region: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.name = name
@@ -12566,8 +13402,7 @@ extension GlueClientTypes {
             validationConnection: Swift.String? = nil,
             viewExpandedText: Swift.String? = nil,
             viewOriginalText: Swift.String? = nil
-        )
-        {
+        ) {
             self.dialect = dialect
             self.dialectVersion = dialectVersion
             self.validationConnection = validationConnection
@@ -12595,8 +13430,7 @@ extension GlueClientTypes {
             isProtected: Swift.Bool? = nil,
             representations: [GlueClientTypes.ViewRepresentationInput]? = nil,
             subObjects: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.definer = definer
             self.isProtected = isProtected
             self.representations = representations
@@ -12654,8 +13488,7 @@ extension GlueClientTypes {
             viewDefinition: GlueClientTypes.ViewDefinitionInput? = nil,
             viewExpandedText: Swift.String? = nil,
             viewOriginalText: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.lastAccessTime = lastAccessTime
             self.lastAnalyzedTime = lastAnalyzedTime
@@ -12697,8 +13530,7 @@ public struct CreateTableInput: Swift.Sendable {
         partitionIndexes: [GlueClientTypes.PartitionIndex]? = nil,
         tableInput: GlueClientTypes.TableInput? = nil,
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.openTableFormatInput = openTableFormatInput
@@ -12726,7 +13558,7 @@ public struct CreateTableOptimizerInput: Swift.Sendable {
     /// A TableOptimizerConfiguration object representing the configuration of a table optimizer.
     /// This member is required.
     public var tableOptimizerConfiguration: GlueClientTypes.TableOptimizerConfiguration?
-    /// The type of table optimizer. Currently, the only valid value is compaction.
+    /// The type of table optimizer.
     /// This member is required.
     public var type: GlueClientTypes.TableOptimizerType?
 
@@ -12736,8 +13568,7 @@ public struct CreateTableOptimizerInput: Swift.Sendable {
         tableName: Swift.String? = nil,
         tableOptimizerConfiguration: GlueClientTypes.TableOptimizerConfiguration? = nil,
         type: GlueClientTypes.TableOptimizerType? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.tableName = tableName
@@ -12787,8 +13618,7 @@ public struct CreateTriggerInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         type: GlueClientTypes.TriggerType? = nil,
         workflowName: Swift.String? = nil
-    )
-    {
+    ) {
         self.actions = actions
         self.description = description
         self.eventBatchingCondition = eventBatchingCondition
@@ -12808,16 +13638,15 @@ public struct CreateTriggerOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
 
 /// The operation is not available in the region.
-public struct OperationNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OperationNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -12833,8 +13662,7 @@ public struct OperationNotSupportedException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -12857,8 +13685,7 @@ extension GlueClientTypes {
             defaultValue: Swift.String? = nil,
             maxValue: Swift.String? = nil,
             minValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedValues = allowedValues
             self.defaultValue = defaultValue
             self.maxValue = maxValue
@@ -12879,8 +13706,7 @@ extension GlueClientTypes {
         public init(
             jobConfiguration: [Swift.String: GlueClientTypes.ConfigurationObject]? = nil,
             sessionConfiguration: [Swift.String: GlueClientTypes.ConfigurationObject]? = nil
-        )
-        {
+        ) {
             self.jobConfiguration = jobConfiguration
             self.sessionConfiguration = sessionConfiguration
         }
@@ -12904,8 +13730,7 @@ public struct CreateUsageProfileInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.description = description
         self.name = name
@@ -12919,8 +13744,7 @@ public struct CreateUsageProfileOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -13001,8 +13825,7 @@ extension GlueClientTypes {
         public init(
             resourceType: GlueClientTypes.ResourceType? = nil,
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.resourceType = resourceType
             self.uri = uri
         }
@@ -13030,8 +13853,7 @@ extension GlueClientTypes {
             ownerName: Swift.String? = nil,
             ownerType: GlueClientTypes.PrincipalType? = nil,
             resourceUris: [GlueClientTypes.ResourceUri]? = nil
-        )
-        {
+        ) {
             self.className = className
             self.functionName = functionName
             self.ownerName = ownerName
@@ -13055,8 +13877,7 @@ public struct CreateUserDefinedFunctionInput: Swift.Sendable {
         catalogId: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         functionInput: GlueClientTypes.UserDefinedFunctionInput? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.functionInput = functionInput
@@ -13069,7 +13890,7 @@ public struct CreateUserDefinedFunctionOutput: Swift.Sendable {
 }
 
 public struct CreateWorkflowInput: Swift.Sendable {
-    /// A collection of properties to be used as part of each execution of the workflow.
+    /// A collection of properties to be used as part of each execution of the workflow. Run properties may be logged. Do not pass plaintext secrets as properties. Retrieve secrets from a Glue Connection, Amazon Web Services Secrets Manager or other secret management mechanism if you intend to use them within the workflow run.
     public var defaultRunProperties: [Swift.String: Swift.String]?
     /// A description of the workflow.
     public var description: Swift.String?
@@ -13087,8 +13908,7 @@ public struct CreateWorkflowInput: Swift.Sendable {
         maxConcurrentRuns: Swift.Int? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.defaultRunProperties = defaultRunProperties
         self.description = description
         self.maxConcurrentRuns = maxConcurrentRuns
@@ -13103,8 +13923,7 @@ public struct CreateWorkflowOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -13116,8 +13935,7 @@ public struct DeleteBlueprintInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -13128,10 +13946,26 @@ public struct DeleteBlueprintOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
+}
+
+public struct DeleteCatalogInput: Swift.Sendable {
+    /// The ID of the catalog.
+    /// This member is required.
+    public var catalogId: Swift.String?
+
+    public init(
+        catalogId: Swift.String? = nil
+    ) {
+        self.catalogId = catalogId
+    }
+}
+
+public struct DeleteCatalogOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct DeleteClassifierInput: Swift.Sendable {
@@ -13141,8 +13975,7 @@ public struct DeleteClassifierInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -13174,8 +14007,7 @@ public struct DeleteColumnStatisticsForPartitionInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         partitionValues: [Swift.String]? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.columnName = columnName
         self.databaseName = databaseName
@@ -13207,8 +14039,7 @@ public struct DeleteColumnStatisticsForTableInput: Swift.Sendable {
         columnName: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.columnName = columnName
         self.databaseName = databaseName
@@ -13232,8 +14063,7 @@ public struct DeleteColumnStatisticsTaskSettingsInput: Swift.Sendable {
     public init(
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
         self.tableName = tableName
     }
@@ -13254,8 +14084,7 @@ public struct DeleteConnectionInput: Swift.Sendable {
     public init(
         catalogId: Swift.String? = nil,
         connectionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.connectionName = connectionName
     }
@@ -13267,9 +14096,9 @@ public struct DeleteConnectionOutput: Swift.Sendable {
 }
 
 /// The operation cannot be performed because the crawler is already running.
-public struct CrawlerRunningException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CrawlerRunningException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -13285,16 +14114,15 @@ public struct CrawlerRunningException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified scheduler is transitioning.
-public struct SchedulerTransitioningException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SchedulerTransitioningException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -13310,8 +14138,7 @@ public struct SchedulerTransitioningException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -13323,8 +14150,7 @@ public struct DeleteCrawlerInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -13341,8 +14167,7 @@ public struct DeleteCustomEntityTypeInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -13353,8 +14178,7 @@ public struct DeleteCustomEntityTypeOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -13369,8 +14193,7 @@ public struct DeleteDatabaseInput: Swift.Sendable {
     public init(
         catalogId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.name = name
     }
@@ -13388,8 +14211,7 @@ public struct DeleteDataQualityRulesetInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -13406,13 +14228,169 @@ public struct DeleteDevEndpointInput: Swift.Sendable {
 
     public init(
         endpointName: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointName = endpointName
     }
 }
 
 public struct DeleteDevEndpointOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// The specified integration could not be found.
+public struct IntegrationNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IntegrationNotFoundFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The integration is in an invalid state.
+public struct InvalidIntegrationStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidIntegrationStateFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct DeleteIntegrationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) for the integration.
+    /// This member is required.
+    public var integrationIdentifier: Swift.String?
+
+    public init(
+        integrationIdentifier: Swift.String? = nil
+    ) {
+        self.integrationIdentifier = integrationIdentifier
+    }
+}
+
+public struct DeleteIntegrationOutput: Swift.Sendable {
+    /// An optional set of non-secret key–value pairs that contains additional contextual information for encryption.
+    public var additionalEncryptionContext: [Swift.String: Swift.String]?
+    /// The time when the integration was created, in UTC.
+    /// This member is required.
+    public var createTime: Foundation.Date?
+    /// Selects source tables for the integration using Maxwell filter syntax.
+    public var dataFilter: Swift.String?
+    /// A description of the integration.
+    public var description: Swift.String?
+    /// A list of errors associated with the integration.
+    public var errors: [GlueClientTypes.IntegrationError]?
+    /// The Amazon Resource Name (ARN) for the integration.
+    /// This member is required.
+    public var integrationArn: Swift.String?
+    /// A unique name for an integration in Glue.
+    /// This member is required.
+    public var integrationName: Swift.String?
+    /// The ARN of a KMS key used for encrypting the channel.
+    public var kmsKeyId: Swift.String?
+    /// The ARN of the source for the integration.
+    /// This member is required.
+    public var sourceArn: Swift.String?
+    /// The status of the integration being deleted. The possible statuses are:
+    ///
+    /// * CREATING: The integration is being created.
+    ///
+    /// * ACTIVE: The integration creation succeeds.
+    ///
+    /// * MODIFYING: The integration is being modified.
+    ///
+    /// * FAILED: The integration creation fails.
+    ///
+    /// * DELETING: The integration is deleted.
+    ///
+    /// * SYNCING: The integration is synchronizing.
+    ///
+    /// * NEEDS_ATTENTION: The integration needs attention, such as synchronization.
+    /// This member is required.
+    public var status: GlueClientTypes.IntegrationStatus?
+    /// Metadata assigned to the resource consisting of a list of key-value pairs.
+    public var tags: [GlueClientTypes.Tag]?
+    /// The ARN of the target for the integration.
+    /// This member is required.
+    public var targetArn: Swift.String?
+
+    public init(
+        additionalEncryptionContext: [Swift.String: Swift.String]? = nil,
+        createTime: Foundation.Date? = nil,
+        dataFilter: Swift.String? = nil,
+        description: Swift.String? = nil,
+        errors: [GlueClientTypes.IntegrationError]? = nil,
+        integrationArn: Swift.String? = nil,
+        integrationName: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        sourceArn: Swift.String? = nil,
+        status: GlueClientTypes.IntegrationStatus? = nil,
+        tags: [GlueClientTypes.Tag]? = nil,
+        targetArn: Swift.String? = nil
+    ) {
+        self.additionalEncryptionContext = additionalEncryptionContext
+        self.createTime = createTime
+        self.dataFilter = dataFilter
+        self.description = description
+        self.errors = errors
+        self.integrationArn = integrationArn
+        self.integrationName = integrationName
+        self.kmsKeyId = kmsKeyId
+        self.sourceArn = sourceArn
+        self.status = status
+        self.tags = tags
+        self.targetArn = targetArn
+    }
+}
+
+public struct DeleteIntegrationTablePropertiesInput: Swift.Sendable {
+    /// The connection ARN of the source, or the database ARN of the target.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The name of the table to be replicated.
+    /// This member is required.
+    public var tableName: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tableName: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.tableName = tableName
+    }
+}
+
+public struct DeleteIntegrationTablePropertiesOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -13424,8 +14402,7 @@ public struct DeleteJobInput: Swift.Sendable {
 
     public init(
         jobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
     }
 }
@@ -13436,8 +14413,7 @@ public struct DeleteJobOutput: Swift.Sendable {
 
     public init(
         jobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
     }
 }
@@ -13449,8 +14425,7 @@ public struct DeleteMLTransformInput: Swift.Sendable {
 
     public init(
         transformId: Swift.String? = nil
-    )
-    {
+    ) {
         self.transformId = transformId
     }
 }
@@ -13461,8 +14436,7 @@ public struct DeleteMLTransformOutput: Swift.Sendable {
 
     public init(
         transformId: Swift.String? = nil
-    )
-    {
+    ) {
         self.transformId = transformId
     }
 }
@@ -13485,8 +14459,7 @@ public struct DeletePartitionInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         partitionValues: [Swift.String]? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.partitionValues = partitionValues
@@ -13497,31 +14470,6 @@ public struct DeletePartitionInput: Swift.Sendable {
 public struct DeletePartitionOutput: Swift.Sendable {
 
     public init() { }
-}
-
-/// The CreatePartitions API was called on a table that has indexes enabled.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// A message describing the problem.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
 }
 
 public struct DeletePartitionIndexInput: Swift.Sendable {
@@ -13542,8 +14490,7 @@ public struct DeletePartitionIndexInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         indexName: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.indexName = indexName
@@ -13563,8 +14510,7 @@ public struct DeleteRegistryInput: Swift.Sendable {
 
     public init(
         registryId: GlueClientTypes.RegistryId? = nil
-    )
-    {
+    ) {
         self.registryId = registryId
     }
 }
@@ -13610,8 +14556,7 @@ public struct DeleteRegistryOutput: Swift.Sendable {
         registryArn: Swift.String? = nil,
         registryName: Swift.String? = nil,
         status: GlueClientTypes.RegistryStatus? = nil
-    )
-    {
+    ) {
         self.registryArn = registryArn
         self.registryName = registryName
         self.status = status
@@ -13619,9 +14564,9 @@ public struct DeleteRegistryOutput: Swift.Sendable {
 }
 
 /// A specified condition was not satisfied.
-public struct ConditionCheckFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConditionCheckFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -13637,8 +14582,7 @@ public struct ConditionCheckFailureException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -13652,8 +14596,7 @@ public struct DeleteResourcePolicyInput: Swift.Sendable {
     public init(
         policyHashCondition: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyHashCondition = policyHashCondition
         self.resourceArn = resourceArn
     }
@@ -13671,8 +14614,7 @@ public struct DeleteSchemaInput: Swift.Sendable {
 
     public init(
         schemaId: GlueClientTypes.SchemaId? = nil
-    )
-    {
+    ) {
         self.schemaId = schemaId
     }
 }
@@ -13689,8 +14631,7 @@ public struct DeleteSchemaOutput: Swift.Sendable {
         schemaArn: Swift.String? = nil,
         schemaName: Swift.String? = nil,
         status: GlueClientTypes.SchemaStatus? = nil
-    )
-    {
+    ) {
         self.schemaArn = schemaArn
         self.schemaName = schemaName
         self.status = status
@@ -13712,8 +14653,7 @@ public struct DeleteSchemaVersionsInput: Swift.Sendable {
     public init(
         schemaId: GlueClientTypes.SchemaId? = nil,
         versions: Swift.String? = nil
-    )
-    {
+    ) {
         self.schemaId = schemaId
         self.versions = versions
     }
@@ -13731,8 +14671,7 @@ extension GlueClientTypes {
         public init(
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
         }
@@ -13751,8 +14690,7 @@ extension GlueClientTypes {
         public init(
             errorDetails: GlueClientTypes.ErrorDetails? = nil,
             versionNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.errorDetails = errorDetails
             self.versionNumber = versionNumber
         }
@@ -13765,8 +14703,7 @@ public struct DeleteSchemaVersionsOutput: Swift.Sendable {
 
     public init(
         schemaVersionErrors: [GlueClientTypes.SchemaVersionErrorItem]? = nil
-    )
-    {
+    ) {
         self.schemaVersionErrors = schemaVersionErrors
     }
 }
@@ -13778,8 +14715,7 @@ public struct DeleteSecurityConfigurationInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -13799,8 +14735,7 @@ public struct DeleteSessionInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         requestOrigin: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.requestOrigin = requestOrigin
     }
@@ -13812,8 +14747,7 @@ public struct DeleteSessionOutput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -13835,8 +14769,7 @@ public struct DeleteTableInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         name: Swift.String? = nil,
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.name = name
@@ -13868,8 +14801,7 @@ public struct DeleteTableOptimizerInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil,
         type: GlueClientTypes.TableOptimizerType? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.tableName = tableName
@@ -13900,8 +14832,7 @@ public struct DeleteTableVersionInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.tableName = tableName
@@ -13921,8 +14852,7 @@ public struct DeleteTriggerInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -13933,8 +14863,7 @@ public struct DeleteTriggerOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -13946,8 +14875,7 @@ public struct DeleteUsageProfileInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -13971,8 +14899,7 @@ public struct DeleteUserDefinedFunctionInput: Swift.Sendable {
         catalogId: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         functionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.functionName = functionName
@@ -13991,8 +14918,7 @@ public struct DeleteWorkflowInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -14003,9 +14929,652 @@ public struct DeleteWorkflowOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
+    }
+}
+
+public struct DescribeConnectionTypeInput: Swift.Sendable {
+    /// The name of the connection type to be described.
+    /// This member is required.
+    public var connectionType: Swift.String?
+
+    public init(
+        connectionType: Swift.String? = nil
+    ) {
+        self.connectionType = connectionType
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Specifies the supported authentication types returned by the DescribeConnectionType API.
+    public struct Capabilities: Swift.Sendable {
+        /// A list of supported authentication types.
+        /// This member is required.
+        public var supportedAuthenticationTypes: [GlueClientTypes.AuthenticationType]?
+        /// A list of supported compute environments.
+        /// This member is required.
+        public var supportedComputeEnvironments: [GlueClientTypes.ComputeEnvironment]?
+        /// A list of supported data operations.
+        /// This member is required.
+        public var supportedDataOperations: [GlueClientTypes.DataOperation]?
+
+        public init(
+            supportedAuthenticationTypes: [GlueClientTypes.AuthenticationType]? = nil,
+            supportedComputeEnvironments: [GlueClientTypes.ComputeEnvironment]? = nil,
+            supportedDataOperations: [GlueClientTypes.DataOperation]? = nil
+        ) {
+            self.supportedAuthenticationTypes = supportedAuthenticationTypes
+            self.supportedComputeEnvironments = supportedComputeEnvironments
+            self.supportedDataOperations = supportedDataOperations
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// An object containing configuration for a compute environment (such as Spark, Python or Athena) returned by the DescribeConnectionType API.
+    public struct ComputeEnvironmentConfiguration: Swift.Sendable {
+        /// The type of compute environment.
+        /// This member is required.
+        public var computeEnvironment: GlueClientTypes.ComputeEnvironment?
+        /// The connection option name overrides for the compute environment.
+        /// This member is required.
+        public var connectionOptionNameOverrides: [Swift.String: Swift.String]?
+        /// The parameters used as connection options for the compute environment.
+        /// This member is required.
+        public var connectionOptions: [Swift.String: GlueClientTypes.Property]?
+        /// The connection properties that are required as overrides for the compute environment.
+        /// This member is required.
+        public var connectionPropertiesRequiredOverrides: [Swift.String]?
+        /// The connection property name overrides for the compute environment.
+        /// This member is required.
+        public var connectionPropertyNameOverrides: [Swift.String: Swift.String]?
+        /// A description of the compute environment.
+        /// This member is required.
+        public var description: Swift.String?
+        /// A name for the compute environment configuration.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Indicates whether PhysicalConnectionProperties are required for the compute environment.
+        public var physicalConnectionPropertiesRequired: Swift.Bool?
+        /// The supported authentication types for the compute environment.
+        /// This member is required.
+        public var supportedAuthenticationTypes: [GlueClientTypes.AuthenticationType]?
+
+        public init(
+            computeEnvironment: GlueClientTypes.ComputeEnvironment? = nil,
+            connectionOptionNameOverrides: [Swift.String: Swift.String]? = nil,
+            connectionOptions: [Swift.String: GlueClientTypes.Property]? = nil,
+            connectionPropertiesRequiredOverrides: [Swift.String]? = [],
+            connectionPropertyNameOverrides: [Swift.String: Swift.String]? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            physicalConnectionPropertiesRequired: Swift.Bool? = nil,
+            supportedAuthenticationTypes: [GlueClientTypes.AuthenticationType]? = nil
+        ) {
+            self.computeEnvironment = computeEnvironment
+            self.connectionOptionNameOverrides = connectionOptionNameOverrides
+            self.connectionOptions = connectionOptions
+            self.connectionPropertiesRequiredOverrides = connectionPropertiesRequiredOverrides
+            self.connectionPropertyNameOverrides = connectionPropertyNameOverrides
+            self.description = description
+            self.name = name
+            self.physicalConnectionPropertiesRequired = physicalConnectionPropertiesRequired
+            self.supportedAuthenticationTypes = supportedAuthenticationTypes
+        }
+    }
+}
+
+public struct DescribeConnectionTypeOutput: Swift.Sendable {
+    /// Connection properties specific to the Athena compute environment.
+    public var athenaConnectionProperties: [Swift.String: GlueClientTypes.Property]?
+    /// The type of authentication used for the connection.
+    public var authenticationConfiguration: GlueClientTypes.AuthConfiguration?
+    /// The supported authentication types, data interface types (compute environments), and data operations of the connector.
+    public var capabilities: GlueClientTypes.Capabilities?
+    /// The compute environments that are supported by the connection.
+    public var computeEnvironmentConfigurations: [Swift.String: GlueClientTypes.ComputeEnvironmentConfiguration]?
+    /// Returns properties that can be set when creating a connection in the ConnectionInput.ConnectionProperties. ConnectionOptions defines parameters that can be set in a Spark ETL script in the connection options map passed to a dataframe.
+    public var connectionOptions: [Swift.String: GlueClientTypes.Property]?
+    /// Connection properties which are common across compute environments.
+    public var connectionProperties: [Swift.String: GlueClientTypes.Property]?
+    /// The name of the connection type.
+    public var connectionType: Swift.String?
+    /// A description of the connection type.
+    public var description: Swift.String?
+    /// Physical requirements for a connection, such as VPC, Subnet and Security Group specifications.
+    public var physicalConnectionRequirements: [Swift.String: GlueClientTypes.Property]?
+    /// Connection properties specific to the Python compute environment.
+    public var pythonConnectionProperties: [Swift.String: GlueClientTypes.Property]?
+    /// Connection properties specific to the Spark compute environment.
+    public var sparkConnectionProperties: [Swift.String: GlueClientTypes.Property]?
+
+    public init(
+        athenaConnectionProperties: [Swift.String: GlueClientTypes.Property]? = nil,
+        authenticationConfiguration: GlueClientTypes.AuthConfiguration? = nil,
+        capabilities: GlueClientTypes.Capabilities? = nil,
+        computeEnvironmentConfigurations: [Swift.String: GlueClientTypes.ComputeEnvironmentConfiguration]? = nil,
+        connectionOptions: [Swift.String: GlueClientTypes.Property]? = nil,
+        connectionProperties: [Swift.String: GlueClientTypes.Property]? = nil,
+        connectionType: Swift.String? = nil,
+        description: Swift.String? = nil,
+        physicalConnectionRequirements: [Swift.String: GlueClientTypes.Property]? = nil,
+        pythonConnectionProperties: [Swift.String: GlueClientTypes.Property]? = nil,
+        sparkConnectionProperties: [Swift.String: GlueClientTypes.Property]? = nil
+    ) {
+        self.athenaConnectionProperties = athenaConnectionProperties
+        self.authenticationConfiguration = authenticationConfiguration
+        self.capabilities = capabilities
+        self.computeEnvironmentConfigurations = computeEnvironmentConfigurations
+        self.connectionOptions = connectionOptions
+        self.connectionProperties = connectionProperties
+        self.connectionType = connectionType
+        self.description = description
+        self.physicalConnectionRequirements = physicalConnectionRequirements
+        self.pythonConnectionProperties = pythonConnectionProperties
+        self.sparkConnectionProperties = sparkConnectionProperties
+    }
+}
+
+public struct DescribeEntityInput: Swift.Sendable {
+    /// The catalog ID of the catalog that contains the connection. This can be null, By default, the Amazon Web Services Account ID is the catalog ID.
+    public var catalogId: Swift.String?
+    /// The name of the connection that contains the connection type credentials.
+    /// This member is required.
+    public var connectionName: Swift.String?
+    /// The version of the API used for the data store.
+    public var dataStoreApiVersion: Swift.String?
+    /// The name of the entity that you want to describe from the connection type.
+    /// This member is required.
+    public var entityName: Swift.String?
+    /// A continuation token, included if this is a continuation call.
+    public var nextToken: Swift.String?
+
+    public init(
+        catalogId: Swift.String? = nil,
+        connectionName: Swift.String? = nil,
+        dataStoreApiVersion: Swift.String? = nil,
+        entityName: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.catalogId = catalogId
+        self.connectionName = connectionName
+        self.dataStoreApiVersion = dataStoreApiVersion
+        self.entityName = entityName
+        self.nextToken = nextToken
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum FieldDataType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case array
+        case bigint
+        case boolean
+        case byte
+        case date
+        case decimal
+        case double
+        case float
+        case int
+        case long
+        case map
+        case short
+        case smallint
+        case string
+        case `struct`
+        case timestamp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FieldDataType] {
+            return [
+                .array,
+                .bigint,
+                .boolean,
+                .byte,
+                .date,
+                .decimal,
+                .double,
+                .float,
+                .int,
+                .long,
+                .map,
+                .short,
+                .smallint,
+                .string,
+                .struct,
+                .timestamp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .array: return "ARRAY"
+            case .bigint: return "BIGINT"
+            case .boolean: return "BOOLEAN"
+            case .byte: return "BYTE"
+            case .date: return "DATE"
+            case .decimal: return "DECIMAL"
+            case .double: return "DOUBLE"
+            case .float: return "FLOAT"
+            case .int: return "INT"
+            case .long: return "LONG"
+            case .map: return "MAP"
+            case .short: return "SHORT"
+            case .smallint: return "SMALLINT"
+            case .string: return "STRING"
+            case .struct: return "STRUCT"
+            case .timestamp: return "TIMESTAMP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum FieldFilterOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case between
+        case contains
+        case equalTo
+        case greaterThan
+        case greaterThanOrEqualTo
+        case lessThan
+        case lessThanOrEqualTo
+        case notEqualTo
+        case orderBy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FieldFilterOperator] {
+            return [
+                .between,
+                .contains,
+                .equalTo,
+                .greaterThan,
+                .greaterThanOrEqualTo,
+                .lessThan,
+                .lessThanOrEqualTo,
+                .notEqualTo,
+                .orderBy
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .between: return "BETWEEN"
+            case .contains: return "CONTAINS"
+            case .equalTo: return "EQUAL_TO"
+            case .greaterThan: return "GREATER_THAN"
+            case .greaterThanOrEqualTo: return "GREATER_THAN_OR_EQUAL_TO"
+            case .lessThan: return "LESS_THAN"
+            case .lessThanOrEqualTo: return "LESS_THAN_OR_EQUAL_TO"
+            case .notEqualTo: return "NOT_EQUAL_TO"
+            case .orderBy: return "ORDER_BY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The Field object has information about the different properties associated with a field in the connector.
+    public struct Field: Swift.Sendable {
+        /// Optional map of keys which may be returned.
+        public var customProperties: [Swift.String: Swift.String]?
+        /// A description of the field.
+        public var description: Swift.String?
+        /// A unique identifier for the field.
+        public var fieldName: Swift.String?
+        /// The type of data in the field.
+        public var fieldType: GlueClientTypes.FieldDataType?
+        /// Indicates whether this field can be created as part of a destination write.
+        public var isCreateable: Swift.Bool?
+        /// Indicates whether this field is populated automatically when the object is created, such as a created at timestamp.
+        public var isDefaultOnCreate: Swift.Bool?
+        /// Indicates whether this field can used in a filter clause (WHERE clause) of a SQL statement when querying data.
+        public var isFilterable: Swift.Bool?
+        /// Indicates whether this field can be nullable or not.
+        public var isNullable: Swift.Bool?
+        /// Indicates whether a given field can be used in partitioning the query made to SaaS.
+        public var isPartitionable: Swift.Bool?
+        /// Indicates whether this field can used as a primary key for the given entity.
+        public var isPrimaryKey: Swift.Bool?
+        /// Indicates whether this field can be added in Select clause of SQL query or whether it is retrievable or not.
+        public var isRetrievable: Swift.Bool?
+        /// Indicates whether this field can be updated as part of a destination write.
+        public var isUpdateable: Swift.Bool?
+        /// Indicates whether this field can be upserted as part of a destination write.
+        public var isUpsertable: Swift.Bool?
+        /// A readable label used for the field.
+        public var label: Swift.String?
+        /// The data type returned by the SaaS API, such as “picklist” or “textarea” from Salesforce.
+        public var nativeDataType: Swift.String?
+        /// A parent field name for a nested field.
+        public var parentField: Swift.String?
+        /// Indicates the support filter operators for this field.
+        public var supportedFilterOperators: [GlueClientTypes.FieldFilterOperator]?
+        /// A list of supported values for the field.
+        public var supportedValues: [Swift.String]?
+
+        public init(
+            customProperties: [Swift.String: Swift.String]? = nil,
+            description: Swift.String? = nil,
+            fieldName: Swift.String? = nil,
+            fieldType: GlueClientTypes.FieldDataType? = nil,
+            isCreateable: Swift.Bool? = nil,
+            isDefaultOnCreate: Swift.Bool? = nil,
+            isFilterable: Swift.Bool? = nil,
+            isNullable: Swift.Bool? = nil,
+            isPartitionable: Swift.Bool? = nil,
+            isPrimaryKey: Swift.Bool? = nil,
+            isRetrievable: Swift.Bool? = nil,
+            isUpdateable: Swift.Bool? = nil,
+            isUpsertable: Swift.Bool? = nil,
+            label: Swift.String? = nil,
+            nativeDataType: Swift.String? = nil,
+            parentField: Swift.String? = nil,
+            supportedFilterOperators: [GlueClientTypes.FieldFilterOperator]? = nil,
+            supportedValues: [Swift.String]? = nil
+        ) {
+            self.customProperties = customProperties
+            self.description = description
+            self.fieldName = fieldName
+            self.fieldType = fieldType
+            self.isCreateable = isCreateable
+            self.isDefaultOnCreate = isDefaultOnCreate
+            self.isFilterable = isFilterable
+            self.isNullable = isNullable
+            self.isPartitionable = isPartitionable
+            self.isPrimaryKey = isPrimaryKey
+            self.isRetrievable = isRetrievable
+            self.isUpdateable = isUpdateable
+            self.isUpsertable = isUpsertable
+            self.label = label
+            self.nativeDataType = nativeDataType
+            self.parentField = parentField
+            self.supportedFilterOperators = supportedFilterOperators
+            self.supportedValues = supportedValues
+        }
+    }
+}
+
+public struct DescribeEntityOutput: Swift.Sendable {
+    /// Describes the fields for that connector entity. This is the list of Field objects. Field is very similar to column in a database. The Field object has information about different properties associated with fields in the connector.
+    public var fields: [GlueClientTypes.Field]?
+    /// A continuation token, present if the current segment is not the last.
+    public var nextToken: Swift.String?
+
+    public init(
+        fields: [GlueClientTypes.Field]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.fields = fields
+        self.nextToken = nextToken
+    }
+}
+
+/// The target resource could not be found.
+public struct TargetResourceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TargetResourceNotFound" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct DescribeInboundIntegrationsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the integration.
+    public var integrationArn: Swift.String?
+    /// A token to specify where to start paginating. This is the marker from a previously truncated response.
+    public var marker: Swift.String?
+    /// The total number of items to return in the output.
+    public var maxRecords: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the target resource in the integration.
+    public var targetArn: Swift.String?
+
+    public init(
+        integrationArn: Swift.String? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil,
+        targetArn: Swift.String? = nil
+    ) {
+        self.integrationArn = integrationArn
+        self.marker = marker
+        self.maxRecords = maxRecords
+        self.targetArn = targetArn
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A structure for an integration that writes data into a resource.
+    public struct InboundIntegration: Swift.Sendable {
+        /// The time that the integration was created, in UTC.
+        /// This member is required.
+        public var createTime: Foundation.Date?
+        /// A list of errors associated with the integration.
+        public var errors: [GlueClientTypes.IntegrationError]?
+        /// The ARN of the zero-ETL integration.
+        /// This member is required.
+        public var integrationArn: Swift.String?
+        /// The ARN of the source resource for the integration.
+        /// This member is required.
+        public var sourceArn: Swift.String?
+        /// The possible statuses are:
+        ///
+        /// * CREATING: The integration is being created.
+        ///
+        /// * ACTIVE: The integration creation succeeds.
+        ///
+        /// * MODIFYING: The integration is being modified.
+        ///
+        /// * FAILED: The integration creation fails.
+        ///
+        /// * DELETING: The integration is deleted.
+        ///
+        /// * SYNCING: The integration is synchronizing.
+        ///
+        /// * NEEDS_ATTENTION: The integration needs attention, such as synchronization.
+        /// This member is required.
+        public var status: GlueClientTypes.IntegrationStatus?
+        /// The ARN of the target resource for the integration.
+        /// This member is required.
+        public var targetArn: Swift.String?
+
+        public init(
+            createTime: Foundation.Date? = nil,
+            errors: [GlueClientTypes.IntegrationError]? = nil,
+            integrationArn: Swift.String? = nil,
+            sourceArn: Swift.String? = nil,
+            status: GlueClientTypes.IntegrationStatus? = nil,
+            targetArn: Swift.String? = nil
+        ) {
+            self.createTime = createTime
+            self.errors = errors
+            self.integrationArn = integrationArn
+            self.sourceArn = sourceArn
+            self.status = status
+            self.targetArn = targetArn
+        }
+    }
+}
+
+public struct DescribeInboundIntegrationsOutput: Swift.Sendable {
+    /// A list of inbound integrations.
+    public var inboundIntegrations: [GlueClientTypes.InboundIntegration]?
+    /// A value that indicates the starting point for the next set of response records in a subsequent request.
+    public var marker: Swift.String?
+
+    public init(
+        inboundIntegrations: [GlueClientTypes.InboundIntegration]? = nil,
+        marker: Swift.String? = nil
+    ) {
+        self.inboundIntegrations = inboundIntegrations
+        self.marker = marker
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A filter that can be used when invoking a DescribeIntegrations request.
+    public struct IntegrationFilter: Swift.Sendable {
+        /// The name of the filter.
+        public var name: Swift.String?
+        /// A list of filter values.
+        public var values: [Swift.String]?
+
+        public init(
+            name: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+public struct DescribeIntegrationsInput: Swift.Sendable {
+    /// A list of key and values, to filter down the results. Supported keys are "Status", "IntegrationName", and "SourceArn". IntegrationName is limited to only one value.
+    public var filters: [GlueClientTypes.IntegrationFilter]?
+    /// The Amazon Resource Name (ARN) for the integration.
+    public var integrationIdentifier: Swift.String?
+    /// A value that indicates the starting point for the next set of response records in a subsequent request.
+    public var marker: Swift.String?
+    /// The total number of items to return in the output.
+    public var maxRecords: Swift.Int?
+
+    public init(
+        filters: [GlueClientTypes.IntegrationFilter]? = nil,
+        integrationIdentifier: Swift.String? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil
+    ) {
+        self.filters = filters
+        self.integrationIdentifier = integrationIdentifier
+        self.marker = marker
+        self.maxRecords = maxRecords
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Describes a zero-ETL integration.
+    public struct Integration: Swift.Sendable {
+        /// An optional set of non-secret key–value pairs that contains additional contextual information for encryption. This can only be provided if KMSKeyId is provided.
+        public var additionalEncryptionContext: [Swift.String: Swift.String]?
+        /// The time that the integration was created, in UTC.
+        /// This member is required.
+        public var createTime: Foundation.Date?
+        /// Selects source tables for the integration using Maxwell filter syntax.
+        public var dataFilter: Swift.String?
+        /// A description for the integration.
+        public var description: Swift.String?
+        /// A list of errors associated with the integration.
+        public var errors: [GlueClientTypes.IntegrationError]?
+        /// The Amazon Resource Name (ARN) for the integration.
+        /// This member is required.
+        public var integrationArn: Swift.String?
+        /// A unique name for the integration.
+        /// This member is required.
+        public var integrationName: Swift.String?
+        /// The ARN of a KMS key used for encrypting the channel.
+        public var kmsKeyId: Swift.String?
+        /// The ARN for the source of the integration.
+        /// This member is required.
+        public var sourceArn: Swift.String?
+        /// The possible statuses are:
+        ///
+        /// * CREATING: The integration is being created.
+        ///
+        /// * ACTIVE: The integration creation succeeds.
+        ///
+        /// * MODIFYING: The integration is being modified.
+        ///
+        /// * FAILED: The integration creation fails.
+        ///
+        /// * DELETING: The integration is deleted.
+        ///
+        /// * SYNCING: The integration is synchronizing.
+        ///
+        /// * NEEDS_ATTENTION: The integration needs attention, such as synchronization.
+        /// This member is required.
+        public var status: GlueClientTypes.IntegrationStatus?
+        /// Metadata assigned to the resource consisting of a list of key-value pairs.
+        public var tags: [GlueClientTypes.Tag]?
+        /// The ARN for the target of the integration.
+        /// This member is required.
+        public var targetArn: Swift.String?
+
+        public init(
+            additionalEncryptionContext: [Swift.String: Swift.String]? = nil,
+            createTime: Foundation.Date? = nil,
+            dataFilter: Swift.String? = nil,
+            description: Swift.String? = nil,
+            errors: [GlueClientTypes.IntegrationError]? = nil,
+            integrationArn: Swift.String? = nil,
+            integrationName: Swift.String? = nil,
+            kmsKeyId: Swift.String? = nil,
+            sourceArn: Swift.String? = nil,
+            status: GlueClientTypes.IntegrationStatus? = nil,
+            tags: [GlueClientTypes.Tag]? = nil,
+            targetArn: Swift.String? = nil
+        ) {
+            self.additionalEncryptionContext = additionalEncryptionContext
+            self.createTime = createTime
+            self.dataFilter = dataFilter
+            self.description = description
+            self.errors = errors
+            self.integrationArn = integrationArn
+            self.integrationName = integrationName
+            self.kmsKeyId = kmsKeyId
+            self.sourceArn = sourceArn
+            self.status = status
+            self.tags = tags
+            self.targetArn = targetArn
+        }
+    }
+}
+
+public struct DescribeIntegrationsOutput: Swift.Sendable {
+    /// A list of zero-ETL integrations.
+    public var integrations: [GlueClientTypes.Integration]?
+    /// A value that indicates the starting point for the next set of response records in a subsequent request.
+    public var marker: Swift.String?
+
+    public init(
+        integrations: [GlueClientTypes.Integration]? = nil,
+        marker: Swift.String? = nil
+    ) {
+        self.integrations = integrations
+        self.marker = marker
     }
 }
 
@@ -14022,8 +15591,7 @@ public struct GetBlueprintInput: Swift.Sendable {
         includeBlueprint: Swift.Bool? = nil,
         includeParameterSpec: Swift.Bool? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.includeBlueprint = includeBlueprint
         self.includeParameterSpec = includeParameterSpec
         self.name = name
@@ -14036,8 +15604,7 @@ public struct GetBlueprintOutput: Swift.Sendable {
 
     public init(
         blueprint: GlueClientTypes.Blueprint? = nil
-    )
-    {
+    ) {
         self.blueprint = blueprint
     }
 }
@@ -14053,8 +15620,7 @@ public struct GetBlueprintRunInput: Swift.Sendable {
     public init(
         blueprintName: Swift.String? = nil,
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.blueprintName = blueprintName
         self.runId = runId
     }
@@ -14139,8 +15705,7 @@ extension GlueClientTypes {
             startedOn: Foundation.Date? = nil,
             state: GlueClientTypes.BlueprintRunState? = nil,
             workflowName: Swift.String? = nil
-        )
-        {
+        ) {
             self.blueprintName = blueprintName
             self.completedOn = completedOn
             self.errorMessage = errorMessage
@@ -14161,8 +15726,7 @@ public struct GetBlueprintRunOutput: Swift.Sendable {
 
     public init(
         blueprintRun: GlueClientTypes.BlueprintRun? = nil
-    )
-    {
+    ) {
         self.blueprintRun = blueprintRun
     }
 }
@@ -14180,8 +15744,7 @@ public struct GetBlueprintRunsInput: Swift.Sendable {
         blueprintName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.blueprintName = blueprintName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -14197,10 +15760,154 @@ public struct GetBlueprintRunsOutput: Swift.Sendable {
     public init(
         blueprintRuns: [GlueClientTypes.BlueprintRun]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.blueprintRuns = blueprintRuns
         self.nextToken = nextToken
+    }
+}
+
+public struct GetCatalogInput: Swift.Sendable {
+    /// The ID of the parent catalog in which the catalog resides. If none is provided, the Amazon Web Services Account Number is used by default.
+    /// This member is required.
+    public var catalogId: Swift.String?
+
+    public init(
+        catalogId: Swift.String? = nil
+    ) {
+        self.catalogId = catalogId
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The output properties of the data lake access configuration for your catalog resource in the Glue Data Catalog.
+    public struct DataLakeAccessPropertiesOutput: Swift.Sendable {
+        /// Specifies a federated catalog type for the native catalog resource. The currently supported type is aws:redshift.
+        public var catalogType: Swift.String?
+        /// Turns on or off data lake access for Apache Spark applications that access Amazon Redshift databases in the Data Catalog.
+        public var dataLakeAccess: Swift.Bool
+        /// A role that will be assumed by Glue for transferring data into/out of the staging bucket during a query.
+        public var dataTransferRole: Swift.String?
+        /// An encryption key that will be used for the staging bucket that will be created along with the catalog.
+        public var kmsKey: Swift.String?
+        /// The managed Redshift Serverless compute name that is created for your catalog resource.
+        public var managedWorkgroupName: Swift.String?
+        /// The managed Redshift Serverless compute status.
+        public var managedWorkgroupStatus: Swift.String?
+        /// The default Redshift database resource name in the managed compute.
+        public var redshiftDatabaseName: Swift.String?
+        /// A message that gives more detailed information about the managed workgroup status.
+        public var statusMessage: Swift.String?
+
+        public init(
+            catalogType: Swift.String? = nil,
+            dataLakeAccess: Swift.Bool = false,
+            dataTransferRole: Swift.String? = nil,
+            kmsKey: Swift.String? = nil,
+            managedWorkgroupName: Swift.String? = nil,
+            managedWorkgroupStatus: Swift.String? = nil,
+            redshiftDatabaseName: Swift.String? = nil,
+            statusMessage: Swift.String? = nil
+        ) {
+            self.catalogType = catalogType
+            self.dataLakeAccess = dataLakeAccess
+            self.dataTransferRole = dataTransferRole
+            self.kmsKey = kmsKey
+            self.managedWorkgroupName = managedWorkgroupName
+            self.managedWorkgroupStatus = managedWorkgroupStatus
+            self.redshiftDatabaseName = redshiftDatabaseName
+            self.statusMessage = statusMessage
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Property attributes that include configuration properties for the catalog resource.
+    public struct CatalogPropertiesOutput: Swift.Sendable {
+        /// Additional key-value properties for the catalog, such as column statistics optimizations.
+        public var customProperties: [Swift.String: Swift.String]?
+        /// A DataLakeAccessProperties object with input properties to configure data lake access for your catalog resource in the Glue Data Catalog.
+        public var dataLakeAccessProperties: GlueClientTypes.DataLakeAccessPropertiesOutput?
+
+        public init(
+            customProperties: [Swift.String: Swift.String]? = nil,
+            dataLakeAccessProperties: GlueClientTypes.DataLakeAccessPropertiesOutput? = nil
+        ) {
+            self.customProperties = customProperties
+            self.dataLakeAccessProperties = dataLakeAccessProperties
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The catalog object represents a logical grouping of databases in the Glue Data Catalog or a federated source. You can now create a Redshift-federated catalog or a catalog containing resource links to Redshift databases in another account or region.
+    public struct Catalog: Swift.Sendable {
+        /// The ID of the catalog. To grant access to the default catalog, this field should not be provided.
+        public var catalogId: Swift.String?
+        /// A CatalogProperties object that specifies data lake access properties and other custom properties.
+        public var catalogProperties: GlueClientTypes.CatalogPropertiesOutput?
+        /// An array of PrincipalPermissions objects. Creates a set of default permissions on the database(s) for principals. Used by Amazon Web Services Lake Formation. Not used in the normal course of Glue operations.
+        public var createDatabaseDefaultPermissions: [GlueClientTypes.PrincipalPermissions]?
+        /// An array of PrincipalPermissions objects. Creates a set of default permissions on the table(s) for principals. Used by Amazon Web Services Lake Formation. Not used in the normal course of Glue operations.
+        public var createTableDefaultPermissions: [GlueClientTypes.PrincipalPermissions]?
+        /// The time at which the catalog was created.
+        public var createTime: Foundation.Date?
+        /// Description string, not more than 2048 bytes long, matching the URI address multi-line string pattern. A description of the catalog.
+        public var description: Swift.String?
+        /// A FederatedCatalog object that points to an entity outside the Glue Data Catalog.
+        public var federatedCatalog: GlueClientTypes.FederatedCatalog?
+        /// The name of the catalog. Cannot be the same as the account ID.
+        /// This member is required.
+        public var name: Swift.String?
+        /// A map array of key-value pairs that define parameters and properties of the catalog.
+        public var parameters: [Swift.String: Swift.String]?
+        /// The Amazon Resource Name (ARN) assigned to the catalog resource.
+        public var resourceArn: Swift.String?
+        /// A TargetRedshiftCatalog object that describes a target catalog for database resource linking.
+        public var targetRedshiftCatalog: GlueClientTypes.TargetRedshiftCatalog?
+        /// The time at which the catalog was last updated.
+        public var updateTime: Foundation.Date?
+
+        public init(
+            catalogId: Swift.String? = nil,
+            catalogProperties: GlueClientTypes.CatalogPropertiesOutput? = nil,
+            createDatabaseDefaultPermissions: [GlueClientTypes.PrincipalPermissions]? = nil,
+            createTableDefaultPermissions: [GlueClientTypes.PrincipalPermissions]? = nil,
+            createTime: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            federatedCatalog: GlueClientTypes.FederatedCatalog? = nil,
+            name: Swift.String? = nil,
+            parameters: [Swift.String: Swift.String]? = nil,
+            resourceArn: Swift.String? = nil,
+            targetRedshiftCatalog: GlueClientTypes.TargetRedshiftCatalog? = nil,
+            updateTime: Foundation.Date? = nil
+        ) {
+            self.catalogId = catalogId
+            self.catalogProperties = catalogProperties
+            self.createDatabaseDefaultPermissions = createDatabaseDefaultPermissions
+            self.createTableDefaultPermissions = createTableDefaultPermissions
+            self.createTime = createTime
+            self.description = description
+            self.federatedCatalog = federatedCatalog
+            self.name = name
+            self.parameters = parameters
+            self.resourceArn = resourceArn
+            self.targetRedshiftCatalog = targetRedshiftCatalog
+            self.updateTime = updateTime
+        }
+    }
+}
+
+public struct GetCatalogOutput: Swift.Sendable {
+    /// A Catalog object. The definition of the specified catalog in the Glue Data Catalog.
+    public var catalog: GlueClientTypes.Catalog?
+
+    public init(
+        catalog: GlueClientTypes.Catalog? = nil
+    ) {
+        self.catalog = catalog
     }
 }
 
@@ -14210,8 +15917,7 @@ public struct GetCatalogImportStatusInput: Swift.Sendable {
 
     public init(
         catalogId: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
     }
 }
@@ -14231,8 +15937,7 @@ extension GlueClientTypes {
             importCompleted: Swift.Bool = false,
             importTime: Foundation.Date? = nil,
             importedBy: Swift.String? = nil
-        )
-        {
+        ) {
             self.importCompleted = importCompleted
             self.importTime = importTime
             self.importedBy = importedBy
@@ -14246,9 +15951,51 @@ public struct GetCatalogImportStatusOutput: Swift.Sendable {
 
     public init(
         importStatus: GlueClientTypes.CatalogImportStatus? = nil
-    )
-    {
+    ) {
         self.importStatus = importStatus
+    }
+}
+
+public struct GetCatalogsInput: Swift.Sendable {
+    /// Whether to list the default catalog in the account and region in the response. Defaults to false. When true and ParentCatalogId = NULL | Amazon Web Services Account ID, all catalogs and the default catalog are enumerated in the response. When the ParentCatalogId is not equal to null, and this attribute is passed as false or true, an InvalidInputException is thrown.
+    public var includeRoot: Swift.Bool?
+    /// The maximum number of catalogs to return in one response.
+    public var maxResults: Swift.Int?
+    /// A continuation token, if this is a continuation call.
+    public var nextToken: Swift.String?
+    /// The ID of the parent catalog in which the catalog resides. If none is provided, the Amazon Web Services Account Number is used by default.
+    public var parentCatalogId: Swift.String?
+    /// Whether to list all catalogs across the catalog hierarchy, starting from the ParentCatalogId. Defaults to false . When true, all catalog objects in the ParentCatalogID hierarchy are enumerated in the response.
+    public var recursive: Swift.Bool?
+
+    public init(
+        includeRoot: Swift.Bool? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        parentCatalogId: Swift.String? = nil,
+        recursive: Swift.Bool? = false
+    ) {
+        self.includeRoot = includeRoot
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.parentCatalogId = parentCatalogId
+        self.recursive = recursive
+    }
+}
+
+public struct GetCatalogsOutput: Swift.Sendable {
+    /// An array of Catalog objects. A list of Catalog objects from the specified parent catalog.
+    /// This member is required.
+    public var catalogList: [GlueClientTypes.Catalog]?
+    /// A continuation token for paginating the returned list of tokens, returned if the current segment of the list is not the last.
+    public var nextToken: Swift.String?
+
+    public init(
+        catalogList: [GlueClientTypes.Catalog]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.catalogList = catalogList
+        self.nextToken = nextToken
     }
 }
 
@@ -14259,8 +16006,7 @@ public struct GetClassifierInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -14311,8 +16057,7 @@ extension GlueClientTypes {
             quoteSymbol: Swift.String? = nil,
             serde: GlueClientTypes.CsvSerdeOption? = nil,
             version: Swift.Int = 0
-        )
-        {
+        ) {
             self.allowSingleColumn = allowSingleColumn
             self.containsHeader = containsHeader
             self.creationTime = creationTime
@@ -14360,8 +16105,7 @@ extension GlueClientTypes {
             lastUpdated: Foundation.Date? = nil,
             name: Swift.String? = nil,
             version: Swift.Int = 0
-        )
-        {
+        ) {
             self.classification = classification
             self.creationTime = creationTime
             self.customPatterns = customPatterns
@@ -14396,8 +16140,7 @@ extension GlueClientTypes {
             lastUpdated: Foundation.Date? = nil,
             name: Swift.String? = nil,
             version: Swift.Int = 0
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.jsonPath = jsonPath
             self.lastUpdated = lastUpdated
@@ -14433,8 +16176,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             rowTag: Swift.String? = nil,
             version: Swift.Int = 0
-        )
-        {
+        ) {
             self.classification = classification
             self.creationTime = creationTime
             self.lastUpdated = lastUpdated
@@ -14463,8 +16205,7 @@ extension GlueClientTypes {
             grokClassifier: GlueClientTypes.GrokClassifier? = nil,
             jsonClassifier: GlueClientTypes.JsonClassifier? = nil,
             xmlClassifier: GlueClientTypes.XMLClassifier? = nil
-        )
-        {
+        ) {
             self.csvClassifier = csvClassifier
             self.grokClassifier = grokClassifier
             self.jsonClassifier = jsonClassifier
@@ -14479,8 +16220,7 @@ public struct GetClassifierOutput: Swift.Sendable {
 
     public init(
         classifier: GlueClientTypes.Classifier? = nil
-    )
-    {
+    ) {
         self.classifier = classifier
     }
 }
@@ -14494,8 +16234,7 @@ public struct GetClassifiersInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -14510,8 +16249,7 @@ public struct GetClassifiersOutput: Swift.Sendable {
     public init(
         classifiers: [GlueClientTypes.Classifier]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.classifiers = classifiers
         self.nextToken = nextToken
     }
@@ -14539,8 +16277,7 @@ public struct GetColumnStatisticsForPartitionInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         partitionValues: [Swift.String]? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.columnNames = columnNames
         self.databaseName = databaseName
@@ -14567,8 +16304,7 @@ extension GlueClientTypes {
             averageLength: Swift.Double = 0.0,
             maximumLength: Swift.Int = 0,
             numberOfNulls: Swift.Int = 0
-        )
-        {
+        ) {
             self.averageLength = averageLength
             self.maximumLength = maximumLength
             self.numberOfNulls = numberOfNulls
@@ -14594,8 +16330,7 @@ extension GlueClientTypes {
             numberOfFalses: Swift.Int = 0,
             numberOfNulls: Swift.Int = 0,
             numberOfTrues: Swift.Int = 0
-        )
-        {
+        ) {
             self.numberOfFalses = numberOfFalses
             self.numberOfNulls = numberOfNulls
             self.numberOfTrues = numberOfTrues
@@ -14623,8 +16358,7 @@ extension GlueClientTypes {
             minimumValue: Foundation.Date? = nil,
             numberOfDistinctValues: Swift.Int = 0,
             numberOfNulls: Swift.Int = 0
-        )
-        {
+        ) {
             self.maximumValue = maximumValue
             self.minimumValue = minimumValue
             self.numberOfDistinctValues = numberOfDistinctValues
@@ -14647,8 +16381,7 @@ extension GlueClientTypes {
         public init(
             scale: Swift.Int = 0,
             unscaledValue: Foundation.Data? = nil
-        )
-        {
+        ) {
             self.scale = scale
             self.unscaledValue = unscaledValue
         }
@@ -14675,8 +16408,7 @@ extension GlueClientTypes {
             minimumValue: GlueClientTypes.DecimalNumber? = nil,
             numberOfDistinctValues: Swift.Int = 0,
             numberOfNulls: Swift.Int = 0
-        )
-        {
+        ) {
             self.maximumValue = maximumValue
             self.minimumValue = minimumValue
             self.numberOfDistinctValues = numberOfDistinctValues
@@ -14705,8 +16437,7 @@ extension GlueClientTypes {
             minimumValue: Swift.Double = 0.0,
             numberOfDistinctValues: Swift.Int = 0,
             numberOfNulls: Swift.Int = 0
-        )
-        {
+        ) {
             self.maximumValue = maximumValue
             self.minimumValue = minimumValue
             self.numberOfDistinctValues = numberOfDistinctValues
@@ -14735,8 +16466,7 @@ extension GlueClientTypes {
             minimumValue: Swift.Int = 0,
             numberOfDistinctValues: Swift.Int = 0,
             numberOfNulls: Swift.Int = 0
-        )
-        {
+        ) {
             self.maximumValue = maximumValue
             self.minimumValue = minimumValue
             self.numberOfDistinctValues = numberOfDistinctValues
@@ -14767,8 +16497,7 @@ extension GlueClientTypes {
             maximumLength: Swift.Int = 0,
             numberOfDistinctValues: Swift.Int = 0,
             numberOfNulls: Swift.Int = 0
-        )
-        {
+        ) {
             self.averageLength = averageLength
             self.maximumLength = maximumLength
             self.numberOfDistinctValues = numberOfDistinctValues
@@ -14852,8 +16581,7 @@ extension GlueClientTypes {
             longColumnStatisticsData: GlueClientTypes.LongColumnStatisticsData? = nil,
             stringColumnStatisticsData: GlueClientTypes.StringColumnStatisticsData? = nil,
             type: GlueClientTypes.ColumnStatisticsType? = nil
-        )
-        {
+        ) {
             self.binaryColumnStatisticsData = binaryColumnStatisticsData
             self.booleanColumnStatisticsData = booleanColumnStatisticsData
             self.dateColumnStatisticsData = dateColumnStatisticsData
@@ -14888,8 +16616,7 @@ extension GlueClientTypes {
             columnName: Swift.String? = nil,
             columnType: Swift.String? = nil,
             statisticsData: GlueClientTypes.ColumnStatisticsData? = nil
-        )
-        {
+        ) {
             self.analyzedTime = analyzedTime
             self.columnName = columnName
             self.columnType = columnType
@@ -14910,8 +16637,7 @@ extension GlueClientTypes {
         public init(
             columnName: Swift.String? = nil,
             error: GlueClientTypes.ErrorDetail? = nil
-        )
-        {
+        ) {
             self.columnName = columnName
             self.error = error
         }
@@ -14927,8 +16653,7 @@ public struct GetColumnStatisticsForPartitionOutput: Swift.Sendable {
     public init(
         columnStatisticsList: [GlueClientTypes.ColumnStatistics]? = nil,
         errors: [GlueClientTypes.ColumnError]? = nil
-    )
-    {
+    ) {
         self.columnStatisticsList = columnStatisticsList
         self.errors = errors
     }
@@ -14952,8 +16677,7 @@ public struct GetColumnStatisticsForTableInput: Swift.Sendable {
         columnNames: [Swift.String]? = nil,
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.columnNames = columnNames
         self.databaseName = databaseName
@@ -14970,8 +16694,7 @@ public struct GetColumnStatisticsForTableOutput: Swift.Sendable {
     public init(
         columnStatisticsList: [GlueClientTypes.ColumnStatistics]? = nil,
         errors: [GlueClientTypes.ColumnError]? = nil
-    )
-    {
+    ) {
         self.columnStatisticsList = columnStatisticsList
         self.errors = errors
     }
@@ -14984,8 +16707,7 @@ public struct GetColumnStatisticsTaskRunInput: Swift.Sendable {
 
     public init(
         columnStatisticsTaskRunId: Swift.String? = nil
-    )
-    {
+    ) {
         self.columnStatisticsTaskRunId = columnStatisticsTaskRunId
     }
 }
@@ -15120,8 +16842,7 @@ extension GlueClientTypes {
             status: GlueClientTypes.ColumnStatisticsState? = nil,
             tableName: Swift.String? = nil,
             workerType: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalogID = catalogID
             self.columnNameList = columnNameList
             self.columnStatisticsTaskRunId = columnStatisticsTaskRunId
@@ -15151,8 +16872,7 @@ public struct GetColumnStatisticsTaskRunOutput: Swift.Sendable {
 
     public init(
         columnStatisticsTaskRun: GlueClientTypes.ColumnStatisticsTaskRun? = nil
-    )
-    {
+    ) {
         self.columnStatisticsTaskRun = columnStatisticsTaskRun
     }
 }
@@ -15174,8 +16894,7 @@ public struct GetColumnStatisticsTaskRunsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -15192,8 +16911,7 @@ public struct GetColumnStatisticsTaskRunsOutput: Swift.Sendable {
     public init(
         columnStatisticsTaskRuns: [GlueClientTypes.ColumnStatisticsTaskRun]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.columnStatisticsTaskRuns = columnStatisticsTaskRuns
         self.nextToken = nextToken
     }
@@ -15210,10 +16928,123 @@ public struct GetColumnStatisticsTaskSettingsInput: Swift.Sendable {
     public init(
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
         self.tableName = tableName
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum ExecutionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case started
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExecutionStatus] {
+            return [
+                .failed,
+                .started
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .started: return "STARTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A run attempt for a column statistics task run.
+    public struct ExecutionAttempt: Swift.Sendable {
+        /// A task run ID for the last column statistics task run.
+        public var columnStatisticsTaskRunId: Swift.String?
+        /// An error message associated with the last column statistics task run.
+        public var errorMessage: Swift.String?
+        /// A timestamp when the last column statistics task run occurred.
+        public var executionTimestamp: Foundation.Date?
+        /// The status of the last column statistics task run.
+        public var status: GlueClientTypes.ExecutionStatus?
+
+        public init(
+            columnStatisticsTaskRunId: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            executionTimestamp: Foundation.Date? = nil,
+            status: GlueClientTypes.ExecutionStatus? = nil
+        ) {
+            self.columnStatisticsTaskRunId = columnStatisticsTaskRunId
+            self.errorMessage = errorMessage
+            self.executionTimestamp = executionTimestamp
+            self.status = status
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum ScheduleType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auto
+        case cron
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScheduleType] {
+            return [
+                .auto,
+                .cron
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .cron: return "CRON"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum SettingSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case catalog
+        case table
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SettingSource] {
+            return [
+                .catalog,
+                .table
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .catalog: return "CATALOG"
+            case .table: return "TABLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -15227,14 +17058,20 @@ extension GlueClientTypes {
         public var columnNameList: [Swift.String]?
         /// The name of the database where the table resides.
         public var databaseName: Swift.String?
+        /// The last ExecutionAttempt for the column statistics task run.
+        public var lastExecutionAttempt: GlueClientTypes.ExecutionAttempt?
         /// The role used for running the column statistics.
         public var role: Swift.String?
         /// The percentage of data to sample.
         public var sampleSize: Swift.Double
         /// A schedule for running the column statistics, specified in CRON syntax.
         public var schedule: GlueClientTypes.Schedule?
+        /// The type of schedule for a column statistics task. Possible values may be CRON or AUTO.
+        public var scheduleType: GlueClientTypes.ScheduleType?
         /// Name of the security configuration that is used to encrypt CloudWatch logs.
         public var securityConfiguration: Swift.String?
+        /// The source of setting the column statistics task. Possible values may be CATALOG or TABLE.
+        public var settingSource: GlueClientTypes.SettingSource?
         /// The name of the table for which to generate column statistics.
         public var tableName: Swift.String?
 
@@ -15242,20 +17079,25 @@ extension GlueClientTypes {
             catalogID: Swift.String? = nil,
             columnNameList: [Swift.String]? = nil,
             databaseName: Swift.String? = nil,
+            lastExecutionAttempt: GlueClientTypes.ExecutionAttempt? = nil,
             role: Swift.String? = nil,
             sampleSize: Swift.Double = 0.0,
             schedule: GlueClientTypes.Schedule? = nil,
+            scheduleType: GlueClientTypes.ScheduleType? = nil,
             securityConfiguration: Swift.String? = nil,
+            settingSource: GlueClientTypes.SettingSource? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalogID = catalogID
             self.columnNameList = columnNameList
             self.databaseName = databaseName
+            self.lastExecutionAttempt = lastExecutionAttempt
             self.role = role
             self.sampleSize = sampleSize
             self.schedule = schedule
+            self.scheduleType = scheduleType
             self.securityConfiguration = securityConfiguration
+            self.settingSource = settingSource
             self.tableName = tableName
         }
     }
@@ -15267,13 +17109,14 @@ public struct GetColumnStatisticsTaskSettingsOutput: Swift.Sendable {
 
     public init(
         columnStatisticsTaskSettings: GlueClientTypes.ColumnStatisticsTaskSettings? = nil
-    )
-    {
+    ) {
         self.columnStatisticsTaskSettings = columnStatisticsTaskSettings
     }
 }
 
 public struct GetConnectionInput: Swift.Sendable {
+    /// For connections that may be used in multiple services, specifies returning properties for the specified compute environment.
+    public var applyOverrideForComputeEnvironment: GlueClientTypes.ComputeEnvironment?
     /// The ID of the Data Catalog in which the connection resides. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// Allows you to retrieve the connection metadata without returning the password. For instance, the Glue console uses this flag to retrieve the connection, and does not display the password. Set this parameter when the caller might not have permission to use the KMS key to decrypt the password, but it does have permission to access the rest of the connection properties.
@@ -15283,11 +17126,12 @@ public struct GetConnectionInput: Swift.Sendable {
     public var name: Swift.String?
 
     public init(
+        applyOverrideForComputeEnvironment: GlueClientTypes.ComputeEnvironment? = nil,
         catalogId: Swift.String? = nil,
         hidePassword: Swift.Bool? = false,
         name: Swift.String? = nil
-    )
-    {
+    ) {
+        self.applyOverrideForComputeEnvironment = applyOverrideForComputeEnvironment
         self.catalogId = catalogId
         self.hidePassword = hidePassword
         self.name = name
@@ -15298,11 +17142,13 @@ extension GlueClientTypes {
 
     /// Defines a connection to a data source.
     public struct Connection: Swift.Sendable {
-        /// This field is not currently used.
+        /// Connection properties specific to the Athena compute environment.
         public var athenaProperties: [Swift.String: Swift.String]?
         /// The authentication properties of the connection.
         public var authenticationConfiguration: GlueClientTypes.AuthenticationConfiguration?
-        /// These key-value pairs define parameters for the connection:
+        /// A list of compute environments compatible with the connection.
+        public var compatibleComputeEnvironments: [GlueClientTypes.ComputeEnvironment]?
+        /// These key-value pairs define parameters for the connection when using the version 1 Connection schema:
         ///
         /// * HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.
         ///
@@ -15398,6 +17244,8 @@ extension GlueClientTypes {
         ///
         /// * DATABASE - The Amazon Redshift database that you are connecting to.
         public var connectionProperties: [Swift.String: Swift.String]?
+        /// The version of the connection schema for this connection. Version 2 supports properties for specific compute environments.
+        public var connectionSchemaVersion: Swift.Int?
         /// The type of the connection. Currently, SFTP is not supported.
         public var connectionType: GlueClientTypes.ConnectionType?
         /// The timestamp of the time that this connection definition was created.
@@ -15416,6 +17264,10 @@ extension GlueClientTypes {
         public var name: Swift.String?
         /// The physical connection requirements, such as virtual private cloud (VPC) and SecurityGroup, that are needed to make this connection successfully.
         public var physicalConnectionRequirements: GlueClientTypes.PhysicalConnectionRequirements?
+        /// Connection properties specific to the Python compute environment.
+        public var pythonProperties: [Swift.String: Swift.String]?
+        /// Connection properties specific to the Spark compute environment.
+        public var sparkProperties: [Swift.String: Swift.String]?
         /// The status of the connection. Can be one of: READY, IN_PROGRESS, or FAILED.
         public var status: GlueClientTypes.ConnectionStatus?
         /// The reason for the connection status.
@@ -15424,7 +17276,9 @@ extension GlueClientTypes {
         public init(
             athenaProperties: [Swift.String: Swift.String]? = nil,
             authenticationConfiguration: GlueClientTypes.AuthenticationConfiguration? = nil,
+            compatibleComputeEnvironments: [GlueClientTypes.ComputeEnvironment]? = nil,
             connectionProperties: [Swift.String: Swift.String]? = nil,
+            connectionSchemaVersion: Swift.Int? = nil,
             connectionType: GlueClientTypes.ConnectionType? = nil,
             creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
@@ -15434,13 +17288,16 @@ extension GlueClientTypes {
             matchCriteria: [Swift.String]? = nil,
             name: Swift.String? = nil,
             physicalConnectionRequirements: GlueClientTypes.PhysicalConnectionRequirements? = nil,
+            pythonProperties: [Swift.String: Swift.String]? = nil,
+            sparkProperties: [Swift.String: Swift.String]? = nil,
             status: GlueClientTypes.ConnectionStatus? = nil,
             statusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.athenaProperties = athenaProperties
             self.authenticationConfiguration = authenticationConfiguration
+            self.compatibleComputeEnvironments = compatibleComputeEnvironments
             self.connectionProperties = connectionProperties
+            self.connectionSchemaVersion = connectionSchemaVersion
             self.connectionType = connectionType
             self.creationTime = creationTime
             self.description = description
@@ -15450,6 +17307,8 @@ extension GlueClientTypes {
             self.matchCriteria = matchCriteria
             self.name = name
             self.physicalConnectionRequirements = physicalConnectionRequirements
+            self.pythonProperties = pythonProperties
+            self.sparkProperties = sparkProperties
             self.status = status
             self.statusReason = statusReason
         }
@@ -15462,8 +17321,7 @@ public struct GetConnectionOutput: Swift.Sendable {
 
     public init(
         connection: GlueClientTypes.Connection? = nil
-    )
-    {
+    ) {
         self.connection = connection
     }
 }
@@ -15472,16 +17330,19 @@ extension GlueClientTypes {
 
     /// Filters the connection definitions that are returned by the GetConnections API operation.
     public struct GetConnectionsFilter: Swift.Sendable {
+        /// Denotes if the connection was created with schema version 1 or 2.
+        public var connectionSchemaVersion: Swift.Int?
         /// The type of connections to return. Currently, SFTP is not supported.
         public var connectionType: GlueClientTypes.ConnectionType?
         /// A criteria string that must match the criteria recorded in the connection definition for that connection definition to be returned.
         public var matchCriteria: [Swift.String]?
 
         public init(
+            connectionSchemaVersion: Swift.Int? = nil,
             connectionType: GlueClientTypes.ConnectionType? = nil,
             matchCriteria: [Swift.String]? = nil
-        )
-        {
+        ) {
+            self.connectionSchemaVersion = connectionSchemaVersion
             self.connectionType = connectionType
             self.matchCriteria = matchCriteria
         }
@@ -15506,8 +17367,7 @@ public struct GetConnectionsInput: Swift.Sendable {
         hidePassword: Swift.Bool? = false,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.filter = filter
         self.hidePassword = hidePassword
@@ -15525,8 +17385,7 @@ public struct GetConnectionsOutput: Swift.Sendable {
     public init(
         connectionList: [GlueClientTypes.Connection]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.connectionList = connectionList
         self.nextToken = nextToken
     }
@@ -15539,8 +17398,7 @@ public struct GetCrawlerInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -15551,8 +17409,7 @@ public struct GetCrawlerOutput: Swift.Sendable {
 
     public init(
         crawler: GlueClientTypes.Crawler? = nil
-    )
-    {
+    ) {
         self.crawler = crawler
     }
 }
@@ -15569,8 +17426,7 @@ public struct GetCrawlerMetricsInput: Swift.Sendable {
         crawlerNameList: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.crawlerNameList = crawlerNameList
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -15607,8 +17463,7 @@ extension GlueClientTypes {
             tablesDeleted: Swift.Int = 0,
             tablesUpdated: Swift.Int = 0,
             timeLeftSeconds: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.crawlerName = crawlerName
             self.lastRuntimeSeconds = lastRuntimeSeconds
             self.medianRuntimeSeconds = medianRuntimeSeconds
@@ -15630,8 +17485,7 @@ public struct GetCrawlerMetricsOutput: Swift.Sendable {
     public init(
         crawlerMetricsList: [GlueClientTypes.CrawlerMetrics]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.crawlerMetricsList = crawlerMetricsList
         self.nextToken = nextToken
     }
@@ -15646,8 +17500,7 @@ public struct GetCrawlersInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -15662,8 +17515,7 @@ public struct GetCrawlersOutput: Swift.Sendable {
     public init(
         crawlers: [GlueClientTypes.Crawler]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.crawlers = crawlers
         self.nextToken = nextToken
     }
@@ -15676,8 +17528,7 @@ public struct GetCustomEntityTypeInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -15694,8 +17545,7 @@ public struct GetCustomEntityTypeOutput: Swift.Sendable {
         contextWords: [Swift.String]? = nil,
         name: Swift.String? = nil,
         regexString: Swift.String? = nil
-    )
-    {
+    ) {
         self.contextWords = contextWords
         self.name = name
         self.regexString = regexString
@@ -15712,8 +17562,7 @@ public struct GetDatabaseInput: Swift.Sendable {
     public init(
         catalogId: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.name = name
     }
@@ -15753,8 +17602,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             parameters: [Swift.String: Swift.String]? = nil,
             targetDatabase: GlueClientTypes.DatabaseIdentifier? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.createTableDefaultPermissions = createTableDefaultPermissions
             self.createTime = createTime
@@ -15774,8 +17622,7 @@ public struct GetDatabaseOutput: Swift.Sendable {
 
     public init(
         database: GlueClientTypes.Database? = nil
-    )
-    {
+    ) {
         self.database = database
     }
 }
@@ -15862,8 +17709,7 @@ public struct GetDatabasesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceShareType: GlueClientTypes.ResourceShareType? = nil
-    )
-    {
+    ) {
         self.attributesToGet = attributesToGet
         self.catalogId = catalogId
         self.maxResults = maxResults
@@ -15882,8 +17728,7 @@ public struct GetDatabasesOutput: Swift.Sendable {
     public init(
         databaseList: [GlueClientTypes.Database]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseList = databaseList
         self.nextToken = nextToken
     }
@@ -15895,8 +17740,7 @@ public struct GetDataCatalogEncryptionSettingsInput: Swift.Sendable {
 
     public init(
         catalogId: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
     }
 }
@@ -15914,8 +17758,7 @@ extension GlueClientTypes {
         public init(
             awsKmsKeyId: Swift.String? = nil,
             returnConnectionPasswordEncrypted: Swift.Bool = false
-        )
-        {
+        ) {
             self.awsKmsKeyId = awsKmsKeyId
             self.returnConnectionPasswordEncrypted = returnConnectionPasswordEncrypted
         }
@@ -15970,8 +17813,7 @@ extension GlueClientTypes {
             catalogEncryptionMode: GlueClientTypes.CatalogEncryptionMode? = nil,
             catalogEncryptionServiceRole: Swift.String? = nil,
             sseAwsKmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalogEncryptionMode = catalogEncryptionMode
             self.catalogEncryptionServiceRole = catalogEncryptionServiceRole
             self.sseAwsKmsKeyId = sseAwsKmsKeyId
@@ -15991,8 +17833,7 @@ extension GlueClientTypes {
         public init(
             connectionPasswordEncryption: GlueClientTypes.ConnectionPasswordEncryption? = nil,
             encryptionAtRest: GlueClientTypes.EncryptionAtRest? = nil
-        )
-        {
+        ) {
             self.connectionPasswordEncryption = connectionPasswordEncryption
             self.encryptionAtRest = encryptionAtRest
         }
@@ -16005,8 +17846,7 @@ public struct GetDataCatalogEncryptionSettingsOutput: Swift.Sendable {
 
     public init(
         dataCatalogEncryptionSettings: GlueClientTypes.DataCatalogEncryptionSettings? = nil
-    )
-    {
+    ) {
         self.dataCatalogEncryptionSettings = dataCatalogEncryptionSettings
     }
 }
@@ -16017,8 +17857,7 @@ public struct GetDataflowGraphInput: Swift.Sendable {
 
     public init(
         pythonScript: Swift.String? = nil
-    )
-    {
+    ) {
         self.pythonScript = pythonScript
     }
 }
@@ -16032,8 +17871,7 @@ public struct GetDataflowGraphOutput: Swift.Sendable {
     public init(
         dagEdges: [GlueClientTypes.CodeGenEdge]? = nil,
         dagNodes: [GlueClientTypes.CodeGenNode]? = nil
-    )
-    {
+    ) {
         self.dagEdges = dagEdges
         self.dagNodes = dagNodes
     }
@@ -16049,8 +17887,7 @@ public struct GetDataQualityModelInput: Swift.Sendable {
     public init(
         profileId: Swift.String? = nil,
         statisticId: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileId = profileId
         self.statisticId = statisticId
     }
@@ -16103,8 +17940,7 @@ public struct GetDataQualityModelOutput: Swift.Sendable {
         failureReason: Swift.String? = nil,
         startedOn: Foundation.Date? = nil,
         status: GlueClientTypes.DataQualityModelStatus? = nil
-    )
-    {
+    ) {
         self.completedOn = completedOn
         self.failureReason = failureReason
         self.startedOn = startedOn
@@ -16123,8 +17959,7 @@ public struct GetDataQualityModelResultInput: Swift.Sendable {
     public init(
         profileId: Swift.String? = nil,
         statisticId: Swift.String? = nil
-    )
-    {
+    ) {
         self.profileId = profileId
         self.statisticId = statisticId
     }
@@ -16154,8 +17989,7 @@ extension GlueClientTypes {
             lowerBound: Swift.Double? = nil,
             predictedValue: Swift.Double? = nil,
             upperBound: Swift.Double? = nil
-        )
-        {
+        ) {
             self.actualValue = actualValue
             self.date = date
             self.inclusionAnnotation = inclusionAnnotation
@@ -16175,8 +18009,7 @@ public struct GetDataQualityModelResultOutput: Swift.Sendable {
     public init(
         completedOn: Foundation.Date? = nil,
         model: [GlueClientTypes.StatisticModelResult]? = nil
-    )
-    {
+    ) {
         self.completedOn = completedOn
         self.model = model
     }
@@ -16189,8 +18022,7 @@ public struct GetDataQualityResultInput: Swift.Sendable {
 
     public init(
         resultId: Swift.String? = nil
-    )
-    {
+    ) {
         self.resultId = resultId
     }
 }
@@ -16240,8 +18072,7 @@ public struct GetDataQualityResultOutput: Swift.Sendable {
         rulesetName: Swift.String? = nil,
         score: Swift.Double? = nil,
         startedOn: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.analyzerResults = analyzerResults
         self.completedOn = completedOn
         self.dataSource = dataSource
@@ -16266,8 +18097,7 @@ public struct GetDataQualityRuleRecommendationRunInput: Swift.Sendable {
 
     public init(
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.runId = runId
     }
 }
@@ -16317,8 +18147,7 @@ public struct GetDataQualityRuleRecommendationRunOutput: Swift.Sendable {
         startedOn: Foundation.Date? = nil,
         status: GlueClientTypes.TaskStatusType? = nil,
         timeout: Swift.Int? = nil
-    )
-    {
+    ) {
         self.completedOn = completedOn
         self.createdRulesetName = createdRulesetName
         self.dataQualitySecurityConfiguration = dataQualitySecurityConfiguration
@@ -16343,8 +18172,7 @@ public struct GetDataQualityRulesetInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -16376,8 +18204,7 @@ public struct GetDataQualityRulesetOutput: Swift.Sendable {
         recommendationRunId: Swift.String? = nil,
         ruleset: Swift.String? = nil,
         targetTable: GlueClientTypes.DataQualityTargetTable? = nil
-    )
-    {
+    ) {
         self.createdOn = createdOn
         self.dataQualitySecurityConfiguration = dataQualitySecurityConfiguration
         self.description = description
@@ -16396,8 +18223,7 @@ public struct GetDataQualityRulesetEvaluationRunInput: Swift.Sendable {
 
     public init(
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.runId = runId
     }
 }
@@ -16446,8 +18272,7 @@ extension GlueClientTypes {
             cloudWatchMetricsEnabled: Swift.Bool? = nil,
             compositeRuleEvaluationMethod: GlueClientTypes.DQCompositeRuleEvaluationMethod? = nil,
             resultsS3Prefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
             self.compositeRuleEvaluationMethod = compositeRuleEvaluationMethod
             self.resultsS3Prefix = resultsS3Prefix
@@ -16503,8 +18328,7 @@ public struct GetDataQualityRulesetEvaluationRunOutput: Swift.Sendable {
         startedOn: Foundation.Date? = nil,
         status: GlueClientTypes.TaskStatusType? = nil,
         timeout: Swift.Int? = nil
-    )
-    {
+    ) {
         self.additionalDataSources = additionalDataSources
         self.additionalRunOptions = additionalRunOptions
         self.completedOn = completedOn
@@ -16530,8 +18354,7 @@ public struct GetDevEndpointInput: Swift.Sendable {
 
     public init(
         endpointName: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointName = endpointName
     }
 }
@@ -16542,8 +18365,7 @@ public struct GetDevEndpointOutput: Swift.Sendable {
 
     public init(
         devEndpoint: GlueClientTypes.DevEndpoint? = nil
-    )
-    {
+    ) {
         self.devEndpoint = devEndpoint
     }
 }
@@ -16557,8 +18379,7 @@ public struct GetDevEndpointsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -16573,10 +18394,149 @@ public struct GetDevEndpointsOutput: Swift.Sendable {
     public init(
         devEndpoints: [GlueClientTypes.DevEndpoint]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.devEndpoints = devEndpoints
         self.nextToken = nextToken
+    }
+}
+
+public struct GetEntityRecordsInput: Swift.Sendable {
+    /// The catalog ID of the catalog that contains the connection. This can be null, By default, the Amazon Web Services Account ID is the catalog ID.
+    public var catalogId: Swift.String?
+    /// The name of the connection that contains the connection type credentials.
+    public var connectionName: Swift.String?
+    /// Connector options that are required to query the data.
+    public var connectionOptions: [Swift.String: Swift.String]?
+    /// The API version of the SaaS connector.
+    public var dataStoreApiVersion: Swift.String?
+    /// Name of the entity that we want to query the preview data from the given connection type.
+    /// This member is required.
+    public var entityName: Swift.String?
+    /// A filter predicate that you can apply in the query request.
+    public var filterPredicate: Swift.String?
+    /// Limits the number of records fetched with the request.
+    /// This member is required.
+    public var limit: Swift.Int?
+    /// A continuation token, included if this is a continuation call.
+    public var nextToken: Swift.String?
+    /// A parameter that orders the response preview data.
+    public var orderBy: Swift.String?
+    /// List of fields that we want to fetch as part of preview data.
+    public var selectedFields: [Swift.String]?
+
+    public init(
+        catalogId: Swift.String? = nil,
+        connectionName: Swift.String? = nil,
+        connectionOptions: [Swift.String: Swift.String]? = nil,
+        dataStoreApiVersion: Swift.String? = nil,
+        entityName: Swift.String? = nil,
+        filterPredicate: Swift.String? = nil,
+        limit: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        orderBy: Swift.String? = nil,
+        selectedFields: [Swift.String]? = nil
+    ) {
+        self.catalogId = catalogId
+        self.connectionName = connectionName
+        self.connectionOptions = connectionOptions
+        self.dataStoreApiVersion = dataStoreApiVersion
+        self.entityName = entityName
+        self.filterPredicate = filterPredicate
+        self.limit = limit
+        self.nextToken = nextToken
+        self.orderBy = orderBy
+        self.selectedFields = selectedFields
+    }
+}
+
+public struct GetEntityRecordsOutput: Swift.Sendable {
+    /// A continuation token, present if the current segment is not the last.
+    public var nextToken: Swift.String?
+    /// A list of the requested objects.
+    public var records: [Smithy.Document]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        records: [Smithy.Document]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.records = records
+    }
+}
+
+extension GetEntityRecordsOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetEntityRecordsOutput(nextToken: \(Swift.String(describing: nextToken)), records: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetIntegrationResourcePropertyInput: Swift.Sendable {
+    /// The connection ARN of the source, or the database ARN of the target.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct GetIntegrationResourcePropertyOutput: Swift.Sendable {
+    /// The connection ARN of the source, or the database ARN of the target.
+    public var resourceArn: Swift.String?
+    /// The resource properties associated with the integration source.
+    public var sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties?
+    /// The resource properties associated with the integration target.
+    public var targetProcessingProperties: GlueClientTypes.TargetProcessingProperties?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties? = nil,
+        targetProcessingProperties: GlueClientTypes.TargetProcessingProperties? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.sourceProcessingProperties = sourceProcessingProperties
+        self.targetProcessingProperties = targetProcessingProperties
+    }
+}
+
+public struct GetIntegrationTablePropertiesInput: Swift.Sendable {
+    /// The connection ARN of the source, or the database ARN of the target.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The name of the table to be replicated.
+    /// This member is required.
+    public var tableName: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tableName: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.tableName = tableName
+    }
+}
+
+public struct GetIntegrationTablePropertiesOutput: Swift.Sendable {
+    /// The connection ARN of the source, or the database ARN of the target.
+    public var resourceArn: Swift.String?
+    /// A structure for the source table configuration.
+    public var sourceTableConfig: GlueClientTypes.SourceTableConfig?
+    /// The name of the table to be replicated.
+    public var tableName: Swift.String?
+    /// A structure for the target table configuration.
+    public var targetTableConfig: GlueClientTypes.TargetTableConfig?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        sourceTableConfig: GlueClientTypes.SourceTableConfig? = nil,
+        tableName: Swift.String? = nil,
+        targetTableConfig: GlueClientTypes.TargetTableConfig? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.sourceTableConfig = sourceTableConfig
+        self.tableName = tableName
+        self.targetTableConfig = targetTableConfig
     }
 }
 
@@ -16587,8 +18547,7 @@ public struct GetJobInput: Swift.Sendable {
 
     public init(
         jobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
     }
 }
@@ -16603,8 +18562,7 @@ public struct GetJobBookmarkInput: Swift.Sendable {
     public init(
         jobName: Swift.String? = nil,
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
         self.runId = runId
     }
@@ -16637,8 +18595,7 @@ extension GlueClientTypes {
             run: Swift.Int = 0,
             runId: Swift.String? = nil,
             version: Swift.Int = 0
-        )
-        {
+        ) {
             self.attempt = attempt
             self.jobBookmark = jobBookmark
             self.jobName = jobName
@@ -16656,8 +18613,7 @@ public struct GetJobBookmarkOutput: Swift.Sendable {
 
     public init(
         jobBookmarkEntry: GlueClientTypes.JobBookmarkEntry? = nil
-    )
-    {
+    ) {
         self.jobBookmarkEntry = jobBookmarkEntry
     }
 }
@@ -16676,8 +18632,7 @@ public struct GetJobRunInput: Swift.Sendable {
         jobName: Swift.String? = nil,
         predecessorsIncluded: Swift.Bool? = false,
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
         self.predecessorsIncluded = predecessorsIncluded
         self.runId = runId
@@ -16690,8 +18645,7 @@ public struct GetJobRunOutput: Swift.Sendable {
 
     public init(
         jobRun: GlueClientTypes.JobRun? = nil
-    )
-    {
+    ) {
         self.jobRun = jobRun
     }
 }
@@ -16709,8 +18663,7 @@ public struct GetJobRunsInput: Swift.Sendable {
         jobName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -16726,8 +18679,7 @@ public struct GetJobRunsOutput: Swift.Sendable {
     public init(
         jobRuns: [GlueClientTypes.JobRun]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobRuns = jobRuns
         self.nextToken = nextToken
     }
@@ -16742,8 +18694,7 @@ public struct GetJobsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -16764,8 +18715,7 @@ extension GlueClientTypes {
             dynamoDB: [GlueClientTypes.CodeGenNodeArg]? = nil,
             jdbc: [GlueClientTypes.CodeGenNodeArg]? = nil,
             s3: [GlueClientTypes.CodeGenNodeArg]? = nil
-        )
-        {
+        ) {
             self.dynamoDB = dynamoDB
             self.jdbc = jdbc
             self.s3 = s3
@@ -16787,8 +18737,7 @@ extension GlueClientTypes {
         public init(
             databaseName: Swift.String? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.databaseName = databaseName
             self.tableName = tableName
         }
@@ -16808,8 +18757,7 @@ public struct GetMappingInput: Swift.Sendable {
         location: GlueClientTypes.Location? = nil,
         sinks: [GlueClientTypes.CatalogEntry]? = nil,
         source: GlueClientTypes.CatalogEntry? = nil
-    )
-    {
+    ) {
         self.location = location
         self.sinks = sinks
         self.source = source
@@ -16840,8 +18788,7 @@ extension GlueClientTypes {
             targetPath: Swift.String? = nil,
             targetTable: Swift.String? = nil,
             targetType: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourcePath = sourcePath
             self.sourceTable = sourceTable
             self.sourceType = sourceType
@@ -16859,8 +18806,7 @@ public struct GetMappingOutput: Swift.Sendable {
 
     public init(
         mapping: [GlueClientTypes.MappingEntry]? = nil
-    )
-    {
+    ) {
         self.mapping = mapping
     }
 }
@@ -16876,8 +18822,7 @@ public struct GetMLTaskRunInput: Swift.Sendable {
     public init(
         taskRunId: Swift.String? = nil,
         transformId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskRunId = taskRunId
         self.transformId = transformId
     }
@@ -16892,8 +18837,7 @@ extension GlueClientTypes {
 
         public init(
             outputS3Path: Swift.String? = nil
-        )
-        {
+        ) {
             self.outputS3Path = outputS3Path
         }
     }
@@ -16914,8 +18858,7 @@ extension GlueClientTypes {
             jobId: Swift.String? = nil,
             jobName: Swift.String? = nil,
             jobRunId: Swift.String? = nil
-        )
-        {
+        ) {
             self.jobId = jobId
             self.jobName = jobName
             self.jobRunId = jobRunId
@@ -16935,8 +18878,7 @@ extension GlueClientTypes {
         public init(
             inputS3Path: Swift.String? = nil,
             replace: Swift.Bool = false
-        )
-        {
+        ) {
             self.inputS3Path = inputS3Path
             self.replace = replace
         }
@@ -16952,8 +18894,7 @@ extension GlueClientTypes {
 
         public init(
             outputS3Path: Swift.String? = nil
-        )
-        {
+        ) {
             self.outputS3Path = outputS3Path
         }
     }
@@ -17018,8 +18959,7 @@ extension GlueClientTypes {
             importLabelsTaskRunProperties: GlueClientTypes.ImportLabelsTaskRunProperties? = nil,
             labelingSetGenerationTaskRunProperties: GlueClientTypes.LabelingSetGenerationTaskRunProperties? = nil,
             taskType: GlueClientTypes.TaskType? = nil
-        )
-        {
+        ) {
             self.exportLabelsTaskRunProperties = exportLabelsTaskRunProperties
             self.findMatchesTaskRunProperties = findMatchesTaskRunProperties
             self.importLabelsTaskRunProperties = importLabelsTaskRunProperties
@@ -17062,8 +19002,7 @@ public struct GetMLTaskRunOutput: Swift.Sendable {
         status: GlueClientTypes.TaskStatusType? = nil,
         taskRunId: Swift.String? = nil,
         transformId: Swift.String? = nil
-    )
-    {
+    ) {
         self.completedOn = completedOn
         self.errorString = errorString
         self.executionTime = executionTime
@@ -17095,8 +19034,7 @@ extension GlueClientTypes {
             startedBefore: Foundation.Date? = nil,
             status: GlueClientTypes.TaskStatusType? = nil,
             taskRunType: GlueClientTypes.TaskType? = nil
-        )
-        {
+        ) {
             self.startedAfter = startedAfter
             self.startedBefore = startedBefore
             self.status = status
@@ -17180,8 +19118,7 @@ extension GlueClientTypes {
         public init(
             column: GlueClientTypes.TaskRunSortColumnType? = nil,
             sortDirection: GlueClientTypes.SortDirectionType? = nil
-        )
-        {
+        ) {
             self.column = column
             self.sortDirection = sortDirection
         }
@@ -17207,8 +19144,7 @@ public struct GetMLTaskRunsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sort: GlueClientTypes.TaskRunSortCriteria? = nil,
         transformId: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -17253,8 +19189,7 @@ extension GlueClientTypes {
             status: GlueClientTypes.TaskStatusType? = nil,
             taskRunId: Swift.String? = nil,
             transformId: Swift.String? = nil
-        )
-        {
+        ) {
             self.completedOn = completedOn
             self.errorString = errorString
             self.executionTime = executionTime
@@ -17278,8 +19213,7 @@ public struct GetMLTaskRunsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         taskRuns: [GlueClientTypes.TaskRun]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.taskRuns = taskRuns
     }
@@ -17292,8 +19226,7 @@ public struct GetMLTransformInput: Swift.Sendable {
 
     public init(
         transformId: Swift.String? = nil
-    )
-    {
+    ) {
         self.transformId = transformId
     }
 }
@@ -17310,8 +19243,7 @@ extension GlueClientTypes {
         public init(
             columnName: Swift.String? = nil,
             importance: Swift.Double? = nil
-        )
-        {
+        ) {
             self.columnName = columnName
             self.importance = importance
         }
@@ -17336,8 +19268,7 @@ extension GlueClientTypes {
             numFalsePositives: Swift.Int? = nil,
             numTrueNegatives: Swift.Int? = nil,
             numTruePositives: Swift.Int? = nil
-        )
-        {
+        ) {
             self.numFalseNegatives = numFalseNegatives
             self.numFalsePositives = numFalsePositives
             self.numTrueNegatives = numTrueNegatives
@@ -17370,8 +19301,7 @@ extension GlueClientTypes {
             f1: Swift.Double? = nil,
             precision: Swift.Double? = nil,
             recall: Swift.Double? = nil
-        )
-        {
+        ) {
             self.areaUnderPRCurve = areaUnderPRCurve
             self.columnImportances = columnImportances
             self.confusionMatrix = confusionMatrix
@@ -17395,8 +19325,7 @@ extension GlueClientTypes {
         public init(
             findMatchesMetrics: GlueClientTypes.FindMatchesMetrics? = nil,
             transformType: GlueClientTypes.TransformType? = nil
-        )
-        {
+        ) {
             self.findMatchesMetrics = findMatchesMetrics
             self.transformType = transformType
         }
@@ -17415,8 +19344,7 @@ extension GlueClientTypes {
         public init(
             dataType: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataType = dataType
             self.name = name
         }
@@ -17521,8 +19449,7 @@ public struct GetMLTransformOutput: Swift.Sendable {
         transformEncryption: GlueClientTypes.TransformEncryption? = nil,
         transformId: Swift.String? = nil,
         workerType: GlueClientTypes.WorkerType? = nil
-    )
-    {
+    ) {
         self.createdOn = createdOn
         self.description = description
         self.evaluationMetrics = evaluationMetrics
@@ -17578,8 +19505,7 @@ extension GlueClientTypes {
             schema: [GlueClientTypes.SchemaColumn]? = nil,
             status: GlueClientTypes.TransformStatusType? = nil,
             transformType: GlueClientTypes.TransformType? = nil
-        )
-        {
+        ) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
             self.glueVersion = glueVersion
@@ -17645,8 +19571,7 @@ extension GlueClientTypes {
         public init(
             column: GlueClientTypes.TransformSortColumnType? = nil,
             sortDirection: GlueClientTypes.SortDirectionType? = nil
-        )
-        {
+        ) {
             self.column = column
             self.sortDirection = sortDirection
         }
@@ -17668,8 +19593,7 @@ public struct GetMLTransformsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sort: GlueClientTypes.TransformSortCriteria? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -17772,8 +19696,7 @@ extension GlueClientTypes {
             transformEncryption: GlueClientTypes.TransformEncryption? = nil,
             transformId: Swift.String? = nil,
             workerType: GlueClientTypes.WorkerType? = nil
-        )
-        {
+        ) {
             self.createdOn = createdOn
             self.description = description
             self.evaluationMetrics = evaluationMetrics
@@ -17807,8 +19730,7 @@ public struct GetMLTransformsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         transforms: [GlueClientTypes.MLTransform]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.transforms = transforms
     }
@@ -17832,8 +19754,7 @@ public struct GetPartitionInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         partitionValues: [Swift.String]? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.partitionValues = partitionValues
@@ -17847,8 +19768,7 @@ public struct GetPartitionOutput: Swift.Sendable {
 
     public init(
         partition: GlueClientTypes.Partition? = nil
-    )
-    {
+    ) {
         self.partition = partition
     }
 }
@@ -17870,8 +19790,7 @@ public struct GetPartitionIndexesInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.nextToken = nextToken
@@ -17939,8 +19858,7 @@ extension GlueClientTypes {
         public init(
             code: GlueClientTypes.BackfillErrorCode? = nil,
             partitions: [GlueClientTypes.PartitionValueList]? = nil
-        )
-        {
+        ) {
             self.code = code
             self.partitions = partitions
         }
@@ -17996,8 +19914,7 @@ extension GlueClientTypes {
         public init(
             name: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.type = type
         }
@@ -18033,8 +19950,7 @@ extension GlueClientTypes {
             indexName: Swift.String? = nil,
             indexStatus: GlueClientTypes.PartitionIndexStatus? = nil,
             keys: [GlueClientTypes.KeySchemaElement]? = nil
-        )
-        {
+        ) {
             self.backfillErrors = backfillErrors
             self.indexName = indexName
             self.indexStatus = indexStatus
@@ -18052,8 +19968,7 @@ public struct GetPartitionIndexesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         partitionIndexDescriptorList: [GlueClientTypes.PartitionIndexDescriptor]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.partitionIndexDescriptorList = partitionIndexDescriptorList
     }
@@ -18073,8 +19988,7 @@ extension GlueClientTypes {
         public init(
             segmentNumber: Swift.Int = 0,
             totalSegments: Swift.Int? = nil
-        )
-        {
+        ) {
             self.segmentNumber = segmentNumber
             self.totalSegments = totalSegments
         }
@@ -18137,8 +20051,7 @@ public struct GetPartitionsInput: Swift.Sendable {
         segment: GlueClientTypes.Segment? = nil,
         tableName: Swift.String? = nil,
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.excludeColumnSchema = excludeColumnSchema
@@ -18161,8 +20074,7 @@ public struct GetPartitionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         partitions: [GlueClientTypes.Partition]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.partitions = partitions
     }
@@ -18193,8 +20105,7 @@ public struct GetPlanInput: Swift.Sendable {
         mapping: [GlueClientTypes.MappingEntry]? = nil,
         sinks: [GlueClientTypes.CatalogEntry]? = nil,
         source: GlueClientTypes.CatalogEntry? = nil
-    )
-    {
+    ) {
         self.additionalPlanOptionsMap = additionalPlanOptionsMap
         self.language = language
         self.location = location
@@ -18213,8 +20124,7 @@ public struct GetPlanOutput: Swift.Sendable {
     public init(
         pythonScript: Swift.String? = nil,
         scalaCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.pythonScript = pythonScript
         self.scalaCode = scalaCode
     }
@@ -18227,8 +20137,7 @@ public struct GetRegistryInput: Swift.Sendable {
 
     public init(
         registryId: GlueClientTypes.RegistryId? = nil
-    )
-    {
+    ) {
         self.registryId = registryId
     }
 }
@@ -18254,8 +20163,7 @@ public struct GetRegistryOutput: Swift.Sendable {
         registryName: Swift.String? = nil,
         status: GlueClientTypes.RegistryStatus? = nil,
         updatedTime: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdTime = createdTime
         self.description = description
         self.registryArn = registryArn
@@ -18274,8 +20182,7 @@ public struct GetResourcePoliciesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -18299,8 +20206,7 @@ extension GlueClientTypes {
             policyHash: Swift.String? = nil,
             policyInJson: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.createTime = createTime
             self.policyHash = policyHash
             self.policyInJson = policyInJson
@@ -18318,8 +20224,7 @@ public struct GetResourcePoliciesOutput: Swift.Sendable {
     public init(
         getResourcePoliciesResponseList: [GlueClientTypes.GluePolicy]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.getResourcePoliciesResponseList = getResourcePoliciesResponseList
         self.nextToken = nextToken
     }
@@ -18331,8 +20236,7 @@ public struct GetResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -18352,8 +20256,7 @@ public struct GetResourcePolicyOutput: Swift.Sendable {
         policyHash: Swift.String? = nil,
         policyInJson: Swift.String? = nil,
         updateTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.createTime = createTime
         self.policyHash = policyHash
         self.policyInJson = policyInJson
@@ -18372,8 +20275,7 @@ public struct GetSchemaInput: Swift.Sendable {
 
     public init(
         schemaId: GlueClientTypes.SchemaId? = nil
-    )
-    {
+    ) {
         self.schemaId = schemaId
     }
 }
@@ -18420,8 +20322,7 @@ public struct GetSchemaOutput: Swift.Sendable {
         schemaName: Swift.String? = nil,
         schemaStatus: GlueClientTypes.SchemaStatus? = nil,
         updatedTime: Swift.String? = nil
-    )
-    {
+    ) {
         self.compatibility = compatibility
         self.createdTime = createdTime
         self.dataFormat = dataFormat
@@ -18453,8 +20354,7 @@ public struct GetSchemaByDefinitionInput: Swift.Sendable {
     public init(
         schemaDefinition: Swift.String? = nil,
         schemaId: GlueClientTypes.SchemaId? = nil
-    )
-    {
+    ) {
         self.schemaDefinition = schemaDefinition
         self.schemaId = schemaId
     }
@@ -18478,8 +20378,7 @@ public struct GetSchemaByDefinitionOutput: Swift.Sendable {
         schemaArn: Swift.String? = nil,
         schemaVersionId: Swift.String? = nil,
         status: GlueClientTypes.SchemaVersionStatus? = nil
-    )
-    {
+    ) {
         self.createdTime = createdTime
         self.dataFormat = dataFormat
         self.schemaArn = schemaArn
@@ -18500,8 +20399,7 @@ extension GlueClientTypes {
         public init(
             latestVersion: Swift.Bool = false,
             versionNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.latestVersion = latestVersion
             self.versionNumber = versionNumber
         }
@@ -18524,8 +20422,7 @@ public struct GetSchemaVersionInput: Swift.Sendable {
         schemaId: GlueClientTypes.SchemaId? = nil,
         schemaVersionId: Swift.String? = nil,
         schemaVersionNumber: GlueClientTypes.SchemaVersionNumber? = nil
-    )
-    {
+    ) {
         self.schemaId = schemaId
         self.schemaVersionId = schemaVersionId
         self.schemaVersionNumber = schemaVersionNumber
@@ -18556,8 +20453,7 @@ public struct GetSchemaVersionOutput: Swift.Sendable {
         schemaVersionId: Swift.String? = nil,
         status: GlueClientTypes.SchemaVersionStatus? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.createdTime = createdTime
         self.dataFormat = dataFormat
         self.schemaArn = schemaArn
@@ -18617,8 +20513,7 @@ public struct GetSchemaVersionsDiffInput: Swift.Sendable {
         schemaDiffType: GlueClientTypes.SchemaDiffType? = nil,
         schemaId: GlueClientTypes.SchemaId? = nil,
         secondSchemaVersionNumber: GlueClientTypes.SchemaVersionNumber? = nil
-    )
-    {
+    ) {
         self.firstSchemaVersionNumber = firstSchemaVersionNumber
         self.schemaDiffType = schemaDiffType
         self.schemaId = schemaId
@@ -18632,8 +20527,7 @@ public struct GetSchemaVersionsDiffOutput: Swift.Sendable {
 
     public init(
         diff: Swift.String? = nil
-    )
-    {
+    ) {
         self.diff = diff
     }
 }
@@ -18645,8 +20539,7 @@ public struct GetSecurityConfigurationInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -18666,8 +20559,7 @@ extension GlueClientTypes {
             createdTimeStamp: Foundation.Date? = nil,
             encryptionConfiguration: GlueClientTypes.EncryptionConfiguration? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdTimeStamp = createdTimeStamp
             self.encryptionConfiguration = encryptionConfiguration
             self.name = name
@@ -18681,8 +20573,7 @@ public struct GetSecurityConfigurationOutput: Swift.Sendable {
 
     public init(
         securityConfiguration: GlueClientTypes.SecurityConfiguration? = nil
-    )
-    {
+    ) {
         self.securityConfiguration = securityConfiguration
     }
 }
@@ -18696,8 +20587,7 @@ public struct GetSecurityConfigurationsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -18712,8 +20602,7 @@ public struct GetSecurityConfigurationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         securityConfigurations: [GlueClientTypes.SecurityConfiguration]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.securityConfigurations = securityConfigurations
     }
@@ -18729,8 +20618,7 @@ public struct GetSessionInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         requestOrigin: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.requestOrigin = requestOrigin
     }
@@ -18742,8 +20630,7 @@ public struct GetSessionOutput: Swift.Sendable {
 
     public init(
         session: GlueClientTypes.Session? = nil
-    )
-    {
+    ) {
         self.session = session
     }
 }
@@ -18762,8 +20649,7 @@ public struct GetStatementInput: Swift.Sendable {
         id: Swift.Int? = 0,
         requestOrigin: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.requestOrigin = requestOrigin
         self.sessionId = sessionId
@@ -18779,8 +20665,7 @@ extension GlueClientTypes {
 
         public init(
             textPlain: Swift.String? = nil
-        )
-        {
+        ) {
             self.textPlain = textPlain
         }
     }
@@ -18851,8 +20736,7 @@ extension GlueClientTypes {
             executionCount: Swift.Int = 0,
             status: GlueClientTypes.StatementState? = nil,
             traceback: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.data = data
             self.errorName = errorName
             self.errorValue = errorValue
@@ -18890,8 +20774,7 @@ extension GlueClientTypes {
             progress: Swift.Double = 0.0,
             startedOn: Swift.Int = 0,
             state: GlueClientTypes.StatementState? = nil
-        )
-        {
+        ) {
             self.code = code
             self.completedOn = completedOn
             self.id = id
@@ -18909,8 +20792,7 @@ public struct GetStatementOutput: Swift.Sendable {
 
     public init(
         statement: GlueClientTypes.Statement? = nil
-    )
-    {
+    ) {
         self.statement = statement
     }
 }
@@ -18938,8 +20820,7 @@ public struct GetTableInput: Swift.Sendable {
         name: Swift.String? = nil,
         queryAsOfTime: Foundation.Date? = nil,
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.includeStatusDetails = includeStatusDetails
@@ -18964,8 +20845,7 @@ extension GlueClientTypes {
             connectionName: Swift.String? = nil,
             databaseIdentifier: Swift.String? = nil,
             identifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectionName = connectionName
             self.databaseIdentifier = databaseIdentifier
             self.identifier = identifier
@@ -19064,8 +20944,7 @@ extension GlueClientTypes {
             state: GlueClientTypes.ResourceState? = nil,
             updateTime: Foundation.Date? = nil,
             viewValidationText: Swift.String? = nil
-        )
-        {
+        ) {
             self.dialect = dialect
             self.dialectVersion = dialectVersion
             self.error = error
@@ -19102,8 +20981,7 @@ extension GlueClientTypes {
             validationConnection: Swift.String? = nil,
             viewExpandedText: Swift.String? = nil,
             viewOriginalText: Swift.String? = nil
-        )
-        {
+        ) {
             self.dialect = dialect
             self.dialectVersion = dialectVersion
             self.isStale = isStale
@@ -19132,8 +21010,7 @@ extension GlueClientTypes {
             isProtected: Swift.Bool? = nil,
             representations: [GlueClientTypes.ViewRepresentation]? = nil,
             subObjects: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.definer = definer
             self.isProtected = isProtected
             self.representations = representations
@@ -19161,8 +21038,7 @@ public struct GetTableOptimizerInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil,
         type: GlueClientTypes.TableOptimizerType? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.tableName = tableName
@@ -19185,8 +21061,7 @@ public struct GetTableOptimizerOutput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil,
         tableOptimizer: GlueClientTypes.TableOptimizer? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.tableName = tableName
@@ -19258,8 +21133,7 @@ public struct GetTablesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         queryAsOfTime: Foundation.Date? = nil,
         transactionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.attributesToGet = attributesToGet
         self.catalogId = catalogId
         self.databaseName = databaseName
@@ -19289,8 +21163,7 @@ public struct GetTableVersionInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil,
         versionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.tableName = tableName
@@ -19318,8 +21191,7 @@ public struct GetTableVersionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.maxResults = maxResults
@@ -19335,8 +21207,7 @@ public struct GetTagsInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -19347,8 +21218,7 @@ public struct GetTagsOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -19360,8 +21230,7 @@ public struct GetTriggerInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -19372,8 +21241,7 @@ public struct GetTriggerOutput: Swift.Sendable {
 
     public init(
         trigger: GlueClientTypes.Trigger? = nil
-    )
-    {
+    ) {
         self.trigger = trigger
     }
 }
@@ -19390,8 +21258,7 @@ public struct GetTriggersInput: Swift.Sendable {
         dependentJobName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dependentJobName = dependentJobName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -19407,17 +21274,16 @@ public struct GetTriggersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         triggers: [GlueClientTypes.Trigger]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.triggers = triggers
     }
 }
 
 /// The operation timed out.
-public struct PermissionTypeMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PermissionTypeMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// There is a mismatch between the SupportedPermissionType used in the query request and the permissions defined on the target table.
         public internal(set) var message: Swift.String? = nil
     }
@@ -19433,8 +21299,7 @@ public struct PermissionTypeMismatchException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -19460,8 +21325,7 @@ extension GlueClientTypes {
             queryAuthorizationId: Swift.String? = nil,
             queryId: Swift.String? = nil,
             queryStartTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.additionalContext = additionalContext
             self.clusterId = clusterId
             self.queryAuthorizationId = queryAuthorizationId
@@ -19538,8 +21402,7 @@ public struct GetUnfilteredPartitionMetadataInput: Swift.Sendable {
         region: Swift.String? = nil,
         supportedPermissionTypes: [GlueClientTypes.PermissionType]? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.auditContext = auditContext
         self.catalogId = catalogId
         self.databaseName = databaseName
@@ -19563,8 +21426,7 @@ public struct GetUnfilteredPartitionMetadataOutput: Swift.Sendable {
         authorizedColumns: [Swift.String]? = nil,
         isRegisteredWithLakeFormation: Swift.Bool = false,
         partition: GlueClientTypes.Partition? = nil
-    )
-    {
+    ) {
         self.authorizedColumns = authorizedColumns
         self.isRegisteredWithLakeFormation = isRegisteredWithLakeFormation
         self.partition = partition
@@ -19632,8 +21494,7 @@ public struct GetUnfilteredPartitionsMetadataInput: Swift.Sendable {
         segment: GlueClientTypes.Segment? = nil,
         supportedPermissionTypes: [GlueClientTypes.PermissionType]? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.auditContext = auditContext
         self.catalogId = catalogId
         self.databaseName = databaseName
@@ -19663,8 +21524,7 @@ extension GlueClientTypes {
             authorizedColumns: [Swift.String]? = nil,
             isRegisteredWithLakeFormation: Swift.Bool = false,
             partition: GlueClientTypes.Partition? = nil
-        )
-        {
+        ) {
             self.authorizedColumns = authorizedColumns
             self.isRegisteredWithLakeFormation = isRegisteredWithLakeFormation
             self.partition = partition
@@ -19681,8 +21541,7 @@ public struct GetUnfilteredPartitionsMetadataOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         unfilteredPartitions: [GlueClientTypes.UnfilteredPartition]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.unfilteredPartitions = unfilteredPartitions
     }
@@ -19700,8 +21559,7 @@ extension GlueClientTypes {
         public init(
             dialect: GlueClientTypes.ViewDialect? = nil,
             dialectVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.dialect = dialect
             self.dialectVersion = dialectVersion
         }
@@ -19759,8 +21617,7 @@ public struct GetUnfilteredTableMetadataInput: Swift.Sendable {
         rootResourceArn: Swift.String? = nil,
         supportedDialect: GlueClientTypes.SupportedDialect? = nil,
         supportedPermissionTypes: [GlueClientTypes.PermissionType]? = nil
-    )
-    {
+    ) {
         self.auditContext = auditContext
         self.catalogId = catalogId
         self.databaseName = databaseName
@@ -19787,8 +21644,7 @@ extension GlueClientTypes {
         public init(
             columnName: Swift.String? = nil,
             rowFilterExpression: Swift.String? = nil
-        )
-        {
+        ) {
             self.columnName = columnName
             self.rowFilterExpression = rowFilterExpression
         }
@@ -19802,8 +21658,7 @@ public struct GetUsageProfileInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -19826,8 +21681,7 @@ public struct GetUsageProfileOutput: Swift.Sendable {
         description: Swift.String? = nil,
         lastModifiedOn: Foundation.Date? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.createdOn = createdOn
         self.description = description
@@ -19850,8 +21704,7 @@ public struct GetUserDefinedFunctionInput: Swift.Sendable {
         catalogId: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         functionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.functionName = functionName
@@ -19888,8 +21741,7 @@ extension GlueClientTypes {
             ownerName: Swift.String? = nil,
             ownerType: GlueClientTypes.PrincipalType? = nil,
             resourceUris: [GlueClientTypes.ResourceUri]? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.className = className
             self.createTime = createTime
@@ -19908,8 +21760,7 @@ public struct GetUserDefinedFunctionOutput: Swift.Sendable {
 
     public init(
         userDefinedFunction: GlueClientTypes.UserDefinedFunction? = nil
-    )
-    {
+    ) {
         self.userDefinedFunction = userDefinedFunction
     }
 }
@@ -19933,8 +21784,7 @@ public struct GetUserDefinedFunctionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         pattern: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.maxResults = maxResults
@@ -19952,8 +21802,7 @@ public struct GetUserDefinedFunctionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         userDefinedFunctions: [GlueClientTypes.UserDefinedFunction]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.userDefinedFunctions = userDefinedFunctions
     }
@@ -19969,8 +21818,7 @@ public struct GetWorkflowInput: Swift.Sendable {
     public init(
         includeGraph: Swift.Bool? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.includeGraph = includeGraph
         self.name = name
     }
@@ -19982,8 +21830,7 @@ public struct GetWorkflowOutput: Swift.Sendable {
 
     public init(
         workflow: GlueClientTypes.Workflow? = nil
-    )
-    {
+    ) {
         self.workflow = workflow
     }
 }
@@ -20002,8 +21849,7 @@ public struct GetWorkflowRunInput: Swift.Sendable {
         includeGraph: Swift.Bool? = nil,
         name: Swift.String? = nil,
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.includeGraph = includeGraph
         self.name = name
         self.runId = runId
@@ -20016,8 +21862,7 @@ public struct GetWorkflowRunOutput: Swift.Sendable {
 
     public init(
         run: GlueClientTypes.WorkflowRun? = nil
-    )
-    {
+    ) {
         self.run = run
     }
 }
@@ -20033,8 +21878,7 @@ public struct GetWorkflowRunPropertiesInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.runId = runId
     }
@@ -20046,8 +21890,7 @@ public struct GetWorkflowRunPropertiesOutput: Swift.Sendable {
 
     public init(
         runProperties: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.runProperties = runProperties
     }
 }
@@ -20068,8 +21911,7 @@ public struct GetWorkflowRunsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.includeGraph = includeGraph
         self.maxResults = maxResults
         self.name = name
@@ -20086,8 +21928,7 @@ public struct GetWorkflowRunsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         runs: [GlueClientTypes.WorkflowRun]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.runs = runs
     }
@@ -20099,8 +21940,7 @@ public struct ImportCatalogToGlueInput: Swift.Sendable {
 
     public init(
         catalogId: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
     }
 }
@@ -20122,8 +21962,7 @@ public struct ListBlueprintsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.tags = tags
@@ -20139,8 +21978,7 @@ public struct ListBlueprintsOutput: Swift.Sendable {
     public init(
         blueprints: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.blueprints = blueprints
         self.nextToken = nextToken
     }
@@ -20155,8 +21993,7 @@ public struct ListColumnStatisticsTaskRunsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -20171,9 +22008,61 @@ public struct ListColumnStatisticsTaskRunsOutput: Swift.Sendable {
     public init(
         columnStatisticsTaskRunIds: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.columnStatisticsTaskRunIds = columnStatisticsTaskRunIds
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListConnectionTypesInput: Swift.Sendable {
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// A continuation token, if this is a continuation call.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Brief information about a supported connection type returned by the ListConnectionTypes API.
+    public struct ConnectionTypeBrief: Swift.Sendable {
+        /// The supported authentication types, data interface types (compute environments), and data operations of the connector.
+        public var capabilities: GlueClientTypes.Capabilities?
+        /// The name of the connection type.
+        public var connectionType: GlueClientTypes.ConnectionType?
+        /// A description of the connection type.
+        public var description: Swift.String?
+
+        public init(
+            capabilities: GlueClientTypes.Capabilities? = nil,
+            connectionType: GlueClientTypes.ConnectionType? = nil,
+            description: Swift.String? = nil
+        ) {
+            self.capabilities = capabilities
+            self.connectionType = connectionType
+            self.description = description
+        }
+    }
+}
+
+public struct ListConnectionTypesOutput: Swift.Sendable {
+    /// A list of ConnectionTypeBrief objects containing brief information about the supported connection types.
+    public var connectionTypes: [GlueClientTypes.ConnectionTypeBrief]?
+    /// A continuation token, if the current list segment is not the last.
+    public var nextToken: Swift.String?
+
+    public init(
+        connectionTypes: [GlueClientTypes.ConnectionTypeBrief]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.connectionTypes = connectionTypes
         self.nextToken = nextToken
     }
 }
@@ -20190,8 +22079,7 @@ public struct ListCrawlersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.tags = tags
@@ -20207,8 +22095,7 @@ public struct ListCrawlersOutput: Swift.Sendable {
     public init(
         crawlerNames: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.crawlerNames = crawlerNames
         self.nextToken = nextToken
     }
@@ -20328,8 +22215,7 @@ extension GlueClientTypes {
             fieldName: GlueClientTypes.FieldName? = nil,
             fieldValue: Swift.String? = nil,
             filterOperator: GlueClientTypes.FilterOperator? = nil
-        )
-        {
+        ) {
             self.fieldName = fieldName
             self.fieldValue = fieldValue
             self.filterOperator = filterOperator
@@ -20353,8 +22239,7 @@ public struct ListCrawlsInput: Swift.Sendable {
         filters: [GlueClientTypes.CrawlsFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.crawlerName = crawlerName
         self.filters = filters
         self.maxResults = maxResults
@@ -20433,8 +22318,7 @@ extension GlueClientTypes {
             startTime: Foundation.Date? = nil,
             state: GlueClientTypes.CrawlerHistoryState? = nil,
             summary: Swift.String? = nil
-        )
-        {
+        ) {
             self.crawlId = crawlId
             self.dpuHour = dpuHour
             self.endTime = endTime
@@ -20458,8 +22342,7 @@ public struct ListCrawlsOutput: Swift.Sendable {
     public init(
         crawls: [GlueClientTypes.CrawlerHistory]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.crawls = crawls
         self.nextToken = nextToken
     }
@@ -20477,8 +22360,7 @@ public struct ListCustomEntityTypesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.tags = tags
@@ -20494,8 +22376,7 @@ public struct ListCustomEntityTypesOutput: Swift.Sendable {
     public init(
         customEntityTypes: [GlueClientTypes.CustomEntityType]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.customEntityTypes = customEntityTypes
         self.nextToken = nextToken
     }
@@ -20522,8 +22403,7 @@ extension GlueClientTypes {
             jobRunId: Swift.String? = nil,
             startedAfter: Foundation.Date? = nil,
             startedBefore: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.dataSource = dataSource
             self.jobName = jobName
             self.jobRunId = jobRunId
@@ -20545,8 +22425,7 @@ public struct ListDataQualityResultsInput: Swift.Sendable {
         filter: GlueClientTypes.DataQualityResultFilterCriteria? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -20574,8 +22453,7 @@ extension GlueClientTypes {
             jobRunId: Swift.String? = nil,
             resultId: Swift.String? = nil,
             startedOn: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.dataSource = dataSource
             self.jobName = jobName
             self.jobRunId = jobRunId
@@ -20595,8 +22473,7 @@ public struct ListDataQualityResultsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         results: [GlueClientTypes.DataQualityResultDescription]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.results = results
     }
@@ -20618,8 +22495,7 @@ extension GlueClientTypes {
             dataSource: GlueClientTypes.DataSource? = nil,
             startedAfter: Foundation.Date? = nil,
             startedBefore: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.dataSource = dataSource
             self.startedAfter = startedAfter
             self.startedBefore = startedBefore
@@ -20639,8 +22515,7 @@ public struct ListDataQualityRuleRecommendationRunsInput: Swift.Sendable {
         filter: GlueClientTypes.DataQualityRuleRecommendationRunFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -20665,8 +22540,7 @@ extension GlueClientTypes {
             runId: Swift.String? = nil,
             startedOn: Foundation.Date? = nil,
             status: GlueClientTypes.TaskStatusType? = nil
-        )
-        {
+        ) {
             self.dataSource = dataSource
             self.runId = runId
             self.startedOn = startedOn
@@ -20684,8 +22558,7 @@ public struct ListDataQualityRuleRecommendationRunsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         runs: [GlueClientTypes.DataQualityRuleRecommendationRunDescription]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.runs = runs
     }
@@ -20707,8 +22580,7 @@ extension GlueClientTypes {
             dataSource: GlueClientTypes.DataSource? = nil,
             startedAfter: Foundation.Date? = nil,
             startedBefore: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.dataSource = dataSource
             self.startedAfter = startedAfter
             self.startedBefore = startedBefore
@@ -20728,8 +22600,7 @@ public struct ListDataQualityRulesetEvaluationRunsInput: Swift.Sendable {
         filter: GlueClientTypes.DataQualityRulesetEvaluationRunFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -20754,8 +22625,7 @@ extension GlueClientTypes {
             runId: Swift.String? = nil,
             startedOn: Foundation.Date? = nil,
             status: GlueClientTypes.TaskStatusType? = nil
-        )
-        {
+        ) {
             self.dataSource = dataSource
             self.runId = runId
             self.startedOn = startedOn
@@ -20773,8 +22643,7 @@ public struct ListDataQualityRulesetEvaluationRunsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         runs: [GlueClientTypes.DataQualityRulesetEvaluationRunDescription]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.runs = runs
     }
@@ -20807,8 +22676,7 @@ extension GlueClientTypes {
             lastModifiedBefore: Foundation.Date? = nil,
             name: Swift.String? = nil,
             targetTable: GlueClientTypes.DataQualityTargetTable? = nil
-        )
-        {
+        ) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
             self.description = description
@@ -20835,8 +22703,7 @@ public struct ListDataQualityRulesetsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -20871,8 +22738,7 @@ extension GlueClientTypes {
             recommendationRunId: Swift.String? = nil,
             ruleCount: Swift.Int? = nil,
             targetTable: GlueClientTypes.DataQualityTargetTable? = nil
-        )
-        {
+        ) {
             self.createdOn = createdOn
             self.description = description
             self.lastModifiedOn = lastModifiedOn
@@ -20893,8 +22759,7 @@ public struct ListDataQualityRulesetsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         rulesets: [GlueClientTypes.DataQualityRulesetListDetails]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.rulesets = rulesets
     }
@@ -20912,8 +22777,7 @@ extension GlueClientTypes {
         public init(
             recordedAfter: Foundation.Date? = nil,
             recordedBefore: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.recordedAfter = recordedAfter
             self.recordedBefore = recordedBefore
         }
@@ -20938,8 +22802,7 @@ public struct ListDataQualityStatisticAnnotationsInput: Swift.Sendable {
         profileId: Swift.String? = nil,
         statisticId: Swift.String? = nil,
         timestampFilter: GlueClientTypes.TimestampFilter? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.profileId = profileId
@@ -20957,8 +22820,7 @@ public struct ListDataQualityStatisticAnnotationsOutput: Swift.Sendable {
     public init(
         annotations: [GlueClientTypes.StatisticAnnotation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.annotations = annotations
         self.nextToken = nextToken
     }
@@ -20982,8 +22844,7 @@ public struct ListDataQualityStatisticsInput: Swift.Sendable {
         profileId: Swift.String? = nil,
         statisticId: Swift.String? = nil,
         timestampFilter: GlueClientTypes.TimestampFilter? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.profileId = profileId
@@ -21036,8 +22897,7 @@ extension GlueClientTypes {
         public init(
             jobRunId: Swift.String? = nil,
             runId: Swift.String? = nil
-        )
-        {
+        ) {
             self.jobRunId = jobRunId
             self.runId = runId
         }
@@ -21083,8 +22943,7 @@ extension GlueClientTypes {
             statisticId: Swift.String? = nil,
             statisticName: Swift.String? = nil,
             statisticProperties: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.columnsReferenced = columnsReferenced
             self.doubleValue = doubleValue
             self.evaluationLevel = evaluationLevel
@@ -21114,8 +22973,7 @@ public struct ListDataQualityStatisticsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         statistics: [GlueClientTypes.StatisticSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.statistics = statistics
     }
@@ -21133,8 +22991,7 @@ public struct ListDevEndpointsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.tags = tags
@@ -21150,9 +23007,85 @@ public struct ListDevEndpointsOutput: Swift.Sendable {
     public init(
         devEndpointNames: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.devEndpointNames = devEndpointNames
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListEntitiesInput: Swift.Sendable {
+    /// The catalog ID of the catalog that contains the connection. This can be null, By default, the Amazon Web Services Account ID is the catalog ID.
+    public var catalogId: Swift.String?
+    /// A name for the connection that has required credentials to query any connection type.
+    public var connectionName: Swift.String?
+    /// The API version of the SaaS connector.
+    public var dataStoreApiVersion: Swift.String?
+    /// A continuation token, included if this is a continuation call.
+    public var nextToken: Swift.String?
+    /// Name of the parent entity for which you want to list the children. This parameter takes a fully-qualified path of the entity in order to list the child entities.
+    public var parentEntityName: Swift.String?
+
+    public init(
+        catalogId: Swift.String? = nil,
+        connectionName: Swift.String? = nil,
+        dataStoreApiVersion: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        parentEntityName: Swift.String? = nil
+    ) {
+        self.catalogId = catalogId
+        self.connectionName = connectionName
+        self.dataStoreApiVersion = dataStoreApiVersion
+        self.nextToken = nextToken
+        self.parentEntityName = parentEntityName
+    }
+}
+
+extension GlueClientTypes {
+
+    /// An entity supported by a given ConnectionType.
+    public struct Entity: Swift.Sendable {
+        /// The type of entities that are present in the response. This value depends on the source connection. For example this is SObjects for Salesforce and databases or schemas or tables for sources like Amazon Redshift.
+        public var category: Swift.String?
+        /// An optional map of keys which may be returned for an entity by a connector.
+        public var customProperties: [Swift.String: Swift.String]?
+        /// A description of the entity.
+        public var description: Swift.String?
+        /// The name of the entity.
+        public var entityName: Swift.String?
+        /// A Boolean value which helps to determine whether there are sub objects that can be listed.
+        public var isParentEntity: Swift.Bool?
+        /// Label used for the entity.
+        public var label: Swift.String?
+
+        public init(
+            category: Swift.String? = nil,
+            customProperties: [Swift.String: Swift.String]? = nil,
+            description: Swift.String? = nil,
+            entityName: Swift.String? = nil,
+            isParentEntity: Swift.Bool? = nil,
+            label: Swift.String? = nil
+        ) {
+            self.category = category
+            self.customProperties = customProperties
+            self.description = description
+            self.entityName = entityName
+            self.isParentEntity = isParentEntity
+            self.label = label
+        }
+    }
+}
+
+public struct ListEntitiesOutput: Swift.Sendable {
+    /// A list of Entity objects.
+    public var entities: [GlueClientTypes.Entity]?
+    /// A continuation token, present if the current segment is not the last.
+    public var nextToken: Swift.String?
+
+    public init(
+        entities: [GlueClientTypes.Entity]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.entities = entities
         self.nextToken = nextToken
     }
 }
@@ -21169,8 +23102,7 @@ public struct ListJobsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.tags = tags
@@ -21186,8 +23118,7 @@ public struct ListJobsOutput: Swift.Sendable {
     public init(
         jobNames: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobNames = jobNames
         self.nextToken = nextToken
     }
@@ -21211,8 +23142,7 @@ public struct ListMLTransformsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sort: GlueClientTypes.TransformSortCriteria? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -21231,8 +23161,7 @@ public struct ListMLTransformsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         transformIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.transformIds = transformIds
     }
@@ -21247,8 +23176,7 @@ public struct ListRegistriesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -21278,8 +23206,7 @@ extension GlueClientTypes {
             registryName: Swift.String? = nil,
             status: GlueClientTypes.RegistryStatus? = nil,
             updatedTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.description = description
             self.registryArn = registryArn
@@ -21299,8 +23226,7 @@ public struct ListRegistriesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         registries: [GlueClientTypes.RegistryListItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.registries = registries
     }
@@ -21318,8 +23244,7 @@ public struct ListSchemasInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         registryId: GlueClientTypes.RegistryId? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.registryId = registryId
@@ -21353,8 +23278,7 @@ extension GlueClientTypes {
             schemaName: Swift.String? = nil,
             schemaStatus: GlueClientTypes.SchemaStatus? = nil,
             updatedTime: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.description = description
             self.registryName = registryName
@@ -21375,8 +23299,7 @@ public struct ListSchemasOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         schemas: [GlueClientTypes.SchemaListItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.schemas = schemas
     }
@@ -21399,8 +23322,7 @@ public struct ListSchemaVersionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         schemaId: GlueClientTypes.SchemaId? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.schemaId = schemaId
@@ -21428,8 +23350,7 @@ extension GlueClientTypes {
             schemaVersionId: Swift.String? = nil,
             status: GlueClientTypes.SchemaVersionStatus? = nil,
             versionNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.schemaArn = schemaArn
             self.schemaVersionId = schemaVersionId
@@ -21448,8 +23369,7 @@ public struct ListSchemaVersionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         schemas: [GlueClientTypes.SchemaVersionListItem]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.schemas = schemas
     }
@@ -21470,8 +23390,7 @@ public struct ListSessionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestOrigin: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.requestOrigin = requestOrigin
@@ -21491,8 +23410,7 @@ public struct ListSessionsOutput: Swift.Sendable {
         ids: [Swift.String]? = nil,
         nextToken: Swift.String? = nil,
         sessions: [GlueClientTypes.Session]? = nil
-    )
-    {
+    ) {
         self.ids = ids
         self.nextToken = nextToken
         self.sessions = sessions
@@ -21512,8 +23430,7 @@ public struct ListStatementsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         requestOrigin: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.requestOrigin = requestOrigin
         self.sessionId = sessionId
@@ -21529,8 +23446,7 @@ public struct ListStatementsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         statements: [GlueClientTypes.Statement]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.statements = statements
     }
@@ -21550,7 +23466,7 @@ public struct ListTableOptimizerRunsInput: Swift.Sendable {
     /// The name of the table.
     /// This member is required.
     public var tableName: Swift.String?
-    /// The type of table optimizer. Currently, the only valid value is compaction.
+    /// The type of table optimizer.
     /// This member is required.
     public var type: GlueClientTypes.TableOptimizerType?
 
@@ -21561,8 +23477,7 @@ public struct ListTableOptimizerRunsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         tableName: Swift.String? = nil,
         type: GlueClientTypes.TableOptimizerType? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.maxResults = maxResults
@@ -21590,8 +23505,7 @@ public struct ListTableOptimizerRunsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         tableName: Swift.String? = nil,
         tableOptimizerRuns: [GlueClientTypes.TableOptimizerRun]? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.nextToken = nextToken
@@ -21615,8 +23529,7 @@ public struct ListTriggersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.dependentJobName = dependentJobName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -21633,8 +23546,7 @@ public struct ListTriggersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         triggerNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.triggerNames = triggerNames
     }
@@ -21649,8 +23561,7 @@ public struct ListUsageProfilesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -21674,8 +23585,7 @@ extension GlueClientTypes {
             description: Swift.String? = nil,
             lastModifiedOn: Foundation.Date? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdOn = createdOn
             self.description = description
             self.lastModifiedOn = lastModifiedOn
@@ -21693,8 +23603,7 @@ public struct ListUsageProfilesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         profiles: [GlueClientTypes.UsageProfileDefinition]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.profiles = profiles
     }
@@ -21709,8 +23618,7 @@ public struct ListWorkflowsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -21725,10 +23633,108 @@ public struct ListWorkflowsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         workflows: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.workflows = workflows
+    }
+}
+
+public struct ModifyIntegrationInput: Swift.Sendable {
+    /// Selects source tables for the integration using Maxwell filter syntax.
+    public var dataFilter: Swift.String?
+    /// A description of the integration.
+    public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) for the integration.
+    /// This member is required.
+    public var integrationIdentifier: Swift.String?
+    /// A unique name for an integration in Glue.
+    public var integrationName: Swift.String?
+
+    public init(
+        dataFilter: Swift.String? = nil,
+        description: Swift.String? = nil,
+        integrationIdentifier: Swift.String? = nil,
+        integrationName: Swift.String? = nil
+    ) {
+        self.dataFilter = dataFilter
+        self.description = description
+        self.integrationIdentifier = integrationIdentifier
+        self.integrationName = integrationName
+    }
+}
+
+public struct ModifyIntegrationOutput: Swift.Sendable {
+    /// An optional set of non-secret key–value pairs that contains additional contextual information for encryption.
+    public var additionalEncryptionContext: [Swift.String: Swift.String]?
+    /// The time when the integration was created, in UTC.
+    /// This member is required.
+    public var createTime: Foundation.Date?
+    /// Selects source tables for the integration using Maxwell filter syntax.
+    public var dataFilter: Swift.String?
+    /// A description of the integration.
+    public var description: Swift.String?
+    /// A list of errors associated with the integration modification.
+    public var errors: [GlueClientTypes.IntegrationError]?
+    /// The Amazon Resource Name (ARN) for the integration.
+    /// This member is required.
+    public var integrationArn: Swift.String?
+    /// A unique name for an integration in Glue.
+    /// This member is required.
+    public var integrationName: Swift.String?
+    /// The ARN of a KMS key used for encrypting the channel.
+    public var kmsKeyId: Swift.String?
+    /// The ARN of the source for the integration.
+    /// This member is required.
+    public var sourceArn: Swift.String?
+    /// The status of the integration being modified. The possible statuses are:
+    ///
+    /// * CREATING: The integration is being created.
+    ///
+    /// * ACTIVE: The integration creation succeeds.
+    ///
+    /// * MODIFYING: The integration is being modified.
+    ///
+    /// * FAILED: The integration creation fails.
+    ///
+    /// * DELETING: The integration is deleted.
+    ///
+    /// * SYNCING: The integration is synchronizing.
+    ///
+    /// * NEEDS_ATTENTION: The integration needs attention, such as synchronization.
+    /// This member is required.
+    public var status: GlueClientTypes.IntegrationStatus?
+    /// Metadata assigned to the resource consisting of a list of key-value pairs.
+    public var tags: [GlueClientTypes.Tag]?
+    /// The ARN of the target for the integration.
+    /// This member is required.
+    public var targetArn: Swift.String?
+
+    public init(
+        additionalEncryptionContext: [Swift.String: Swift.String]? = nil,
+        createTime: Foundation.Date? = nil,
+        dataFilter: Swift.String? = nil,
+        description: Swift.String? = nil,
+        errors: [GlueClientTypes.IntegrationError]? = nil,
+        integrationArn: Swift.String? = nil,
+        integrationName: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        sourceArn: Swift.String? = nil,
+        status: GlueClientTypes.IntegrationStatus? = nil,
+        tags: [GlueClientTypes.Tag]? = nil,
+        targetArn: Swift.String? = nil
+    ) {
+        self.additionalEncryptionContext = additionalEncryptionContext
+        self.createTime = createTime
+        self.dataFilter = dataFilter
+        self.description = description
+        self.errors = errors
+        self.integrationArn = integrationArn
+        self.integrationName = integrationName
+        self.kmsKeyId = kmsKeyId
+        self.sourceArn = sourceArn
+        self.status = status
+        self.tags = tags
+        self.targetArn = targetArn
     }
 }
 
@@ -21742,8 +23748,7 @@ public struct PutDataCatalogEncryptionSettingsInput: Swift.Sendable {
     public init(
         catalogId: Swift.String? = nil,
         dataCatalogEncryptionSettings: GlueClientTypes.DataCatalogEncryptionSettings? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.dataCatalogEncryptionSettings = dataCatalogEncryptionSettings
     }
@@ -21765,8 +23770,7 @@ public struct PutDataQualityProfileAnnotationInput: Swift.Sendable {
     public init(
         inclusionAnnotation: GlueClientTypes.InclusionAnnotationValue? = nil,
         profileId: Swift.String? = nil
-    )
-    {
+    ) {
         self.inclusionAnnotation = inclusionAnnotation
         self.profileId = profileId
     }
@@ -21865,8 +23869,7 @@ public struct PutResourcePolicyInput: Swift.Sendable {
         policyHashCondition: Swift.String? = nil,
         policyInJson: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.enableHybrid = enableHybrid
         self.policyExistsCondition = policyExistsCondition
         self.policyHashCondition = policyHashCondition
@@ -21881,8 +23884,7 @@ public struct PutResourcePolicyOutput: Swift.Sendable {
 
     public init(
         policyHash: Swift.String? = nil
-    )
-    {
+    ) {
         self.policyHash = policyHash
     }
 }
@@ -21899,8 +23901,7 @@ extension GlueClientTypes {
         public init(
             metadataKey: Swift.String? = nil,
             metadataValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.metadataKey = metadataKey
             self.metadataValue = metadataValue
         }
@@ -21923,8 +23924,7 @@ public struct PutSchemaVersionMetadataInput: Swift.Sendable {
         schemaId: GlueClientTypes.SchemaId? = nil,
         schemaVersionId: Swift.String? = nil,
         schemaVersionNumber: GlueClientTypes.SchemaVersionNumber? = nil
-    )
-    {
+    ) {
         self.metadataKeyValue = metadataKeyValue
         self.schemaId = schemaId
         self.schemaVersionId = schemaVersionId
@@ -21959,8 +23959,7 @@ public struct PutSchemaVersionMetadataOutput: Swift.Sendable {
         schemaName: Swift.String? = nil,
         schemaVersionId: Swift.String? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.latestVersion = latestVersion
         self.metadataKey = metadataKey
         self.metadataValue = metadataValue
@@ -21979,7 +23978,7 @@ public struct PutWorkflowRunPropertiesInput: Swift.Sendable {
     /// The ID of the workflow run for which the run properties should be updated.
     /// This member is required.
     public var runId: Swift.String?
-    /// The properties to put for the specified run.
+    /// The properties to put for the specified run. Run properties may be logged. Do not pass plaintext secrets as properties. Retrieve secrets from a Glue Connection, Amazon Web Services Secrets Manager or other secret management mechanism if you intend to use them within the workflow run.
     /// This member is required.
     public var runProperties: [Swift.String: Swift.String]?
 
@@ -21987,8 +23986,7 @@ public struct PutWorkflowRunPropertiesInput: Swift.Sendable {
         name: Swift.String? = nil,
         runId: Swift.String? = nil,
         runProperties: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.name = name
         self.runId = runId
         self.runProperties = runProperties
@@ -22021,8 +24019,7 @@ public struct QuerySchemaVersionMetadataInput: Swift.Sendable {
         schemaId: GlueClientTypes.SchemaId? = nil,
         schemaVersionId: Swift.String? = nil,
         schemaVersionNumber: GlueClientTypes.SchemaVersionNumber? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.metadataList = metadataList
         self.nextToken = nextToken
@@ -22044,8 +24041,7 @@ extension GlueClientTypes {
         public init(
             createdTime: Swift.String? = nil,
             metadataValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.metadataValue = metadataValue
         }
@@ -22067,8 +24063,7 @@ extension GlueClientTypes {
             createdTime: Swift.String? = nil,
             metadataValue: Swift.String? = nil,
             otherMetadataValueList: [GlueClientTypes.OtherMetadataValueListItem]? = nil
-        )
-        {
+        ) {
             self.createdTime = createdTime
             self.metadataValue = metadataValue
             self.otherMetadataValueList = otherMetadataValueList
@@ -22088,8 +24083,7 @@ public struct QuerySchemaVersionMetadataOutput: Swift.Sendable {
         metadataInfoMap: [Swift.String: GlueClientTypes.MetadataInfo]? = nil,
         nextToken: Swift.String? = nil,
         schemaVersionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.metadataInfoMap = metadataInfoMap
         self.nextToken = nextToken
         self.schemaVersionId = schemaVersionId
@@ -22111,8 +24105,7 @@ public struct RegisterSchemaVersionInput: Swift.Sendable {
     public init(
         schemaDefinition: Swift.String? = nil,
         schemaId: GlueClientTypes.SchemaId? = nil
-    )
-    {
+    ) {
         self.schemaDefinition = schemaDefinition
         self.schemaId = schemaId
     }
@@ -22130,8 +24123,7 @@ public struct RegisterSchemaVersionOutput: Swift.Sendable {
         schemaVersionId: Swift.String? = nil,
         status: GlueClientTypes.SchemaVersionStatus? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.schemaVersionId = schemaVersionId
         self.status = status
         self.versionNumber = versionNumber
@@ -22154,8 +24146,7 @@ public struct RemoveSchemaVersionMetadataInput: Swift.Sendable {
         schemaId: GlueClientTypes.SchemaId? = nil,
         schemaVersionId: Swift.String? = nil,
         schemaVersionNumber: GlueClientTypes.SchemaVersionNumber? = nil
-    )
-    {
+    ) {
         self.metadataKeyValue = metadataKeyValue
         self.schemaId = schemaId
         self.schemaVersionId = schemaVersionId
@@ -22190,8 +24181,7 @@ public struct RemoveSchemaVersionMetadataOutput: Swift.Sendable {
         schemaName: Swift.String? = nil,
         schemaVersionId: Swift.String? = nil,
         versionNumber: Swift.Int? = nil
-    )
-    {
+    ) {
         self.latestVersion = latestVersion
         self.metadataKey = metadataKey
         self.metadataValue = metadataValue
@@ -22213,8 +24203,7 @@ public struct ResetJobBookmarkInput: Swift.Sendable {
     public init(
         jobName: Swift.String? = nil,
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
         self.runId = runId
     }
@@ -22226,16 +24215,15 @@ public struct ResetJobBookmarkOutput: Swift.Sendable {
 
     public init(
         jobBookmarkEntry: GlueClientTypes.JobBookmarkEntry? = nil
-    )
-    {
+    ) {
         self.jobBookmarkEntry = jobBookmarkEntry
     }
 }
 
 /// Too many jobs are being run concurrently.
-public struct ConcurrentRunsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentRunsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -22251,16 +24239,15 @@ public struct ConcurrentRunsExceededException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The workflow is in an invalid state to perform a requested operation.
-public struct IllegalWorkflowStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IllegalWorkflowStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -22276,8 +24263,7 @@ public struct IllegalWorkflowStateException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -22297,8 +24283,7 @@ public struct ResumeWorkflowRunInput: Swift.Sendable {
         name: Swift.String? = nil,
         nodeIds: [Swift.String]? = nil,
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.nodeIds = nodeIds
         self.runId = runId
@@ -22314,8 +24299,7 @@ public struct ResumeWorkflowRunOutput: Swift.Sendable {
     public init(
         nodeIds: [Swift.String]? = nil,
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.nodeIds = nodeIds
         self.runId = runId
     }
@@ -22335,8 +24319,7 @@ public struct RunStatementInput: Swift.Sendable {
         code: Swift.String? = nil,
         requestOrigin: Swift.String? = nil,
         sessionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.code = code
         self.requestOrigin = requestOrigin
         self.sessionId = sessionId
@@ -22349,8 +24332,7 @@ public struct RunStatementOutput: Swift.Sendable {
 
     public init(
         id: Swift.Int = 0
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -22408,8 +24390,7 @@ extension GlueClientTypes {
             comparator: GlueClientTypes.Comparator? = nil,
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.comparator = comparator
             self.key = key
             self.value = value
@@ -22458,8 +24439,7 @@ extension GlueClientTypes {
         public init(
             fieldName: Swift.String? = nil,
             sort: GlueClientTypes.Sort? = nil
-        )
-        {
+        ) {
             self.fieldName = fieldName
             self.sort = sort
         }
@@ -22497,8 +24477,7 @@ public struct SearchTablesInput: Swift.Sendable {
         resourceShareType: GlueClientTypes.ResourceShareType? = nil,
         searchText: Swift.String? = nil,
         sortCriteria: [GlueClientTypes.SortCriterion]? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.filters = filters
         self.includeStatusDetails = includeStatusDetails
@@ -22511,9 +24490,9 @@ public struct SearchTablesInput: Swift.Sendable {
 }
 
 /// The blueprint is in an invalid state to perform a requested operation.
-public struct IllegalBlueprintStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IllegalBlueprintStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -22529,8 +24508,7 @@ public struct IllegalBlueprintStateException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -22549,8 +24527,7 @@ public struct StartBlueprintRunInput: Swift.Sendable {
         blueprintName: Swift.String? = nil,
         parameters: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.blueprintName = blueprintName
         self.parameters = parameters
         self.roleArn = roleArn
@@ -22563,8 +24540,7 @@ public struct StartBlueprintRunOutput: Swift.Sendable {
 
     public init(
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.runId = runId
     }
 }
@@ -22596,8 +24572,7 @@ public struct StartColumnStatisticsTaskRunInput: Swift.Sendable {
         sampleSize: Swift.Double? = 0.0,
         securityConfiguration: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogID = catalogID
         self.columnNameList = columnNameList
         self.databaseName = databaseName
@@ -22614,8 +24589,7 @@ public struct StartColumnStatisticsTaskRunOutput: Swift.Sendable {
 
     public init(
         columnStatisticsTaskRunId: Swift.String? = nil
-    )
-    {
+    ) {
         self.columnStatisticsTaskRunId = columnStatisticsTaskRunId
     }
 }
@@ -22631,8 +24605,7 @@ public struct StartColumnStatisticsTaskRunScheduleInput: Swift.Sendable {
     public init(
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
         self.tableName = tableName
     }
@@ -22650,8 +24623,7 @@ public struct StartCrawlerInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -22662,9 +24634,9 @@ public struct StartCrawlerOutput: Swift.Sendable {
 }
 
 /// There is no applicable schedule.
-public struct NoScheduleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoScheduleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -22680,16 +24652,15 @@ public struct NoScheduleException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified scheduler is already running.
-public struct SchedulerRunningException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SchedulerRunningException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -22705,8 +24676,7 @@ public struct SchedulerRunningException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -22718,8 +24688,7 @@ public struct StartCrawlerScheduleInput: Swift.Sendable {
 
     public init(
         crawlerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.crawlerName = crawlerName
     }
 }
@@ -22755,8 +24724,7 @@ public struct StartDataQualityRuleRecommendationRunInput: Swift.Sendable {
         numberOfWorkers: Swift.Int? = nil,
         role: Swift.String? = nil,
         timeout: Swift.Int? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.createdRulesetName = createdRulesetName
         self.dataQualitySecurityConfiguration = dataQualitySecurityConfiguration
@@ -22773,8 +24741,7 @@ public struct StartDataQualityRuleRecommendationRunOutput: Swift.Sendable {
 
     public init(
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.runId = runId
     }
 }
@@ -22809,8 +24776,7 @@ public struct StartDataQualityRulesetEvaluationRunInput: Swift.Sendable {
         role: Swift.String? = nil,
         rulesetNames: [Swift.String]? = nil,
         timeout: Swift.Int? = nil
-    )
-    {
+    ) {
         self.additionalDataSources = additionalDataSources
         self.additionalRunOptions = additionalRunOptions
         self.clientToken = clientToken
@@ -22828,8 +24794,7 @@ public struct StartDataQualityRulesetEvaluationRunOutput: Swift.Sendable {
 
     public init(
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.runId = runId
     }
 }
@@ -22845,8 +24810,7 @@ public struct StartExportLabelsTaskRunInput: Swift.Sendable {
     public init(
         outputS3Path: Swift.String? = nil,
         transformId: Swift.String? = nil
-    )
-    {
+    ) {
         self.outputS3Path = outputS3Path
         self.transformId = transformId
     }
@@ -22858,8 +24822,7 @@ public struct StartExportLabelsTaskRunOutput: Swift.Sendable {
 
     public init(
         taskRunId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskRunId = taskRunId
     }
 }
@@ -22878,8 +24841,7 @@ public struct StartImportLabelsTaskRunInput: Swift.Sendable {
         inputS3Path: Swift.String? = nil,
         replaceAllLabels: Swift.Bool? = false,
         transformId: Swift.String? = nil
-    )
-    {
+    ) {
         self.inputS3Path = inputS3Path
         self.replaceAllLabels = replaceAllLabels
         self.transformId = transformId
@@ -22892,8 +24854,7 @@ public struct StartImportLabelsTaskRunOutput: Swift.Sendable {
 
     public init(
         taskRunId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskRunId = taskRunId
     }
 }
@@ -22925,21 +24886,21 @@ public struct StartJobRunInput: Swift.Sendable {
     public var numberOfWorkers: Swift.Int?
     /// The name of the SecurityConfiguration structure to be used with this job run.
     public var securityConfiguration: Swift.String?
-    /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job. Streaming jobs must have timeout values less than 7 days or 10080 minutes. When the value is left blank, the job will be restarted after 7 days based if you have not setup a maintenance window. If you have setup maintenance window, it will be restarted during the maintenance window after 7 days.
+    /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2880 minutes. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day.
     public var timeout: Swift.Int?
     /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
     ///
-    /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
+    /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
     ///
-    /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
+    /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
     ///
-    /// * For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).
+    /// * For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).
     ///
-    /// * For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.
+    /// * For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.
     ///
-    /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
+    /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk, and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 or later streaming jobs.
     ///
-    /// * For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
+    /// * For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
     public var workerType: GlueClientTypes.WorkerType?
 
     public init(
@@ -22955,8 +24916,7 @@ public struct StartJobRunInput: Swift.Sendable {
         securityConfiguration: Swift.String? = nil,
         timeout: Swift.Int? = nil,
         workerType: GlueClientTypes.WorkerType? = nil
-    )
-    {
+    ) {
         self.allocatedCapacity = allocatedCapacity
         self.arguments = arguments
         self.executionClass = executionClass
@@ -22978,16 +24938,15 @@ public struct StartJobRunOutput: Swift.Sendable {
 
     public init(
         jobRunId: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobRunId = jobRunId
     }
 }
 
 /// The machine learning transform is not ready to run.
-public struct MLTransformNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MLTransformNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -23003,8 +24962,7 @@ public struct MLTransformNotReadyException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -23016,8 +24974,7 @@ public struct StartMLEvaluationTaskRunInput: Swift.Sendable {
 
     public init(
         transformId: Swift.String? = nil
-    )
-    {
+    ) {
         self.transformId = transformId
     }
 }
@@ -23028,8 +24985,7 @@ public struct StartMLEvaluationTaskRunOutput: Swift.Sendable {
 
     public init(
         taskRunId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskRunId = taskRunId
     }
 }
@@ -23045,8 +25001,7 @@ public struct StartMLLabelingSetGenerationTaskRunInput: Swift.Sendable {
     public init(
         outputS3Path: Swift.String? = nil,
         transformId: Swift.String? = nil
-    )
-    {
+    ) {
         self.outputS3Path = outputS3Path
         self.transformId = transformId
     }
@@ -23058,8 +25013,7 @@ public struct StartMLLabelingSetGenerationTaskRunOutput: Swift.Sendable {
 
     public init(
         taskRunId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskRunId = taskRunId
     }
 }
@@ -23071,8 +25025,7 @@ public struct StartTriggerInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -23083,8 +25036,7 @@ public struct StartTriggerOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -23093,14 +25045,13 @@ public struct StartWorkflowRunInput: Swift.Sendable {
     /// The name of the workflow to start.
     /// This member is required.
     public var name: Swift.String?
-    /// The workflow run properties for the new workflow run.
+    /// The workflow run properties for the new workflow run. Run properties may be logged. Do not pass plaintext secrets as properties. Retrieve secrets from a Glue Connection, Amazon Web Services Secrets Manager or other secret management mechanism if you intend to use them within the workflow run.
     public var runProperties: [Swift.String: Swift.String]?
 
     public init(
         name: Swift.String? = nil,
         runProperties: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.name = name
         self.runProperties = runProperties
     }
@@ -23112,16 +25063,15 @@ public struct StartWorkflowRunOutput: Swift.Sendable {
 
     public init(
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.runId = runId
     }
 }
 
 /// An exception thrown when you try to stop a task run when there is no task running.
-public struct ColumnStatisticsTaskNotRunningException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ColumnStatisticsTaskNotRunningException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -23137,16 +25087,15 @@ public struct ColumnStatisticsTaskNotRunningException: ClientRuntime.ModeledErro
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An exception thrown when you try to stop a task run.
-public struct ColumnStatisticsTaskStoppingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ColumnStatisticsTaskStoppingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -23162,8 +25111,7 @@ public struct ColumnStatisticsTaskStoppingException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -23179,8 +25127,7 @@ public struct StopColumnStatisticsTaskRunInput: Swift.Sendable {
     public init(
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
         self.tableName = tableName
     }
@@ -23202,8 +25149,7 @@ public struct StopColumnStatisticsTaskRunScheduleInput: Swift.Sendable {
     public init(
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.databaseName = databaseName
         self.tableName = tableName
     }
@@ -23215,9 +25161,9 @@ public struct StopColumnStatisticsTaskRunScheduleOutput: Swift.Sendable {
 }
 
 /// The specified crawler is not running.
-public struct CrawlerNotRunningException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CrawlerNotRunningException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -23233,16 +25179,15 @@ public struct CrawlerNotRunningException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The specified crawler is stopping.
-public struct CrawlerStoppingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CrawlerStoppingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -23258,8 +25203,7 @@ public struct CrawlerStoppingException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -23271,8 +25215,7 @@ public struct StopCrawlerInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -23283,9 +25226,9 @@ public struct StopCrawlerOutput: Swift.Sendable {
 }
 
 /// The specified scheduler is not running.
-public struct SchedulerNotRunningException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SchedulerNotRunningException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -23301,8 +25244,7 @@ public struct SchedulerNotRunningException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -23314,8 +25256,7 @@ public struct StopCrawlerScheduleInput: Swift.Sendable {
 
     public init(
         crawlerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.crawlerName = crawlerName
     }
 }
@@ -23335,8 +25276,7 @@ public struct StopSessionInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         requestOrigin: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.requestOrigin = requestOrigin
     }
@@ -23348,8 +25288,7 @@ public struct StopSessionOutput: Swift.Sendable {
 
     public init(
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
     }
 }
@@ -23361,8 +25300,7 @@ public struct StopTriggerInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -23373,8 +25311,7 @@ public struct StopTriggerOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -23390,8 +25327,7 @@ public struct StopWorkflowRunInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         runId: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
         self.runId = runId
     }
@@ -23413,8 +25349,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagsToAdd: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagsToAdd = tagsToAdd
     }
@@ -23451,8 +25386,7 @@ extension GlueClientTypes {
             authenticationConfiguration: GlueClientTypes.AuthenticationConfigurationInput? = nil,
             connectionProperties: [Swift.String: Swift.String]? = nil,
             connectionType: GlueClientTypes.ConnectionType? = nil
-        )
-        {
+        ) {
             self.authenticationConfiguration = authenticationConfiguration
             self.connectionProperties = connectionProperties
             self.connectionType = connectionType
@@ -23461,16 +25395,19 @@ extension GlueClientTypes {
 }
 
 public struct TestConnectionInput: Swift.Sendable {
+    /// The catalog ID where the connection resides.
+    public var catalogId: Swift.String?
     /// Optional. The name of the connection to test. If only name is provided, the operation will get the connection and use that for testing.
     public var connectionName: Swift.String?
     /// A structure that is used to specify testing a connection to a service.
     public var testConnectionInput: GlueClientTypes.TestConnectionInput?
 
     public init(
+        catalogId: Swift.String? = nil,
         connectionName: Swift.String? = nil,
         testConnectionInput: GlueClientTypes.TestConnectionInput? = nil
-    )
-    {
+    ) {
+        self.catalogId = catalogId
         self.connectionName = connectionName
         self.testConnectionInput = testConnectionInput
     }
@@ -23492,8 +25429,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagsToRemove: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagsToRemove = tagsToRemove
     }
@@ -23518,8 +25454,7 @@ public struct UpdateBlueprintInput: Swift.Sendable {
         blueprintLocation: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.blueprintLocation = blueprintLocation
         self.description = description
         self.name = name
@@ -23532,16 +25467,37 @@ public struct UpdateBlueprintOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
 
-/// There was a version conflict.
-public struct VersionMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UpdateCatalogInput: Swift.Sendable {
+    /// The ID of the catalog.
+    /// This member is required.
+    public var catalogId: Swift.String?
+    /// A CatalogInput object specifying the new properties of an existing catalog.
+    /// This member is required.
+    public var catalogInput: GlueClientTypes.CatalogInput?
 
-    public struct Properties {
+    public init(
+        catalogId: Swift.String? = nil,
+        catalogInput: GlueClientTypes.CatalogInput? = nil
+    ) {
+        self.catalogId = catalogId
+        self.catalogInput = catalogInput
+    }
+}
+
+public struct UpdateCatalogOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// There was a version conflict.
+public struct VersionMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
         /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
@@ -23557,8 +25513,7 @@ public struct VersionMismatchException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -23600,8 +25555,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             quoteSymbol: Swift.String? = nil,
             serde: GlueClientTypes.CsvSerdeOption? = nil
-        )
-        {
+        ) {
             self.allowSingleColumn = allowSingleColumn
             self.containsHeader = containsHeader
             self.customDatatypeConfigured = customDatatypeConfigured
@@ -23635,8 +25589,7 @@ extension GlueClientTypes {
             customPatterns: Swift.String? = nil,
             grokPattern: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.classification = classification
             self.customPatterns = customPatterns
             self.grokPattern = grokPattern
@@ -23658,8 +25611,7 @@ extension GlueClientTypes {
         public init(
             jsonPath: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.jsonPath = jsonPath
             self.name = name
         }
@@ -23682,8 +25634,7 @@ extension GlueClientTypes {
             classification: Swift.String? = nil,
             name: Swift.String? = nil,
             rowTag: Swift.String? = nil
-        )
-        {
+        ) {
             self.classification = classification
             self.name = name
             self.rowTag = rowTag
@@ -23706,8 +25657,7 @@ public struct UpdateClassifierInput: Swift.Sendable {
         grokClassifier: GlueClientTypes.UpdateGrokClassifierRequest? = nil,
         jsonClassifier: GlueClientTypes.UpdateJsonClassifierRequest? = nil,
         xmlClassifier: GlueClientTypes.UpdateXMLClassifierRequest? = nil
-    )
-    {
+    ) {
         self.csvClassifier = csvClassifier
         self.grokClassifier = grokClassifier
         self.jsonClassifier = jsonClassifier
@@ -23742,8 +25692,7 @@ public struct UpdateColumnStatisticsForPartitionInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         partitionValues: [Swift.String]? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.columnStatisticsList = columnStatisticsList
         self.databaseName = databaseName
@@ -23764,8 +25713,7 @@ extension GlueClientTypes {
         public init(
             columnStatistics: GlueClientTypes.ColumnStatistics? = nil,
             error: GlueClientTypes.ErrorDetail? = nil
-        )
-        {
+        ) {
             self.columnStatistics = columnStatistics
             self.error = error
         }
@@ -23778,8 +25726,7 @@ public struct UpdateColumnStatisticsForPartitionOutput: Swift.Sendable {
 
     public init(
         errors: [GlueClientTypes.ColumnStatisticsError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -23802,8 +25749,7 @@ public struct UpdateColumnStatisticsForTableInput: Swift.Sendable {
         columnStatisticsList: [GlueClientTypes.ColumnStatistics]? = nil,
         databaseName: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.columnStatisticsList = columnStatisticsList
         self.databaseName = databaseName
@@ -23817,8 +25763,7 @@ public struct UpdateColumnStatisticsForTableOutput: Swift.Sendable {
 
     public init(
         errors: [GlueClientTypes.ColumnStatisticsError]? = nil
-    )
-    {
+    ) {
         self.errors = errors
     }
 }
@@ -23852,8 +25797,7 @@ public struct UpdateColumnStatisticsTaskSettingsInput: Swift.Sendable {
         schedule: Swift.String? = nil,
         securityConfiguration: Swift.String? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogID = catalogID
         self.columnNameList = columnNameList
         self.databaseName = databaseName
@@ -23884,8 +25828,7 @@ public struct UpdateConnectionInput: Swift.Sendable {
         catalogId: Swift.String? = nil,
         connectionInput: GlueClientTypes.ConnectionInput? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.connectionInput = connectionInput
         self.name = name
@@ -23943,8 +25886,7 @@ public struct UpdateCrawlerInput: Swift.Sendable {
         schemaChangePolicy: GlueClientTypes.SchemaChangePolicy? = nil,
         tablePrefix: Swift.String? = nil,
         targets: GlueClientTypes.CrawlerTargets? = nil
-    )
-    {
+    ) {
         self.classifiers = classifiers
         self.configuration = configuration
         self.crawlerSecurityConfiguration = crawlerSecurityConfiguration
@@ -23977,8 +25919,7 @@ public struct UpdateCrawlerScheduleInput: Swift.Sendable {
     public init(
         crawlerName: Swift.String? = nil,
         schedule: Swift.String? = nil
-    )
-    {
+    ) {
         self.crawlerName = crawlerName
         self.schedule = schedule
     }
@@ -24003,8 +25944,7 @@ public struct UpdateDatabaseInput: Swift.Sendable {
         catalogId: Swift.String? = nil,
         databaseInput: GlueClientTypes.DatabaseInput? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseInput = databaseInput
         self.name = name
@@ -24029,8 +25969,7 @@ public struct UpdateDataQualityRulesetInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         ruleset: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.ruleset = ruleset
@@ -24049,8 +25988,7 @@ public struct UpdateDataQualityRulesetOutput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         ruleset: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.name = name
         self.ruleset = ruleset
@@ -24069,8 +26007,7 @@ extension GlueClientTypes {
         public init(
             extraJarsS3Path: Swift.String? = nil,
             extraPythonLibsS3Path: Swift.String? = nil
-        )
-        {
+        ) {
             self.extraJarsS3Path = extraJarsS3Path
             self.extraPythonLibsS3Path = extraPythonLibsS3Path
         }
@@ -24110,8 +26047,7 @@ public struct UpdateDevEndpointInput: Swift.Sendable {
         endpointName: Swift.String? = nil,
         publicKey: Swift.String? = nil,
         updateEtlLibraries: Swift.Bool? = false
-    )
-    {
+    ) {
         self.addArguments = addArguments
         self.addPublicKeys = addPublicKeys
         self.customLibraries = customLibraries
@@ -24128,14 +26064,82 @@ public struct UpdateDevEndpointOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateIntegrationResourcePropertyInput: Swift.Sendable {
+    /// The connection ARN of the source, or the database ARN of the target.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The resource properties associated with the integration source.
+    public var sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties?
+    /// The resource properties associated with the integration target.
+    public var targetProcessingProperties: GlueClientTypes.TargetProcessingProperties?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties? = nil,
+        targetProcessingProperties: GlueClientTypes.TargetProcessingProperties? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.sourceProcessingProperties = sourceProcessingProperties
+        self.targetProcessingProperties = targetProcessingProperties
+    }
+}
+
+public struct UpdateIntegrationResourcePropertyOutput: Swift.Sendable {
+    /// The connection ARN of the source, or the database ARN of the target.
+    public var resourceArn: Swift.String?
+    /// The resource properties associated with the integration source.
+    public var sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties?
+    /// The resource properties associated with the integration target.
+    public var targetProcessingProperties: GlueClientTypes.TargetProcessingProperties?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties? = nil,
+        targetProcessingProperties: GlueClientTypes.TargetProcessingProperties? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.sourceProcessingProperties = sourceProcessingProperties
+        self.targetProcessingProperties = targetProcessingProperties
+    }
+}
+
+public struct UpdateIntegrationTablePropertiesInput: Swift.Sendable {
+    /// The connection ARN of the source, or the database ARN of the target.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// A structure for the source table configuration.
+    public var sourceTableConfig: GlueClientTypes.SourceTableConfig?
+    /// The name of the table to be replicated.
+    /// This member is required.
+    public var tableName: Swift.String?
+    /// A structure for the target table configuration.
+    public var targetTableConfig: GlueClientTypes.TargetTableConfig?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        sourceTableConfig: GlueClientTypes.SourceTableConfig? = nil,
+        tableName: Swift.String? = nil,
+        targetTableConfig: GlueClientTypes.TargetTableConfig? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.sourceTableConfig = sourceTableConfig
+        self.tableName = tableName
+        self.targetTableConfig = targetTableConfig
+    }
+}
+
+public struct UpdateIntegrationTablePropertiesOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UpdateJobOutput: Swift.Sendable {
     /// Returns the name of the updated job definition.
     public var jobName: Swift.String?
 
     public init(
         jobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
     }
 }
@@ -24170,8 +26174,7 @@ public struct UpdateJobFromSourceControlInput: Swift.Sendable {
         provider: GlueClientTypes.SourceControlProvider? = nil,
         repositoryName: Swift.String? = nil,
         repositoryOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.authStrategy = authStrategy
         self.authToken = authToken
         self.branchName = branchName
@@ -24190,8 +26193,7 @@ public struct UpdateJobFromSourceControlOutput: Swift.Sendable {
 
     public init(
         jobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
     }
 }
@@ -24239,8 +26241,7 @@ public struct UpdateMLTransformInput: Swift.Sendable {
         timeout: Swift.Int? = nil,
         transformId: Swift.String? = nil,
         workerType: GlueClientTypes.WorkerType? = nil
-    )
-    {
+    ) {
         self.description = description
         self.glueVersion = glueVersion
         self.maxCapacity = maxCapacity
@@ -24261,8 +26262,7 @@ public struct UpdateMLTransformOutput: Swift.Sendable {
 
     public init(
         transformId: Swift.String? = nil
-    )
-    {
+    ) {
         self.transformId = transformId
     }
 }
@@ -24289,8 +26289,7 @@ public struct UpdatePartitionInput: Swift.Sendable {
         partitionInput: GlueClientTypes.PartitionInput? = nil,
         partitionValueList: [Swift.String]? = nil,
         tableName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.partitionInput = partitionInput
@@ -24315,8 +26314,7 @@ public struct UpdateRegistryInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         registryId: GlueClientTypes.RegistryId? = nil
-    )
-    {
+    ) {
         self.description = description
         self.registryId = registryId
     }
@@ -24331,8 +26329,7 @@ public struct UpdateRegistryOutput: Swift.Sendable {
     public init(
         registryArn: Swift.String? = nil,
         registryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.registryArn = registryArn
         self.registryName = registryName
     }
@@ -24358,8 +26355,7 @@ public struct UpdateSchemaInput: Swift.Sendable {
         description: Swift.String? = nil,
         schemaId: GlueClientTypes.SchemaId? = nil,
         schemaVersionNumber: GlueClientTypes.SchemaVersionNumber? = nil
-    )
-    {
+    ) {
         self.compatibility = compatibility
         self.description = description
         self.schemaId = schemaId
@@ -24379,8 +26375,7 @@ public struct UpdateSchemaOutput: Swift.Sendable {
         registryName: Swift.String? = nil,
         schemaArn: Swift.String? = nil,
         schemaName: Swift.String? = nil
-    )
-    {
+    ) {
         self.registryName = registryName
         self.schemaArn = schemaArn
         self.schemaName = schemaName
@@ -24417,8 +26412,7 @@ public struct UpdateSourceControlFromJobInput: Swift.Sendable {
         provider: GlueClientTypes.SourceControlProvider? = nil,
         repositoryName: Swift.String? = nil,
         repositoryOwner: Swift.String? = nil
-    )
-    {
+    ) {
         self.authStrategy = authStrategy
         self.authToken = authToken
         self.branchName = branchName
@@ -24437,8 +26431,7 @@ public struct UpdateSourceControlFromJobOutput: Swift.Sendable {
 
     public init(
         jobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
     }
 }
@@ -24507,8 +26500,7 @@ public struct UpdateTableInput: Swift.Sendable {
         transactionId: Swift.String? = nil,
         versionId: Swift.String? = nil,
         viewUpdateAction: GlueClientTypes.ViewUpdateAction? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.force = force
@@ -24538,7 +26530,7 @@ public struct UpdateTableOptimizerInput: Swift.Sendable {
     /// A TableOptimizerConfiguration object representing the configuration of a table optimizer.
     /// This member is required.
     public var tableOptimizerConfiguration: GlueClientTypes.TableOptimizerConfiguration?
-    /// The type of table optimizer. Currently, the only valid value is compaction.
+    /// The type of table optimizer.
     /// This member is required.
     public var type: GlueClientTypes.TableOptimizerType?
 
@@ -24548,8 +26540,7 @@ public struct UpdateTableOptimizerInput: Swift.Sendable {
         tableName: Swift.String? = nil,
         tableOptimizerConfiguration: GlueClientTypes.TableOptimizerConfiguration? = nil,
         type: GlueClientTypes.TableOptimizerType? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.tableName = tableName
@@ -24587,8 +26578,7 @@ extension GlueClientTypes {
             name: Swift.String? = nil,
             predicate: GlueClientTypes.Predicate? = nil,
             schedule: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.description = description
             self.eventBatchingCondition = eventBatchingCondition
@@ -24610,8 +26600,7 @@ public struct UpdateTriggerInput: Swift.Sendable {
     public init(
         name: Swift.String? = nil,
         triggerUpdate: GlueClientTypes.TriggerUpdate? = nil
-    )
-    {
+    ) {
         self.name = name
         self.triggerUpdate = triggerUpdate
     }
@@ -24623,8 +26612,7 @@ public struct UpdateTriggerOutput: Swift.Sendable {
 
     public init(
         trigger: GlueClientTypes.Trigger? = nil
-    )
-    {
+    ) {
         self.trigger = trigger
     }
 }
@@ -24643,8 +26631,7 @@ public struct UpdateUsageProfileInput: Swift.Sendable {
         configuration: GlueClientTypes.ProfileConfiguration? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.description = description
         self.name = name
@@ -24657,8 +26644,7 @@ public struct UpdateUsageProfileOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -24681,8 +26667,7 @@ public struct UpdateUserDefinedFunctionInput: Swift.Sendable {
         databaseName: Swift.String? = nil,
         functionInput: GlueClientTypes.UserDefinedFunctionInput? = nil,
         functionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.functionInput = functionInput
@@ -24696,7 +26681,7 @@ public struct UpdateUserDefinedFunctionOutput: Swift.Sendable {
 }
 
 public struct UpdateWorkflowInput: Swift.Sendable {
-    /// A collection of properties to be used as part of each execution of the workflow.
+    /// A collection of properties to be used as part of each execution of the workflow. Run properties may be logged. Do not pass plaintext secrets as properties. Retrieve secrets from a Glue Connection, Amazon Web Services Secrets Manager or other secret management mechanism if you intend to use them within the workflow run.
     public var defaultRunProperties: [Swift.String: Swift.String]?
     /// The description of the workflow.
     public var description: Swift.String?
@@ -24711,8 +26696,7 @@ public struct UpdateWorkflowInput: Swift.Sendable {
         description: Swift.String? = nil,
         maxConcurrentRuns: Swift.Int? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultRunProperties = defaultRunProperties
         self.description = description
         self.maxConcurrentRuns = maxConcurrentRuns
@@ -24726,8 +26710,7 @@ public struct UpdateWorkflowOutput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -24756,8 +26739,7 @@ extension GlueClientTypes {
             fromType: Swift.String? = nil,
             toKey: Swift.String? = nil,
             toType: Swift.String? = nil
-        )
-        {
+        ) {
             self.children = children
             self.dropped = dropped
             self.fromPath = fromPath
@@ -24786,8 +26768,7 @@ extension GlueClientTypes {
             inputs: [Swift.String]? = nil,
             mapping: [GlueClientTypes.Mapping]? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.inputs = inputs
             self.mapping = mapping
             self.name = name
@@ -24807,8 +26788,7 @@ extension GlueClientTypes {
         public init(
             requestedChange: GlueClientTypes.Table? = nil,
             viewValidations: [GlueClientTypes.ViewValidation]? = nil
-        )
-        {
+        ) {
             self.requestedChange = requestedChange
             self.viewValidations = viewValidations
         }
@@ -24894,8 +26874,7 @@ extension GlueClientTypes {
             viewDefinition: GlueClientTypes.ViewDefinition? = nil,
             viewExpandedText: Swift.String? = nil,
             viewOriginalText: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.createTime = createTime
             self.createdBy = createdBy
@@ -24954,8 +26933,7 @@ extension GlueClientTypes {
             state: GlueClientTypes.ResourceState? = nil,
             updateTime: Foundation.Date? = nil,
             updatedBy: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.details = details
             self.error = error
@@ -25187,8 +27165,7 @@ extension GlueClientTypes {
             spigot: GlueClientTypes.Spigot? = nil,
             splitFields: GlueClientTypes.SplitFields? = nil,
             union: GlueClientTypes.Union? = nil
-        )
-        {
+        ) {
             self.aggregate = aggregate
             self.amazonRedshiftSource = amazonRedshiftSource
             self.amazonRedshiftTarget = amazonRedshiftTarget
@@ -25276,8 +27253,7 @@ extension GlueClientTypes {
         public init(
             table: GlueClientTypes.Table? = nil,
             versionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.table = table
             self.versionId = versionId
         }
@@ -25290,8 +27266,7 @@ public struct GetTableOutput: Swift.Sendable {
 
     public init(
         table: GlueClientTypes.Table? = nil
-    )
-    {
+    ) {
         self.table = table
     }
 }
@@ -25329,8 +27304,7 @@ public struct GetUnfilteredTableMetadataOutput: Swift.Sendable {
         resourceArn: Swift.String? = nil,
         rowFilter: Swift.String? = nil,
         table: GlueClientTypes.Table? = nil
-    )
-    {
+    ) {
         self.authorizedColumns = authorizedColumns
         self.cellFilters = cellFilters
         self.isMultiDialectView = isMultiDialectView
@@ -25353,8 +27327,7 @@ public struct GetTablesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tableList: [GlueClientTypes.Table]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tableList = tableList
     }
@@ -25366,8 +27339,7 @@ public struct GetTableVersionOutput: Swift.Sendable {
 
     public init(
         tableVersion: GlueClientTypes.TableVersion? = nil
-    )
-    {
+    ) {
         self.tableVersion = tableVersion
     }
 }
@@ -25381,8 +27353,7 @@ public struct SearchTablesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tableList: [GlueClientTypes.Table]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tableList = tableList
     }
@@ -25460,17 +27431,17 @@ extension GlueClientTypes {
         public var timeout: Swift.Int?
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
         ///
-        /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
+        /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
         ///
-        /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
+        /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
         ///
-        /// * For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).
+        /// * For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).
         ///
-        /// * For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.
+        /// * For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.
         ///
-        /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
+        /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk, and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 or later streaming jobs.
         ///
-        /// * For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
+        /// * For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
         public var workerType: GlueClientTypes.WorkerType?
 
         public init(
@@ -25501,8 +27472,7 @@ extension GlueClientTypes {
             sourceControlDetails: GlueClientTypes.SourceControlDetails? = nil,
             timeout: Swift.Int? = nil,
             workerType: GlueClientTypes.WorkerType? = nil
-        )
-        {
+        ) {
             self.allocatedCapacity = allocatedCapacity
             self.codeGenConfigurationNodes = codeGenConfigurationNodes
             self.command = command
@@ -25603,17 +27573,17 @@ extension GlueClientTypes {
         public var timeout: Swift.Int?
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
         ///
-        /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
+        /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
         ///
-        /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
+        /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
         ///
-        /// * For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).
+        /// * For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).
         ///
-        /// * For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.
+        /// * For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.
         ///
-        /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
+        /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk, and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 or later streaming jobs.
         ///
-        /// * For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
+        /// * For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
         public var workerType: GlueClientTypes.WorkerType?
 
         public init(
@@ -25640,8 +27610,7 @@ extension GlueClientTypes {
             sourceControlDetails: GlueClientTypes.SourceControlDetails? = nil,
             timeout: Swift.Int? = nil,
             workerType: GlueClientTypes.WorkerType? = nil
-        )
-        {
+        ) {
             self.allocatedCapacity = allocatedCapacity
             self.codeGenConfigurationNodes = codeGenConfigurationNodes
             self.command = command
@@ -25742,17 +27711,17 @@ public struct CreateJobInput: Swift.Sendable {
     public var timeout: Swift.Int?
     /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
     ///
-    /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
+    /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
     ///
-    /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
+    /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
     ///
-    /// * For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).
+    /// * For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).
     ///
-    /// * For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.
+    /// * For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.
     ///
-    /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 streaming jobs.
+    /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk, and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 or later streaming jobs.
     ///
-    /// * For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based on the autoscaler.
+    /// * For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
     public var workerType: GlueClientTypes.WorkerType?
 
     public init(
@@ -25781,8 +27750,7 @@ public struct CreateJobInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         timeout: Swift.Int? = nil,
         workerType: GlueClientTypes.WorkerType? = nil
-    )
-    {
+    ) {
         self.allocatedCapacity = allocatedCapacity
         self.codeGenConfigurationNodes = codeGenConfigurationNodes
         self.command = command
@@ -25825,8 +27793,7 @@ public struct GetTableVersionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tableVersions: [GlueClientTypes.TableVersion]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tableVersions = tableVersions
     }
@@ -25838,8 +27805,7 @@ public struct GetJobOutput: Swift.Sendable {
 
     public init(
         job: GlueClientTypes.Job? = nil
-    )
-    {
+    ) {
         self.job = job
     }
 }
@@ -25855,8 +27821,7 @@ public struct UpdateJobInput: Swift.Sendable {
     public init(
         jobName: Swift.String? = nil,
         jobUpdate: GlueClientTypes.JobUpdate? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
         self.jobUpdate = jobUpdate
     }
@@ -25871,8 +27836,7 @@ public struct BatchGetJobsOutput: Swift.Sendable {
     public init(
         jobs: [GlueClientTypes.Job]? = nil,
         jobsNotFound: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.jobs = jobs
         self.jobsNotFound = jobsNotFound
     }
@@ -25887,8 +27851,7 @@ public struct GetJobsOutput: Swift.Sendable {
     public init(
         jobs: [GlueClientTypes.Job]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobs = jobs
         self.nextToken = nextToken
     }
@@ -26062,6 +28025,13 @@ extension CreateBlueprintInput {
     }
 }
 
+extension CreateCatalogInput {
+
+    static func urlPathProvider(_ value: CreateCatalogInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateClassifierInput {
 
     static func urlPathProvider(_ value: CreateClassifierInput) -> Swift.String? {
@@ -26114,6 +28084,27 @@ extension CreateDataQualityRulesetInput {
 extension CreateDevEndpointInput {
 
     static func urlPathProvider(_ value: CreateDevEndpointInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateIntegrationInput {
+
+    static func urlPathProvider(_ value: CreateIntegrationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateIntegrationResourcePropertyInput {
+
+    static func urlPathProvider(_ value: CreateIntegrationResourcePropertyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateIntegrationTablePropertiesInput {
+
+    static func urlPathProvider(_ value: CreateIntegrationTablePropertiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -26230,6 +28221,13 @@ extension DeleteBlueprintInput {
     }
 }
 
+extension DeleteCatalogInput {
+
+    static func urlPathProvider(_ value: DeleteCatalogInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeleteClassifierInput {
 
     static func urlPathProvider(_ value: DeleteClassifierInput) -> Swift.String? {
@@ -26296,6 +28294,20 @@ extension DeleteDataQualityRulesetInput {
 extension DeleteDevEndpointInput {
 
     static func urlPathProvider(_ value: DeleteDevEndpointInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteIntegrationInput {
+
+    static func urlPathProvider(_ value: DeleteIntegrationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteIntegrationTablePropertiesInput {
+
+    static func urlPathProvider(_ value: DeleteIntegrationTablePropertiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -26419,6 +28431,34 @@ extension DeleteWorkflowInput {
     }
 }
 
+extension DescribeConnectionTypeInput {
+
+    static func urlPathProvider(_ value: DescribeConnectionTypeInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeEntityInput {
+
+    static func urlPathProvider(_ value: DescribeEntityInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeInboundIntegrationsInput {
+
+    static func urlPathProvider(_ value: DescribeInboundIntegrationsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeIntegrationsInput {
+
+    static func urlPathProvider(_ value: DescribeIntegrationsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetBlueprintInput {
 
     static func urlPathProvider(_ value: GetBlueprintInput) -> Swift.String? {
@@ -26440,9 +28480,23 @@ extension GetBlueprintRunsInput {
     }
 }
 
+extension GetCatalogInput {
+
+    static func urlPathProvider(_ value: GetCatalogInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetCatalogImportStatusInput {
 
     static func urlPathProvider(_ value: GetCatalogImportStatusInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetCatalogsInput {
+
+    static func urlPathProvider(_ value: GetCatalogsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -26618,6 +28672,27 @@ extension GetDevEndpointInput {
 extension GetDevEndpointsInput {
 
     static func urlPathProvider(_ value: GetDevEndpointsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetEntityRecordsInput {
+
+    static func urlPathProvider(_ value: GetEntityRecordsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetIntegrationResourcePropertyInput {
+
+    static func urlPathProvider(_ value: GetIntegrationResourcePropertyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetIntegrationTablePropertiesInput {
+
+    static func urlPathProvider(_ value: GetIntegrationTablePropertiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -26944,6 +29019,13 @@ extension ListColumnStatisticsTaskRunsInput {
     }
 }
 
+extension ListConnectionTypesInput {
+
+    static func urlPathProvider(_ value: ListConnectionTypesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListCrawlersInput {
 
     static func urlPathProvider(_ value: ListCrawlersInput) -> Swift.String? {
@@ -27010,6 +29092,13 @@ extension ListDataQualityStatisticsInput {
 extension ListDevEndpointsInput {
 
     static func urlPathProvider(_ value: ListDevEndpointsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListEntitiesInput {
+
+    static func urlPathProvider(_ value: ListEntitiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -27087,6 +29176,13 @@ extension ListUsageProfilesInput {
 extension ListWorkflowsInput {
 
     static func urlPathProvider(_ value: ListWorkflowsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ModifyIntegrationInput {
+
+    static func urlPathProvider(_ value: ModifyIntegrationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -27350,6 +29446,13 @@ extension UpdateBlueprintInput {
     }
 }
 
+extension UpdateCatalogInput {
+
+    static func urlPathProvider(_ value: UpdateCatalogInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UpdateClassifierInput {
 
     static func urlPathProvider(_ value: UpdateClassifierInput) -> Swift.String? {
@@ -27416,6 +29519,20 @@ extension UpdateDataQualityRulesetInput {
 extension UpdateDevEndpointInput {
 
     static func urlPathProvider(_ value: UpdateDevEndpointInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateIntegrationResourcePropertyInput {
+
+    static func urlPathProvider(_ value: UpdateIntegrationResourcePropertyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateIntegrationTablePropertiesInput {
+
+    static func urlPathProvider(_ value: UpdateIntegrationTablePropertiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -27734,6 +29851,16 @@ extension CreateBlueprintInput {
     }
 }
 
+extension CreateCatalogInput {
+
+    static func write(value: CreateCatalogInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogInput"].write(value.catalogInput, with: GlueClientTypes.CatalogInput.write(value:to:))
+        try writer["Name"].write(value.name)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CreateClassifierInput {
 
     static func write(value: CreateClassifierInput?, to writer: SmithyJSON.Writer) throws {
@@ -27847,6 +29974,42 @@ extension CreateDevEndpointInput {
         try writer["SubnetId"].write(value.subnetId)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["WorkerType"].write(value.workerType)
+    }
+}
+
+extension CreateIntegrationInput {
+
+    static func write(value: CreateIntegrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalEncryptionContext"].writeMap(value.additionalEncryptionContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["DataFilter"].write(value.dataFilter)
+        try writer["Description"].write(value.description)
+        try writer["IntegrationName"].write(value.integrationName)
+        try writer["KmsKeyId"].write(value.kmsKeyId)
+        try writer["SourceArn"].write(value.sourceArn)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: GlueClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TargetArn"].write(value.targetArn)
+    }
+}
+
+extension CreateIntegrationResourcePropertyInput {
+
+    static func write(value: CreateIntegrationResourcePropertyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
+        try writer["SourceProcessingProperties"].write(value.sourceProcessingProperties, with: GlueClientTypes.SourceProcessingProperties.write(value:to:))
+        try writer["TargetProcessingProperties"].write(value.targetProcessingProperties, with: GlueClientTypes.TargetProcessingProperties.write(value:to:))
+    }
+}
+
+extension CreateIntegrationTablePropertiesInput {
+
+    static func write(value: CreateIntegrationTablePropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
+        try writer["SourceTableConfig"].write(value.sourceTableConfig, with: GlueClientTypes.SourceTableConfig.write(value:to:))
+        try writer["TableName"].write(value.tableName)
+        try writer["TargetTableConfig"].write(value.targetTableConfig, with: GlueClientTypes.TargetTableConfig.write(value:to:))
     }
 }
 
@@ -28072,6 +30235,14 @@ extension DeleteBlueprintInput {
     }
 }
 
+extension DeleteCatalogInput {
+
+    static func write(value: DeleteCatalogInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
+    }
+}
+
 extension DeleteClassifierInput {
 
     static func write(value: DeleteClassifierInput?, to writer: SmithyJSON.Writer) throws {
@@ -28159,6 +30330,23 @@ extension DeleteDevEndpointInput {
     static func write(value: DeleteDevEndpointInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["EndpointName"].write(value.endpointName)
+    }
+}
+
+extension DeleteIntegrationInput {
+
+    static func write(value: DeleteIntegrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IntegrationIdentifier"].write(value.integrationIdentifier)
+    }
+}
+
+extension DeleteIntegrationTablePropertiesInput {
+
+    static func write(value: DeleteIntegrationTablePropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
+        try writer["TableName"].write(value.tableName)
     }
 }
 
@@ -28318,6 +30506,48 @@ extension DeleteWorkflowInput {
     }
 }
 
+extension DescribeConnectionTypeInput {
+
+    static func write(value: DescribeConnectionTypeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionType"].write(value.connectionType)
+    }
+}
+
+extension DescribeEntityInput {
+
+    static func write(value: DescribeEntityInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
+        try writer["ConnectionName"].write(value.connectionName)
+        try writer["DataStoreApiVersion"].write(value.dataStoreApiVersion)
+        try writer["EntityName"].write(value.entityName)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension DescribeInboundIntegrationsInput {
+
+    static func write(value: DescribeInboundIntegrationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IntegrationArn"].write(value.integrationArn)
+        try writer["Marker"].write(value.marker)
+        try writer["MaxRecords"].write(value.maxRecords)
+        try writer["TargetArn"].write(value.targetArn)
+    }
+}
+
+extension DescribeIntegrationsInput {
+
+    static func write(value: DescribeIntegrationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: GlueClientTypes.IntegrationFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["IntegrationIdentifier"].write(value.integrationIdentifier)
+        try writer["Marker"].write(value.marker)
+        try writer["MaxRecords"].write(value.maxRecords)
+    }
+}
+
 extension GetBlueprintInput {
 
     static func write(value: GetBlueprintInput?, to writer: SmithyJSON.Writer) throws {
@@ -28347,11 +30577,31 @@ extension GetBlueprintRunsInput {
     }
 }
 
+extension GetCatalogInput {
+
+    static func write(value: GetCatalogInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
+    }
+}
+
 extension GetCatalogImportStatusInput {
 
     static func write(value: GetCatalogImportStatusInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CatalogId"].write(value.catalogId)
+    }
+}
+
+extension GetCatalogsInput {
+
+    static func write(value: GetCatalogsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IncludeRoot"].write(value.includeRoot)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["ParentCatalogId"].write(value.parentCatalogId)
+        try writer["Recursive"].write(value.recursive)
     }
 }
 
@@ -28427,6 +30677,7 @@ extension GetConnectionInput {
 
     static func write(value: GetConnectionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ApplyOverrideForComputeEnvironment"].write(value.applyOverrideForComputeEnvironment)
         try writer["CatalogId"].write(value.catalogId)
         try writer["HidePassword"].write(value.hidePassword)
         try writer["Name"].write(value.name)
@@ -28581,6 +30832,40 @@ extension GetDevEndpointsInput {
         guard let value else { return }
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension GetEntityRecordsInput {
+
+    static func write(value: GetEntityRecordsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
+        try writer["ConnectionName"].write(value.connectionName)
+        try writer["ConnectionOptions"].writeMap(value.connectionOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["DataStoreApiVersion"].write(value.dataStoreApiVersion)
+        try writer["EntityName"].write(value.entityName)
+        try writer["FilterPredicate"].write(value.filterPredicate)
+        try writer["Limit"].write(value.limit)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["OrderBy"].write(value.orderBy)
+        try writer["SelectedFields"].writeList(value.selectedFields, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GetIntegrationResourcePropertyInput {
+
+    static func write(value: GetIntegrationResourcePropertyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
+    }
+}
+
+extension GetIntegrationTablePropertiesInput {
+
+    static func write(value: GetIntegrationTablePropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
+        try writer["TableName"].write(value.tableName)
     }
 }
 
@@ -29067,6 +31352,15 @@ extension ListColumnStatisticsTaskRunsInput {
     }
 }
 
+extension ListConnectionTypesInput {
+
+    static func write(value: ListConnectionTypesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
 extension ListCrawlersInput {
 
     static func write(value: ListCrawlersInput?, to writer: SmithyJSON.Writer) throws {
@@ -29170,6 +31464,18 @@ extension ListDevEndpointsInput {
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension ListEntitiesInput {
+
+    static func write(value: ListEntitiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
+        try writer["ConnectionName"].write(value.connectionName)
+        try writer["DataStoreApiVersion"].write(value.dataStoreApiVersion)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["ParentEntityName"].write(value.parentEntityName)
     }
 }
 
@@ -29284,6 +31590,17 @@ extension ListWorkflowsInput {
         guard let value else { return }
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension ModifyIntegrationInput {
+
+    static func write(value: ModifyIntegrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataFilter"].write(value.dataFilter)
+        try writer["Description"].write(value.description)
+        try writer["IntegrationIdentifier"].write(value.integrationIdentifier)
+        try writer["IntegrationName"].write(value.integrationName)
     }
 }
 
@@ -29638,6 +31955,7 @@ extension TestConnectionInput {
 
     static func write(value: TestConnectionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
         try writer["ConnectionName"].write(value.connectionName)
         try writer["TestConnectionInput"].write(value.testConnectionInput, with: GlueClientTypes.TestConnectionInput.write(value:to:))
     }
@@ -29659,6 +31977,15 @@ extension UpdateBlueprintInput {
         try writer["BlueprintLocation"].write(value.blueprintLocation)
         try writer["Description"].write(value.description)
         try writer["Name"].write(value.name)
+    }
+}
+
+extension UpdateCatalogInput {
+
+    static func write(value: UpdateCatalogInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
+        try writer["CatalogInput"].write(value.catalogInput, with: GlueClientTypes.CatalogInput.write(value:to:))
     }
 }
 
@@ -29783,6 +32110,27 @@ extension UpdateDevEndpointInput {
         try writer["EndpointName"].write(value.endpointName)
         try writer["PublicKey"].write(value.publicKey)
         try writer["UpdateEtlLibraries"].write(value.updateEtlLibraries)
+    }
+}
+
+extension UpdateIntegrationResourcePropertyInput {
+
+    static func write(value: UpdateIntegrationResourcePropertyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
+        try writer["SourceProcessingProperties"].write(value.sourceProcessingProperties, with: GlueClientTypes.SourceProcessingProperties.write(value:to:))
+        try writer["TargetProcessingProperties"].write(value.targetProcessingProperties, with: GlueClientTypes.TargetProcessingProperties.write(value:to:))
+    }
+}
+
+extension UpdateIntegrationTablePropertiesInput {
+
+    static func write(value: UpdateIntegrationTablePropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
+        try writer["SourceTableConfig"].write(value.sourceTableConfig, with: GlueClientTypes.SourceTableConfig.write(value:to:))
+        try writer["TableName"].write(value.tableName)
+        try writer["TargetTableConfig"].write(value.targetTableConfig, with: GlueClientTypes.TargetTableConfig.write(value:to:))
     }
 }
 
@@ -30233,6 +32581,13 @@ extension CreateBlueprintOutput {
     }
 }
 
+extension CreateCatalogOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCatalogOutput {
+        return CreateCatalogOutput()
+    }
+}
+
 extension CreateClassifierOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateClassifierOutput {
@@ -30324,6 +32679,50 @@ extension CreateDevEndpointOutput {
         value.yarnEndpointAddress = try reader["YarnEndpointAddress"].readIfPresent()
         value.zeppelinRemoteSparkInterpreterPort = try reader["ZeppelinRemoteSparkInterpreterPort"].readIfPresent() ?? 0
         return value
+    }
+}
+
+extension CreateIntegrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateIntegrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateIntegrationOutput()
+        value.additionalEncryptionContext = try reader["AdditionalEncryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.dataFilter = try reader["DataFilter"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: GlueClientTypes.IntegrationError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.integrationArn = try reader["IntegrationArn"].readIfPresent() ?? ""
+        value.integrationName = try reader["IntegrationName"].readIfPresent() ?? ""
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.sourceArn = try reader["SourceArn"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: GlueClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.targetArn = try reader["TargetArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateIntegrationResourcePropertyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateIntegrationResourcePropertyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateIntegrationResourcePropertyOutput()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
+        value.sourceProcessingProperties = try reader["SourceProcessingProperties"].readIfPresent(with: GlueClientTypes.SourceProcessingProperties.read(from:))
+        value.targetProcessingProperties = try reader["TargetProcessingProperties"].readIfPresent(with: GlueClientTypes.TargetProcessingProperties.read(from:))
+        return value
+    }
+}
+
+extension CreateIntegrationTablePropertiesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateIntegrationTablePropertiesOutput {
+        return CreateIntegrationTablePropertiesOutput()
     }
 }
 
@@ -30512,6 +32911,13 @@ extension DeleteBlueprintOutput {
     }
 }
 
+extension DeleteCatalogOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCatalogOutput {
+        return DeleteCatalogOutput()
+    }
+}
+
 extension DeleteClassifierOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteClassifierOutput {
@@ -30584,6 +32990,36 @@ extension DeleteDevEndpointOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDevEndpointOutput {
         return DeleteDevEndpointOutput()
+    }
+}
+
+extension DeleteIntegrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteIntegrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteIntegrationOutput()
+        value.additionalEncryptionContext = try reader["AdditionalEncryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.dataFilter = try reader["DataFilter"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: GlueClientTypes.IntegrationError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.integrationArn = try reader["IntegrationArn"].readIfPresent() ?? ""
+        value.integrationName = try reader["IntegrationName"].readIfPresent() ?? ""
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.sourceArn = try reader["SourceArn"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: GlueClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.targetArn = try reader["TargetArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeleteIntegrationTablePropertiesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteIntegrationTablePropertiesOutput {
+        return DeleteIntegrationTablePropertiesOutput()
     }
 }
 
@@ -30750,6 +33186,67 @@ extension DeleteWorkflowOutput {
     }
 }
 
+extension DescribeConnectionTypeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeConnectionTypeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeConnectionTypeOutput()
+        value.athenaConnectionProperties = try reader["AthenaConnectionProperties"].readMapIfPresent(valueReadingClosure: GlueClientTypes.Property.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.authenticationConfiguration = try reader["AuthenticationConfiguration"].readIfPresent(with: GlueClientTypes.AuthConfiguration.read(from:))
+        value.capabilities = try reader["Capabilities"].readIfPresent(with: GlueClientTypes.Capabilities.read(from:))
+        value.computeEnvironmentConfigurations = try reader["ComputeEnvironmentConfigurations"].readMapIfPresent(valueReadingClosure: GlueClientTypes.ComputeEnvironmentConfiguration.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.connectionOptions = try reader["ConnectionOptions"].readMapIfPresent(valueReadingClosure: GlueClientTypes.Property.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.connectionProperties = try reader["ConnectionProperties"].readMapIfPresent(valueReadingClosure: GlueClientTypes.Property.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.connectionType = try reader["ConnectionType"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.physicalConnectionRequirements = try reader["PhysicalConnectionRequirements"].readMapIfPresent(valueReadingClosure: GlueClientTypes.Property.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.pythonConnectionProperties = try reader["PythonConnectionProperties"].readMapIfPresent(valueReadingClosure: GlueClientTypes.Property.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.sparkConnectionProperties = try reader["SparkConnectionProperties"].readMapIfPresent(valueReadingClosure: GlueClientTypes.Property.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension DescribeEntityOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeEntityOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeEntityOutput()
+        value.fields = try reader["Fields"].readListIfPresent(memberReadingClosure: GlueClientTypes.Field.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeInboundIntegrationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeInboundIntegrationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeInboundIntegrationsOutput()
+        value.inboundIntegrations = try reader["InboundIntegrations"].readListIfPresent(memberReadingClosure: GlueClientTypes.InboundIntegration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.marker = try reader["Marker"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeIntegrationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeIntegrationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeIntegrationsOutput()
+        value.integrations = try reader["Integrations"].readListIfPresent(memberReadingClosure: GlueClientTypes.Integration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.marker = try reader["Marker"].readIfPresent()
+        return value
+    }
+}
+
 extension GetBlueprintOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetBlueprintOutput {
@@ -30787,6 +33284,18 @@ extension GetBlueprintRunsOutput {
     }
 }
 
+extension GetCatalogOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCatalogOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetCatalogOutput()
+        value.catalog = try reader["Catalog"].readIfPresent(with: GlueClientTypes.Catalog.read(from:))
+        return value
+    }
+}
+
 extension GetCatalogImportStatusOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCatalogImportStatusOutput {
@@ -30795,6 +33304,19 @@ extension GetCatalogImportStatusOutput {
         let reader = responseReader
         var value = GetCatalogImportStatusOutput()
         value.importStatus = try reader["ImportStatus"].readIfPresent(with: GlueClientTypes.CatalogImportStatus.read(from:))
+        return value
+    }
+}
+
+extension GetCatalogsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCatalogsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetCatalogsOutput()
+        value.catalogList = try reader["CatalogList"].readListIfPresent(memberReadingClosure: GlueClientTypes.Catalog.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
 }
@@ -31158,6 +33680,48 @@ extension GetDevEndpointsOutput {
         var value = GetDevEndpointsOutput()
         value.devEndpoints = try reader["DevEndpoints"].readListIfPresent(memberReadingClosure: GlueClientTypes.DevEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension GetEntityRecordsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetEntityRecordsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetEntityRecordsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.records = try reader["Records"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDocument(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GetIntegrationResourcePropertyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetIntegrationResourcePropertyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetIntegrationResourcePropertyOutput()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.sourceProcessingProperties = try reader["SourceProcessingProperties"].readIfPresent(with: GlueClientTypes.SourceProcessingProperties.read(from:))
+        value.targetProcessingProperties = try reader["TargetProcessingProperties"].readIfPresent(with: GlueClientTypes.TargetProcessingProperties.read(from:))
+        return value
+    }
+}
+
+extension GetIntegrationTablePropertiesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetIntegrationTablePropertiesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetIntegrationTablePropertiesOutput()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.sourceTableConfig = try reader["SourceTableConfig"].readIfPresent(with: GlueClientTypes.SourceTableConfig.read(from:))
+        value.tableName = try reader["TableName"].readIfPresent()
+        value.targetTableConfig = try reader["TargetTableConfig"].readIfPresent(with: GlueClientTypes.TargetTableConfig.read(from:))
         return value
     }
 }
@@ -31801,6 +34365,19 @@ extension ListColumnStatisticsTaskRunsOutput {
     }
 }
 
+extension ListConnectionTypesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListConnectionTypesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListConnectionTypesOutput()
+        value.connectionTypes = try reader["ConnectionTypes"].readListIfPresent(memberReadingClosure: GlueClientTypes.ConnectionTypeBrief.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListCrawlersOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCrawlersOutput {
@@ -31926,6 +34503,19 @@ extension ListDevEndpointsOutput {
         let reader = responseReader
         var value = ListDevEndpointsOutput()
         value.devEndpointNames = try reader["DevEndpointNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListEntitiesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListEntitiesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListEntitiesOutput()
+        value.entities = try reader["Entities"].readListIfPresent(memberReadingClosure: GlueClientTypes.Entity.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -32074,6 +34664,29 @@ extension ListWorkflowsOutput {
         var value = ListWorkflowsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.workflows = try reader["Workflows"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ModifyIntegrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyIntegrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ModifyIntegrationOutput()
+        value.additionalEncryptionContext = try reader["AdditionalEncryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.dataFilter = try reader["DataFilter"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: GlueClientTypes.IntegrationError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.integrationArn = try reader["IntegrationArn"].readIfPresent() ?? ""
+        value.integrationName = try reader["IntegrationName"].readIfPresent() ?? ""
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.sourceArn = try reader["SourceArn"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: GlueClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.targetArn = try reader["TargetArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -32472,6 +35085,13 @@ extension UpdateBlueprintOutput {
     }
 }
 
+extension UpdateCatalogOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCatalogOutput {
+        return UpdateCatalogOutput()
+    }
+}
+
 extension UpdateClassifierOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateClassifierOutput {
@@ -32556,6 +35176,27 @@ extension UpdateDevEndpointOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDevEndpointOutput {
         return UpdateDevEndpointOutput()
+    }
+}
+
+extension UpdateIntegrationResourcePropertyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateIntegrationResourcePropertyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateIntegrationResourcePropertyOutput()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.sourceProcessingProperties = try reader["SourceProcessingProperties"].readIfPresent(with: GlueClientTypes.SourceProcessingProperties.read(from:))
+        value.targetProcessingProperties = try reader["TargetProcessingProperties"].readIfPresent(with: GlueClientTypes.TargetProcessingProperties.read(from:))
+        return value
+    }
+}
+
+extension UpdateIntegrationTablePropertiesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateIntegrationTablePropertiesOutput {
+        return UpdateIntegrationTablePropertiesOutput()
     }
 }
 
@@ -33108,6 +35749,30 @@ enum CreateBlueprintOutputError {
     }
 }
 
+enum CreateCatalogOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "FederatedResourceAlreadyExistsException": return try FederatedResourceAlreadyExistsException.makeError(baseError: baseError)
+            case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            case "ResourceNumberLimitExceededException": return try ResourceNumberLimitExceededException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateClassifierOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -33210,6 +35875,8 @@ enum CreateDatabaseOutputError {
             case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "FederatedResourceAlreadyExistsException": return try FederatedResourceAlreadyExistsException.makeError(baseError: baseError)
+            case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "FederationSourceRetryableException": return try FederationSourceRetryableException.makeError(baseError: baseError)
             case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
@@ -33253,6 +35920,72 @@ enum CreateDevEndpointOutputError {
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
             case "ResourceNumberLimitExceededException": return try ResourceNumberLimitExceededException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateIntegrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "IntegrationConflictOperationFault": return try IntegrationConflictOperationFault.makeError(baseError: baseError)
+            case "IntegrationQuotaExceededFault": return try IntegrationQuotaExceededFault.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "KMSKeyNotAccessibleFault": return try KMSKeyNotAccessibleFault.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ResourceNumberLimitExceededException": return try ResourceNumberLimitExceededException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateIntegrationResourcePropertyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateIntegrationTablePropertiesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -33444,6 +36177,8 @@ enum CreateTableOutputError {
             case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "FederationSourceRetryableException": return try FederationSourceRetryableException.makeError(baseError: baseError)
             case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
@@ -33562,6 +36297,27 @@ enum DeleteBlueprintOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteCatalogOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
@@ -33697,6 +36453,8 @@ enum DeleteDatabaseOutputError {
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "FederationSourceRetryableException": return try FederationSourceRetryableException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
@@ -33734,6 +36492,50 @@ enum DeleteDevEndpointOutputError {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteIntegrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "IntegrationConflictOperationFault": return try IntegrationConflictOperationFault.makeError(baseError: baseError)
+            case "IntegrationNotFoundFault": return try IntegrationNotFoundFault.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "InvalidIntegrationStateFault": return try InvalidIntegrationStateFault.makeError(baseError: baseError)
+            case "InvalidStateException": return try InvalidStateException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteIntegrationTablePropertiesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -33923,6 +36725,8 @@ enum DeleteTableOutputError {
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "FederationSourceRetryableException": return try FederationSourceRetryableException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
@@ -34035,6 +36839,85 @@ enum DeleteWorkflowOutputError {
     }
 }
 
+enum DescribeConnectionTypeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeEntityOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeInboundIntegrationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "IntegrationNotFoundFault": return try IntegrationNotFoundFault.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationNotSupportedException": return try OperationNotSupportedException.makeError(baseError: baseError)
+            case "TargetResourceNotFound": return try TargetResourceNotFound.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeIntegrationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "IntegrationNotFoundFault": return try IntegrationNotFoundFault.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetBlueprintOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -34085,6 +36968,27 @@ enum GetBlueprintRunsOutputError {
     }
 }
 
+enum GetCatalogOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "FederationSourceRetryableException": return try FederationSourceRetryableException.makeError(baseError: baseError)
+            case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetCatalogImportStatusOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -34094,6 +36998,27 @@ enum GetCatalogImportStatusOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetCatalogsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "FederationSourceRetryableException": return try FederationSourceRetryableException.makeError(baseError: baseError)
+            case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -34316,6 +37241,7 @@ enum GetDatabaseOutputError {
         switch baseError.code {
             case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
             case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "FederationSourceRetryableException": return try FederationSourceRetryableException.makeError(baseError: baseError)
             case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
@@ -34333,6 +37259,9 @@ enum GetDatabasesOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "FederationSourceRetryableException": return try FederationSourceRetryableException.makeError(baseError: baseError)
             case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
@@ -34505,6 +37434,66 @@ enum GetDevEndpointsOutputError {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetEntityRecordsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetIntegrationResourcePropertyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetIntegrationTablePropertiesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -35323,6 +38312,21 @@ enum ListColumnStatisticsTaskRunsOutputError {
     }
 }
 
+enum ListConnectionTypesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListCrawlersOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -35477,6 +38481,26 @@ enum ListDevEndpointsOutputError {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListEntitiesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -35666,6 +38690,30 @@ enum ListWorkflowsOutputError {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ModifyIntegrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "IntegrationConflictOperationFault": return try IntegrationConflictOperationFault.makeError(baseError: baseError)
+            case "IntegrationNotFoundFault": return try IntegrationNotFoundFault.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "InvalidIntegrationStateFault": return try InvalidIntegrationStateFault.makeError(baseError: baseError)
+            case "InvalidStateException": return try InvalidStateException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -36333,6 +39381,27 @@ enum UpdateBlueprintOutputError {
     }
 }
 
+enum UpdateCatalogOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateClassifierOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -36465,8 +39534,11 @@ enum UpdateDatabaseOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "FederationSourceRetryableException": return try FederationSourceRetryableException.makeError(baseError: baseError)
             case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
@@ -36508,6 +39580,46 @@ enum UpdateDevEndpointOutputError {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateIntegrationResourcePropertyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateIntegrationTablePropertiesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -36652,8 +39764,11 @@ enum UpdateTableOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "FederationSourceRetryableException": return try FederationSourceRetryableException.makeError(baseError: baseError)
             case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
@@ -36943,32 +40058,6 @@ extension IllegalSessionStateException {
     }
 }
 
-extension ColumnStatisticsTaskRunningException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ColumnStatisticsTaskRunningException {
-        let reader = baseError.errorBodyReader
-        var value = ColumnStatisticsTaskRunningException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension IdempotentParameterMismatchException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IdempotentParameterMismatchException {
-        let reader = baseError.errorBodyReader
-        var value = IdempotentParameterMismatchException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ConcurrentModificationException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConcurrentModificationException {
@@ -36996,11 +40085,115 @@ extension FederatedResourceAlreadyExistsException {
     }
 }
 
+extension ColumnStatisticsTaskRunningException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ColumnStatisticsTaskRunningException {
+        let reader = baseError.errorBodyReader
+        var value = ColumnStatisticsTaskRunningException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension IdempotentParameterMismatchException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IdempotentParameterMismatchException {
+        let reader = baseError.errorBodyReader
+        var value = IdempotentParameterMismatchException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ValidationException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension IntegrationConflictOperationFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IntegrationConflictOperationFault {
+        let reader = baseError.errorBodyReader
+        var value = IntegrationConflictOperationFault()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InternalServerException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+        let reader = baseError.errorBodyReader
+        var value = InternalServerException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension IntegrationQuotaExceededFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IntegrationQuotaExceededFault {
+        let reader = baseError.errorBodyReader
+        var value = IntegrationQuotaExceededFault()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension KMSKeyNotAccessibleFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KMSKeyNotAccessibleFault {
+        let reader = baseError.errorBodyReader
+        var value = KMSKeyNotAccessibleFault()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -37048,11 +40241,24 @@ extension CrawlerRunningException {
     }
 }
 
-extension ConflictException {
+extension IntegrationNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IntegrationNotFoundFault {
         let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = IntegrationNotFoundFault()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidIntegrationStateFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidIntegrationStateFault {
+        let reader = baseError.errorBodyReader
+        var value = InvalidIntegrationStateFault()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -37066,6 +40272,19 @@ extension ConditionCheckFailureException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConditionCheckFailureException {
         let reader = baseError.errorBodyReader
         var value = ConditionCheckFailureException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TargetResourceNotFound {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TargetResourceNotFound {
+        let reader = baseError.errorBodyReader
+        var value = TargetResourceNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -40821,6 +44040,7 @@ extension GlueClientTypes.TableOptimizerConfiguration {
         try writer["orphanFileDeletionConfiguration"].write(value.orphanFileDeletionConfiguration, with: GlueClientTypes.OrphanFileDeletionConfiguration.write(value:to:))
         try writer["retentionConfiguration"].write(value.retentionConfiguration, with: GlueClientTypes.RetentionConfiguration.write(value:to:))
         try writer["roleArn"].write(value.roleArn)
+        try writer["vpcConfiguration"].write(value.vpcConfiguration, with: GlueClientTypes.TableOptimizerVpcConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TableOptimizerConfiguration {
@@ -40828,6 +44048,7 @@ extension GlueClientTypes.TableOptimizerConfiguration {
         var value = GlueClientTypes.TableOptimizerConfiguration()
         value.roleArn = try reader["roleArn"].readIfPresent()
         value.enabled = try reader["enabled"].readIfPresent()
+        value.vpcConfiguration = try reader["vpcConfiguration"].readIfPresent(with: GlueClientTypes.TableOptimizerVpcConfiguration.read(from:))
         value.retentionConfiguration = try reader["retentionConfiguration"].readIfPresent(with: GlueClientTypes.RetentionConfiguration.read(from:))
         value.orphanFileDeletionConfiguration = try reader["orphanFileDeletionConfiguration"].readIfPresent(with: GlueClientTypes.OrphanFileDeletionConfiguration.read(from:))
         return value
@@ -40897,6 +44118,30 @@ extension GlueClientTypes.IcebergRetentionConfiguration {
         value.numberOfSnapshotsToRetain = try reader["numberOfSnapshotsToRetain"].readIfPresent()
         value.cleanExpiredFiles = try reader["cleanExpiredFiles"].readIfPresent()
         return value
+    }
+}
+
+extension GlueClientTypes.TableOptimizerVpcConfiguration {
+
+    static func write(value: GlueClientTypes.TableOptimizerVpcConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .glueconnectionname(glueconnectionname):
+                try writer["glueConnectionName"].write(glueconnectionname)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TableOptimizerVpcConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "glueConnectionName":
+                return .glueconnectionname(try reader["glueConnectionName"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -41269,6 +44514,70 @@ extension GlueClientTypes.BatchUpdatePartitionFailureEntry {
     }
 }
 
+extension GlueClientTypes.Tag {
+
+    static func write(value: GlueClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Tag()
+        value.key = try reader["key"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.IntegrationError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IntegrationError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.IntegrationError()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.SourceProcessingProperties {
+
+    static func write(value: GlueClientTypes.SourceProcessingProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RoleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SourceProcessingProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.SourceProcessingProperties()
+        value.roleArn = try reader["RoleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.TargetProcessingProperties {
+
+    static func write(value: GlueClientTypes.TargetProcessingProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionName"].write(value.connectionName)
+        try writer["EventBusArn"].write(value.eventBusArn)
+        try writer["KmsArn"].write(value.kmsArn)
+        try writer["RoleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TargetProcessingProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.TargetProcessingProperties()
+        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.kmsArn = try reader["KmsArn"].readIfPresent()
+        value.connectionName = try reader["ConnectionName"].readIfPresent()
+        value.eventBusArn = try reader["EventBusArn"].readIfPresent()
+        return value
+    }
+}
+
 extension GlueClientTypes.Session {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Session {
@@ -41337,6 +44646,140 @@ extension GlueClientTypes.ErrorDetails {
     }
 }
 
+extension GlueClientTypes.Capabilities {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Capabilities {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Capabilities()
+        value.supportedAuthenticationTypes = try reader["SupportedAuthenticationTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.AuthenticationType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.supportedDataOperations = try reader["SupportedDataOperations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.DataOperation>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.supportedComputeEnvironments = try reader["SupportedComputeEnvironments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.ComputeEnvironment>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GlueClientTypes.Property {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Property {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Property()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.`required` = try reader["Required"].readIfPresent() ?? false
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        value.propertyTypes = try reader["PropertyTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.PropertyType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.allowedValues = try reader["AllowedValues"].readListIfPresent(memberReadingClosure: GlueClientTypes.AllowedValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataOperationScopes = try reader["DataOperationScopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.DataOperation>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.AllowedValue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.AllowedValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.AllowedValue()
+        value.description = try reader["Description"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GlueClientTypes.AuthConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.AuthConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.AuthConfiguration()
+        value.authenticationType = try reader["AuthenticationType"].readIfPresent(with: GlueClientTypes.Property.read(from:))
+        value.secretArn = try reader["SecretArn"].readIfPresent(with: GlueClientTypes.Property.read(from:))
+        value.oAuth2Properties = try reader["OAuth2Properties"].readMapIfPresent(valueReadingClosure: GlueClientTypes.Property.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.basicAuthenticationProperties = try reader["BasicAuthenticationProperties"].readMapIfPresent(valueReadingClosure: GlueClientTypes.Property.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.customAuthenticationProperties = try reader["CustomAuthenticationProperties"].readMapIfPresent(valueReadingClosure: GlueClientTypes.Property.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.ComputeEnvironmentConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ComputeEnvironmentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ComputeEnvironmentConfiguration()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.computeEnvironment = try reader["ComputeEnvironment"].readIfPresent() ?? .sdkUnknown("")
+        value.supportedAuthenticationTypes = try reader["SupportedAuthenticationTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.AuthenticationType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.connectionOptions = try reader["ConnectionOptions"].readMapIfPresent(valueReadingClosure: GlueClientTypes.Property.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.connectionPropertyNameOverrides = try reader["ConnectionPropertyNameOverrides"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.connectionOptionNameOverrides = try reader["ConnectionOptionNameOverrides"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.connectionPropertiesRequiredOverrides = try reader["ConnectionPropertiesRequiredOverrides"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.physicalConnectionPropertiesRequired = try reader["PhysicalConnectionPropertiesRequired"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.Field {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Field {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Field()
+        value.fieldName = try reader["FieldName"].readIfPresent()
+        value.label = try reader["Label"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.fieldType = try reader["FieldType"].readIfPresent()
+        value.isPrimaryKey = try reader["IsPrimaryKey"].readIfPresent()
+        value.isNullable = try reader["IsNullable"].readIfPresent()
+        value.isRetrievable = try reader["IsRetrievable"].readIfPresent()
+        value.isFilterable = try reader["IsFilterable"].readIfPresent()
+        value.isPartitionable = try reader["IsPartitionable"].readIfPresent()
+        value.isCreateable = try reader["IsCreateable"].readIfPresent()
+        value.isUpdateable = try reader["IsUpdateable"].readIfPresent()
+        value.isUpsertable = try reader["IsUpsertable"].readIfPresent()
+        value.isDefaultOnCreate = try reader["IsDefaultOnCreate"].readIfPresent()
+        value.supportedValues = try reader["SupportedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.supportedFilterOperators = try reader["SupportedFilterOperators"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.FieldFilterOperator>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.parentField = try reader["ParentField"].readIfPresent()
+        value.nativeDataType = try reader["NativeDataType"].readIfPresent()
+        value.customProperties = try reader["CustomProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.InboundIntegration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.InboundIntegration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.InboundIntegration()
+        value.sourceArn = try reader["SourceArn"].readIfPresent() ?? ""
+        value.targetArn = try reader["TargetArn"].readIfPresent() ?? ""
+        value.integrationArn = try reader["IntegrationArn"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: GlueClientTypes.IntegrationError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.Integration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Integration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Integration()
+        value.sourceArn = try reader["SourceArn"].readIfPresent() ?? ""
+        value.targetArn = try reader["TargetArn"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.integrationName = try reader["IntegrationName"].readIfPresent() ?? ""
+        value.integrationArn = try reader["IntegrationArn"].readIfPresent() ?? ""
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.additionalEncryptionContext = try reader["AdditionalEncryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: GlueClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: GlueClientTypes.IntegrationError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataFilter = try reader["DataFilter"].readIfPresent()
+        return value
+    }
+}
+
 extension GlueClientTypes.BlueprintRun {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BlueprintRun {
@@ -41352,6 +44795,119 @@ extension GlueClientTypes.BlueprintRun {
         value.rollbackErrorMessage = try reader["RollbackErrorMessage"].readIfPresent()
         value.parameters = try reader["Parameters"].readIfPresent()
         value.roleArn = try reader["RoleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.Catalog {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Catalog {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Catalog()
+        value.catalogId = try reader["CatalogId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.targetRedshiftCatalog = try reader["TargetRedshiftCatalog"].readIfPresent(with: GlueClientTypes.TargetRedshiftCatalog.read(from:))
+        value.federatedCatalog = try reader["FederatedCatalog"].readIfPresent(with: GlueClientTypes.FederatedCatalog.read(from:))
+        value.catalogProperties = try reader["CatalogProperties"].readIfPresent(with: GlueClientTypes.CatalogPropertiesOutput.read(from:))
+        value.createTableDefaultPermissions = try reader["CreateTableDefaultPermissions"].readListIfPresent(memberReadingClosure: GlueClientTypes.PrincipalPermissions.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createDatabaseDefaultPermissions = try reader["CreateDatabaseDefaultPermissions"].readListIfPresent(memberReadingClosure: GlueClientTypes.PrincipalPermissions.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.PrincipalPermissions {
+
+    static func write(value: GlueClientTypes.PrincipalPermissions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Permissions"].writeList(value.permissions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GlueClientTypes.Permission>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Principal"].write(value.principal, with: GlueClientTypes.DataLakePrincipal.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.PrincipalPermissions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.PrincipalPermissions()
+        value.principal = try reader["Principal"].readIfPresent(with: GlueClientTypes.DataLakePrincipal.read(from:))
+        value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.Permission>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.DataLakePrincipal {
+
+    static func write(value: GlueClientTypes.DataLakePrincipal?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataLakePrincipalIdentifier"].write(value.dataLakePrincipalIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataLakePrincipal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DataLakePrincipal()
+        value.dataLakePrincipalIdentifier = try reader["DataLakePrincipalIdentifier"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.CatalogPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CatalogPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.CatalogPropertiesOutput()
+        value.dataLakeAccessProperties = try reader["DataLakeAccessProperties"].readIfPresent(with: GlueClientTypes.DataLakeAccessPropertiesOutput.read(from:))
+        value.customProperties = try reader["CustomProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.DataLakeAccessPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataLakeAccessPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DataLakeAccessPropertiesOutput()
+        value.dataLakeAccess = try reader["DataLakeAccess"].readIfPresent() ?? false
+        value.dataTransferRole = try reader["DataTransferRole"].readIfPresent()
+        value.kmsKey = try reader["KmsKey"].readIfPresent()
+        value.managedWorkgroupName = try reader["ManagedWorkgroupName"].readIfPresent()
+        value.managedWorkgroupStatus = try reader["ManagedWorkgroupStatus"].readIfPresent()
+        value.redshiftDatabaseName = try reader["RedshiftDatabaseName"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.catalogType = try reader["CatalogType"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.FederatedCatalog {
+
+    static func write(value: GlueClientTypes.FederatedCatalog?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionName"].write(value.connectionName)
+        try writer["Identifier"].write(value.identifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.FederatedCatalog {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.FederatedCatalog()
+        value.identifier = try reader["Identifier"].readIfPresent()
+        value.connectionName = try reader["ConnectionName"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.TargetRedshiftCatalog {
+
+    static func write(value: GlueClientTypes.TargetRedshiftCatalog?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogArn"].write(value.catalogArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TargetRedshiftCatalog {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.TargetRedshiftCatalog()
+        value.catalogArn = try reader["CatalogArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -41612,7 +45168,7 @@ extension GlueClientTypes.DecimalNumber {
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DecimalNumber {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.DecimalNumber()
-        value.unscaledValue = try reader["UnscaledValue"].readIfPresent() ?? Foundation.Data("".utf8)
+        value.unscaledValue = try reader["UnscaledValue"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
         value.scale = try reader["Scale"].readIfPresent() ?? 0
         return value
     }
@@ -41710,6 +45266,22 @@ extension GlueClientTypes.ColumnStatisticsTaskSettings {
         value.role = try reader["Role"].readIfPresent()
         value.sampleSize = try reader["SampleSize"].readIfPresent() ?? 0
         value.securityConfiguration = try reader["SecurityConfiguration"].readIfPresent()
+        value.scheduleType = try reader["ScheduleType"].readIfPresent()
+        value.settingSource = try reader["SettingSource"].readIfPresent()
+        value.lastExecutionAttempt = try reader["LastExecutionAttempt"].readIfPresent(with: GlueClientTypes.ExecutionAttempt.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.ExecutionAttempt {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ExecutionAttempt {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ExecutionAttempt()
+        value.status = try reader["Status"].readIfPresent()
+        value.columnStatisticsTaskRunId = try reader["ColumnStatisticsTaskRunId"].readIfPresent()
+        value.executionTimestamp = try reader["ExecutionTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         return value
     }
 }
@@ -41724,7 +45296,9 @@ extension GlueClientTypes.Connection {
         value.connectionType = try reader["ConnectionType"].readIfPresent()
         value.matchCriteria = try reader["MatchCriteria"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.connectionProperties = try reader["ConnectionProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.sparkProperties = try reader["SparkProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.athenaProperties = try reader["AthenaProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.pythonProperties = try reader["PythonProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.physicalConnectionRequirements = try reader["PhysicalConnectionRequirements"].readIfPresent(with: GlueClientTypes.PhysicalConnectionRequirements.read(from:))
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -41733,6 +45307,8 @@ extension GlueClientTypes.Connection {
         value.statusReason = try reader["StatusReason"].readIfPresent()
         value.lastConnectionValidationTime = try reader["LastConnectionValidationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.authenticationConfiguration = try reader["AuthenticationConfiguration"].readIfPresent(with: GlueClientTypes.AuthenticationConfiguration.read(from:))
+        value.connectionSchemaVersion = try reader["ConnectionSchemaVersion"].readIfPresent()
+        value.compatibleComputeEnvironments = try reader["CompatibleComputeEnvironments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.ComputeEnvironment>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -41865,38 +45441,6 @@ extension GlueClientTypes.DatabaseIdentifier {
         value.catalogId = try reader["CatalogId"].readIfPresent()
         value.databaseName = try reader["DatabaseName"].readIfPresent()
         value.region = try reader["Region"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.PrincipalPermissions {
-
-    static func write(value: GlueClientTypes.PrincipalPermissions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Permissions"].writeList(value.permissions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GlueClientTypes.Permission>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Principal"].write(value.principal, with: GlueClientTypes.DataLakePrincipal.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.PrincipalPermissions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.PrincipalPermissions()
-        value.principal = try reader["Principal"].readIfPresent(with: GlueClientTypes.DataLakePrincipal.read(from:))
-        value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.Permission>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.DataLakePrincipal {
-
-    static func write(value: GlueClientTypes.DataLakePrincipal?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataLakePrincipalIdentifier"].write(value.dataLakePrincipalIdentifier)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataLakePrincipal {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DataLakePrincipal()
-        value.dataLakePrincipalIdentifier = try reader["DataLakePrincipalIdentifier"].readIfPresent()
         return value
     }
 }
@@ -42062,6 +45606,63 @@ extension GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions {
         value.cloudWatchMetricsEnabled = try reader["CloudWatchMetricsEnabled"].readIfPresent()
         value.resultsS3Prefix = try reader["ResultsS3Prefix"].readIfPresent()
         value.compositeRuleEvaluationMethod = try reader["CompositeRuleEvaluationMethod"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.SourceTableConfig {
+
+    static func write(value: GlueClientTypes.SourceTableConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Fields"].writeList(value.fields, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FilterPredicate"].write(value.filterPredicate)
+        try writer["PrimaryKey"].writeList(value.primaryKey, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RecordUpdateField"].write(value.recordUpdateField)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SourceTableConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.SourceTableConfig()
+        value.fields = try reader["Fields"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.filterPredicate = try reader["FilterPredicate"].readIfPresent()
+        value.primaryKey = try reader["PrimaryKey"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.recordUpdateField = try reader["RecordUpdateField"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.TargetTableConfig {
+
+    static func write(value: GlueClientTypes.TargetTableConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PartitionSpec"].writeList(value.partitionSpec, memberWritingClosure: GlueClientTypes.IntegrationPartition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TargetTableName"].write(value.targetTableName)
+        try writer["UnnestSpec"].write(value.unnestSpec)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TargetTableConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.TargetTableConfig()
+        value.unnestSpec = try reader["UnnestSpec"].readIfPresent()
+        value.partitionSpec = try reader["PartitionSpec"].readListIfPresent(memberReadingClosure: GlueClientTypes.IntegrationPartition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.targetTableName = try reader["TargetTableName"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.IntegrationPartition {
+
+    static func write(value: GlueClientTypes.IntegrationPartition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldName"].write(value.fieldName)
+        try writer["FunctionSpec"].write(value.functionSpec)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IntegrationPartition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.IntegrationPartition()
+        value.fieldName = try reader["FieldName"].readIfPresent()
+        value.functionSpec = try reader["FunctionSpec"].readIfPresent()
         return value
     }
 }
@@ -42415,6 +46016,7 @@ extension GlueClientTypes.EncryptionConfiguration {
     static func write(value: GlueClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CloudWatchEncryption"].write(value.cloudWatchEncryption, with: GlueClientTypes.CloudWatchEncryption.write(value:to:))
+        try writer["DataQualityEncryption"].write(value.dataQualityEncryption, with: GlueClientTypes.DataQualityEncryption.write(value:to:))
         try writer["JobBookmarksEncryption"].write(value.jobBookmarksEncryption, with: GlueClientTypes.JobBookmarksEncryption.write(value:to:))
         try writer["S3Encryption"].writeList(value.s3Encryption, memberWritingClosure: GlueClientTypes.S3Encryption.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -42425,6 +46027,24 @@ extension GlueClientTypes.EncryptionConfiguration {
         value.s3Encryption = try reader["S3Encryption"].readListIfPresent(memberReadingClosure: GlueClientTypes.S3Encryption.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.cloudWatchEncryption = try reader["CloudWatchEncryption"].readIfPresent(with: GlueClientTypes.CloudWatchEncryption.read(from:))
         value.jobBookmarksEncryption = try reader["JobBookmarksEncryption"].readIfPresent(with: GlueClientTypes.JobBookmarksEncryption.read(from:))
+        value.dataQualityEncryption = try reader["DataQualityEncryption"].readIfPresent(with: GlueClientTypes.DataQualityEncryption.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.DataQualityEncryption {
+
+    static func write(value: GlueClientTypes.DataQualityEncryption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataQualityEncryptionMode"].write(value.dataQualityEncryptionMode)
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityEncryption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DataQualityEncryption()
+        value.dataQualityEncryptionMode = try reader["DataQualityEncryptionMode"].readIfPresent()
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
         return value
     }
 }
@@ -42764,6 +46384,18 @@ extension GlueClientTypes.ResourceUri {
     }
 }
 
+extension GlueClientTypes.ConnectionTypeBrief {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ConnectionTypeBrief {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ConnectionTypeBrief()
+        value.connectionType = try reader["ConnectionType"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.capabilities = try reader["Capabilities"].readIfPresent(with: GlueClientTypes.Capabilities.read(from:))
+        return value
+    }
+}
+
 extension GlueClientTypes.CrawlerHistory {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CrawlerHistory {
@@ -42890,6 +46522,21 @@ extension GlueClientTypes.RunIdentifier {
         var value = GlueClientTypes.RunIdentifier()
         value.runId = try reader["RunId"].readIfPresent()
         value.jobRunId = try reader["JobRunId"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.Entity {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Entity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Entity()
+        value.entityName = try reader["EntityName"].readIfPresent()
+        value.label = try reader["Label"].readIfPresent()
+        value.isParentEntity = try reader["IsParentEntity"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.category = try reader["Category"].readIfPresent()
+        value.customProperties = try reader["CustomProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -43028,6 +46675,40 @@ extension GlueClientTypes.BatchUpdatePartitionRequestEntry {
     }
 }
 
+extension GlueClientTypes.CatalogInput {
+
+    static func write(value: GlueClientTypes.CatalogInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogProperties"].write(value.catalogProperties, with: GlueClientTypes.CatalogProperties.write(value:to:))
+        try writer["CreateDatabaseDefaultPermissions"].writeList(value.createDatabaseDefaultPermissions, memberWritingClosure: GlueClientTypes.PrincipalPermissions.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CreateTableDefaultPermissions"].writeList(value.createTableDefaultPermissions, memberWritingClosure: GlueClientTypes.PrincipalPermissions.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Description"].write(value.description)
+        try writer["FederatedCatalog"].write(value.federatedCatalog, with: GlueClientTypes.FederatedCatalog.write(value:to:))
+        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["TargetRedshiftCatalog"].write(value.targetRedshiftCatalog, with: GlueClientTypes.TargetRedshiftCatalog.write(value:to:))
+    }
+}
+
+extension GlueClientTypes.CatalogProperties {
+
+    static func write(value: GlueClientTypes.CatalogProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomProperties"].writeMap(value.customProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["DataLakeAccessProperties"].write(value.dataLakeAccessProperties, with: GlueClientTypes.DataLakeAccessProperties.write(value:to:))
+    }
+}
+
+extension GlueClientTypes.DataLakeAccessProperties {
+
+    static func write(value: GlueClientTypes.DataLakeAccessProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogType"].write(value.catalogType)
+        try writer["DataLakeAccess"].write(value.dataLakeAccess)
+        try writer["DataTransferRole"].write(value.dataTransferRole)
+        try writer["KmsKey"].write(value.kmsKey)
+    }
+}
+
 extension GlueClientTypes.CreateGrokClassifierRequest {
 
     static func write(value: GlueClientTypes.CreateGrokClassifierRequest?, to writer: SmithyJSON.Writer) throws {
@@ -43087,7 +46768,10 @@ extension GlueClientTypes.ConnectionInput {
         try writer["MatchCriteria"].writeList(value.matchCriteria, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
         try writer["PhysicalConnectionRequirements"].write(value.physicalConnectionRequirements, with: GlueClientTypes.PhysicalConnectionRequirements.write(value:to:))
+        try writer["PythonProperties"].writeMap(value.pythonProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["SparkProperties"].writeMap(value.sparkProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["ValidateCredentials"].write(value.validateCredentials)
+        try writer["ValidateForComputeEnvironments"].writeList(value.validateForComputeEnvironments, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GlueClientTypes.ComputeEnvironment>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -43096,8 +46780,20 @@ extension GlueClientTypes.AuthenticationConfigurationInput {
     static func write(value: GlueClientTypes.AuthenticationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AuthenticationType"].write(value.authenticationType)
+        try writer["BasicAuthenticationCredentials"].write(value.basicAuthenticationCredentials, with: GlueClientTypes.BasicAuthenticationCredentials.write(value:to:))
+        try writer["CustomAuthenticationCredentials"].writeMap(value.customAuthenticationCredentials, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
         try writer["OAuth2Properties"].write(value.oAuth2Properties, with: GlueClientTypes.OAuth2PropertiesInput.write(value:to:))
         try writer["SecretArn"].write(value.secretArn)
+    }
+}
+
+extension GlueClientTypes.BasicAuthenticationCredentials {
+
+    static func write(value: GlueClientTypes.BasicAuthenticationCredentials?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Password"].write(value.password)
+        try writer["Username"].write(value.username)
     }
 }
 
@@ -43107,9 +46803,21 @@ extension GlueClientTypes.OAuth2PropertiesInput {
         guard let value else { return }
         try writer["AuthorizationCodeProperties"].write(value.authorizationCodeProperties, with: GlueClientTypes.AuthorizationCodeProperties.write(value:to:))
         try writer["OAuth2ClientApplication"].write(value.oAuth2ClientApplication, with: GlueClientTypes.OAuth2ClientApplication.write(value:to:))
+        try writer["OAuth2Credentials"].write(value.oAuth2Credentials, with: GlueClientTypes.OAuth2Credentials.write(value:to:))
         try writer["OAuth2GrantType"].write(value.oAuth2GrantType)
         try writer["TokenUrl"].write(value.tokenUrl)
         try writer["TokenUrlParametersMap"].writeMap(value.tokenUrlParametersMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension GlueClientTypes.OAuth2Credentials {
+
+    static func write(value: GlueClientTypes.OAuth2Credentials?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessToken"].write(value.accessToken)
+        try writer["JwtToken"].write(value.jwtToken)
+        try writer["RefreshToken"].write(value.refreshToken)
+        try writer["UserManagedClientApplicationClientSecret"].write(value.userManagedClientApplicationClientSecret)
     }
 }
 
@@ -43227,10 +46935,20 @@ extension GlueClientTypes.UserDefinedFunctionInput {
     }
 }
 
+extension GlueClientTypes.IntegrationFilter {
+
+    static func write(value: GlueClientTypes.IntegrationFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension GlueClientTypes.GetConnectionsFilter {
 
     static func write(value: GlueClientTypes.GetConnectionsFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ConnectionSchemaVersion"].write(value.connectionSchemaVersion)
         try writer["ConnectionType"].write(value.connectionType)
         try writer["MatchCriteria"].writeList(value.matchCriteria, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }

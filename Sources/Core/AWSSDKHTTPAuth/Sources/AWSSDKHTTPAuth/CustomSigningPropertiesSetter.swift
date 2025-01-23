@@ -20,7 +20,7 @@ public class CustomSigningPropertiesSetter {
     private let usesSignedBodyHeader = ["S3", "Glacier", "S3 Control"]
     // Map of service::operation that use unsigned body for presign URL flow.
     private let forceUnsignedBodyForPresigningURL = [
-        "S3": ["getObject", "putObject"]
+        "S3": ["getObject", "putObject", "uploadPart"]
     ]
 
     public init() {}

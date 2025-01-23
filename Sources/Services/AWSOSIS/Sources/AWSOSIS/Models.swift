@@ -28,9 +28,9 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 
 /// You don't have permissions to access the resource.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -45,16 +45,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Exception is thrown when an operation has been disabled.
-public struct DisabledOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DisabledOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -69,16 +68,15 @@ public struct DisabledOperationException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
-public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -93,16 +91,15 @@ public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You attempted to create more than the allowed number of tags.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -117,16 +114,15 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You attempted to create a resource that already exists.
-public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -141,16 +137,15 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You attempted to access or delete a resource that does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -165,16 +160,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// An exception for missing or invalid input fields.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -189,8 +183,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -205,8 +198,7 @@ extension OSISClientTypes {
 
         public init(
             persistentBufferEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.persistentBufferEnabled = persistentBufferEnabled
         }
     }
@@ -222,8 +214,7 @@ extension OSISClientTypes {
 
         public init(
             kmsKeyArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyArn = kmsKeyArn
         }
     }
@@ -239,8 +230,7 @@ extension OSISClientTypes {
 
         public init(
             logGroup: Swift.String? = nil
-        )
-        {
+        ) {
             self.logGroup = logGroup
         }
     }
@@ -258,8 +248,7 @@ extension OSISClientTypes {
         public init(
             cloudWatchLogDestination: OSISClientTypes.CloudWatchLogDestination? = nil,
             isLoggingEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.cloudWatchLogDestination = cloudWatchLogDestination
             self.isLoggingEnabled = isLoggingEnabled
         }
@@ -280,8 +269,7 @@ extension OSISClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -301,8 +289,7 @@ extension OSISClientTypes {
         public init(
             attachToVpc: Swift.Bool? = nil,
             cidrBlock: Swift.String? = nil
-        )
-        {
+        ) {
             self.attachToVpc = attachToVpc
             self.cidrBlock = cidrBlock
         }
@@ -357,8 +344,7 @@ extension OSISClientTypes {
             subnetIds: [Swift.String]? = nil,
             vpcAttachmentOptions: OSISClientTypes.VpcAttachmentOptions? = nil,
             vpcEndpointManagement: OSISClientTypes.VpcEndpointManagement? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
             self.vpcAttachmentOptions = vpcAttachmentOptions
@@ -401,8 +387,7 @@ public struct CreatePipelineInput: Swift.Sendable {
         pipelineName: Swift.String? = nil,
         tags: [OSISClientTypes.Tag]? = nil,
         vpcOptions: OSISClientTypes.VpcOptions? = nil
-    )
-    {
+    ) {
         self.bufferOptions = bufferOptions
         self.encryptionAtRestOptions = encryptionAtRestOptions
         self.logPublishingOptions = logPublishingOptions
@@ -427,8 +412,7 @@ extension OSISClientTypes {
         public init(
             endpoint: Swift.String? = nil,
             serviceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.endpoint = endpoint
             self.serviceName = serviceName
         }
@@ -473,8 +457,7 @@ extension OSISClientTypes {
         public init(
             serviceName: OSISClientTypes.VpcEndpointServiceName? = nil,
             vpcEndpointId: Swift.String? = nil
-        )
-        {
+        ) {
             self.serviceName = serviceName
             self.vpcEndpointId = vpcEndpointId
         }
@@ -543,8 +526,7 @@ extension OSISClientTypes {
 
         public init(
             description: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
         }
     }
@@ -565,8 +547,7 @@ extension OSISClientTypes {
             vpcEndpointId: Swift.String? = nil,
             vpcId: Swift.String? = nil,
             vpcOptions: OSISClientTypes.VpcOptions? = nil
-        )
-        {
+        ) {
             self.vpcEndpointId = vpcEndpointId
             self.vpcId = vpcId
             self.vpcOptions = vpcOptions
@@ -634,8 +615,7 @@ extension OSISClientTypes {
             tags: [OSISClientTypes.Tag]? = nil,
             vpcEndpointService: Swift.String? = nil,
             vpcEndpoints: [OSISClientTypes.VpcEndpoint]? = nil
-        )
-        {
+        ) {
             self.bufferOptions = bufferOptions
             self.createdAt = createdAt
             self.destinations = destinations
@@ -664,16 +644,15 @@ public struct CreatePipelineOutput: Swift.Sendable {
 
     public init(
         pipeline: OSISClientTypes.Pipeline? = nil
-    )
-    {
+    ) {
         self.pipeline = pipeline
     }
 }
 
 /// The client attempted to remove a resource that is currently in use.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -688,8 +667,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -701,8 +679,7 @@ public struct DeletePipelineInput: Swift.Sendable {
 
     public init(
         pipelineName: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineName = pipelineName
     }
 }
@@ -719,8 +696,7 @@ public struct GetPipelineInput: Swift.Sendable {
 
     public init(
         pipelineName: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineName = pipelineName
     }
 }
@@ -731,8 +707,7 @@ public struct GetPipelineOutput: Swift.Sendable {
 
     public init(
         pipeline: OSISClientTypes.Pipeline? = nil
-    )
-    {
+    ) {
         self.pipeline = pipeline
     }
 }
@@ -747,8 +722,7 @@ public struct GetPipelineBlueprintInput: Swift.Sendable {
     public init(
         blueprintName: Swift.String? = nil,
         format: Swift.String? = nil
-    )
-    {
+    ) {
         self.blueprintName = blueprintName
         self.format = format
     }
@@ -778,8 +752,7 @@ extension OSISClientTypes {
             pipelineConfigurationBody: Swift.String? = nil,
             service: Swift.String? = nil,
             useCase: Swift.String? = nil
-        )
-        {
+        ) {
             self.blueprintName = blueprintName
             self.displayDescription = displayDescription
             self.displayName = displayName
@@ -799,8 +772,7 @@ public struct GetPipelineBlueprintOutput: Swift.Sendable {
     public init(
         blueprint: OSISClientTypes.PipelineBlueprint? = nil,
         format: Swift.String? = nil
-    )
-    {
+    ) {
         self.blueprint = blueprint
         self.format = format
     }
@@ -813,8 +785,7 @@ public struct GetPipelineChangeProgressInput: Swift.Sendable {
 
     public init(
         pipelineName: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineName = pipelineName
     }
 }
@@ -872,8 +843,7 @@ extension OSISClientTypes {
             lastUpdatedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: OSISClientTypes.ChangeProgressStageStatuses? = nil
-        )
-        {
+        ) {
             self.description = description
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
@@ -935,8 +905,7 @@ extension OSISClientTypes {
             startTime: Foundation.Date? = nil,
             status: OSISClientTypes.ChangeProgressStatuses? = nil,
             totalNumberOfStages: Swift.Int = 0
-        )
-        {
+        ) {
             self.changeProgressStages = changeProgressStages
             self.startTime = startTime
             self.status = status
@@ -951,16 +920,15 @@ public struct GetPipelineChangeProgressOutput: Swift.Sendable {
 
     public init(
         changeProgressStatuses: [OSISClientTypes.ChangeProgressStatus]? = nil
-    )
-    {
+    ) {
         self.changeProgressStatuses = changeProgressStatuses
     }
 }
 
 /// An invalid pagination token provided in the request.
-public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -975,8 +943,7 @@ public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1007,8 +974,7 @@ extension OSISClientTypes {
             displayName: Swift.String? = nil,
             service: Swift.String? = nil,
             useCase: Swift.String? = nil
-        )
-        {
+        ) {
             self.blueprintName = blueprintName
             self.displayDescription = displayDescription
             self.displayName = displayName
@@ -1024,8 +990,7 @@ public struct ListPipelineBlueprintsOutput: Swift.Sendable {
 
     public init(
         blueprints: [OSISClientTypes.PipelineBlueprintSummary]? = nil
-    )
-    {
+    ) {
         self.blueprints = blueprints
     }
 }
@@ -1039,8 +1004,7 @@ public struct ListPipelinesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1082,8 +1046,7 @@ extension OSISClientTypes {
             status: OSISClientTypes.PipelineStatus? = nil,
             statusReason: OSISClientTypes.PipelineStatusReason? = nil,
             tags: [OSISClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.destinations = destinations
             self.lastUpdatedAt = lastUpdatedAt
@@ -1107,8 +1070,7 @@ public struct ListPipelinesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pipelines: [OSISClientTypes.PipelineSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pipelines = pipelines
     }
@@ -1121,8 +1083,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
     }
 }
@@ -1133,8 +1094,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [OSISClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1146,8 +1106,7 @@ public struct StartPipelineInput: Swift.Sendable {
 
     public init(
         pipelineName: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineName = pipelineName
     }
 }
@@ -1158,8 +1117,7 @@ public struct StartPipelineOutput: Swift.Sendable {
 
     public init(
         pipeline: OSISClientTypes.Pipeline? = nil
-    )
-    {
+    ) {
         self.pipeline = pipeline
     }
 }
@@ -1171,8 +1129,7 @@ public struct StopPipelineInput: Swift.Sendable {
 
     public init(
         pipelineName: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineName = pipelineName
     }
 }
@@ -1183,8 +1140,7 @@ public struct StopPipelineOutput: Swift.Sendable {
 
     public init(
         pipeline: OSISClientTypes.Pipeline? = nil
-    )
-    {
+    ) {
         self.pipeline = pipeline
     }
 }
@@ -1200,8 +1156,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         tags: [OSISClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.tags = tags
     }
@@ -1223,8 +1178,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.tagKeys = tagKeys
     }
@@ -1260,8 +1214,7 @@ public struct UpdatePipelineInput: Swift.Sendable {
         minUnits: Swift.Int? = nil,
         pipelineConfigurationBody: Swift.String? = nil,
         pipelineName: Swift.String? = nil
-    )
-    {
+    ) {
         self.bufferOptions = bufferOptions
         self.encryptionAtRestOptions = encryptionAtRestOptions
         self.logPublishingOptions = logPublishingOptions
@@ -1278,8 +1231,7 @@ public struct UpdatePipelineOutput: Swift.Sendable {
 
     public init(
         pipeline: OSISClientTypes.Pipeline? = nil
-    )
-    {
+    ) {
         self.pipeline = pipeline
     }
 }
@@ -1291,8 +1243,7 @@ public struct ValidatePipelineInput: Swift.Sendable {
 
     public init(
         pipelineConfigurationBody: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineConfigurationBody = pipelineConfigurationBody
     }
 }
@@ -1306,8 +1257,7 @@ extension OSISClientTypes {
 
         public init(
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
         }
     }
@@ -1322,8 +1272,7 @@ public struct ValidatePipelineOutput: Swift.Sendable {
     public init(
         errors: [OSISClientTypes.ValidationMessage]? = nil,
         isValid: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.isValid = isValid
     }

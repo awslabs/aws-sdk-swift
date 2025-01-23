@@ -22,9 +22,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// You don't have sufficient permission to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -39,8 +39,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -87,9 +86,9 @@ extension SupportAppClientTypes {
 /// * Call the RegisterSlackWorkspaceForOrganization API from an Amazon Web Services account that doesn't belong to an organization.
 ///
 /// * Call the RegisterSlackWorkspaceForOrganization API from a member account, but the management account hasn't registered that workspace yet for the organization.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -104,16 +103,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// We can’t process your request right now because of a server issue. Try again later.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -128,16 +126,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Your Service Quotas request exceeds the quota for the service. For example, your Service Quotas request to Amazon Web Services Support App might exceed the maximum number of workspaces or channels per account, or the maximum number of accounts per Slack channel.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -152,16 +149,15 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Your request input doesn't meet the constraints that the Amazon Web Services Support App specifies.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -176,8 +172,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -263,8 +258,7 @@ public struct CreateSlackChannelConfigurationInput: Swift.Sendable {
         notifyOnCreateOrReopenCase: Swift.Bool? = nil,
         notifyOnResolveCase: Swift.Bool? = nil,
         teamId: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelId = channelId
         self.channelName = channelName
         self.channelRoleArn = channelRoleArn
@@ -282,9 +276,9 @@ public struct CreateSlackChannelConfigurationOutput: Swift.Sendable {
 }
 
 /// The specified resource is missing or doesn't exist, such as an account alias, Slack channel configuration, or Slack workspace configuration.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -299,8 +293,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -326,8 +319,7 @@ public struct DeleteSlackChannelConfigurationInput: Swift.Sendable {
     public init(
         channelId: Swift.String? = nil,
         teamId: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelId = channelId
         self.teamId = teamId
     }
@@ -345,8 +337,7 @@ public struct DeleteSlackWorkspaceConfigurationInput: Swift.Sendable {
 
     public init(
         teamId: Swift.String? = nil
-    )
-    {
+    ) {
         self.teamId = teamId
     }
 }
@@ -367,8 +358,7 @@ public struct GetAccountAliasOutput: Swift.Sendable {
 
     public init(
         accountAlias: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountAlias = accountAlias
     }
 }
@@ -379,8 +369,7 @@ public struct ListSlackChannelConfigurationsInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -417,8 +406,7 @@ extension SupportAppClientTypes {
             notifyOnCreateOrReopenCase: Swift.Bool? = nil,
             notifyOnResolveCase: Swift.Bool? = nil,
             teamId: Swift.String? = nil
-        )
-        {
+        ) {
             self.channelId = channelId
             self.channelName = channelName
             self.channelRoleArn = channelRoleArn
@@ -441,8 +429,7 @@ public struct ListSlackChannelConfigurationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         slackChannelConfigurations: [SupportAppClientTypes.SlackChannelConfiguration]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.slackChannelConfigurations = slackChannelConfigurations
     }
@@ -454,8 +441,7 @@ public struct ListSlackWorkspaceConfigurationsInput: Swift.Sendable {
 
     public init(
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
     }
 }
@@ -476,8 +462,7 @@ extension SupportAppClientTypes {
             allowOrganizationMemberAccount: Swift.Bool? = nil,
             teamId: Swift.String? = nil,
             teamName: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowOrganizationMemberAccount = allowOrganizationMemberAccount
             self.teamId = teamId
             self.teamName = teamName
@@ -494,8 +479,7 @@ public struct ListSlackWorkspaceConfigurationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         slackWorkspaceConfigurations: [SupportAppClientTypes.SlackWorkspaceConfiguration]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.slackWorkspaceConfigurations = slackWorkspaceConfigurations
     }
@@ -508,8 +492,7 @@ public struct PutAccountAliasInput: Swift.Sendable {
 
     public init(
         accountAlias: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountAlias = accountAlias
     }
 }
@@ -526,8 +509,7 @@ public struct RegisterSlackWorkspaceForOrganizationInput: Swift.Sendable {
 
     public init(
         teamId: Swift.String? = nil
-    )
-    {
+    ) {
         self.teamId = teamId
     }
 }
@@ -544,8 +526,7 @@ public struct RegisterSlackWorkspaceForOrganizationOutput: Swift.Sendable {
         accountType: SupportAppClientTypes.AccountType? = nil,
         teamId: Swift.String? = nil,
         teamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountType = accountType
         self.teamId = teamId
         self.teamName = teamName
@@ -599,8 +580,7 @@ public struct UpdateSlackChannelConfigurationInput: Swift.Sendable {
         notifyOnCreateOrReopenCase: Swift.Bool? = nil,
         notifyOnResolveCase: Swift.Bool? = nil,
         teamId: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelId = channelId
         self.channelName = channelName
         self.channelRoleArn = channelRoleArn
@@ -639,8 +619,7 @@ public struct UpdateSlackChannelConfigurationOutput: Swift.Sendable {
         notifyOnCreateOrReopenCase: Swift.Bool? = nil,
         notifyOnResolveCase: Swift.Bool? = nil,
         teamId: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelId = channelId
         self.channelName = channelName
         self.channelRoleArn = channelRoleArn

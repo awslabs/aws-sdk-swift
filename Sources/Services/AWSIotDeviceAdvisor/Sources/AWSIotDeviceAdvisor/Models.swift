@@ -57,9 +57,9 @@ extension IotDeviceAdvisorClientTypes {
 }
 
 /// Sends a Conflict Exception.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Sends a Conflict Exception message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -75,16 +75,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Sends an Internal Failure exception.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Sends an Internal Failure Exception message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -100,16 +99,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Sends a validation exception.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Sends a Validation Exception message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -125,8 +123,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -146,8 +143,7 @@ extension IotDeviceAdvisorClientTypes {
             certificateArn: Swift.String? = nil,
             deviceRoleArn: Swift.String? = nil,
             thingArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.certificateArn = certificateArn
             self.deviceRoleArn = deviceRoleArn
             self.thingArn = thingArn
@@ -220,8 +216,7 @@ extension IotDeviceAdvisorClientTypes {
             `protocol`: IotDeviceAdvisorClientTypes.ModelProtocol? = nil,
             rootGroup: Swift.String? = nil,
             suiteDefinitionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.devicePermissionRoleArn = devicePermissionRoleArn
             self.devices = devices
             self.intendedForQualification = intendedForQualification
@@ -246,8 +241,7 @@ public struct CreateSuiteDefinitionInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         suiteDefinitionConfiguration: IotDeviceAdvisorClientTypes.SuiteDefinitionConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.suiteDefinitionConfiguration = suiteDefinitionConfiguration
         self.tags = tags
@@ -269,8 +263,7 @@ public struct CreateSuiteDefinitionOutput: Swift.Sendable {
         suiteDefinitionArn: Swift.String? = nil,
         suiteDefinitionId: Swift.String? = nil,
         suiteDefinitionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.suiteDefinitionArn = suiteDefinitionArn
         self.suiteDefinitionId = suiteDefinitionId
@@ -285,8 +278,7 @@ public struct DeleteSuiteDefinitionInput: Swift.Sendable {
 
     public init(
         suiteDefinitionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.suiteDefinitionId = suiteDefinitionId
     }
 }
@@ -297,9 +289,9 @@ public struct DeleteSuiteDefinitionOutput: Swift.Sendable {
 }
 
 /// Sends a Resource Not Found exception.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Sends a Resource Not Found Exception message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -315,8 +307,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -336,8 +327,7 @@ public struct GetEndpointInput: Swift.Sendable {
         certificateArn: Swift.String? = nil,
         deviceRoleArn: Swift.String? = nil,
         thingArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.authenticationMethod = authenticationMethod
         self.certificateArn = certificateArn
         self.deviceRoleArn = deviceRoleArn
@@ -351,8 +341,7 @@ public struct GetEndpointOutput: Swift.Sendable {
 
     public init(
         endpoint: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpoint = endpoint
     }
 }
@@ -367,8 +356,7 @@ public struct GetSuiteDefinitionInput: Swift.Sendable {
     public init(
         suiteDefinitionId: Swift.String? = nil,
         suiteDefinitionVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.suiteDefinitionId = suiteDefinitionId
         self.suiteDefinitionVersion = suiteDefinitionVersion
     }
@@ -401,8 +389,7 @@ public struct GetSuiteDefinitionOutput: Swift.Sendable {
         suiteDefinitionId: Swift.String? = nil,
         suiteDefinitionVersion: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.lastModifiedAt = lastModifiedAt
         self.latestVersion = latestVersion
@@ -425,8 +412,7 @@ public struct GetSuiteRunInput: Swift.Sendable {
     public init(
         suiteDefinitionId: Swift.String? = nil,
         suiteRunId: Swift.String? = nil
-    )
-    {
+    ) {
         self.suiteDefinitionId = suiteDefinitionId
         self.suiteRunId = suiteRunId
     }
@@ -498,8 +484,7 @@ extension IotDeviceAdvisorClientTypes {
             parallelRun: Swift.Bool? = nil,
             primaryDevice: IotDeviceAdvisorClientTypes.DeviceUnderTest? = nil,
             selectedTestList: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.parallelRun = parallelRun
             self.primaryDevice = primaryDevice
             self.selectedTestList = selectedTestList
@@ -677,8 +662,7 @@ extension IotDeviceAdvisorClientTypes {
             systemMessage: Swift.String? = nil,
             testCaseScenarioId: Swift.String? = nil,
             testCaseScenarioType: IotDeviceAdvisorClientTypes.TestCaseScenarioType? = nil
-        )
-        {
+        ) {
             self.failure = failure
             self.status = status
             self.systemMessage = systemMessage
@@ -740,8 +724,7 @@ extension IotDeviceAdvisorClientTypes {
             testCaseRunId: Swift.String? = nil,
             testScenarios: [IotDeviceAdvisorClientTypes.TestCaseScenario]? = nil,
             warnings: Swift.String? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.failure = failure
             self.logUrl = logUrl
@@ -771,8 +754,7 @@ extension IotDeviceAdvisorClientTypes {
             groupId: Swift.String? = nil,
             groupName: Swift.String? = nil,
             tests: [IotDeviceAdvisorClientTypes.TestCaseRun]? = nil
-        )
-        {
+        ) {
             self.groupId = groupId
             self.groupName = groupName
             self.tests = tests
@@ -789,8 +771,7 @@ extension IotDeviceAdvisorClientTypes {
 
         public init(
             groups: [IotDeviceAdvisorClientTypes.GroupResult]? = nil
-        )
-        {
+        ) {
             self.groups = groups
         }
     }
@@ -832,8 +813,7 @@ public struct GetSuiteRunOutput: Swift.Sendable {
         suiteRunId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         testResult: IotDeviceAdvisorClientTypes.TestResult? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.errorReason = errorReason
         self.startTime = startTime
@@ -859,8 +839,7 @@ public struct GetSuiteRunReportInput: Swift.Sendable {
     public init(
         suiteDefinitionId: Swift.String? = nil,
         suiteRunId: Swift.String? = nil
-    )
-    {
+    ) {
         self.suiteDefinitionId = suiteDefinitionId
         self.suiteRunId = suiteRunId
     }
@@ -872,8 +851,7 @@ public struct GetSuiteRunReportOutput: Swift.Sendable {
 
     public init(
         qualificationReportDownloadUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.qualificationReportDownloadUrl = qualificationReportDownloadUrl
     }
 }
@@ -887,8 +865,7 @@ public struct ListSuiteDefinitionsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -921,8 +898,7 @@ extension IotDeviceAdvisorClientTypes {
             `protocol`: IotDeviceAdvisorClientTypes.ModelProtocol? = nil,
             suiteDefinitionId: Swift.String? = nil,
             suiteDefinitionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.defaultDevices = defaultDevices
             self.intendedForQualification = intendedForQualification
@@ -943,8 +919,7 @@ public struct ListSuiteDefinitionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         suiteDefinitionInformationList: [IotDeviceAdvisorClientTypes.SuiteDefinitionInformation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.suiteDefinitionInformationList = suiteDefinitionInformationList
     }
@@ -965,8 +940,7 @@ public struct ListSuiteRunsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         suiteDefinitionId: Swift.String? = nil,
         suiteDefinitionVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.suiteDefinitionId = suiteDefinitionId
@@ -1010,8 +984,7 @@ extension IotDeviceAdvisorClientTypes {
             suiteDefinitionName: Swift.String? = nil,
             suiteDefinitionVersion: Swift.String? = nil,
             suiteRunId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.endAt = endAt
             self.failed = failed
@@ -1035,8 +1008,7 @@ public struct ListSuiteRunsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         suiteRunsList: [IotDeviceAdvisorClientTypes.SuiteRunInformation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.suiteRunsList = suiteRunsList
     }
@@ -1049,8 +1021,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1061,8 +1032,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1084,8 +1054,7 @@ public struct StartSuiteRunInput: Swift.Sendable {
         suiteDefinitionVersion: Swift.String? = nil,
         suiteRunConfiguration: IotDeviceAdvisorClientTypes.SuiteRunConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.suiteDefinitionId = suiteDefinitionId
         self.suiteDefinitionVersion = suiteDefinitionVersion
         self.suiteRunConfiguration = suiteRunConfiguration
@@ -1108,8 +1077,7 @@ public struct StartSuiteRunOutput: Swift.Sendable {
         endpoint: Swift.String? = nil,
         suiteRunArn: Swift.String? = nil,
         suiteRunId: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.endpoint = endpoint
         self.suiteRunArn = suiteRunArn
@@ -1128,8 +1096,7 @@ public struct StopSuiteRunInput: Swift.Sendable {
     public init(
         suiteDefinitionId: Swift.String? = nil,
         suiteRunId: Swift.String? = nil
-    )
-    {
+    ) {
         self.suiteDefinitionId = suiteDefinitionId
         self.suiteRunId = suiteRunId
     }
@@ -1151,8 +1118,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1174,8 +1140,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -1197,8 +1162,7 @@ public struct UpdateSuiteDefinitionInput: Swift.Sendable {
     public init(
         suiteDefinitionConfiguration: IotDeviceAdvisorClientTypes.SuiteDefinitionConfiguration? = nil,
         suiteDefinitionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.suiteDefinitionConfiguration = suiteDefinitionConfiguration
         self.suiteDefinitionId = suiteDefinitionId
     }
@@ -1225,8 +1189,7 @@ public struct UpdateSuiteDefinitionOutput: Swift.Sendable {
         suiteDefinitionId: Swift.String? = nil,
         suiteDefinitionName: Swift.String? = nil,
         suiteDefinitionVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.lastUpdatedAt = lastUpdatedAt
         self.suiteDefinitionArn = suiteDefinitionArn

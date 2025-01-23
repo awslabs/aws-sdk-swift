@@ -58,9 +58,9 @@ public struct GetSparqlStatisticsInput: Swift.Sendable {
 }
 
 /// Raised in case of an authentication or authorization failure.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -85,8 +85,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -123,9 +122,9 @@ extension NeptunedataClientTypes {
 }
 
 /// Raised when a request is submitted that cannot be processed.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -150,8 +149,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -159,9 +157,9 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// Raised when a request timed out in the client.
-public struct ClientTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClientTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -186,8 +184,7 @@ public struct ClientTimeoutException: ClientRuntime.ModeledError, AWSClientRunti
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -195,9 +192,9 @@ public struct ClientTimeoutException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// Raised when a request attempts to modify data that is concurrently being modified by another process.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -222,8 +219,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -231,9 +227,9 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 }
 
 /// Raised when a value in a request field did not satisfy required constraints.
-public struct ConstraintViolationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConstraintViolationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -258,8 +254,7 @@ public struct ConstraintViolationException: ClientRuntime.ModeledError, AWSClien
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -267,9 +262,9 @@ public struct ConstraintViolationException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// Raised when a request fails.
-public struct FailureByQueryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FailureByQueryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -294,8 +289,7 @@ public struct FailureByQueryException: ClientRuntime.ModeledError, AWSClientRunt
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -303,9 +297,9 @@ public struct FailureByQueryException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// Raised when an argument in a request is not supported.
-public struct IllegalArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IllegalArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -330,8 +324,7 @@ public struct IllegalArgumentException: ClientRuntime.ModeledError, AWSClientRun
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -339,9 +332,9 @@ public struct IllegalArgumentException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// Raised when an argument in a request has an invalid value.
-public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -366,8 +359,7 @@ public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRun
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -375,9 +367,9 @@ public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// Raised when a parameter value is not valid.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -402,8 +394,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -411,9 +402,9 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Raised when a required parameter is missing.
-public struct MissingParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MissingParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -438,8 +429,7 @@ public struct MissingParameterException: ClientRuntime.ModeledError, AWSClientRu
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -447,9 +437,9 @@ public struct MissingParameterException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Raised when a parsing issue is encountered.
-public struct ParsingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ParsingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -474,8 +464,7 @@ public struct ParsingException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -483,9 +472,9 @@ public struct ParsingException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 }
 
 /// Raised when a precondition for processing a request is not satisfied.
-public struct PreconditionsFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PreconditionsFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -510,8 +499,7 @@ public struct PreconditionsFailedException: ClientRuntime.ModeledError, AWSClien
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -519,9 +507,9 @@ public struct PreconditionsFailedException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// Raised when the an operation exceeds the time limit allowed for it.
-public struct TimeLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TimeLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -546,8 +534,7 @@ public struct TimeLimitExceededException: ClientRuntime.ModeledError, AWSClientR
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -555,9 +542,9 @@ public struct TimeLimitExceededException: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// Raised when the number of requests being processed exceeds the limit.
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -582,8 +569,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -591,9 +577,9 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// Raised when a request attempts to initiate an operation that is not supported.
-public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -618,8 +604,7 @@ public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClie
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -633,8 +618,7 @@ public struct CancelGremlinQueryInput: Swift.Sendable {
 
     public init(
         queryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.queryId = queryId
     }
 }
@@ -645,16 +629,15 @@ public struct CancelGremlinQueryOutput: Swift.Sendable {
 
     public init(
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
 
 /// Raised when a specified bulk-load job ID cannot be found.
-public struct BulkLoadIdNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BulkLoadIdNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -679,8 +662,7 @@ public struct BulkLoadIdNotFoundException: ClientRuntime.ModeledError, AWSClient
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -688,9 +670,9 @@ public struct BulkLoadIdNotFoundException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// Raised when the processing of the request failed unexpectedly.
-public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -715,8 +697,7 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -724,9 +705,9 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// Raised when access is denied to a specified load URL.
-public struct LoadUrlAccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LoadUrlAccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -751,8 +732,7 @@ public struct LoadUrlAccessDeniedException: ClientRuntime.ModeledError, AWSClien
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -766,8 +746,7 @@ public struct CancelLoaderJobInput: Swift.Sendable {
 
     public init(
         loadId: Swift.String? = nil
-    )
-    {
+    ) {
         self.loadId = loadId
     }
 }
@@ -778,16 +757,15 @@ public struct CancelLoaderJobOutput: Swift.Sendable {
 
     public init(
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
 
 /// Raised when a specified machine-learning resource could not be found.
-public struct MLResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MLResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -812,8 +790,7 @@ public struct MLResourceNotFoundException: ClientRuntime.ModeledError, AWSClient
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -833,8 +810,7 @@ public struct CancelMLDataProcessingJobInput: Swift.Sendable {
         clean: Swift.Bool? = nil,
         id: Swift.String? = nil,
         neptuneIamRoleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clean = clean
         self.id = id
         self.neptuneIamRoleArn = neptuneIamRoleArn
@@ -847,8 +823,7 @@ public struct CancelMLDataProcessingJobOutput: Swift.Sendable {
 
     public init(
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -866,8 +841,7 @@ public struct CancelMLModelTrainingJobInput: Swift.Sendable {
         clean: Swift.Bool? = nil,
         id: Swift.String? = nil,
         neptuneIamRoleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clean = clean
         self.id = id
         self.neptuneIamRoleArn = neptuneIamRoleArn
@@ -880,8 +854,7 @@ public struct CancelMLModelTrainingJobOutput: Swift.Sendable {
 
     public init(
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -899,8 +872,7 @@ public struct CancelMLModelTransformJobInput: Swift.Sendable {
         clean: Swift.Bool? = nil,
         id: Swift.String? = nil,
         neptuneIamRoleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clean = clean
         self.id = id
         self.neptuneIamRoleArn = neptuneIamRoleArn
@@ -913,16 +885,15 @@ public struct CancelMLModelTransformJobOutput: Swift.Sendable {
 
     public init(
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
 
 /// Raised when invalid numerical data is encountered when servicing a request.
-public struct InvalidNumericDataException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNumericDataException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -947,8 +918,7 @@ public struct InvalidNumericDataException: ClientRuntime.ModeledError, AWSClient
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -965,8 +935,7 @@ public struct CancelOpenCypherQueryInput: Swift.Sendable {
     public init(
         queryId: Swift.String? = nil,
         silent: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.queryId = queryId
         self.silent = silent
     }
@@ -981,8 +950,7 @@ public struct CancelOpenCypherQueryOutput: Swift.Sendable {
     public init(
         payload: Swift.Bool? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.payload = payload
         self.status = status
     }
@@ -1018,8 +986,7 @@ public struct CreateMLEndpointInput: Swift.Sendable {
         neptuneIamRoleArn: Swift.String? = nil,
         update: Swift.Bool? = nil,
         volumeEncryptionKMSKey: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.instanceCount = instanceCount
         self.instanceType = instanceType
@@ -1044,8 +1011,7 @@ public struct CreateMLEndpointOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         creationTimeInMillis: Swift.Int? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimeInMillis = creationTimeInMillis
         self.id = id
@@ -1065,8 +1031,7 @@ public struct DeleteMLEndpointInput: Swift.Sendable {
         clean: Swift.Bool? = nil,
         id: Swift.String? = nil,
         neptuneIamRoleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clean = clean
         self.id = id
         self.neptuneIamRoleArn = neptuneIamRoleArn
@@ -1079,16 +1044,15 @@ public struct DeleteMLEndpointOutput: Swift.Sendable {
 
     public init(
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
 
 /// Raised when a request attempts to write to a read-only resource.
-public struct ReadOnlyViolationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReadOnlyViolationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -1113,8 +1077,7 @@ public struct ReadOnlyViolationException: ClientRuntime.ModeledError, AWSClientR
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -1122,9 +1085,9 @@ public struct ReadOnlyViolationException: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// Raised when statistics needed to satisfy a request are not available.
-public struct StatisticsNotAvailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StatisticsNotAvailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -1149,8 +1112,7 @@ public struct StatisticsNotAvailableException: ClientRuntime.ModeledError, AWSCl
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -1169,8 +1131,7 @@ extension NeptunedataClientTypes {
         public init(
             active: Swift.Bool? = nil,
             statisticsId: Swift.String? = nil
-        )
-        {
+        ) {
             self.active = active
             self.statisticsId = statisticsId
         }
@@ -1189,8 +1150,7 @@ public struct DeletePropertygraphStatisticsOutput: Swift.Sendable {
         payload: NeptunedataClientTypes.DeleteStatisticsValueMap? = nil,
         status: Swift.String? = nil,
         statusCode: Swift.Int? = nil
-    )
-    {
+    ) {
         self.payload = payload
         self.status = status
         self.statusCode = statusCode
@@ -1209,8 +1169,7 @@ public struct DeleteSparqlStatisticsOutput: Swift.Sendable {
         payload: NeptunedataClientTypes.DeleteStatisticsValueMap? = nil,
         status: Swift.String? = nil,
         statusCode: Swift.Int? = nil
-    )
-    {
+    ) {
         self.payload = payload
         self.status = status
         self.statusCode = statusCode
@@ -1218,9 +1177,9 @@ public struct DeleteSparqlStatisticsOutput: Swift.Sendable {
 }
 
 /// Raised when the HTTP method used by a request is not supported by the endpoint being used.
-public struct MethodNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MethodNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -1245,8 +1204,7 @@ public struct MethodNotAllowedException: ClientRuntime.ModeledError, AWSClientRu
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -1254,9 +1212,9 @@ public struct MethodNotAllowedException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Raised when the server shuts down while processing a request.
-public struct ServerShutdownException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServerShutdownException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -1281,8 +1239,7 @@ public struct ServerShutdownException: ClientRuntime.ModeledError, AWSClientRunt
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -1303,8 +1260,7 @@ public struct ExecuteFastResetInput: Swift.Sendable {
     public init(
         action: NeptunedataClientTypes.Action? = nil,
         token: Swift.String? = nil
-    )
-    {
+    ) {
         self.action = action
         self.token = token
     }
@@ -1319,8 +1275,7 @@ extension NeptunedataClientTypes {
 
         public init(
             token: Swift.String? = nil
-        )
-        {
+        ) {
             self.token = token
         }
     }
@@ -1336,17 +1291,16 @@ public struct ExecuteFastResetOutput: Swift.Sendable {
     public init(
         payload: NeptunedataClientTypes.FastResetToken? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.payload = payload
         self.status = status
     }
 }
 
 /// Raised when a user cancelled a request.
-public struct CancelledByUserException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CancelledByUserException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -1371,8 +1325,7 @@ public struct CancelledByUserException: ClientRuntime.ModeledError, AWSClientRun
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -1380,9 +1333,9 @@ public struct CancelledByUserException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// Raised when a query is submitted that is syntactically incorrect or does not pass additional validation.
-public struct MalformedQueryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MalformedQueryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -1407,8 +1360,7 @@ public struct MalformedQueryException: ClientRuntime.ModeledError, AWSClientRunt
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -1416,9 +1368,9 @@ public struct MalformedQueryException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// Raised when a request fails because of insufficient memory resources. The request can be retried.
-public struct MemoryLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MemoryLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -1443,8 +1395,7 @@ public struct MemoryLimitExceededException: ClientRuntime.ModeledError, AWSClien
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -1452,9 +1403,9 @@ public struct MemoryLimitExceededException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// Raised when the number of active queries exceeds what the server can process. The query in question can be retried when the system is less busy.
-public struct QueryLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct QueryLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -1479,8 +1430,7 @@ public struct QueryLimitExceededException: ClientRuntime.ModeledError, AWSClient
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -1488,9 +1438,9 @@ public struct QueryLimitExceededException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// Raised when the size of a query exceeds the system limit.
-public struct QueryLimitException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct QueryLimitException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -1515,8 +1465,7 @@ public struct QueryLimitException: ClientRuntime.ModeledError, AWSClientRuntime.
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -1524,9 +1473,9 @@ public struct QueryLimitException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// Raised when the body of a query is too large.
-public struct QueryTooLargeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct QueryTooLargeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -1551,8 +1500,7 @@ public struct QueryTooLargeException: ClientRuntime.ModeledError, AWSClientRunti
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -1566,8 +1514,7 @@ public struct ExecuteGremlinExplainQueryInput: Swift.Sendable {
 
     public init(
         gremlinQuery: Swift.String? = nil
-    )
-    {
+    ) {
         self.gremlinQuery = gremlinQuery
     }
 }
@@ -1578,8 +1525,7 @@ public struct ExecuteGremlinExplainQueryOutput: Swift.Sendable {
 
     public init(
         output: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.output = output
     }
 }
@@ -1603,8 +1549,7 @@ public struct ExecuteGremlinProfileQueryInput: Swift.Sendable {
         indexOps: Swift.Bool? = nil,
         results: Swift.Bool? = nil,
         serializer: Swift.String? = nil
-    )
-    {
+    ) {
         self.chop = chop
         self.gremlinQuery = gremlinQuery
         self.indexOps = indexOps
@@ -1619,8 +1564,7 @@ public struct ExecuteGremlinProfileQueryOutput: Swift.Sendable {
 
     public init(
         output: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.output = output
     }
 }
@@ -1635,8 +1579,7 @@ public struct ExecuteGremlinQueryInput: Swift.Sendable {
     public init(
         gremlinQuery: Swift.String? = nil,
         serializer: Swift.String? = nil
-    )
-    {
+    ) {
         self.gremlinQuery = gremlinQuery
         self.serializer = serializer
     }
@@ -1657,8 +1600,7 @@ extension NeptunedataClientTypes {
             attributes: Smithy.Document? = nil,
             code: Swift.Int? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.code = code
             self.message = message
@@ -1681,8 +1623,7 @@ public struct ExecuteGremlinQueryOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         result: Smithy.Document? = nil,
         status: NeptunedataClientTypes.GremlinQueryStatusAttributes? = nil
-    )
-    {
+    ) {
         self.meta = meta
         self.requestId = requestId
         self.result = result
@@ -1736,8 +1677,7 @@ public struct ExecuteOpenCypherExplainQueryInput: Swift.Sendable {
         explainMode: NeptunedataClientTypes.OpenCypherExplainMode? = nil,
         openCypherQuery: Swift.String? = nil,
         parameters: Swift.String? = nil
-    )
-    {
+    ) {
         self.explainMode = explainMode
         self.openCypherQuery = openCypherQuery
         self.parameters = parameters
@@ -1751,8 +1691,7 @@ public struct ExecuteOpenCypherExplainQueryOutput: Swift.Sendable {
 
     public init(
         results: Foundation.Data? = nil
-    )
-    {
+    ) {
         self.results = results
     }
 }
@@ -1767,8 +1706,7 @@ public struct ExecuteOpenCypherQueryInput: Swift.Sendable {
     public init(
         openCypherQuery: Swift.String? = nil,
         parameters: Swift.String? = nil
-    )
-    {
+    ) {
         self.openCypherQuery = openCypherQuery
         self.parameters = parameters
     }
@@ -1781,8 +1719,7 @@ public struct ExecuteOpenCypherQueryOutput: Swift.Sendable {
 
     public init(
         results: Smithy.Document? = nil
-    )
-    {
+    ) {
         self.results = results
     }
 }
@@ -1797,8 +1734,7 @@ extension NeptunedataClientTypes {
 
         public init(
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.version = version
         }
     }
@@ -1846,8 +1782,7 @@ public struct GetEngineStatusOutput: Swift.Sendable {
         sparql: NeptunedataClientTypes.QueryLanguageVersion? = nil,
         startTime: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.dbEngineVersion = dbEngineVersion
         self.dfeQueryEngine = dfeQueryEngine
         self.features = features
@@ -1871,8 +1806,7 @@ public struct GetGremlinQueryStatusInput: Swift.Sendable {
 
     public init(
         queryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.queryId = queryId
     }
 }
@@ -1895,8 +1829,7 @@ extension NeptunedataClientTypes {
             elapsed: Swift.Int? = nil,
             subqueries: Smithy.Document? = nil,
             waited: Swift.Int? = nil
-        )
-        {
+        ) {
             self.cancelled = cancelled
             self.elapsed = elapsed
             self.subqueries = subqueries
@@ -1917,8 +1850,7 @@ public struct GetGremlinQueryStatusOutput: Swift.Sendable {
         queryEvalStats: NeptunedataClientTypes.QueryEvalStats? = nil,
         queryId: Swift.String? = nil,
         queryString: Swift.String? = nil
-    )
-    {
+    ) {
         self.queryEvalStats = queryEvalStats
         self.queryId = queryId
         self.queryString = queryString
@@ -1944,8 +1876,7 @@ public struct GetLoaderJobStatusInput: Swift.Sendable {
         errorsPerPage: Swift.Int? = nil,
         loadId: Swift.String? = nil,
         page: Swift.Int? = nil
-    )
-    {
+    ) {
         self.details = details
         self.errors = errors
         self.errorsPerPage = errorsPerPage
@@ -1965,8 +1896,7 @@ public struct GetLoaderJobStatusOutput: Swift.Sendable {
     public init(
         payload: Smithy.Document? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.payload = payload
         self.status = status
     }
@@ -1982,8 +1912,7 @@ public struct GetMLDataProcessingJobInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         neptuneIamRoleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.neptuneIamRoleArn = neptuneIamRoleArn
     }
@@ -2013,8 +1942,7 @@ extension NeptunedataClientTypes {
             name: Swift.String? = nil,
             outputLocation: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.cloudwatchLogUrl = cloudwatchLogUrl
             self.failureReason = failureReason
@@ -2037,8 +1965,7 @@ public struct GetMLDataProcessingJobOutput: Swift.Sendable {
         id: Swift.String? = nil,
         processingJob: NeptunedataClientTypes.MlResourceDefinition? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.processingJob = processingJob
         self.status = status
@@ -2055,8 +1982,7 @@ public struct GetMLEndpointInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         neptuneIamRoleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.neptuneIamRoleArn = neptuneIamRoleArn
     }
@@ -2074,8 +2000,7 @@ extension NeptunedataClientTypes {
         public init(
             arn: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.name = name
         }
@@ -2097,8 +2022,7 @@ public struct GetMLEndpointOutput: Swift.Sendable {
         endpointConfig: NeptunedataClientTypes.MlConfigDefinition? = nil,
         id: Swift.String? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpoint = endpoint
         self.endpointConfig = endpointConfig
         self.id = id
@@ -2116,8 +2040,7 @@ public struct GetMLModelTrainingJobInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         neptuneIamRoleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.neptuneIamRoleArn = neptuneIamRoleArn
     }
@@ -2144,8 +2067,7 @@ public struct GetMLModelTrainingJobOutput: Swift.Sendable {
         modelTransformJob: NeptunedataClientTypes.MlResourceDefinition? = nil,
         processingJob: NeptunedataClientTypes.MlResourceDefinition? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.hpoJob = hpoJob
         self.id = id
         self.mlModels = mlModels
@@ -2165,8 +2087,7 @@ public struct GetMLModelTransformJobInput: Swift.Sendable {
     public init(
         id: Swift.String? = nil,
         neptuneIamRoleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.id = id
         self.neptuneIamRoleArn = neptuneIamRoleArn
     }
@@ -2190,8 +2111,7 @@ public struct GetMLModelTransformJobOutput: Swift.Sendable {
         models: [NeptunedataClientTypes.MlConfigDefinition]? = nil,
         remoteModelTransformJob: NeptunedataClientTypes.MlResourceDefinition? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.baseProcessingJob = baseProcessingJob
         self.id = id
         self.models = models
@@ -2207,8 +2127,7 @@ public struct GetOpenCypherQueryStatusInput: Swift.Sendable {
 
     public init(
         queryId: Swift.String? = nil
-    )
-    {
+    ) {
         self.queryId = queryId
     }
 }
@@ -2225,8 +2144,7 @@ public struct GetOpenCypherQueryStatusOutput: Swift.Sendable {
         queryEvalStats: NeptunedataClientTypes.QueryEvalStats? = nil,
         queryId: Swift.String? = nil,
         queryString: Swift.String? = nil
-    )
-    {
+    ) {
         self.queryEvalStats = queryEvalStats
         self.queryId = queryId
         self.queryString = queryString
@@ -2248,8 +2166,7 @@ extension NeptunedataClientTypes {
             instanceCount: Swift.Int? = nil,
             predicateCount: Swift.Int? = nil,
             signatureCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.instanceCount = instanceCount
             self.predicateCount = predicateCount
             self.signatureCount = signatureCount
@@ -2287,8 +2204,7 @@ extension NeptunedataClientTypes {
             note: Swift.String? = nil,
             signatureInfo: NeptunedataClientTypes.StatisticsSummary? = nil,
             statisticsId: Swift.String? = nil
-        )
-        {
+        ) {
             self.active = active
             self.autoCompute = autoCompute
             self.date = date
@@ -2310,17 +2226,16 @@ public struct GetPropertygraphStatisticsOutput: Swift.Sendable {
     public init(
         payload: NeptunedataClientTypes.Statistics? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.payload = payload
         self.status = status
     }
 }
 
 /// Raised when a request attempts to access an stream that has expired.
-public struct ExpiredStreamException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ExpiredStreamException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -2345,8 +2260,7 @@ public struct ExpiredStreamException: ClientRuntime.ModeledError, AWSClientRunti
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -2354,9 +2268,9 @@ public struct ExpiredStreamException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// Raised when stream records requested by a query cannot be found.
-public struct StreamRecordsNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StreamRecordsNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -2381,8 +2295,7 @@ public struct StreamRecordsNotFoundException: ClientRuntime.ModeledError, AWSCli
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -2390,9 +2303,9 @@ public struct StreamRecordsNotFoundException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// Raised when the rate of requests exceeds the maximum throughput. Requests can be retried after encountering this exception.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -2417,8 +2330,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -2512,8 +2424,7 @@ public struct GetPropertygraphStreamInput: Swift.Sendable {
         iteratorType: NeptunedataClientTypes.IteratorType? = nil,
         limit: Swift.Int? = nil,
         opNum: Swift.Int? = nil
-    )
-    {
+    ) {
         self.commitNum = commitNum
         self.encoding = encoding
         self.iteratorType = iteratorType
@@ -2558,8 +2469,7 @@ extension NeptunedataClientTypes {
             to: Swift.String? = nil,
             type: Swift.String? = nil,
             value: Smithy.Document? = nil
-        )
-        {
+        ) {
             self.from = from
             self.id = id
             self.key = key
@@ -2595,8 +2505,7 @@ extension NeptunedataClientTypes {
             eventId: [Swift.String: Swift.String]? = nil,
             isLastOp: Swift.Bool? = nil,
             op: Swift.String? = nil
-        )
-        {
+        ) {
             self.commitTimestampInMillis = commitTimestampInMillis
             self.data = data
             self.eventId = eventId
@@ -2629,8 +2538,7 @@ public struct GetPropertygraphStreamOutput: Swift.Sendable {
         lastTrxTimestampInMillis: Swift.Int? = nil,
         records: [NeptunedataClientTypes.PropertygraphRecord]? = nil,
         totalRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.format = format
         self.lastEventId = lastEventId
         self.lastTrxTimestampInMillis = lastTrxTimestampInMillis
@@ -2674,8 +2582,7 @@ public struct GetPropertygraphSummaryInput: Swift.Sendable {
 
     public init(
         mode: NeptunedataClientTypes.GraphSummaryType? = nil
-    )
-    {
+    ) {
         self.mode = mode
     }
 }
@@ -2692,8 +2599,7 @@ extension NeptunedataClientTypes {
         public init(
             count: Swift.Int? = nil,
             edgeProperties: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.count = count
             self.edgeProperties = edgeProperties
         }
@@ -2715,8 +2621,7 @@ extension NeptunedataClientTypes {
             count: Swift.Int? = nil,
             distinctOutgoingEdgeLabels: [Swift.String]? = nil,
             nodeProperties: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.count = count
             self.distinctOutgoingEdgeLabels = distinctOutgoingEdgeLabels
             self.nodeProperties = nodeProperties
@@ -2772,8 +2677,7 @@ extension NeptunedataClientTypes {
             numNodes: Swift.Int? = nil,
             totalEdgePropertyValues: Swift.Int? = nil,
             totalNodePropertyValues: Swift.Int? = nil
-        )
-        {
+        ) {
             self.edgeLabels = edgeLabels
             self.edgeProperties = edgeProperties
             self.edgeStructures = edgeStructures
@@ -2807,8 +2711,7 @@ extension NeptunedataClientTypes {
             graphSummary: NeptunedataClientTypes.PropertygraphSummary? = nil,
             lastStatisticsComputationTime: Foundation.Date? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.graphSummary = graphSummary
             self.lastStatisticsComputationTime = lastStatisticsComputationTime
             self.version = version
@@ -2825,8 +2728,7 @@ public struct GetPropertygraphSummaryOutput: Swift.Sendable {
     public init(
         payload: NeptunedataClientTypes.PropertygraphSummaryValueMap? = nil,
         statusCode: Swift.Int? = nil
-    )
-    {
+    ) {
         self.payload = payload
         self.statusCode = statusCode
     }
@@ -2838,8 +2740,7 @@ public struct GetRDFGraphSummaryInput: Swift.Sendable {
 
     public init(
         mode: NeptunedataClientTypes.GraphSummaryType? = nil
-    )
-    {
+    ) {
         self.mode = mode
     }
 }
@@ -2856,8 +2757,7 @@ extension NeptunedataClientTypes {
         public init(
             count: Swift.Int? = nil,
             predicates: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.count = count
             self.predicates = predicates
         }
@@ -2891,8 +2791,7 @@ extension NeptunedataClientTypes {
             numQuads: Swift.Int? = nil,
             predicates: [[Swift.String: Swift.Int]]? = nil,
             subjectStructures: [NeptunedataClientTypes.SubjectStructure]? = nil
-        )
-        {
+        ) {
             self.classes = classes
             self.numClasses = numClasses
             self.numDistinctPredicates = numDistinctPredicates
@@ -2919,8 +2818,7 @@ extension NeptunedataClientTypes {
             graphSummary: NeptunedataClientTypes.RDFGraphSummary? = nil,
             lastStatisticsComputationTime: Foundation.Date? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.graphSummary = graphSummary
             self.lastStatisticsComputationTime = lastStatisticsComputationTime
             self.version = version
@@ -2937,8 +2835,7 @@ public struct GetRDFGraphSummaryOutput: Swift.Sendable {
     public init(
         payload: NeptunedataClientTypes.RDFGraphSummaryValueMap? = nil,
         statusCode: Swift.Int? = nil
-    )
-    {
+    ) {
         self.payload = payload
         self.statusCode = statusCode
     }
@@ -2955,8 +2852,7 @@ public struct GetSparqlStatisticsOutput: Swift.Sendable {
     public init(
         payload: NeptunedataClientTypes.Statistics? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.payload = payload
         self.status = status
     }
@@ -2988,8 +2884,7 @@ public struct GetSparqlStreamInput: Swift.Sendable {
         iteratorType: NeptunedataClientTypes.IteratorType? = nil,
         limit: Swift.Int? = nil,
         opNum: Swift.Int? = nil
-    )
-    {
+    ) {
         self.commitNum = commitNum
         self.encoding = encoding
         self.iteratorType = iteratorType
@@ -3008,8 +2903,7 @@ extension NeptunedataClientTypes {
 
         public init(
             stmt: Swift.String? = nil
-        )
-        {
+        ) {
             self.stmt = stmt
         }
     }
@@ -3040,8 +2934,7 @@ extension NeptunedataClientTypes {
             eventId: [Swift.String: Swift.String]? = nil,
             isLastOp: Swift.Bool? = nil,
             op: Swift.String? = nil
-        )
-        {
+        ) {
             self.commitTimestampInMillis = commitTimestampInMillis
             self.data = data
             self.eventId = eventId
@@ -3074,8 +2967,7 @@ public struct GetSparqlStreamOutput: Swift.Sendable {
         lastTrxTimestampInMillis: Swift.Int? = nil,
         records: [NeptunedataClientTypes.SparqlRecord]? = nil,
         totalRecords: Swift.Int? = nil
-    )
-    {
+    ) {
         self.format = format
         self.lastEventId = lastEventId
         self.lastTrxTimestampInMillis = lastTrxTimestampInMillis
@@ -3090,8 +2982,7 @@ public struct ListGremlinQueriesInput: Swift.Sendable {
 
     public init(
         includeWaiting: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.includeWaiting = includeWaiting
     }
 }
@@ -3111,8 +3002,7 @@ extension NeptunedataClientTypes {
             queryEvalStats: NeptunedataClientTypes.QueryEvalStats? = nil,
             queryId: Swift.String? = nil,
             queryString: Swift.String? = nil
-        )
-        {
+        ) {
             self.queryEvalStats = queryEvalStats
             self.queryId = queryId
             self.queryString = queryString
@@ -3132,8 +3022,7 @@ public struct ListGremlinQueriesOutput: Swift.Sendable {
         acceptedQueryCount: Swift.Int? = nil,
         queries: [NeptunedataClientTypes.GremlinQueryStatus]? = nil,
         runningQueryCount: Swift.Int? = nil
-    )
-    {
+    ) {
         self.acceptedQueryCount = acceptedQueryCount
         self.queries = queries
         self.runningQueryCount = runningQueryCount
@@ -3149,8 +3038,7 @@ public struct ListLoaderJobsInput: Swift.Sendable {
     public init(
         includeQueuedLoads: Swift.Bool? = nil,
         limit: Swift.Int? = nil
-    )
-    {
+    ) {
         self.includeQueuedLoads = includeQueuedLoads
         self.limit = limit
     }
@@ -3165,8 +3053,7 @@ extension NeptunedataClientTypes {
 
         public init(
             loadIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.loadIds = loadIds
         }
     }
@@ -3183,8 +3070,7 @@ public struct ListLoaderJobsOutput: Swift.Sendable {
     public init(
         payload: NeptunedataClientTypes.LoaderIdResult? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.payload = payload
         self.status = status
     }
@@ -3199,8 +3085,7 @@ public struct ListMLDataProcessingJobsInput: Swift.Sendable {
     public init(
         maxItems: Swift.Int? = nil,
         neptuneIamRoleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxItems = maxItems
         self.neptuneIamRoleArn = neptuneIamRoleArn
     }
@@ -3212,8 +3097,7 @@ public struct ListMLDataProcessingJobsOutput: Swift.Sendable {
 
     public init(
         ids: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.ids = ids
     }
 }
@@ -3227,8 +3111,7 @@ public struct ListMLEndpointsInput: Swift.Sendable {
     public init(
         maxItems: Swift.Int? = nil,
         neptuneIamRoleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxItems = maxItems
         self.neptuneIamRoleArn = neptuneIamRoleArn
     }
@@ -3240,8 +3123,7 @@ public struct ListMLEndpointsOutput: Swift.Sendable {
 
     public init(
         ids: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.ids = ids
     }
 }
@@ -3255,8 +3137,7 @@ public struct ListMLModelTrainingJobsInput: Swift.Sendable {
     public init(
         maxItems: Swift.Int? = nil,
         neptuneIamRoleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxItems = maxItems
         self.neptuneIamRoleArn = neptuneIamRoleArn
     }
@@ -3268,8 +3149,7 @@ public struct ListMLModelTrainingJobsOutput: Swift.Sendable {
 
     public init(
         ids: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.ids = ids
     }
 }
@@ -3283,8 +3163,7 @@ public struct ListMLModelTransformJobsInput: Swift.Sendable {
     public init(
         maxItems: Swift.Int? = nil,
         neptuneIamRoleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxItems = maxItems
         self.neptuneIamRoleArn = neptuneIamRoleArn
     }
@@ -3296,8 +3175,7 @@ public struct ListMLModelTransformJobsOutput: Swift.Sendable {
 
     public init(
         ids: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.ids = ids
     }
 }
@@ -3308,8 +3186,7 @@ public struct ListOpenCypherQueriesInput: Swift.Sendable {
 
     public init(
         includeWaiting: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.includeWaiting = includeWaiting
     }
 }
@@ -3326,8 +3203,7 @@ public struct ListOpenCypherQueriesOutput: Swift.Sendable {
         acceptedQueryCount: Swift.Int? = nil,
         queries: [NeptunedataClientTypes.GremlinQueryStatus]? = nil,
         runningQueryCount: Swift.Int? = nil
-    )
-    {
+    ) {
         self.acceptedQueryCount = acceptedQueryCount
         self.queries = queries
         self.runningQueryCount = runningQueryCount
@@ -3372,8 +3248,7 @@ public struct ManagePropertygraphStatisticsInput: Swift.Sendable {
 
     public init(
         mode: NeptunedataClientTypes.StatisticsAutoGenerationMode? = nil
-    )
-    {
+    ) {
         self.mode = mode
     }
 }
@@ -3387,8 +3262,7 @@ extension NeptunedataClientTypes {
 
         public init(
             statisticsId: Swift.String? = nil
-        )
-        {
+        ) {
             self.statisticsId = statisticsId
         }
     }
@@ -3404,8 +3278,7 @@ public struct ManagePropertygraphStatisticsOutput: Swift.Sendable {
     public init(
         payload: NeptunedataClientTypes.RefreshStatisticsIdMap? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.payload = payload
         self.status = status
     }
@@ -3417,8 +3290,7 @@ public struct ManageSparqlStatisticsInput: Swift.Sendable {
 
     public init(
         mode: NeptunedataClientTypes.StatisticsAutoGenerationMode? = nil
-    )
-    {
+    ) {
         self.mode = mode
     }
 }
@@ -3433,17 +3305,16 @@ public struct ManageSparqlStatisticsOutput: Swift.Sendable {
     public init(
         payload: NeptunedataClientTypes.RefreshStatisticsIdMap? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.payload = payload
         self.status = status
     }
 }
 
 /// Raised when there is a problem accessing Amazon S3.
-public struct S3Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct S3Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
         /// This member is required.
         public internal(set) var code: Swift.String? = nil
@@ -3468,8 +3339,7 @@ public struct S3Exception: ClientRuntime.ModeledError, AWSClientRuntime.AWSServi
         code: Swift.String? = nil,
         detailedMessage: Swift.String? = nil,
         requestId: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.detailedMessage = detailedMessage
         self.properties.requestId = requestId
@@ -3770,8 +3640,7 @@ public struct StartLoaderJobInput: Swift.Sendable {
         source: Swift.String? = nil,
         updateSingleCardinalityProperties: Swift.Bool? = nil,
         userProvidedEdgeIds: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.dependencies = dependencies
         self.failOnError = failOnError
         self.format = format
@@ -3798,8 +3667,7 @@ public struct StartLoaderJobOutput: Swift.Sendable {
     public init(
         payload: [Swift.String: Swift.String]? = nil,
         status: Swift.String? = nil
-    )
-    {
+    ) {
         self.payload = payload
         self.status = status
     }
@@ -3855,8 +3723,7 @@ public struct StartMLDataProcessingJobInput: Swift.Sendable {
         securityGroupIds: [Swift.String]? = nil,
         subnets: [Swift.String]? = nil,
         volumeEncryptionKMSKey: Swift.String? = nil
-    )
-    {
+    ) {
         self.configFileName = configFileName
         self.id = id
         self.inputDataS3Location = inputDataS3Location
@@ -3887,8 +3754,7 @@ public struct StartMLDataProcessingJobOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         creationTimeInMillis: Swift.Int? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimeInMillis = creationTimeInMillis
         self.id = id
@@ -3911,8 +3777,7 @@ extension NeptunedataClientTypes {
             sourceS3DirectoryPath: Swift.String? = nil,
             trainingEntryPointScript: Swift.String? = nil,
             transformEntryPointScript: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceS3DirectoryPath = sourceS3DirectoryPath
             self.trainingEntryPointScript = trainingEntryPointScript
             self.transformEntryPointScript = transformEntryPointScript
@@ -3979,8 +3844,7 @@ public struct StartMLModelTrainingJobInput: Swift.Sendable {
         trainingInstanceVolumeSizeInGB: Swift.Int? = nil,
         trainingTimeOutInSeconds: Swift.Int? = nil,
         volumeEncryptionKMSKey: Swift.String? = nil
-    )
-    {
+    ) {
         self.baseProcessingInstanceType = baseProcessingInstanceType
         self.customModelTrainingParameters = customModelTrainingParameters
         self.dataProcessingJobId = dataProcessingJobId
@@ -4014,8 +3878,7 @@ public struct StartMLModelTrainingJobOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         creationTimeInMillis: Swift.Int? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimeInMillis = creationTimeInMillis
         self.id = id
@@ -4035,8 +3898,7 @@ extension NeptunedataClientTypes {
         public init(
             sourceS3DirectoryPath: Swift.String? = nil,
             transformEntryPointScript: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceS3DirectoryPath = sourceS3DirectoryPath
             self.transformEntryPointScript = transformEntryPointScript
         }
@@ -4089,8 +3951,7 @@ public struct StartMLModelTransformJobInput: Swift.Sendable {
         subnets: [Swift.String]? = nil,
         trainingJobName: Swift.String? = nil,
         volumeEncryptionKMSKey: Swift.String? = nil
-    )
-    {
+    ) {
         self.baseProcessingInstanceType = baseProcessingInstanceType
         self.baseProcessingInstanceVolumeSizeInGB = baseProcessingInstanceVolumeSizeInGB
         self.customModelTransformParameters = customModelTransformParameters
@@ -4120,8 +3981,7 @@ public struct StartMLModelTransformJobOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         creationTimeInMillis: Swift.Int? = nil,
         id: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.creationTimeInMillis = creationTimeInMillis
         self.id = id

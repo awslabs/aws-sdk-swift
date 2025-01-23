@@ -28,9 +28,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// Access to resource denied.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -45,16 +45,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The Amazon Web Services user account does not have permission to perform the action. Check the IAM policy associated with this account.
-public struct AuthorizationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AuthorizationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -69,16 +68,15 @@ public struct AuthorizationException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// One or more parameter values are not valid.
-public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -93,16 +91,15 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Too many requests have been submitted. Try again after a brief wait.
-public struct RateLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RateLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -117,16 +114,15 @@ public struct RateLimitExceededException: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Your resource limits have been exceeded.
-public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -141,16 +137,15 @@ public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The server experienced an internal error. Try again.
-public struct ServerInternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServerInternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -165,16 +160,15 @@ public struct ServerInternalException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The provided input is not valid. Try your request again.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -189,8 +183,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -202,8 +195,7 @@ public struct AcceptGrantInput: Swift.Sendable {
 
     public init(
         grantArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.grantArn = grantArn
     }
 }
@@ -270,8 +262,7 @@ public struct AcceptGrantOutput: Swift.Sendable {
         grantArn: Swift.String? = nil,
         status: LicenseManagerClientTypes.GrantStatus? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.grantArn = grantArn
         self.status = status
         self.version = version
@@ -360,17 +351,16 @@ extension LicenseManagerClientTypes {
 
         public init(
             lastRunTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.lastRunTime = lastRunTime
         }
     }
 }
 
 /// There was a conflict processing the request. Try your request again.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -385,16 +375,15 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The resource cannot be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -409,8 +398,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -425,8 +413,7 @@ public struct CheckInLicenseInput: Swift.Sendable {
     public init(
         beneficiary: Swift.String? = nil,
         licenseConsumptionToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.beneficiary = beneficiary
         self.licenseConsumptionToken = licenseConsumptionToken
     }
@@ -438,9 +425,9 @@ public struct CheckInLicenseOutput: Swift.Sendable {
 }
 
 /// The entitlement is not allowed.
-public struct EntitlementNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EntitlementNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -455,16 +442,15 @@ public struct EntitlementNotAllowedException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// There are no entitlements found for this license, or the entitlement maximum count is reached.
-public struct NoEntitlementsAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoEntitlementsAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -479,16 +465,15 @@ public struct NoEntitlementsAllowedException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// This is not the correct Region for the resource. Try again.
-public struct RedirectException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RedirectException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var location: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -505,17 +490,16 @@ public struct RedirectException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public init(
         location: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.location = location
         self.properties.message = message
     }
 }
 
 /// The digital signature method is unsupported. Try your request again.
-public struct UnsupportedDigitalSignatureMethodException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedDigitalSignatureMethodException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -530,8 +514,7 @@ public struct UnsupportedDigitalSignatureMethodException: ClientRuntime.ModeledE
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -548,8 +531,7 @@ extension LicenseManagerClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -703,8 +685,7 @@ extension LicenseManagerClientTypes {
             name: Swift.String? = nil,
             unit: LicenseManagerClientTypes.EntitlementDataUnit? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.unit = unit
             self.value = value
@@ -737,8 +718,7 @@ public struct CheckoutBorrowLicenseInput: Swift.Sendable {
         entitlements: [LicenseManagerClientTypes.EntitlementData]? = nil,
         licenseArn: Swift.String? = nil,
         nodeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.checkoutMetadata = checkoutMetadata
         self.clientToken = clientToken
         self.digitalSignatureMethod = digitalSignatureMethod
@@ -775,8 +755,7 @@ public struct CheckoutBorrowLicenseOutput: Swift.Sendable {
         licenseConsumptionToken: Swift.String? = nil,
         nodeId: Swift.String? = nil,
         signedToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.checkoutMetadata = checkoutMetadata
         self.entitlementsAllowed = entitlementsAllowed
         self.expiration = expiration
@@ -846,8 +825,7 @@ public struct CheckoutLicenseInput: Swift.Sendable {
         keyFingerprint: Swift.String? = nil,
         nodeId: Swift.String? = nil,
         productSKU: Swift.String? = nil
-    )
-    {
+    ) {
         self.beneficiary = beneficiary
         self.checkoutType = checkoutType
         self.clientToken = clientToken
@@ -885,8 +863,7 @@ public struct CheckoutLicenseOutput: Swift.Sendable {
         licenseConsumptionToken: Swift.String? = nil,
         nodeId: Swift.String? = nil,
         signedToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.checkoutType = checkoutType
         self.entitlementsAllowed = entitlementsAllowed
         self.expiration = expiration
@@ -937,8 +914,7 @@ public struct CreateGrantInput: Swift.Sendable {
         homeRegion: Swift.String? = nil,
         licenseArn: Swift.String? = nil,
         principals: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.allowedOperations = allowedOperations
         self.clientToken = clientToken
         self.grantName = grantName
@@ -960,8 +936,7 @@ public struct CreateGrantOutput: Swift.Sendable {
         grantArn: Swift.String? = nil,
         status: LicenseManagerClientTypes.GrantStatus? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.grantArn = grantArn
         self.status = status
         self.version = version
@@ -986,8 +961,7 @@ extension LicenseManagerClientTypes {
 
         public init(
             activationOverrideBehavior: LicenseManagerClientTypes.ActivationOverrideBehavior? = nil
-        )
-        {
+        ) {
             self.activationOverrideBehavior = activationOverrideBehavior
         }
     }
@@ -1022,8 +996,7 @@ public struct CreateGrantVersionInput: Swift.Sendable {
         sourceVersion: Swift.String? = nil,
         status: LicenseManagerClientTypes.GrantStatus? = nil,
         statusReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowedOperations = allowedOperations
         self.clientToken = clientToken
         self.grantArn = grantArn
@@ -1047,8 +1020,7 @@ public struct CreateGrantVersionOutput: Swift.Sendable {
         grantArn: Swift.String? = nil,
         status: LicenseManagerClientTypes.GrantStatus? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.grantArn = grantArn
         self.status = status
         self.version = version
@@ -1069,8 +1041,7 @@ extension LicenseManagerClientTypes {
         public init(
             allowEarlyCheckIn: Swift.Bool? = nil,
             maxTimeToLiveInMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.allowEarlyCheckIn = allowEarlyCheckIn
             self.maxTimeToLiveInMinutes = maxTimeToLiveInMinutes
         }
@@ -1087,8 +1058,7 @@ extension LicenseManagerClientTypes {
 
         public init(
             maxTimeToLiveInMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxTimeToLiveInMinutes = maxTimeToLiveInMinutes
         }
     }
@@ -1141,8 +1111,7 @@ extension LicenseManagerClientTypes {
             borrowConfiguration: LicenseManagerClientTypes.BorrowConfiguration? = nil,
             provisionalConfiguration: LicenseManagerClientTypes.ProvisionalConfiguration? = nil,
             renewType: LicenseManagerClientTypes.RenewType? = nil
-        )
-        {
+        ) {
             self.borrowConfiguration = borrowConfiguration
             self.provisionalConfiguration = provisionalConfiguration
             self.renewType = renewType
@@ -1280,8 +1249,7 @@ extension LicenseManagerClientTypes {
             overage: Swift.Bool? = nil,
             unit: LicenseManagerClientTypes.EntitlementUnit? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowCheckIn = allowCheckIn
             self.maxCount = maxCount
             self.name = name
@@ -1305,8 +1273,7 @@ extension LicenseManagerClientTypes {
         public init(
             name: Swift.String? = nil,
             signKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.signKey = signKey
         }
@@ -1326,8 +1293,7 @@ extension LicenseManagerClientTypes {
         public init(
             begin: Swift.String? = nil,
             end: Swift.String? = nil
-        )
-        {
+        ) {
             self.begin = begin
             self.end = end
         }
@@ -1380,8 +1346,7 @@ public struct CreateLicenseInput: Swift.Sendable {
         productName: Swift.String? = nil,
         productSKU: Swift.String? = nil,
         validity: LicenseManagerClientTypes.DatetimeRange? = nil
-    )
-    {
+    ) {
         self.beneficiary = beneficiary
         self.clientToken = clientToken
         self.consumptionConfiguration = consumptionConfiguration
@@ -1452,8 +1417,7 @@ public struct CreateLicenseOutput: Swift.Sendable {
         licenseArn: Swift.String? = nil,
         status: LicenseManagerClientTypes.LicenseStatus? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenseArn = licenseArn
         self.status = status
         self.version = version
@@ -1512,8 +1476,7 @@ extension LicenseManagerClientTypes {
             productInformationFilterComparator: Swift.String? = nil,
             productInformationFilterName: Swift.String? = nil,
             productInformationFilterValue: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.productInformationFilterComparator = productInformationFilterComparator
             self.productInformationFilterName = productInformationFilterName
             self.productInformationFilterValue = productInformationFilterValue
@@ -1558,8 +1521,7 @@ extension LicenseManagerClientTypes {
         public init(
             productInformationFilterList: [LicenseManagerClientTypes.ProductInformationFilter]? = nil,
             resourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.productInformationFilterList = productInformationFilterList
             self.resourceType = resourceType
         }
@@ -1578,8 +1540,7 @@ extension LicenseManagerClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1629,8 +1590,7 @@ public struct CreateLicenseConfigurationInput: Swift.Sendable {
         name: Swift.String? = nil,
         productInformationList: [LicenseManagerClientTypes.ProductInformation]? = nil,
         tags: [LicenseManagerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.disassociateWhenNotFound = disassociateWhenNotFound
         self.licenseCount = licenseCount
@@ -1649,8 +1609,7 @@ public struct CreateLicenseConfigurationOutput: Swift.Sendable {
 
     public init(
         licenseConfigurationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenseConfigurationArn = licenseConfigurationArn
     }
 }
@@ -1664,8 +1623,7 @@ extension LicenseManagerClientTypes {
 
         public init(
             usageOperation: Swift.String? = nil
-        )
-        {
+        ) {
             self.usageOperation = usageOperation
         }
     }
@@ -1686,8 +1644,7 @@ public struct CreateLicenseConversionTaskForResourceInput: Swift.Sendable {
         destinationLicenseContext: LicenseManagerClientTypes.LicenseConversionContext? = nil,
         resourceArn: Swift.String? = nil,
         sourceLicenseContext: LicenseManagerClientTypes.LicenseConversionContext? = nil
-    )
-    {
+    ) {
         self.destinationLicenseContext = destinationLicenseContext
         self.resourceArn = resourceArn
         self.sourceLicenseContext = sourceLicenseContext
@@ -1700,8 +1657,7 @@ public struct CreateLicenseConversionTaskForResourceOutput: Swift.Sendable {
 
     public init(
         licenseConversionTaskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenseConversionTaskId = licenseConversionTaskId
     }
 }
@@ -1716,8 +1672,7 @@ extension LicenseManagerClientTypes {
 
         public init(
             licenseConfigurationArns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.licenseConfigurationArns = licenseConfigurationArns
         }
     }
@@ -1767,8 +1722,7 @@ extension LicenseManagerClientTypes {
         public init(
             period: LicenseManagerClientTypes.ReportFrequencyType? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.period = period
             self.value = value
         }
@@ -1837,8 +1791,7 @@ public struct CreateLicenseManagerReportGeneratorInput: Swift.Sendable {
         reportGeneratorName: Swift.String? = nil,
         tags: [LicenseManagerClientTypes.Tag]? = nil,
         type: [LicenseManagerClientTypes.ReportType]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.reportContext = reportContext
@@ -1855,8 +1808,7 @@ public struct CreateLicenseManagerReportGeneratorOutput: Swift.Sendable {
 
     public init(
         licenseManagerReportGeneratorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenseManagerReportGeneratorArn = licenseManagerReportGeneratorArn
     }
 }
@@ -1910,8 +1862,7 @@ public struct CreateLicenseVersionInput: Swift.Sendable {
         sourceVersion: Swift.String? = nil,
         status: LicenseManagerClientTypes.LicenseStatus? = nil,
         validity: LicenseManagerClientTypes.DatetimeRange? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.consumptionConfiguration = consumptionConfiguration
         self.entitlements = entitlements
@@ -1939,8 +1890,7 @@ public struct CreateLicenseVersionOutput: Swift.Sendable {
         licenseArn: Swift.String? = nil,
         status: LicenseManagerClientTypes.LicenseStatus? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenseArn = licenseArn
         self.status = status
         self.version = version
@@ -1967,8 +1917,7 @@ public struct CreateTokenInput: Swift.Sendable {
         licenseArn: Swift.String? = nil,
         roleArns: [Swift.String]? = nil,
         tokenProperties: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.expirationInDays = expirationInDays
         self.licenseArn = licenseArn
@@ -2015,8 +1964,7 @@ public struct CreateTokenOutput: Swift.Sendable {
         token: Swift.String? = nil,
         tokenId: Swift.String? = nil,
         tokenType: LicenseManagerClientTypes.TokenType? = nil
-    )
-    {
+    ) {
         self.token = token
         self.tokenId = tokenId
         self.tokenType = tokenType
@@ -2037,8 +1985,7 @@ public struct DeleteGrantInput: Swift.Sendable {
         grantArn: Swift.String? = nil,
         statusReason: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.grantArn = grantArn
         self.statusReason = statusReason
         self.version = version
@@ -2057,8 +2004,7 @@ public struct DeleteGrantOutput: Swift.Sendable {
         grantArn: Swift.String? = nil,
         status: LicenseManagerClientTypes.GrantStatus? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.grantArn = grantArn
         self.status = status
         self.version = version
@@ -2076,8 +2022,7 @@ public struct DeleteLicenseInput: Swift.Sendable {
     public init(
         licenseArn: Swift.String? = nil,
         sourceVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenseArn = licenseArn
         self.sourceVersion = sourceVersion
     }
@@ -2121,8 +2066,7 @@ public struct DeleteLicenseOutput: Swift.Sendable {
     public init(
         deletionDate: Swift.String? = nil,
         status: LicenseManagerClientTypes.LicenseDeletionStatus? = nil
-    )
-    {
+    ) {
         self.deletionDate = deletionDate
         self.status = status
     }
@@ -2135,8 +2079,7 @@ public struct DeleteLicenseConfigurationInput: Swift.Sendable {
 
     public init(
         licenseConfigurationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenseConfigurationArn = licenseConfigurationArn
     }
 }
@@ -2153,8 +2096,7 @@ public struct DeleteLicenseManagerReportGeneratorInput: Swift.Sendable {
 
     public init(
         licenseManagerReportGeneratorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenseManagerReportGeneratorArn = licenseManagerReportGeneratorArn
     }
 }
@@ -2171,8 +2113,7 @@ public struct DeleteTokenInput: Swift.Sendable {
 
     public init(
         tokenId: Swift.String? = nil
-    )
-    {
+    ) {
         self.tokenId = tokenId
     }
 }
@@ -2192,8 +2133,7 @@ public struct ExtendLicenseConsumptionInput: Swift.Sendable {
     public init(
         dryRun: Swift.Bool? = false,
         licenseConsumptionToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dryRun = dryRun
         self.licenseConsumptionToken = licenseConsumptionToken
     }
@@ -2208,8 +2148,7 @@ public struct ExtendLicenseConsumptionOutput: Swift.Sendable {
     public init(
         expiration: Swift.String? = nil,
         licenseConsumptionToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.expiration = expiration
         self.licenseConsumptionToken = licenseConsumptionToken
     }
@@ -2225,8 +2164,7 @@ public struct GetAccessTokenInput: Swift.Sendable {
     public init(
         token: Swift.String? = nil,
         tokenProperties: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.token = token
         self.tokenProperties = tokenProperties
     }
@@ -2238,8 +2176,7 @@ public struct GetAccessTokenOutput: Swift.Sendable {
 
     public init(
         accessToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessToken = accessToken
     }
 }
@@ -2254,8 +2191,7 @@ public struct GetGrantInput: Swift.Sendable {
     public init(
         grantArn: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.grantArn = grantArn
         self.version = version
     }
@@ -2309,8 +2245,7 @@ extension LicenseManagerClientTypes {
             parentArn: Swift.String? = nil,
             statusReason: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.grantArn = grantArn
             self.grantName = grantName
             self.grantStatus = grantStatus
@@ -2332,8 +2267,7 @@ public struct GetGrantOutput: Swift.Sendable {
 
     public init(
         grant: LicenseManagerClientTypes.Grant? = nil
-    )
-    {
+    ) {
         self.grant = grant
     }
 }
@@ -2348,8 +2282,7 @@ public struct GetLicenseInput: Swift.Sendable {
     public init(
         licenseArn: Swift.String? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenseArn = licenseArn
         self.version = version
     }
@@ -2370,8 +2303,7 @@ extension LicenseManagerClientTypes {
             keyFingerprint: Swift.String? = nil,
             name: Swift.String? = nil,
             signKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.keyFingerprint = keyFingerprint
             self.name = name
             self.signKey = signKey
@@ -2427,8 +2359,7 @@ extension LicenseManagerClientTypes {
             status: LicenseManagerClientTypes.LicenseStatus? = nil,
             validity: LicenseManagerClientTypes.DatetimeRange? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.beneficiary = beneficiary
             self.consumptionConfiguration = consumptionConfiguration
             self.createTime = createTime
@@ -2453,8 +2384,7 @@ public struct GetLicenseOutput: Swift.Sendable {
 
     public init(
         license: LicenseManagerClientTypes.License? = nil
-    )
-    {
+    ) {
         self.license = license
     }
 }
@@ -2466,8 +2396,7 @@ public struct GetLicenseConfigurationInput: Swift.Sendable {
 
     public init(
         licenseConfigurationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenseConfigurationArn = licenseConfigurationArn
     }
 }
@@ -2522,8 +2451,7 @@ extension LicenseManagerClientTypes {
         public init(
             consumedLicenses: Swift.Int? = nil,
             resourceType: LicenseManagerClientTypes.ResourceType? = nil
-        )
-        {
+        ) {
             self.consumedLicenses = consumedLicenses
             self.resourceType = resourceType
         }
@@ -2542,8 +2470,7 @@ extension LicenseManagerClientTypes {
         public init(
             associationCount: Swift.Int? = nil,
             resourceType: LicenseManagerClientTypes.ResourceType? = nil
-        )
-        {
+        ) {
             self.associationCount = associationCount
             self.resourceType = resourceType
         }
@@ -2604,8 +2531,7 @@ public struct GetLicenseConfigurationOutput: Swift.Sendable {
         productInformationList: [LicenseManagerClientTypes.ProductInformation]? = nil,
         status: Swift.String? = nil,
         tags: [LicenseManagerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.automatedDiscoveryInformation = automatedDiscoveryInformation
         self.consumedLicenseSummaryList = consumedLicenseSummaryList
         self.consumedLicenses = consumedLicenses
@@ -2633,8 +2559,7 @@ public struct GetLicenseConversionTaskInput: Swift.Sendable {
 
     public init(
         licenseConversionTaskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenseConversionTaskId = licenseConversionTaskId
     }
 }
@@ -2701,8 +2626,7 @@ public struct GetLicenseConversionTaskOutput: Swift.Sendable {
         startTime: Foundation.Date? = nil,
         status: LicenseManagerClientTypes.LicenseConversionTaskStatus? = nil,
         statusMessage: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationLicenseContext = destinationLicenseContext
         self.endTime = endTime
         self.licenseConversionTaskId = licenseConversionTaskId
@@ -2722,8 +2646,7 @@ public struct GetLicenseManagerReportGeneratorInput: Swift.Sendable {
 
     public init(
         licenseManagerReportGeneratorArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenseManagerReportGeneratorArn = licenseManagerReportGeneratorArn
     }
 }
@@ -2740,8 +2663,7 @@ extension LicenseManagerClientTypes {
         public init(
             bucket: Swift.String? = nil,
             keyPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.keyPrefix = keyPrefix
         }
@@ -2793,8 +2715,7 @@ extension LicenseManagerClientTypes {
             reportType: [LicenseManagerClientTypes.ReportType]? = nil,
             s3Location: LicenseManagerClientTypes.S3Location? = nil,
             tags: [LicenseManagerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.createTime = createTime
             self.description = description
             self.lastReportGenerationTime = lastReportGenerationTime
@@ -2818,8 +2739,7 @@ public struct GetLicenseManagerReportGeneratorOutput: Swift.Sendable {
 
     public init(
         reportGenerator: LicenseManagerClientTypes.ReportGenerator? = nil
-    )
-    {
+    ) {
         self.reportGenerator = reportGenerator
     }
 }
@@ -2831,8 +2751,7 @@ public struct GetLicenseUsageInput: Swift.Sendable {
 
     public init(
         licenseArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenseArn = licenseArn
     }
 }
@@ -2858,8 +2777,7 @@ extension LicenseManagerClientTypes {
             maxCount: Swift.String? = nil,
             name: Swift.String? = nil,
             unit: LicenseManagerClientTypes.EntitlementDataUnit? = nil
-        )
-        {
+        ) {
             self.consumedValue = consumedValue
             self.maxCount = maxCount
             self.name = name
@@ -2877,8 +2795,7 @@ extension LicenseManagerClientTypes {
 
         public init(
             entitlementUsages: [LicenseManagerClientTypes.EntitlementUsage]? = nil
-        )
-        {
+        ) {
             self.entitlementUsages = entitlementUsages
         }
     }
@@ -2890,8 +2807,7 @@ public struct GetLicenseUsageOutput: Swift.Sendable {
 
     public init(
         licenseUsage: LicenseManagerClientTypes.LicenseUsage? = nil
-    )
-    {
+    ) {
         self.licenseUsage = licenseUsage
     }
 }
@@ -2911,8 +2827,7 @@ extension LicenseManagerClientTypes {
 
         public init(
             enableIntegration: Swift.Bool = false
-        )
-        {
+        ) {
             self.enableIntegration = enableIntegration
         }
     }
@@ -2936,8 +2851,7 @@ public struct GetServiceSettingsOutput: Swift.Sendable {
         organizationConfiguration: LicenseManagerClientTypes.OrganizationConfiguration? = nil,
         s3BucketArn: Swift.String? = nil,
         snsTopicArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.enableCrossAccountsDiscovery = enableCrossAccountsDiscovery
         self.licenseManagerResourceShareArn = licenseManagerResourceShareArn
         self.organizationConfiguration = organizationConfiguration
@@ -2947,9 +2861,9 @@ public struct GetServiceSettingsOutput: Swift.Sendable {
 }
 
 /// The request uses too many filters or too many filter values.
-public struct FilterLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FilterLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2964,8 +2878,7 @@ public struct FilterLimitExceededException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2983,8 +2896,7 @@ public struct ListAssociationsForLicenseConfigurationInput: Swift.Sendable {
         licenseConfigurationArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenseConfigurationArn = licenseConfigurationArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3012,8 +2924,7 @@ extension LicenseManagerClientTypes {
             resourceArn: Swift.String? = nil,
             resourceOwnerId: Swift.String? = nil,
             resourceType: LicenseManagerClientTypes.ResourceType? = nil
-        )
-        {
+        ) {
             self.amiAssociationScope = amiAssociationScope
             self.associationTime = associationTime
             self.resourceArn = resourceArn
@@ -3032,8 +2943,7 @@ public struct ListAssociationsForLicenseConfigurationOutput: Swift.Sendable {
     public init(
         licenseConfigurationAssociations: [LicenseManagerClientTypes.LicenseConfigurationAssociation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenseConfigurationAssociations = licenseConfigurationAssociations
         self.nextToken = nextToken
     }
@@ -3051,8 +2961,7 @@ extension LicenseManagerClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -3084,8 +2993,7 @@ public struct ListDistributedGrantsInput: Swift.Sendable {
         grantArns: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.grantArns = grantArns
         self.maxResults = maxResults
@@ -3102,8 +3010,7 @@ public struct ListDistributedGrantsOutput: Swift.Sendable {
     public init(
         grants: [LicenseManagerClientTypes.Grant]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.grants = grants
         self.nextToken = nextToken
     }
@@ -3122,8 +3029,7 @@ public struct ListFailuresForLicenseConfigurationOperationsInput: Swift.Sendable
         licenseConfigurationArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenseConfigurationArn = licenseConfigurationArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3160,8 +3066,7 @@ extension LicenseManagerClientTypes {
             resourceArn: Swift.String? = nil,
             resourceOwnerId: Swift.String? = nil,
             resourceType: LicenseManagerClientTypes.ResourceType? = nil
-        )
-        {
+        ) {
             self.errorMessage = errorMessage
             self.failureTime = failureTime
             self.metadataList = metadataList
@@ -3183,8 +3088,7 @@ public struct ListFailuresForLicenseConfigurationOperationsOutput: Swift.Sendabl
     public init(
         licenseOperationFailureList: [LicenseManagerClientTypes.LicenseOperationFailure]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenseOperationFailureList = licenseOperationFailureList
         self.nextToken = nextToken
     }
@@ -3211,8 +3115,7 @@ public struct ListLicenseConfigurationsInput: Swift.Sendable {
         licenseConfigurationArns: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.licenseConfigurationArns = licenseConfigurationArns
         self.maxResults = maxResults
@@ -3274,8 +3177,7 @@ extension LicenseManagerClientTypes {
             ownerAccountId: Swift.String? = nil,
             productInformationList: [LicenseManagerClientTypes.ProductInformation]? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.automatedDiscoveryInformation = automatedDiscoveryInformation
             self.consumedLicenseSummaryList = consumedLicenseSummaryList
             self.consumedLicenses = consumedLicenses
@@ -3305,8 +3207,7 @@ public struct ListLicenseConfigurationsOutput: Swift.Sendable {
     public init(
         licenseConfigurations: [LicenseManagerClientTypes.LicenseConfiguration]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenseConfigurations = licenseConfigurations
         self.nextToken = nextToken
     }
@@ -3324,8 +3225,7 @@ public struct ListLicenseConversionTasksInput: Swift.Sendable {
         filters: [LicenseManagerClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3365,8 +3265,7 @@ extension LicenseManagerClientTypes {
             startTime: Foundation.Date? = nil,
             status: LicenseManagerClientTypes.LicenseConversionTaskStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationLicenseContext = destinationLicenseContext
             self.endTime = endTime
             self.licenseConversionTaskId = licenseConversionTaskId
@@ -3389,8 +3288,7 @@ public struct ListLicenseConversionTasksOutput: Swift.Sendable {
     public init(
         licenseConversionTasks: [LicenseManagerClientTypes.LicenseConversionTask]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenseConversionTasks = licenseConversionTasks
         self.nextToken = nextToken
     }
@@ -3410,8 +3308,7 @@ public struct ListLicenseManagerReportGeneratorsInput: Swift.Sendable {
         filters: [LicenseManagerClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3427,8 +3324,7 @@ public struct ListLicenseManagerReportGeneratorsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         reportGenerators: [LicenseManagerClientTypes.ReportGenerator]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.reportGenerators = reportGenerators
     }
@@ -3457,8 +3353,7 @@ public struct ListLicensesInput: Swift.Sendable {
         licenseArns: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.licenseArns = licenseArns
         self.maxResults = maxResults
@@ -3475,8 +3370,7 @@ public struct ListLicensesOutput: Swift.Sendable {
     public init(
         licenses: [LicenseManagerClientTypes.License]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenses = licenses
         self.nextToken = nextToken
     }
@@ -3495,8 +3389,7 @@ public struct ListLicenseSpecificationsForResourceInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceArn = resourceArn
@@ -3516,8 +3409,7 @@ extension LicenseManagerClientTypes {
         public init(
             amiAssociationScope: Swift.String? = nil,
             licenseConfigurationArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.amiAssociationScope = amiAssociationScope
             self.licenseConfigurationArn = licenseConfigurationArn
         }
@@ -3533,8 +3425,7 @@ public struct ListLicenseSpecificationsForResourceOutput: Swift.Sendable {
     public init(
         licenseSpecifications: [LicenseManagerClientTypes.LicenseSpecification]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenseSpecifications = licenseSpecifications
         self.nextToken = nextToken
     }
@@ -3553,8 +3444,7 @@ public struct ListLicenseVersionsInput: Swift.Sendable {
         licenseArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenseArn = licenseArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3570,8 +3460,7 @@ public struct ListLicenseVersionsOutput: Swift.Sendable {
     public init(
         licenses: [LicenseManagerClientTypes.License]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenses = licenses
         self.nextToken = nextToken
     }
@@ -3602,8 +3491,7 @@ public struct ListReceivedGrantsInput: Swift.Sendable {
         grantArns: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.grantArns = grantArns
         self.maxResults = maxResults
@@ -3620,8 +3508,7 @@ public struct ListReceivedGrantsOutput: Swift.Sendable {
     public init(
         grants: [LicenseManagerClientTypes.Grant]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.grants = grants
         self.nextToken = nextToken
     }
@@ -3647,8 +3534,7 @@ public struct ListReceivedGrantsForOrganizationInput: Swift.Sendable {
         licenseArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.licenseArn = licenseArn
         self.maxResults = maxResults
@@ -3665,8 +3551,7 @@ public struct ListReceivedGrantsForOrganizationOutput: Swift.Sendable {
     public init(
         grants: [LicenseManagerClientTypes.Grant]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.grants = grants
         self.nextToken = nextToken
     }
@@ -3697,8 +3582,7 @@ public struct ListReceivedLicensesInput: Swift.Sendable {
         licenseArns: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.licenseArns = licenseArns
         self.maxResults = maxResults
@@ -3768,8 +3652,7 @@ extension LicenseManagerClientTypes {
             allowedOperations: [LicenseManagerClientTypes.AllowedOperation]? = nil,
             receivedStatus: LicenseManagerClientTypes.ReceivedStatus? = nil,
             receivedStatusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedOperations = allowedOperations
             self.receivedStatus = receivedStatus
             self.receivedStatusReason = receivedStatusReason
@@ -3828,8 +3711,7 @@ extension LicenseManagerClientTypes {
             status: LicenseManagerClientTypes.LicenseStatus? = nil,
             validity: LicenseManagerClientTypes.DatetimeRange? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.beneficiary = beneficiary
             self.consumptionConfiguration = consumptionConfiguration
             self.createTime = createTime
@@ -3858,8 +3740,7 @@ public struct ListReceivedLicensesOutput: Swift.Sendable {
     public init(
         licenses: [LicenseManagerClientTypes.GrantedLicense]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenses = licenses
         self.nextToken = nextToken
     }
@@ -3881,8 +3762,7 @@ public struct ListReceivedLicensesForOrganizationInput: Swift.Sendable {
         filters: [LicenseManagerClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3898,17 +3778,16 @@ public struct ListReceivedLicensesForOrganizationOutput: Swift.Sendable {
     public init(
         licenses: [LicenseManagerClientTypes.GrantedLicense]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenses = licenses
         self.nextToken = nextToken
     }
 }
 
 /// A dependency required to run the API is missing.
-public struct FailedDependencyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FailedDependencyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var errorCode: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -3925,8 +3804,7 @@ public struct FailedDependencyException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -3984,8 +3862,7 @@ extension LicenseManagerClientTypes {
             condition: LicenseManagerClientTypes.InventoryFilterCondition? = nil,
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.condition = condition
             self.name = name
             self.value = value
@@ -4017,8 +3894,7 @@ public struct ListResourceInventoryInput: Swift.Sendable {
         filters: [LicenseManagerClientTypes.InventoryFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4049,8 +3925,7 @@ extension LicenseManagerClientTypes {
             resourceId: Swift.String? = nil,
             resourceOwningAccountId: Swift.String? = nil,
             resourceType: LicenseManagerClientTypes.ResourceType? = nil
-        )
-        {
+        ) {
             self.platform = platform
             self.platformVersion = platformVersion
             self.resourceArn = resourceArn
@@ -4070,8 +3945,7 @@ public struct ListResourceInventoryOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceInventoryList: [LicenseManagerClientTypes.ResourceInventory]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceInventoryList = resourceInventoryList
     }
@@ -4084,8 +3958,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -4096,8 +3969,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [LicenseManagerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -4119,8 +3991,7 @@ public struct ListTokensInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         tokenIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4155,8 +4026,7 @@ extension LicenseManagerClientTypes {
             tokenId: Swift.String? = nil,
             tokenProperties: [Swift.String]? = nil,
             tokenType: Swift.String? = nil
-        )
-        {
+        ) {
             self.expirationTime = expirationTime
             self.licenseArn = licenseArn
             self.roleArns = roleArns
@@ -4177,8 +4047,7 @@ public struct ListTokensOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tokens: [LicenseManagerClientTypes.TokenData]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tokens = tokens
     }
@@ -4206,8 +4075,7 @@ public struct ListUsageForLicenseConfigurationInput: Swift.Sendable {
         licenseConfigurationArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.licenseConfigurationArn = licenseConfigurationArn
         self.maxResults = maxResults
@@ -4239,8 +4107,7 @@ extension LicenseManagerClientTypes {
             resourceOwnerId: Swift.String? = nil,
             resourceStatus: Swift.String? = nil,
             resourceType: LicenseManagerClientTypes.ResourceType? = nil
-        )
-        {
+        ) {
             self.associationTime = associationTime
             self.consumedLicenses = consumedLicenses
             self.resourceArn = resourceArn
@@ -4260,8 +4127,7 @@ public struct ListUsageForLicenseConfigurationOutput: Swift.Sendable {
     public init(
         licenseConfigurationUsageList: [LicenseManagerClientTypes.LicenseConfigurationUsage]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.licenseConfigurationUsageList = licenseConfigurationUsageList
         self.nextToken = nextToken
     }
@@ -4274,8 +4140,7 @@ public struct RejectGrantInput: Swift.Sendable {
 
     public init(
         grantArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.grantArn = grantArn
     }
 }
@@ -4292,8 +4157,7 @@ public struct RejectGrantOutput: Swift.Sendable {
         grantArn: Swift.String? = nil,
         status: LicenseManagerClientTypes.GrantStatus? = nil,
         version: Swift.String? = nil
-    )
-    {
+    ) {
         self.grantArn = grantArn
         self.status = status
         self.version = version
@@ -4311,8 +4175,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [LicenseManagerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -4334,8 +4197,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -4406,8 +4268,7 @@ public struct UpdateLicenseConfigurationInput: Swift.Sendable {
         licenseRules: [Swift.String]? = nil,
         name: Swift.String? = nil,
         productInformationList: [LicenseManagerClientTypes.ProductInformation]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.disassociateWhenNotFound = disassociateWhenNotFound
         self.licenseConfigurationArn = licenseConfigurationArn
@@ -4459,8 +4320,7 @@ public struct UpdateLicenseManagerReportGeneratorInput: Swift.Sendable {
         reportFrequency: LicenseManagerClientTypes.ReportFrequency? = nil,
         reportGeneratorName: Swift.String? = nil,
         type: [LicenseManagerClientTypes.ReportType]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.licenseManagerReportGeneratorArn = licenseManagerReportGeneratorArn
@@ -4477,9 +4337,9 @@ public struct UpdateLicenseManagerReportGeneratorOutput: Swift.Sendable {
 }
 
 /// License Manager cannot allocate a license to a resource because of its state. For example, you cannot allocate a license to an instance in the process of shutting down.
-public struct InvalidResourceStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidResourceStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4494,16 +4354,15 @@ public struct InvalidResourceStateException: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You do not have enough licenses available to support a new resource launch.
-public struct LicenseUsageException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LicenseUsageException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4518,8 +4377,7 @@ public struct LicenseUsageException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4537,8 +4395,7 @@ public struct UpdateLicenseSpecificationsForResourceInput: Swift.Sendable {
         addLicenseSpecifications: [LicenseManagerClientTypes.LicenseSpecification]? = nil,
         removeLicenseSpecifications: [LicenseManagerClientTypes.LicenseSpecification]? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.addLicenseSpecifications = addLicenseSpecifications
         self.removeLicenseSpecifications = removeLicenseSpecifications
         self.resourceArn = resourceArn
@@ -4565,8 +4422,7 @@ public struct UpdateServiceSettingsInput: Swift.Sendable {
         organizationConfiguration: LicenseManagerClientTypes.OrganizationConfiguration? = nil,
         s3BucketArn: Swift.String? = nil,
         snsTopicArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.enableCrossAccountsDiscovery = enableCrossAccountsDiscovery
         self.organizationConfiguration = organizationConfiguration
         self.s3BucketArn = s3BucketArn

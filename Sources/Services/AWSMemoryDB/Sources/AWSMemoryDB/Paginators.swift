@@ -144,6 +144,38 @@ extension PaginatorSequence where OperationStackInput == DescribeEventsInput, Op
     }
 }
 extension MemoryDBClient {
+    /// Paginate over `[DescribeMultiRegionClustersOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeMultiRegionClustersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeMultiRegionClustersOutput`
+    public func describeMultiRegionClustersPaginated(input: DescribeMultiRegionClustersInput) -> ClientRuntime.PaginatorSequence<DescribeMultiRegionClustersInput, DescribeMultiRegionClustersOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeMultiRegionClustersInput, DescribeMultiRegionClustersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeMultiRegionClusters(input:))
+    }
+}
+
+extension DescribeMultiRegionClustersInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeMultiRegionClustersInput {
+        return DescribeMultiRegionClustersInput(
+            maxResults: self.maxResults,
+            multiRegionClusterName: self.multiRegionClusterName,
+            nextToken: token,
+            showClusterDetails: self.showClusterDetails
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeMultiRegionClustersInput, OperationStackOutput == DescribeMultiRegionClustersOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeMultiRegionClustersPaginated`
+    /// to access the nested member `[MemoryDBClientTypes.MultiRegionCluster]`
+    /// - Returns: `[MemoryDBClientTypes.MultiRegionCluster]`
+    public func multiRegionClusters() async throws -> [MemoryDBClientTypes.MultiRegionCluster] {
+        return try await self.asyncCompactMap { item in item.multiRegionClusters }
+    }
+}
+extension MemoryDBClient {
     /// Paginate over `[DescribeParameterGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

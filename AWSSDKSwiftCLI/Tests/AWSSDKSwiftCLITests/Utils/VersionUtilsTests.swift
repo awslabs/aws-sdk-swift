@@ -10,7 +10,14 @@ import AWSCLIUtils
 import XCTest
 
 class VersionUtilsTests: XCTestCase {
-    
+
+    func testIgnoresLeadingAndTrailingWhitespace() throws {
+        try XCTAssertEqual(
+            Version("\r\n\t 1.2.1\r\n\t "),
+            Version("1.2.1")
+        )
+    }
+
     func testIncrementingMajor() throws {
         try XCTAssertEqual(
             Version("1.2.1").incrementingMajor(),

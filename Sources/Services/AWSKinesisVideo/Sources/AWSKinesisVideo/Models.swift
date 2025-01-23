@@ -27,9 +27,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// You do not have required permissions to perform this operation.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -44,16 +44,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You have reached the maximum limit of active signaling channels for this Amazon Web Services account in this region.
-public struct AccountChannelLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccountChannelLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -68,16 +67,15 @@ public struct AccountChannelLimitExceededException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The number of streams created for the account is too high.
-public struct AccountStreamLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccountStreamLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -92,8 +90,7 @@ public struct AccountStreamLimitExceededException: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -218,8 +215,7 @@ extension KinesisVideoClientTypes {
 
         public init(
             messageTtlSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.messageTtlSeconds = messageTtlSeconds
         }
     }
@@ -252,8 +248,7 @@ extension KinesisVideoClientTypes {
             creationTime: Foundation.Date? = nil,
             singleMasterConfiguration: KinesisVideoClientTypes.SingleMasterConfiguration? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.channelARN = channelARN
             self.channelName = channelName
             self.channelStatus = channelStatus
@@ -303,8 +298,7 @@ extension KinesisVideoClientTypes {
         public init(
             comparisonOperator: KinesisVideoClientTypes.ComparisonOperator? = nil,
             comparisonValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.comparisonOperator = comparisonOperator
             self.comparisonValue = comparisonValue
         }
@@ -373,9 +367,9 @@ extension KinesisVideoClientTypes {
 }
 
 /// Kinesis Video Streams has throttled the request because you have exceeded the limit of allowed client calls. Try making the call later.
-public struct ClientLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClientLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -390,8 +384,7 @@ public struct ClientLimitExceededException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -426,9 +419,9 @@ extension KinesisVideoClientTypes {
 }
 
 /// The value for this input parameter is invalid.
-public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -443,8 +436,7 @@ public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -456,9 +448,9 @@ public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRun
 /// * The DescribeMappedResourceConfiguration API to determine the channel that the given stream is mapped to.
 ///
 /// * The DescribeStream or DescribeSignalingChannel API to determine the status of the resource.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -473,16 +465,15 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// You have exceeded the limit of tags that you can associate with the resource. A Kinesis video stream can support up to 50 tags.
-public struct TagsPerResourceExceededLimitException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TagsPerResourceExceededLimitException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -497,8 +488,7 @@ public struct TagsPerResourceExceededLimitException: ClientRuntime.ModeledError,
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -517,8 +507,7 @@ extension KinesisVideoClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -541,8 +530,7 @@ public struct CreateSignalingChannelInput: Swift.Sendable {
         channelType: KinesisVideoClientTypes.ChannelType? = nil,
         singleMasterConfiguration: KinesisVideoClientTypes.SingleMasterConfiguration? = nil,
         tags: [KinesisVideoClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.channelName = channelName
         self.channelType = channelType
         self.singleMasterConfiguration = singleMasterConfiguration
@@ -556,16 +544,15 @@ public struct CreateSignalingChannelOutput: Swift.Sendable {
 
     public init(
         channelARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelARN = channelARN
     }
 }
 
 /// Not implemented.
-public struct DeviceStreamLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DeviceStreamLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -580,16 +567,15 @@ public struct DeviceStreamLimitExceededException: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Not implemented.
-public struct InvalidDeviceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDeviceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -604,8 +590,7 @@ public struct InvalidDeviceException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -632,8 +617,7 @@ public struct CreateStreamInput: Swift.Sendable {
         mediaType: Swift.String? = nil,
         streamName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.dataRetentionInHours = dataRetentionInHours
         self.deviceName = deviceName
         self.kmsKeyId = kmsKeyId
@@ -649,16 +633,15 @@ public struct CreateStreamOutput: Swift.Sendable {
 
     public init(
         streamARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.streamARN = streamARN
     }
 }
 
 /// Amazon Kinesis Video Streams can't find the stream that you specified.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -673,16 +656,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The Exception rendered when the Amazon Kinesis Video Stream can't find a stream's edge configuration that you specified.
-public struct StreamEdgeConfigurationNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StreamEdgeConfigurationNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -697,8 +679,7 @@ public struct StreamEdgeConfigurationNotFoundException: ClientRuntime.ModeledErr
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -712,8 +693,7 @@ public struct DeleteEdgeConfigurationInput: Swift.Sendable {
     public init(
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.streamARN = streamARN
         self.streamName = streamName
     }
@@ -725,9 +705,9 @@ public struct DeleteEdgeConfigurationOutput: Swift.Sendable {
 }
 
 /// The stream version that you specified is not the latest version. To get the latest version, use the [DescribeStream](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_DescribeStream.html) API.
-public struct VersionMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct VersionMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -742,8 +722,7 @@ public struct VersionMismatchException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -758,8 +737,7 @@ public struct DeleteSignalingChannelInput: Swift.Sendable {
     public init(
         channelARN: Swift.String? = nil,
         currentVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelARN = channelARN
         self.currentVersion = currentVersion
     }
@@ -771,9 +749,9 @@ public struct DeleteSignalingChannelOutput: Swift.Sendable {
 }
 
 /// The caller is not authorized to perform this operation.
-public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -788,8 +766,7 @@ public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -804,8 +781,7 @@ public struct DeleteStreamInput: Swift.Sendable {
     public init(
         currentVersion: Swift.String? = nil,
         streamARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.currentVersion = currentVersion
         self.streamARN = streamARN
     }
@@ -857,8 +833,7 @@ extension KinesisVideoClientTypes {
         public init(
             maxLocalMediaSizeInMB: Swift.Int? = nil,
             strategyOnFullSize: KinesisVideoClientTypes.StrategyOnFullSize? = nil
-        )
-        {
+        ) {
             self.maxLocalMediaSizeInMB = maxLocalMediaSizeInMB
             self.strategyOnFullSize = strategyOnFullSize
         }
@@ -880,8 +855,7 @@ extension KinesisVideoClientTypes {
             deleteAfterUpload: Swift.Bool? = nil,
             edgeRetentionInHours: Swift.Int? = nil,
             localSizeConfig: KinesisVideoClientTypes.LocalSizeConfig? = nil
-        )
-        {
+        ) {
             self.deleteAfterUpload = deleteAfterUpload
             self.edgeRetentionInHours = edgeRetentionInHours
             self.localSizeConfig = localSizeConfig
@@ -898,8 +872,7 @@ public struct DescribeEdgeConfigurationInput: Swift.Sendable {
     public init(
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.streamARN = streamARN
         self.streamName = streamName
     }
@@ -955,8 +928,7 @@ extension KinesisVideoClientTypes {
             lastCollectedTime: Foundation.Date? = nil,
             lastUpdatedTime: Foundation.Date? = nil,
             recorderStatus: KinesisVideoClientTypes.RecorderStatus? = nil
-        )
-        {
+        ) {
             self.jobStatusDetails = jobStatusDetails
             self.lastCollectedTime = lastCollectedTime
             self.lastUpdatedTime = lastUpdatedTime
@@ -1015,8 +987,7 @@ extension KinesisVideoClientTypes {
             lastCollectedTime: Foundation.Date? = nil,
             lastUpdatedTime: Foundation.Date? = nil,
             uploaderStatus: KinesisVideoClientTypes.UploaderStatus? = nil
-        )
-        {
+        ) {
             self.jobStatusDetails = jobStatusDetails
             self.lastCollectedTime = lastCollectedTime
             self.lastUpdatedTime = lastUpdatedTime
@@ -1037,8 +1008,7 @@ extension KinesisVideoClientTypes {
         public init(
             lastRecorderStatus: KinesisVideoClientTypes.LastRecorderStatus? = nil,
             lastUploaderStatus: KinesisVideoClientTypes.LastUploaderStatus? = nil
-        )
-        {
+        ) {
             self.lastRecorderStatus = lastRecorderStatus
             self.lastUploaderStatus = lastUploaderStatus
         }
@@ -1088,8 +1058,7 @@ extension KinesisVideoClientTypes {
         public init(
             mediaUriSecretArn: Swift.String? = nil,
             mediaUriType: KinesisVideoClientTypes.MediaUriType? = nil
-        )
-        {
+        ) {
             self.mediaUriSecretArn = mediaUriSecretArn
             self.mediaUriType = mediaUriType
         }
@@ -1115,8 +1084,7 @@ extension KinesisVideoClientTypes {
         public init(
             durationInSeconds: Swift.Int? = nil,
             scheduleExpression: Swift.String? = nil
-        )
-        {
+        ) {
             self.durationInSeconds = durationInSeconds
             self.scheduleExpression = scheduleExpression
         }
@@ -1136,8 +1104,7 @@ extension KinesisVideoClientTypes {
         public init(
             mediaSourceConfig: KinesisVideoClientTypes.MediaSourceConfig? = nil,
             scheduleConfig: KinesisVideoClientTypes.ScheduleConfig? = nil
-        )
-        {
+        ) {
             self.mediaSourceConfig = mediaSourceConfig
             self.scheduleConfig = scheduleConfig
         }
@@ -1154,8 +1121,7 @@ extension KinesisVideoClientTypes {
 
         public init(
             scheduleConfig: KinesisVideoClientTypes.ScheduleConfig? = nil
-        )
-        {
+        ) {
             self.scheduleConfig = scheduleConfig
         }
     }
@@ -1181,8 +1147,7 @@ extension KinesisVideoClientTypes {
             hubDeviceArn: Swift.String? = nil,
             recorderConfig: KinesisVideoClientTypes.RecorderConfig? = nil,
             uploaderConfig: KinesisVideoClientTypes.UploaderConfig? = nil
-        )
-        {
+        ) {
             self.deletionConfig = deletionConfig
             self.hubDeviceArn = hubDeviceArn
             self.recorderConfig = recorderConfig
@@ -1262,8 +1227,7 @@ public struct DescribeEdgeConfigurationOutput: Swift.Sendable {
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil,
         syncStatus: KinesisVideoClientTypes.SyncStatus? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.edgeAgentStatus = edgeAgentStatus
         self.edgeConfig = edgeConfig
@@ -1284,8 +1248,7 @@ public struct DescribeImageGenerationConfigurationInput: Swift.Sendable {
     public init(
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.streamARN = streamARN
         self.streamName = streamName
     }
@@ -1305,8 +1268,7 @@ extension KinesisVideoClientTypes {
         public init(
             destinationRegion: Swift.String? = nil,
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationRegion = destinationRegion
             self.uri = uri
         }
@@ -1432,8 +1394,7 @@ extension KinesisVideoClientTypes {
             samplingInterval: Swift.Int? = nil,
             status: KinesisVideoClientTypes.ConfigurationStatus? = nil,
             widthPixels: Swift.Int? = nil
-        )
-        {
+        ) {
             self.destinationConfig = destinationConfig
             self.format = format
             self.formatConfig = formatConfig
@@ -1452,8 +1413,7 @@ public struct DescribeImageGenerationConfigurationOutput: Swift.Sendable {
 
     public init(
         imageGenerationConfiguration: KinesisVideoClientTypes.ImageGenerationConfiguration? = nil
-    )
-    {
+    ) {
         self.imageGenerationConfiguration = imageGenerationConfiguration
     }
 }
@@ -1473,8 +1433,7 @@ public struct DescribeMappedResourceConfigurationInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.streamARN = streamARN
@@ -1494,8 +1453,7 @@ extension KinesisVideoClientTypes {
         public init(
             arn: Swift.String? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.type = type
         }
@@ -1511,8 +1469,7 @@ public struct DescribeMappedResourceConfigurationOutput: Swift.Sendable {
     public init(
         mappedResourceConfigurationList: [KinesisVideoClientTypes.MappedResourceConfigurationListItem]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.mappedResourceConfigurationList = mappedResourceConfigurationList
         self.nextToken = nextToken
     }
@@ -1527,8 +1484,7 @@ public struct DescribeMediaStorageConfigurationInput: Swift.Sendable {
     public init(
         channelARN: Swift.String? = nil,
         channelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelARN = channelARN
         self.channelName = channelName
     }
@@ -1580,8 +1536,7 @@ extension KinesisVideoClientTypes {
         public init(
             status: KinesisVideoClientTypes.MediaStorageConfigurationStatus? = nil,
             streamARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
             self.streamARN = streamARN
         }
@@ -1594,8 +1549,7 @@ public struct DescribeMediaStorageConfigurationOutput: Swift.Sendable {
 
     public init(
         mediaStorageConfiguration: KinesisVideoClientTypes.MediaStorageConfiguration? = nil
-    )
-    {
+    ) {
         self.mediaStorageConfiguration = mediaStorageConfiguration
     }
 }
@@ -1609,8 +1563,7 @@ public struct DescribeNotificationConfigurationInput: Swift.Sendable {
     public init(
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.streamARN = streamARN
         self.streamName = streamName
     }
@@ -1626,8 +1579,7 @@ extension KinesisVideoClientTypes {
 
         public init(
             uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.uri = uri
         }
     }
@@ -1647,8 +1599,7 @@ extension KinesisVideoClientTypes {
         public init(
             destinationConfig: KinesisVideoClientTypes.NotificationDestinationConfig? = nil,
             status: KinesisVideoClientTypes.ConfigurationStatus? = nil
-        )
-        {
+        ) {
             self.destinationConfig = destinationConfig
             self.status = status
         }
@@ -1661,8 +1612,7 @@ public struct DescribeNotificationConfigurationOutput: Swift.Sendable {
 
     public init(
         notificationConfiguration: KinesisVideoClientTypes.NotificationConfiguration? = nil
-    )
-    {
+    ) {
         self.notificationConfiguration = notificationConfiguration
     }
 }
@@ -1676,8 +1626,7 @@ public struct DescribeSignalingChannelInput: Swift.Sendable {
     public init(
         channelARN: Swift.String? = nil,
         channelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelARN = channelARN
         self.channelName = channelName
     }
@@ -1689,8 +1638,7 @@ public struct DescribeSignalingChannelOutput: Swift.Sendable {
 
     public init(
         channelInfo: KinesisVideoClientTypes.ChannelInfo? = nil
-    )
-    {
+    ) {
         self.channelInfo = channelInfo
     }
 }
@@ -1704,8 +1652,7 @@ public struct DescribeStreamInput: Swift.Sendable {
     public init(
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.streamARN = streamARN
         self.streamName = streamName
     }
@@ -1744,8 +1691,7 @@ extension KinesisVideoClientTypes {
             streamARN: Swift.String? = nil,
             streamName: Swift.String? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.dataRetentionInHours = dataRetentionInHours
             self.deviceName = deviceName
@@ -1765,8 +1711,7 @@ public struct DescribeStreamOutput: Swift.Sendable {
 
     public init(
         streamInfo: KinesisVideoClientTypes.StreamInfo? = nil
-    )
-    {
+    ) {
         self.streamInfo = streamInfo
     }
 }
@@ -1784,8 +1729,7 @@ public struct GetDataEndpointInput: Swift.Sendable {
         apiName: KinesisVideoClientTypes.APIName? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.apiName = apiName
         self.streamARN = streamARN
         self.streamName = streamName
@@ -1798,8 +1742,7 @@ public struct GetDataEndpointOutput: Swift.Sendable {
 
     public init(
         dataEndpoint: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataEndpoint = dataEndpoint
     }
 }
@@ -1816,8 +1759,7 @@ extension KinesisVideoClientTypes {
         public init(
             protocols: [KinesisVideoClientTypes.ChannelProtocol]? = nil,
             role: KinesisVideoClientTypes.ChannelRole? = nil
-        )
-        {
+        ) {
             self.protocols = protocols
             self.role = role
         }
@@ -1834,8 +1776,7 @@ public struct GetSignalingChannelEndpointInput: Swift.Sendable {
     public init(
         channelARN: Swift.String? = nil,
         singleMasterChannelEndpointConfiguration: KinesisVideoClientTypes.SingleMasterChannelEndpointConfiguration? = nil
-    )
-    {
+    ) {
         self.channelARN = channelARN
         self.singleMasterChannelEndpointConfiguration = singleMasterChannelEndpointConfiguration
     }
@@ -1853,8 +1794,7 @@ extension KinesisVideoClientTypes {
         public init(
             `protocol`: KinesisVideoClientTypes.ChannelProtocol? = nil,
             resourceEndpoint: Swift.String? = nil
-        )
-        {
+        ) {
             self.`protocol` = `protocol`
             self.resourceEndpoint = resourceEndpoint
         }
@@ -1867,16 +1807,15 @@ public struct GetSignalingChannelEndpointOutput: Swift.Sendable {
 
     public init(
         resourceEndpointList: [KinesisVideoClientTypes.ResourceEndpointListItem]? = nil
-    )
-    {
+    ) {
         self.resourceEndpointList = resourceEndpointList
     }
 }
 
 /// The format of the StreamARN is invalid.
-public struct InvalidResourceFormatException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidResourceFormatException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1891,8 +1830,7 @@ public struct InvalidResourceFormatException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1910,8 +1848,7 @@ public struct ListEdgeAgentConfigurationsInput: Swift.Sendable {
         hubDeviceArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.hubDeviceArn = hubDeviceArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1945,8 +1882,7 @@ extension KinesisVideoClientTypes {
             streamARN: Swift.String? = nil,
             streamName: Swift.String? = nil,
             syncStatus: KinesisVideoClientTypes.SyncStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.edgeConfig = edgeConfig
             self.failedStatusDetails = failedStatusDetails
@@ -1967,8 +1903,7 @@ public struct ListEdgeAgentConfigurationsOutput: Swift.Sendable {
     public init(
         edgeConfigs: [KinesisVideoClientTypes.ListEdgeAgentConfigurationsEdgeConfig]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.edgeConfigs = edgeConfigs
         self.nextToken = nextToken
     }
@@ -1986,8 +1921,7 @@ public struct ListSignalingChannelsInput: Swift.Sendable {
         channelNameCondition: KinesisVideoClientTypes.ChannelNameCondition? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelNameCondition = channelNameCondition
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2003,8 +1937,7 @@ public struct ListSignalingChannelsOutput: Swift.Sendable {
     public init(
         channelInfoList: [KinesisVideoClientTypes.ChannelInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.channelInfoList = channelInfoList
         self.nextToken = nextToken
     }
@@ -2022,8 +1955,7 @@ extension KinesisVideoClientTypes {
         public init(
             comparisonOperator: KinesisVideoClientTypes.ComparisonOperator? = nil,
             comparisonValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.comparisonOperator = comparisonOperator
             self.comparisonValue = comparisonValue
         }
@@ -2042,8 +1974,7 @@ public struct ListStreamsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         streamNameCondition: KinesisVideoClientTypes.StreamNameCondition? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.streamNameCondition = streamNameCondition
@@ -2059,8 +1990,7 @@ public struct ListStreamsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         streamInfoList: [KinesisVideoClientTypes.StreamInfo]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.streamInfoList = streamInfoList
     }
@@ -2076,8 +2006,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceARN = resourceARN
     }
@@ -2092,8 +2021,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -2111,8 +2039,7 @@ public struct ListTagsForStreamInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.streamARN = streamARN
         self.streamName = streamName
@@ -2128,17 +2055,16 @@ public struct ListTagsForStreamOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
 }
 
 /// The Stream data retention in hours is equal to zero.
-public struct NoDataRetentionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoDataRetentionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2153,8 +2079,7 @@ public struct NoDataRetentionException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2172,8 +2097,7 @@ public struct StartEdgeConfigurationUpdateInput: Swift.Sendable {
         edgeConfig: KinesisVideoClientTypes.EdgeConfig? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.edgeConfig = edgeConfig
         self.streamARN = streamARN
         self.streamName = streamName
@@ -2204,8 +2128,7 @@ public struct StartEdgeConfigurationUpdateOutput: Swift.Sendable {
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil,
         syncStatus: KinesisVideoClientTypes.SyncStatus? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.edgeConfig = edgeConfig
         self.failedStatusDetails = failedStatusDetails
@@ -2227,8 +2150,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tags: [KinesisVideoClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tags = tags
     }
@@ -2252,8 +2174,7 @@ public struct TagStreamInput: Swift.Sendable {
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.streamARN = streamARN
         self.streamName = streamName
         self.tags = tags
@@ -2276,8 +2197,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceARN: Swift.String? = nil,
         tagKeyList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
         self.tagKeyList = tagKeyList
     }
@@ -2301,8 +2221,7 @@ public struct UntagStreamInput: Swift.Sendable {
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil,
         tagKeyList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.streamARN = streamARN
         self.streamName = streamName
         self.tagKeyList = tagKeyList
@@ -2364,8 +2283,7 @@ public struct UpdateDataRetentionInput: Swift.Sendable {
         operation: KinesisVideoClientTypes.UpdateDataRetentionOperation? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.currentVersion = currentVersion
         self.dataRetentionChangeInHours = dataRetentionChangeInHours
         self.operation = operation
@@ -2391,8 +2309,7 @@ public struct UpdateImageGenerationConfigurationInput: Swift.Sendable {
         imageGenerationConfiguration: KinesisVideoClientTypes.ImageGenerationConfiguration? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageGenerationConfiguration = imageGenerationConfiguration
         self.streamARN = streamARN
         self.streamName = streamName
@@ -2415,8 +2332,7 @@ public struct UpdateMediaStorageConfigurationInput: Swift.Sendable {
     public init(
         channelARN: Swift.String? = nil,
         mediaStorageConfiguration: KinesisVideoClientTypes.MediaStorageConfiguration? = nil
-    )
-    {
+    ) {
         self.channelARN = channelARN
         self.mediaStorageConfiguration = mediaStorageConfiguration
     }
@@ -2439,8 +2355,7 @@ public struct UpdateNotificationConfigurationInput: Swift.Sendable {
         notificationConfiguration: KinesisVideoClientTypes.NotificationConfiguration? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.notificationConfiguration = notificationConfiguration
         self.streamARN = streamARN
         self.streamName = streamName
@@ -2466,8 +2381,7 @@ public struct UpdateSignalingChannelInput: Swift.Sendable {
         channelARN: Swift.String? = nil,
         currentVersion: Swift.String? = nil,
         singleMasterConfiguration: KinesisVideoClientTypes.SingleMasterConfiguration? = nil
-    )
-    {
+    ) {
         self.channelARN = channelARN
         self.currentVersion = currentVersion
         self.singleMasterConfiguration = singleMasterConfiguration
@@ -2498,8 +2412,7 @@ public struct UpdateStreamInput: Swift.Sendable {
         mediaType: Swift.String? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.currentVersion = currentVersion
         self.deviceName = deviceName
         self.mediaType = mediaType

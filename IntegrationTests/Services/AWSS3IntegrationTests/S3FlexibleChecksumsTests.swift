@@ -10,6 +10,7 @@ import XCTest
 import AWSS3
 import SmithyHTTPAPI
 @testable import ClientRuntime
+import AWSIntegrationTestUtils
 import class SmithyStreams.BufferedStream
 import class SmithyChecksums.ValidatingBufferedStream
 
@@ -19,10 +20,15 @@ final class S3FlexibleChecksumsTests: S3XCTestCase {
     override func setUp() {
         super.setUp()
         // Fill one MB with random data.  Data is refreshed for each flexible checksums tests below.
-        originalData = Data((0..<(1024 * 1024)).map { _ in UInt8.random(in: UInt8.min...UInt8.max) })
+        originalData = generateRandomTextData(ofSizeInMB: 1)
     }
 
     // MARK: - Data uploads
+
+    func test_putGetObject_data_default_algorithm() async throws {
+        // CRC32 should be used correctly as default algorithm when it's not configured
+        try await _testPutGetObject(withChecksumAlgorithm: nil, objectNameSuffix: "default-crc32-data", upload: .data(originalData))
+    }
 
     func test_putGetObject_data_crc32() async throws {
         try await _testPutGetObject(withChecksumAlgorithm: .crc32, objectNameSuffix: "crc32-data", upload: .data(originalData))
@@ -41,6 +47,12 @@ final class S3FlexibleChecksumsTests: S3XCTestCase {
     }
 
     // MARK: - Streaming uploads
+
+    func test_putGetObject_streaming_default_algorithm() async throws {
+        let bufferedStream = BufferedStream(data: originalData, isClosed: true)
+        // CRC32 should be used correctly as default algorithm when it's not configured
+        try await _testPutGetObject(withChecksumAlgorithm: nil, objectNameSuffix: "default-crc32-data", upload: .stream(bufferedStream))
+    }
 
     func test_putGetObject_streaming_crc32() async throws {
         let bufferedStream = BufferedStream(data: originalData, isClosed: true)
@@ -128,7 +140,7 @@ final class S3FlexibleChecksumsTests: S3XCTestCase {
     // MARK: - Private methods
 
     private func _testPutGetObject(
-        withChecksumAlgorithm algorithm: S3ClientTypes.ChecksumAlgorithm,
+        withChecksumAlgorithm algorithm: S3ClientTypes.ChecksumAlgorithm?,
         objectNameSuffix: String, upload: ByteStream, file: StaticString = #filePath, line: UInt = #line
     ) async throws {
         let objectName = "flexible-checksums-s3-test-\(objectNameSuffix)"
@@ -142,8 +154,8 @@ final class S3FlexibleChecksumsTests: S3XCTestCase {
 
         let output = try await client.putObject(input: input)
 
-        // Verify the checksum response based on the algorithm used.
-        let checksumResponse = try XCTUnwrap(getChecksumResponse(from: output, with: algorithm), file: file, line: line)
+        // Verify the checksum response based on the algorithm used; if algorithm was nil, crc32 should've been used so check for crc32.
+        let checksumResponse = try XCTUnwrap(getChecksumResponse(from: output, with: algorithm ?? .crc32), file: file, line: line)
         XCTAssertNotNil(checksumResponse, file: file, line: line)
 
         let getInput = GetObjectInput(bucket: bucketName, checksumMode: S3ClientTypes.ChecksumMode.enabled, key: objectName)

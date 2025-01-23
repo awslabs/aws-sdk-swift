@@ -8,6 +8,7 @@ on:
 
 jobs:
   ktlint:
+    if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
@@ -16,6 +17,7 @@ jobs:
         run: ./gradlew ktlint
 
   swiftlint:
+    if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/realm/swiftlint:0.54.0

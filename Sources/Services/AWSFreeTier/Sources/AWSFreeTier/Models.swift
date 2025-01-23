@@ -25,9 +25,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// An unexpected error occurred during the processing of your request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -43,16 +43,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -68,16 +67,15 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The input fails to satisfy the constraints specified by an Amazon Web Service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -93,8 +91,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -199,8 +196,7 @@ extension FreeTierClientTypes {
             key: FreeTierClientTypes.Dimension? = nil,
             matchOptions: [FreeTierClientTypes.MatchOption]? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.key = key
             self.matchOptions = matchOptions
             self.values = values
@@ -244,8 +240,7 @@ extension FreeTierClientTypes {
             service: Swift.String? = nil,
             unit: Swift.String? = nil,
             usageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.actualUsageAmount = actualUsageAmount
             self.description = description
             self.forecastedUsageAmount = forecastedUsageAmount
@@ -270,8 +265,7 @@ public struct GetFreeTierUsageOutput: Swift.Sendable {
     public init(
         freeTierUsages: [FreeTierClientTypes.FreeTierUsage]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.freeTierUsages = freeTierUsages
         self.nextToken = nextToken
     }
@@ -302,8 +296,7 @@ extension FreeTierClientTypes {
             dimensions: FreeTierClientTypes.DimensionValues? = nil,
             not: FreeTierClientTypes.Expression? = nil,
             or: [FreeTierClientTypes.Expression]? = nil
-        )
-        {
+        ) {
             self.and = and
             self.dimensions = dimensions
             self.not = not
@@ -324,8 +317,7 @@ public struct GetFreeTierUsageInput: Swift.Sendable {
         filter: FreeTierClientTypes.Expression? = nil,
         maxResults: Swift.Int? = 10,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken

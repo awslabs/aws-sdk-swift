@@ -106,9 +106,9 @@ public struct UpdateStreamModeOutput: Swift.Sendable {
 }
 
 /// Specifies that you do not have the permissions required to perform this operation.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -123,16 +123,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
-public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message that provides information about the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -148,16 +147,15 @@ public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message that provides information about the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -173,16 +171,15 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message that provides information about the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -198,16 +195,15 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The requested resource could not be found. The stream might not be specified correctly.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message that provides information about the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -223,8 +219,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -243,8 +238,7 @@ public struct AddTagsToStreamInput: Swift.Sendable {
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.streamARN = streamARN
         self.streamName = streamName
         self.tags = tags
@@ -265,8 +259,7 @@ extension KinesisClientTypes {
         public init(
             endingHashKey: Swift.String? = nil,
             startingHashKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.endingHashKey = endingHashKey
             self.startingHashKey = startingHashKey
         }
@@ -291,8 +284,7 @@ extension KinesisClientTypes {
             hashKeyRange: KinesisClientTypes.HashKeyRange? = nil,
             parentShards: [Swift.String]? = nil,
             shardId: Swift.String? = nil
-        )
-        {
+        ) {
             self.hashKeyRange = hashKeyRange
             self.parentShards = parentShards
             self.shardId = shardId
@@ -354,8 +346,7 @@ extension KinesisClientTypes {
             consumerCreationTimestamp: Foundation.Date? = nil,
             consumerName: Swift.String? = nil,
             consumerStatus: KinesisClientTypes.ConsumerStatus? = nil
-        )
-        {
+        ) {
             self.consumerARN = consumerARN
             self.consumerCreationTimestamp = consumerCreationTimestamp
             self.consumerName = consumerName
@@ -390,8 +381,7 @@ extension KinesisClientTypes {
             consumerName: Swift.String? = nil,
             consumerStatus: KinesisClientTypes.ConsumerStatus? = nil,
             streamARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.consumerARN = consumerARN
             self.consumerCreationTimestamp = consumerCreationTimestamp
             self.consumerName = consumerName
@@ -440,8 +430,7 @@ extension KinesisClientTypes {
 
         public init(
             streamMode: KinesisClientTypes.StreamMode? = nil
-        )
-        {
+        ) {
             self.streamMode = streamMode
         }
     }
@@ -464,8 +453,7 @@ public struct CreateStreamInput: Swift.Sendable {
         streamModeDetails: KinesisClientTypes.StreamModeDetails? = nil,
         streamName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.shardCount = shardCount
         self.streamModeDetails = streamModeDetails
         self.streamName = streamName
@@ -487,8 +475,7 @@ public struct DecreaseStreamRetentionPeriodInput: Swift.Sendable {
         retentionPeriodHours: Swift.Int? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.retentionPeriodHours = retentionPeriodHours
         self.streamARN = streamARN
         self.streamName = streamName
@@ -502,8 +489,7 @@ public struct DeleteResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -521,8 +507,7 @@ public struct DeleteStreamInput: Swift.Sendable {
         enforceConsumerDeletion: Swift.Bool? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.enforceConsumerDeletion = enforceConsumerDeletion
         self.streamARN = streamARN
         self.streamName = streamName
@@ -541,8 +526,7 @@ public struct DeregisterStreamConsumerInput: Swift.Sendable {
         consumerARN: Swift.String? = nil,
         consumerName: Swift.String? = nil,
         streamARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.consumerARN = consumerARN
         self.consumerName = consumerName
         self.streamARN = streamARN
@@ -573,8 +557,7 @@ public struct DescribeLimitsOutput: Swift.Sendable {
         onDemandStreamCountLimit: Swift.Int? = nil,
         openShardCount: Swift.Int? = nil,
         shardLimit: Swift.Int? = nil
-    )
-    {
+    ) {
         self.onDemandStreamCount = onDemandStreamCount
         self.onDemandStreamCountLimit = onDemandStreamCountLimit
         self.openShardCount = openShardCount
@@ -598,8 +581,7 @@ public struct DescribeStreamInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.exclusiveStartShardId = exclusiveStartShardId
         self.limit = limit
         self.streamARN = streamARN
@@ -711,8 +693,7 @@ extension KinesisClientTypes {
 
         public init(
             shardLevelMetrics: [KinesisClientTypes.MetricsName]? = nil
-        )
-        {
+        ) {
             self.shardLevelMetrics = shardLevelMetrics
         }
     }
@@ -731,8 +712,7 @@ extension KinesisClientTypes {
         public init(
             endingSequenceNumber: Swift.String? = nil,
             startingSequenceNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.endingSequenceNumber = endingSequenceNumber
             self.startingSequenceNumber = startingSequenceNumber
         }
@@ -763,8 +743,7 @@ extension KinesisClientTypes {
             parentShardId: Swift.String? = nil,
             sequenceNumberRange: KinesisClientTypes.SequenceNumberRange? = nil,
             shardId: Swift.String? = nil
-        )
-        {
+        ) {
             self.adjacentParentShardId = adjacentParentShardId
             self.hashKeyRange = hashKeyRange
             self.parentShardId = parentShardId
@@ -878,8 +857,7 @@ extension KinesisClientTypes {
             streamModeDetails: KinesisClientTypes.StreamModeDetails? = nil,
             streamName: Swift.String? = nil,
             streamStatus: KinesisClientTypes.StreamStatus? = nil
-        )
-        {
+        ) {
             self.encryptionType = encryptionType
             self.enhancedMonitoring = enhancedMonitoring
             self.hasMoreShards = hasMoreShards
@@ -903,8 +881,7 @@ public struct DescribeStreamOutput: Swift.Sendable {
 
     public init(
         streamDescription: KinesisClientTypes.StreamDescription? = nil
-    )
-    {
+    ) {
         self.streamDescription = streamDescription
     }
 }
@@ -921,8 +898,7 @@ public struct DescribeStreamConsumerInput: Swift.Sendable {
         consumerARN: Swift.String? = nil,
         consumerName: Swift.String? = nil,
         streamARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.consumerARN = consumerARN
         self.consumerName = consumerName
         self.streamARN = streamARN
@@ -936,8 +912,7 @@ public struct DescribeStreamConsumerOutput: Swift.Sendable {
 
     public init(
         consumerDescription: KinesisClientTypes.ConsumerDescription? = nil
-    )
-    {
+    ) {
         self.consumerDescription = consumerDescription
     }
 }
@@ -951,8 +926,7 @@ public struct DescribeStreamSummaryInput: Swift.Sendable {
     public init(
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.streamARN = streamARN
         self.streamName = streamName
     }
@@ -1026,8 +1000,7 @@ extension KinesisClientTypes {
             streamModeDetails: KinesisClientTypes.StreamModeDetails? = nil,
             streamName: Swift.String? = nil,
             streamStatus: KinesisClientTypes.StreamStatus? = nil
-        )
-        {
+        ) {
             self.consumerCount = consumerCount
             self.encryptionType = encryptionType
             self.enhancedMonitoring = enhancedMonitoring
@@ -1050,8 +1023,7 @@ public struct DescribeStreamSummaryOutput: Swift.Sendable {
 
     public init(
         streamDescriptionSummary: KinesisClientTypes.StreamDescriptionSummary? = nil
-    )
-    {
+    ) {
         self.streamDescriptionSummary = streamDescriptionSummary
     }
 }
@@ -1089,8 +1061,7 @@ public struct DisableEnhancedMonitoringInput: Swift.Sendable {
         shardLevelMetrics: [KinesisClientTypes.MetricsName]? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.shardLevelMetrics = shardLevelMetrics
         self.streamARN = streamARN
         self.streamName = streamName
@@ -1113,8 +1084,7 @@ public struct DisableEnhancedMonitoringOutput: Swift.Sendable {
         desiredShardLevelMetrics: [KinesisClientTypes.MetricsName]? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.currentShardLevelMetrics = currentShardLevelMetrics
         self.desiredShardLevelMetrics = desiredShardLevelMetrics
         self.streamARN = streamARN
@@ -1155,8 +1125,7 @@ public struct EnableEnhancedMonitoringInput: Swift.Sendable {
         shardLevelMetrics: [KinesisClientTypes.MetricsName]? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.shardLevelMetrics = shardLevelMetrics
         self.streamARN = streamARN
         self.streamName = streamName
@@ -1179,8 +1148,7 @@ public struct EnableEnhancedMonitoringOutput: Swift.Sendable {
         desiredShardLevelMetrics: [KinesisClientTypes.MetricsName]? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.currentShardLevelMetrics = currentShardLevelMetrics
         self.desiredShardLevelMetrics = desiredShardLevelMetrics
         self.streamARN = streamARN
@@ -1189,9 +1157,9 @@ public struct EnableEnhancedMonitoringOutput: Swift.Sendable {
 }
 
 /// The provided iterator exceeds the maximum age allowed.
-public struct ExpiredIteratorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ExpiredIteratorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message that provides information about the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1207,16 +1175,15 @@ public struct ExpiredIteratorException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The pagination token passed to the operation is expired.
-public struct ExpiredNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ExpiredNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1231,16 +1198,15 @@ public struct ExpiredNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The ciphertext references a key that doesn't exist or that you don't have access to.
-public struct KMSAccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KMSAccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message that provides information about the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1256,16 +1222,15 @@ public struct KMSAccessDeniedException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the specified customer master key (CMK) isn't enabled.
-public struct KMSDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KMSDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message that provides information about the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1281,16 +1246,15 @@ public struct KMSDisabledException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the state of the specified resource isn't valid for this request. For more information, see [How Key State Affects Use of a Customer Master Key](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Amazon Web Services Key Management Service Developer Guide.
-public struct KMSInvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KMSInvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message that provides information about the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1306,16 +1270,15 @@ public struct KMSInvalidStateException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was rejected because the specified entity or resource can't be found.
-public struct KMSNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KMSNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message that provides information about the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1331,16 +1294,15 @@ public struct KMSNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The Amazon Web Services access key ID needs a subscription for the service.
-public struct KMSOptInRequired: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KMSOptInRequired: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message that provides information about the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1356,16 +1318,15 @@ public struct KMSOptInRequired: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was denied due to request throttling. For more information about throttling, see [Limits](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html#requests-per-second) in the Amazon Web Services Key Management Service Developer Guide.
-public struct KMSThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KMSThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message that provides information about the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1381,16 +1342,15 @@ public struct KMSThrottlingException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request rate for the stream is too high, or the requested data is too large for the available throughput. Reduce the frequency or size of your requests. For more information, see [Streams Limits](https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html) in the Amazon Kinesis Data Streams Developer Guide, and [Error Retries and Exponential Backoff in Amazon Web Services](https://docs.aws.amazon.com/general/latest/gr/api-retries.html) in the Amazon Web Services General Reference.
-public struct ProvisionedThroughputExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ProvisionedThroughputExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message that provides information about the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1406,8 +1366,7 @@ public struct ProvisionedThroughputExceededException: ClientRuntime.ModeledError
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1426,8 +1385,7 @@ public struct GetRecordsInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         shardIterator: Swift.String? = nil,
         streamARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.limit = limit
         self.shardIterator = shardIterator
         self.streamARN = streamARN
@@ -1462,8 +1420,7 @@ extension KinesisClientTypes {
             encryptionType: KinesisClientTypes.EncryptionType? = nil,
             partitionKey: Swift.String? = nil,
             sequenceNumber: Swift.String? = nil
-        )
-        {
+        ) {
             self.approximateArrivalTimestamp = approximateArrivalTimestamp
             self.data = data
             self.encryptionType = encryptionType
@@ -1490,8 +1447,7 @@ public struct GetRecordsOutput: Swift.Sendable {
         millisBehindLatest: Swift.Int? = nil,
         nextShardIterator: Swift.String? = nil,
         records: [KinesisClientTypes.Record]? = nil
-    )
-    {
+    ) {
         self.childShards = childShards
         self.millisBehindLatest = millisBehindLatest
         self.nextShardIterator = nextShardIterator
@@ -1506,8 +1462,7 @@ public struct GetResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceARN = resourceARN
     }
 }
@@ -1519,8 +1474,7 @@ public struct GetResourcePolicyOutput: Swift.Sendable {
 
     public init(
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
@@ -1597,8 +1551,7 @@ public struct GetShardIteratorInput: Swift.Sendable {
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil,
         timestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.shardId = shardId
         self.shardIteratorType = shardIteratorType
         self.startingSequenceNumber = startingSequenceNumber
@@ -1615,8 +1568,7 @@ public struct GetShardIteratorOutput: Swift.Sendable {
 
     public init(
         shardIterator: Swift.String? = nil
-    )
-    {
+    ) {
         self.shardIterator = shardIterator
     }
 }
@@ -1635,8 +1587,7 @@ public struct IncreaseStreamRetentionPeriodInput: Swift.Sendable {
         retentionPeriodHours: Swift.Int? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.retentionPeriodHours = retentionPeriodHours
         self.streamARN = streamARN
         self.streamName = streamName
@@ -1644,9 +1595,9 @@ public struct IncreaseStreamRetentionPeriodInput: Swift.Sendable {
 }
 
 /// The processing of the request failed because of an unknown error, exception, or failure.
-public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1661,8 +1612,7 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1736,8 +1686,7 @@ extension KinesisClientTypes {
             shardId: Swift.String? = nil,
             timestamp: Foundation.Date? = nil,
             type: KinesisClientTypes.ShardFilterType? = nil
-        )
-        {
+        ) {
             self.shardId = shardId
             self.timestamp = timestamp
             self.type = type
@@ -1769,8 +1718,7 @@ public struct ListShardsInput: Swift.Sendable {
         streamARN: Swift.String? = nil,
         streamCreationTimestamp: Foundation.Date? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.exclusiveStartShardId = exclusiveStartShardId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1790,8 +1738,7 @@ public struct ListShardsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         shards: [KinesisClientTypes.Shard]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.shards = shards
     }
@@ -1813,8 +1760,7 @@ public struct ListStreamConsumersInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         streamARN: Swift.String? = nil,
         streamCreationTimestamp: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.streamARN = streamARN
@@ -1831,8 +1777,7 @@ public struct ListStreamConsumersOutput: Swift.Sendable {
     public init(
         consumers: [KinesisClientTypes.Consumer]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.consumers = consumers
         self.nextToken = nextToken
     }
@@ -1851,8 +1796,7 @@ public struct ListStreamsInput: Swift.Sendable {
         exclusiveStartStreamName: Swift.String? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.exclusiveStartStreamName = exclusiveStartStreamName
         self.limit = limit
         self.nextToken = nextToken
@@ -1883,8 +1827,7 @@ extension KinesisClientTypes {
             streamModeDetails: KinesisClientTypes.StreamModeDetails? = nil,
             streamName: Swift.String? = nil,
             streamStatus: KinesisClientTypes.StreamStatus? = nil
-        )
-        {
+        ) {
             self.streamARN = streamARN
             self.streamCreationTimestamp = streamCreationTimestamp
             self.streamModeDetails = streamModeDetails
@@ -1912,8 +1855,7 @@ public struct ListStreamsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         streamNames: [Swift.String]? = nil,
         streamSummaries: [KinesisClientTypes.StreamSummary]? = nil
-    )
-    {
+    ) {
         self.hasMoreStreams = hasMoreStreams
         self.nextToken = nextToken
         self.streamNames = streamNames
@@ -1937,8 +1879,7 @@ public struct ListTagsForStreamInput: Swift.Sendable {
         limit: Swift.Int? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.exclusiveStartTagKey = exclusiveStartTagKey
         self.limit = limit
         self.streamARN = streamARN
@@ -1959,8 +1900,7 @@ extension KinesisClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1979,17 +1919,16 @@ public struct ListTagsForStreamOutput: Swift.Sendable {
     public init(
         hasMoreTags: Swift.Bool? = nil,
         tags: [KinesisClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.hasMoreTags = hasMoreTags
         self.tags = tags
     }
 }
 
 /// Specifies that you tried to invoke this API for a data stream with the on-demand capacity mode. This API is only supported for data streams with the provisioned capacity mode.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2004,8 +1943,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2028,8 +1966,7 @@ public struct MergeShardsInput: Swift.Sendable {
         shardToMerge: Swift.String? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.adjacentShardToMerge = adjacentShardToMerge
         self.shardToMerge = shardToMerge
         self.streamARN = streamARN
@@ -2061,8 +1998,7 @@ public struct PutRecordInput: Swift.Sendable {
         sequenceNumberForOrdering: Swift.String? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.data = data
         self.explicitHashKey = explicitHashKey
         self.partitionKey = partitionKey
@@ -2091,8 +2027,7 @@ public struct PutRecordOutput: Swift.Sendable {
         encryptionType: KinesisClientTypes.EncryptionType? = nil,
         sequenceNumber: Swift.String? = nil,
         shardId: Swift.String? = nil
-    )
-    {
+    ) {
         self.encryptionType = encryptionType
         self.sequenceNumber = sequenceNumber
         self.shardId = shardId
@@ -2116,8 +2051,7 @@ extension KinesisClientTypes {
             data: Foundation.Data? = nil,
             explicitHashKey: Swift.String? = nil,
             partitionKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.data = data
             self.explicitHashKey = explicitHashKey
             self.partitionKey = partitionKey
@@ -2139,8 +2073,7 @@ public struct PutRecordsInput: Swift.Sendable {
         records: [KinesisClientTypes.PutRecordsRequestEntry]? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.records = records
         self.streamARN = streamARN
         self.streamName = streamName
@@ -2165,8 +2098,7 @@ extension KinesisClientTypes {
             errorMessage: Swift.String? = nil,
             sequenceNumber: Swift.String? = nil,
             shardId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.sequenceNumber = sequenceNumber
@@ -2193,8 +2125,7 @@ public struct PutRecordsOutput: Swift.Sendable {
         encryptionType: KinesisClientTypes.EncryptionType? = nil,
         failedRecordCount: Swift.Int? = nil,
         records: [KinesisClientTypes.PutRecordsResultEntry]? = nil
-    )
-    {
+    ) {
         self.encryptionType = encryptionType
         self.failedRecordCount = failedRecordCount
         self.records = records
@@ -2212,8 +2143,7 @@ public struct PutResourcePolicyInput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         resourceARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.resourceARN = resourceARN
     }
@@ -2230,8 +2160,7 @@ public struct RegisterStreamConsumerInput: Swift.Sendable {
     public init(
         consumerName: Swift.String? = nil,
         streamARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.consumerName = consumerName
         self.streamARN = streamARN
     }
@@ -2244,8 +2173,7 @@ public struct RegisterStreamConsumerOutput: Swift.Sendable {
 
     public init(
         consumer: KinesisClientTypes.Consumer? = nil
-    )
-    {
+    ) {
         self.consumer = consumer
     }
 }
@@ -2264,8 +2192,7 @@ public struct RemoveTagsFromStreamInput: Swift.Sendable {
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.streamARN = streamARN
         self.streamName = streamName
         self.tagKeys = tagKeys
@@ -2290,8 +2217,7 @@ public struct SplitShardInput: Swift.Sendable {
         shardToSplit: Swift.String? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.newStartingHashKey = newStartingHashKey
         self.shardToSplit = shardToSplit
         self.streamARN = streamARN
@@ -2326,8 +2252,7 @@ public struct StartStreamEncryptionInput: Swift.Sendable {
         keyId: Swift.String? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.encryptionType = encryptionType
         self.keyId = keyId
         self.streamARN = streamARN
@@ -2362,8 +2287,7 @@ public struct StopStreamEncryptionInput: Swift.Sendable {
         keyId: Swift.String? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.encryptionType = encryptionType
         self.keyId = keyId
         self.streamARN = streamARN
@@ -2387,8 +2311,7 @@ extension KinesisClientTypes {
             sequenceNumber: Swift.String? = nil,
             timestamp: Foundation.Date? = nil,
             type: KinesisClientTypes.ShardIteratorType? = nil
-        )
-        {
+        ) {
             self.sequenceNumber = sequenceNumber
             self.timestamp = timestamp
             self.type = type
@@ -2411,8 +2334,7 @@ public struct SubscribeToShardInput: Swift.Sendable {
         consumerARN: Swift.String? = nil,
         shardId: Swift.String? = nil,
         startingPosition: KinesisClientTypes.StartingPosition? = nil
-    )
-    {
+    ) {
         self.consumerARN = consumerARN
         self.shardId = shardId
         self.startingPosition = startingPosition
@@ -2440,8 +2362,7 @@ extension KinesisClientTypes {
             continuationSequenceNumber: Swift.String? = nil,
             millisBehindLatest: Swift.Int? = nil,
             records: [KinesisClientTypes.Record]? = nil
-        )
-        {
+        ) {
             self.childShards = childShards
             self.continuationSequenceNumber = continuationSequenceNumber
             self.millisBehindLatest = millisBehindLatest
@@ -2467,8 +2388,7 @@ public struct SubscribeToShardOutput: Swift.Sendable {
 
     public init(
         eventStream: AsyncThrowingStream<KinesisClientTypes.SubscribeToShardEventStream, Swift.Error>? = nil
-    )
-    {
+    ) {
         self.eventStream = eventStream
     }
 }
@@ -2524,8 +2444,7 @@ public struct UpdateShardCountInput: Swift.Sendable {
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil,
         targetShardCount: Swift.Int? = nil
-    )
-    {
+    ) {
         self.scalingType = scalingType
         self.streamARN = streamARN
         self.streamName = streamName
@@ -2548,8 +2467,7 @@ public struct UpdateShardCountOutput: Swift.Sendable {
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil,
         targetShardCount: Swift.Int? = nil
-    )
-    {
+    ) {
         self.currentShardCount = currentShardCount
         self.streamARN = streamARN
         self.streamName = streamName
@@ -2568,8 +2486,7 @@ public struct UpdateStreamModeInput: Swift.Sendable {
     public init(
         streamARN: Swift.String? = nil,
         streamModeDetails: KinesisClientTypes.StreamModeDetails? = nil
-    )
-    {
+    ) {
         self.streamARN = streamARN
         self.streamModeDetails = streamModeDetails
     }
@@ -4428,7 +4345,7 @@ extension KinesisClientTypes.Record {
         var value = KinesisClientTypes.Record()
         value.sequenceNumber = try reader["SequenceNumber"].readIfPresent() ?? ""
         value.approximateArrivalTimestamp = try reader["ApproximateArrivalTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.data = try reader["Data"].readIfPresent() ?? Foundation.Data("".utf8)
+        value.data = try reader["Data"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
         value.partitionKey = try reader["PartitionKey"].readIfPresent() ?? ""
         value.encryptionType = try reader["EncryptionType"].readIfPresent()
         return value

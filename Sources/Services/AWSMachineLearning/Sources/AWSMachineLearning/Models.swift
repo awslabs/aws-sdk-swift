@@ -29,9 +29,9 @@ import protocol ClientRuntime.MutableInput
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// An error on the server occurred when trying to process a request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.Int = 0
         public internal(set) var message: Swift.String? = nil
     }
@@ -48,17 +48,16 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         code: Swift.Int = 0,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
 /// An error on the client occurred. Typically, the cause is an invalid input value.
-public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.Int = 0
         public internal(set) var message: Swift.String? = nil
     }
@@ -75,16 +74,15 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         code: Swift.Int = 0,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
-public struct InvalidTagException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTagException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -99,16 +97,15 @@ public struct InvalidTagException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A specified resource cannot be located.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.Int = 0
         public internal(set) var message: Swift.String? = nil
     }
@@ -125,16 +122,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         code: Swift.Int = 0,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
-public struct TagLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TagLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -149,8 +145,7 @@ public struct TagLimitExceededException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -202,8 +197,7 @@ extension MachineLearningClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -225,8 +219,7 @@ public struct AddTagsInput: Swift.Sendable {
         resourceId: Swift.String? = nil,
         resourceType: MachineLearningClientTypes.TaggableResourceType? = nil,
         tags: [MachineLearningClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.resourceType = resourceType
         self.tags = tags
@@ -243,8 +236,7 @@ public struct AddTagsOutput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         resourceType: MachineLearningClientTypes.TaggableResourceType? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.resourceType = resourceType
     }
@@ -282,9 +274,9 @@ extension MachineLearningClientTypes {
 }
 
 /// A second request to use or change an object was not allowed. This can result from retrying a request using a parameter that was not present in the original request.
-public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.Int = 0
         public internal(set) var message: Swift.String? = nil
     }
@@ -301,8 +293,7 @@ public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, 
     public init(
         code: Swift.Int = 0,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
@@ -330,8 +321,7 @@ public struct CreateBatchPredictionInput: Swift.Sendable {
         batchPredictionName: Swift.String? = nil,
         mlModelId: Swift.String? = nil,
         outputUri: Swift.String? = nil
-    )
-    {
+    ) {
         self.batchPredictionDataSourceId = batchPredictionDataSourceId
         self.batchPredictionId = batchPredictionId
         self.batchPredictionName = batchPredictionName
@@ -347,8 +337,7 @@ public struct CreateBatchPredictionOutput: Swift.Sendable {
 
     public init(
         batchPredictionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.batchPredictionId = batchPredictionId
     }
 }
@@ -367,8 +356,7 @@ extension MachineLearningClientTypes {
         public init(
             password: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.password = password
             self.username = username
         }
@@ -394,8 +382,7 @@ extension MachineLearningClientTypes {
         public init(
             databaseName: Swift.String? = nil,
             instanceIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.databaseName = databaseName
             self.instanceIdentifier = instanceIdentifier
         }
@@ -457,8 +444,7 @@ extension MachineLearningClientTypes {
             selectSqlQuery: Swift.String? = nil,
             serviceRole: Swift.String? = nil,
             subnetId: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataRearrangement = dataRearrangement
             self.dataSchema = dataSchema
             self.dataSchemaUri = dataSchemaUri
@@ -522,8 +508,7 @@ public struct CreateDataSourceFromRDSInput: Swift.Sendable {
         dataSourceName: Swift.String? = nil,
         rdsData: MachineLearningClientTypes.RDSDataSpec? = nil,
         roleARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.computeStatistics = computeStatistics
         self.dataSourceId = dataSourceId
         self.dataSourceName = dataSourceName
@@ -539,8 +524,7 @@ public struct CreateDataSourceFromRDSOutput: Swift.Sendable {
 
     public init(
         dataSourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSourceId = dataSourceId
     }
 }
@@ -559,8 +543,7 @@ extension MachineLearningClientTypes {
         public init(
             password: Swift.String? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.password = password
             self.username = username
         }
@@ -586,8 +569,7 @@ extension MachineLearningClientTypes {
         public init(
             clusterIdentifier: Swift.String? = nil,
             databaseName: Swift.String? = nil
-        )
-        {
+        ) {
             self.clusterIdentifier = clusterIdentifier
             self.databaseName = databaseName
         }
@@ -633,8 +615,7 @@ extension MachineLearningClientTypes {
             databaseInformation: MachineLearningClientTypes.RedshiftDatabase? = nil,
             s3StagingLocation: Swift.String? = nil,
             selectSqlQuery: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataRearrangement = dataRearrangement
             self.dataSchema = dataSchema
             self.dataSchemaUri = dataSchemaUri
@@ -692,8 +673,7 @@ public struct CreateDataSourceFromRedshiftInput: Swift.Sendable {
         dataSourceName: Swift.String? = nil,
         dataSpec: MachineLearningClientTypes.RedshiftDataSpec? = nil,
         roleARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.computeStatistics = computeStatistics
         self.dataSourceId = dataSourceId
         self.dataSourceName = dataSourceName
@@ -709,8 +689,7 @@ public struct CreateDataSourceFromRedshiftOutput: Swift.Sendable {
 
     public init(
         dataSourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSourceId = dataSourceId
     }
 }
@@ -742,8 +721,7 @@ extension MachineLearningClientTypes {
             dataRearrangement: Swift.String? = nil,
             dataSchema: Swift.String? = nil,
             dataSchemaLocationS3: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataLocationS3 = dataLocationS3
             self.dataRearrangement = dataRearrangement
             self.dataSchema = dataSchema
@@ -777,8 +755,7 @@ public struct CreateDataSourceFromS3Input: Swift.Sendable {
         dataSourceId: Swift.String? = nil,
         dataSourceName: Swift.String? = nil,
         dataSpec: MachineLearningClientTypes.S3DataSpec? = nil
-    )
-    {
+    ) {
         self.computeStatistics = computeStatistics
         self.dataSourceId = dataSourceId
         self.dataSourceName = dataSourceName
@@ -793,8 +770,7 @@ public struct CreateDataSourceFromS3Output: Swift.Sendable {
 
     public init(
         dataSourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSourceId = dataSourceId
     }
 }
@@ -817,8 +793,7 @@ public struct CreateEvaluationInput: Swift.Sendable {
         evaluationId: Swift.String? = nil,
         evaluationName: Swift.String? = nil,
         mlModelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationDataSourceId = evaluationDataSourceId
         self.evaluationId = evaluationId
         self.evaluationName = evaluationName
@@ -833,8 +808,7 @@ public struct CreateEvaluationOutput: Swift.Sendable {
 
     public init(
         evaluationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationId = evaluationId
     }
 }
@@ -917,8 +891,7 @@ public struct CreateMLModelInput: Swift.Sendable {
         recipe: Swift.String? = nil,
         recipeUri: Swift.String? = nil,
         trainingDataSourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.mlModelId = mlModelId
         self.mlModelName = mlModelName
         self.mlModelType = mlModelType
@@ -936,8 +909,7 @@ public struct CreateMLModelOutput: Swift.Sendable {
 
     public init(
         mlModelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.mlModelId = mlModelId
     }
 }
@@ -949,8 +921,7 @@ public struct CreateRealtimeEndpointInput: Swift.Sendable {
 
     public init(
         mlModelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.mlModelId = mlModelId
     }
 }
@@ -1014,8 +985,7 @@ extension MachineLearningClientTypes {
             endpointStatus: MachineLearningClientTypes.RealtimeEndpointStatus? = nil,
             endpointUrl: Swift.String? = nil,
             peakRequestsPerSecond: Swift.Int = 0
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.endpointStatus = endpointStatus
             self.endpointUrl = endpointUrl
@@ -1034,8 +1004,7 @@ public struct CreateRealtimeEndpointOutput: Swift.Sendable {
     public init(
         mlModelId: Swift.String? = nil,
         realtimeEndpointInfo: MachineLearningClientTypes.RealtimeEndpointInfo? = nil
-    )
-    {
+    ) {
         self.mlModelId = mlModelId
         self.realtimeEndpointInfo = realtimeEndpointInfo
     }
@@ -1048,8 +1017,7 @@ public struct DeleteBatchPredictionInput: Swift.Sendable {
 
     public init(
         batchPredictionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.batchPredictionId = batchPredictionId
     }
 }
@@ -1061,8 +1029,7 @@ public struct DeleteBatchPredictionOutput: Swift.Sendable {
 
     public init(
         batchPredictionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.batchPredictionId = batchPredictionId
     }
 }
@@ -1074,8 +1041,7 @@ public struct DeleteDataSourceInput: Swift.Sendable {
 
     public init(
         dataSourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSourceId = dataSourceId
     }
 }
@@ -1087,8 +1053,7 @@ public struct DeleteDataSourceOutput: Swift.Sendable {
 
     public init(
         dataSourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSourceId = dataSourceId
     }
 }
@@ -1100,8 +1065,7 @@ public struct DeleteEvaluationInput: Swift.Sendable {
 
     public init(
         evaluationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationId = evaluationId
     }
 }
@@ -1113,8 +1077,7 @@ public struct DeleteEvaluationOutput: Swift.Sendable {
 
     public init(
         evaluationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationId = evaluationId
     }
 }
@@ -1126,8 +1089,7 @@ public struct DeleteMLModelInput: Swift.Sendable {
 
     public init(
         mlModelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.mlModelId = mlModelId
     }
 }
@@ -1139,8 +1101,7 @@ public struct DeleteMLModelOutput: Swift.Sendable {
 
     public init(
         mlModelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.mlModelId = mlModelId
     }
 }
@@ -1152,8 +1113,7 @@ public struct DeleteRealtimeEndpointInput: Swift.Sendable {
 
     public init(
         mlModelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.mlModelId = mlModelId
     }
 }
@@ -1168,8 +1128,7 @@ public struct DeleteRealtimeEndpointOutput: Swift.Sendable {
     public init(
         mlModelId: Swift.String? = nil,
         realtimeEndpointInfo: MachineLearningClientTypes.RealtimeEndpointInfo? = nil
-    )
-    {
+    ) {
         self.mlModelId = mlModelId
         self.realtimeEndpointInfo = realtimeEndpointInfo
     }
@@ -1190,8 +1149,7 @@ public struct DeleteTagsInput: Swift.Sendable {
         resourceId: Swift.String? = nil,
         resourceType: MachineLearningClientTypes.TaggableResourceType? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.resourceType = resourceType
         self.tagKeys = tagKeys
@@ -1208,8 +1166,7 @@ public struct DeleteTagsOutput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         resourceType: MachineLearningClientTypes.TaggableResourceType? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.resourceType = resourceType
     }
@@ -1374,8 +1331,7 @@ public struct DescribeBatchPredictionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         `prefix`: Swift.String? = nil,
         sortOrder: MachineLearningClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.eq = eq
         self.filterVariable = filterVariable
         self.ge = ge
@@ -1503,8 +1459,7 @@ extension MachineLearningClientTypes {
             startedAt: Foundation.Date? = nil,
             status: MachineLearningClientTypes.EntityStatus? = nil,
             totalRecordCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.batchPredictionDataSourceId = batchPredictionDataSourceId
             self.batchPredictionId = batchPredictionId
             self.computeTime = computeTime
@@ -1535,8 +1490,7 @@ public struct DescribeBatchPredictionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         results: [MachineLearningClientTypes.BatchPrediction]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.results = results
     }
@@ -1656,8 +1610,7 @@ public struct DescribeDataSourcesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         `prefix`: Swift.String? = nil,
         sortOrder: MachineLearningClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.eq = eq
         self.filterVariable = filterVariable
         self.ge = ge
@@ -1696,8 +1649,7 @@ extension MachineLearningClientTypes {
             resourceRole: Swift.String? = nil,
             selectSqlQuery: Swift.String? = nil,
             serviceRole: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataPipelineId = dataPipelineId
             self.database = database
             self.databaseUserName = databaseUserName
@@ -1723,8 +1675,7 @@ extension MachineLearningClientTypes {
             databaseUserName: Swift.String? = nil,
             redshiftDatabase: MachineLearningClientTypes.RedshiftDatabase? = nil,
             selectSqlQuery: Swift.String? = nil
-        )
-        {
+        ) {
             self.databaseUserName = databaseUserName
             self.redshiftDatabase = redshiftDatabase
             self.selectSqlQuery = selectSqlQuery
@@ -1802,8 +1753,7 @@ extension MachineLearningClientTypes {
             roleARN: Swift.String? = nil,
             startedAt: Foundation.Date? = nil,
             status: MachineLearningClientTypes.EntityStatus? = nil
-        )
-        {
+        ) {
             self.computeStatistics = computeStatistics
             self.computeTime = computeTime
             self.createdAt = createdAt
@@ -1836,8 +1786,7 @@ public struct DescribeDataSourcesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         results: [MachineLearningClientTypes.DataSource]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.results = results
     }
@@ -1968,8 +1917,7 @@ public struct DescribeEvaluationsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         `prefix`: Swift.String? = nil,
         sortOrder: MachineLearningClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.eq = eq
         self.filterVariable = filterVariable
         self.ge = ge
@@ -2001,8 +1949,7 @@ extension MachineLearningClientTypes {
 
         public init(
             properties: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.properties = properties
         }
     }
@@ -2075,8 +2022,7 @@ extension MachineLearningClientTypes {
             performanceMetrics: MachineLearningClientTypes.PerformanceMetrics? = nil,
             startedAt: Foundation.Date? = nil,
             status: MachineLearningClientTypes.EntityStatus? = nil
-        )
-        {
+        ) {
             self.computeTime = computeTime
             self.createdAt = createdAt
             self.createdByIamUser = createdByIamUser
@@ -2105,8 +2051,7 @@ public struct DescribeEvaluationsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         results: [MachineLearningClientTypes.Evaluation]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.results = results
     }
@@ -2232,8 +2177,7 @@ public struct DescribeMLModelsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         `prefix`: Swift.String? = nil,
         sortOrder: MachineLearningClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.eq = eq
         self.filterVariable = filterVariable
         self.ge = ge
@@ -2338,8 +2282,7 @@ extension MachineLearningClientTypes {
             status: MachineLearningClientTypes.EntityStatus? = nil,
             trainingDataSourceId: Swift.String? = nil,
             trainingParameters: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.algorithm = algorithm
             self.computeTime = computeTime
             self.createdAt = createdAt
@@ -2373,8 +2316,7 @@ public struct DescribeMLModelsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         results: [MachineLearningClientTypes.MLModel]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.results = results
     }
@@ -2391,8 +2333,7 @@ public struct DescribeTagsInput: Swift.Sendable {
     public init(
         resourceId: Swift.String? = nil,
         resourceType: MachineLearningClientTypes.TaggableResourceType? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.resourceType = resourceType
     }
@@ -2411,8 +2352,7 @@ public struct DescribeTagsOutput: Swift.Sendable {
         resourceId: Swift.String? = nil,
         resourceType: MachineLearningClientTypes.TaggableResourceType? = nil,
         tags: [MachineLearningClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceId = resourceId
         self.resourceType = resourceType
         self.tags = tags
@@ -2426,8 +2366,7 @@ public struct GetBatchPredictionInput: Swift.Sendable {
 
     public init(
         batchPredictionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.batchPredictionId = batchPredictionId
     }
 }
@@ -2497,8 +2436,7 @@ public struct GetBatchPredictionOutput: Swift.Sendable {
         startedAt: Foundation.Date? = nil,
         status: MachineLearningClientTypes.EntityStatus? = nil,
         totalRecordCount: Swift.Int? = nil
-    )
-    {
+    ) {
         self.batchPredictionDataSourceId = batchPredictionDataSourceId
         self.batchPredictionId = batchPredictionId
         self.computeTime = computeTime
@@ -2529,8 +2467,7 @@ public struct GetDataSourceInput: Swift.Sendable {
     public init(
         dataSourceId: Swift.String? = nil,
         verbose: Swift.Bool? = false
-    )
-    {
+    ) {
         self.dataSourceId = dataSourceId
         self.verbose = verbose
     }
@@ -2610,8 +2547,7 @@ public struct GetDataSourceOutput: Swift.Sendable {
         roleARN: Swift.String? = nil,
         startedAt: Foundation.Date? = nil,
         status: MachineLearningClientTypes.EntityStatus? = nil
-    )
-    {
+    ) {
         self.computeStatistics = computeStatistics
         self.computeTime = computeTime
         self.createdAt = createdAt
@@ -2642,8 +2578,7 @@ public struct GetEvaluationInput: Swift.Sendable {
 
     public init(
         evaluationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationId = evaluationId
     }
 }
@@ -2716,8 +2651,7 @@ public struct GetEvaluationOutput: Swift.Sendable {
         performanceMetrics: MachineLearningClientTypes.PerformanceMetrics? = nil,
         startedAt: Foundation.Date? = nil,
         status: MachineLearningClientTypes.EntityStatus? = nil
-    )
-    {
+    ) {
         self.computeTime = computeTime
         self.createdAt = createdAt
         self.createdByIamUser = createdByIamUser
@@ -2746,8 +2680,7 @@ public struct GetMLModelInput: Swift.Sendable {
     public init(
         mlModelId: Swift.String? = nil,
         verbose: Swift.Bool? = false
-    )
-    {
+    ) {
         self.mlModelId = mlModelId
         self.verbose = verbose
     }
@@ -2846,8 +2779,7 @@ public struct GetMLModelOutput: Swift.Sendable {
         status: MachineLearningClientTypes.EntityStatus? = nil,
         trainingDataSourceId: Swift.String? = nil,
         trainingParameters: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.computeTime = computeTime
         self.createdAt = createdAt
         self.createdByIamUser = createdByIamUser
@@ -2873,9 +2805,9 @@ public struct GetMLModelOutput: Swift.Sendable {
 }
 
 /// The subscriber exceeded the maximum number of operations. This exception can occur when listing objects such as DataSource.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.Int = 0
         public internal(set) var message: Swift.String? = nil
     }
@@ -2892,17 +2824,16 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     public init(
         code: Swift.Int = 0,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
 /// The exception is thrown when a predict request is made to an unmounted MLModel.
-public struct PredictorNotMountedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PredictorNotMountedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2917,8 +2848,7 @@ public struct PredictorNotMountedException: ClientRuntime.ModeledError, AWSClien
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2937,8 +2867,7 @@ public struct PredictInput: Swift.Sendable {
         mlModelId: Swift.String? = nil,
         predictEndpoint: Swift.String? = nil,
         record: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.mlModelId = mlModelId
         self.predictEndpoint = predictEndpoint
         self.record = record
@@ -3005,8 +2934,7 @@ extension MachineLearningClientTypes {
             predictedLabel: Swift.String? = nil,
             predictedScores: [Swift.String: Swift.Float]? = nil,
             predictedValue: Swift.Float? = nil
-        )
-        {
+        ) {
             self.details = details
             self.predictedLabel = predictedLabel
             self.predictedScores = predictedScores
@@ -3029,8 +2957,7 @@ public struct PredictOutput: Swift.Sendable {
 
     public init(
         prediction: MachineLearningClientTypes.Prediction? = nil
-    )
-    {
+    ) {
         self.prediction = prediction
     }
 }
@@ -3046,8 +2973,7 @@ public struct UpdateBatchPredictionInput: Swift.Sendable {
     public init(
         batchPredictionId: Swift.String? = nil,
         batchPredictionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.batchPredictionId = batchPredictionId
         self.batchPredictionName = batchPredictionName
     }
@@ -3060,8 +2986,7 @@ public struct UpdateBatchPredictionOutput: Swift.Sendable {
 
     public init(
         batchPredictionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.batchPredictionId = batchPredictionId
     }
 }
@@ -3077,8 +3002,7 @@ public struct UpdateDataSourceInput: Swift.Sendable {
     public init(
         dataSourceId: Swift.String? = nil,
         dataSourceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSourceId = dataSourceId
         self.dataSourceName = dataSourceName
     }
@@ -3091,8 +3015,7 @@ public struct UpdateDataSourceOutput: Swift.Sendable {
 
     public init(
         dataSourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSourceId = dataSourceId
     }
 }
@@ -3108,8 +3031,7 @@ public struct UpdateEvaluationInput: Swift.Sendable {
     public init(
         evaluationId: Swift.String? = nil,
         evaluationName: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationId = evaluationId
         self.evaluationName = evaluationName
     }
@@ -3122,8 +3044,7 @@ public struct UpdateEvaluationOutput: Swift.Sendable {
 
     public init(
         evaluationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.evaluationId = evaluationId
     }
 }
@@ -3141,8 +3062,7 @@ public struct UpdateMLModelInput: Swift.Sendable {
         mlModelId: Swift.String? = nil,
         mlModelName: Swift.String? = nil,
         scoreThreshold: Swift.Float? = nil
-    )
-    {
+    ) {
         self.mlModelId = mlModelId
         self.mlModelName = mlModelName
         self.scoreThreshold = scoreThreshold
@@ -3156,8 +3076,7 @@ public struct UpdateMLModelOutput: Swift.Sendable {
 
     public init(
         mlModelId: Swift.String? = nil
-    )
-    {
+    ) {
         self.mlModelId = mlModelId
     }
 }

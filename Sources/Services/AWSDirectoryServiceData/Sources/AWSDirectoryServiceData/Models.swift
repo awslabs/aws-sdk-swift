@@ -58,9 +58,9 @@ extension DirectoryServiceDataClientTypes {
 }
 
 /// You don't have permission to perform the request or access the directory. It can also occur when the DirectoryId doesn't exist or the user, member, or group might be outside of your organizational unit (OU). Make sure that you have the authentication and authorization to perform the action. Review the directory information in the request, and make sure that the object isn't outside of your OU.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// Reason the request was unauthorized.
         public internal(set) var reason: DirectoryServiceDataClientTypes.AccessDeniedReason? = nil
@@ -78,17 +78,16 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         message: Swift.String? = nil,
         reason: DirectoryServiceDataClientTypes.AccessDeniedReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
 }
 
 /// This error will occur when you try to create a resource that conflicts with an existing object. It can also occur when adding a member to a group that the member is already in. This error can be caused by a request sent within the 8-hour idempotency window with the same client token but different input parameters. Client tokens should not be re-used across different requests. After 8 hours, any request with the same client token is treated as a new request.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -103,8 +102,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -148,9 +146,9 @@ extension DirectoryServiceDataClientTypes {
 }
 
 /// The request could not be completed due to a problem in the configuration or current state of the specified directory.
-public struct DirectoryUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DirectoryUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// Reason the request failed for the specified directory.
         public internal(set) var reason: DirectoryServiceDataClientTypes.DirectoryUnavailableReason? = nil
@@ -168,17 +166,16 @@ public struct DirectoryUnavailableException: ClientRuntime.ModeledError, AWSClie
     public init(
         message: Swift.String? = nil,
         reason: DirectoryServiceDataClientTypes.DirectoryUnavailableReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
 }
 
 /// The operation didn't succeed because an internal error occurred. Try again later.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -193,16 +190,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The resource couldn't be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -217,16 +213,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The limit on the number of requests per second has been exceeded.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The recommended amount of seconds to retry after a throttling exception.
@@ -245,8 +240,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
@@ -321,9 +315,9 @@ extension DirectoryServiceDataClientTypes {
 }
 
 /// The request isn't valid. Review the details in the error message to update the invalid parameters or values in your request.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// Reason the request failed validation.
         public internal(set) var reason: DirectoryServiceDataClientTypes.ValidationExceptionReason? = nil
@@ -341,8 +335,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     public init(
         message: Swift.String? = nil,
         reason: DirectoryServiceDataClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.reason = reason
     }
@@ -369,8 +362,7 @@ public struct AddGroupMemberInput: Swift.Sendable {
         groupName: Swift.String? = nil,
         memberName: Swift.String? = nil,
         memberRealm: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.directoryId = directoryId
         self.groupName = groupName
@@ -487,8 +479,7 @@ public struct CreateGroupInput: Swift.Sendable {
         groupType: DirectoryServiceDataClientTypes.GroupType? = nil,
         otherAttributes: [Swift.String: DirectoryServiceDataClientTypes.AttributeValue]? = nil,
         samAccountName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.directoryId = directoryId
         self.groupScope = groupScope
@@ -510,8 +501,7 @@ public struct CreateGroupOutput: Swift.Sendable {
         directoryId: Swift.String? = nil,
         samAccountName: Swift.String? = nil,
         sid: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.samAccountName = samAccountName
         self.sid = sid
@@ -544,8 +534,7 @@ public struct CreateUserInput: Swift.Sendable {
         otherAttributes: [Swift.String: DirectoryServiceDataClientTypes.AttributeValue]? = nil,
         samAccountName: Swift.String? = nil,
         surname: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.directoryId = directoryId
         self.emailAddress = emailAddress
@@ -573,8 +562,7 @@ public struct CreateUserOutput: Swift.Sendable {
         directoryId: Swift.String? = nil,
         samAccountName: Swift.String? = nil,
         sid: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.samAccountName = samAccountName
         self.sid = sid
@@ -595,8 +583,7 @@ public struct DeleteGroupInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         directoryId: Swift.String? = nil,
         samAccountName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.directoryId = directoryId
         self.samAccountName = samAccountName
@@ -622,8 +609,7 @@ public struct DeleteUserInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         directoryId: Swift.String? = nil,
         samAccountName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.directoryId = directoryId
         self.samAccountName = samAccountName
@@ -652,8 +638,7 @@ public struct DescribeGroupInput: Swift.Sendable {
         otherAttributes: [Swift.String]? = nil,
         realm: Swift.String? = nil,
         samAccountName: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.otherAttributes = otherAttributes
         self.realm = realm
@@ -688,8 +673,7 @@ public struct DescribeGroupOutput: Swift.Sendable {
         realm: Swift.String? = nil,
         samAccountName: Swift.String? = nil,
         sid: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.distinguishedName = distinguishedName
         self.groupScope = groupScope
@@ -723,8 +707,7 @@ public struct DescribeUserInput: Swift.Sendable {
         otherAttributes: [Swift.String]? = nil,
         realm: Swift.String? = nil,
         samAccountName: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.otherAttributes = otherAttributes
         self.realm = realm
@@ -768,8 +751,7 @@ public struct DescribeUserOutput: Swift.Sendable {
         sid: Swift.String? = nil,
         surname: Swift.String? = nil,
         userPrincipalName: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.distinguishedName = distinguishedName
         self.emailAddress = emailAddress
@@ -803,8 +785,7 @@ public struct DisableUserInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         directoryId: Swift.String? = nil,
         samAccountName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.directoryId = directoryId
         self.samAccountName = samAccountName
@@ -839,8 +820,7 @@ public struct ListGroupMembersInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         realm: Swift.String? = nil,
         samAccountName: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.maxResults = maxResults
         self.memberRealm = memberRealm
@@ -905,8 +885,7 @@ extension DirectoryServiceDataClientTypes {
             memberType: DirectoryServiceDataClientTypes.MemberType? = nil,
             samAccountName: Swift.String? = nil,
             sid: Swift.String? = nil
-        )
-        {
+        ) {
             self.memberType = memberType
             self.samAccountName = samAccountName
             self.sid = sid
@@ -932,8 +911,7 @@ public struct ListGroupMembersOutput: Swift.Sendable {
         members: [DirectoryServiceDataClientTypes.Member]? = nil,
         nextToken: Swift.String? = nil,
         realm: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.memberRealm = memberRealm
         self.members = members
@@ -963,8 +941,7 @@ public struct ListGroupsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         realm: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -999,8 +976,7 @@ extension DirectoryServiceDataClientTypes {
             groupType: DirectoryServiceDataClientTypes.GroupType? = nil,
             samAccountName: Swift.String? = nil,
             sid: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupScope = groupScope
             self.groupType = groupType
             self.samAccountName = samAccountName
@@ -1024,8 +1000,7 @@ public struct ListGroupsOutput: Swift.Sendable {
         groups: [DirectoryServiceDataClientTypes.GroupSummary]? = nil,
         nextToken: Swift.String? = nil,
         realm: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.groups = groups
         self.nextToken = nextToken
@@ -1061,8 +1036,7 @@ public struct ListGroupsForMemberInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         realm: Swift.String? = nil,
         samAccountName: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.maxResults = maxResults
         self.memberRealm = memberRealm
@@ -1095,8 +1069,7 @@ public struct ListGroupsForMemberOutput: Swift.Sendable {
         memberRealm: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         realm: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.groups = groups
         self.memberRealm = memberRealm
@@ -1126,8 +1099,7 @@ public struct ListUsersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         realm: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1164,8 +1136,7 @@ extension DirectoryServiceDataClientTypes {
             samAccountName: Swift.String? = nil,
             sid: Swift.String? = nil,
             surname: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.givenName = givenName
             self.samAccountName = samAccountName
@@ -1195,8 +1166,7 @@ public struct ListUsersOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         realm: Swift.String? = nil,
         users: [DirectoryServiceDataClientTypes.UserSummary]? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.nextToken = nextToken
         self.realm = realm
@@ -1230,8 +1200,7 @@ public struct RemoveGroupMemberInput: Swift.Sendable {
         groupName: Swift.String? = nil,
         memberName: Swift.String? = nil,
         memberRealm: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.directoryId = directoryId
         self.groupName = groupName
@@ -1269,8 +1238,7 @@ public struct SearchGroupsInput: Swift.Sendable {
         realm: Swift.String? = nil,
         searchAttributes: [Swift.String]? = nil,
         searchString: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1310,8 +1278,7 @@ extension DirectoryServiceDataClientTypes {
             otherAttributes: [Swift.String: DirectoryServiceDataClientTypes.AttributeValue]? = nil,
             samAccountName: Swift.String? = nil,
             sid: Swift.String? = nil
-        )
-        {
+        ) {
             self.distinguishedName = distinguishedName
             self.groupScope = groupScope
             self.groupType = groupType
@@ -1342,8 +1309,7 @@ public struct SearchGroupsOutput: Swift.Sendable {
         groups: [DirectoryServiceDataClientTypes.Group]? = nil,
         nextToken: Swift.String? = nil,
         realm: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.groups = groups
         self.nextToken = nextToken
@@ -1380,8 +1346,7 @@ public struct SearchUsersInput: Swift.Sendable {
         realm: Swift.String? = nil,
         searchAttributes: [Swift.String]? = nil,
         searchString: Swift.String? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1430,8 +1395,7 @@ extension DirectoryServiceDataClientTypes {
             sid: Swift.String? = nil,
             surname: Swift.String? = nil,
             userPrincipalName: Swift.String? = nil
-        )
-        {
+        ) {
             self.distinguishedName = distinguishedName
             self.emailAddress = emailAddress
             self.enabled = enabled
@@ -1465,8 +1429,7 @@ public struct SearchUsersOutput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         realm: Swift.String? = nil,
         users: [DirectoryServiceDataClientTypes.User]? = nil
-    )
-    {
+    ) {
         self.directoryId = directoryId
         self.nextToken = nextToken
         self.realm = realm
@@ -1537,8 +1500,7 @@ public struct UpdateGroupInput: Swift.Sendable {
         otherAttributes: [Swift.String: DirectoryServiceDataClientTypes.AttributeValue]? = nil,
         samAccountName: Swift.String? = nil,
         updateType: DirectoryServiceDataClientTypes.UpdateType? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.directoryId = directoryId
         self.groupScope = groupScope
@@ -1583,8 +1545,7 @@ public struct UpdateUserInput: Swift.Sendable {
         samAccountName: Swift.String? = nil,
         surname: Swift.String? = nil,
         updateType: DirectoryServiceDataClientTypes.UpdateType? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.directoryId = directoryId
         self.emailAddress = emailAddress

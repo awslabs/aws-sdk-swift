@@ -35,9 +35,9 @@ public struct GetSignedBluinsightsUrlInput: Swift.Sendable {
 }
 
 /// The account or role doesn't have the right permissions to make the request.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -53,8 +53,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -79,8 +78,7 @@ extension M2ClientTypes {
             length: Swift.Int = 0,
             name: Swift.String? = nil,
             offset: Swift.Int = 0
-        )
-        {
+        ) {
             self.allowDuplicates = allowDuplicates
             self.length = length
             self.name = name
@@ -90,9 +88,9 @@ extension M2ClientTypes {
 }
 
 /// The parameters provided in the request conflict with existing resources.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The ID of the conflicting resource.
@@ -114,8 +112,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -123,9 +120,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// An unexpected error occurred during the processing of the request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The number of seconds to wait before retrying the request.
@@ -144,17 +141,16 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int = 0
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
 }
 
 /// The specified resource was not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The ID of the missing resource.
@@ -176,8 +172,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -185,9 +180,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The number of requests made exceeds the limit.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The identifier of the throttled request.
@@ -212,8 +207,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int = 0,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -235,8 +229,7 @@ extension M2ClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -285,9 +278,9 @@ extension M2ClientTypes {
 }
 
 /// One or more parameters provided in the request is not valid.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The list of fields that failed service validation.
         public internal(set) var fieldList: [M2ClientTypes.ValidationExceptionField]? = nil
         /// This member is required.
@@ -309,8 +302,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [M2ClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: M2ClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
@@ -331,8 +323,7 @@ public struct CancelBatchJobExecutionInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         authSecretsManagerArn: Swift.String? = nil,
         executionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.authSecretsManagerArn = authSecretsManagerArn
         self.executionId = executionId
@@ -345,9 +336,9 @@ public struct CancelBatchJobExecutionOutput: Swift.Sendable {
 }
 
 /// One or more quotas for Amazon Web Services Mainframe Modernization exceeds the limit.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The identifier of the exceeded quota.
@@ -375,8 +366,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -456,8 +446,7 @@ public struct CreateApplicationInput: Swift.Sendable {
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.definition = definition
         self.description = description
@@ -484,8 +473,7 @@ public struct CreateApplicationOutput: Swift.Sendable {
         applicationArn: Swift.String? = nil,
         applicationId: Swift.String? = nil,
         applicationVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
         self.applicationId = applicationId
         self.applicationVersion = applicationVersion
@@ -504,8 +492,7 @@ extension M2ClientTypes {
         public init(
             limit: Swift.Int = 0,
             rollDisposition: Swift.String? = nil
-        )
-        {
+        ) {
             self.limit = limit
             self.rollDisposition = rollDisposition
         }
@@ -529,8 +516,7 @@ extension M2ClientTypes {
             encoding: Swift.String? = nil,
             format: Swift.String? = nil,
             memberFileExtensions: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.encoding = encoding
             self.format = format
             self.memberFileExtensions = memberFileExtensions
@@ -551,8 +537,7 @@ extension M2ClientTypes {
         public init(
             encoding: Swift.String? = nil,
             format: Swift.String? = nil
-        )
-        {
+        ) {
             self.encoding = encoding
             self.format = format
         }
@@ -576,8 +561,7 @@ extension M2ClientTypes {
             length: Swift.Int = 0,
             name: Swift.String? = nil,
             offset: Swift.Int = 0
-        )
-        {
+        ) {
             self.length = length
             self.name = name
             self.offset = offset
@@ -607,8 +591,7 @@ extension M2ClientTypes {
             encoding: Swift.String? = nil,
             format: Swift.String? = nil,
             primaryKey: M2ClientTypes.PrimaryKey? = nil
-        )
-        {
+        ) {
             self.alternateKeys = alternateKeys
             self.compressed = compressed
             self.encoding = encoding
@@ -648,8 +631,7 @@ extension M2ClientTypes {
         public init(
             max: Swift.Int = 0,
             min: Swift.Int = 0
-        )
-        {
+        ) {
             self.max = max
             self.min = min
         }
@@ -680,8 +662,7 @@ extension M2ClientTypes {
             recordLength: M2ClientTypes.RecordLength? = nil,
             relativePath: Swift.String? = nil,
             storageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.datasetName = datasetName
             self.datasetOrg = datasetOrg
             self.recordLength = recordLength
@@ -715,8 +696,7 @@ extension M2ClientTypes {
         public init(
             dataSet: M2ClientTypes.DataSet? = nil,
             externalLocation: M2ClientTypes.ExternalLocation? = nil
-        )
-        {
+        ) {
             self.dataSet = dataSet
             self.externalLocation = externalLocation
         }
@@ -749,8 +729,7 @@ public struct CreateDataSetImportTaskInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         importConfig: M2ClientTypes.DataSetImportConfig? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.clientToken = clientToken
         self.importConfig = importConfig
@@ -764,8 +743,7 @@ public struct CreateDataSetImportTaskOutput: Swift.Sendable {
 
     public init(
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.taskId = taskId
     }
 }
@@ -788,8 +766,7 @@ public struct CreateDeploymentInput: Swift.Sendable {
         applicationVersion: Swift.Int? = nil,
         clientToken: Swift.String? = nil,
         environmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.applicationVersion = applicationVersion
         self.clientToken = clientToken
@@ -804,8 +781,7 @@ public struct CreateDeploymentOutput: Swift.Sendable {
 
     public init(
         deploymentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.deploymentId = deploymentId
     }
 }
@@ -817,8 +793,7 @@ public struct DeleteApplicationInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -839,8 +814,7 @@ public struct DeleteApplicationFromEnvironmentInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         environmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.environmentId = environmentId
     }
@@ -858,8 +832,7 @@ public struct GetApplicationInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -916,8 +889,7 @@ extension M2ClientTypes {
             applicationVersion: Swift.Int? = nil,
             status: M2ClientTypes.DeploymentLifecycle? = nil,
             statusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationVersion = applicationVersion
             self.status = status
             self.statusReason = statusReason
@@ -978,8 +950,7 @@ extension M2ClientTypes {
             creationTime: Foundation.Date? = nil,
             status: M2ClientTypes.ApplicationVersionLifecycle? = nil,
             statusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationVersion = applicationVersion
             self.creationTime = creationTime
             self.status = status
@@ -1002,8 +973,7 @@ extension M2ClientTypes {
         public init(
             logGroupName: Swift.String? = nil,
             logType: Swift.String? = nil
-        )
-        {
+        ) {
             self.logGroupName = logGroupName
             self.logType = logType
         }
@@ -1136,8 +1106,7 @@ public struct GetApplicationOutput: Swift.Sendable {
         statusReason: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         targetGroupArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.applicationArn = applicationArn
         self.applicationId = applicationId
         self.creationTime = creationTime
@@ -1172,8 +1141,7 @@ public struct GetApplicationVersionInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         applicationVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.applicationVersion = applicationVersion
     }
@@ -1208,8 +1176,7 @@ public struct GetApplicationVersionOutput: Swift.Sendable {
         name: Swift.String? = nil,
         status: M2ClientTypes.ApplicationVersionLifecycle? = nil,
         statusReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationVersion = applicationVersion
         self.creationTime = creationTime
         self.definitionContent = definitionContent
@@ -1231,8 +1198,7 @@ public struct GetBatchJobExecutionInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         executionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.executionId = executionId
     }
@@ -1251,8 +1217,7 @@ extension M2ClientTypes {
         public init(
             fileName: Swift.String? = nil,
             folderPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.fileName = fileName
             self.folderPath = folderPath
         }
@@ -1278,8 +1243,7 @@ extension M2ClientTypes {
             fromStep: Swift.String? = nil,
             toProcStep: Swift.String? = nil,
             toStep: Swift.String? = nil
-        )
-        {
+        ) {
             self.fromProcStep = fromProcStep
             self.fromStep = fromStep
             self.toProcStep = toProcStep
@@ -1302,8 +1266,7 @@ extension M2ClientTypes {
         public init(
             executionId: Swift.String? = nil,
             jobStepRestartMarker: M2ClientTypes.JobStepRestartMarker? = nil
-        )
-        {
+        ) {
             self.executionId = executionId
             self.jobStepRestartMarker = jobStepRestartMarker
         }
@@ -1339,8 +1302,7 @@ extension M2ClientTypes {
             bucket: Swift.String? = nil,
             identifier: M2ClientTypes.JobIdentifier? = nil,
             keyPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.identifier = identifier
             self.keyPrefix = keyPrefix
@@ -1358,8 +1320,7 @@ extension M2ClientTypes {
 
         public init(
             scriptName: Swift.String? = nil
-        )
-        {
+        ) {
             self.scriptName = scriptName
         }
     }
@@ -1512,8 +1473,7 @@ public struct GetBatchJobExecutionOutput: Swift.Sendable {
         startTime: Foundation.Date? = nil,
         status: M2ClientTypes.BatchJobExecutionStatus? = nil,
         statusReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.batchJobIdentifier = batchJobIdentifier
         self.endTime = endTime
@@ -1531,9 +1491,9 @@ public struct GetBatchJobExecutionOutput: Swift.Sendable {
 }
 
 /// Failed to connect to server, or didn’t receive response within expected time period.
-public struct ExecutionTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ExecutionTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1549,16 +1509,15 @@ public struct ExecutionTimeoutException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Server cannot process the request at the moment.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1574,8 +1533,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1591,8 +1549,7 @@ public struct GetDataSetDetailsInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         dataSetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.dataSetName = dataSetName
     }
@@ -1610,8 +1567,7 @@ extension M2ClientTypes {
         public init(
             limit: Swift.Int = 0,
             rollDisposition: Swift.String? = nil
-        )
-        {
+        ) {
             self.limit = limit
             self.rollDisposition = rollDisposition
         }
@@ -1632,8 +1588,7 @@ extension M2ClientTypes {
         public init(
             encoding: Swift.String? = nil,
             format: Swift.String? = nil
-        )
-        {
+        ) {
             self.encoding = encoding
             self.format = format
         }
@@ -1654,8 +1609,7 @@ extension M2ClientTypes {
         public init(
             encoding: Swift.String? = nil,
             format: Swift.String? = nil
-        )
-        {
+        ) {
             self.encoding = encoding
             self.format = format
         }
@@ -1686,8 +1640,7 @@ extension M2ClientTypes {
             encoding: Swift.String? = nil,
             primaryKey: M2ClientTypes.PrimaryKey? = nil,
             recordFormat: Swift.String? = nil
-        )
-        {
+        ) {
             self.alternateKeys = alternateKeys
             self.cacheAtStartup = cacheAtStartup
             self.compressed = compressed
@@ -1745,8 +1698,7 @@ public struct GetDataSetDetailsOutput: Swift.Sendable {
         lastUpdatedTime: Foundation.Date? = nil,
         location: Swift.String? = nil,
         recordLength: Swift.Int? = 0
-    )
-    {
+    ) {
         self.blocksize = blocksize
         self.creationTime = creationTime
         self.dataSetName = dataSetName
@@ -1770,8 +1722,7 @@ public struct GetDataSetImportTaskInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.taskId = taskId
     }
@@ -1838,8 +1789,7 @@ extension M2ClientTypes {
             pending: Swift.Int = 0,
             succeeded: Swift.Int = 0,
             total: Swift.Int = 0
-        )
-        {
+        ) {
             self.failed = failed
             self.inProgress = inProgress
             self.pending = pending
@@ -1863,8 +1813,7 @@ public struct GetDataSetImportTaskOutput: Swift.Sendable {
         status: M2ClientTypes.DataSetTaskLifecycle? = nil,
         summary: M2ClientTypes.DataSetImportSummary? = nil,
         taskId: Swift.String? = nil
-    )
-    {
+    ) {
         self.status = status
         self.summary = summary
         self.taskId = taskId
@@ -1882,8 +1831,7 @@ public struct GetDeploymentInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         deploymentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.deploymentId = deploymentId
     }
@@ -1919,8 +1867,7 @@ public struct GetDeploymentOutput: Swift.Sendable {
         environmentId: Swift.String? = nil,
         status: M2ClientTypes.DeploymentLifecycle? = nil,
         statusReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.applicationVersion = applicationVersion
         self.creationTime = creationTime
@@ -1946,8 +1893,7 @@ public struct ListApplicationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         names: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
         self.maxResults = maxResults
         self.names = names
@@ -2036,8 +1982,7 @@ extension M2ClientTypes {
             roleArn: Swift.String? = nil,
             status: M2ClientTypes.ApplicationLifecycle? = nil,
             versionStatus: M2ClientTypes.ApplicationVersionLifecycle? = nil
-        )
-        {
+        ) {
             self.applicationArn = applicationArn
             self.applicationId = applicationId
             self.applicationVersion = applicationVersion
@@ -2065,8 +2010,7 @@ public struct ListApplicationsOutput: Swift.Sendable {
     public init(
         applications: [M2ClientTypes.ApplicationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applications = applications
         self.nextToken = nextToken
     }
@@ -2085,8 +2029,7 @@ public struct ListApplicationVersionsInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2103,8 +2046,7 @@ public struct ListApplicationVersionsOutput: Swift.Sendable {
     public init(
         applicationVersions: [M2ClientTypes.ApplicationVersionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationVersions = applicationVersions
         self.nextToken = nextToken
     }
@@ -2126,8 +2068,7 @@ public struct ListBatchJobDefinitionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         `prefix`: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2148,8 +2089,7 @@ extension M2ClientTypes {
         public init(
             fileName: Swift.String? = nil,
             folderPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.fileName = fileName
             self.folderPath = folderPath
         }
@@ -2166,8 +2106,7 @@ extension M2ClientTypes {
 
         public init(
             scriptName: Swift.String? = nil
-        )
-        {
+        ) {
             self.scriptName = scriptName
         }
     }
@@ -2195,8 +2134,7 @@ public struct ListBatchJobDefinitionsOutput: Swift.Sendable {
     public init(
         batchJobDefinitions: [M2ClientTypes.BatchJobDefinition]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.batchJobDefinitions = batchJobDefinitions
         self.nextToken = nextToken
     }
@@ -2230,8 +2168,7 @@ public struct ListBatchJobExecutionsInput: Swift.Sendable {
         startedAfter: Foundation.Date? = nil,
         startedBefore: Foundation.Date? = nil,
         status: M2ClientTypes.BatchJobExecutionStatus? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.executionIds = executionIds
         self.jobName = jobName
@@ -2283,8 +2220,7 @@ extension M2ClientTypes {
             returnCode: Swift.String? = nil,
             startTime: Foundation.Date? = nil,
             status: M2ClientTypes.BatchJobExecutionStatus? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.batchJobIdentifier = batchJobIdentifier
             self.endTime = endTime
@@ -2309,8 +2245,7 @@ public struct ListBatchJobExecutionsOutput: Swift.Sendable {
     public init(
         batchJobExecutions: [M2ClientTypes.BatchJobExecutionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.batchJobExecutions = batchJobExecutions
         self.nextToken = nextToken
     }
@@ -2330,8 +2265,7 @@ public struct ListBatchJobRestartPointsInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         authSecretsManagerArn: Swift.String? = nil,
         executionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.authSecretsManagerArn = authSecretsManagerArn
         self.executionId = executionId
@@ -2362,8 +2296,7 @@ extension M2ClientTypes {
             stepName: Swift.String? = nil,
             stepNumber: Swift.Int = 0,
             stepRestartable: Swift.Bool = false
-        )
-        {
+        ) {
             self.procStepName = procStepName
             self.procStepNumber = procStepNumber
             self.stepCondCode = stepCondCode
@@ -2380,8 +2313,7 @@ public struct ListBatchJobRestartPointsOutput: Swift.Sendable {
 
     public init(
         batchJobSteps: [M2ClientTypes.JobStep]? = nil
-    )
-    {
+    ) {
         self.batchJobSteps = batchJobSteps
     }
 }
@@ -2399,8 +2331,7 @@ public struct ListDataSetImportHistoryInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2428,8 +2359,7 @@ extension M2ClientTypes {
             statusReason: Swift.String? = nil,
             summary: M2ClientTypes.DataSetImportSummary? = nil,
             taskId: Swift.String? = nil
-        )
-        {
+        ) {
             self.status = status
             self.statusReason = statusReason
             self.summary = summary
@@ -2448,8 +2378,7 @@ public struct ListDataSetImportHistoryOutput: Swift.Sendable {
     public init(
         dataSetImportTasks: [M2ClientTypes.DataSetImportTask]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSetImportTasks = dataSetImportTasks
         self.nextToken = nextToken
     }
@@ -2474,8 +2403,7 @@ public struct ListDataSetsInput: Swift.Sendable {
         nameFilter: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         `prefix`: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.maxResults = maxResults
         self.nameFilter = nameFilter
@@ -2509,8 +2437,7 @@ extension M2ClientTypes {
             format: Swift.String? = nil,
             lastReferencedTime: Foundation.Date? = nil,
             lastUpdatedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.dataSetName = dataSetName
             self.dataSetOrg = dataSetOrg
@@ -2531,8 +2458,7 @@ public struct ListDataSetsOutput: Swift.Sendable {
     public init(
         dataSets: [M2ClientTypes.DataSetSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataSets = dataSets
         self.nextToken = nextToken
     }
@@ -2551,8 +2477,7 @@ public struct ListDeploymentsInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2592,8 +2517,7 @@ extension M2ClientTypes {
             environmentId: Swift.String? = nil,
             status: M2ClientTypes.DeploymentLifecycle? = nil,
             statusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.applicationId = applicationId
             self.applicationVersion = applicationVersion
             self.creationTime = creationTime
@@ -2615,8 +2539,7 @@ public struct ListDeploymentsOutput: Swift.Sendable {
     public init(
         deployments: [M2ClientTypes.DeploymentSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deployments = deployments
         self.nextToken = nextToken
     }
@@ -2629,8 +2552,7 @@ public struct StartApplicationInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
     }
 }
@@ -2657,8 +2579,7 @@ public struct StartBatchJobInput: Swift.Sendable {
         authSecretsManagerArn: Swift.String? = nil,
         batchJobIdentifier: M2ClientTypes.BatchJobIdentifier? = nil,
         jobParams: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.authSecretsManagerArn = authSecretsManagerArn
         self.batchJobIdentifier = batchJobIdentifier
@@ -2673,8 +2594,7 @@ public struct StartBatchJobOutput: Swift.Sendable {
 
     public init(
         executionId: Swift.String? = nil
-    )
-    {
+    ) {
         self.executionId = executionId
     }
 }
@@ -2689,8 +2609,7 @@ public struct StopApplicationInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         forceStop: Swift.Bool = false
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.forceStop = forceStop
     }
@@ -2718,8 +2637,7 @@ public struct UpdateApplicationInput: Swift.Sendable {
         currentApplicationVersion: Swift.Int? = nil,
         definition: M2ClientTypes.Definition? = nil,
         description: Swift.String? = nil
-    )
-    {
+    ) {
         self.applicationId = applicationId
         self.currentApplicationVersion = currentApplicationVersion
         self.definition = definition
@@ -2734,8 +2652,7 @@ public struct UpdateApplicationOutput: Swift.Sendable {
 
     public init(
         applicationVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.applicationVersion = applicationVersion
     }
 }
@@ -2750,9 +2667,37 @@ extension M2ClientTypes {
 
         public init(
             desiredCapacity: Swift.Int? = nil
-        )
-        {
+        ) {
             self.desiredCapacity = desiredCapacity
+        }
+    }
+}
+
+extension M2ClientTypes {
+
+    public enum NetworkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dual
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NetworkType] {
+            return [
+                .dual,
+                .ipv4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dual: return "dual"
+            case .ipv4: return "ipv4"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -2771,8 +2716,7 @@ extension M2ClientTypes {
         public init(
             fileSystemId: Swift.String? = nil,
             mountPoint: Swift.String? = nil
-        )
-        {
+        ) {
             self.fileSystemId = fileSystemId
             self.mountPoint = mountPoint
         }
@@ -2793,8 +2737,7 @@ extension M2ClientTypes {
         public init(
             fileSystemId: Swift.String? = nil,
             mountPoint: Swift.String? = nil
-        )
-        {
+        ) {
             self.fileSystemId = fileSystemId
             self.mountPoint = mountPoint
         }
@@ -2833,6 +2776,8 @@ public struct CreateEnvironmentInput: Swift.Sendable {
     /// The name of the runtime environment. Must be unique within the account.
     /// This member is required.
     public var name: Swift.String?
+    /// The network type required for the runtime environment.
+    public var networkType: M2ClientTypes.NetworkType?
     /// Configures the maintenance window that you want for the runtime environment. The maintenance window must have the format ddd:hh24:mi-ddd:hh24:mi and must be less than 24 hours. The following two examples are valid maintenance windows: sun:23:45-mon:00:15 or sat:01:00-sat:03:00. If you do not provide a value, a random system-generated value will be assigned.
     public var preferredMaintenanceWindow: Swift.String?
     /// Specifies whether the runtime environment is publicly accessible.
@@ -2855,14 +2800,14 @@ public struct CreateEnvironmentInput: Swift.Sendable {
         instanceType: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         name: Swift.String? = nil,
+        networkType: M2ClientTypes.NetworkType? = nil,
         preferredMaintenanceWindow: Swift.String? = nil,
         publiclyAccessible: Swift.Bool = false,
         securityGroupIds: [Swift.String]? = nil,
         storageConfigurations: [M2ClientTypes.StorageConfiguration]? = nil,
         subnetIds: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.description = description
         self.engineType = engineType
@@ -2871,6 +2816,7 @@ public struct CreateEnvironmentInput: Swift.Sendable {
         self.instanceType = instanceType
         self.kmsKeyId = kmsKeyId
         self.name = name
+        self.networkType = networkType
         self.preferredMaintenanceWindow = preferredMaintenanceWindow
         self.publiclyAccessible = publiclyAccessible
         self.securityGroupIds = securityGroupIds
@@ -2887,8 +2833,7 @@ public struct CreateEnvironmentOutput: Swift.Sendable {
 
     public init(
         environmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
     }
 }
@@ -2900,8 +2845,7 @@ public struct DeleteEnvironmentInput: Swift.Sendable {
 
     public init(
         environmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
     }
 }
@@ -2918,8 +2862,7 @@ public struct GetEnvironmentInput: Swift.Sendable {
 
     public init(
         environmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
     }
 }
@@ -2936,8 +2879,7 @@ extension M2ClientTypes {
         public init(
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -2956,8 +2898,7 @@ extension M2ClientTypes {
         public init(
             engineVersion: Swift.String? = nil,
             schedule: M2ClientTypes.MaintenanceSchedule? = nil
-        )
-        {
+        ) {
             self.engineVersion = engineVersion
             self.schedule = schedule
         }
@@ -3037,6 +2978,8 @@ public struct GetEnvironmentOutput: Swift.Sendable {
     /// The name of the runtime environment. Must be unique within the account.
     /// This member is required.
     public var name: Swift.String?
+    /// The network type supported by the runtime environment.
+    public var networkType: M2ClientTypes.NetworkType?
     /// Indicates the pending maintenance scheduled on this environment.
     public var pendingMaintenance: M2ClientTypes.PendingMaintenance?
     /// The maintenance window for the runtime environment. If you don't provide a value for the maintenance window, the service assigns a random value.
@@ -3075,6 +3018,7 @@ public struct GetEnvironmentOutput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         loadBalancerArn: Swift.String? = nil,
         name: Swift.String? = nil,
+        networkType: M2ClientTypes.NetworkType? = nil,
         pendingMaintenance: M2ClientTypes.PendingMaintenance? = nil,
         preferredMaintenanceWindow: Swift.String? = nil,
         publiclyAccessible: Swift.Bool = false,
@@ -3085,8 +3029,7 @@ public struct GetEnvironmentOutput: Swift.Sendable {
         subnetIds: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.actualCapacity = actualCapacity
         self.creationTime = creationTime
         self.description = description
@@ -3099,6 +3042,7 @@ public struct GetEnvironmentOutput: Swift.Sendable {
         self.kmsKeyId = kmsKeyId
         self.loadBalancerArn = loadBalancerArn
         self.name = name
+        self.networkType = networkType
         self.pendingMaintenance = pendingMaintenance
         self.preferredMaintenanceWindow = preferredMaintenanceWindow
         self.publiclyAccessible = publiclyAccessible
@@ -3127,8 +3071,7 @@ public struct ListEnvironmentsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         names: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.engineType = engineType
         self.maxResults = maxResults
         self.names = names
@@ -3161,6 +3104,8 @@ extension M2ClientTypes {
         /// The name of the runtime environment.
         /// This member is required.
         public var name: Swift.String?
+        /// The network type supported by the runtime environment.
+        public var networkType: M2ClientTypes.NetworkType?
         /// The status of the runtime environment
         /// This member is required.
         public var status: M2ClientTypes.EnvironmentLifecycle?
@@ -3173,9 +3118,9 @@ extension M2ClientTypes {
             environmentId: Swift.String? = nil,
             instanceType: Swift.String? = nil,
             name: Swift.String? = nil,
+            networkType: M2ClientTypes.NetworkType? = nil,
             status: M2ClientTypes.EnvironmentLifecycle? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.engineType = engineType
             self.engineVersion = engineVersion
@@ -3183,6 +3128,7 @@ extension M2ClientTypes {
             self.environmentId = environmentId
             self.instanceType = instanceType
             self.name = name
+            self.networkType = networkType
             self.status = status
         }
     }
@@ -3198,8 +3144,7 @@ public struct ListEnvironmentsOutput: Swift.Sendable {
     public init(
         environments: [M2ClientTypes.EnvironmentSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.environments = environments
         self.nextToken = nextToken
     }
@@ -3230,8 +3175,7 @@ public struct UpdateEnvironmentInput: Swift.Sendable {
         forceUpdate: Swift.Bool = false,
         instanceType: Swift.String? = nil,
         preferredMaintenanceWindow: Swift.String? = nil
-    )
-    {
+    ) {
         self.applyDuringMaintenanceWindow = applyDuringMaintenanceWindow
         self.desiredCapacity = desiredCapacity
         self.engineVersion = engineVersion
@@ -3249,8 +3193,7 @@ public struct UpdateEnvironmentOutput: Swift.Sendable {
 
     public init(
         environmentId: Swift.String? = nil
-    )
-    {
+    ) {
         self.environmentId = environmentId
     }
 }
@@ -3262,8 +3205,7 @@ public struct GetSignedBluinsightsUrlOutput: Swift.Sendable {
 
     public init(
         signedBiUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.signedBiUrl = signedBiUrl
     }
 }
@@ -3280,8 +3222,7 @@ public struct ListEngineVersionsInput: Swift.Sendable {
         engineType: M2ClientTypes.EngineType? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.engineType = engineType
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3302,8 +3243,7 @@ extension M2ClientTypes {
         public init(
             engineType: Swift.String? = nil,
             engineVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.engineType = engineType
             self.engineVersion = engineVersion
         }
@@ -3320,8 +3260,7 @@ public struct ListEngineVersionsOutput: Swift.Sendable {
     public init(
         engineVersions: [M2ClientTypes.EngineVersionsSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.engineVersions = engineVersions
         self.nextToken = nextToken
     }
@@ -3334,8 +3273,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3347,8 +3285,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -3364,8 +3301,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -3387,8 +3323,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -4029,6 +3964,7 @@ extension CreateEnvironmentInput {
         try writer["instanceType"].write(value.instanceType)
         try writer["kmsKeyId"].write(value.kmsKeyId)
         try writer["name"].write(value.name)
+        try writer["networkType"].write(value.networkType)
         try writer["preferredMaintenanceWindow"].write(value.preferredMaintenanceWindow)
         try writer["publiclyAccessible"].write(value.publiclyAccessible)
         try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -4309,6 +4245,7 @@ extension GetEnvironmentOutput {
         value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
         value.loadBalancerArn = try reader["loadBalancerArn"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.networkType = try reader["networkType"].readIfPresent()
         value.pendingMaintenance = try reader["pendingMaintenance"].readIfPresent(with: M2ClientTypes.PendingMaintenance.read(from:))
         value.preferredMaintenanceWindow = try reader["preferredMaintenanceWindow"].readIfPresent()
         value.publiclyAccessible = try reader["publiclyAccessible"].readIfPresent() ?? false
@@ -5877,6 +5814,7 @@ extension M2ClientTypes.EnvironmentSummary {
         value.engineType = try reader["engineType"].readIfPresent() ?? .sdkUnknown("")
         value.engineVersion = try reader["engineVersion"].readIfPresent() ?? ""
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.networkType = try reader["networkType"].readIfPresent()
         return value
     }
 }

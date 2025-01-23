@@ -30,9 +30,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// You do not have sufficient access to perform this action. Access denied errors appear when Amazon Security Lake explicitly or implicitly denies an authorization request. An explicit denial occurs when a policy contains a Deny statement for the specific Amazon Web Services action. An implicit denial occurs when there is no applicable Deny statement and also no applicable Allow statement.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A coded string to provide more information about the access denied exception. You can use the error code to check the exception type.
         public internal(set) var errorCode: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
@@ -50,8 +50,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public init(
         errorCode: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.errorCode = errorCode
         self.properties.message = message
     }
@@ -100,8 +99,7 @@ extension SecurityLakeClientTypes {
         public init(
             externalId: Swift.String? = nil,
             principal: Swift.String? = nil
-        )
-        {
+        ) {
             self.externalId = externalId
             self.principal = principal
         }
@@ -175,8 +173,7 @@ extension SecurityLakeClientTypes {
             regions: [Swift.String]? = nil,
             sourceName: SecurityLakeClientTypes.AwsLogSourceName? = nil,
             sourceVersion: Swift.String? = "latest"
-        )
-        {
+        ) {
             self.accounts = accounts
             self.regions = regions
             self.sourceName = sourceName
@@ -197,8 +194,7 @@ extension SecurityLakeClientTypes {
         public init(
             sourceName: SecurityLakeClientTypes.AwsLogSourceName? = nil,
             sourceVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceName = sourceName
             self.sourceVersion = sourceVersion
         }
@@ -206,9 +202,9 @@ extension SecurityLakeClientTypes {
 }
 
 /// The request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -223,16 +219,15 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The resource name.
         public internal(set) var resourceName: Swift.String? = nil
@@ -253,8 +248,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
         self.properties.resourceType = resourceType
@@ -262,9 +256,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// Internal service exceptions are sometimes caused by transient issues. Before you start troubleshooting, perform the operation again.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -279,16 +273,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The resource could not be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The name of the resource that could not be found.
         public internal(set) var resourceName: Swift.String? = nil
@@ -309,8 +302,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceName: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceName = resourceName
         self.properties.resourceType = resourceType
@@ -318,9 +310,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The limit on the number of requests per second was exceeded.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// That the rate of requests to Security Lake is exceeding the request quotas for your Amazon Web Services account.
         public internal(set) var quotaCode: Swift.String? = nil
@@ -344,8 +336,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -360,8 +351,7 @@ public struct CreateAwsLogSourceInput: Swift.Sendable {
 
     public init(
         sources: [SecurityLakeClientTypes.AwsLogSourceConfiguration]? = nil
-    )
-    {
+    ) {
         self.sources = sources
     }
 }
@@ -372,8 +362,7 @@ public struct CreateAwsLogSourceOutput: Swift.Sendable {
 
     public init(
         failed: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.failed = failed
     }
 }
@@ -392,8 +381,7 @@ extension SecurityLakeClientTypes {
 
         public init(
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.roleArn = roleArn
         }
     }
@@ -413,8 +401,7 @@ extension SecurityLakeClientTypes {
         public init(
             crawlerConfiguration: SecurityLakeClientTypes.CustomLogSourceCrawlerConfiguration? = nil,
             providerIdentity: SecurityLakeClientTypes.AwsIdentity? = nil
-        )
-        {
+        ) {
             self.crawlerConfiguration = crawlerConfiguration
             self.providerIdentity = providerIdentity
         }
@@ -425,65 +412,7 @@ public struct CreateCustomLogSourceInput: Swift.Sendable {
     /// The configuration used for the third-party custom source.
     /// This member is required.
     public var configuration: SecurityLakeClientTypes.CustomLogSourceConfiguration?
-    /// The Open Cybersecurity Schema Framework (OCSF) event classes which describes the type of data that the custom source will send to Security Lake. The supported event classes are:
-    ///
-    /// * ACCESS_ACTIVITY
-    ///
-    /// * FILE_ACTIVITY
-    ///
-    /// * KERNEL_ACTIVITY
-    ///
-    /// * KERNEL_EXTENSION
-    ///
-    /// * MEMORY_ACTIVITY
-    ///
-    /// * MODULE_ACTIVITY
-    ///
-    /// * PROCESS_ACTIVITY
-    ///
-    /// * REGISTRY_KEY_ACTIVITY
-    ///
-    /// * REGISTRY_VALUE_ACTIVITY
-    ///
-    /// * RESOURCE_ACTIVITY
-    ///
-    /// * SCHEDULED_JOB_ACTIVITY
-    ///
-    /// * SECURITY_FINDING
-    ///
-    /// * ACCOUNT_CHANGE
-    ///
-    /// * AUTHENTICATION
-    ///
-    /// * AUTHORIZATION
-    ///
-    /// * ENTITY_MANAGEMENT_AUDIT
-    ///
-    /// * DHCP_ACTIVITY
-    ///
-    /// * NETWORK_ACTIVITY
-    ///
-    /// * DNS_ACTIVITY
-    ///
-    /// * FTP_ACTIVITY
-    ///
-    /// * HTTP_ACTIVITY
-    ///
-    /// * RDP_ACTIVITY
-    ///
-    /// * SMB_ACTIVITY
-    ///
-    /// * SSH_ACTIVITY
-    ///
-    /// * CONFIG_STATE
-    ///
-    /// * INVENTORY_INFO
-    ///
-    /// * EMAIL_ACTIVITY
-    ///
-    /// * API_ACTIVITY
-    ///
-    /// * CLOUD_API
+    /// The Open Cybersecurity Schema Framework (OCSF) event classes which describes the type of data that the custom source will send to Security Lake. For the list of supported event classes, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/adding-custom-sources.html#ocsf-eventclass).
     public var eventClasses: [Swift.String]?
     /// Specify the name for a third-party custom source. This must be a Regionally unique value. The sourceName you enter here, is used in the LogProviderRole name which follows the convention AmazonSecurityLake-Provider-{name of the custom source}-{region}. You must use a CustomLogSource name that is shorter than or equal to 20 characters. This ensures that the LogProviderRole name is below the 64 character limit.
     /// This member is required.
@@ -496,8 +425,7 @@ public struct CreateCustomLogSourceInput: Swift.Sendable {
         eventClasses: [Swift.String]? = nil,
         sourceName: Swift.String? = nil,
         sourceVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.eventClasses = eventClasses
         self.sourceName = sourceName
@@ -520,8 +448,7 @@ extension SecurityLakeClientTypes {
             crawlerArn: Swift.String? = nil,
             databaseArn: Swift.String? = nil,
             tableArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.crawlerArn = crawlerArn
             self.databaseArn = databaseArn
             self.tableArn = tableArn
@@ -541,8 +468,7 @@ extension SecurityLakeClientTypes {
         public init(
             location: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.location = location
             self.roleArn = roleArn
         }
@@ -567,8 +493,7 @@ extension SecurityLakeClientTypes {
             provider: SecurityLakeClientTypes.CustomLogSourceProvider? = nil,
             sourceName: Swift.String? = nil,
             sourceVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributes = attributes
             self.provider = provider
             self.sourceName = sourceName
@@ -583,8 +508,7 @@ public struct CreateCustomLogSourceOutput: Swift.Sendable {
 
     public init(
         source: SecurityLakeClientTypes.CustomLogSourceResource? = nil
-    )
-    {
+    ) {
         self.source = source
     }
 }
@@ -598,8 +522,7 @@ extension SecurityLakeClientTypes {
 
         public init(
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
         }
     }
@@ -614,8 +537,7 @@ extension SecurityLakeClientTypes {
 
         public init(
             days: Swift.Int? = nil
-        )
-        {
+        ) {
             self.days = days
         }
     }
@@ -633,8 +555,7 @@ extension SecurityLakeClientTypes {
         public init(
             days: Swift.Int? = nil,
             storageClass: Swift.String? = nil
-        )
-        {
+        ) {
             self.days = days
             self.storageClass = storageClass
         }
@@ -653,8 +574,7 @@ extension SecurityLakeClientTypes {
         public init(
             expiration: SecurityLakeClientTypes.DataLakeLifecycleExpiration? = nil,
             transitions: [SecurityLakeClientTypes.DataLakeLifecycleTransition]? = nil
-        )
-        {
+        ) {
             self.expiration = expiration
             self.transitions = transitions
         }
@@ -673,8 +593,7 @@ extension SecurityLakeClientTypes {
         public init(
             regions: [Swift.String]? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.regions = regions
             self.roleArn = roleArn
         }
@@ -700,8 +619,7 @@ extension SecurityLakeClientTypes {
             lifecycleConfiguration: SecurityLakeClientTypes.DataLakeLifecycleConfiguration? = nil,
             region: Swift.String? = nil,
             replicationConfiguration: SecurityLakeClientTypes.DataLakeReplicationConfiguration? = nil
-        )
-        {
+        ) {
             self.encryptionConfiguration = encryptionConfiguration
             self.lifecycleConfiguration = lifecycleConfiguration
             self.region = region
@@ -724,8 +642,7 @@ extension SecurityLakeClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -746,8 +663,7 @@ public struct CreateDataLakeInput: Swift.Sendable {
         configurations: [SecurityLakeClientTypes.DataLakeConfiguration]? = nil,
         metaStoreManagerRoleArn: Swift.String? = nil,
         tags: [SecurityLakeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.configurations = configurations
         self.metaStoreManagerRoleArn = metaStoreManagerRoleArn
         self.tags = tags
@@ -801,8 +717,7 @@ extension SecurityLakeClientTypes {
         public init(
             code: Swift.String? = nil,
             reason: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.reason = reason
         }
@@ -824,8 +739,7 @@ extension SecurityLakeClientTypes {
             exception: SecurityLakeClientTypes.DataLakeUpdateException? = nil,
             requestId: Swift.String? = nil,
             status: SecurityLakeClientTypes.DataLakeStatus? = nil
-        )
-        {
+        ) {
             self.exception = exception
             self.requestId = requestId
             self.status = status
@@ -865,8 +779,7 @@ extension SecurityLakeClientTypes {
             replicationConfiguration: SecurityLakeClientTypes.DataLakeReplicationConfiguration? = nil,
             s3BucketArn: Swift.String? = nil,
             updateStatus: SecurityLakeClientTypes.DataLakeUpdateStatus? = nil
-        )
-        {
+        ) {
             self.createStatus = createStatus
             self.dataLakeArn = dataLakeArn
             self.encryptionConfiguration = encryptionConfiguration
@@ -885,8 +798,7 @@ public struct CreateDataLakeOutput: Swift.Sendable {
 
     public init(
         dataLakes: [SecurityLakeClientTypes.DataLakeResource]? = nil
-    )
-    {
+    ) {
         self.dataLakes = dataLakes
     }
 }
@@ -905,8 +817,7 @@ public struct CreateDataLakeExceptionSubscriptionInput: Swift.Sendable {
         exceptionTimeToLive: Swift.Int? = nil,
         notificationEndpoint: Swift.String? = nil,
         subscriptionProtocol: Swift.String? = nil
-    )
-    {
+    ) {
         self.exceptionTimeToLive = exceptionTimeToLive
         self.notificationEndpoint = notificationEndpoint
         self.subscriptionProtocol = subscriptionProtocol
@@ -932,8 +843,7 @@ extension SecurityLakeClientTypes {
         public init(
             region: Swift.String? = nil,
             sources: [SecurityLakeClientTypes.AwsLogSourceResource]? = nil
-        )
-        {
+        ) {
             self.region = region
             self.sources = sources
         }
@@ -946,8 +856,7 @@ public struct CreateDataLakeOrganizationConfigurationInput: Swift.Sendable {
 
     public init(
         autoEnableNewAccount: [SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration]? = nil
-    )
-    {
+    ) {
         self.autoEnableNewAccount = autoEnableNewAccount
     }
 }
@@ -993,8 +902,7 @@ public struct CreateSubscriberInput: Swift.Sendable {
         subscriberIdentity: SecurityLakeClientTypes.AwsIdentity? = nil,
         subscriberName: Swift.String? = nil,
         tags: [SecurityLakeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.accessTypes = accessTypes
         self.sources = sources
         self.subscriberDescription = subscriberDescription
@@ -1095,8 +1003,7 @@ extension SecurityLakeClientTypes {
             subscriberName: Swift.String? = nil,
             subscriberStatus: SecurityLakeClientTypes.SubscriberStatus? = nil,
             updatedAt: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.accessTypes = accessTypes
             self.createdAt = createdAt
             self.resourceShareArn = resourceShareArn
@@ -1122,8 +1029,7 @@ public struct CreateSubscriberOutput: Swift.Sendable {
 
     public init(
         subscriber: SecurityLakeClientTypes.SubscriberResource? = nil
-    )
-    {
+    ) {
         self.subscriber = subscriber
     }
 }
@@ -1180,8 +1086,7 @@ extension SecurityLakeClientTypes {
             endpoint: Swift.String? = nil,
             httpMethod: SecurityLakeClientTypes.HttpMethod? = nil,
             targetRoleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.authorizationApiKeyName = authorizationApiKeyName
             self.authorizationApiKeyValue = authorizationApiKeyValue
             self.endpoint = endpoint
@@ -1223,8 +1128,7 @@ public struct CreateSubscriberNotificationInput: Swift.Sendable {
     public init(
         configuration: SecurityLakeClientTypes.NotificationConfiguration? = nil,
         subscriberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.subscriberId = subscriberId
     }
@@ -1236,8 +1140,7 @@ public struct CreateSubscriberNotificationOutput: Swift.Sendable {
 
     public init(
         subscriberEndpoint: Swift.String? = nil
-    )
-    {
+    ) {
         self.subscriberEndpoint = subscriberEndpoint
     }
 }
@@ -1249,8 +1152,7 @@ public struct DeleteAwsLogSourceInput: Swift.Sendable {
 
     public init(
         sources: [SecurityLakeClientTypes.AwsLogSourceConfiguration]? = nil
-    )
-    {
+    ) {
         self.sources = sources
     }
 }
@@ -1261,8 +1163,7 @@ public struct DeleteAwsLogSourceOutput: Swift.Sendable {
 
     public init(
         failed: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.failed = failed
     }
 }
@@ -1277,8 +1178,7 @@ public struct DeleteCustomLogSourceInput: Swift.Sendable {
     public init(
         sourceName: Swift.String? = nil,
         sourceVersion: Swift.String? = nil
-    )
-    {
+    ) {
         self.sourceName = sourceName
         self.sourceVersion = sourceVersion
     }
@@ -1296,8 +1196,7 @@ public struct DeleteDataLakeInput: Swift.Sendable {
 
     public init(
         regions: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.regions = regions
     }
 }
@@ -1313,8 +1212,7 @@ public struct DeleteDataLakeOrganizationConfigurationInput: Swift.Sendable {
 
     public init(
         autoEnableNewAccount: [SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration]? = nil
-    )
-    {
+    ) {
         self.autoEnableNewAccount = autoEnableNewAccount
     }
 }
@@ -1335,8 +1233,7 @@ public struct GetDataLakeOrganizationConfigurationOutput: Swift.Sendable {
 
     public init(
         autoEnableNewAccount: [SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration]? = nil
-    )
-    {
+    ) {
         self.autoEnableNewAccount = autoEnableNewAccount
     }
 }
@@ -1353,8 +1250,7 @@ public struct GetDataLakeSourcesInput: Swift.Sendable {
         accounts: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accounts = accounts
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1405,8 +1301,7 @@ extension SecurityLakeClientTypes {
         public init(
             resource: Swift.String? = nil,
             status: SecurityLakeClientTypes.SourceCollectionStatus? = nil
-        )
-        {
+        ) {
             self.resource = resource
             self.status = status
         }
@@ -1419,65 +1314,7 @@ extension SecurityLakeClientTypes {
     public struct DataLakeSource: Swift.Sendable {
         /// The ID of the Security Lake account for which logs are collected.
         public var account: Swift.String?
-        /// The Open Cybersecurity Schema Framework (OCSF) event classes which describes the type of data that the custom source will send to Security Lake. The supported event classes are:
-        ///
-        /// * ACCESS_ACTIVITY
-        ///
-        /// * FILE_ACTIVITY
-        ///
-        /// * KERNEL_ACTIVITY
-        ///
-        /// * KERNEL_EXTENSION
-        ///
-        /// * MEMORY_ACTIVITY
-        ///
-        /// * MODULE_ACTIVITY
-        ///
-        /// * PROCESS_ACTIVITY
-        ///
-        /// * REGISTRY_KEY_ACTIVITY
-        ///
-        /// * REGISTRY_VALUE_ACTIVITY
-        ///
-        /// * RESOURCE_ACTIVITY
-        ///
-        /// * SCHEDULED_JOB_ACTIVITY
-        ///
-        /// * SECURITY_FINDING
-        ///
-        /// * ACCOUNT_CHANGE
-        ///
-        /// * AUTHENTICATION
-        ///
-        /// * AUTHORIZATION
-        ///
-        /// * ENTITY_MANAGEMENT_AUDIT
-        ///
-        /// * DHCP_ACTIVITY
-        ///
-        /// * NETWORK_ACTIVITY
-        ///
-        /// * DNS_ACTIVITY
-        ///
-        /// * FTP_ACTIVITY
-        ///
-        /// * HTTP_ACTIVITY
-        ///
-        /// * RDP_ACTIVITY
-        ///
-        /// * SMB_ACTIVITY
-        ///
-        /// * SSH_ACTIVITY
-        ///
-        /// * CONFIG_STATE
-        ///
-        /// * INVENTORY_INFO
-        ///
-        /// * EMAIL_ACTIVITY
-        ///
-        /// * API_ACTIVITY
-        ///
-        /// * CLOUD_API
+        /// The Open Cybersecurity Schema Framework (OCSF) event classes describes the type of data that the custom source will send to Security Lake. For the list of supported event classes, see [Supported OCSF Event classes](https://docs.aws.amazon.com/security-lake/latest/userguide/adding-custom-sources.html#ocsf-eventclass.html) in the Amazon Security Lake User Guide.
         public var eventClasses: [Swift.String]?
         /// The supported Amazon Web Services services from which logs and events are collected. Amazon Security Lake supports log and event collection for natively supported Amazon Web Services services.
         public var sourceName: Swift.String?
@@ -1489,8 +1326,7 @@ extension SecurityLakeClientTypes {
             eventClasses: [Swift.String]? = nil,
             sourceName: Swift.String? = nil,
             sourceStatuses: [SecurityLakeClientTypes.DataLakeSourceStatus]? = nil
-        )
-        {
+        ) {
             self.account = account
             self.eventClasses = eventClasses
             self.sourceName = sourceName
@@ -1511,8 +1347,7 @@ public struct GetDataLakeSourcesOutput: Swift.Sendable {
         dataLakeArn: Swift.String? = nil,
         dataLakeSources: [SecurityLakeClientTypes.DataLakeSource]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.dataLakeArn = dataLakeArn
         self.dataLakeSources = dataLakeSources
         self.nextToken = nextToken
@@ -1525,8 +1360,7 @@ public struct ListDataLakesInput: Swift.Sendable {
 
     public init(
         regions: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.regions = regions
     }
 }
@@ -1537,8 +1371,7 @@ public struct ListDataLakesOutput: Swift.Sendable {
 
     public init(
         dataLakes: [SecurityLakeClientTypes.DataLakeResource]? = nil
-    )
-    {
+    ) {
         self.dataLakes = dataLakes
     }
 }
@@ -1561,8 +1394,7 @@ public struct ListLogSourcesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         regions: [Swift.String]? = nil,
         sources: [SecurityLakeClientTypes.LogSourceResource]? = nil
-    )
-    {
+    ) {
         self.accounts = accounts
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -1586,8 +1418,7 @@ extension SecurityLakeClientTypes {
             account: Swift.String? = nil,
             region: Swift.String? = nil,
             sources: [SecurityLakeClientTypes.LogSourceResource]? = nil
-        )
-        {
+        ) {
             self.account = account
             self.region = region
             self.sources = sources
@@ -1604,8 +1435,7 @@ public struct ListLogSourcesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         sources: [SecurityLakeClientTypes.LogSource]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sources = sources
     }
@@ -1621,8 +1451,7 @@ public struct UpdateDataLakeInput: Swift.Sendable {
     public init(
         configurations: [SecurityLakeClientTypes.DataLakeConfiguration]? = nil,
         metaStoreManagerRoleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.configurations = configurations
         self.metaStoreManagerRoleArn = metaStoreManagerRoleArn
     }
@@ -1634,8 +1463,7 @@ public struct UpdateDataLakeOutput: Swift.Sendable {
 
     public init(
         dataLakes: [SecurityLakeClientTypes.DataLakeResource]? = nil
-    )
-    {
+    ) {
         self.dataLakes = dataLakes
     }
 }
@@ -1658,8 +1486,7 @@ extension SecurityLakeClientTypes {
             region: Swift.String? = nil,
             remediation: Swift.String? = nil,
             timestamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.exception = exception
             self.region = region
             self.remediation = remediation
@@ -1685,8 +1512,7 @@ public struct DeleteSubscriberInput: Swift.Sendable {
 
     public init(
         subscriberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.subscriberId = subscriberId
     }
 }
@@ -1703,8 +1529,7 @@ public struct DeleteSubscriberNotificationInput: Swift.Sendable {
 
     public init(
         subscriberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.subscriberId = subscriberId
     }
 }
@@ -1741,8 +1566,7 @@ public struct GetDataLakeExceptionSubscriptionOutput: Swift.Sendable {
         exceptionTimeToLive: Swift.Int? = nil,
         notificationEndpoint: Swift.String? = nil,
         subscriptionProtocol: Swift.String? = nil
-    )
-    {
+    ) {
         self.exceptionTimeToLive = exceptionTimeToLive
         self.notificationEndpoint = notificationEndpoint
         self.subscriptionProtocol = subscriptionProtocol
@@ -1756,8 +1580,7 @@ public struct GetSubscriberInput: Swift.Sendable {
 
     public init(
         subscriberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.subscriberId = subscriberId
     }
 }
@@ -1768,8 +1591,7 @@ public struct GetSubscriberOutput: Swift.Sendable {
 
     public init(
         subscriber: SecurityLakeClientTypes.SubscriberResource? = nil
-    )
-    {
+    ) {
         self.subscriber = subscriber
     }
 }
@@ -1786,8 +1608,7 @@ public struct ListDataLakeExceptionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         regions: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.regions = regions
@@ -1803,8 +1624,7 @@ public struct ListDataLakeExceptionsOutput: Swift.Sendable {
     public init(
         exceptions: [SecurityLakeClientTypes.DataLakeException]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.exceptions = exceptions
         self.nextToken = nextToken
     }
@@ -1819,8 +1639,7 @@ public struct ListSubscribersInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1835,8 +1654,7 @@ public struct ListSubscribersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         subscribers: [SecurityLakeClientTypes.SubscriberResource]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.subscribers = subscribers
     }
@@ -1849,8 +1667,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -1861,8 +1678,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [SecurityLakeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1874,8 +1690,7 @@ public struct RegisterDataLakeDelegatedAdministratorInput: Swift.Sendable {
 
     public init(
         accountId: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountId = accountId
     }
 }
@@ -1904,8 +1719,7 @@ public struct UpdateSubscriberInput: Swift.Sendable {
         subscriberId: Swift.String? = nil,
         subscriberIdentity: SecurityLakeClientTypes.AwsIdentity? = nil,
         subscriberName: Swift.String? = nil
-    )
-    {
+    ) {
         self.sources = sources
         self.subscriberDescription = subscriberDescription
         self.subscriberId = subscriberId
@@ -1920,8 +1734,7 @@ public struct UpdateSubscriberOutput: Swift.Sendable {
 
     public init(
         subscriber: SecurityLakeClientTypes.SubscriberResource? = nil
-    )
-    {
+    ) {
         self.subscriber = subscriber
     }
 }
@@ -1937,8 +1750,7 @@ public struct UpdateSubscriberNotificationInput: Swift.Sendable {
     public init(
         configuration: SecurityLakeClientTypes.NotificationConfiguration? = nil,
         subscriberId: Swift.String? = nil
-    )
-    {
+    ) {
         self.configuration = configuration
         self.subscriberId = subscriberId
     }
@@ -1950,8 +1762,7 @@ public struct UpdateSubscriberNotificationOutput: Swift.Sendable {
 
     public init(
         subscriberEndpoint: Swift.String? = nil
-    )
-    {
+    ) {
         self.subscriberEndpoint = subscriberEndpoint
     }
 }
@@ -1967,8 +1778,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [SecurityLakeClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1990,8 +1800,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -2016,8 +1825,7 @@ public struct UpdateDataLakeExceptionSubscriptionInput: Swift.Sendable {
         exceptionTimeToLive: Swift.Int? = nil,
         notificationEndpoint: Swift.String? = nil,
         subscriptionProtocol: Swift.String? = nil
-    )
-    {
+    ) {
         self.exceptionTimeToLive = exceptionTimeToLive
         self.notificationEndpoint = notificationEndpoint
         self.subscriptionProtocol = subscriptionProtocol

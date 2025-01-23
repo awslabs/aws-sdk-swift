@@ -38,8 +38,7 @@ extension MemoryDBClientTypes {
         public init(
             userNamesToAdd: [Swift.String]? = nil,
             userNamesToRemove: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.userNamesToAdd = userNamesToAdd
             self.userNamesToRemove = userNamesToRemove
         }
@@ -73,8 +72,7 @@ extension MemoryDBClientTypes {
             pendingChanges: MemoryDBClientTypes.ACLPendingChanges? = nil,
             status: Swift.String? = nil,
             userNames: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.clusters = clusters
             self.minimumEngineVersion = minimumEngineVersion
@@ -87,9 +85,9 @@ extension MemoryDBClientTypes {
 }
 
 ///
-public struct ACLAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ACLAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -104,16 +102,15 @@ public struct ACLAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct ACLNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ACLNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -128,16 +125,15 @@ public struct ACLNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct ACLQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ACLQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -152,8 +148,7 @@ public struct ACLQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -167,17 +162,16 @@ extension MemoryDBClientTypes {
 
         public init(
             aclToApply: Swift.String? = nil
-        )
-        {
+        ) {
             self.aclToApply = aclToApply
         }
     }
 }
 
 ///
-public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -192,16 +186,15 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct ServiceUpdateNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUpdateNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -216,8 +209,7 @@ public struct ServiceUpdateNotFoundFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -231,8 +223,7 @@ extension MemoryDBClientTypes {
 
         public init(
             serviceUpdateNameToApply: Swift.String? = nil
-        )
-        {
+        ) {
             self.serviceUpdateNameToApply = serviceUpdateNameToApply
         }
     }
@@ -248,8 +239,7 @@ public struct BatchUpdateClusterInput: Swift.Sendable {
     public init(
         clusterNames: [Swift.String]? = nil,
         serviceUpdate: MemoryDBClientTypes.ServiceUpdateRequest? = nil
-    )
-    {
+    ) {
         self.clusterNames = clusterNames
         self.serviceUpdate = serviceUpdate
     }
@@ -296,8 +286,7 @@ extension MemoryDBClientTypes {
         public init(
             address: Swift.String? = nil,
             port: Swift.Int = 0
-        )
-        {
+        ) {
             self.address = address
             self.port = port
         }
@@ -342,8 +331,7 @@ extension MemoryDBClientTypes {
 
         public init(
             progressPercentage: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.progressPercentage = progressPercentage
         }
     }
@@ -358,8 +346,7 @@ extension MemoryDBClientTypes {
 
         public init(
             slotMigration: MemoryDBClientTypes.SlotMigration? = nil
-        )
-        {
+        ) {
             self.slotMigration = slotMigration
         }
     }
@@ -412,8 +399,7 @@ extension MemoryDBClientTypes {
         public init(
             serviceUpdateName: Swift.String? = nil,
             status: MemoryDBClientTypes.ServiceUpdateStatus? = nil
-        )
-        {
+        ) {
             self.serviceUpdateName = serviceUpdateName
             self.status = status
         }
@@ -435,8 +421,7 @@ extension MemoryDBClientTypes {
             acLs: MemoryDBClientTypes.ACLsUpdateStatus? = nil,
             resharding: MemoryDBClientTypes.ReshardingStatus? = nil,
             serviceUpdates: [MemoryDBClientTypes.PendingModifiedServiceUpdate]? = nil
-        )
-        {
+        ) {
             self.acLs = acLs
             self.resharding = resharding
             self.serviceUpdates = serviceUpdates
@@ -456,8 +441,7 @@ extension MemoryDBClientTypes {
         public init(
             securityGroupId: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.securityGroupId = securityGroupId
             self.status = status
         }
@@ -485,8 +469,7 @@ extension MemoryDBClientTypes {
             endpoint: MemoryDBClientTypes.Endpoint? = nil,
             name: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.createTime = createTime
             self.endpoint = endpoint
@@ -517,8 +500,7 @@ extension MemoryDBClientTypes {
             numberOfNodes: Swift.Int? = nil,
             slots: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.nodes = nodes
             self.numberOfNodes = numberOfNodes
@@ -546,16 +528,18 @@ extension MemoryDBClientTypes {
         public var dataTiering: MemoryDBClientTypes.DataTieringStatus?
         /// A description of the cluster
         public var description: Swift.String?
-        /// The Redis OSS or Valkey engine used by the cluster.
+        /// The name of the engine used by the cluster.
         public var engine: Swift.String?
-        /// The engine patch version used by the cluster
+        /// The Redis OSS engine patch version used by the cluster
         public var enginePatchVersion: Swift.String?
-        /// The Redis engine version used by the cluster
+        /// The Redis OSS engine version used by the cluster
         public var engineVersion: Swift.String?
         /// The ID of the KMS key used to encrypt the cluster
         public var kmsKeyId: Swift.String?
         /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period.
         public var maintenanceWindow: Swift.String?
+        /// The name of the multi-Region cluster that this cluster belongs to.
+        public var multiRegionClusterName: Swift.String?
         /// The user-supplied name of the cluster. This identifier is a unique key that identifies a cluster.
         public var name: Swift.String?
         /// The cluster's node type
@@ -600,6 +584,7 @@ extension MemoryDBClientTypes {
             engineVersion: Swift.String? = nil,
             kmsKeyId: Swift.String? = nil,
             maintenanceWindow: Swift.String? = nil,
+            multiRegionClusterName: Swift.String? = nil,
             name: Swift.String? = nil,
             nodeType: Swift.String? = nil,
             numberOfShards: Swift.Int? = nil,
@@ -615,8 +600,7 @@ extension MemoryDBClientTypes {
             status: Swift.String? = nil,
             subnetGroupName: Swift.String? = nil,
             tlsEnabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.aclName = aclName
             self.arn = arn
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -629,6 +613,7 @@ extension MemoryDBClientTypes {
             self.engineVersion = engineVersion
             self.kmsKeyId = kmsKeyId
             self.maintenanceWindow = maintenanceWindow
+            self.multiRegionClusterName = multiRegionClusterName
             self.name = name
             self.nodeType = nodeType
             self.numberOfShards = numberOfShards
@@ -663,8 +648,7 @@ extension MemoryDBClientTypes {
             clusterName: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             errorType: Swift.String? = nil
-        )
-        {
+        ) {
             self.clusterName = clusterName
             self.errorMessage = errorMessage
             self.errorType = errorType
@@ -681,17 +665,16 @@ public struct BatchUpdateClusterOutput: Swift.Sendable {
     public init(
         processedClusters: [MemoryDBClientTypes.Cluster]? = nil,
         unprocessedClusters: [MemoryDBClientTypes.UnprocessedCluster]? = nil
-    )
-    {
+    ) {
         self.processedClusters = processedClusters
         self.unprocessedClusters = unprocessedClusters
     }
 }
 
 ///
-public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -706,16 +689,15 @@ public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct InvalidSnapshotStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSnapshotStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -730,16 +712,15 @@ public struct InvalidSnapshotStateFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct ServiceLinkedRoleNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceLinkedRoleNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -754,16 +735,15 @@ public struct ServiceLinkedRoleNotFoundFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct SnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -778,16 +758,15 @@ public struct SnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct SnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -802,16 +781,15 @@ public struct SnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct SnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -826,16 +804,15 @@ public struct SnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct TagQuotaPerResourceExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TagQuotaPerResourceExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -850,8 +827,7 @@ public struct TagQuotaPerResourceExceeded: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -868,8 +844,7 @@ extension MemoryDBClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -896,8 +871,7 @@ public struct CopySnapshotInput: Swift.Sendable {
         tags: [MemoryDBClientTypes.Tag]? = nil,
         targetBucket: Swift.String? = nil,
         targetSnapshotName: Swift.String? = nil
-    )
-    {
+    ) {
         self.kmsKeyId = kmsKeyId
         self.sourceSnapshotName = sourceSnapshotName
         self.tags = tags
@@ -918,8 +892,7 @@ extension MemoryDBClientTypes {
         public init(
             replicaCount: Swift.Int? = nil,
             slots: Swift.String? = nil
-        )
-        {
+        ) {
             self.replicaCount = replicaCount
             self.slots = slots
         }
@@ -944,8 +917,7 @@ extension MemoryDBClientTypes {
             name: Swift.String? = nil,
             size: Swift.String? = nil,
             snapshotCreationTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.name = name
             self.size = size
@@ -960,12 +932,16 @@ extension MemoryDBClientTypes {
     public struct ClusterConfiguration: Swift.Sendable {
         /// The description of the cluster configuration
         public var description: Swift.String?
-        /// The configuration for the Redis OSS or Valkey engine used by the cluster.
+        /// The name of the engine used by the cluster configuration.
         public var engine: Swift.String?
-        /// The engine version used by the cluster
+        /// The Redis OSS engine version used by the cluster
         public var engineVersion: Swift.String?
         /// The specified maintenance window for the cluster
         public var maintenanceWindow: Swift.String?
+        /// The name for the multi-Region cluster associated with the cluster configuration.
+        public var multiRegionClusterName: Swift.String?
+        /// The name of the multi-Region parameter group associated with the cluster configuration.
+        public var multiRegionParameterGroupName: Swift.String?
         /// The name of the cluster
         public var name: Swift.String?
         /// The node type used for the cluster
@@ -994,6 +970,8 @@ extension MemoryDBClientTypes {
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             maintenanceWindow: Swift.String? = nil,
+            multiRegionClusterName: Swift.String? = nil,
+            multiRegionParameterGroupName: Swift.String? = nil,
             name: Swift.String? = nil,
             nodeType: Swift.String? = nil,
             numShards: Swift.Int? = nil,
@@ -1005,12 +983,13 @@ extension MemoryDBClientTypes {
             subnetGroupName: Swift.String? = nil,
             topicArn: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.engine = engine
             self.engineVersion = engineVersion
             self.maintenanceWindow = maintenanceWindow
+            self.multiRegionClusterName = multiRegionClusterName
+            self.multiRegionParameterGroupName = multiRegionParameterGroupName
             self.name = name
             self.nodeType = nodeType
             self.numShards = numShards
@@ -1053,8 +1032,7 @@ extension MemoryDBClientTypes {
             name: Swift.String? = nil,
             source: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.clusterConfiguration = clusterConfiguration
             self.dataTiering = dataTiering
@@ -1072,16 +1050,15 @@ public struct CopySnapshotOutput: Swift.Sendable {
 
     public init(
         snapshot: MemoryDBClientTypes.Snapshot? = nil
-    )
-    {
+    ) {
         self.snapshot = snapshot
     }
 }
 
 ///
-public struct DefaultUserRequired: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DefaultUserRequired: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1096,16 +1073,15 @@ public struct DefaultUserRequired: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct DuplicateUserNameFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DuplicateUserNameFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1120,16 +1096,15 @@ public struct DuplicateUserNameFault: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct UserNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UserNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1144,8 +1119,7 @@ public struct UserNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1163,8 +1137,7 @@ public struct CreateACLInput: Swift.Sendable {
         aclName: Swift.String? = nil,
         tags: [MemoryDBClientTypes.Tag]? = nil,
         userNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.aclName = aclName
         self.tags = tags
         self.userNames = userNames
@@ -1177,16 +1150,15 @@ public struct CreateACLOutput: Swift.Sendable {
 
     public init(
         acl: MemoryDBClientTypes.ACL? = nil
-    )
-    {
+    ) {
         self.acl = acl
     }
 }
 
 ///
-public struct ClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1201,16 +1173,15 @@ public struct ClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct ClusterQuotaForCustomerExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClusterQuotaForCustomerExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1225,16 +1196,15 @@ public struct ClusterQuotaForCustomerExceededFault: ClientRuntime.ModeledError, 
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct InsufficientClusterCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientClusterCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1249,16 +1219,15 @@ public struct InsufficientClusterCapacityFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct InvalidACLStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidACLStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1273,16 +1242,15 @@ public struct InvalidACLStateFault: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct InvalidCredentialsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidCredentialsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1297,16 +1265,38 @@ public struct InvalidCredentialsException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The requested operation cannot be performed on the multi-Region cluster in its current state.
+public struct InvalidMultiRegionClusterStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidMultiRegionClusterState" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct InvalidVPCNetworkStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidVPCNetworkStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1321,16 +1311,38 @@ public struct InvalidVPCNetworkStateFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The specified multi-Region cluster does not exist.
+public struct MultiRegionClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MultiRegionClusterNotFound" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct NodeQuotaForClusterExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NodeQuotaForClusterExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1345,16 +1357,15 @@ public struct NodeQuotaForClusterExceededFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct NodeQuotaForCustomerExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NodeQuotaForCustomerExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1369,16 +1380,15 @@ public struct NodeQuotaForCustomerExceededFault: ClientRuntime.ModeledError, AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct ParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1393,16 +1403,15 @@ public struct ParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct ShardsPerClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ShardsPerClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1417,16 +1426,15 @@ public struct ShardsPerClusterQuotaExceededFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct SubnetGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SubnetGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1441,8 +1449,7 @@ public struct SubnetGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1460,9 +1467,9 @@ public struct CreateClusterInput: Swift.Sendable {
     public var dataTiering: Swift.Bool?
     /// An optional description of the cluster.
     public var description: Swift.String?
-    /// The name of the engine to be used for the nodes in this cluster. The value must be set to either Redis or Valkey.
+    /// The name of the engine to be used for the cluster.
     public var engine: Swift.String?
-    /// The version number of the engine to be used for the cluster.
+    /// The version number of the Redis OSS engine to be used for the cluster.
     public var engineVersion: Swift.String?
     /// The ID of the KMS key used to encrypt the cluster.
     public var kmsKeyId: Swift.String?
@@ -1485,6 +1492,8 @@ public struct CreateClusterInput: Swift.Sendable {
     ///
     /// Example: sun:23:00-mon:01:30
     public var maintenanceWindow: Swift.String?
+    /// The name of the multi-Region cluster to be created.
+    public var multiRegionClusterName: Swift.String?
     /// The compute and memory capacity of the nodes in the cluster.
     /// This member is required.
     public var nodeType: Swift.String?
@@ -1525,6 +1534,7 @@ public struct CreateClusterInput: Swift.Sendable {
         engineVersion: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         maintenanceWindow: Swift.String? = nil,
+        multiRegionClusterName: Swift.String? = nil,
         nodeType: Swift.String? = nil,
         numReplicasPerShard: Swift.Int? = nil,
         numShards: Swift.Int? = nil,
@@ -1539,8 +1549,7 @@ public struct CreateClusterInput: Swift.Sendable {
         subnetGroupName: Swift.String? = nil,
         tags: [MemoryDBClientTypes.Tag]? = nil,
         tlsEnabled: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.aclName = aclName
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.clusterName = clusterName
@@ -1550,6 +1559,7 @@ public struct CreateClusterInput: Swift.Sendable {
         self.engineVersion = engineVersion
         self.kmsKeyId = kmsKeyId
         self.maintenanceWindow = maintenanceWindow
+        self.multiRegionClusterName = multiRegionClusterName
         self.nodeType = nodeType
         self.numReplicasPerShard = numReplicasPerShard
         self.numShards = numShards
@@ -1573,16 +1583,199 @@ public struct CreateClusterOutput: Swift.Sendable {
 
     public init(
         cluster: MemoryDBClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
     }
 }
 
-///
-public struct InvalidParameterGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+/// A multi-Region cluster with the specified name already exists.
+public struct MultiRegionClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MultiRegionClusterAlreadyExistsFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The specified multi-Region parameter group does not exist.
+public struct MultiRegionParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MultiRegionParameterGroupNotFoundFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct CreateMultiRegionClusterInput: Swift.Sendable {
+    /// A description for the multi-Region cluster.
+    public var description: Swift.String?
+    /// The name of the engine to be used for the multi-Region cluster.
+    public var engine: Swift.String?
+    /// The version of the engine to be used for the multi-Region cluster.
+    public var engineVersion: Swift.String?
+    /// A suffix to be added to the multi-Region cluster name.
+    /// This member is required.
+    public var multiRegionClusterNameSuffix: Swift.String?
+    /// The name of the multi-Region parameter group to be associated with the cluster.
+    public var multiRegionParameterGroupName: Swift.String?
+    /// The node type to be used for the multi-Region cluster.
+    /// This member is required.
+    public var nodeType: Swift.String?
+    /// The number of shards for the multi-Region cluster.
+    public var numShards: Swift.Int?
+    /// A list of tags to be applied to the multi-Region cluster.
+    public var tags: [MemoryDBClientTypes.Tag]?
+    /// Whether to enable TLS encryption for the multi-Region cluster.
+    public var tlsEnabled: Swift.Bool?
+
+    public init(
+        description: Swift.String? = nil,
+        engine: Swift.String? = nil,
+        engineVersion: Swift.String? = nil,
+        multiRegionClusterNameSuffix: Swift.String? = nil,
+        multiRegionParameterGroupName: Swift.String? = nil,
+        nodeType: Swift.String? = nil,
+        numShards: Swift.Int? = nil,
+        tags: [MemoryDBClientTypes.Tag]? = nil,
+        tlsEnabled: Swift.Bool? = nil
+    ) {
+        self.description = description
+        self.engine = engine
+        self.engineVersion = engineVersion
+        self.multiRegionClusterNameSuffix = multiRegionClusterNameSuffix
+        self.multiRegionParameterGroupName = multiRegionParameterGroupName
+        self.nodeType = nodeType
+        self.numShards = numShards
+        self.tags = tags
+        self.tlsEnabled = tlsEnabled
+    }
+}
+
+extension MemoryDBClientTypes {
+
+    /// Represents a Regional cluster
+    public struct RegionalCluster: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) the Regional cluster
+        public var arn: Swift.String?
+        /// The name of the Regional cluster
+        public var clusterName: Swift.String?
+        /// The Region the current Regional cluster is assigned to.
+        public var region: Swift.String?
+        /// The status of the Regional cluster.
+        public var status: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            clusterName: Swift.String? = nil,
+            region: Swift.String? = nil,
+            status: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.clusterName = clusterName
+            self.region = region
+            self.status = status
+        }
+    }
+}
+
+extension MemoryDBClientTypes {
+
+    /// Represents a multi-Region cluster.
+    public struct MultiRegionCluster: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the multi-Region cluster.
+        public var arn: Swift.String?
+        /// The clusters in this multi-Region cluster.
+        public var clusters: [MemoryDBClientTypes.RegionalCluster]?
+        /// The description of the multi-Region cluster.
+        public var description: Swift.String?
+        /// The name of the engine used by the multi-Region cluster.
+        public var engine: Swift.String?
+        /// The version of the engine used by the multi-Region cluster.
+        public var engineVersion: Swift.String?
+        /// The name of the multi-Region cluster.
+        public var multiRegionClusterName: Swift.String?
+        /// The name of the multi-Region parameter group associated with the cluster.
+        public var multiRegionParameterGroupName: Swift.String?
+        /// The node type used by the multi-Region cluster.
+        public var nodeType: Swift.String?
+        /// The number of shards in the multi-Region cluster.
+        public var numberOfShards: Swift.Int?
+        /// The current status of the multi-Region cluster.
+        public var status: Swift.String?
+        /// Indiciates if the multi-Region cluster is TLS enabled.
+        public var tlsEnabled: Swift.Bool?
+
+        public init(
+            arn: Swift.String? = nil,
+            clusters: [MemoryDBClientTypes.RegionalCluster]? = nil,
+            description: Swift.String? = nil,
+            engine: Swift.String? = nil,
+            engineVersion: Swift.String? = nil,
+            multiRegionClusterName: Swift.String? = nil,
+            multiRegionParameterGroupName: Swift.String? = nil,
+            nodeType: Swift.String? = nil,
+            numberOfShards: Swift.Int? = nil,
+            status: Swift.String? = nil,
+            tlsEnabled: Swift.Bool? = nil
+        ) {
+            self.arn = arn
+            self.clusters = clusters
+            self.description = description
+            self.engine = engine
+            self.engineVersion = engineVersion
+            self.multiRegionClusterName = multiRegionClusterName
+            self.multiRegionParameterGroupName = multiRegionParameterGroupName
+            self.nodeType = nodeType
+            self.numberOfShards = numberOfShards
+            self.status = status
+            self.tlsEnabled = tlsEnabled
+        }
+    }
+}
+
+public struct CreateMultiRegionClusterOutput: Swift.Sendable {
+    /// Details about the newly created multi-Region cluster.
+    public var multiRegionCluster: MemoryDBClientTypes.MultiRegionCluster?
+
+    public init(
+        multiRegionCluster: MemoryDBClientTypes.MultiRegionCluster? = nil
+    ) {
+        self.multiRegionCluster = multiRegionCluster
+    }
+}
+
+///
+public struct InvalidParameterGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1597,16 +1790,15 @@ public struct InvalidParameterGroupStateFault: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct ParameterGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ParameterGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1621,16 +1813,15 @@ public struct ParameterGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct ParameterGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ParameterGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1645,8 +1836,7 @@ public struct ParameterGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSC
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1668,8 +1858,7 @@ public struct CreateParameterGroupInput: Swift.Sendable {
         family: Swift.String? = nil,
         parameterGroupName: Swift.String? = nil,
         tags: [MemoryDBClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.family = family
         self.parameterGroupName = parameterGroupName
@@ -1695,8 +1884,7 @@ extension MemoryDBClientTypes {
             description: Swift.String? = nil,
             family: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.family = family
@@ -1711,16 +1899,15 @@ public struct CreateParameterGroupOutput: Swift.Sendable {
 
     public init(
         parameterGroup: MemoryDBClientTypes.ParameterGroup? = nil
-    )
-    {
+    ) {
         self.parameterGroup = parameterGroup
     }
 }
 
 ///
-public struct ClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1735,16 +1922,15 @@ public struct ClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct InvalidClusterStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidClusterStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1759,8 +1945,7 @@ public struct InvalidClusterStateFault: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1782,8 +1967,7 @@ public struct CreateSnapshotInput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         snapshotName: Swift.String? = nil,
         tags: [MemoryDBClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.kmsKeyId = kmsKeyId
         self.snapshotName = snapshotName
@@ -1797,16 +1981,15 @@ public struct CreateSnapshotOutput: Swift.Sendable {
 
     public init(
         snapshot: MemoryDBClientTypes.Snapshot? = nil
-    )
-    {
+    ) {
         self.snapshot = snapshot
     }
 }
 
 ///
-public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1821,16 +2004,15 @@ public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct SubnetGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SubnetGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1845,16 +2027,15 @@ public struct SubnetGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct SubnetGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SubnetGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1869,16 +2050,15 @@ public struct SubnetGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct SubnetNotAllowedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SubnetNotAllowedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1893,16 +2073,15 @@ public struct SubnetNotAllowedFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct SubnetQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SubnetQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1917,8 +2096,7 @@ public struct SubnetQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1940,8 +2118,7 @@ public struct CreateSubnetGroupInput: Swift.Sendable {
         subnetGroupName: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil,
         tags: [MemoryDBClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.subnetGroupName = subnetGroupName
         self.subnetIds = subnetIds
@@ -1958,8 +2135,7 @@ extension MemoryDBClientTypes {
 
         public init(
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
         }
     }
@@ -1977,8 +2153,7 @@ extension MemoryDBClientTypes {
         public init(
             availabilityZone: MemoryDBClientTypes.AvailabilityZone? = nil,
             identifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.identifier = identifier
         }
@@ -2013,8 +2188,7 @@ extension MemoryDBClientTypes {
             name: Swift.String? = nil,
             subnets: [MemoryDBClientTypes.Subnet]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.description = description
             self.name = name
@@ -2025,21 +2199,20 @@ extension MemoryDBClientTypes {
 }
 
 public struct CreateSubnetGroupOutput: Swift.Sendable {
-    /// The newly-created subnet group
+    /// The newly-created subnet group.
     public var subnetGroup: MemoryDBClientTypes.SubnetGroup?
 
     public init(
         subnetGroup: MemoryDBClientTypes.SubnetGroup? = nil
-    )
-    {
+    ) {
         self.subnetGroup = subnetGroup
     }
 }
 
 ///
-public struct UserAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UserAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2054,16 +2227,15 @@ public struct UserAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct UserQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UserQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2078,8 +2250,7 @@ public struct UserQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2125,8 +2296,7 @@ extension MemoryDBClientTypes {
         public init(
             passwords: [Swift.String]? = nil,
             type: MemoryDBClientTypes.InputAuthenticationType? = nil
-        )
-        {
+        ) {
             self.passwords = passwords
             self.type = type
         }
@@ -2151,8 +2321,7 @@ public struct CreateUserInput: Swift.Sendable {
         authenticationMode: MemoryDBClientTypes.AuthenticationMode? = nil,
         tags: [MemoryDBClientTypes.Tag]? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessString = accessString
         self.authenticationMode = authenticationMode
         self.tags = tags
@@ -2204,8 +2373,7 @@ extension MemoryDBClientTypes {
         public init(
             passwordCount: Swift.Int? = nil,
             type: MemoryDBClientTypes.AuthenticationType? = nil
-        )
-        {
+        ) {
             self.passwordCount = passwordCount
             self.type = type
         }
@@ -2239,8 +2407,7 @@ extension MemoryDBClientTypes {
             minimumEngineVersion: Swift.String? = nil,
             name: Swift.String? = nil,
             status: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessString = accessString
             self.aclNames = aclNames
             self.arn = arn
@@ -2258,21 +2425,19 @@ public struct CreateUserOutput: Swift.Sendable {
 
     public init(
         user: MemoryDBClientTypes.User? = nil
-    )
-    {
+    ) {
         self.user = user
     }
 }
 
 public struct DeleteACLInput: Swift.Sendable {
-    /// The name of the Access Control List to delete
+    /// The name of the Access Control List to delete.
     /// This member is required.
     public var aclName: Swift.String?
 
     public init(
         aclName: Swift.String? = nil
-    )
-    {
+    ) {
         self.aclName = aclName
     }
 }
@@ -2283,8 +2448,7 @@ public struct DeleteACLOutput: Swift.Sendable {
 
     public init(
         acl: MemoryDBClientTypes.ACL? = nil
-    )
-    {
+    ) {
         self.acl = acl
     }
 }
@@ -2295,26 +2459,51 @@ public struct DeleteClusterInput: Swift.Sendable {
     public var clusterName: Swift.String?
     /// The user-supplied name of a final cluster snapshot. This is the unique name that identifies the snapshot. MemoryDB creates the snapshot, and then deletes the cluster immediately afterward.
     public var finalSnapshotName: Swift.String?
+    /// The name of the multi-Region cluster to be deleted.
+    public var multiRegionClusterName: Swift.String?
 
     public init(
         clusterName: Swift.String? = nil,
-        finalSnapshotName: Swift.String? = nil
-    )
-    {
+        finalSnapshotName: Swift.String? = nil,
+        multiRegionClusterName: Swift.String? = nil
+    ) {
         self.clusterName = clusterName
         self.finalSnapshotName = finalSnapshotName
+        self.multiRegionClusterName = multiRegionClusterName
     }
 }
 
 public struct DeleteClusterOutput: Swift.Sendable {
-    /// The cluster object that has been deleted
+    /// The cluster object that has been deleted.
     public var cluster: MemoryDBClientTypes.Cluster?
 
     public init(
         cluster: MemoryDBClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
+    }
+}
+
+public struct DeleteMultiRegionClusterInput: Swift.Sendable {
+    /// The name of the multi-Region cluster to be deleted.
+    /// This member is required.
+    public var multiRegionClusterName: Swift.String?
+
+    public init(
+        multiRegionClusterName: Swift.String? = nil
+    ) {
+        self.multiRegionClusterName = multiRegionClusterName
+    }
+}
+
+public struct DeleteMultiRegionClusterOutput: Swift.Sendable {
+    /// Details about the deleted multi-Region cluster.
+    public var multiRegionCluster: MemoryDBClientTypes.MultiRegionCluster?
+
+    public init(
+        multiRegionCluster: MemoryDBClientTypes.MultiRegionCluster? = nil
+    ) {
+        self.multiRegionCluster = multiRegionCluster
     }
 }
 
@@ -2325,8 +2514,7 @@ public struct DeleteParameterGroupInput: Swift.Sendable {
 
     public init(
         parameterGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.parameterGroupName = parameterGroupName
     }
 }
@@ -2337,21 +2525,19 @@ public struct DeleteParameterGroupOutput: Swift.Sendable {
 
     public init(
         parameterGroup: MemoryDBClientTypes.ParameterGroup? = nil
-    )
-    {
+    ) {
         self.parameterGroup = parameterGroup
     }
 }
 
 public struct DeleteSnapshotInput: Swift.Sendable {
-    /// The name of the snapshot to delete
+    /// The name of the snapshot to delete.
     /// This member is required.
     public var snapshotName: Swift.String?
 
     public init(
         snapshotName: Swift.String? = nil
-    )
-    {
+    ) {
         self.snapshotName = snapshotName
     }
 }
@@ -2362,16 +2548,15 @@ public struct DeleteSnapshotOutput: Swift.Sendable {
 
     public init(
         snapshot: MemoryDBClientTypes.Snapshot? = nil
-    )
-    {
+    ) {
         self.snapshot = snapshot
     }
 }
 
 ///
-public struct SubnetGroupInUseFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SubnetGroupInUseFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2386,21 +2571,19 @@ public struct SubnetGroupInUseFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 public struct DeleteSubnetGroupInput: Swift.Sendable {
-    /// The name of the subnet group to delete
+    /// The name of the subnet group to delete.
     /// This member is required.
     public var subnetGroupName: Swift.String?
 
     public init(
         subnetGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.subnetGroupName = subnetGroupName
     }
 }
@@ -2411,16 +2594,15 @@ public struct DeleteSubnetGroupOutput: Swift.Sendable {
 
     public init(
         subnetGroup: MemoryDBClientTypes.SubnetGroup? = nil
-    )
-    {
+    ) {
         self.subnetGroup = subnetGroup
     }
 }
 
 ///
-public struct InvalidUserStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidUserStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2435,8 +2617,7 @@ public struct InvalidUserStateFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2448,8 +2629,7 @@ public struct DeleteUserInput: Swift.Sendable {
 
     public init(
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.userName = userName
     }
 }
@@ -2460,14 +2640,13 @@ public struct DeleteUserOutput: Swift.Sendable {
 
     public init(
         user: MemoryDBClientTypes.User? = nil
-    )
-    {
+    ) {
         self.user = user
     }
 }
 
 public struct DescribeACLsInput: Swift.Sendable {
-    /// The name of the ACL
+    /// The name of the ACL.
     public var aclName: Swift.String?
     /// The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
@@ -2478,8 +2657,7 @@ public struct DescribeACLsInput: Swift.Sendable {
         aclName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.aclName = aclName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2487,7 +2665,7 @@ public struct DescribeACLsInput: Swift.Sendable {
 }
 
 public struct DescribeACLsOutput: Swift.Sendable {
-    /// The list of ACLs
+    /// The list of ACLs.
     public var acLs: [MemoryDBClientTypes.ACL]?
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
     public var nextToken: Swift.String?
@@ -2495,15 +2673,14 @@ public struct DescribeACLsOutput: Swift.Sendable {
     public init(
         acLs: [MemoryDBClientTypes.ACL]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.acLs = acLs
         self.nextToken = nextToken
     }
 }
 
 public struct DescribeClustersInput: Swift.Sendable {
-    /// The name of the cluster
+    /// The name of the cluster.
     public var clusterName: Swift.String?
     /// The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
@@ -2517,8 +2694,7 @@ public struct DescribeClustersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         showShardDetails: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2535,8 +2711,7 @@ public struct DescribeClustersOutput: Swift.Sendable {
     public init(
         clusters: [MemoryDBClientTypes.Cluster]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusters = clusters
         self.nextToken = nextToken
     }
@@ -2545,9 +2720,9 @@ public struct DescribeClustersOutput: Swift.Sendable {
 public struct DescribeEngineVersionsInput: Swift.Sendable {
     /// If true, specifies that only the default version of the specified engine or engine and major version combination is to be returned.
     public var defaultOnly: Swift.Bool?
-    /// The engine version to return. Valid values are either valkey or redis.
+    /// The name of the engine for which to list available versions.
     public var engine: Swift.String?
-    /// The engine version.
+    /// The Redis OSS engine version
     public var engineVersion: Swift.String?
     /// The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
@@ -2563,8 +2738,7 @@ public struct DescribeEngineVersionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         parameterGroupFamily: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultOnly = defaultOnly
         self.engine = engine
         self.engineVersion = engineVersion
@@ -2576,9 +2750,9 @@ public struct DescribeEngineVersionsInput: Swift.Sendable {
 
 extension MemoryDBClientTypes {
 
-    /// Provides details of the engine version.
+    /// Provides details of the Redis OSS engine version
     public struct EngineVersionInfo: Swift.Sendable {
-        /// The version of the Redis OSS or Valkey engine used by the cluster.
+        /// The name of the engine for which version information is provided.
         public var engine: Swift.String?
         /// The patched engine version
         public var enginePatchVersion: Swift.String?
@@ -2592,8 +2766,7 @@ extension MemoryDBClientTypes {
             enginePatchVersion: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             parameterGroupFamily: Swift.String? = nil
-        )
-        {
+        ) {
             self.engine = engine
             self.enginePatchVersion = enginePatchVersion
             self.engineVersion = engineVersion
@@ -2611,8 +2784,7 @@ public struct DescribeEngineVersionsOutput: Swift.Sendable {
     public init(
         engineVersions: [MemoryDBClientTypes.EngineVersionInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.engineVersions = engineVersions
         self.nextToken = nextToken
     }
@@ -2683,8 +2855,7 @@ public struct DescribeEventsInput: Swift.Sendable {
         sourceName: Swift.String? = nil,
         sourceType: MemoryDBClientTypes.SourceType? = nil,
         startTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.duration = duration
         self.endTime = endTime
         self.maxResults = maxResults
@@ -2713,8 +2884,7 @@ extension MemoryDBClientTypes {
             message: Swift.String? = nil,
             sourceName: Swift.String? = nil,
             sourceType: MemoryDBClientTypes.SourceType? = nil
-        )
-        {
+        ) {
             self.date = date
             self.message = message
             self.sourceName = sourceName
@@ -2732,9 +2902,46 @@ public struct DescribeEventsOutput: Swift.Sendable {
     public init(
         events: [MemoryDBClientTypes.Event]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.events = events
+        self.nextToken = nextToken
+    }
+}
+
+public struct DescribeMultiRegionClustersInput: Swift.Sendable {
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// The name of a specific multi-Region cluster to describe.
+    public var multiRegionClusterName: Swift.String?
+    /// A token to specify where to start paginating.
+    public var nextToken: Swift.String?
+    /// Details about the multi-Region cluster.
+    public var showClusterDetails: Swift.Bool?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        multiRegionClusterName: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        showClusterDetails: Swift.Bool? = nil
+    ) {
+        self.maxResults = maxResults
+        self.multiRegionClusterName = multiRegionClusterName
+        self.nextToken = nextToken
+        self.showClusterDetails = showClusterDetails
+    }
+}
+
+public struct DescribeMultiRegionClustersOutput: Swift.Sendable {
+    /// A list of multi-Region clusters.
+    public var multiRegionClusters: [MemoryDBClientTypes.MultiRegionCluster]?
+    /// A token to use to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        multiRegionClusters: [MemoryDBClientTypes.MultiRegionCluster]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.multiRegionClusters = multiRegionClusters
         self.nextToken = nextToken
     }
 }
@@ -2751,8 +2958,7 @@ public struct DescribeParameterGroupsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         parameterGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.parameterGroupName = parameterGroupName
@@ -2768,8 +2974,7 @@ public struct DescribeParameterGroupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         parameterGroups: [MemoryDBClientTypes.ParameterGroup]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.parameterGroups = parameterGroups
     }
@@ -2788,8 +2993,7 @@ public struct DescribeParametersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         parameterGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.parameterGroupName = parameterGroupName
@@ -2820,8 +3024,7 @@ extension MemoryDBClientTypes {
             minimumEngineVersion: Swift.String? = nil,
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.allowedValues = allowedValues
             self.dataType = dataType
             self.description = description
@@ -2841,17 +3044,16 @@ public struct DescribeParametersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         parameters: [MemoryDBClientTypes.Parameter]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.parameters = parameters
     }
 }
 
 /// The requested node does not exist.
-public struct ReservedNodeNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReservedNodeNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2866,8 +3068,7 @@ public struct ReservedNodeNotFoundFault: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -2896,8 +3097,7 @@ public struct DescribeReservedNodesInput: Swift.Sendable {
         offeringType: Swift.String? = nil,
         reservationId: Swift.String? = nil,
         reservedNodesOfferingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.duration = duration
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2920,8 +3120,7 @@ extension MemoryDBClientTypes {
         public init(
             recurringChargeAmount: Swift.Double = 0.0,
             recurringChargeFrequency: Swift.String? = nil
-        )
-        {
+        ) {
             self.recurringChargeAmount = recurringChargeAmount
             self.recurringChargeFrequency = recurringChargeFrequency
         }
@@ -2967,8 +3166,7 @@ extension MemoryDBClientTypes {
             reservedNodesOfferingId: Swift.String? = nil,
             startTime: Foundation.Date? = nil,
             state: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.duration = duration
             self.fixedPrice = fixedPrice
@@ -2993,17 +3191,16 @@ public struct DescribeReservedNodesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         reservedNodes: [MemoryDBClientTypes.ReservedNode]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.reservedNodes = reservedNodes
     }
 }
 
 /// The requested node offering does not exist.
-public struct ReservedNodesOfferingNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReservedNodesOfferingNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3018,8 +3215,7 @@ public struct ReservedNodesOfferingNotFoundFault: ClientRuntime.ModeledError, AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3045,8 +3241,7 @@ public struct DescribeReservedNodesOfferingsInput: Swift.Sendable {
         nodeType: Swift.String? = nil,
         offeringType: Swift.String? = nil,
         reservedNodesOfferingId: Swift.String? = nil
-    )
-    {
+    ) {
         self.duration = duration
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3080,8 +3275,7 @@ extension MemoryDBClientTypes {
             offeringType: Swift.String? = nil,
             recurringCharges: [MemoryDBClientTypes.RecurringCharge]? = nil,
             reservedNodesOfferingId: Swift.String? = nil
-        )
-        {
+        ) {
             self.duration = duration
             self.fixedPrice = fixedPrice
             self.nodeType = nodeType
@@ -3101,15 +3295,14 @@ public struct DescribeReservedNodesOfferingsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         reservedNodesOfferings: [MemoryDBClientTypes.ReservedNodesOffering]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.reservedNodesOfferings = reservedNodesOfferings
     }
 }
 
 public struct DescribeServiceUpdatesInput: Swift.Sendable {
-    /// The list of cluster names to identify service updates to apply
+    /// The list of cluster names to identify service updates to apply.
     public var clusterNames: [Swift.String]?
     /// The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
@@ -3117,7 +3310,7 @@ public struct DescribeServiceUpdatesInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// The unique ID of the service update to describe.
     public var serviceUpdateName: Swift.String?
-    /// The status(es) of the service updates to filter on
+    /// The status(es) of the service updates to filter on.
     public var status: [MemoryDBClientTypes.ServiceUpdateStatus]?
 
     public init(
@@ -3126,8 +3319,7 @@ public struct DescribeServiceUpdatesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         serviceUpdateName: Swift.String? = nil,
         status: [MemoryDBClientTypes.ServiceUpdateStatus]? = nil
-    )
-    {
+    ) {
         self.clusterNames = clusterNames
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3172,7 +3364,7 @@ extension MemoryDBClientTypes {
         public var clusterName: Swift.String?
         /// Provides details of the service update
         public var description: Swift.String?
-        /// The MemoryDB engine to which the update applies. The values are either Redis or Valkey.
+        /// The name of the engine for which a service update is available.
         public var engine: Swift.String?
         /// A list of nodes updated by the service update
         public var nodesUpdated: Swift.String?
@@ -3195,8 +3387,7 @@ extension MemoryDBClientTypes {
             serviceUpdateName: Swift.String? = nil,
             status: MemoryDBClientTypes.ServiceUpdateStatus? = nil,
             type: MemoryDBClientTypes.ServiceUpdateType? = nil
-        )
-        {
+        ) {
             self.autoUpdateStartDate = autoUpdateStartDate
             self.clusterName = clusterName
             self.description = description
@@ -3219,8 +3410,7 @@ public struct DescribeServiceUpdatesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         serviceUpdates: [MemoryDBClientTypes.ServiceUpdate]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.serviceUpdates = serviceUpdates
     }
@@ -3247,8 +3437,7 @@ public struct DescribeSnapshotsInput: Swift.Sendable {
         showDetail: Swift.Bool? = nil,
         snapshotName: Swift.String? = nil,
         source: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3267,8 +3456,7 @@ public struct DescribeSnapshotsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         snapshots: [MemoryDBClientTypes.Snapshot]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.snapshots = snapshots
     }
@@ -3286,8 +3474,7 @@ public struct DescribeSubnetGroupsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         subnetGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.subnetGroupName = subnetGroupName
@@ -3303,8 +3490,7 @@ public struct DescribeSubnetGroupsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         subnetGroups: [MemoryDBClientTypes.SubnetGroup]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.subnetGroups = subnetGroups
     }
@@ -3324,8 +3510,7 @@ extension MemoryDBClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -3339,7 +3524,7 @@ public struct DescribeUsersInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// An optional argument to pass in case the total number of records exceeds the value of MaxResults. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
     public var nextToken: Swift.String?
-    /// The name of the user
+    /// The name of the user.
     public var userName: Swift.String?
 
     public init(
@@ -3347,8 +3532,7 @@ public struct DescribeUsersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3365,17 +3549,16 @@ public struct DescribeUsersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         users: [MemoryDBClientTypes.User]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.users = users
     }
 }
 
 ///
-public struct APICallRateForCustomerExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct APICallRateForCustomerExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3390,16 +3573,15 @@ public struct APICallRateForCustomerExceededFault: ClientRuntime.ModeledError, A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct InvalidKMSKeyFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidKMSKeyFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3414,16 +3596,15 @@ public struct InvalidKMSKeyFault: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct ShardNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ShardNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3438,16 +3619,15 @@ public struct ShardNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.A
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct TestFailoverNotAvailableFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TestFailoverNotAvailableFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3462,39 +3642,63 @@ public struct TestFailoverNotAvailableFault: ClientRuntime.ModeledError, AWSClie
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 public struct FailoverShardInput: Swift.Sendable {
-    /// The cluster being failed over
+    /// The cluster being failed over.
     /// This member is required.
     public var clusterName: Swift.String?
-    /// The name of the shard
+    /// The name of the shard.
     /// This member is required.
     public var shardName: Swift.String?
 
     public init(
         clusterName: Swift.String? = nil,
         shardName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.shardName = shardName
     }
 }
 
 public struct FailoverShardOutput: Swift.Sendable {
-    /// The cluster being failed over
+    /// The cluster being failed over.
     public var cluster: MemoryDBClientTypes.Cluster?
 
     public init(
         cluster: MemoryDBClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
+    }
+}
+
+public struct ListAllowedMultiRegionClusterUpdatesInput: Swift.Sendable {
+    /// The name of the multi-Region cluster.
+    /// This member is required.
+    public var multiRegionClusterName: Swift.String?
+
+    public init(
+        multiRegionClusterName: Swift.String? = nil
+    ) {
+        self.multiRegionClusterName = multiRegionClusterName
+    }
+}
+
+public struct ListAllowedMultiRegionClusterUpdatesOutput: Swift.Sendable {
+    /// The node types that the cluster can be scaled down to.
+    public var scaleDownNodeTypes: [Swift.String]?
+    /// The node types that the cluster can be scaled up to.
+    public var scaleUpNodeTypes: [Swift.String]?
+
+    public init(
+        scaleDownNodeTypes: [Swift.String]? = nil,
+        scaleUpNodeTypes: [Swift.String]? = nil
+    ) {
+        self.scaleDownNodeTypes = scaleDownNodeTypes
+        self.scaleUpNodeTypes = scaleUpNodeTypes
     }
 }
 
@@ -3505,8 +3709,7 @@ public struct ListAllowedNodeTypeUpdatesInput: Swift.Sendable {
 
     public init(
         clusterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
     }
 }
@@ -3520,17 +3723,16 @@ public struct ListAllowedNodeTypeUpdatesOutput: Swift.Sendable {
     public init(
         scaleDownNodeTypes: [Swift.String]? = nil,
         scaleUpNodeTypes: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.scaleDownNodeTypes = scaleDownNodeTypes
         self.scaleUpNodeTypes = scaleUpNodeTypes
     }
 }
 
 ///
-public struct InvalidARNFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidARNFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3545,21 +3747,19 @@ public struct InvalidARNFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 public struct ListTagsInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the resource for which you want the list of tags
+    /// The Amazon Resource Name (ARN) of the resource for which you want the list of tags.
     /// This member is required.
     public var resourceArn: Swift.String?
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3570,16 +3770,15 @@ public struct ListTagsOutput: Swift.Sendable {
 
     public init(
         tagList: [MemoryDBClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tagList = tagList
     }
 }
 
 /// You already have a reservation with the given identifier.
-public struct ReservedNodeAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReservedNodeAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3594,16 +3793,15 @@ public struct ReservedNodeAlreadyExistsFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request cannot be processed because it would exceed the user's node quota.
-public struct ReservedNodeQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReservedNodeQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3618,8 +3816,7 @@ public struct ReservedNodeQuotaExceededFault: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3640,8 +3837,7 @@ public struct PurchaseReservedNodesOfferingInput: Swift.Sendable {
         reservationId: Swift.String? = nil,
         reservedNodesOfferingId: Swift.String? = nil,
         tags: [MemoryDBClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.nodeCount = nodeCount
         self.reservationId = reservationId
         self.reservedNodesOfferingId = reservedNodesOfferingId
@@ -3655,8 +3851,7 @@ public struct PurchaseReservedNodesOfferingOutput: Swift.Sendable {
 
     public init(
         reservedNode: MemoryDBClientTypes.ReservedNode? = nil
-    )
-    {
+    ) {
         self.reservedNode = reservedNode
     }
 }
@@ -3674,8 +3869,7 @@ public struct ResetParameterGroupInput: Swift.Sendable {
         allParameters: Swift.Bool? = false,
         parameterGroupName: Swift.String? = nil,
         parameterNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.allParameters = allParameters
         self.parameterGroupName = parameterGroupName
         self.parameterNames = parameterNames
@@ -3688,14 +3882,13 @@ public struct ResetParameterGroupOutput: Swift.Sendable {
 
     public init(
         parameterGroup: MemoryDBClientTypes.ParameterGroup? = nil
-    )
-    {
+    ) {
         self.parameterGroup = parameterGroup
     }
 }
 
 public struct TagResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the resource to which the tags are to be added
+    /// The Amazon Resource Name (ARN) of the resource to which the tags are to be added.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
@@ -3705,8 +3898,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [MemoryDBClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -3718,16 +3910,15 @@ public struct TagResourceOutput: Swift.Sendable {
 
     public init(
         tagList: [MemoryDBClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tagList = tagList
     }
 }
 
 ///
-public struct TagNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TagNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3742,57 +3933,53 @@ public struct TagNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 public struct UntagResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the resource to which the tags are to be removed
+    /// The Amazon Resource Name (ARN) of the resource to which the tags are to be removed.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// The list of keys of the tags that are to be removed
+    /// The list of keys of the tags that are to be removed.
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
 }
 
 public struct UntagResourceOutput: Swift.Sendable {
-    /// The list of tags removed
+    /// The list of tags removed.
     public var tagList: [MemoryDBClientTypes.Tag]?
 
     public init(
         tagList: [MemoryDBClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tagList = tagList
     }
 }
 
 public struct UpdateACLInput: Swift.Sendable {
-    /// The name of the Access Control List
+    /// The name of the Access Control List.
     /// This member is required.
     public var aclName: Swift.String?
-    /// The list of users to add to the Access Control List
+    /// The list of users to add to the Access Control List.
     public var userNamesToAdd: [Swift.String]?
-    /// The list of users to remove from the Access Control List
+    /// The list of users to remove from the Access Control List.
     public var userNamesToRemove: [Swift.String]?
 
     public init(
         aclName: Swift.String? = nil,
         userNamesToAdd: [Swift.String]? = nil,
         userNamesToRemove: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.aclName = aclName
         self.userNamesToAdd = userNamesToAdd
         self.userNamesToRemove = userNamesToRemove
@@ -3800,21 +3987,20 @@ public struct UpdateACLInput: Swift.Sendable {
 }
 
 public struct UpdateACLOutput: Swift.Sendable {
-    /// The updated Access Control List
+    /// The updated Access Control List.
     public var acl: MemoryDBClientTypes.ACL?
 
     public init(
         acl: MemoryDBClientTypes.ACL? = nil
-    )
-    {
+    ) {
         self.acl = acl
     }
 }
 
 ///
-public struct InvalidNodeStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNodeStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3829,16 +4015,15 @@ public struct InvalidNodeStateFault: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 ///
-public struct NoOperationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoOperationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3853,8 +4038,7 @@ public struct NoOperationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3868,8 +4052,7 @@ extension MemoryDBClientTypes {
 
         public init(
             replicaCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.replicaCount = replicaCount
         }
     }
@@ -3884,22 +4067,21 @@ extension MemoryDBClientTypes {
 
         public init(
             shardCount: Swift.Int = 0
-        )
-        {
+        ) {
             self.shardCount = shardCount
         }
     }
 }
 
 public struct UpdateClusterInput: Swift.Sendable {
-    /// The Access Control List that is associated with the cluster
+    /// The Access Control List that is associated with the cluster.
     public var aclName: Swift.String?
-    /// The name of the cluster to update
+    /// The name of the cluster to update.
     /// This member is required.
     public var clusterName: Swift.String?
-    /// The description of the cluster to update
+    /// The description of the cluster to update.
     public var description: Swift.String?
-    /// The name of the engine to be used for the nodes in this cluster. The value must be set to either Redis or Valkey.
+    /// The name of the engine to be used for the cluster.
     public var engine: Swift.String?
     /// The upgraded version of the engine to be run on the nodes. You can upgrade to a newer engine version, but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster and create it anew with the earlier engine version.
     public var engineVersion: Swift.String?
@@ -3924,19 +4106,19 @@ public struct UpdateClusterInput: Swift.Sendable {
     public var maintenanceWindow: Swift.String?
     /// A valid node type that you want to scale this cluster up or down to.
     public var nodeType: Swift.String?
-    /// The name of the parameter group to update
+    /// The name of the parameter group to update.
     public var parameterGroupName: Swift.String?
-    /// The number of replicas that will reside in each shard
+    /// The number of replicas that will reside in each shard.
     public var replicaConfiguration: MemoryDBClientTypes.ReplicaConfigurationRequest?
-    /// The SecurityGroupIds to update
+    /// The SecurityGroupIds to update.
     public var securityGroupIds: [Swift.String]?
-    /// The number of shards in the cluster
+    /// The number of shards in the cluster.
     public var shardConfiguration: MemoryDBClientTypes.ShardConfigurationRequest?
     /// The number of days for which MemoryDB retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.
     public var snapshotRetentionLimit: Swift.Int?
     /// The daily time range (in UTC) during which MemoryDB begins taking a daily snapshot of your cluster.
     public var snapshotWindow: Swift.String?
-    /// The SNS topic ARN to update
+    /// The SNS topic ARN to update.
     public var snsTopicArn: Swift.String?
     /// The status of the Amazon SNS notification topic. Notifications are sent only if the status is active.
     public var snsTopicStatus: Swift.String?
@@ -3957,8 +4139,7 @@ public struct UpdateClusterInput: Swift.Sendable {
         snapshotWindow: Swift.String? = nil,
         snsTopicArn: Swift.String? = nil,
         snsTopicStatus: Swift.String? = nil
-    )
-    {
+    ) {
         self.aclName = aclName
         self.clusterName = clusterName
         self.description = description
@@ -3978,14 +4159,89 @@ public struct UpdateClusterInput: Swift.Sendable {
 }
 
 public struct UpdateClusterOutput: Swift.Sendable {
-    /// The updated cluster
+    /// The updated cluster.
     public var cluster: MemoryDBClientTypes.Cluster?
 
     public init(
         cluster: MemoryDBClientTypes.Cluster? = nil
-    )
-    {
+    ) {
         self.cluster = cluster
+    }
+}
+
+extension MemoryDBClientTypes {
+
+    public enum UpdateStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case coordinated
+        case uncoordinated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpdateStrategy] {
+            return [
+                .coordinated,
+                .uncoordinated
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .coordinated: return "coordinated"
+            case .uncoordinated: return "uncoordinated"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct UpdateMultiRegionClusterInput: Swift.Sendable {
+    /// A new description for the multi-Region cluster.
+    public var description: Swift.String?
+    /// The new engine version to be used for the multi-Region cluster.
+    public var engineVersion: Swift.String?
+    /// The name of the multi-Region cluster to be updated.
+    /// This member is required.
+    public var multiRegionClusterName: Swift.String?
+    /// The new multi-Region parameter group to be associated with the cluster.
+    public var multiRegionParameterGroupName: Swift.String?
+    /// The new node type to be used for the multi-Region cluster.
+    public var nodeType: Swift.String?
+    /// A request to configure the sharding properties of a cluster
+    public var shardConfiguration: MemoryDBClientTypes.ShardConfigurationRequest?
+    /// Whether to force the update even if it may cause data loss.
+    public var updateStrategy: MemoryDBClientTypes.UpdateStrategy?
+
+    public init(
+        description: Swift.String? = nil,
+        engineVersion: Swift.String? = nil,
+        multiRegionClusterName: Swift.String? = nil,
+        multiRegionParameterGroupName: Swift.String? = nil,
+        nodeType: Swift.String? = nil,
+        shardConfiguration: MemoryDBClientTypes.ShardConfigurationRequest? = nil,
+        updateStrategy: MemoryDBClientTypes.UpdateStrategy? = nil
+    ) {
+        self.description = description
+        self.engineVersion = engineVersion
+        self.multiRegionClusterName = multiRegionClusterName
+        self.multiRegionParameterGroupName = multiRegionParameterGroupName
+        self.nodeType = nodeType
+        self.shardConfiguration = shardConfiguration
+        self.updateStrategy = updateStrategy
+    }
+}
+
+public struct UpdateMultiRegionClusterOutput: Swift.Sendable {
+    /// The status of updating the multi-Region cluster.
+    public var multiRegionCluster: MemoryDBClientTypes.MultiRegionCluster?
+
+    public init(
+        multiRegionCluster: MemoryDBClientTypes.MultiRegionCluster? = nil
+    ) {
+        self.multiRegionCluster = multiRegionCluster
     }
 }
 
@@ -4001,8 +4257,7 @@ extension MemoryDBClientTypes {
         public init(
             parameterName: Swift.String? = nil,
             parameterValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.parameterName = parameterName
             self.parameterValue = parameterValue
         }
@@ -4020,8 +4275,7 @@ public struct UpdateParameterGroupInput: Swift.Sendable {
     public init(
         parameterGroupName: Swift.String? = nil,
         parameterNameValues: [MemoryDBClientTypes.ParameterNameValue]? = nil
-    )
-    {
+    ) {
         self.parameterGroupName = parameterGroupName
         self.parameterNameValues = parameterNameValues
     }
@@ -4033,16 +4287,15 @@ public struct UpdateParameterGroupOutput: Swift.Sendable {
 
     public init(
         parameterGroup: MemoryDBClientTypes.ParameterGroup? = nil
-    )
-    {
+    ) {
         self.parameterGroup = parameterGroup
     }
 }
 
 ///
-public struct SubnetInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SubnetInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4057,8 +4310,7 @@ public struct SubnetInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServi
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4076,8 +4328,7 @@ public struct UpdateSubnetGroupInput: Swift.Sendable {
         description: Swift.String? = nil,
         subnetGroupName: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.subnetGroupName = subnetGroupName
         self.subnetIds = subnetIds
@@ -4090,8 +4341,7 @@ public struct UpdateSubnetGroupOutput: Swift.Sendable {
 
     public init(
         subnetGroup: MemoryDBClientTypes.SubnetGroup? = nil
-    )
-    {
+    ) {
         self.subnetGroup = subnetGroup
     }
 }
@@ -4109,8 +4359,7 @@ public struct UpdateUserInput: Swift.Sendable {
         accessString: Swift.String? = nil,
         authenticationMode: MemoryDBClientTypes.AuthenticationMode? = nil,
         userName: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessString = accessString
         self.authenticationMode = authenticationMode
         self.userName = userName
@@ -4123,8 +4372,7 @@ public struct UpdateUserOutput: Swift.Sendable {
 
     public init(
         user: MemoryDBClientTypes.User? = nil
-    )
-    {
+    ) {
         self.user = user
     }
 }
@@ -4153,6 +4401,13 @@ extension CreateACLInput {
 extension CreateClusterInput {
 
     static func urlPathProvider(_ value: CreateClusterInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateMultiRegionClusterInput {
+
+    static func urlPathProvider(_ value: CreateMultiRegionClusterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4195,6 +4450,13 @@ extension DeleteACLInput {
 extension DeleteClusterInput {
 
     static func urlPathProvider(_ value: DeleteClusterInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteMultiRegionClusterInput {
+
+    static func urlPathProvider(_ value: DeleteMultiRegionClusterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4251,6 +4513,13 @@ extension DescribeEngineVersionsInput {
 extension DescribeEventsInput {
 
     static func urlPathProvider(_ value: DescribeEventsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeMultiRegionClustersInput {
+
+    static func urlPathProvider(_ value: DescribeMultiRegionClustersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4318,6 +4587,13 @@ extension FailoverShardInput {
     }
 }
 
+extension ListAllowedMultiRegionClusterUpdatesInput {
+
+    static func urlPathProvider(_ value: ListAllowedMultiRegionClusterUpdatesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListAllowedNodeTypeUpdatesInput {
 
     static func urlPathProvider(_ value: ListAllowedNodeTypeUpdatesInput) -> Swift.String? {
@@ -4370,6 +4646,13 @@ extension UpdateACLInput {
 extension UpdateClusterInput {
 
     static func urlPathProvider(_ value: UpdateClusterInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateMultiRegionClusterInput {
+
+    static func urlPathProvider(_ value: UpdateMultiRegionClusterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4439,6 +4722,7 @@ extension CreateClusterInput {
         try writer["EngineVersion"].write(value.engineVersion)
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["MaintenanceWindow"].write(value.maintenanceWindow)
+        try writer["MultiRegionClusterName"].write(value.multiRegionClusterName)
         try writer["NodeType"].write(value.nodeType)
         try writer["NumReplicasPerShard"].write(value.numReplicasPerShard)
         try writer["NumShards"].write(value.numShards)
@@ -4451,6 +4735,22 @@ extension CreateClusterInput {
         try writer["SnapshotWindow"].write(value.snapshotWindow)
         try writer["SnsTopicArn"].write(value.snsTopicArn)
         try writer["SubnetGroupName"].write(value.subnetGroupName)
+        try writer["TLSEnabled"].write(value.tlsEnabled)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: MemoryDBClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CreateMultiRegionClusterInput {
+
+    static func write(value: CreateMultiRegionClusterInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["Engine"].write(value.engine)
+        try writer["EngineVersion"].write(value.engineVersion)
+        try writer["MultiRegionClusterNameSuffix"].write(value.multiRegionClusterNameSuffix)
+        try writer["MultiRegionParameterGroupName"].write(value.multiRegionParameterGroupName)
+        try writer["NodeType"].write(value.nodeType)
+        try writer["NumShards"].write(value.numShards)
         try writer["TLSEnabled"].write(value.tlsEnabled)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: MemoryDBClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -4514,6 +4814,15 @@ extension DeleteClusterInput {
         guard let value else { return }
         try writer["ClusterName"].write(value.clusterName)
         try writer["FinalSnapshotName"].write(value.finalSnapshotName)
+        try writer["MultiRegionClusterName"].write(value.multiRegionClusterName)
+    }
+}
+
+extension DeleteMultiRegionClusterInput {
+
+    static func write(value: DeleteMultiRegionClusterInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MultiRegionClusterName"].write(value.multiRegionClusterName)
     }
 }
 
@@ -4594,6 +4903,17 @@ extension DescribeEventsInput {
         try writer["SourceName"].write(value.sourceName)
         try writer["SourceType"].write(value.sourceType)
         try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension DescribeMultiRegionClustersInput {
+
+    static func write(value: DescribeMultiRegionClustersInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["MultiRegionClusterName"].write(value.multiRegionClusterName)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["ShowClusterDetails"].write(value.showClusterDetails)
     }
 }
 
@@ -4699,6 +5019,14 @@ extension FailoverShardInput {
     }
 }
 
+extension ListAllowedMultiRegionClusterUpdatesInput {
+
+    static func write(value: ListAllowedMultiRegionClusterUpdatesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MultiRegionClusterName"].write(value.multiRegionClusterName)
+    }
+}
+
 extension ListAllowedNodeTypeUpdatesInput {
 
     static func write(value: ListAllowedNodeTypeUpdatesInput?, to writer: SmithyJSON.Writer) throws {
@@ -4786,6 +5114,20 @@ extension UpdateClusterInput {
     }
 }
 
+extension UpdateMultiRegionClusterInput {
+
+    static func write(value: UpdateMultiRegionClusterInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["EngineVersion"].write(value.engineVersion)
+        try writer["MultiRegionClusterName"].write(value.multiRegionClusterName)
+        try writer["MultiRegionParameterGroupName"].write(value.multiRegionParameterGroupName)
+        try writer["NodeType"].write(value.nodeType)
+        try writer["ShardConfiguration"].write(value.shardConfiguration, with: MemoryDBClientTypes.ShardConfigurationRequest.write(value:to:))
+        try writer["UpdateStrategy"].write(value.updateStrategy)
+    }
+}
+
 extension UpdateParameterGroupInput {
 
     static func write(value: UpdateParameterGroupInput?, to writer: SmithyJSON.Writer) throws {
@@ -4864,6 +5206,18 @@ extension CreateClusterOutput {
     }
 }
 
+extension CreateMultiRegionClusterOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateMultiRegionClusterOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateMultiRegionClusterOutput()
+        value.multiRegionCluster = try reader["MultiRegionCluster"].readIfPresent(with: MemoryDBClientTypes.MultiRegionCluster.read(from:))
+        return value
+    }
+}
+
 extension CreateParameterGroupOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateParameterGroupOutput {
@@ -4932,6 +5286,18 @@ extension DeleteClusterOutput {
         let reader = responseReader
         var value = DeleteClusterOutput()
         value.cluster = try reader["Cluster"].readIfPresent(with: MemoryDBClientTypes.Cluster.read(from:))
+        return value
+    }
+}
+
+extension DeleteMultiRegionClusterOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteMultiRegionClusterOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteMultiRegionClusterOutput()
+        value.multiRegionCluster = try reader["MultiRegionCluster"].readIfPresent(with: MemoryDBClientTypes.MultiRegionCluster.read(from:))
         return value
     }
 }
@@ -5031,6 +5397,19 @@ extension DescribeEventsOutput {
         let reader = responseReader
         var value = DescribeEventsOutput()
         value.events = try reader["Events"].readListIfPresent(memberReadingClosure: MemoryDBClientTypes.Event.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeMultiRegionClustersOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeMultiRegionClustersOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeMultiRegionClustersOutput()
+        value.multiRegionClusters = try reader["MultiRegionClusters"].readListIfPresent(memberReadingClosure: MemoryDBClientTypes.MultiRegionCluster.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -5152,6 +5531,19 @@ extension FailoverShardOutput {
     }
 }
 
+extension ListAllowedMultiRegionClusterUpdatesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAllowedMultiRegionClusterUpdatesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAllowedMultiRegionClusterUpdatesOutput()
+        value.scaleDownNodeTypes = try reader["ScaleDownNodeTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scaleUpNodeTypes = try reader["ScaleUpNodeTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListAllowedNodeTypeUpdatesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAllowedNodeTypeUpdatesOutput {
@@ -5245,6 +5637,18 @@ extension UpdateClusterOutput {
         let reader = responseReader
         var value = UpdateClusterOutput()
         value.cluster = try reader["Cluster"].readIfPresent(with: MemoryDBClientTypes.Cluster.read(from:))
+        return value
+    }
+}
+
+extension UpdateMultiRegionClusterOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateMultiRegionClusterOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateMultiRegionClusterOutput()
+        value.multiRegionCluster = try reader["MultiRegionCluster"].readIfPresent(with: MemoryDBClientTypes.MultiRegionCluster.read(from:))
         return value
     }
 }
@@ -5355,15 +5759,36 @@ enum CreateClusterOutputError {
             case "InsufficientClusterCapacity": return try InsufficientClusterCapacityFault.makeError(baseError: baseError)
             case "InvalidACLState": return try InvalidACLStateFault.makeError(baseError: baseError)
             case "InvalidCredentialsException": return try InvalidCredentialsException.makeError(baseError: baseError)
+            case "InvalidMultiRegionClusterState": return try InvalidMultiRegionClusterStateFault.makeError(baseError: baseError)
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "InvalidVPCNetworkStateFault": return try InvalidVPCNetworkStateFault.makeError(baseError: baseError)
+            case "MultiRegionClusterNotFound": return try MultiRegionClusterNotFoundFault.makeError(baseError: baseError)
             case "NodeQuotaForClusterExceeded": return try NodeQuotaForClusterExceededFault.makeError(baseError: baseError)
             case "NodeQuotaForCustomerExceeded": return try NodeQuotaForCustomerExceededFault.makeError(baseError: baseError)
             case "ParameterGroupNotFound": return try ParameterGroupNotFoundFault.makeError(baseError: baseError)
             case "ServiceLinkedRoleNotFoundFault": return try ServiceLinkedRoleNotFoundFault.makeError(baseError: baseError)
             case "ShardsPerClusterQuotaExceeded": return try ShardsPerClusterQuotaExceededFault.makeError(baseError: baseError)
             case "SubnetGroupNotFoundFault": return try SubnetGroupNotFoundFault.makeError(baseError: baseError)
+            case "TagQuotaPerResourceExceeded": return try TagQuotaPerResourceExceeded.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateMultiRegionClusterOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClusterQuotaForCustomerExceeded": return try ClusterQuotaForCustomerExceededFault.makeError(baseError: baseError)
+            case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
+            case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "MultiRegionClusterAlreadyExistsFault": return try MultiRegionClusterAlreadyExistsFault.makeError(baseError: baseError)
+            case "MultiRegionParameterGroupNotFoundFault": return try MultiRegionParameterGroupNotFoundFault.makeError(baseError: baseError)
             case "TagQuotaPerResourceExceeded": return try TagQuotaPerResourceExceeded.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -5480,6 +5905,22 @@ enum DeleteClusterOutputError {
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ServiceLinkedRoleNotFoundFault": return try ServiceLinkedRoleNotFoundFault.makeError(baseError: baseError)
             case "SnapshotAlreadyExistsFault": return try SnapshotAlreadyExistsFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteMultiRegionClusterOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidMultiRegionClusterState": return try InvalidMultiRegionClusterStateFault.makeError(baseError: baseError)
+            case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "MultiRegionClusterNotFound": return try MultiRegionClusterNotFoundFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -5612,6 +6053,23 @@ enum DescribeEventsOutputError {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ServiceLinkedRoleNotFoundFault": return try ServiceLinkedRoleNotFoundFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeMultiRegionClustersOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClusterNotFound": return try ClusterNotFoundFault.makeError(baseError: baseError)
+            case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
+            case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "MultiRegionClusterNotFound": return try MultiRegionClusterNotFoundFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -5768,6 +6226,22 @@ enum FailoverShardOutputError {
     }
 }
 
+enum ListAllowedMultiRegionClusterUpdatesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
+            case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "MultiRegionClusterNotFound": return try MultiRegionClusterNotFoundFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListAllowedNodeTypeUpdatesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5797,6 +6271,8 @@ enum ListTagsOutputError {
             case "ClusterNotFound": return try ClusterNotFoundFault.makeError(baseError: baseError)
             case "InvalidARN": return try InvalidARNFault.makeError(baseError: baseError)
             case "InvalidClusterState": return try InvalidClusterStateFault.makeError(baseError: baseError)
+            case "MultiRegionClusterNotFound": return try MultiRegionClusterNotFoundFault.makeError(baseError: baseError)
+            case "MultiRegionParameterGroupNotFoundFault": return try MultiRegionParameterGroupNotFoundFault.makeError(baseError: baseError)
             case "ParameterGroupNotFound": return try ParameterGroupNotFoundFault.makeError(baseError: baseError)
             case "ServiceLinkedRoleNotFoundFault": return try ServiceLinkedRoleNotFoundFault.makeError(baseError: baseError)
             case "SnapshotNotFoundFault": return try SnapshotNotFoundFault.makeError(baseError: baseError)
@@ -5857,6 +6333,9 @@ enum TagResourceOutputError {
             case "ClusterNotFound": return try ClusterNotFoundFault.makeError(baseError: baseError)
             case "InvalidARN": return try InvalidARNFault.makeError(baseError: baseError)
             case "InvalidClusterState": return try InvalidClusterStateFault.makeError(baseError: baseError)
+            case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "MultiRegionClusterNotFound": return try MultiRegionClusterNotFoundFault.makeError(baseError: baseError)
+            case "MultiRegionParameterGroupNotFoundFault": return try MultiRegionParameterGroupNotFoundFault.makeError(baseError: baseError)
             case "ParameterGroupNotFound": return try ParameterGroupNotFoundFault.makeError(baseError: baseError)
             case "ServiceLinkedRoleNotFoundFault": return try ServiceLinkedRoleNotFoundFault.makeError(baseError: baseError)
             case "SnapshotNotFoundFault": return try SnapshotNotFoundFault.makeError(baseError: baseError)
@@ -5880,6 +6359,9 @@ enum UntagResourceOutputError {
             case "ClusterNotFound": return try ClusterNotFoundFault.makeError(baseError: baseError)
             case "InvalidARN": return try InvalidARNFault.makeError(baseError: baseError)
             case "InvalidClusterState": return try InvalidClusterStateFault.makeError(baseError: baseError)
+            case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "MultiRegionClusterNotFound": return try MultiRegionClusterNotFoundFault.makeError(baseError: baseError)
+            case "MultiRegionParameterGroupNotFoundFault": return try MultiRegionParameterGroupNotFoundFault.makeError(baseError: baseError)
             case "ParameterGroupNotFound": return try ParameterGroupNotFoundFault.makeError(baseError: baseError)
             case "ServiceLinkedRoleNotFoundFault": return try ServiceLinkedRoleNotFoundFault.makeError(baseError: baseError)
             case "SnapshotNotFoundFault": return try SnapshotNotFoundFault.makeError(baseError: baseError)
@@ -5935,6 +6417,24 @@ enum UpdateClusterOutputError {
             case "ParameterGroupNotFound": return try ParameterGroupNotFoundFault.makeError(baseError: baseError)
             case "ServiceLinkedRoleNotFoundFault": return try ServiceLinkedRoleNotFoundFault.makeError(baseError: baseError)
             case "ShardsPerClusterQuotaExceeded": return try ShardsPerClusterQuotaExceededFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateMultiRegionClusterOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidMultiRegionClusterState": return try InvalidMultiRegionClusterStateFault.makeError(baseError: baseError)
+            case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
+            case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "MultiRegionClusterNotFound": return try MultiRegionClusterNotFoundFault.makeError(baseError: baseError)
+            case "MultiRegionParameterGroupNotFoundFault": return try MultiRegionParameterGroupNotFoundFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -6293,6 +6793,19 @@ extension InvalidVPCNetworkStateFault {
     }
 }
 
+extension MultiRegionClusterNotFoundFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MultiRegionClusterNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = MultiRegionClusterNotFoundFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension NodeQuotaForCustomerExceededFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NodeQuotaForCustomerExceededFault {
@@ -6324,6 +6837,45 @@ extension InvalidACLStateFault {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidACLStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidACLStateFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidMultiRegionClusterStateFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidMultiRegionClusterStateFault {
+        let reader = baseError.errorBodyReader
+        var value = InvalidMultiRegionClusterStateFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension MultiRegionClusterAlreadyExistsFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MultiRegionClusterAlreadyExistsFault {
+        let reader = baseError.errorBodyReader
+        var value = MultiRegionClusterAlreadyExistsFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension MultiRegionParameterGroupNotFoundFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MultiRegionParameterGroupNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = MultiRegionParameterGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6692,6 +7244,7 @@ extension MemoryDBClientTypes.Cluster {
         value.description = try reader["Description"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.pendingUpdates = try reader["PendingUpdates"].readIfPresent(with: MemoryDBClientTypes.ClusterPendingUpdates.read(from:))
+        value.multiRegionClusterName = try reader["MultiRegionClusterName"].readIfPresent()
         value.numberOfShards = try reader["NumberOfShards"].readIfPresent()
         value.shards = try reader["Shards"].readListIfPresent(memberReadingClosure: MemoryDBClientTypes.Shard.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.availabilityMode = try reader["AvailabilityMode"].readIfPresent()
@@ -6870,6 +7423,8 @@ extension MemoryDBClientTypes.ClusterConfiguration {
         value.snapshotWindow = try reader["SnapshotWindow"].readIfPresent()
         value.numShards = try reader["NumShards"].readIfPresent()
         value.shards = try reader["Shards"].readListIfPresent(memberReadingClosure: MemoryDBClientTypes.ShardDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.multiRegionParameterGroupName = try reader["MultiRegionParameterGroupName"].readIfPresent()
+        value.multiRegionClusterName = try reader["MultiRegionClusterName"].readIfPresent()
         return value
     }
 }
@@ -6921,6 +7476,39 @@ extension MemoryDBClientTypes.ACLPendingChanges {
         var value = MemoryDBClientTypes.ACLPendingChanges()
         value.userNamesToRemove = try reader["UserNamesToRemove"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.userNamesToAdd = try reader["UserNamesToAdd"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MemoryDBClientTypes.MultiRegionCluster {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.MultiRegionCluster {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MemoryDBClientTypes.MultiRegionCluster()
+        value.multiRegionClusterName = try reader["MultiRegionClusterName"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.nodeType = try reader["NodeType"].readIfPresent()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.numberOfShards = try reader["NumberOfShards"].readIfPresent()
+        value.clusters = try reader["Clusters"].readListIfPresent(memberReadingClosure: MemoryDBClientTypes.RegionalCluster.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.multiRegionParameterGroupName = try reader["MultiRegionParameterGroupName"].readIfPresent()
+        value.tlsEnabled = try reader["TLSEnabled"].readIfPresent()
+        value.arn = try reader["ARN"].readIfPresent()
+        return value
+    }
+}
+
+extension MemoryDBClientTypes.RegionalCluster {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.RegionalCluster {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MemoryDBClientTypes.RegionalCluster()
+        value.clusterName = try reader["ClusterName"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.arn = try reader["ARN"].readIfPresent()
         return value
     }
 }

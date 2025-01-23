@@ -17,12 +17,14 @@ import class ClientRuntime.HttpClientConfiguration
 import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
+import class Smithy.Context
 import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
+import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
@@ -41,8 +43,8 @@ import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
+@_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
-import struct AWSClientRuntime.EndpointResolverMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSClientRuntime.XAmzTargetMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
@@ -64,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConfigClient: ClientRuntime.Client {
     public static let clientName = "ConfigClient"
-    public static let version = "1.0.40"
+    public static let version = "1.2.1"
     let client: ClientRuntime.SdkHttpClient
     let config: ConfigClient.ConfigClientConfiguration
     let serviceName = "Config"
@@ -86,58 +88,69 @@ public class ConfigClient: ClientRuntime.Client {
 }
 
 extension ConfigClient {
+
     public class ConfigClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
         public var useFIPS: Swift.Bool?
-
         public var useDualStack: Swift.Bool?
-
         public var appID: Swift.String?
-
         public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
-
         public var awsRetryMode: AWSClientRuntime.AWSRetryMode
-
         public var maxAttempts: Swift.Int?
-
+        public var requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode
+        public var ignoreConfiguredEndpointURLs: Swift.Bool?
         public var region: Swift.String?
-
         public var signingRegion: Swift.String?
-
         public var endpointResolver: EndpointResolver
-
         public var telemetryProvider: ClientRuntime.TelemetryProvider
-
         public var retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions
-
         public var clientLogMode: ClientRuntime.ClientLogMode
-
         public var endpoint: Swift.String?
-
         public var idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator
-
         public var httpClientEngine: SmithyHTTPAPI.HTTPClient
-
         public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
-
         public var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
-
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
-
         public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
-
         public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
-
         public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
-
         internal let logger: Smithy.LogAgent
 
-        private init(_ useFIPS: Swift.Bool?, _ useDualStack: Swift.Bool?, _ appID: Swift.String?, _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver, _ awsRetryMode: AWSClientRuntime.AWSRetryMode, _ maxAttempts: Swift.Int?, _ region: Swift.String?, _ signingRegion: Swift.String?, _ endpointResolver: EndpointResolver, _ telemetryProvider: ClientRuntime.TelemetryProvider, _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions, _ clientLogMode: ClientRuntime.ClientLogMode, _ endpoint: Swift.String?, _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator, _ httpClientEngine: SmithyHTTPAPI.HTTPClient, _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration, _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?, _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver, _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver, _ interceptorProviders: [ClientRuntime.InterceptorProvider], _ httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]) {
+        private init(
+            _ useFIPS: Swift.Bool?,
+            _ useDualStack: Swift.Bool?,
+            _ appID: Swift.String?,
+            _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver,
+            _ awsRetryMode: AWSClientRuntime.AWSRetryMode,
+            _ maxAttempts: Swift.Int?,
+            _ requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode,
+            _ responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode,
+            _ ignoreConfiguredEndpointURLs: Swift.Bool?,
+            _ region: Swift.String?,
+            _ signingRegion: Swift.String?,
+            _ endpointResolver: EndpointResolver,
+            _ telemetryProvider: ClientRuntime.TelemetryProvider,
+            _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions,
+            _ clientLogMode: ClientRuntime.ClientLogMode,
+            _ endpoint: Swift.String?,
+            _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator,
+            _ httpClientEngine: SmithyHTTPAPI.HTTPClient,
+            _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration,
+            _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?,
+            _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver,
+            _ bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver,
+            _ interceptorProviders: [ClientRuntime.InterceptorProvider],
+            _ httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
+        ) {
             self.useFIPS = useFIPS
             self.useDualStack = useDualStack
             self.appID = appID
             self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
             self.awsRetryMode = awsRetryMode
             self.maxAttempts = maxAttempts
+            self.requestChecksumCalculation = requestChecksumCalculation
+            self.responseChecksumValidation = responseChecksumValidation
+            self.ignoreConfiguredEndpointURLs = ignoreConfiguredEndpointURLs
             self.region = region
             self.signingRegion = signingRegion
             self.endpointResolver = endpointResolver
@@ -156,25 +169,176 @@ extension ConfigClient {
             self.logger = telemetryProvider.loggerProvider.getLogger(name: ConfigClient.clientName)
         }
 
-        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, maxAttempts: Swift.Int? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil, interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil, httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil) throws {
-            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), maxAttempts, region, signingRegion, try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(), endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(), httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(), authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()], authSchemeResolver ?? DefaultConfigServiceAuthSchemeResolver(), bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")), interceptorProviders ?? [], httpInterceptorProviders ?? [])
+        public convenience init(
+            useFIPS: Swift.Bool? = nil,
+            useDualStack: Swift.Bool? = nil,
+            appID: Swift.String? = nil,
+            awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
+            awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
+            maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            region: Swift.String? = nil,
+            signingRegion: Swift.String? = nil,
+            endpointResolver: EndpointResolver? = nil,
+            telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
+            retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
+            clientLogMode: ClientRuntime.ClientLogMode? = nil,
+            endpoint: Swift.String? = nil,
+            idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
+            httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
+            httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
+            authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
+        ) throws {
+            self.init(
+                useFIPS,
+                useDualStack,
+                try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
+                try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                maxAttempts,
+                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
+                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
+                ignoreConfiguredEndpointURLs,
+                region,
+                signingRegion,
+                try endpointResolver ?? DefaultEndpointResolver(),
+                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
+                try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
+                clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
+                endpoint,
+                idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemeResolver ?? DefaultConfigServiceAuthSchemeResolver(),
+                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                interceptorProviders ?? [],
+                httpInterceptorProviders ?? []
+            )
         }
 
-        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, maxAttempts: Swift.Int? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil, interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil, httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil) async throws {
-            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), maxAttempts, try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(), endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(), httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(), authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()], authSchemeResolver ?? DefaultConfigServiceAuthSchemeResolver(), bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")), interceptorProviders ?? [], httpInterceptorProviders ?? [])
+        public convenience init(
+            useFIPS: Swift.Bool? = nil,
+            useDualStack: Swift.Bool? = nil,
+            appID: Swift.String? = nil,
+            awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil,
+            awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil,
+            maxAttempts: Swift.Int? = nil,
+            requestChecksumCalculation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            responseChecksumValidation: AWSSDKChecksums.AWSChecksumCalculationMode? = nil,
+            ignoreConfiguredEndpointURLs: Swift.Bool? = nil,
+            region: Swift.String? = nil,
+            signingRegion: Swift.String? = nil,
+            endpointResolver: EndpointResolver? = nil,
+            telemetryProvider: ClientRuntime.TelemetryProvider? = nil,
+            retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil,
+            clientLogMode: ClientRuntime.ClientLogMode? = nil,
+            endpoint: Swift.String? = nil,
+            idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil,
+            httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil,
+            httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil,
+            authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil,
+            authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil,
+            bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil,
+            interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil,
+            httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
+        ) async throws {
+            self.init(
+                useFIPS,
+                useDualStack,
+                try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver),
+                try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                maxAttempts,
+                try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
+                try responseChecksumValidation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.responseChecksumValidation(responseChecksumValidation),
+                ignoreConfiguredEndpointURLs,
+                try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
+                try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region),
+                try endpointResolver ?? DefaultEndpointResolver(),
+                telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider,
+                try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts),
+                clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode(),
+                endpoint,
+                idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(),
+                httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemeResolver ?? DefaultConfigServiceAuthSchemeResolver(),
+                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                interceptorProviders ?? [],
+                httpInterceptorProviders ?? []
+            )
         }
 
         public convenience required init() async throws {
-            try await self.init(useFIPS: nil, useDualStack: nil, appID: nil, awsCredentialIdentityResolver: nil, awsRetryMode: nil, maxAttempts: nil, region: nil, signingRegion: nil, endpointResolver: nil, telemetryProvider: nil, retryStrategyOptions: nil, clientLogMode: nil, endpoint: nil, idempotencyTokenGenerator: nil, httpClientEngine: nil, httpClientConfiguration: nil, authSchemes: nil, authSchemeResolver: nil, bearerTokenIdentityResolver: nil, interceptorProviders: nil, httpInterceptorProviders: nil)
+            try await self.init(
+                useFIPS: nil,
+                useDualStack: nil,
+                appID: nil,
+                awsCredentialIdentityResolver: nil,
+                awsRetryMode: nil,
+                maxAttempts: nil,
+                requestChecksumCalculation: nil,
+                responseChecksumValidation: nil,
+                ignoreConfiguredEndpointURLs: nil,
+                region: nil,
+                signingRegion: nil,
+                endpointResolver: nil,
+                telemetryProvider: nil,
+                retryStrategyOptions: nil,
+                clientLogMode: nil,
+                endpoint: nil,
+                idempotencyTokenGenerator: nil,
+                httpClientEngine: nil,
+                httpClientConfiguration: nil,
+                authSchemes: nil,
+                authSchemeResolver: nil,
+                bearerTokenIdentityResolver: nil,
+                interceptorProviders: nil,
+                httpInterceptorProviders: nil
+            )
         }
 
-        public convenience init(region: String) throws {
-            self.init(nil, nil, try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(), try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), nil, region, region, try DefaultEndpointResolver(), ClientRuntime.DefaultTelemetry.provider, try AWSClientConfigDefaultsProvider.retryStrategyOptions(), AWSClientConfigDefaultsProvider.clientLogMode(), nil, AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(), AWSClientConfigDefaultsProvider.httpClientEngine(), AWSClientConfigDefaultsProvider.httpClientConfiguration(), [AWSSDKHTTPAuth.SigV4AuthScheme()], DefaultConfigServiceAuthSchemeResolver(), SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")), [], [])
+        public convenience init(region: Swift.String) throws {
+            self.init(
+                nil,
+                nil,
+                try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
+                try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(),
+                try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
+                nil,
+                try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),
+                try AWSClientConfigDefaultsProvider.responseChecksumValidation(),
+                nil,
+                region,
+                region,
+                try DefaultEndpointResolver(),
+                ClientRuntime.DefaultTelemetry.provider,
+                try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                AWSClientConfigDefaultsProvider.clientLogMode(),
+                nil,
+                AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
+                AWSClientConfigDefaultsProvider.httpClientEngine(),
+                AWSClientConfigDefaultsProvider.httpClientConfiguration(),
+                [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                DefaultConfigServiceAuthSchemeResolver(),
+                SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                [],
+                []
+            )
         }
 
         public var partitionID: String? {
             return "\(ConfigClient.clientName) - \(region ?? "")"
         }
+
         public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
             self.interceptorProviders.append(provider)
         }
@@ -195,7 +359,110 @@ extension ConfigClient {
 }
 
 extension ConfigClient {
-    /// Performs the `BatchGetAggregateResourceConfig` operation on the `StarlingDoveService` service.
+    /// Performs the `AssociateResourceTypes` operation on the `Config` service.
+    ///
+    /// Adds all resource types specified in the ResourceTypes list to the [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) of specified configuration recorder and includes those resource types when recording. For this operation, the specified configuration recorder must use a [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) that is either INCLUSION_BY_RESOURCE_TYPES or EXCLUSION_BY_RESOURCE_TYPES.
+    ///
+    /// - Parameter AssociateResourceTypesInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateResourceTypesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), you cannot create a service-linked recorder because a service-linked recorder already exists for the specified service. For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), you cannot delete the service-linked recorder because it is currently in use by the linked Amazon Web Services service. For [DeleteDeliveryChannel](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteDeliveryChannel.html), you cannot delete the specified delivery channel because the customer managed configuration recorder is running. Use the [StopConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html) operation to stop the customer managed configuration recorder. For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder is not in use by the service. No association or dissociation of resource types is permitted.
+    ///
+    /// * For service-linked configuration recorders, your requested change to the configuration recorder has been denied by its linked Amazon Web Services service.
+    /// - `NoSuchConfigurationRecorderException` : You have specified a configuration recorder that does not exist.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    public func associateResourceTypes(input: AssociateResourceTypesInput) async throws -> AssociateResourceTypesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateResourceTypes")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "config")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AssociateResourceTypesInput, AssociateResourceTypesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateResourceTypesInput, AssociateResourceTypesOutput>(AssociateResourceTypesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateResourceTypesInput, AssociateResourceTypesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateResourceTypesInput, AssociateResourceTypesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateResourceTypesOutput>(AssociateResourceTypesOutput.httpOutput(from:), AssociateResourceTypesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateResourceTypesInput, AssociateResourceTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateResourceTypesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateResourceTypesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateResourceTypesInput, AssociateResourceTypesOutput>(xAmzTarget: "StarlingDoveService.AssociateResourceTypes"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AssociateResourceTypesInput, AssociateResourceTypesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateResourceTypesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateResourceTypesInput, AssociateResourceTypesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateResourceTypesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateResourceTypesInput, AssociateResourceTypesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateResourceTypesInput, AssociateResourceTypesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateResourceTypesInput, AssociateResourceTypesOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateResourceTypes")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchGetAggregateResourceConfig` operation on the `Config` service.
     ///
     /// Returns the current configuration items for resources that are present in your Config aggregator. The operation also returns a list of resources that are not processed in the current request. If there are no unprocessed resources, the operation returns an empty unprocessedResourceIdentifiers list.
     ///
@@ -211,7 +478,29 @@ extension ConfigClient {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func batchGetAggregateResourceConfig(input: BatchGetAggregateResourceConfigInput) async throws -> BatchGetAggregateResourceConfigOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -228,6 +517,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -246,15 +537,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetAggregateResourceConfigOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<BatchGetAggregateResourceConfigOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetAggregateResourceConfigInput, BatchGetAggregateResourceConfigOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetAggregateResourceConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchGetAggregateResourceConfigInput, BatchGetAggregateResourceConfigOutput>(xAmzTarget: "StarlingDoveService.BatchGetAggregateResourceConfig"))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchGetAggregateResourceConfigInput, BatchGetAggregateResourceConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetAggregateResourceConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetAggregateResourceConfigInput, BatchGetAggregateResourceConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetAggregateResourceConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetAggregateResourceConfigInput, BatchGetAggregateResourceConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetAggregateResourceConfigInput, BatchGetAggregateResourceConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetAggregateResourceConfigInput, BatchGetAggregateResourceConfigOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetAggregateResourceConfig")
@@ -270,7 +564,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `BatchGetResourceConfig` operation on the `StarlingDoveService` service.
+    /// Performs the `BatchGetResourceConfig` operation on the `Config` service.
     ///
     /// Returns the BaseConfigurationItem for one or more requested resources. The operation also returns a list of resources that are not processed in the current request. If there are no unprocessed resources, the operation returns an empty unprocessedResourceKeys list.
     ///
@@ -285,8 +579,30 @@ extension ConfigClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `NoAvailableConfigurationRecorderException` : There are no configuration recorders available to provide the role needed to describe your resources. Create a configuration recorder.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `NoAvailableConfigurationRecorderException` : There are no customer managed configuration recorders available to record your resources. Use the [PutConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationRecorder.html) operation to create the customer managed configuration recorder.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func batchGetResourceConfig(input: BatchGetResourceConfigInput) async throws -> BatchGetResourceConfigOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -303,6 +619,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -321,15 +639,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetResourceConfigOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<BatchGetResourceConfigOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetResourceConfigInput, BatchGetResourceConfigOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetResourceConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchGetResourceConfigInput, BatchGetResourceConfigOutput>(xAmzTarget: "StarlingDoveService.BatchGetResourceConfig"))
         builder.serialize(ClientRuntime.BodyMiddleware<BatchGetResourceConfigInput, BatchGetResourceConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetResourceConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetResourceConfigInput, BatchGetResourceConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetResourceConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetResourceConfigInput, BatchGetResourceConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetResourceConfigInput, BatchGetResourceConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetResourceConfigInput, BatchGetResourceConfigOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetResourceConfig")
@@ -345,7 +666,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAggregationAuthorization` operation on the `StarlingDoveService` service.
+    /// Performs the `DeleteAggregationAuthorization` operation on the `Config` service.
     ///
     /// Deletes the authorization granted to the specified configuration aggregator account in a specified region.
     ///
@@ -373,6 +694,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -391,15 +714,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAggregationAuthorizationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteAggregationAuthorizationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAggregationAuthorizationInput, DeleteAggregationAuthorizationOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAggregationAuthorizationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteAggregationAuthorizationInput, DeleteAggregationAuthorizationOutput>(xAmzTarget: "StarlingDoveService.DeleteAggregationAuthorization"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteAggregationAuthorizationInput, DeleteAggregationAuthorizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteAggregationAuthorizationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteAggregationAuthorizationInput, DeleteAggregationAuthorizationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAggregationAuthorizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAggregationAuthorizationInput, DeleteAggregationAuthorizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAggregationAuthorizationInput, DeleteAggregationAuthorizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAggregationAuthorizationInput, DeleteAggregationAuthorizationOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteAggregationAuthorization")
@@ -415,9 +741,15 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConfigRule` operation on the `StarlingDoveService` service.
+    /// Performs the `DeleteConfigRule` operation on the `Config` service.
     ///
-    /// Deletes the specified Config rule and all of its evaluation results. Config sets the state of a rule to DELETING until the deletion is complete. You cannot update a rule while it is in this state. If you make a PutConfigRule or DeleteConfigRule request for the rule, you will receive a ResourceInUseException. You can check the state of a rule by using the DescribeConfigRules request.
+    /// Deletes the specified Config rule and all of its evaluation results. Config sets the state of a rule to DELETING until the deletion is complete. You cannot update a rule while it is in this state. If you make a PutConfigRule or DeleteConfigRule request for the rule, you will receive a ResourceInUseException. You can check the state of a rule by using the DescribeConfigRules request. Recommendation: Stop recording resource compliance before deleting rules It is highly recommended that you stop recording for the AWS::Config::ResourceCompliance resource type before you delete rules in your account. Deleting rules creates CIs for AWS::Config::ResourceCompliance and can affect your Config [configuration recorder](https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html) costs. If you are deleting rules which evaluate a large number of resource types, this can lead to a spike in the number of CIs recorded. Best practice:
+    ///
+    /// * Stop recording AWS::Config::ResourceCompliance
+    ///
+    /// * Delete rule(s)
+    ///
+    /// * Turn on recording for AWS::Config::ResourceCompliance
     ///
     /// - Parameter DeleteConfigRuleInput :
     ///
@@ -458,6 +790,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -476,15 +810,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfigRuleOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteConfigRuleOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConfigRuleInput, DeleteConfigRuleOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteConfigRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteConfigRuleInput, DeleteConfigRuleOutput>(xAmzTarget: "StarlingDoveService.DeleteConfigRule"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteConfigRuleInput, DeleteConfigRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteConfigRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteConfigRuleInput, DeleteConfigRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteConfigRuleInput, DeleteConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteConfigRuleInput, DeleteConfigRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConfigRuleInput, DeleteConfigRuleOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteConfigRule")
@@ -500,7 +837,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConfigurationAggregator` operation on the `StarlingDoveService` service.
+    /// Performs the `DeleteConfigurationAggregator` operation on the `Config` service.
     ///
     /// Deletes the specified configuration aggregator and the aggregated data associated with the aggregator.
     ///
@@ -528,6 +865,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -546,15 +885,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfigurationAggregatorOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteConfigurationAggregatorOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConfigurationAggregatorInput, DeleteConfigurationAggregatorOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteConfigurationAggregatorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteConfigurationAggregatorInput, DeleteConfigurationAggregatorOutput>(xAmzTarget: "StarlingDoveService.DeleteConfigurationAggregator"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteConfigurationAggregatorInput, DeleteConfigurationAggregatorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteConfigurationAggregatorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteConfigurationAggregatorInput, DeleteConfigurationAggregatorOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConfigurationAggregatorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteConfigurationAggregatorInput, DeleteConfigurationAggregatorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteConfigurationAggregatorInput, DeleteConfigurationAggregatorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConfigurationAggregatorInput, DeleteConfigurationAggregatorOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteConfigurationAggregator")
@@ -570,11 +912,11 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConfigurationRecorder` operation on the `StarlingDoveService` service.
+    /// Performs the `DeleteConfigurationRecorder` operation on the `Config` service.
     ///
-    /// Deletes the configuration recorder. After the configuration recorder is deleted, Config will not record resource configuration changes until you create a new configuration recorder. This action does not delete the configuration information that was previously recorded. You will be able to access the previously recorded information by using the GetResourceConfigHistory action, but you will not be able to access this information in the Config console until you create a new configuration recorder.
+    /// Deletes the customer managed configuration recorder. This operation does not delete the configuration information that was previously recorded. You will be able to access the previously recorded information by using the [GetResourceConfigHistory](https://docs.aws.amazon.com/config/latest/APIReference/API_GetResourceConfigHistory.html) operation, but you will not be able to access this information in the Config console until you have created a new customer managed configuration recorder.
     ///
-    /// - Parameter DeleteConfigurationRecorderInput : The request object for the DeleteConfigurationRecorder action.
+    /// - Parameter DeleteConfigurationRecorderInput : The request object for the DeleteConfigurationRecorder operation.
     ///
     /// - Returns: `DeleteConfigurationRecorderOutput` : [no documentation found]
     ///
@@ -582,6 +924,7 @@ extension ConfigClient {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchConfigurationRecorderException` : You have specified a configuration recorder that does not exist.
+    /// - `UnmodifiableEntityException` : The requested operation is not valid. For [PutConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationRecorder.html), you will see this exception because you cannot use this operation to create a service-linked configuration recorder. Use the [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html) operation to create a service-linked configuration recorder. For [DeleteConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteConfigurationRecorder.html), you will see this exception because you cannot use this operation to delete a service-linked configuration recorder. Use the [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html) operation to delete a service-linked configuration recorder. For [StartConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StartConfigurationRecorder.html) and [StopConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html), you will see this exception because these operations do not affect service-linked configuration recorders. Service-linked configuration recorders are always recording. To stop recording, you must delete the service-linked configuration recorder. Use the [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html) operation to delete a service-linked configuration recorder.
     public func deleteConfigurationRecorder(input: DeleteConfigurationRecorderInput) async throws -> DeleteConfigurationRecorderOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -598,6 +941,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -616,15 +961,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfigurationRecorderOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteConfigurationRecorderOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConfigurationRecorderInput, DeleteConfigurationRecorderOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteConfigurationRecorderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteConfigurationRecorderInput, DeleteConfigurationRecorderOutput>(xAmzTarget: "StarlingDoveService.DeleteConfigurationRecorder"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteConfigurationRecorderInput, DeleteConfigurationRecorderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteConfigurationRecorderInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteConfigurationRecorderInput, DeleteConfigurationRecorderOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConfigurationRecorderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteConfigurationRecorderInput, DeleteConfigurationRecorderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteConfigurationRecorderInput, DeleteConfigurationRecorderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConfigurationRecorderInput, DeleteConfigurationRecorderOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteConfigurationRecorder")
@@ -640,7 +988,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteConformancePack` operation on the `StarlingDoveService` service.
+    /// Performs the `DeleteConformancePack` operation on the `Config` service.
     ///
     /// Deletes the specified conformance pack and all the Config rules, remediation actions, and all evaluation results within that conformance pack. Config sets the conformance pack to DELETE_IN_PROGRESS until the deletion is complete. You cannot update a conformance pack while it is in this state.
     ///
@@ -683,6 +1031,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -701,15 +1051,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConformancePackOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteConformancePackOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConformancePackInput, DeleteConformancePackOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteConformancePackOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteConformancePackInput, DeleteConformancePackOutput>(xAmzTarget: "StarlingDoveService.DeleteConformancePack"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteConformancePackInput, DeleteConformancePackOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteConformancePackInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteConformancePackInput, DeleteConformancePackOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConformancePackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteConformancePackInput, DeleteConformancePackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteConformancePackInput, DeleteConformancePackOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConformancePackInput, DeleteConformancePackOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteConformancePack")
@@ -725,9 +1078,9 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteDeliveryChannel` operation on the `StarlingDoveService` service.
+    /// Performs the `DeleteDeliveryChannel` operation on the `Config` service.
     ///
-    /// Deletes the delivery channel. Before you can delete the delivery channel, you must stop the configuration recorder by using the [StopConfigurationRecorder] action.
+    /// Deletes the delivery channel. Before you can delete the delivery channel, you must stop the customer managed configuration recorder. You can use the [StopConfigurationRecorder] operation to stop the customer managed configuration recorder.
     ///
     /// - Parameter DeleteDeliveryChannelInput : The input for the [DeleteDeliveryChannel] action. The action accepts the following data, in JSON format.
     ///
@@ -736,7 +1089,7 @@ extension ConfigClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `LastDeliveryChannelDeleteFailedException` : You cannot delete the delivery channel you specified because the configuration recorder is running.
+    /// - `LastDeliveryChannelDeleteFailedException` : You cannot delete the delivery channel you specified because the customer managed configuration recorder is running.
     /// - `NoSuchDeliveryChannelException` : You have specified a delivery channel that does not exist.
     public func deleteDeliveryChannel(input: DeleteDeliveryChannelInput) async throws -> DeleteDeliveryChannelOutput {
         let context = Smithy.ContextBuilder()
@@ -754,6 +1107,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -772,15 +1127,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDeliveryChannelOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteDeliveryChannelOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDeliveryChannelInput, DeleteDeliveryChannelOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDeliveryChannelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDeliveryChannelInput, DeleteDeliveryChannelOutput>(xAmzTarget: "StarlingDoveService.DeleteDeliveryChannel"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteDeliveryChannelInput, DeleteDeliveryChannelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDeliveryChannelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDeliveryChannelInput, DeleteDeliveryChannelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDeliveryChannelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDeliveryChannelInput, DeleteDeliveryChannelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDeliveryChannelInput, DeleteDeliveryChannelOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDeliveryChannelInput, DeleteDeliveryChannelOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteDeliveryChannel")
@@ -796,7 +1154,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteEvaluationResults` operation on the `StarlingDoveService` service.
+    /// Performs the `DeleteEvaluationResults` operation on the `Config` service.
     ///
     /// Deletes the evaluation results for the specified Config rule. You can specify one Config rule per request. After you delete the evaluation results, you can call the [StartConfigRulesEvaluation] API to start evaluating your Amazon Web Services resources against the rule.
     ///
@@ -839,6 +1197,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -857,15 +1217,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEvaluationResultsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteEvaluationResultsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteEvaluationResultsInput, DeleteEvaluationResultsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEvaluationResultsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteEvaluationResultsInput, DeleteEvaluationResultsOutput>(xAmzTarget: "StarlingDoveService.DeleteEvaluationResults"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteEvaluationResultsInput, DeleteEvaluationResultsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteEvaluationResultsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteEvaluationResultsInput, DeleteEvaluationResultsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEvaluationResultsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteEvaluationResultsInput, DeleteEvaluationResultsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteEvaluationResultsInput, DeleteEvaluationResultsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteEvaluationResultsInput, DeleteEvaluationResultsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteEvaluationResults")
@@ -881,7 +1244,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteOrganizationConfigRule` operation on the `StarlingDoveService` service.
+    /// Performs the `DeleteOrganizationConfigRule` operation on the `Config` service.
     ///
     /// Deletes the specified organization Config rule and all of its evaluation results from all member accounts in that organization. Only a management account and a delegated administrator account can delete an organization Config rule. When calling this API with a delegated administrator, you must ensure Organizations ListDelegatedAdministrator permissions are added. Config sets the state of a rule to DELETE_IN_PROGRESS until the deletion is complete. You cannot update a rule while it is in this state.
     ///
@@ -901,7 +1264,7 @@ extension ConfigClient {
     ///
     /// * The configuration aggregator is associated with a previous Amazon Web Services Organization and Config cannot aggregate data with current Amazon Web Services Organization. Delete this aggregator and create a new one with the current Amazon Web Services Organization.
     ///
-    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principle name before the delegated administrator creates an aggregator.
+    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principal name before the delegated administrator creates an aggregator.
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
@@ -936,6 +1299,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -954,15 +1319,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOrganizationConfigRuleOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteOrganizationConfigRuleOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteOrganizationConfigRuleInput, DeleteOrganizationConfigRuleOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteOrganizationConfigRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteOrganizationConfigRuleInput, DeleteOrganizationConfigRuleOutput>(xAmzTarget: "StarlingDoveService.DeleteOrganizationConfigRule"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteOrganizationConfigRuleInput, DeleteOrganizationConfigRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteOrganizationConfigRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteOrganizationConfigRuleInput, DeleteOrganizationConfigRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteOrganizationConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteOrganizationConfigRuleInput, DeleteOrganizationConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteOrganizationConfigRuleInput, DeleteOrganizationConfigRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteOrganizationConfigRuleInput, DeleteOrganizationConfigRuleOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteOrganizationConfigRule")
@@ -978,7 +1346,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteOrganizationConformancePack` operation on the `StarlingDoveService` service.
+    /// Performs the `DeleteOrganizationConformancePack` operation on the `Config` service.
     ///
     /// Deletes the specified organization conformance pack and all of the Config rules and remediation actions from all member accounts in that organization. Only a management account or a delegated administrator account can delete an organization conformance pack. When calling this API with a delegated administrator, you must ensure Organizations ListDelegatedAdministrator permissions are added. Config sets the state of a conformance pack to DELETE_IN_PROGRESS until the deletion is complete. You cannot update a conformance pack while it is in this state.
     ///
@@ -998,7 +1366,7 @@ extension ConfigClient {
     ///
     /// * The configuration aggregator is associated with a previous Amazon Web Services Organization and Config cannot aggregate data with current Amazon Web Services Organization. Delete this aggregator and create a new one with the current Amazon Web Services Organization.
     ///
-    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principle name before the delegated administrator creates an aggregator.
+    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principal name before the delegated administrator creates an aggregator.
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
@@ -1033,6 +1401,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1051,15 +1421,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOrganizationConformancePackOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteOrganizationConformancePackOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteOrganizationConformancePackInput, DeleteOrganizationConformancePackOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteOrganizationConformancePackOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteOrganizationConformancePackInput, DeleteOrganizationConformancePackOutput>(xAmzTarget: "StarlingDoveService.DeleteOrganizationConformancePack"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteOrganizationConformancePackInput, DeleteOrganizationConformancePackOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteOrganizationConformancePackInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteOrganizationConformancePackInput, DeleteOrganizationConformancePackOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteOrganizationConformancePackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteOrganizationConformancePackInput, DeleteOrganizationConformancePackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteOrganizationConformancePackInput, DeleteOrganizationConformancePackOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteOrganizationConformancePackInput, DeleteOrganizationConformancePackOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteOrganizationConformancePack")
@@ -1075,7 +1448,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeletePendingAggregationRequest` operation on the `StarlingDoveService` service.
+    /// Performs the `DeletePendingAggregationRequest` operation on the `Config` service.
     ///
     /// Deletes pending authorization requests for a specified aggregator account in a specified region.
     ///
@@ -1103,6 +1476,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1121,15 +1496,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePendingAggregationRequestOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeletePendingAggregationRequestOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeletePendingAggregationRequestInput, DeletePendingAggregationRequestOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeletePendingAggregationRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeletePendingAggregationRequestInput, DeletePendingAggregationRequestOutput>(xAmzTarget: "StarlingDoveService.DeletePendingAggregationRequest"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeletePendingAggregationRequestInput, DeletePendingAggregationRequestOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeletePendingAggregationRequestInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeletePendingAggregationRequestInput, DeletePendingAggregationRequestOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePendingAggregationRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeletePendingAggregationRequestInput, DeletePendingAggregationRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeletePendingAggregationRequestInput, DeletePendingAggregationRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeletePendingAggregationRequestInput, DeletePendingAggregationRequestOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeletePendingAggregationRequest")
@@ -1145,7 +1523,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRemediationConfiguration` operation on the `StarlingDoveService` service.
+    /// Performs the `DeleteRemediationConfiguration` operation on the `Config` service.
     ///
     /// Deletes the remediation configuration.
     ///
@@ -1158,17 +1536,22 @@ extension ConfigClient {
     /// __Possible Exceptions:__
     /// - `InsufficientPermissionsException` : Indicates one of the following errors:
     ///
-    /// * For PutConfigRule, the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
     ///
-    /// * For PutConfigRule, the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
     ///
-    /// * For PutOrganizationConfigRule, organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
+    /// * For [PutOrganizationConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConfigRule.html), organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
     ///
-    /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot be created because you do not have the following permissions:
+    /// * For [PutConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html) and [PutOrganizationConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html), a conformance pack cannot be created because you do not have the following permissions:
     ///
     /// * You do not have permission to call IAM GetRole action or create a service-linked role.
     ///
     /// * You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
+    ///
+    ///
+    ///
+    ///
+    /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchRemediationConfigurationException` : You specified an Config rule without a remediation configuration.
     /// - `RemediationInProgressException` : Remediation action is in progress. You can either cancel execution in Amazon Web Services Systems Manager or wait and try again later.
@@ -1188,6 +1571,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1206,15 +1591,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRemediationConfigurationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteRemediationConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRemediationConfigurationInput, DeleteRemediationConfigurationOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRemediationConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteRemediationConfigurationInput, DeleteRemediationConfigurationOutput>(xAmzTarget: "StarlingDoveService.DeleteRemediationConfiguration"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteRemediationConfigurationInput, DeleteRemediationConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRemediationConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRemediationConfigurationInput, DeleteRemediationConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRemediationConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRemediationConfigurationInput, DeleteRemediationConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRemediationConfigurationInput, DeleteRemediationConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRemediationConfigurationInput, DeleteRemediationConfigurationOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteRemediationConfiguration")
@@ -1230,7 +1618,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRemediationExceptions` operation on the `StarlingDoveService` service.
+    /// Performs the `DeleteRemediationExceptions` operation on the `Config` service.
     ///
     /// Deletes one or more remediation exceptions mentioned in the resource keys. Config generates a remediation exception when a problem occurs executing a remediation action to a specific resource. Remediation exceptions blocks auto-remediation until the exception is cleared.
     ///
@@ -1258,6 +1646,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1276,15 +1666,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRemediationExceptionsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteRemediationExceptionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRemediationExceptionsInput, DeleteRemediationExceptionsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRemediationExceptionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteRemediationExceptionsInput, DeleteRemediationExceptionsOutput>(xAmzTarget: "StarlingDoveService.DeleteRemediationExceptions"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteRemediationExceptionsInput, DeleteRemediationExceptionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRemediationExceptionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRemediationExceptionsInput, DeleteRemediationExceptionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRemediationExceptionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRemediationExceptionsInput, DeleteRemediationExceptionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRemediationExceptionsInput, DeleteRemediationExceptionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRemediationExceptionsInput, DeleteRemediationExceptionsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteRemediationExceptions")
@@ -1300,7 +1693,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteResourceConfig` operation on the `StarlingDoveService` service.
+    /// Performs the `DeleteResourceConfig` operation on the `Config` service.
     ///
     /// Records the configuration state for a custom resource that has been deleted. This API records a new ConfigurationItem with a ResourceDeleted status. You can retrieve the ConfigurationItems recorded for this resource in your Config History.
     ///
@@ -1312,7 +1705,29 @@ extension ConfigClient {
     ///
     /// __Possible Exceptions:__
     /// - `NoRunningConfigurationRecorderException` : There is no configuration recorder running.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func deleteResourceConfig(input: DeleteResourceConfigInput) async throws -> DeleteResourceConfigOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1329,6 +1744,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1347,15 +1764,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourceConfigOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteResourceConfigOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteResourceConfigInput, DeleteResourceConfigOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteResourceConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteResourceConfigInput, DeleteResourceConfigOutput>(xAmzTarget: "StarlingDoveService.DeleteResourceConfig"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteResourceConfigInput, DeleteResourceConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteResourceConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourceConfigInput, DeleteResourceConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourceConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteResourceConfigInput, DeleteResourceConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteResourceConfigInput, DeleteResourceConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteResourceConfigInput, DeleteResourceConfigOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteResourceConfig")
@@ -1371,7 +1791,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteRetentionConfiguration` operation on the `StarlingDoveService` service.
+    /// Performs the `DeleteRetentionConfiguration` operation on the `Config` service.
     ///
     /// Deletes the retention configuration.
     ///
@@ -1400,6 +1820,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1418,15 +1840,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRetentionConfigurationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteRetentionConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRetentionConfigurationInput, DeleteRetentionConfigurationOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRetentionConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteRetentionConfigurationInput, DeleteRetentionConfigurationOutput>(xAmzTarget: "StarlingDoveService.DeleteRetentionConfiguration"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteRetentionConfigurationInput, DeleteRetentionConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteRetentionConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRetentionConfigurationInput, DeleteRetentionConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRetentionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRetentionConfigurationInput, DeleteRetentionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRetentionConfigurationInput, DeleteRetentionConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRetentionConfigurationInput, DeleteRetentionConfigurationOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteRetentionConfiguration")
@@ -1442,7 +1867,110 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteStoredQuery` operation on the `StarlingDoveService` service.
+    /// Performs the `DeleteServiceLinkedConfigurationRecorder` operation on the `Config` service.
+    ///
+    /// Deletes an existing service-linked configuration recorder. This operation does not delete the configuration information that was previously recorded. You will be able to access the previously recorded information by using the [GetResourceConfigHistory](https://docs.aws.amazon.com/config/latest/APIReference/API_GetResourceConfigHistory.html) operation, but you will not be able to access this information in the Config console until you have created a new service-linked configuration recorder for the same service. The recording scope determines if you receive configuration items The recording scope is set by the service that is linked to the configuration recorder and determines whether you receive configuration items (CIs) in the delivery channel. If the recording scope is internal, you will not receive CIs in the delivery channel.
+    ///
+    /// - Parameter DeleteServiceLinkedConfigurationRecorderInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteServiceLinkedConfigurationRecorderOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), you cannot create a service-linked recorder because a service-linked recorder already exists for the specified service. For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), you cannot delete the service-linked recorder because it is currently in use by the linked Amazon Web Services service. For [DeleteDeliveryChannel](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteDeliveryChannel.html), you cannot delete the specified delivery channel because the customer managed configuration recorder is running. Use the [StopConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html) operation to stop the customer managed configuration recorder. For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder is not in use by the service. No association or dissociation of resource types is permitted.
+    ///
+    /// * For service-linked configuration recorders, your requested change to the configuration recorder has been denied by its linked Amazon Web Services service.
+    /// - `NoSuchConfigurationRecorderException` : You have specified a configuration recorder that does not exist.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    public func deleteServiceLinkedConfigurationRecorder(input: DeleteServiceLinkedConfigurationRecorderInput) async throws -> DeleteServiceLinkedConfigurationRecorderOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteServiceLinkedConfigurationRecorder")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "config")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteServiceLinkedConfigurationRecorderInput, DeleteServiceLinkedConfigurationRecorderOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteServiceLinkedConfigurationRecorderInput, DeleteServiceLinkedConfigurationRecorderOutput>(DeleteServiceLinkedConfigurationRecorderInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteServiceLinkedConfigurationRecorderInput, DeleteServiceLinkedConfigurationRecorderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteServiceLinkedConfigurationRecorderInput, DeleteServiceLinkedConfigurationRecorderOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServiceLinkedConfigurationRecorderOutput>(DeleteServiceLinkedConfigurationRecorderOutput.httpOutput(from:), DeleteServiceLinkedConfigurationRecorderOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServiceLinkedConfigurationRecorderInput, DeleteServiceLinkedConfigurationRecorderOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteServiceLinkedConfigurationRecorderOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteServiceLinkedConfigurationRecorderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteServiceLinkedConfigurationRecorderInput, DeleteServiceLinkedConfigurationRecorderOutput>(xAmzTarget: "StarlingDoveService.DeleteServiceLinkedConfigurationRecorder"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteServiceLinkedConfigurationRecorderInput, DeleteServiceLinkedConfigurationRecorderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteServiceLinkedConfigurationRecorderInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteServiceLinkedConfigurationRecorderInput, DeleteServiceLinkedConfigurationRecorderOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteServiceLinkedConfigurationRecorderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteServiceLinkedConfigurationRecorderInput, DeleteServiceLinkedConfigurationRecorderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteServiceLinkedConfigurationRecorderInput, DeleteServiceLinkedConfigurationRecorderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteServiceLinkedConfigurationRecorderInput, DeleteServiceLinkedConfigurationRecorderOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteServiceLinkedConfigurationRecorder")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteStoredQuery` operation on the `Config` service.
     ///
     /// Deletes the stored query for a single Amazon Web Services account and a single Amazon Web Services Region.
     ///
@@ -1454,7 +1982,29 @@ extension ConfigClient {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : You have specified a resource that does not exist.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func deleteStoredQuery(input: DeleteStoredQueryInput) async throws -> DeleteStoredQueryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1471,6 +2021,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1489,15 +2041,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteStoredQueryOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteStoredQueryOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteStoredQueryInput, DeleteStoredQueryOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteStoredQueryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteStoredQueryInput, DeleteStoredQueryOutput>(xAmzTarget: "StarlingDoveService.DeleteStoredQuery"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteStoredQueryInput, DeleteStoredQueryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteStoredQueryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteStoredQueryInput, DeleteStoredQueryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteStoredQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteStoredQueryInput, DeleteStoredQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteStoredQueryInput, DeleteStoredQueryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteStoredQueryInput, DeleteStoredQueryOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteStoredQuery")
@@ -1513,7 +2068,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeliverConfigSnapshot` operation on the `StarlingDoveService` service.
+    /// Performs the `DeliverConfigSnapshot` operation on the `Config` service.
     ///
     /// Schedules delivery of a configuration snapshot to the Amazon S3 bucket in the specified delivery channel. After the delivery has started, Config sends the following notifications using an Amazon SNS topic that you have specified.
     ///
@@ -1530,7 +2085,7 @@ extension ConfigClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `NoAvailableConfigurationRecorderException` : There are no configuration recorders available to provide the role needed to describe your resources. Create a configuration recorder.
+    /// - `NoAvailableConfigurationRecorderException` : There are no customer managed configuration recorders available to record your resources. Use the [PutConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationRecorder.html) operation to create the customer managed configuration recorder.
     /// - `NoRunningConfigurationRecorderException` : There is no configuration recorder running.
     /// - `NoSuchDeliveryChannelException` : You have specified a delivery channel that does not exist.
     public func deliverConfigSnapshot(input: DeliverConfigSnapshotInput) async throws -> DeliverConfigSnapshotOutput {
@@ -1549,6 +2104,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1567,15 +2124,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeliverConfigSnapshotOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeliverConfigSnapshotOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeliverConfigSnapshotInput, DeliverConfigSnapshotOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeliverConfigSnapshotOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeliverConfigSnapshotInput, DeliverConfigSnapshotOutput>(xAmzTarget: "StarlingDoveService.DeliverConfigSnapshot"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeliverConfigSnapshotInput, DeliverConfigSnapshotOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeliverConfigSnapshotInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeliverConfigSnapshotInput, DeliverConfigSnapshotOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeliverConfigSnapshotOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeliverConfigSnapshotInput, DeliverConfigSnapshotOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeliverConfigSnapshotInput, DeliverConfigSnapshotOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeliverConfigSnapshotInput, DeliverConfigSnapshotOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeliverConfigSnapshot")
@@ -1591,7 +2151,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAggregateComplianceByConfigRules` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeAggregateComplianceByConfigRules` operation on the `Config` service.
     ///
     /// Returns a list of compliant and noncompliant rules with the number of resources for compliant and noncompliant rules. Does not display rules that do not have compliance results. The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
     ///
@@ -1605,7 +2165,29 @@ extension ConfigClient {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func describeAggregateComplianceByConfigRules(input: DescribeAggregateComplianceByConfigRulesInput) async throws -> DescribeAggregateComplianceByConfigRulesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1622,6 +2204,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1640,15 +2224,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAggregateComplianceByConfigRulesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeAggregateComplianceByConfigRulesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAggregateComplianceByConfigRulesInput, DescribeAggregateComplianceByConfigRulesOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAggregateComplianceByConfigRulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeAggregateComplianceByConfigRulesInput, DescribeAggregateComplianceByConfigRulesOutput>(xAmzTarget: "StarlingDoveService.DescribeAggregateComplianceByConfigRules"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeAggregateComplianceByConfigRulesInput, DescribeAggregateComplianceByConfigRulesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAggregateComplianceByConfigRulesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAggregateComplianceByConfigRulesInput, DescribeAggregateComplianceByConfigRulesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAggregateComplianceByConfigRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAggregateComplianceByConfigRulesInput, DescribeAggregateComplianceByConfigRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAggregateComplianceByConfigRulesInput, DescribeAggregateComplianceByConfigRulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAggregateComplianceByConfigRulesInput, DescribeAggregateComplianceByConfigRulesOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAggregateComplianceByConfigRules")
@@ -1664,9 +2251,9 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAggregateComplianceByConformancePacks` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeAggregateComplianceByConformancePacks` operation on the `Config` service.
     ///
-    /// Returns a list of the conformance packs and their associated compliance status with the count of compliant and noncompliant Config rules within each conformance pack. Also returns the total rule count which includes compliant rules, noncompliant rules, and rules that cannot be evaluated due to insufficient data. The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
+    /// Returns a list of the existing and deleted conformance packs and their associated compliance status with the count of compliant and noncompliant Config rules within each conformance pack. Also returns the total rule count which includes compliant rules, noncompliant rules, and rules that cannot be evaluated due to insufficient data. The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
     ///
     /// - Parameter DescribeAggregateComplianceByConformancePacksInput : [no documentation found]
     ///
@@ -1678,7 +2265,29 @@ extension ConfigClient {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func describeAggregateComplianceByConformancePacks(input: DescribeAggregateComplianceByConformancePacksInput) async throws -> DescribeAggregateComplianceByConformancePacksOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1695,6 +2304,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1713,15 +2324,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAggregateComplianceByConformancePacksOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeAggregateComplianceByConformancePacksOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAggregateComplianceByConformancePacksInput, DescribeAggregateComplianceByConformancePacksOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAggregateComplianceByConformancePacksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeAggregateComplianceByConformancePacksInput, DescribeAggregateComplianceByConformancePacksOutput>(xAmzTarget: "StarlingDoveService.DescribeAggregateComplianceByConformancePacks"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeAggregateComplianceByConformancePacksInput, DescribeAggregateComplianceByConformancePacksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAggregateComplianceByConformancePacksInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAggregateComplianceByConformancePacksInput, DescribeAggregateComplianceByConformancePacksOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAggregateComplianceByConformancePacksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAggregateComplianceByConformancePacksInput, DescribeAggregateComplianceByConformancePacksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAggregateComplianceByConformancePacksInput, DescribeAggregateComplianceByConformancePacksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAggregateComplianceByConformancePacksInput, DescribeAggregateComplianceByConformancePacksOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAggregateComplianceByConformancePacks")
@@ -1737,7 +2351,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAggregationAuthorizations` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeAggregationAuthorizations` operation on the `Config` service.
     ///
     /// Returns a list of authorizations granted to various aggregator accounts and regions.
     ///
@@ -1767,6 +2381,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1785,15 +2401,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAggregationAuthorizationsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeAggregationAuthorizationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAggregationAuthorizationsInput, DescribeAggregationAuthorizationsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAggregationAuthorizationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeAggregationAuthorizationsInput, DescribeAggregationAuthorizationsOutput>(xAmzTarget: "StarlingDoveService.DescribeAggregationAuthorizations"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeAggregationAuthorizationsInput, DescribeAggregationAuthorizationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAggregationAuthorizationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAggregationAuthorizationsInput, DescribeAggregationAuthorizationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAggregationAuthorizationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAggregationAuthorizationsInput, DescribeAggregationAuthorizationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAggregationAuthorizationsInput, DescribeAggregationAuthorizationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAggregationAuthorizationsInput, DescribeAggregationAuthorizationsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAggregationAuthorizations")
@@ -1809,9 +2428,9 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeComplianceByConfigRule` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeComplianceByConfigRule` operation on the `Config` service.
     ///
-    /// Indicates whether the specified Config rules are compliant. If a rule is noncompliant, this action returns the number of Amazon Web Services resources that do not comply with the rule. A rule is compliant if all of the evaluated resources comply with it. It is noncompliant if any of these resources do not comply. If Config has no current evaluation results for the rule, it returns INSUFFICIENT_DATA. This result might indicate one of the following conditions:
+    /// Indicates whether the specified Config rules are compliant. If a rule is noncompliant, this operation returns the number of Amazon Web Services resources that do not comply with the rule. A rule is compliant if all of the evaluated resources comply with it. It is noncompliant if any of these resources do not comply. If Config has no current evaluation results for the rule, it returns INSUFFICIENT_DATA. This result might indicate one of the following conditions:
     ///
     /// * Config has never invoked an evaluation for the rule. To check whether it has, use the DescribeConfigRuleEvaluationStatus action to get the LastSuccessfulInvocationTime and LastFailedInvocationTime.
     ///
@@ -1845,6 +2464,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1863,15 +2484,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeComplianceByConfigRuleOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeComplianceByConfigRuleOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeComplianceByConfigRuleInput, DescribeComplianceByConfigRuleOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeComplianceByConfigRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeComplianceByConfigRuleInput, DescribeComplianceByConfigRuleOutput>(xAmzTarget: "StarlingDoveService.DescribeComplianceByConfigRule"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeComplianceByConfigRuleInput, DescribeComplianceByConfigRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeComplianceByConfigRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeComplianceByConfigRuleInput, DescribeComplianceByConfigRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeComplianceByConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeComplianceByConfigRuleInput, DescribeComplianceByConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeComplianceByConfigRuleInput, DescribeComplianceByConfigRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeComplianceByConfigRuleInput, DescribeComplianceByConfigRuleOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeComplianceByConfigRule")
@@ -1887,9 +2511,9 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeComplianceByResource` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeComplianceByResource` operation on the `Config` service.
     ///
-    /// Indicates whether the specified Amazon Web Services resources are compliant. If a resource is noncompliant, this action returns the number of Config rules that the resource does not comply with. A resource is compliant if it complies with all the Config rules that evaluate it. It is noncompliant if it does not comply with one or more of these rules. If Config has no current evaluation results for the resource, it returns INSUFFICIENT_DATA. This result might indicate one of the following conditions about the rules that evaluate the resource:
+    /// Indicates whether the specified Amazon Web Services resources are compliant. If a resource is noncompliant, this operation returns the number of Config rules that the resource does not comply with. A resource is compliant if it complies with all the Config rules that evaluate it. It is noncompliant if it does not comply with one or more of these rules. If Config has no current evaluation results for the resource, it returns INSUFFICIENT_DATA. This result might indicate one of the following conditions about the rules that evaluate the resource:
     ///
     /// * Config has never invoked an evaluation for the rule. To check whether it has, use the DescribeConfigRuleEvaluationStatus action to get the LastSuccessfulInvocationTime and LastFailedInvocationTime.
     ///
@@ -1922,6 +2546,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -1940,15 +2566,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeComplianceByResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeComplianceByResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeComplianceByResourceInput, DescribeComplianceByResourceOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeComplianceByResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeComplianceByResourceInput, DescribeComplianceByResourceOutput>(xAmzTarget: "StarlingDoveService.DescribeComplianceByResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeComplianceByResourceInput, DescribeComplianceByResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeComplianceByResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeComplianceByResourceInput, DescribeComplianceByResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeComplianceByResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeComplianceByResourceInput, DescribeComplianceByResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeComplianceByResourceInput, DescribeComplianceByResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeComplianceByResourceInput, DescribeComplianceByResourceOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeComplianceByResource")
@@ -1964,7 +2593,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConfigRuleEvaluationStatus` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeConfigRuleEvaluationStatus` operation on the `Config` service.
     ///
     /// Returns status information for each of your Config managed rules. The status includes information such as the last time Config invoked the rule, the last time Config failed to invoke the rule, and the related error for the last failure.
     ///
@@ -1994,6 +2623,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2012,15 +2643,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConfigRuleEvaluationStatusOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeConfigRuleEvaluationStatusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConfigRuleEvaluationStatusInput, DescribeConfigRuleEvaluationStatusOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeConfigRuleEvaluationStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeConfigRuleEvaluationStatusInput, DescribeConfigRuleEvaluationStatusOutput>(xAmzTarget: "StarlingDoveService.DescribeConfigRuleEvaluationStatus"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeConfigRuleEvaluationStatusInput, DescribeConfigRuleEvaluationStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeConfigRuleEvaluationStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeConfigRuleEvaluationStatusInput, DescribeConfigRuleEvaluationStatusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConfigRuleEvaluationStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConfigRuleEvaluationStatusInput, DescribeConfigRuleEvaluationStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeConfigRuleEvaluationStatusInput, DescribeConfigRuleEvaluationStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConfigRuleEvaluationStatusInput, DescribeConfigRuleEvaluationStatusOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeConfigRuleEvaluationStatus")
@@ -2036,7 +2670,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConfigRules` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeConfigRules` operation on the `Config` service.
     ///
     /// Returns details about your Config rules.
     ///
@@ -2066,6 +2700,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2084,15 +2720,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConfigRulesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeConfigRulesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConfigRulesInput, DescribeConfigRulesOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeConfigRulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeConfigRulesInput, DescribeConfigRulesOutput>(xAmzTarget: "StarlingDoveService.DescribeConfigRules"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeConfigRulesInput, DescribeConfigRulesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeConfigRulesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeConfigRulesInput, DescribeConfigRulesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConfigRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConfigRulesInput, DescribeConfigRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeConfigRulesInput, DescribeConfigRulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConfigRulesInput, DescribeConfigRulesOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeConfigRules")
@@ -2108,7 +2747,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConfigurationAggregatorSourcesStatus` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeConfigurationAggregatorSourcesStatus` operation on the `Config` service.
     ///
     /// Returns status information for sources within an aggregator. The status includes information about the last time Config verified authorization between the source account and an aggregator account. In case of a failure, the status contains the related error code or message.
     ///
@@ -2139,6 +2778,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2157,15 +2798,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConfigurationAggregatorSourcesStatusOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeConfigurationAggregatorSourcesStatusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConfigurationAggregatorSourcesStatusInput, DescribeConfigurationAggregatorSourcesStatusOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeConfigurationAggregatorSourcesStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeConfigurationAggregatorSourcesStatusInput, DescribeConfigurationAggregatorSourcesStatusOutput>(xAmzTarget: "StarlingDoveService.DescribeConfigurationAggregatorSourcesStatus"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeConfigurationAggregatorSourcesStatusInput, DescribeConfigurationAggregatorSourcesStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeConfigurationAggregatorSourcesStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeConfigurationAggregatorSourcesStatusInput, DescribeConfigurationAggregatorSourcesStatusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConfigurationAggregatorSourcesStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConfigurationAggregatorSourcesStatusInput, DescribeConfigurationAggregatorSourcesStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeConfigurationAggregatorSourcesStatusInput, DescribeConfigurationAggregatorSourcesStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConfigurationAggregatorSourcesStatusInput, DescribeConfigurationAggregatorSourcesStatusOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeConfigurationAggregatorSourcesStatus")
@@ -2181,9 +2825,9 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConfigurationAggregators` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeConfigurationAggregators` operation on the `Config` service.
     ///
-    /// Returns the details of one or more configuration aggregators. If the configuration aggregator is not specified, this action returns the details for all the configuration aggregators associated with the account.
+    /// Returns the details of one or more configuration aggregators. If the configuration aggregator is not specified, this operation returns the details for all the configuration aggregators associated with the account.
     ///
     /// - Parameter DescribeConfigurationAggregatorsInput : [no documentation found]
     ///
@@ -2212,6 +2856,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2230,15 +2876,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConfigurationAggregatorsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeConfigurationAggregatorsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConfigurationAggregatorsInput, DescribeConfigurationAggregatorsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeConfigurationAggregatorsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeConfigurationAggregatorsInput, DescribeConfigurationAggregatorsOutput>(xAmzTarget: "StarlingDoveService.DescribeConfigurationAggregators"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeConfigurationAggregatorsInput, DescribeConfigurationAggregatorsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeConfigurationAggregatorsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeConfigurationAggregatorsInput, DescribeConfigurationAggregatorsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConfigurationAggregatorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConfigurationAggregatorsInput, DescribeConfigurationAggregatorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeConfigurationAggregatorsInput, DescribeConfigurationAggregatorsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConfigurationAggregatorsInput, DescribeConfigurationAggregatorsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeConfigurationAggregators")
@@ -2254,9 +2903,9 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConfigurationRecorderStatus` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeConfigurationRecorderStatus` operation on the `Config` service.
     ///
-    /// Returns the current status of the specified configuration recorder as well as the status of the last recording event for the recorder. If a configuration recorder is not specified, this action returns the status of all configuration recorders associated with the account. >You can specify only one configuration recorder for each Amazon Web Services Region for each account. For a detailed status of recording events over time, add your Config events to Amazon CloudWatch metrics and use CloudWatch metrics.
+    /// Returns the current status of the configuration recorder you specify as well as the status of the last recording event for the configuration recorders. For a detailed status of recording events over time, add your Config events to Amazon CloudWatch metrics and use CloudWatch metrics. If a configuration recorder is not specified, this operation returns the status for the customer managed configuration recorder configured for the account, if applicable. When making a request to this operation, you can only specify one configuration recorder.
     ///
     /// - Parameter DescribeConfigurationRecorderStatusInput : The input for the [DescribeConfigurationRecorderStatus] action.
     ///
@@ -2266,6 +2915,29 @@ extension ConfigClient {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchConfigurationRecorderException` : You have specified a configuration recorder that does not exist.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func describeConfigurationRecorderStatus(input: DescribeConfigurationRecorderStatusInput) async throws -> DescribeConfigurationRecorderStatusOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2282,6 +2954,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2300,15 +2974,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConfigurationRecorderStatusOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeConfigurationRecorderStatusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConfigurationRecorderStatusInput, DescribeConfigurationRecorderStatusOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeConfigurationRecorderStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeConfigurationRecorderStatusInput, DescribeConfigurationRecorderStatusOutput>(xAmzTarget: "StarlingDoveService.DescribeConfigurationRecorderStatus"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeConfigurationRecorderStatusInput, DescribeConfigurationRecorderStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeConfigurationRecorderStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeConfigurationRecorderStatusInput, DescribeConfigurationRecorderStatusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConfigurationRecorderStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConfigurationRecorderStatusInput, DescribeConfigurationRecorderStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeConfigurationRecorderStatusInput, DescribeConfigurationRecorderStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConfigurationRecorderStatusInput, DescribeConfigurationRecorderStatusOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeConfigurationRecorderStatus")
@@ -2324,9 +3001,9 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConfigurationRecorders` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeConfigurationRecorders` operation on the `Config` service.
     ///
-    /// Returns the details for the specified configuration recorders. If the configuration recorder is not specified, this action returns the details for all configuration recorders associated with the account. You can specify only one configuration recorder for each Amazon Web Services Region for each account.
+    /// Returns details for the configuration recorder you specify. If a configuration recorder is not specified, this operation returns details for the customer managed configuration recorder configured for the account, if applicable. When making a request to this operation, you can only specify one configuration recorder.
     ///
     /// - Parameter DescribeConfigurationRecordersInput : The input for the [DescribeConfigurationRecorders] action.
     ///
@@ -2336,6 +3013,29 @@ extension ConfigClient {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchConfigurationRecorderException` : You have specified a configuration recorder that does not exist.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func describeConfigurationRecorders(input: DescribeConfigurationRecordersInput) async throws -> DescribeConfigurationRecordersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2352,6 +3052,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2370,15 +3072,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConfigurationRecordersOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeConfigurationRecordersOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConfigurationRecordersInput, DescribeConfigurationRecordersOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeConfigurationRecordersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeConfigurationRecordersInput, DescribeConfigurationRecordersOutput>(xAmzTarget: "StarlingDoveService.DescribeConfigurationRecorders"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeConfigurationRecordersInput, DescribeConfigurationRecordersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeConfigurationRecordersInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeConfigurationRecordersInput, DescribeConfigurationRecordersOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConfigurationRecordersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConfigurationRecordersInput, DescribeConfigurationRecordersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeConfigurationRecordersInput, DescribeConfigurationRecordersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConfigurationRecordersInput, DescribeConfigurationRecordersOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeConfigurationRecorders")
@@ -2394,7 +3099,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConformancePackCompliance` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeConformancePackCompliance` operation on the `Config` service.
     ///
     /// Returns compliance details for each rule in that conformance pack. You must provide exact rule names.
     ///
@@ -2426,6 +3131,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2444,15 +3151,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConformancePackComplianceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeConformancePackComplianceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConformancePackComplianceInput, DescribeConformancePackComplianceOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeConformancePackComplianceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeConformancePackComplianceInput, DescribeConformancePackComplianceOutput>(xAmzTarget: "StarlingDoveService.DescribeConformancePackCompliance"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeConformancePackComplianceInput, DescribeConformancePackComplianceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeConformancePackComplianceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeConformancePackComplianceInput, DescribeConformancePackComplianceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConformancePackComplianceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConformancePackComplianceInput, DescribeConformancePackComplianceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeConformancePackComplianceInput, DescribeConformancePackComplianceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConformancePackComplianceInput, DescribeConformancePackComplianceOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeConformancePackCompliance")
@@ -2468,7 +3178,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConformancePackStatus` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeConformancePackStatus` operation on the `Config` service.
     ///
     /// Provides one or more conformance packs deployment status. If there are no conformance packs then you will see an empty result.
     ///
@@ -2498,6 +3208,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2516,15 +3228,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConformancePackStatusOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeConformancePackStatusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConformancePackStatusInput, DescribeConformancePackStatusOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeConformancePackStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeConformancePackStatusInput, DescribeConformancePackStatusOutput>(xAmzTarget: "StarlingDoveService.DescribeConformancePackStatus"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeConformancePackStatusInput, DescribeConformancePackStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeConformancePackStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeConformancePackStatusInput, DescribeConformancePackStatusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConformancePackStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConformancePackStatusInput, DescribeConformancePackStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeConformancePackStatusInput, DescribeConformancePackStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConformancePackStatusInput, DescribeConformancePackStatusOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeConformancePackStatus")
@@ -2540,7 +3255,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeConformancePacks` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeConformancePacks` operation on the `Config` service.
     ///
     /// Returns a list of one or more conformance packs.
     ///
@@ -2571,6 +3286,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2589,15 +3306,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConformancePacksOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeConformancePacksOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConformancePacksInput, DescribeConformancePacksOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeConformancePacksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeConformancePacksInput, DescribeConformancePacksOutput>(xAmzTarget: "StarlingDoveService.DescribeConformancePacks"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeConformancePacksInput, DescribeConformancePacksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeConformancePacksInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeConformancePacksInput, DescribeConformancePacksOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeConformancePacksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeConformancePacksInput, DescribeConformancePacksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeConformancePacksInput, DescribeConformancePacksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeConformancePacksInput, DescribeConformancePacksOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeConformancePacks")
@@ -2613,9 +3333,9 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDeliveryChannelStatus` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeDeliveryChannelStatus` operation on the `Config` service.
     ///
-    /// Returns the current status of the specified delivery channel. If a delivery channel is not specified, this action returns the current status of all delivery channels associated with the account. Currently, you can specify only one delivery channel per region in your account.
+    /// Returns the current status of the specified delivery channel. If a delivery channel is not specified, this operation returns the current status of all delivery channels associated with the account. Currently, you can specify only one delivery channel per region in your account.
     ///
     /// - Parameter DescribeDeliveryChannelStatusInput : The input for the [DeliveryChannelStatus] action.
     ///
@@ -2641,6 +3361,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2659,15 +3381,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDeliveryChannelStatusOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeDeliveryChannelStatusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDeliveryChannelStatusInput, DescribeDeliveryChannelStatusOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDeliveryChannelStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeDeliveryChannelStatusInput, DescribeDeliveryChannelStatusOutput>(xAmzTarget: "StarlingDoveService.DescribeDeliveryChannelStatus"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeDeliveryChannelStatusInput, DescribeDeliveryChannelStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDeliveryChannelStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDeliveryChannelStatusInput, DescribeDeliveryChannelStatusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDeliveryChannelStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDeliveryChannelStatusInput, DescribeDeliveryChannelStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDeliveryChannelStatusInput, DescribeDeliveryChannelStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDeliveryChannelStatusInput, DescribeDeliveryChannelStatusOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeDeliveryChannelStatus")
@@ -2683,9 +3408,9 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeDeliveryChannels` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeDeliveryChannels` operation on the `Config` service.
     ///
-    /// Returns details about the specified delivery channel. If a delivery channel is not specified, this action returns the details of all delivery channels associated with the account. Currently, you can specify only one delivery channel per region in your account.
+    /// Returns details about the specified delivery channel. If a delivery channel is not specified, this operation returns the details of all delivery channels associated with the account. Currently, you can specify only one delivery channel per region in your account.
     ///
     /// - Parameter DescribeDeliveryChannelsInput : The input for the [DescribeDeliveryChannels] action.
     ///
@@ -2711,6 +3436,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2729,15 +3456,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDeliveryChannelsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeDeliveryChannelsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDeliveryChannelsInput, DescribeDeliveryChannelsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDeliveryChannelsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeDeliveryChannelsInput, DescribeDeliveryChannelsOutput>(xAmzTarget: "StarlingDoveService.DescribeDeliveryChannels"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeDeliveryChannelsInput, DescribeDeliveryChannelsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDeliveryChannelsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDeliveryChannelsInput, DescribeDeliveryChannelsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDeliveryChannelsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDeliveryChannelsInput, DescribeDeliveryChannelsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDeliveryChannelsInput, DescribeDeliveryChannelsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDeliveryChannelsInput, DescribeDeliveryChannelsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeDeliveryChannels")
@@ -2753,7 +3483,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeOrganizationConfigRuleStatuses` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeOrganizationConfigRuleStatuses` operation on the `Config` service.
     ///
     /// Provides organization Config rule deployment status for an organization. The status is not considered successful until organization Config rule is successfully deployed in all the member accounts with an exception of excluded accounts. When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization Config rule names. It is only applicable, when you request all the organization Config rules.
     ///
@@ -2775,7 +3505,7 @@ extension ConfigClient {
     ///
     /// * The configuration aggregator is associated with a previous Amazon Web Services Organization and Config cannot aggregate data with current Amazon Web Services Organization. Delete this aggregator and create a new one with the current Amazon Web Services Organization.
     ///
-    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principle name before the delegated administrator creates an aggregator.
+    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principal name before the delegated administrator creates an aggregator.
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
@@ -2795,6 +3525,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2813,15 +3545,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOrganizationConfigRuleStatusesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeOrganizationConfigRuleStatusesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeOrganizationConfigRuleStatusesInput, DescribeOrganizationConfigRuleStatusesOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeOrganizationConfigRuleStatusesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeOrganizationConfigRuleStatusesInput, DescribeOrganizationConfigRuleStatusesOutput>(xAmzTarget: "StarlingDoveService.DescribeOrganizationConfigRuleStatuses"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeOrganizationConfigRuleStatusesInput, DescribeOrganizationConfigRuleStatusesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeOrganizationConfigRuleStatusesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeOrganizationConfigRuleStatusesInput, DescribeOrganizationConfigRuleStatusesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeOrganizationConfigRuleStatusesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeOrganizationConfigRuleStatusesInput, DescribeOrganizationConfigRuleStatusesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeOrganizationConfigRuleStatusesInput, DescribeOrganizationConfigRuleStatusesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeOrganizationConfigRuleStatusesInput, DescribeOrganizationConfigRuleStatusesOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeOrganizationConfigRuleStatuses")
@@ -2837,7 +3572,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeOrganizationConfigRules` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeOrganizationConfigRules` operation on the `Config` service.
     ///
     /// Returns a list of organization Config rules. When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization Config rule names. It is only applicable, when you request all the organization Config rules. For accounts within an organization If you deploy an organizational rule or conformance pack in an organization administrator account, and then establish a delegated administrator and deploy an organizational rule or conformance pack in the delegated administrator account, you won't be able to see the organizational rule or conformance pack in the organization administrator account from the delegated administrator account or see the organizational rule or conformance pack in the delegated administrator account from organization administrator account. The DescribeOrganizationConfigRules and DescribeOrganizationConformancePacks APIs can only see and interact with the organization-related resource that were deployed from within the account calling those APIs.
     ///
@@ -2859,7 +3594,7 @@ extension ConfigClient {
     ///
     /// * The configuration aggregator is associated with a previous Amazon Web Services Organization and Config cannot aggregate data with current Amazon Web Services Organization. Delete this aggregator and create a new one with the current Amazon Web Services Organization.
     ///
-    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principle name before the delegated administrator creates an aggregator.
+    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principal name before the delegated administrator creates an aggregator.
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
@@ -2879,6 +3614,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2897,15 +3634,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOrganizationConfigRulesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeOrganizationConfigRulesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeOrganizationConfigRulesInput, DescribeOrganizationConfigRulesOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeOrganizationConfigRulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeOrganizationConfigRulesInput, DescribeOrganizationConfigRulesOutput>(xAmzTarget: "StarlingDoveService.DescribeOrganizationConfigRules"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeOrganizationConfigRulesInput, DescribeOrganizationConfigRulesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeOrganizationConfigRulesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeOrganizationConfigRulesInput, DescribeOrganizationConfigRulesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeOrganizationConfigRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeOrganizationConfigRulesInput, DescribeOrganizationConfigRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeOrganizationConfigRulesInput, DescribeOrganizationConfigRulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeOrganizationConfigRulesInput, DescribeOrganizationConfigRulesOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeOrganizationConfigRules")
@@ -2921,7 +3661,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeOrganizationConformancePackStatuses` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeOrganizationConformancePackStatuses` operation on the `Config` service.
     ///
     /// Provides organization conformance pack deployment status for an organization. The status is not considered successful until organization conformance pack is successfully deployed in all the member accounts with an exception of excluded accounts. When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization conformance pack names. They are only applicable, when you request all the organization conformance packs.
     ///
@@ -2943,7 +3683,7 @@ extension ConfigClient {
     ///
     /// * The configuration aggregator is associated with a previous Amazon Web Services Organization and Config cannot aggregate data with current Amazon Web Services Organization. Delete this aggregator and create a new one with the current Amazon Web Services Organization.
     ///
-    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principle name before the delegated administrator creates an aggregator.
+    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principal name before the delegated administrator creates an aggregator.
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
@@ -2963,6 +3703,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -2981,15 +3723,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOrganizationConformancePackStatusesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeOrganizationConformancePackStatusesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeOrganizationConformancePackStatusesInput, DescribeOrganizationConformancePackStatusesOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeOrganizationConformancePackStatusesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeOrganizationConformancePackStatusesInput, DescribeOrganizationConformancePackStatusesOutput>(xAmzTarget: "StarlingDoveService.DescribeOrganizationConformancePackStatuses"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeOrganizationConformancePackStatusesInput, DescribeOrganizationConformancePackStatusesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeOrganizationConformancePackStatusesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeOrganizationConformancePackStatusesInput, DescribeOrganizationConformancePackStatusesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeOrganizationConformancePackStatusesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeOrganizationConformancePackStatusesInput, DescribeOrganizationConformancePackStatusesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeOrganizationConformancePackStatusesInput, DescribeOrganizationConformancePackStatusesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeOrganizationConformancePackStatusesInput, DescribeOrganizationConformancePackStatusesOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeOrganizationConformancePackStatuses")
@@ -3005,7 +3750,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeOrganizationConformancePacks` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeOrganizationConformancePacks` operation on the `Config` service.
     ///
     /// Returns a list of organization conformance packs. When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization conformance packs names. They are only applicable, when you request all the organization conformance packs. For accounts within an organization If you deploy an organizational rule or conformance pack in an organization administrator account, and then establish a delegated administrator and deploy an organizational rule or conformance pack in the delegated administrator account, you won't be able to see the organizational rule or conformance pack in the organization administrator account from the delegated administrator account or see the organizational rule or conformance pack in the delegated administrator account from organization administrator account. The DescribeOrganizationConfigRules and DescribeOrganizationConformancePacks APIs can only see and interact with the organization-related resource that were deployed from within the account calling those APIs.
     ///
@@ -3027,7 +3772,7 @@ extension ConfigClient {
     ///
     /// * The configuration aggregator is associated with a previous Amazon Web Services Organization and Config cannot aggregate data with current Amazon Web Services Organization. Delete this aggregator and create a new one with the current Amazon Web Services Organization.
     ///
-    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principle name before the delegated administrator creates an aggregator.
+    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principal name before the delegated administrator creates an aggregator.
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
@@ -3047,6 +3792,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3065,15 +3812,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOrganizationConformancePacksOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeOrganizationConformancePacksOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeOrganizationConformancePacksInput, DescribeOrganizationConformancePacksOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeOrganizationConformancePacksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeOrganizationConformancePacksInput, DescribeOrganizationConformancePacksOutput>(xAmzTarget: "StarlingDoveService.DescribeOrganizationConformancePacks"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeOrganizationConformancePacksInput, DescribeOrganizationConformancePacksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeOrganizationConformancePacksInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeOrganizationConformancePacksInput, DescribeOrganizationConformancePacksOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeOrganizationConformancePacksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeOrganizationConformancePacksInput, DescribeOrganizationConformancePacksOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeOrganizationConformancePacksInput, DescribeOrganizationConformancePacksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeOrganizationConformancePacksInput, DescribeOrganizationConformancePacksOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeOrganizationConformancePacks")
@@ -3089,7 +3839,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribePendingAggregationRequests` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribePendingAggregationRequests` operation on the `Config` service.
     ///
     /// Returns a list of all pending aggregation requests.
     ///
@@ -3119,6 +3869,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3137,15 +3889,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePendingAggregationRequestsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribePendingAggregationRequestsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribePendingAggregationRequestsInput, DescribePendingAggregationRequestsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribePendingAggregationRequestsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribePendingAggregationRequestsInput, DescribePendingAggregationRequestsOutput>(xAmzTarget: "StarlingDoveService.DescribePendingAggregationRequests"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribePendingAggregationRequestsInput, DescribePendingAggregationRequestsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePendingAggregationRequestsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePendingAggregationRequestsInput, DescribePendingAggregationRequestsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePendingAggregationRequestsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribePendingAggregationRequestsInput, DescribePendingAggregationRequestsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribePendingAggregationRequestsInput, DescribePendingAggregationRequestsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribePendingAggregationRequestsInput, DescribePendingAggregationRequestsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribePendingAggregationRequests")
@@ -3161,7 +3916,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRemediationConfigurations` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeRemediationConfigurations` operation on the `Config` service.
     ///
     /// Returns the details of one or more remediation configurations.
     ///
@@ -3184,6 +3939,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3202,15 +3959,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRemediationConfigurationsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeRemediationConfigurationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRemediationConfigurationsInput, DescribeRemediationConfigurationsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRemediationConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeRemediationConfigurationsInput, DescribeRemediationConfigurationsOutput>(xAmzTarget: "StarlingDoveService.DescribeRemediationConfigurations"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeRemediationConfigurationsInput, DescribeRemediationConfigurationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRemediationConfigurationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRemediationConfigurationsInput, DescribeRemediationConfigurationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRemediationConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRemediationConfigurationsInput, DescribeRemediationConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeRemediationConfigurationsInput, DescribeRemediationConfigurationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRemediationConfigurationsInput, DescribeRemediationConfigurationsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeRemediationConfigurations")
@@ -3226,7 +3986,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRemediationExceptions` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeRemediationExceptions` operation on the `Config` service.
     ///
     /// Returns the details of one or more remediation exceptions. A detailed view of a remediation exception for a set of resources that includes an explanation of an exception and the time when the exception will be deleted. When you specify the limit and the next token, you receive a paginated response. Config generates a remediation exception when a problem occurs executing a remediation action to a specific resource. Remediation exceptions blocks auto-remediation until the exception is cleared. When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you request resources in batch. It is only applicable, when you request all resources.
     ///
@@ -3255,6 +4015,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3273,15 +4035,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRemediationExceptionsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeRemediationExceptionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRemediationExceptionsInput, DescribeRemediationExceptionsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRemediationExceptionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeRemediationExceptionsInput, DescribeRemediationExceptionsOutput>(xAmzTarget: "StarlingDoveService.DescribeRemediationExceptions"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeRemediationExceptionsInput, DescribeRemediationExceptionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRemediationExceptionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRemediationExceptionsInput, DescribeRemediationExceptionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRemediationExceptionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRemediationExceptionsInput, DescribeRemediationExceptionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeRemediationExceptionsInput, DescribeRemediationExceptionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRemediationExceptionsInput, DescribeRemediationExceptionsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeRemediationExceptions")
@@ -3297,7 +4062,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRemediationExecutionStatus` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeRemediationExecutionStatus` operation on the `Config` service.
     ///
     /// Provides a detailed view of a Remediation Execution for a set of resources including state, timestamps for when steps for the remediation execution occur, and any error messages for steps that have failed. When you specify the limit and the next token, you receive a paginated response.
     ///
@@ -3327,6 +4092,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3345,15 +4112,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRemediationExecutionStatusOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeRemediationExecutionStatusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRemediationExecutionStatusInput, DescribeRemediationExecutionStatusOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRemediationExecutionStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeRemediationExecutionStatusInput, DescribeRemediationExecutionStatusOutput>(xAmzTarget: "StarlingDoveService.DescribeRemediationExecutionStatus"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeRemediationExecutionStatusInput, DescribeRemediationExecutionStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRemediationExecutionStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRemediationExecutionStatusInput, DescribeRemediationExecutionStatusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRemediationExecutionStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRemediationExecutionStatusInput, DescribeRemediationExecutionStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeRemediationExecutionStatusInput, DescribeRemediationExecutionStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRemediationExecutionStatusInput, DescribeRemediationExecutionStatusOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeRemediationExecutionStatus")
@@ -3369,9 +4139,9 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeRetentionConfigurations` operation on the `StarlingDoveService` service.
+    /// Performs the `DescribeRetentionConfigurations` operation on the `Config` service.
     ///
-    /// Returns the details of one or more retention configurations. If the retention configuration name is not specified, this action returns the details for all the retention configurations for that account. Currently, Config supports only one retention configuration per region in your account.
+    /// Returns the details of one or more retention configurations. If the retention configuration name is not specified, this operation returns the details for all the retention configurations for that account. Currently, Config supports only one retention configuration per region in your account.
     ///
     /// - Parameter DescribeRetentionConfigurationsInput : [no documentation found]
     ///
@@ -3399,6 +4169,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3417,15 +4189,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRetentionConfigurationsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeRetentionConfigurationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRetentionConfigurationsInput, DescribeRetentionConfigurationsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRetentionConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeRetentionConfigurationsInput, DescribeRetentionConfigurationsOutput>(xAmzTarget: "StarlingDoveService.DescribeRetentionConfigurations"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeRetentionConfigurationsInput, DescribeRetentionConfigurationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeRetentionConfigurationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRetentionConfigurationsInput, DescribeRetentionConfigurationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRetentionConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRetentionConfigurationsInput, DescribeRetentionConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeRetentionConfigurationsInput, DescribeRetentionConfigurationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRetentionConfigurationsInput, DescribeRetentionConfigurationsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeRetentionConfigurations")
@@ -3441,7 +4216,110 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAggregateComplianceDetailsByConfigRule` operation on the `StarlingDoveService` service.
+    /// Performs the `DisassociateResourceTypes` operation on the `Config` service.
+    ///
+    /// Removes all resource types specified in the ResourceTypes list from the [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) of configuration recorder and excludes these resource types when recording. For this operation, the configuration recorder must use a [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) that is either INCLUSION_BY_RESOURCE_TYPES or EXCLUSION_BY_RESOURCE_TYPES.
+    ///
+    /// - Parameter DisassociateResourceTypesInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateResourceTypesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), you cannot create a service-linked recorder because a service-linked recorder already exists for the specified service. For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), you cannot delete the service-linked recorder because it is currently in use by the linked Amazon Web Services service. For [DeleteDeliveryChannel](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteDeliveryChannel.html), you cannot delete the specified delivery channel because the customer managed configuration recorder is running. Use the [StopConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html) operation to stop the customer managed configuration recorder. For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder is not in use by the service. No association or dissociation of resource types is permitted.
+    ///
+    /// * For service-linked configuration recorders, your requested change to the configuration recorder has been denied by its linked Amazon Web Services service.
+    /// - `NoSuchConfigurationRecorderException` : You have specified a configuration recorder that does not exist.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    public func disassociateResourceTypes(input: DisassociateResourceTypesInput) async throws -> DisassociateResourceTypesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateResourceTypes")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "config")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisassociateResourceTypesInput, DisassociateResourceTypesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateResourceTypesInput, DisassociateResourceTypesOutput>(DisassociateResourceTypesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateResourceTypesInput, DisassociateResourceTypesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateResourceTypesInput, DisassociateResourceTypesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateResourceTypesOutput>(DisassociateResourceTypesOutput.httpOutput(from:), DisassociateResourceTypesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateResourceTypesInput, DisassociateResourceTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateResourceTypesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateResourceTypesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateResourceTypesInput, DisassociateResourceTypesOutput>(xAmzTarget: "StarlingDoveService.DisassociateResourceTypes"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateResourceTypesInput, DisassociateResourceTypesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateResourceTypesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateResourceTypesInput, DisassociateResourceTypesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateResourceTypesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateResourceTypesInput, DisassociateResourceTypesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateResourceTypesInput, DisassociateResourceTypesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateResourceTypesInput, DisassociateResourceTypesOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateResourceTypes")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetAggregateComplianceDetailsByConfigRule` operation on the `Config` service.
     ///
     /// Returns the evaluation results for the specified Config rule for a specific resource in a rule. The results indicate which Amazon Web Services resources were evaluated by the rule, when each resource was last evaluated, and whether each resource complies with the rule. The results can return an empty result page. But if you have a nextToken, the results are displayed on the next page.
     ///
@@ -3455,7 +4333,29 @@ extension ConfigClient {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func getAggregateComplianceDetailsByConfigRule(input: GetAggregateComplianceDetailsByConfigRuleInput) async throws -> GetAggregateComplianceDetailsByConfigRuleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3472,6 +4372,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3490,15 +4392,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAggregateComplianceDetailsByConfigRuleOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetAggregateComplianceDetailsByConfigRuleOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAggregateComplianceDetailsByConfigRuleInput, GetAggregateComplianceDetailsByConfigRuleOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAggregateComplianceDetailsByConfigRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetAggregateComplianceDetailsByConfigRuleInput, GetAggregateComplianceDetailsByConfigRuleOutput>(xAmzTarget: "StarlingDoveService.GetAggregateComplianceDetailsByConfigRule"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetAggregateComplianceDetailsByConfigRuleInput, GetAggregateComplianceDetailsByConfigRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetAggregateComplianceDetailsByConfigRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAggregateComplianceDetailsByConfigRuleInput, GetAggregateComplianceDetailsByConfigRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAggregateComplianceDetailsByConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAggregateComplianceDetailsByConfigRuleInput, GetAggregateComplianceDetailsByConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAggregateComplianceDetailsByConfigRuleInput, GetAggregateComplianceDetailsByConfigRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAggregateComplianceDetailsByConfigRuleInput, GetAggregateComplianceDetailsByConfigRuleOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAggregateComplianceDetailsByConfigRule")
@@ -3514,7 +4419,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAggregateConfigRuleComplianceSummary` operation on the `StarlingDoveService` service.
+    /// Performs the `GetAggregateConfigRuleComplianceSummary` operation on the `Config` service.
     ///
     /// Returns the number of compliant and noncompliant rules for one or more accounts and regions in an aggregator. The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
     ///
@@ -3528,7 +4433,29 @@ extension ConfigClient {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func getAggregateConfigRuleComplianceSummary(input: GetAggregateConfigRuleComplianceSummaryInput) async throws -> GetAggregateConfigRuleComplianceSummaryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3545,6 +4472,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3563,15 +4492,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAggregateConfigRuleComplianceSummaryOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetAggregateConfigRuleComplianceSummaryOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAggregateConfigRuleComplianceSummaryInput, GetAggregateConfigRuleComplianceSummaryOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAggregateConfigRuleComplianceSummaryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetAggregateConfigRuleComplianceSummaryInput, GetAggregateConfigRuleComplianceSummaryOutput>(xAmzTarget: "StarlingDoveService.GetAggregateConfigRuleComplianceSummary"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetAggregateConfigRuleComplianceSummaryInput, GetAggregateConfigRuleComplianceSummaryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetAggregateConfigRuleComplianceSummaryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAggregateConfigRuleComplianceSummaryInput, GetAggregateConfigRuleComplianceSummaryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAggregateConfigRuleComplianceSummaryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAggregateConfigRuleComplianceSummaryInput, GetAggregateConfigRuleComplianceSummaryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAggregateConfigRuleComplianceSummaryInput, GetAggregateConfigRuleComplianceSummaryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAggregateConfigRuleComplianceSummaryInput, GetAggregateConfigRuleComplianceSummaryOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAggregateConfigRuleComplianceSummary")
@@ -3587,7 +4519,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAggregateConformancePackComplianceSummary` operation on the `StarlingDoveService` service.
+    /// Performs the `GetAggregateConformancePackComplianceSummary` operation on the `Config` service.
     ///
     /// Returns the count of compliant and noncompliant conformance packs across all Amazon Web Services accounts and Amazon Web Services Regions in an aggregator. You can filter based on Amazon Web Services account ID or Amazon Web Services Region. The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
     ///
@@ -3601,7 +4533,29 @@ extension ConfigClient {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func getAggregateConformancePackComplianceSummary(input: GetAggregateConformancePackComplianceSummaryInput) async throws -> GetAggregateConformancePackComplianceSummaryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3618,6 +4572,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3636,15 +4592,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAggregateConformancePackComplianceSummaryOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetAggregateConformancePackComplianceSummaryOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAggregateConformancePackComplianceSummaryInput, GetAggregateConformancePackComplianceSummaryOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAggregateConformancePackComplianceSummaryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetAggregateConformancePackComplianceSummaryInput, GetAggregateConformancePackComplianceSummaryOutput>(xAmzTarget: "StarlingDoveService.GetAggregateConformancePackComplianceSummary"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetAggregateConformancePackComplianceSummaryInput, GetAggregateConformancePackComplianceSummaryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetAggregateConformancePackComplianceSummaryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAggregateConformancePackComplianceSummaryInput, GetAggregateConformancePackComplianceSummaryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAggregateConformancePackComplianceSummaryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAggregateConformancePackComplianceSummaryInput, GetAggregateConformancePackComplianceSummaryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAggregateConformancePackComplianceSummaryInput, GetAggregateConformancePackComplianceSummaryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAggregateConformancePackComplianceSummaryInput, GetAggregateConformancePackComplianceSummaryOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAggregateConformancePackComplianceSummary")
@@ -3660,7 +4619,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAggregateDiscoveredResourceCounts` operation on the `StarlingDoveService` service.
+    /// Performs the `GetAggregateDiscoveredResourceCounts` operation on the `Config` service.
     ///
     /// Returns the resource counts across accounts and regions that are present in your Config aggregator. You can request the resource counts by providing filters and GroupByKey. For example, if the input contains accountID 12345678910 and region us-east-1 in filters, the API returns the count of resources in account ID 12345678910 and region us-east-1. If the input contains ACCOUNT_ID as a GroupByKey, the API returns resource counts for all source accounts that are present in your aggregator.
     ///
@@ -3674,7 +4633,29 @@ extension ConfigClient {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func getAggregateDiscoveredResourceCounts(input: GetAggregateDiscoveredResourceCountsInput) async throws -> GetAggregateDiscoveredResourceCountsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3691,6 +4672,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3709,15 +4692,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAggregateDiscoveredResourceCountsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetAggregateDiscoveredResourceCountsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAggregateDiscoveredResourceCountsInput, GetAggregateDiscoveredResourceCountsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAggregateDiscoveredResourceCountsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetAggregateDiscoveredResourceCountsInput, GetAggregateDiscoveredResourceCountsOutput>(xAmzTarget: "StarlingDoveService.GetAggregateDiscoveredResourceCounts"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetAggregateDiscoveredResourceCountsInput, GetAggregateDiscoveredResourceCountsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetAggregateDiscoveredResourceCountsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAggregateDiscoveredResourceCountsInput, GetAggregateDiscoveredResourceCountsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAggregateDiscoveredResourceCountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAggregateDiscoveredResourceCountsInput, GetAggregateDiscoveredResourceCountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAggregateDiscoveredResourceCountsInput, GetAggregateDiscoveredResourceCountsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAggregateDiscoveredResourceCountsInput, GetAggregateDiscoveredResourceCountsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAggregateDiscoveredResourceCounts")
@@ -3733,9 +4719,9 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetAggregateResourceConfig` operation on the `StarlingDoveService` service.
+    /// Performs the `GetAggregateResourceConfig` operation on the `Config` service.
     ///
-    /// Returns configuration item that is aggregated for your specific resource in a specific source account and region.
+    /// Returns configuration item that is aggregated for your specific resource in a specific source account and region. The API does not return results for deleted resources.
     ///
     /// - Parameter GetAggregateResourceConfigInput : [no documentation found]
     ///
@@ -3747,7 +4733,29 @@ extension ConfigClient {
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
     /// - `OversizedConfigurationItemException` : The configuration item size is outside the allowable range.
     /// - `ResourceNotDiscoveredException` : You have specified a resource that is either unknown or has not been discovered.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func getAggregateResourceConfig(input: GetAggregateResourceConfigInput) async throws -> GetAggregateResourceConfigOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3764,6 +4772,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3782,15 +4792,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAggregateResourceConfigOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetAggregateResourceConfigOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAggregateResourceConfigInput, GetAggregateResourceConfigOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAggregateResourceConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetAggregateResourceConfigInput, GetAggregateResourceConfigOutput>(xAmzTarget: "StarlingDoveService.GetAggregateResourceConfig"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetAggregateResourceConfigInput, GetAggregateResourceConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetAggregateResourceConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAggregateResourceConfigInput, GetAggregateResourceConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAggregateResourceConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAggregateResourceConfigInput, GetAggregateResourceConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAggregateResourceConfigInput, GetAggregateResourceConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAggregateResourceConfigInput, GetAggregateResourceConfigOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAggregateResourceConfig")
@@ -3806,7 +4819,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetComplianceDetailsByConfigRule` operation on the `StarlingDoveService` service.
+    /// Performs the `GetComplianceDetailsByConfigRule` operation on the `Config` service.
     ///
     /// Returns the evaluation results for the specified Config rule. The results indicate which Amazon Web Services resources were evaluated by the rule, when each resource was last evaluated, and whether each resource complies with the rule.
     ///
@@ -3836,6 +4849,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3854,15 +4869,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetComplianceDetailsByConfigRuleOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetComplianceDetailsByConfigRuleOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetComplianceDetailsByConfigRuleInput, GetComplianceDetailsByConfigRuleOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetComplianceDetailsByConfigRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetComplianceDetailsByConfigRuleInput, GetComplianceDetailsByConfigRuleOutput>(xAmzTarget: "StarlingDoveService.GetComplianceDetailsByConfigRule"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetComplianceDetailsByConfigRuleInput, GetComplianceDetailsByConfigRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetComplianceDetailsByConfigRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetComplianceDetailsByConfigRuleInput, GetComplianceDetailsByConfigRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetComplianceDetailsByConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetComplianceDetailsByConfigRuleInput, GetComplianceDetailsByConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetComplianceDetailsByConfigRuleInput, GetComplianceDetailsByConfigRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetComplianceDetailsByConfigRuleInput, GetComplianceDetailsByConfigRuleOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetComplianceDetailsByConfigRule")
@@ -3878,7 +4896,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetComplianceDetailsByResource` operation on the `StarlingDoveService` service.
+    /// Performs the `GetComplianceDetailsByResource` operation on the `Config` service.
     ///
     /// Returns the evaluation results for the specified Amazon Web Services resource. The results indicate which Config rules were used to evaluate the resource, when each rule was last invoked, and whether the resource complies with each rule.
     ///
@@ -3906,6 +4924,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3924,15 +4944,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetComplianceDetailsByResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetComplianceDetailsByResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetComplianceDetailsByResourceInput, GetComplianceDetailsByResourceOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetComplianceDetailsByResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetComplianceDetailsByResourceInput, GetComplianceDetailsByResourceOutput>(xAmzTarget: "StarlingDoveService.GetComplianceDetailsByResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetComplianceDetailsByResourceInput, GetComplianceDetailsByResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetComplianceDetailsByResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetComplianceDetailsByResourceInput, GetComplianceDetailsByResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetComplianceDetailsByResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetComplianceDetailsByResourceInput, GetComplianceDetailsByResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetComplianceDetailsByResourceInput, GetComplianceDetailsByResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetComplianceDetailsByResourceInput, GetComplianceDetailsByResourceOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetComplianceDetailsByResource")
@@ -3948,7 +4971,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetComplianceSummaryByConfigRule` operation on the `StarlingDoveService` service.
+    /// Performs the `GetComplianceSummaryByConfigRule` operation on the `Config` service.
     ///
     /// Returns the number of Config rules that are compliant and noncompliant, up to a maximum of 25 for each.
     ///
@@ -3971,6 +4994,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -3989,15 +5014,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetComplianceSummaryByConfigRuleOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetComplianceSummaryByConfigRuleOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetComplianceSummaryByConfigRuleInput, GetComplianceSummaryByConfigRuleOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetComplianceSummaryByConfigRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetComplianceSummaryByConfigRuleInput, GetComplianceSummaryByConfigRuleOutput>(xAmzTarget: "StarlingDoveService.GetComplianceSummaryByConfigRule"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetComplianceSummaryByConfigRuleInput, GetComplianceSummaryByConfigRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetComplianceSummaryByConfigRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetComplianceSummaryByConfigRuleInput, GetComplianceSummaryByConfigRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetComplianceSummaryByConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetComplianceSummaryByConfigRuleInput, GetComplianceSummaryByConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetComplianceSummaryByConfigRuleInput, GetComplianceSummaryByConfigRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetComplianceSummaryByConfigRuleInput, GetComplianceSummaryByConfigRuleOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetComplianceSummaryByConfigRule")
@@ -4013,7 +5041,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetComplianceSummaryByResourceType` operation on the `StarlingDoveService` service.
+    /// Performs the `GetComplianceSummaryByResourceType` operation on the `Config` service.
     ///
     /// Returns the number of resources that are compliant and the number that are noncompliant. You can specify one or more resource types to get these numbers for each resource type. The maximum number returned is 100.
     ///
@@ -4041,6 +5069,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4059,15 +5089,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetComplianceSummaryByResourceTypeOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetComplianceSummaryByResourceTypeOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetComplianceSummaryByResourceTypeInput, GetComplianceSummaryByResourceTypeOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetComplianceSummaryByResourceTypeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetComplianceSummaryByResourceTypeInput, GetComplianceSummaryByResourceTypeOutput>(xAmzTarget: "StarlingDoveService.GetComplianceSummaryByResourceType"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetComplianceSummaryByResourceTypeInput, GetComplianceSummaryByResourceTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetComplianceSummaryByResourceTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetComplianceSummaryByResourceTypeInput, GetComplianceSummaryByResourceTypeOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetComplianceSummaryByResourceTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetComplianceSummaryByResourceTypeInput, GetComplianceSummaryByResourceTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetComplianceSummaryByResourceTypeInput, GetComplianceSummaryByResourceTypeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetComplianceSummaryByResourceTypeInput, GetComplianceSummaryByResourceTypeOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetComplianceSummaryByResourceType")
@@ -4083,7 +5116,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConformancePackComplianceDetails` operation on the `StarlingDoveService` service.
+    /// Performs the `GetConformancePackComplianceDetails` operation on the `Config` service.
     ///
     /// Returns compliance details of a conformance pack for all Amazon Web Services resources that are monitered by conformance pack.
     ///
@@ -4115,6 +5148,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4133,15 +5168,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConformancePackComplianceDetailsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetConformancePackComplianceDetailsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetConformancePackComplianceDetailsInput, GetConformancePackComplianceDetailsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetConformancePackComplianceDetailsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetConformancePackComplianceDetailsInput, GetConformancePackComplianceDetailsOutput>(xAmzTarget: "StarlingDoveService.GetConformancePackComplianceDetails"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetConformancePackComplianceDetailsInput, GetConformancePackComplianceDetailsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetConformancePackComplianceDetailsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetConformancePackComplianceDetailsInput, GetConformancePackComplianceDetailsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetConformancePackComplianceDetailsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetConformancePackComplianceDetailsInput, GetConformancePackComplianceDetailsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetConformancePackComplianceDetailsInput, GetConformancePackComplianceDetailsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetConformancePackComplianceDetailsInput, GetConformancePackComplianceDetailsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetConformancePackComplianceDetails")
@@ -4157,7 +5195,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetConformancePackComplianceSummary` operation on the `StarlingDoveService` service.
+    /// Performs the `GetConformancePackComplianceSummary` operation on the `Config` service.
     ///
     /// Returns compliance details for the conformance pack based on the cumulative compliance results of all the rules in that conformance pack.
     ///
@@ -4187,6 +5225,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4205,15 +5245,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConformancePackComplianceSummaryOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetConformancePackComplianceSummaryOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetConformancePackComplianceSummaryInput, GetConformancePackComplianceSummaryOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetConformancePackComplianceSummaryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetConformancePackComplianceSummaryInput, GetConformancePackComplianceSummaryOutput>(xAmzTarget: "StarlingDoveService.GetConformancePackComplianceSummary"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetConformancePackComplianceSummaryInput, GetConformancePackComplianceSummaryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetConformancePackComplianceSummaryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetConformancePackComplianceSummaryInput, GetConformancePackComplianceSummaryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetConformancePackComplianceSummaryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetConformancePackComplianceSummaryInput, GetConformancePackComplianceSummaryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetConformancePackComplianceSummaryInput, GetConformancePackComplianceSummaryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetConformancePackComplianceSummaryInput, GetConformancePackComplianceSummaryOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetConformancePackComplianceSummary")
@@ -4229,7 +5272,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetCustomRulePolicy` operation on the `StarlingDoveService` service.
+    /// Performs the `GetCustomRulePolicy` operation on the `Config` service.
     ///
     /// Returns the policy definition containing the logic for your Config Custom Policy rule.
     ///
@@ -4257,6 +5300,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4275,15 +5320,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCustomRulePolicyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetCustomRulePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCustomRulePolicyInput, GetCustomRulePolicyOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCustomRulePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetCustomRulePolicyInput, GetCustomRulePolicyOutput>(xAmzTarget: "StarlingDoveService.GetCustomRulePolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetCustomRulePolicyInput, GetCustomRulePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCustomRulePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCustomRulePolicyInput, GetCustomRulePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCustomRulePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCustomRulePolicyInput, GetCustomRulePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCustomRulePolicyInput, GetCustomRulePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCustomRulePolicyInput, GetCustomRulePolicyOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCustomRulePolicy")
@@ -4299,7 +5347,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetDiscoveredResourceCounts` operation on the `StarlingDoveService` service.
+    /// Performs the `GetDiscoveredResourceCounts` operation on the `Config` service.
     ///
     /// Returns the resource types, the number of each resource type, and the total number of resources that Config is recording in this region for your Amazon Web Services account. Example
     ///
@@ -4337,7 +5385,29 @@ extension ConfigClient {
     /// __Possible Exceptions:__
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func getDiscoveredResourceCounts(input: GetDiscoveredResourceCountsInput) async throws -> GetDiscoveredResourceCountsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4354,6 +5424,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4372,15 +5444,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDiscoveredResourceCountsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetDiscoveredResourceCountsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDiscoveredResourceCountsInput, GetDiscoveredResourceCountsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDiscoveredResourceCountsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDiscoveredResourceCountsInput, GetDiscoveredResourceCountsOutput>(xAmzTarget: "StarlingDoveService.GetDiscoveredResourceCounts"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetDiscoveredResourceCountsInput, GetDiscoveredResourceCountsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDiscoveredResourceCountsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDiscoveredResourceCountsInput, GetDiscoveredResourceCountsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDiscoveredResourceCountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDiscoveredResourceCountsInput, GetDiscoveredResourceCountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDiscoveredResourceCountsInput, GetDiscoveredResourceCountsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDiscoveredResourceCountsInput, GetDiscoveredResourceCountsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetDiscoveredResourceCounts")
@@ -4396,7 +5471,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetOrganizationConfigRuleDetailedStatus` operation on the `StarlingDoveService` service.
+    /// Performs the `GetOrganizationConfigRuleDetailedStatus` operation on the `Config` service.
     ///
     /// Returns detailed status for each member account within an organization for a given organization Config rule.
     ///
@@ -4418,7 +5493,7 @@ extension ConfigClient {
     ///
     /// * The configuration aggregator is associated with a previous Amazon Web Services Organization and Config cannot aggregate data with current Amazon Web Services Organization. Delete this aggregator and create a new one with the current Amazon Web Services Organization.
     ///
-    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principle name before the delegated administrator creates an aggregator.
+    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principal name before the delegated administrator creates an aggregator.
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
@@ -4438,6 +5513,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4456,15 +5533,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOrganizationConfigRuleDetailedStatusOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetOrganizationConfigRuleDetailedStatusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetOrganizationConfigRuleDetailedStatusInput, GetOrganizationConfigRuleDetailedStatusOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetOrganizationConfigRuleDetailedStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetOrganizationConfigRuleDetailedStatusInput, GetOrganizationConfigRuleDetailedStatusOutput>(xAmzTarget: "StarlingDoveService.GetOrganizationConfigRuleDetailedStatus"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetOrganizationConfigRuleDetailedStatusInput, GetOrganizationConfigRuleDetailedStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetOrganizationConfigRuleDetailedStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetOrganizationConfigRuleDetailedStatusInput, GetOrganizationConfigRuleDetailedStatusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOrganizationConfigRuleDetailedStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetOrganizationConfigRuleDetailedStatusInput, GetOrganizationConfigRuleDetailedStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetOrganizationConfigRuleDetailedStatusInput, GetOrganizationConfigRuleDetailedStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetOrganizationConfigRuleDetailedStatusInput, GetOrganizationConfigRuleDetailedStatusOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetOrganizationConfigRuleDetailedStatus")
@@ -4480,7 +5560,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetOrganizationConformancePackDetailedStatus` operation on the `StarlingDoveService` service.
+    /// Performs the `GetOrganizationConformancePackDetailedStatus` operation on the `Config` service.
     ///
     /// Returns detailed status for each member account within an organization for a given organization conformance pack.
     ///
@@ -4502,7 +5582,7 @@ extension ConfigClient {
     ///
     /// * The configuration aggregator is associated with a previous Amazon Web Services Organization and Config cannot aggregate data with current Amazon Web Services Organization. Delete this aggregator and create a new one with the current Amazon Web Services Organization.
     ///
-    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principle name before the delegated administrator creates an aggregator.
+    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principal name before the delegated administrator creates an aggregator.
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
@@ -4522,6 +5602,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4540,15 +5622,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOrganizationConformancePackDetailedStatusOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetOrganizationConformancePackDetailedStatusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetOrganizationConformancePackDetailedStatusInput, GetOrganizationConformancePackDetailedStatusOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetOrganizationConformancePackDetailedStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetOrganizationConformancePackDetailedStatusInput, GetOrganizationConformancePackDetailedStatusOutput>(xAmzTarget: "StarlingDoveService.GetOrganizationConformancePackDetailedStatus"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetOrganizationConformancePackDetailedStatusInput, GetOrganizationConformancePackDetailedStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetOrganizationConformancePackDetailedStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetOrganizationConformancePackDetailedStatusInput, GetOrganizationConformancePackDetailedStatusOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOrganizationConformancePackDetailedStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetOrganizationConformancePackDetailedStatusInput, GetOrganizationConformancePackDetailedStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetOrganizationConformancePackDetailedStatusInput, GetOrganizationConformancePackDetailedStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetOrganizationConformancePackDetailedStatusInput, GetOrganizationConformancePackDetailedStatusOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetOrganizationConformancePackDetailedStatus")
@@ -4564,7 +5649,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetOrganizationCustomRulePolicy` operation on the `StarlingDoveService` service.
+    /// Performs the `GetOrganizationCustomRulePolicy` operation on the `Config` service.
     ///
     /// Returns the policy definition containing the logic for your organization Config Custom Policy rule.
     ///
@@ -4584,7 +5669,7 @@ extension ConfigClient {
     ///
     /// * The configuration aggregator is associated with a previous Amazon Web Services Organization and Config cannot aggregate data with current Amazon Web Services Organization. Delete this aggregator and create a new one with the current Amazon Web Services Organization.
     ///
-    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principle name before the delegated administrator creates an aggregator.
+    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principal name before the delegated administrator creates an aggregator.
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
@@ -4604,6 +5689,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4622,15 +5709,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOrganizationCustomRulePolicyOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetOrganizationCustomRulePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetOrganizationCustomRulePolicyInput, GetOrganizationCustomRulePolicyOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetOrganizationCustomRulePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetOrganizationCustomRulePolicyInput, GetOrganizationCustomRulePolicyOutput>(xAmzTarget: "StarlingDoveService.GetOrganizationCustomRulePolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetOrganizationCustomRulePolicyInput, GetOrganizationCustomRulePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetOrganizationCustomRulePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetOrganizationCustomRulePolicyInput, GetOrganizationCustomRulePolicyOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOrganizationCustomRulePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetOrganizationCustomRulePolicyInput, GetOrganizationCustomRulePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetOrganizationCustomRulePolicyInput, GetOrganizationCustomRulePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetOrganizationCustomRulePolicyInput, GetOrganizationCustomRulePolicyOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetOrganizationCustomRulePolicy")
@@ -4646,7 +5736,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResourceConfigHistory` operation on the `StarlingDoveService` service.
+    /// Performs the `GetResourceConfigHistory` operation on the `Config` service.
     ///
     /// For accurate reporting on the compliance status, you must record the AWS::Config::ResourceCompliance resource type. For more information, see [Selecting Which Resources Config Records](https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html). Returns a list of ConfigurationItems for the specified resource. The list contains details about each state of the resource during the specified time interval. If you specified a retention period to retain your ConfigurationItems between a minimum of 30 days and a maximum of 7 years (2557 days), Config returns the ConfigurationItems for the specified retention period. The response is paginated. By default, Config returns a limit of 10 configuration items per page. You can customize this number with the limit parameter. The response includes a nextToken string. To get the next page of results, run the request again and specify the string for the nextToken parameter. Each call to the API is limited to span a duration of seven days. It is likely that the number of records returned is smaller than the specified limit. In such cases, you can make another call, using the nextToken.
     ///
@@ -4660,9 +5750,31 @@ extension ConfigClient {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidTimeRangeException` : The specified time range is not valid. The earlier time is not chronologically before the later time.
-    /// - `NoAvailableConfigurationRecorderException` : There are no configuration recorders available to provide the role needed to describe your resources. Create a configuration recorder.
+    /// - `NoAvailableConfigurationRecorderException` : There are no customer managed configuration recorders available to record your resources. Use the [PutConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationRecorder.html) operation to create the customer managed configuration recorder.
     /// - `ResourceNotDiscoveredException` : You have specified a resource that is either unknown or has not been discovered.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func getResourceConfigHistory(input: GetResourceConfigHistoryInput) async throws -> GetResourceConfigHistoryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4679,6 +5791,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4697,15 +5811,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourceConfigHistoryOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetResourceConfigHistoryOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResourceConfigHistoryInput, GetResourceConfigHistoryOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResourceConfigHistoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetResourceConfigHistoryInput, GetResourceConfigHistoryOutput>(xAmzTarget: "StarlingDoveService.GetResourceConfigHistory"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetResourceConfigHistoryInput, GetResourceConfigHistoryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResourceConfigHistoryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourceConfigHistoryInput, GetResourceConfigHistoryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourceConfigHistoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResourceConfigHistoryInput, GetResourceConfigHistoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetResourceConfigHistoryInput, GetResourceConfigHistoryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResourceConfigHistoryInput, GetResourceConfigHistoryOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetResourceConfigHistory")
@@ -4721,7 +5838,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetResourceEvaluationSummary` operation on the `StarlingDoveService` service.
+    /// Performs the `GetResourceEvaluationSummary` operation on the `Config` service.
     ///
     /// Returns a summary of resource evaluation for the specified resource evaluation ID from the proactive rules that were run. The results indicate which evaluation context was used to evaluate the rules, which resource details were evaluated, the evaluation mode that was run, and whether the resource details comply with the configuration of the proactive rules. To see additional information about the evaluation result, such as which rule flagged a resource as NON_COMPLIANT, use the [GetComplianceDetailsByResource](https://docs.aws.amazon.com/config/latest/APIReference/API_GetComplianceDetailsByResource.html) API. For more information, see the [Examples](https://docs.aws.amazon.com/config/latest/APIReference/API_GetResourceEvaluationSummary.html#API_GetResourceEvaluationSummary_Examples) section.
     ///
@@ -4749,6 +5866,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4767,15 +5886,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourceEvaluationSummaryOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetResourceEvaluationSummaryOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResourceEvaluationSummaryInput, GetResourceEvaluationSummaryOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResourceEvaluationSummaryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetResourceEvaluationSummaryInput, GetResourceEvaluationSummaryOutput>(xAmzTarget: "StarlingDoveService.GetResourceEvaluationSummary"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetResourceEvaluationSummaryInput, GetResourceEvaluationSummaryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResourceEvaluationSummaryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourceEvaluationSummaryInput, GetResourceEvaluationSummaryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourceEvaluationSummaryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResourceEvaluationSummaryInput, GetResourceEvaluationSummaryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetResourceEvaluationSummaryInput, GetResourceEvaluationSummaryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResourceEvaluationSummaryInput, GetResourceEvaluationSummaryOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetResourceEvaluationSummary")
@@ -4791,7 +5913,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetStoredQuery` operation on the `StarlingDoveService` service.
+    /// Performs the `GetStoredQuery` operation on the `Config` service.
     ///
     /// Returns the details of a specific stored query.
     ///
@@ -4803,7 +5925,29 @@ extension ConfigClient {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : You have specified a resource that does not exist.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func getStoredQuery(input: GetStoredQueryInput) async throws -> GetStoredQueryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4820,6 +5964,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4838,15 +5984,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStoredQueryOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetStoredQueryOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetStoredQueryInput, GetStoredQueryOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetStoredQueryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetStoredQueryInput, GetStoredQueryOutput>(xAmzTarget: "StarlingDoveService.GetStoredQuery"))
         builder.serialize(ClientRuntime.BodyMiddleware<GetStoredQueryInput, GetStoredQueryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetStoredQueryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetStoredQueryInput, GetStoredQueryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetStoredQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetStoredQueryInput, GetStoredQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetStoredQueryInput, GetStoredQueryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetStoredQueryInput, GetStoredQueryOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetStoredQuery")
@@ -4862,7 +6011,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListAggregateDiscoveredResources` operation on the `StarlingDoveService` service.
+    /// Performs the `ListAggregateDiscoveredResources` operation on the `Config` service.
     ///
     /// Accepts a resource type and returns a list of resource identifiers that are aggregated for a specific resource type across accounts and regions. A resource identifier includes the resource type, ID, (if available) the custom resource name, source account, and source region. You can narrow the results to include only resources that have specific resource IDs, or a resource name, or source account ID, or source region. For example, if the input consists of accountID 12345678910 and the region is us-east-1 for resource type AWS::EC2::Instance then the API returns all the EC2 instance identifiers of accountID 12345678910 and region us-east-1.
     ///
@@ -4876,7 +6025,29 @@ extension ConfigClient {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func listAggregateDiscoveredResources(input: ListAggregateDiscoveredResourcesInput) async throws -> ListAggregateDiscoveredResourcesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4893,6 +6064,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4911,15 +6084,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAggregateDiscoveredResourcesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListAggregateDiscoveredResourcesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAggregateDiscoveredResourcesInput, ListAggregateDiscoveredResourcesOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAggregateDiscoveredResourcesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAggregateDiscoveredResourcesInput, ListAggregateDiscoveredResourcesOutput>(xAmzTarget: "StarlingDoveService.ListAggregateDiscoveredResources"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListAggregateDiscoveredResourcesInput, ListAggregateDiscoveredResourcesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAggregateDiscoveredResourcesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAggregateDiscoveredResourcesInput, ListAggregateDiscoveredResourcesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAggregateDiscoveredResourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAggregateDiscoveredResourcesInput, ListAggregateDiscoveredResourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAggregateDiscoveredResourcesInput, ListAggregateDiscoveredResourcesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAggregateDiscoveredResourcesInput, ListAggregateDiscoveredResourcesOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAggregateDiscoveredResources")
@@ -4935,7 +6111,104 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListConformancePackComplianceScores` operation on the `StarlingDoveService` service.
+    /// Performs the `ListConfigurationRecorders` operation on the `Config` service.
+    ///
+    /// Returns a list of configuration recorders depending on the filters you specify.
+    ///
+    /// - Parameter ListConfigurationRecordersInput : [no documentation found]
+    ///
+    /// - Returns: `ListConfigurationRecordersOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    public func listConfigurationRecorders(input: ListConfigurationRecordersInput) async throws -> ListConfigurationRecordersOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listConfigurationRecorders")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "config")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListConfigurationRecordersInput, ListConfigurationRecordersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListConfigurationRecordersInput, ListConfigurationRecordersOutput>(ListConfigurationRecordersInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListConfigurationRecordersInput, ListConfigurationRecordersOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListConfigurationRecordersInput, ListConfigurationRecordersOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConfigurationRecordersOutput>(ListConfigurationRecordersOutput.httpOutput(from:), ListConfigurationRecordersOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConfigurationRecordersInput, ListConfigurationRecordersOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListConfigurationRecordersOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListConfigurationRecordersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListConfigurationRecordersInput, ListConfigurationRecordersOutput>(xAmzTarget: "StarlingDoveService.ListConfigurationRecorders"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListConfigurationRecordersInput, ListConfigurationRecordersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListConfigurationRecordersInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListConfigurationRecordersInput, ListConfigurationRecordersOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListConfigurationRecordersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListConfigurationRecordersInput, ListConfigurationRecordersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListConfigurationRecordersInput, ListConfigurationRecordersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListConfigurationRecordersInput, ListConfigurationRecordersOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListConfigurationRecorders")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListConformancePackComplianceScores` operation on the `Config` service.
     ///
     /// Returns a list of conformance pack compliance scores. A compliance score is the percentage of the number of compliant rule-resource combinations in a conformance pack compared to the number of total possible rule-resource combinations in the conformance pack. This metric provides you with a high-level view of the compliance state of your conformance packs. You can use it to identify, investigate, and understand the level of compliance in your conformance packs. Conformance packs with no evaluation results will have a compliance score of INSUFFICIENT_DATA.
     ///
@@ -4965,6 +6238,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -4983,15 +6258,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConformancePackComplianceScoresOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListConformancePackComplianceScoresOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListConformancePackComplianceScoresInput, ListConformancePackComplianceScoresOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListConformancePackComplianceScoresOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListConformancePackComplianceScoresInput, ListConformancePackComplianceScoresOutput>(xAmzTarget: "StarlingDoveService.ListConformancePackComplianceScores"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListConformancePackComplianceScoresInput, ListConformancePackComplianceScoresOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListConformancePackComplianceScoresInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListConformancePackComplianceScoresInput, ListConformancePackComplianceScoresOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListConformancePackComplianceScoresOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListConformancePackComplianceScoresInput, ListConformancePackComplianceScoresOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListConformancePackComplianceScoresInput, ListConformancePackComplianceScoresOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListConformancePackComplianceScoresInput, ListConformancePackComplianceScoresOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListConformancePackComplianceScores")
@@ -5007,7 +6285,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListDiscoveredResources` operation on the `StarlingDoveService` service.
+    /// Performs the `ListDiscoveredResources` operation on the `Config` service.
     ///
     /// Accepts a resource type and returns a list of resource identifiers for the resources of that type. A resource identifier includes the resource type, ID, and (if available) the custom resource name. The results consist of resources that Config has discovered, including those that Config is not currently recording. You can narrow the results to include only resources that have specific resource IDs or a resource name. You can specify either resource IDs or a resource name, but not both, in the same request. The response is paginated. By default, Config lists 100 resource identifiers on each page. You can customize this number with the limit parameter. The response includes a nextToken string. To get the next page of results, run the request again and specify the string for the nextToken parameter.
     ///
@@ -5020,8 +6298,30 @@ extension ConfigClient {
     /// __Possible Exceptions:__
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
-    /// - `NoAvailableConfigurationRecorderException` : There are no configuration recorders available to provide the role needed to describe your resources. Create a configuration recorder.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `NoAvailableConfigurationRecorderException` : There are no customer managed configuration recorders available to record your resources. Use the [PutConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationRecorder.html) operation to create the customer managed configuration recorder.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func listDiscoveredResources(input: ListDiscoveredResourcesInput) async throws -> ListDiscoveredResourcesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5038,6 +6338,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -5056,15 +6358,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDiscoveredResourcesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListDiscoveredResourcesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDiscoveredResourcesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput>(xAmzTarget: "StarlingDoveService.ListDiscoveredResources"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDiscoveredResourcesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDiscoveredResourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListDiscoveredResources")
@@ -5080,7 +6385,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListResourceEvaluations` operation on the `StarlingDoveService` service.
+    /// Performs the `ListResourceEvaluations` operation on the `Config` service.
     ///
     /// Returns a list of proactive resource evaluations.
     ///
@@ -5110,6 +6415,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -5128,15 +6435,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceEvaluationsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListResourceEvaluationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListResourceEvaluationsInput, ListResourceEvaluationsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListResourceEvaluationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListResourceEvaluationsInput, ListResourceEvaluationsOutput>(xAmzTarget: "StarlingDoveService.ListResourceEvaluations"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListResourceEvaluationsInput, ListResourceEvaluationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListResourceEvaluationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListResourceEvaluationsInput, ListResourceEvaluationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResourceEvaluationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListResourceEvaluationsInput, ListResourceEvaluationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListResourceEvaluationsInput, ListResourceEvaluationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListResourceEvaluationsInput, ListResourceEvaluationsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListResourceEvaluations")
@@ -5152,7 +6462,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListStoredQueries` operation on the `StarlingDoveService` service.
+    /// Performs the `ListStoredQueries` operation on the `Config` service.
     ///
     /// Lists the stored queries for a single Amazon Web Services account and a single Amazon Web Services Region. The default is 100.
     ///
@@ -5164,7 +6474,29 @@ extension ConfigClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func listStoredQueries(input: ListStoredQueriesInput) async throws -> ListStoredQueriesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5181,6 +6513,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -5199,15 +6533,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStoredQueriesOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListStoredQueriesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListStoredQueriesInput, ListStoredQueriesOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListStoredQueriesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListStoredQueriesInput, ListStoredQueriesOutput>(xAmzTarget: "StarlingDoveService.ListStoredQueries"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListStoredQueriesInput, ListStoredQueriesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListStoredQueriesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListStoredQueriesInput, ListStoredQueriesOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListStoredQueriesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListStoredQueriesInput, ListStoredQueriesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListStoredQueriesInput, ListStoredQueriesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListStoredQueriesInput, ListStoredQueriesOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListStoredQueries")
@@ -5223,7 +6560,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `StarlingDoveService` service.
+    /// Performs the `ListTagsForResource` operation on the `Config` service.
     ///
     /// List the tags for Config resource.
     ///
@@ -5237,7 +6574,29 @@ extension ConfigClient {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `ResourceNotFoundException` : You have specified a resource that does not exist.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5254,6 +6613,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -5272,15 +6633,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "StarlingDoveService.ListTagsForResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForResource")
@@ -5296,9 +6660,9 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutAggregationAuthorization` operation on the `StarlingDoveService` service.
+    /// Performs the `PutAggregationAuthorization` operation on the `Config` service.
     ///
-    /// Authorizes the aggregator account and region to collect data from the source account and region. PutAggregationAuthorization is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
+    /// Authorizes the aggregator account and region to collect data from the source account and region. Tags are added at creation and cannot be updated with this operation PutAggregationAuthorization is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different. Use [TagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html) and [UntagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html) to update tags after creation.
     ///
     /// - Parameter PutAggregationAuthorizationInput : [no documentation found]
     ///
@@ -5324,6 +6688,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -5342,15 +6708,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAggregationAuthorizationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutAggregationAuthorizationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutAggregationAuthorizationInput, PutAggregationAuthorizationOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutAggregationAuthorizationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutAggregationAuthorizationInput, PutAggregationAuthorizationOutput>(xAmzTarget: "StarlingDoveService.PutAggregationAuthorization"))
         builder.serialize(ClientRuntime.BodyMiddleware<PutAggregationAuthorizationInput, PutAggregationAuthorizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutAggregationAuthorizationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAggregationAuthorizationInput, PutAggregationAuthorizationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAggregationAuthorizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutAggregationAuthorizationInput, PutAggregationAuthorizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutAggregationAuthorizationInput, PutAggregationAuthorizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutAggregationAuthorizationInput, PutAggregationAuthorizationOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutAggregationAuthorization")
@@ -5366,9 +6735,9 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutConfigRule` operation on the `StarlingDoveService` service.
+    /// Performs the `PutConfigRule` operation on the `Config` service.
     ///
-    /// Adds or updates an Config rule to evaluate if your Amazon Web Services resources comply with your desired configurations. For information on how many Config rules you can have per account, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide. There are two types of rules: Config Managed Rules and Config Custom Rules. You can use PutConfigRule to create both Config Managed Rules and Config Custom Rules. Config Managed Rules are predefined, customizable rules created by Config. For a list of managed rules, see [List of Config Managed Rules](https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html). If you are adding an Config managed rule, you must specify the rule's identifier for the SourceIdentifier key. Config Custom Rules are rules that you create from scratch. There are two ways to create Config custom rules: with Lambda functions ([ Lambda Developer Guide](https://docs.aws.amazon.com/config/latest/developerguide/gettingstarted-concepts.html#gettingstarted-concepts-function)) and with Guard ([Guard GitHub Repository](https://github.com/aws-cloudformation/cloudformation-guard)), a policy-as-code language. Config custom rules created with Lambda are called Config Custom Lambda Rules and Config custom rules created with Guard are called Config Custom Policy Rules. If you are adding a new Config Custom Lambda rule, you first need to create an Lambda function that the rule invokes to evaluate your resources. When you use PutConfigRule to add a Custom Lambda rule to Config, you must specify the Amazon Resource Name (ARN) that Lambda assigns to the function. You specify the ARN in the SourceIdentifier key. This key is part of the Source object, which is part of the ConfigRule object. For any new Config rule that you add, specify the ConfigRuleName in the ConfigRule object. Do not specify the ConfigRuleArn or the ConfigRuleId. These values are generated by Config for new rules. If you are updating a rule that you added previously, you can specify the rule by ConfigRuleName, ConfigRuleId, or ConfigRuleArn in the ConfigRule data type that you use in this request. For more information about developing and using Config rules, see [Evaluating Resources with Config Rules](https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config.html) in the Config Developer Guide. PutConfigRule is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
+    /// Adds or updates an Config rule to evaluate if your Amazon Web Services resources comply with your desired configurations. For information on how many Config rules you can have per account, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide. There are two types of rules: Config Managed Rules and Config Custom Rules. You can use PutConfigRule to create both Config Managed Rules and Config Custom Rules. Config Managed Rules are predefined, customizable rules created by Config. For a list of managed rules, see [List of Config Managed Rules](https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html). If you are adding an Config managed rule, you must specify the rule's identifier for the SourceIdentifier key. Config Custom Rules are rules that you create from scratch. There are two ways to create Config custom rules: with Lambda functions ([ Lambda Developer Guide](https://docs.aws.amazon.com/config/latest/developerguide/gettingstarted-concepts.html#gettingstarted-concepts-function)) and with Guard ([Guard GitHub Repository](https://github.com/aws-cloudformation/cloudformation-guard)), a policy-as-code language. Config custom rules created with Lambda are called Config Custom Lambda Rules and Config custom rules created with Guard are called Config Custom Policy Rules. If you are adding a new Config Custom Lambda rule, you first need to create an Lambda function that the rule invokes to evaluate your resources. When you use PutConfigRule to add a Custom Lambda rule to Config, you must specify the Amazon Resource Name (ARN) that Lambda assigns to the function. You specify the ARN in the SourceIdentifier key. This key is part of the Source object, which is part of the ConfigRule object. For any new Config rule that you add, specify the ConfigRuleName in the ConfigRule object. Do not specify the ConfigRuleArn or the ConfigRuleId. These values are generated by Config for new rules. If you are updating a rule that you added previously, you can specify the rule by ConfigRuleName, ConfigRuleId, or ConfigRuleArn in the ConfigRule data type that you use in this request. For more information about developing and using Config rules, see [Evaluating Resources with Config Rules](https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config.html) in the Config Developer Guide. Tags are added at creation and cannot be updated with this operation PutConfigRule is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different. Use [TagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html) and [UntagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html) to update tags after creation.
     ///
     /// - Parameter PutConfigRuleInput : [no documentation found]
     ///
@@ -5379,20 +6748,25 @@ extension ConfigClient {
     /// __Possible Exceptions:__
     /// - `InsufficientPermissionsException` : Indicates one of the following errors:
     ///
-    /// * For PutConfigRule, the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
     ///
-    /// * For PutConfigRule, the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
     ///
-    /// * For PutOrganizationConfigRule, organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
+    /// * For [PutOrganizationConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConfigRule.html), organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
     ///
-    /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot be created because you do not have the following permissions:
+    /// * For [PutConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html) and [PutOrganizationConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html), a conformance pack cannot be created because you do not have the following permissions:
     ///
     /// * You do not have permission to call IAM GetRole action or create a service-linked role.
     ///
     /// * You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
+    ///
+    ///
+    ///
+    ///
+    /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `MaxNumberOfConfigRulesExceededException` : Failed to add the Config rule because the account already contains the maximum number of 1000 rules. Consider deleting any deactivated rules before you add new rules.
-    /// - `NoAvailableConfigurationRecorderException` : There are no configuration recorders available to provide the role needed to describe your resources. Create a configuration recorder.
+    /// - `NoAvailableConfigurationRecorderException` : There are no customer managed configuration recorders available to record your resources. Use the [PutConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationRecorder.html) operation to create the customer managed configuration recorder.
     /// - `ResourceInUseException` : You see this exception in the following cases:
     ///
     /// * For DeleteConfigRule, Config is deleting this rule. Try your request again later.
@@ -5424,6 +6798,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -5442,15 +6818,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutConfigRuleOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutConfigRuleOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutConfigRuleInput, PutConfigRuleOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutConfigRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutConfigRuleInput, PutConfigRuleOutput>(xAmzTarget: "StarlingDoveService.PutConfigRule"))
         builder.serialize(ClientRuntime.BodyMiddleware<PutConfigRuleInput, PutConfigRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutConfigRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutConfigRuleInput, PutConfigRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutConfigRuleInput, PutConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutConfigRuleInput, PutConfigRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutConfigRuleInput, PutConfigRuleOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutConfigRule")
@@ -5466,9 +6845,9 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutConfigurationAggregator` operation on the `StarlingDoveService` service.
+    /// Performs the `PutConfigurationAggregator` operation on the `Config` service.
     ///
-    /// Creates and updates the configuration aggregator with the selected source accounts and regions. The source account can be individual account(s) or an organization. accountIds that are passed will be replaced with existing accounts. If you want to add additional accounts into the aggregator, call DescribeConfigurationAggregators to get the previous accounts and then append new ones. Config should be enabled in source accounts and regions you want to aggregate. If your source type is an organization, you must be signed in to the management account or a registered delegated administrator and all the features must be enabled in your organization. If the caller is a management account, Config calls EnableAwsServiceAccess API to enable integration between Config and Organizations. If the caller is a registered delegated administrator, Config calls ListDelegatedAdministrators API to verify whether the caller is a valid delegated administrator. To register a delegated administrator, see [Register a Delegated Administrator](https://docs.aws.amazon.com/config/latest/developerguide/set-up-aggregator-cli.html#register-a-delegated-administrator-cli) in the Config developer guide. PutConfigurationAggregator is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
+    /// Creates and updates the configuration aggregator with the selected source accounts and regions. The source account can be individual account(s) or an organization. accountIds that are passed will be replaced with existing accounts. If you want to add additional accounts into the aggregator, call DescribeConfigurationAggregators to get the previous accounts and then append new ones. Config should be enabled in source accounts and regions you want to aggregate. If your source type is an organization, you must be signed in to the management account or a registered delegated administrator and all the features must be enabled in your organization. If the caller is a management account, Config calls EnableAwsServiceAccess API to enable integration between Config and Organizations. If the caller is a registered delegated administrator, Config calls ListDelegatedAdministrators API to verify whether the caller is a valid delegated administrator. To register a delegated administrator, see [Register a Delegated Administrator](https://docs.aws.amazon.com/config/latest/developerguide/set-up-aggregator-cli.html#register-a-delegated-administrator-cli) in the Config developer guide. Tags are added at creation and cannot be updated with this operation PutConfigurationAggregator is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different. Use [TagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html) and [UntagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html) to update tags after creation.
     ///
     /// - Parameter PutConfigurationAggregatorInput : [no documentation found]
     ///
@@ -5478,8 +6857,8 @@ extension ConfigClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    /// - `InvalidRoleException` : You have provided a null or empty Amazon Resource Name (ARN) for the IAM role assumed by Config and used by the configuration recorder.
-    /// - `LimitExceededException` : For StartConfigRulesEvaluation API, this exception is thrown if an evaluation is in progress or if you call the [StartConfigRulesEvaluation] API more than once per minute. For PutConfigurationAggregator API, this exception is thrown if the number of accounts and aggregators exceeds the limit.
+    /// - `InvalidRoleException` : You have provided a null or empty Amazon Resource Name (ARN) for the IAM role assumed by Config and used by the customer managed configuration recorder.
+    /// - `LimitExceededException` : For PutServiceLinkedConfigurationRecorder API, this exception is thrown if the number of service-linked roles in the account exceeds the limit. For StartConfigRulesEvaluation API, this exception is thrown if an evaluation is in progress or if you call the [StartConfigRulesEvaluation] API more than once per minute. For PutConfigurationAggregator API, this exception is thrown if the number of accounts and aggregators exceeds the limit.
     /// - `NoAvailableOrganizationException` : Organization is no longer available.
     /// - `OrganizationAccessDeniedException` : For PutConfigurationAggregator API, you can see this exception for the following reasons:
     ///
@@ -5489,7 +6868,7 @@ extension ConfigClient {
     ///
     /// * The configuration aggregator is associated with a previous Amazon Web Services Organization and Config cannot aggregate data with current Amazon Web Services Organization. Delete this aggregator and create a new one with the current Amazon Web Services Organization.
     ///
-    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principle name before the delegated administrator creates an aggregator.
+    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principal name before the delegated administrator creates an aggregator.
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
@@ -5510,6 +6889,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -5528,15 +6909,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutConfigurationAggregatorOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutConfigurationAggregatorOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutConfigurationAggregatorInput, PutConfigurationAggregatorOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutConfigurationAggregatorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutConfigurationAggregatorInput, PutConfigurationAggregatorOutput>(xAmzTarget: "StarlingDoveService.PutConfigurationAggregator"))
         builder.serialize(ClientRuntime.BodyMiddleware<PutConfigurationAggregatorInput, PutConfigurationAggregatorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutConfigurationAggregatorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutConfigurationAggregatorInput, PutConfigurationAggregatorOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutConfigurationAggregatorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutConfigurationAggregatorInput, PutConfigurationAggregatorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutConfigurationAggregatorInput, PutConfigurationAggregatorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutConfigurationAggregatorInput, PutConfigurationAggregatorOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutConfigurationAggregator")
@@ -5552,9 +6936,9 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutConfigurationRecorder` operation on the `StarlingDoveService` service.
+    /// Performs the `PutConfigurationRecorder` operation on the `Config` service.
     ///
-    /// Creates a new configuration recorder to record configuration changes for specified resource types. You can also use this action to change the roleARN or the recordingGroup of an existing recorder. For more information, see [ Managing the Configuration Recorder ](https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html) in the Config Developer Guide. You can specify only one configuration recorder for each Amazon Web Services Region for each account. If the configuration recorder does not have the recordingGroup field specified, the default is to record all supported resource types.
+    /// Creates or updates the customer managed configuration recorder. You can use this operation to create a new customer managed configuration recorder or to update the roleARN and the recordingGroup for an existing customer managed configuration recorder. To start the customer managed configuration recorder and begin recording configuration changes for the resource types you specify, use the [StartConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StartConfigurationRecorder.html) operation. For more information, see [ Working with the Configuration Recorder ](https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html) in the Config Developer Guide. One customer managed configuration recorder per account per Region You can create only one customer managed configuration recorder for each account for each Amazon Web Services Region. Default is to record all supported resource types, excluding the global IAM resource types If you have not specified values for the recordingGroup field, the default for the customer managed configuration recorder is to record all supported resource types, excluding the global IAM resource types: AWS::IAM::Group, AWS::IAM::Policy, AWS::IAM::Role, and AWS::IAM::User. Tags are added at creation and cannot be updated PutConfigurationRecorder is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different. Use [TagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html) and [UntagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html) to update tags after creation.
     ///
     /// - Parameter PutConfigurationRecorderInput : The input for the [PutConfigurationRecorder] action.
     ///
@@ -5563,8 +6947,8 @@ extension ConfigClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidConfigurationRecorderNameException` : You have provided a name for the configuration recorder that is not valid.
-    /// - `InvalidRecordingGroupException` : Indicates one of the following errors:
+    /// - `InvalidConfigurationRecorderNameException` : You have provided a name for the customer managed configuration recorder that is not valid.
+    /// - `InvalidRecordingGroupException` : One of the following errors:
     ///
     /// * You have provided a combination of parameter values that is not valid. For example:
     ///
@@ -5580,9 +6964,32 @@ extension ConfigClient {
     /// * You have reached the limit of the number of resource types you can provide for the recording group.
     ///
     /// * You have provided resource types or a recording strategy that are not valid.
-    /// - `InvalidRoleException` : You have provided a null or empty Amazon Resource Name (ARN) for the IAM role assumed by Config and used by the configuration recorder.
+    /// - `InvalidRoleException` : You have provided a null or empty Amazon Resource Name (ARN) for the IAM role assumed by Config and used by the customer managed configuration recorder.
     /// - `MaxNumberOfConfigurationRecordersExceededException` : You have reached the limit of the number of configuration recorders you can create.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `UnmodifiableEntityException` : The requested operation is not valid. For [PutConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationRecorder.html), you will see this exception because you cannot use this operation to create a service-linked configuration recorder. Use the [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html) operation to create a service-linked configuration recorder. For [DeleteConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteConfigurationRecorder.html), you will see this exception because you cannot use this operation to delete a service-linked configuration recorder. Use the [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html) operation to delete a service-linked configuration recorder. For [StartConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StartConfigurationRecorder.html) and [StopConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html), you will see this exception because these operations do not affect service-linked configuration recorders. Service-linked configuration recorders are always recording. To stop recording, you must delete the service-linked configuration recorder. Use the [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html) operation to delete a service-linked configuration recorder.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func putConfigurationRecorder(input: PutConfigurationRecorderInput) async throws -> PutConfigurationRecorderOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5599,6 +7006,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -5617,15 +7026,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutConfigurationRecorderOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutConfigurationRecorderOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutConfigurationRecorderInput, PutConfigurationRecorderOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutConfigurationRecorderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutConfigurationRecorderInput, PutConfigurationRecorderOutput>(xAmzTarget: "StarlingDoveService.PutConfigurationRecorder"))
         builder.serialize(ClientRuntime.BodyMiddleware<PutConfigurationRecorderInput, PutConfigurationRecorderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutConfigurationRecorderInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutConfigurationRecorderInput, PutConfigurationRecorderOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutConfigurationRecorderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutConfigurationRecorderInput, PutConfigurationRecorderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutConfigurationRecorderInput, PutConfigurationRecorderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutConfigurationRecorderInput, PutConfigurationRecorderOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutConfigurationRecorder")
@@ -5641,7 +7053,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutConformancePack` operation on the `StarlingDoveService` service.
+    /// Performs the `PutConformancePack` operation on the `Config` service.
     ///
     /// Creates or updates a conformance pack. A conformance pack is a collection of Config rules that can be easily deployed in an account and a region and across an organization. For information on how many conformance packs you can have per account, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide. This API creates a service-linked role AWSServiceRoleForConfigConforms in your account. The service-linked role is created only when the role does not exist in your account. You must specify only one of the follow parameters: TemplateS3Uri, TemplateBody or TemplateSSMDocumentDetails.
     ///
@@ -5655,17 +7067,22 @@ extension ConfigClient {
     /// - `ConformancePackTemplateValidationException` : You have specified a template that is not valid or supported.
     /// - `InsufficientPermissionsException` : Indicates one of the following errors:
     ///
-    /// * For PutConfigRule, the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
     ///
-    /// * For PutConfigRule, the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
     ///
-    /// * For PutOrganizationConfigRule, organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
+    /// * For [PutOrganizationConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConfigRule.html), organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
     ///
-    /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot be created because you do not have the following permissions:
+    /// * For [PutConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html) and [PutOrganizationConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html), a conformance pack cannot be created because you do not have the following permissions:
     ///
     /// * You do not have permission to call IAM GetRole action or create a service-linked role.
     ///
     /// * You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
+    ///
+    ///
+    ///
+    ///
+    /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `MaxNumberOfConformancePacksExceededException` : You have reached the limit of the number of conformance packs you can create in an account. For more information, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide.
     /// - `ResourceInUseException` : You see this exception in the following cases:
@@ -5699,6 +7116,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -5717,15 +7136,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutConformancePackOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutConformancePackOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutConformancePackInput, PutConformancePackOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutConformancePackOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutConformancePackInput, PutConformancePackOutput>(xAmzTarget: "StarlingDoveService.PutConformancePack"))
         builder.serialize(ClientRuntime.BodyMiddleware<PutConformancePackInput, PutConformancePackOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutConformancePackInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutConformancePackInput, PutConformancePackOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutConformancePackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutConformancePackInput, PutConformancePackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutConformancePackInput, PutConformancePackOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutConformancePackInput, PutConformancePackOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutConformancePack")
@@ -5741,9 +7163,9 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutDeliveryChannel` operation on the `StarlingDoveService` service.
+    /// Performs the `PutDeliveryChannel` operation on the `Config` service.
     ///
-    /// Creates a delivery channel object to deliver configuration information and other compliance information to an Amazon S3 bucket and Amazon SNS topic. For more information, see [Notifications that Config Sends to an Amazon SNS topic](https://docs.aws.amazon.com/config/latest/developerguide/notifications-for-AWS-Config.html). Before you can create a delivery channel, you must create a configuration recorder. You can use this action to change the Amazon S3 bucket or an Amazon SNS topic of the existing delivery channel. To change the Amazon S3 bucket or an Amazon SNS topic, call this action and specify the changed values for the S3 bucket and the SNS topic. If you specify a different value for either the S3 bucket or the SNS topic, this action will keep the existing value for the parameter that is not changed. You can have only one delivery channel per region in your account.
+    /// Creates or updates a delivery channel to deliver configuration information and other compliance information. You can use this operation to create a new delivery channel or to update the Amazon S3 bucket and the Amazon SNS topic of an existing delivery channel. For more information, see [ Working with the Delivery Channel ](https://docs.aws.amazon.com/config/latest/developerguide/manage-delivery-channel.html) in the Config Developer Guide. One delivery channel per account per Region You can have only one delivery channel for each account for each Amazon Web Services Region.
     ///
     /// - Parameter PutDeliveryChannelInput : The input for the [PutDeliveryChannel] action.
     ///
@@ -5752,13 +7174,13 @@ extension ConfigClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InsufficientDeliveryPolicyException` : Your Amazon S3 bucket policy does not permit Config to write to it.
+    /// - `InsufficientDeliveryPolicyException` : Your Amazon S3 bucket policy does not allow Config to write to it.
     /// - `InvalidDeliveryChannelNameException` : The specified delivery channel name is not valid.
     /// - `InvalidS3KeyPrefixException` : The specified Amazon S3 key prefix is not valid.
     /// - `InvalidS3KmsKeyArnException` : The specified Amazon KMS Key ARN is not valid.
     /// - `InvalidSNSTopicARNException` : The specified Amazon SNS topic does not exist.
     /// - `MaxNumberOfDeliveryChannelsExceededException` : You have reached the limit of the number of delivery channels you can create.
-    /// - `NoAvailableConfigurationRecorderException` : There are no configuration recorders available to provide the role needed to describe your resources. Create a configuration recorder.
+    /// - `NoAvailableConfigurationRecorderException` : There are no customer managed configuration recorders available to record your resources. Use the [PutConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationRecorder.html) operation to create the customer managed configuration recorder.
     /// - `NoSuchBucketException` : The specified Amazon S3 bucket does not exist.
     public func putDeliveryChannel(input: PutDeliveryChannelInput) async throws -> PutDeliveryChannelOutput {
         let context = Smithy.ContextBuilder()
@@ -5776,6 +7198,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -5794,15 +7218,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutDeliveryChannelOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutDeliveryChannelOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutDeliveryChannelInput, PutDeliveryChannelOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutDeliveryChannelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutDeliveryChannelInput, PutDeliveryChannelOutput>(xAmzTarget: "StarlingDoveService.PutDeliveryChannel"))
         builder.serialize(ClientRuntime.BodyMiddleware<PutDeliveryChannelInput, PutDeliveryChannelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutDeliveryChannelInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutDeliveryChannelInput, PutDeliveryChannelOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutDeliveryChannelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutDeliveryChannelInput, PutDeliveryChannelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutDeliveryChannelInput, PutDeliveryChannelOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutDeliveryChannelInput, PutDeliveryChannelOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutDeliveryChannel")
@@ -5818,9 +7245,9 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutEvaluations` operation on the `StarlingDoveService` service.
+    /// Performs the `PutEvaluations` operation on the `Config` service.
     ///
-    /// Used by an Lambda function to deliver evaluation results to Config. This action is required in every Lambda function that is invoked by an Config rule.
+    /// Used by an Lambda function to deliver evaluation results to Config. This operation is required in every Lambda function that is invoked by an Config rule.
     ///
     /// - Parameter PutEvaluationsInput :
     ///
@@ -5848,6 +7275,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -5866,15 +7295,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutEvaluationsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutEvaluationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutEvaluationsInput, PutEvaluationsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutEvaluationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutEvaluationsInput, PutEvaluationsOutput>(xAmzTarget: "StarlingDoveService.PutEvaluations"))
         builder.serialize(ClientRuntime.BodyMiddleware<PutEvaluationsInput, PutEvaluationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutEvaluationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutEvaluationsInput, PutEvaluationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutEvaluationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutEvaluationsInput, PutEvaluationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutEvaluationsInput, PutEvaluationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutEvaluationsInput, PutEvaluationsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutEvaluations")
@@ -5890,7 +7322,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutExternalEvaluation` operation on the `StarlingDoveService` service.
+    /// Performs the `PutExternalEvaluation` operation on the `Config` service.
     ///
     /// Add or updates the evaluations for process checks. This API checks if the rule is a process check when the name of the Config rule is provided.
     ///
@@ -5919,6 +7351,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -5937,15 +7371,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutExternalEvaluationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutExternalEvaluationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutExternalEvaluationInput, PutExternalEvaluationOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutExternalEvaluationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutExternalEvaluationInput, PutExternalEvaluationOutput>(xAmzTarget: "StarlingDoveService.PutExternalEvaluation"))
         builder.serialize(ClientRuntime.BodyMiddleware<PutExternalEvaluationInput, PutExternalEvaluationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutExternalEvaluationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutExternalEvaluationInput, PutExternalEvaluationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutExternalEvaluationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutExternalEvaluationInput, PutExternalEvaluationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutExternalEvaluationInput, PutExternalEvaluationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutExternalEvaluationInput, PutExternalEvaluationOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutExternalEvaluation")
@@ -5961,7 +7398,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutOrganizationConfigRule` operation on the `StarlingDoveService` service.
+    /// Performs the `PutOrganizationConfigRule` operation on the `Config` service.
     ///
     /// Adds or updates an Config rule for your entire organization to evaluate if your Amazon Web Services resources comply with your desired configurations. For information on how many organization Config rules you can have per account, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide. Only a management account and a delegated administrator can create or update an organization Config rule. When calling this API with a delegated administrator, you must ensure Organizations ListDelegatedAdministrator permissions are added. An organization can have up to 3 delegated administrators. This API enables organization service access through the EnableAWSServiceAccess action and creates a service-linked role AWSServiceRoleForConfigMultiAccountSetup in the management or delegated administrator account of your organization. The service-linked role is created only when the role does not exist in the caller account. Config verifies the existence of role with GetRole action. To use this API with delegated administrator, register a delegated administrator by calling Amazon Web Services Organization register-delegated-administrator for config-multiaccountsetup.amazonaws.com. There are two types of rules: Config Managed Rules and Config Custom Rules. You can use PutOrganizationConfigRule to create both Config Managed Rules and Config Custom Rules. Config Managed Rules are predefined, customizable rules created by Config. For a list of managed rules, see [List of Config Managed Rules](https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html). If you are adding an Config managed rule, you must specify the rule's identifier for the RuleIdentifier key. Config Custom Rules are rules that you create from scratch. There are two ways to create Config custom rules: with Lambda functions ([ Lambda Developer Guide](https://docs.aws.amazon.com/config/latest/developerguide/gettingstarted-concepts.html#gettingstarted-concepts-function)) and with Guard ([Guard GitHub Repository](https://github.com/aws-cloudformation/cloudformation-guard)), a policy-as-code language. Config custom rules created with Lambda are called Config Custom Lambda Rules and Config custom rules created with Guard are called Config Custom Policy Rules. If you are adding a new Config Custom Lambda rule, you first need to create an Lambda function in the management account or a delegated administrator that the rule invokes to evaluate your resources. You also need to create an IAM role in the managed account that can be assumed by the Lambda function. When you use PutOrganizationConfigRule to add a Custom Lambda rule to Config, you must specify the Amazon Resource Name (ARN) that Lambda assigns to the function. Prerequisite: Ensure you call EnableAllFeatures API to enable all features in an organization. Make sure to specify one of either OrganizationCustomPolicyRuleMetadata for Custom Policy rules, OrganizationCustomRuleMetadata for Custom Lambda rules, or OrganizationManagedRuleMetadata for managed rules.
     ///
@@ -5974,17 +7411,22 @@ extension ConfigClient {
     /// __Possible Exceptions:__
     /// - `InsufficientPermissionsException` : Indicates one of the following errors:
     ///
-    /// * For PutConfigRule, the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
     ///
-    /// * For PutConfigRule, the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
     ///
-    /// * For PutOrganizationConfigRule, organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
+    /// * For [PutOrganizationConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConfigRule.html), organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
     ///
-    /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot be created because you do not have the following permissions:
+    /// * For [PutConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html) and [PutOrganizationConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html), a conformance pack cannot be created because you do not have the following permissions:
     ///
     /// * You do not have permission to call IAM GetRole action or create a service-linked role.
     ///
     /// * You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
+    ///
+    ///
+    ///
+    ///
+    /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `MaxNumberOfOrganizationConfigRulesExceededException` : You have reached the limit of the number of organization Config rules you can create. For more information, see see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide.
     /// - `NoAvailableOrganizationException` : Organization is no longer available.
@@ -5996,7 +7438,7 @@ extension ConfigClient {
     ///
     /// * The configuration aggregator is associated with a previous Amazon Web Services Organization and Config cannot aggregate data with current Amazon Web Services Organization. Delete this aggregator and create a new one with the current Amazon Web Services Organization.
     ///
-    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principle name before the delegated administrator creates an aggregator.
+    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principal name before the delegated administrator creates an aggregator.
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
@@ -6016,7 +7458,29 @@ extension ConfigClient {
     /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
     ///
     /// * For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func putOrganizationConfigRule(input: PutOrganizationConfigRuleInput) async throws -> PutOrganizationConfigRuleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6033,6 +7497,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -6051,15 +7517,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutOrganizationConfigRuleOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutOrganizationConfigRuleOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutOrganizationConfigRuleInput, PutOrganizationConfigRuleOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutOrganizationConfigRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutOrganizationConfigRuleInput, PutOrganizationConfigRuleOutput>(xAmzTarget: "StarlingDoveService.PutOrganizationConfigRule"))
         builder.serialize(ClientRuntime.BodyMiddleware<PutOrganizationConfigRuleInput, PutOrganizationConfigRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutOrganizationConfigRuleInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutOrganizationConfigRuleInput, PutOrganizationConfigRuleOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutOrganizationConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutOrganizationConfigRuleInput, PutOrganizationConfigRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutOrganizationConfigRuleInput, PutOrganizationConfigRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutOrganizationConfigRuleInput, PutOrganizationConfigRuleOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutOrganizationConfigRule")
@@ -6075,7 +7544,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutOrganizationConformancePack` operation on the `StarlingDoveService` service.
+    /// Performs the `PutOrganizationConformancePack` operation on the `Config` service.
     ///
     /// Deploys conformance packs across member accounts in an Amazon Web Services Organization. For information on how many organization conformance packs and how many Config rules you can have per account, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide. Only a management account and a delegated administrator can call this API. When calling this API with a delegated administrator, you must ensure Organizations ListDelegatedAdministrator permissions are added. An organization can have up to 3 delegated administrators. This API enables organization service access for config-multiaccountsetup.amazonaws.com through the EnableAWSServiceAccess action and creates a service-linked role AWSServiceRoleForConfigMultiAccountSetup in the management or delegated administrator account of your organization. The service-linked role is created only when the role does not exist in the caller account. To use this API with delegated administrator, register a delegated administrator by calling Amazon Web Services Organization register-delegate-admin for config-multiaccountsetup.amazonaws.com. Prerequisite: Ensure you call EnableAllFeatures API to enable all features in an organization. You must specify either the TemplateS3Uri or the TemplateBody parameter, but not both. If you provide both Config uses the TemplateS3Uri parameter and ignores the TemplateBody parameter. Config sets the state of a conformance pack to CREATE_IN_PROGRESS and UPDATE_IN_PROGRESS until the conformance pack is created or updated. You cannot update a conformance pack while it is in this state.
     ///
@@ -6088,17 +7557,22 @@ extension ConfigClient {
     /// __Possible Exceptions:__
     /// - `InsufficientPermissionsException` : Indicates one of the following errors:
     ///
-    /// * For PutConfigRule, the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
     ///
-    /// * For PutConfigRule, the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
     ///
-    /// * For PutOrganizationConfigRule, organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
+    /// * For [PutOrganizationConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConfigRule.html), organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
     ///
-    /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot be created because you do not have the following permissions:
+    /// * For [PutConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html) and [PutOrganizationConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html), a conformance pack cannot be created because you do not have the following permissions:
     ///
     /// * You do not have permission to call IAM GetRole action or create a service-linked role.
     ///
     /// * You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
+    ///
+    ///
+    ///
+    ///
+    /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
     /// - `MaxNumberOfOrganizationConformancePacksExceededException` : You have reached the limit of the number of organization conformance packs you can create in an account. For more information, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide.
     /// - `NoAvailableOrganizationException` : Organization is no longer available.
     /// - `OrganizationAccessDeniedException` : For PutConfigurationAggregator API, you can see this exception for the following reasons:
@@ -6109,7 +7583,7 @@ extension ConfigClient {
     ///
     /// * The configuration aggregator is associated with a previous Amazon Web Services Organization and Config cannot aggregate data with current Amazon Web Services Organization. Delete this aggregator and create a new one with the current Amazon Web Services Organization.
     ///
-    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principle name before the delegated administrator creates an aggregator.
+    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principal name before the delegated administrator creates an aggregator.
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
@@ -6130,7 +7604,29 @@ extension ConfigClient {
     /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
     ///
     /// * For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func putOrganizationConformancePack(input: PutOrganizationConformancePackInput) async throws -> PutOrganizationConformancePackOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6147,6 +7643,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -6165,15 +7663,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutOrganizationConformancePackOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutOrganizationConformancePackOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutOrganizationConformancePackInput, PutOrganizationConformancePackOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutOrganizationConformancePackOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutOrganizationConformancePackInput, PutOrganizationConformancePackOutput>(xAmzTarget: "StarlingDoveService.PutOrganizationConformancePack"))
         builder.serialize(ClientRuntime.BodyMiddleware<PutOrganizationConformancePackInput, PutOrganizationConformancePackOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutOrganizationConformancePackInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutOrganizationConformancePackInput, PutOrganizationConformancePackOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutOrganizationConformancePackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutOrganizationConformancePackInput, PutOrganizationConformancePackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutOrganizationConformancePackInput, PutOrganizationConformancePackOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutOrganizationConformancePackInput, PutOrganizationConformancePackOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutOrganizationConformancePack")
@@ -6189,7 +7690,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutRemediationConfigurations` operation on the `StarlingDoveService` service.
+    /// Performs the `PutRemediationConfigurations` operation on the `Config` service.
     ///
     /// Adds or updates the remediation configuration with a specific Config rule with the selected target or action. The API creates the RemediationConfiguration object for the Config rule. The Config rule must already exist for you to add a remediation configuration. The target (SSM document) must exist and have permissions to use the target. Be aware of backward incompatible changes If you make backward incompatible changes to the SSM document, you must call this again to ensure the remediations can run. This API does not support adding remediation configurations for service-linked Config Rules such as Organization Config rules, the rules deployed by conformance packs, and rules deployed by Amazon Web Services Security Hub. Required fields For manual remediation configuration, you need to provide a value for automationAssumeRole or use a value in the assumeRolefield to remediate your resources. The SSM automation document can use either as long as it maps to a valid parameter. However, for automatic remediation configuration, the only valid assumeRole field value is AutomationAssumeRole and you need to provide a value for AutomationAssumeRole to remediate your resources. Auto remediation can be initiated even for compliant resources If you enable auto remediation for a specific Config rule using the [PutRemediationConfigurations](https://docs.aws.amazon.com/config/latest/APIReference/emAPI_PutRemediationConfigurations.html) API or the Config console, it initiates the remediation process for all non-compliant resources for that specific rule. The auto remediation process relies on the compliance data snapshot which is captured on a periodic basis. Any non-compliant resource that is updated between the snapshot schedule will continue to be remediated based on the last known compliance data snapshot. This means that in some cases auto remediation can be initiated even for compliant resources, since the bootstrap processor uses a database that can have stale evaluation results based on the last known compliance data snapshot.
     ///
@@ -6202,17 +7703,22 @@ extension ConfigClient {
     /// __Possible Exceptions:__
     /// - `InsufficientPermissionsException` : Indicates one of the following errors:
     ///
-    /// * For PutConfigRule, the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
     ///
-    /// * For PutConfigRule, the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
     ///
-    /// * For PutOrganizationConfigRule, organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
+    /// * For [PutOrganizationConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConfigRule.html), organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
     ///
-    /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot be created because you do not have the following permissions:
+    /// * For [PutConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html) and [PutOrganizationConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html), a conformance pack cannot be created because you do not have the following permissions:
     ///
     /// * You do not have permission to call IAM GetRole action or create a service-linked role.
     ///
     /// * You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
+    ///
+    ///
+    ///
+    ///
+    /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     public func putRemediationConfigurations(input: PutRemediationConfigurationsInput) async throws -> PutRemediationConfigurationsOutput {
         let context = Smithy.ContextBuilder()
@@ -6230,6 +7736,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -6248,15 +7756,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRemediationConfigurationsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutRemediationConfigurationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutRemediationConfigurationsInput, PutRemediationConfigurationsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutRemediationConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutRemediationConfigurationsInput, PutRemediationConfigurationsOutput>(xAmzTarget: "StarlingDoveService.PutRemediationConfigurations"))
         builder.serialize(ClientRuntime.BodyMiddleware<PutRemediationConfigurationsInput, PutRemediationConfigurationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutRemediationConfigurationsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutRemediationConfigurationsInput, PutRemediationConfigurationsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutRemediationConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutRemediationConfigurationsInput, PutRemediationConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutRemediationConfigurationsInput, PutRemediationConfigurationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutRemediationConfigurationsInput, PutRemediationConfigurationsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutRemediationConfigurations")
@@ -6272,9 +7783,9 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutRemediationExceptions` operation on the `StarlingDoveService` service.
+    /// Performs the `PutRemediationExceptions` operation on the `Config` service.
     ///
-    /// A remediation exception is when a specified resource is no longer considered for auto-remediation. This API adds a new exception or updates an existing exception for a specified resource with a specified Config rule. Exceptions block auto remediation Config generates a remediation exception when a problem occurs running a remediation action for a specified resource. Remediation exceptions blocks auto-remediation until the exception is cleared. Manual remediation is recommended when placing an exception When placing an exception on an Amazon Web Services resource, it is recommended that remediation is set as manual remediation until the given Config rule for the specified resource evaluates the resource as NON_COMPLIANT. Once the resource has been evaluated as NON_COMPLIANT, you can add remediation exceptions and change the remediation type back from Manual to Auto if you want to use auto-remediation. Otherwise, using auto-remediation before a NON_COMPLIANT evaluation result can delete resources before the exception is applied. Exceptions can only be performed on non-compliant resources Placing an exception can only be performed on resources that are NON_COMPLIANT. If you use this API for COMPLIANT resources or resources that are NOT_APPLICABLE, a remediation exception will not be generated. For more information on the conditions that initiate the possible Config evaluation results, see [Concepts | Config Rules](https://docs.aws.amazon.com/config/latest/developerguide/config-concepts.html#aws-config-rules) in the Config Developer Guide. Auto remediation can be initiated even for compliant resources If you enable auto remediation for a specific Config rule using the [PutRemediationConfigurations](https://docs.aws.amazon.com/config/latest/APIReference/emAPI_PutRemediationConfigurations.html) API or the Config console, it initiates the remediation process for all non-compliant resources for that specific rule. The auto remediation process relies on the compliance data snapshot which is captured on a periodic basis. Any non-compliant resource that is updated between the snapshot schedule will continue to be remediated based on the last known compliance data snapshot. This means that in some cases auto remediation can be initiated even for compliant resources, since the bootstrap processor uses a database that can have stale evaluation results based on the last known compliance data snapshot.
+    /// A remediation exception is when a specified resource is no longer considered for auto-remediation. This API adds a new exception or updates an existing exception for a specified resource with a specified Config rule. Exceptions block auto remediation Config generates a remediation exception when a problem occurs running a remediation action for a specified resource. Remediation exceptions blocks auto-remediation until the exception is cleared. Manual remediation is recommended when placing an exception When placing an exception on an Amazon Web Services resource, it is recommended that remediation is set as manual remediation until the given Config rule for the specified resource evaluates the resource as NON_COMPLIANT. Once the resource has been evaluated as NON_COMPLIANT, you can add remediation exceptions and change the remediation type back from Manual to Auto if you want to use auto-remediation. Otherwise, using auto-remediation before a NON_COMPLIANT evaluation result can delete resources before the exception is applied. Exceptions can only be performed on non-compliant resources Placing an exception can only be performed on resources that are NON_COMPLIANT. If you use this API for COMPLIANT resources or resources that are NOT_APPLICABLE, a remediation exception will not be generated. For more information on the conditions that initiate the possible Config evaluation results, see [Concepts | Config Rules](https://docs.aws.amazon.com/config/latest/developerguide/config-concepts.html#aws-config-rules) in the Config Developer Guide. Exceptions cannot be placed on service-linked remediation actions You cannot place an exception on service-linked remediation actions, such as remediation actions put by an organizational conformance pack. Auto remediation can be initiated even for compliant resources If you enable auto remediation for a specific Config rule using the [PutRemediationConfigurations](https://docs.aws.amazon.com/config/latest/APIReference/emAPI_PutRemediationConfigurations.html) API or the Config console, it initiates the remediation process for all non-compliant resources for that specific rule. The auto remediation process relies on the compliance data snapshot which is captured on a periodic basis. Any non-compliant resource that is updated between the snapshot schedule will continue to be remediated based on the last known compliance data snapshot. This means that in some cases auto remediation can be initiated even for compliant resources, since the bootstrap processor uses a database that can have stale evaluation results based on the last known compliance data snapshot.
     ///
     /// - Parameter PutRemediationExceptionsInput : [no documentation found]
     ///
@@ -6285,17 +7796,22 @@ extension ConfigClient {
     /// __Possible Exceptions:__
     /// - `InsufficientPermissionsException` : Indicates one of the following errors:
     ///
-    /// * For PutConfigRule, the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
     ///
-    /// * For PutConfigRule, the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
     ///
-    /// * For PutOrganizationConfigRule, organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
+    /// * For [PutOrganizationConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConfigRule.html), organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
     ///
-    /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot be created because you do not have the following permissions:
+    /// * For [PutConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html) and [PutOrganizationConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html), a conformance pack cannot be created because you do not have the following permissions:
     ///
     /// * You do not have permission to call IAM GetRole action or create a service-linked role.
     ///
     /// * You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
+    ///
+    ///
+    ///
+    ///
+    /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     public func putRemediationExceptions(input: PutRemediationExceptionsInput) async throws -> PutRemediationExceptionsOutput {
         let context = Smithy.ContextBuilder()
@@ -6313,6 +7829,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -6331,15 +7849,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRemediationExceptionsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutRemediationExceptionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutRemediationExceptionsInput, PutRemediationExceptionsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutRemediationExceptionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutRemediationExceptionsInput, PutRemediationExceptionsOutput>(xAmzTarget: "StarlingDoveService.PutRemediationExceptions"))
         builder.serialize(ClientRuntime.BodyMiddleware<PutRemediationExceptionsInput, PutRemediationExceptionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutRemediationExceptionsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutRemediationExceptionsInput, PutRemediationExceptionsOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutRemediationExceptionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutRemediationExceptionsInput, PutRemediationExceptionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutRemediationExceptionsInput, PutRemediationExceptionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutRemediationExceptionsInput, PutRemediationExceptionsOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutRemediationExceptions")
@@ -6355,7 +7876,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutResourceConfig` operation on the `StarlingDoveService` service.
+    /// Performs the `PutResourceConfig` operation on the `Config` service.
     ///
     /// Records the configuration state for the resource provided in the request. The configuration state of a resource is represented in Config as Configuration Items. Once this API records the configuration item, you can retrieve the list of configuration items for the custom resource type using existing Config APIs. The custom resource type must be registered with CloudFormation. This API accepts the configuration item registered with CloudFormation. When you call this API, Config only stores configuration state of the resource provided in the request. This API does not change or remediate the configuration of the resource. Write-only schema properites are not recorded as part of the published configuration item.
     ///
@@ -6368,20 +7889,47 @@ extension ConfigClient {
     /// __Possible Exceptions:__
     /// - `InsufficientPermissionsException` : Indicates one of the following errors:
     ///
-    /// * For PutConfigRule, the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
     ///
-    /// * For PutConfigRule, the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
     ///
-    /// * For PutOrganizationConfigRule, organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
+    /// * For [PutOrganizationConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConfigRule.html), organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
     ///
-    /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot be created because you do not have the following permissions:
+    /// * For [PutConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html) and [PutOrganizationConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html), a conformance pack cannot be created because you do not have the following permissions:
     ///
     /// * You do not have permission to call IAM GetRole action or create a service-linked role.
     ///
     /// * You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
+    ///
+    ///
+    ///
+    ///
+    /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
     /// - `MaxActiveResourcesExceededException` : You have reached the limit of active custom resource types in your account. There is a limit of 100,000. Delete unused resources using [DeleteResourceConfig](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteResourceConfig.html).
     /// - `NoRunningConfigurationRecorderException` : There is no configuration recorder running.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func putResourceConfig(input: PutResourceConfigInput) async throws -> PutResourceConfigOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6398,6 +7946,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -6416,15 +7966,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourceConfigOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutResourceConfigOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutResourceConfigInput, PutResourceConfigOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutResourceConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutResourceConfigInput, PutResourceConfigOutput>(xAmzTarget: "StarlingDoveService.PutResourceConfig"))
         builder.serialize(ClientRuntime.BodyMiddleware<PutResourceConfigInput, PutResourceConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutResourceConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResourceConfigInput, PutResourceConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutResourceConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutResourceConfigInput, PutResourceConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutResourceConfigInput, PutResourceConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutResourceConfigInput, PutResourceConfigOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutResourceConfig")
@@ -6440,7 +7993,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutRetentionConfiguration` operation on the `StarlingDoveService` service.
+    /// Performs the `PutRetentionConfiguration` operation on the `Config` service.
     ///
     /// Creates and updates the retention configuration with details about retention period (number of days) that Config stores your historical information. The API creates the RetentionConfiguration object and names the object as default. When you have a RetentionConfiguration object named default, calling the API modifies the default object. Currently, Config supports only one retention configuration per region in your account.
     ///
@@ -6469,6 +8022,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -6487,15 +8042,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRetentionConfigurationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutRetentionConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutRetentionConfigurationInput, PutRetentionConfigurationOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutRetentionConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutRetentionConfigurationInput, PutRetentionConfigurationOutput>(xAmzTarget: "StarlingDoveService.PutRetentionConfiguration"))
         builder.serialize(ClientRuntime.BodyMiddleware<PutRetentionConfigurationInput, PutRetentionConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutRetentionConfigurationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutRetentionConfigurationInput, PutRetentionConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutRetentionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutRetentionConfigurationInput, PutRetentionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutRetentionConfigurationInput, PutRetentionConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutRetentionConfigurationInput, PutRetentionConfigurationOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutRetentionConfiguration")
@@ -6511,9 +8069,130 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `PutStoredQuery` operation on the `StarlingDoveService` service.
+    /// Performs the `PutServiceLinkedConfigurationRecorder` operation on the `Config` service.
     ///
-    /// Saves a new query or updates an existing saved query. The QueryName must be unique for a single Amazon Web Services account and a single Amazon Web Services Region. You can create upto 300 queries in a single Amazon Web Services account and a single Amazon Web Services Region. PutStoredQuery is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
+    /// Creates a service-linked configuration recorder that is linked to a specific Amazon Web Services service based on the ServicePrincipal you specify. The configuration recorder's name, recordingGroup, recordingMode, and recordingScope is set by the service that is linked to the configuration recorder. For more information, see [ Working with the Configuration Recorder ](https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html) in the Config Developer Guide. This API creates a service-linked role AWSServiceRoleForConfig in your account. The service-linked role is created only when the role does not exist in your account. The recording scope determines if you receive configuration items The recording scope is set by the service that is linked to the configuration recorder and determines whether you receive configuration items (CIs) in the delivery channel. If the recording scope is internal, you will not receive CIs in the delivery channel. Tags are added at creation and cannot be updated with this operation Use [TagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html) and [UntagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html) to update tags after creation.
+    ///
+    /// - Parameter PutServiceLinkedConfigurationRecorderInput : [no documentation found]
+    ///
+    /// - Returns: `PutServiceLinkedConfigurationRecorderOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), you cannot create a service-linked recorder because a service-linked recorder already exists for the specified service. For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), you cannot delete the service-linked recorder because it is currently in use by the linked Amazon Web Services service. For [DeleteDeliveryChannel](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteDeliveryChannel.html), you cannot delete the specified delivery channel because the customer managed configuration recorder is running. Use the [StopConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html) operation to stop the customer managed configuration recorder. For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder is not in use by the service. No association or dissociation of resource types is permitted.
+    ///
+    /// * For service-linked configuration recorders, your requested change to the configuration recorder has been denied by its linked Amazon Web Services service.
+    /// - `InsufficientPermissionsException` : Indicates one of the following errors:
+    ///
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
+    ///
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
+    ///
+    /// * For [PutOrganizationConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConfigRule.html), organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
+    ///
+    /// * For [PutConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html) and [PutOrganizationConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html), a conformance pack cannot be created because you do not have the following permissions:
+    ///
+    /// * You do not have permission to call IAM GetRole action or create a service-linked role.
+    ///
+    /// * You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
+    ///
+    ///
+    ///
+    ///
+    /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
+    /// - `LimitExceededException` : For PutServiceLinkedConfigurationRecorder API, this exception is thrown if the number of service-linked roles in the account exceeds the limit. For StartConfigRulesEvaluation API, this exception is thrown if an evaluation is in progress or if you call the [StartConfigRulesEvaluation] API more than once per minute. For PutConfigurationAggregator API, this exception is thrown if the number of accounts and aggregators exceeds the limit.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    public func putServiceLinkedConfigurationRecorder(input: PutServiceLinkedConfigurationRecorderInput) async throws -> PutServiceLinkedConfigurationRecorderOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putServiceLinkedConfigurationRecorder")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "config")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutServiceLinkedConfigurationRecorderInput, PutServiceLinkedConfigurationRecorderOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutServiceLinkedConfigurationRecorderInput, PutServiceLinkedConfigurationRecorderOutput>(PutServiceLinkedConfigurationRecorderInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutServiceLinkedConfigurationRecorderInput, PutServiceLinkedConfigurationRecorderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutServiceLinkedConfigurationRecorderInput, PutServiceLinkedConfigurationRecorderOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutServiceLinkedConfigurationRecorderOutput>(PutServiceLinkedConfigurationRecorderOutput.httpOutput(from:), PutServiceLinkedConfigurationRecorderOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutServiceLinkedConfigurationRecorderInput, PutServiceLinkedConfigurationRecorderOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutServiceLinkedConfigurationRecorderOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutServiceLinkedConfigurationRecorderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutServiceLinkedConfigurationRecorderInput, PutServiceLinkedConfigurationRecorderOutput>(xAmzTarget: "StarlingDoveService.PutServiceLinkedConfigurationRecorder"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutServiceLinkedConfigurationRecorderInput, PutServiceLinkedConfigurationRecorderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutServiceLinkedConfigurationRecorderInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutServiceLinkedConfigurationRecorderInput, PutServiceLinkedConfigurationRecorderOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutServiceLinkedConfigurationRecorderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutServiceLinkedConfigurationRecorderInput, PutServiceLinkedConfigurationRecorderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutServiceLinkedConfigurationRecorderInput, PutServiceLinkedConfigurationRecorderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutServiceLinkedConfigurationRecorderInput, PutServiceLinkedConfigurationRecorderOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutServiceLinkedConfigurationRecorder")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutStoredQuery` operation on the `Config` service.
+    ///
+    /// Saves a new query or updates an existing saved query. The QueryName must be unique for a single Amazon Web Services account and a single Amazon Web Services Region. You can create upto 300 queries in a single Amazon Web Services account and a single Amazon Web Services Region. Tags are added at creation and cannot be updated PutStoredQuery is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
     ///
     /// - Parameter PutStoredQueryInput : [no documentation found]
     ///
@@ -6524,7 +8203,29 @@ extension ConfigClient {
     /// __Possible Exceptions:__
     /// - `ResourceConcurrentModificationException` : Two users are trying to modify the same query at the same time. Wait for a moment and try again.
     /// - `TooManyTagsException` : You have reached the limit of the number of tags you can use. For more information, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func putStoredQuery(input: PutStoredQueryInput) async throws -> PutStoredQueryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6541,6 +8242,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -6559,15 +8262,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutStoredQueryOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutStoredQueryOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutStoredQueryInput, PutStoredQueryOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutStoredQueryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutStoredQueryInput, PutStoredQueryOutput>(xAmzTarget: "StarlingDoveService.PutStoredQuery"))
         builder.serialize(ClientRuntime.BodyMiddleware<PutStoredQueryInput, PutStoredQueryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutStoredQueryInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutStoredQueryInput, PutStoredQueryOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutStoredQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutStoredQueryInput, PutStoredQueryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutStoredQueryInput, PutStoredQueryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutStoredQueryInput, PutStoredQueryOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutStoredQuery")
@@ -6583,7 +8289,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SelectAggregateResourceConfig` operation on the `StarlingDoveService` service.
+    /// Performs the `SelectAggregateResourceConfig` operation on the `Config` service.
     ///
     /// Accepts a structured query language (SQL) SELECT command and an aggregator to query configuration state of Amazon Web Services resources across multiple accounts and regions, performs the corresponding search, and returns resource configurations matching the properties. For more information about query components, see the [ Query Components ](https://docs.aws.amazon.com/config/latest/developerguide/query-components.html) section in the Config Developer Guide. If you run an aggregation query (i.e., using GROUP BY or using aggregate functions such as COUNT; e.g., SELECT resourceId, COUNT(*) WHERE resourceType = 'AWS::IAM::Role' GROUP BY resourceId) and do not specify the MaxResults or the Limit query parameters, the default page size is set to 500. If you run a non-aggregation query (i.e., not using GROUP BY or aggregate function; e.g., SELECT * WHERE resourceType = 'AWS::IAM::Role') and do not specify the MaxResults or the Limit query parameters, the default page size is set to 25.
     ///
@@ -6614,6 +8320,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -6632,15 +8340,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SelectAggregateResourceConfigOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SelectAggregateResourceConfigOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SelectAggregateResourceConfigInput, SelectAggregateResourceConfigOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SelectAggregateResourceConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SelectAggregateResourceConfigInput, SelectAggregateResourceConfigOutput>(xAmzTarget: "StarlingDoveService.SelectAggregateResourceConfig"))
         builder.serialize(ClientRuntime.BodyMiddleware<SelectAggregateResourceConfigInput, SelectAggregateResourceConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SelectAggregateResourceConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SelectAggregateResourceConfigInput, SelectAggregateResourceConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SelectAggregateResourceConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SelectAggregateResourceConfigInput, SelectAggregateResourceConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SelectAggregateResourceConfigInput, SelectAggregateResourceConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SelectAggregateResourceConfigInput, SelectAggregateResourceConfigOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SelectAggregateResourceConfig")
@@ -6656,7 +8367,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SelectResourceConfig` operation on the `StarlingDoveService` service.
+    /// Performs the `SelectResourceConfig` operation on the `Config` service.
     ///
     /// Accepts a structured query language (SQL) SELECT command, performs the corresponding search, and returns resource configurations matching the properties. For more information about query components, see the [ Query Components ](https://docs.aws.amazon.com/config/latest/developerguide/query-components.html) section in the Config Developer Guide.
     ///
@@ -6686,6 +8397,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -6704,15 +8417,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SelectResourceConfigOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SelectResourceConfigOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SelectResourceConfigInput, SelectResourceConfigOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SelectResourceConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SelectResourceConfigInput, SelectResourceConfigOutput>(xAmzTarget: "StarlingDoveService.SelectResourceConfig"))
         builder.serialize(ClientRuntime.BodyMiddleware<SelectResourceConfigInput, SelectResourceConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SelectResourceConfigInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SelectResourceConfigInput, SelectResourceConfigOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SelectResourceConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SelectResourceConfigInput, SelectResourceConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SelectResourceConfigInput, SelectResourceConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SelectResourceConfigInput, SelectResourceConfigOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SelectResourceConfig")
@@ -6728,7 +8444,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartConfigRulesEvaluation` operation on the `StarlingDoveService` service.
+    /// Performs the `StartConfigRulesEvaluation` operation on the `Config` service.
     ///
     /// Runs an on-demand evaluation for the specified Config rules against the last known configuration state of the resources. Use StartConfigRulesEvaluation when you want to test that a rule you updated is working as expected. StartConfigRulesEvaluation does not re-record the latest configuration state for your resources. It re-runs an evaluation against the last known state of your resources. You can specify up to 25 Config rules per request. An existing StartConfigRulesEvaluation call for the specified rules must complete before you can call the API again. If you chose to have Config stream to an Amazon SNS topic, you will receive a ConfigRuleEvaluationStarted notification when the evaluation starts. You don't need to call the StartConfigRulesEvaluation API to run an evaluation for a new rule. When you create a rule, Config evaluates your resources against the rule automatically. The StartConfigRulesEvaluation API is useful if you want to run on-demand evaluations, such as the following example:
     ///
@@ -6750,7 +8466,7 @@ extension ConfigClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    /// - `LimitExceededException` : For StartConfigRulesEvaluation API, this exception is thrown if an evaluation is in progress or if you call the [StartConfigRulesEvaluation] API more than once per minute. For PutConfigurationAggregator API, this exception is thrown if the number of accounts and aggregators exceeds the limit.
+    /// - `LimitExceededException` : For PutServiceLinkedConfigurationRecorder API, this exception is thrown if the number of service-linked roles in the account exceeds the limit. For StartConfigRulesEvaluation API, this exception is thrown if an evaluation is in progress or if you call the [StartConfigRulesEvaluation] API more than once per minute. For PutConfigurationAggregator API, this exception is thrown if the number of accounts and aggregators exceeds the limit.
     /// - `NoSuchConfigRuleException` : The Config rule in the request is not valid. Verify that the rule is an Config Process Check rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
     /// - `ResourceInUseException` : You see this exception in the following cases:
     ///
@@ -6783,6 +8499,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -6801,15 +8519,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartConfigRulesEvaluationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartConfigRulesEvaluationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartConfigRulesEvaluationInput, StartConfigRulesEvaluationOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartConfigRulesEvaluationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartConfigRulesEvaluationInput, StartConfigRulesEvaluationOutput>(xAmzTarget: "StarlingDoveService.StartConfigRulesEvaluation"))
         builder.serialize(ClientRuntime.BodyMiddleware<StartConfigRulesEvaluationInput, StartConfigRulesEvaluationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartConfigRulesEvaluationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartConfigRulesEvaluationInput, StartConfigRulesEvaluationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartConfigRulesEvaluationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartConfigRulesEvaluationInput, StartConfigRulesEvaluationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartConfigRulesEvaluationInput, StartConfigRulesEvaluationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartConfigRulesEvaluationInput, StartConfigRulesEvaluationOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartConfigRulesEvaluation")
@@ -6825,11 +8546,11 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartConfigurationRecorder` operation on the `StarlingDoveService` service.
+    /// Performs the `StartConfigurationRecorder` operation on the `Config` service.
     ///
-    /// Starts recording configurations of the Amazon Web Services resources you have selected to record in your Amazon Web Services account. You must have created at least one delivery channel to successfully start the configuration recorder.
+    /// Starts the customer managed configuration recorder. The customer managed configuration recorder will begin recording configuration changes for the resource types you specify. You must have created a delivery channel to successfully start the customer managed configuration recorder. You can use the [PutDeliveryChannel](https://docs.aws.amazon.com/config/latest/APIReference/API_PutDeliveryChannel.html) operation to create a delivery channel.
     ///
-    /// - Parameter StartConfigurationRecorderInput : The input for the [StartConfigurationRecorder] action.
+    /// - Parameter StartConfigurationRecorderInput : The input for the [StartConfigurationRecorder] operation.
     ///
     /// - Returns: `StartConfigurationRecorderOutput` : [no documentation found]
     ///
@@ -6838,6 +8559,7 @@ extension ConfigClient {
     /// __Possible Exceptions:__
     /// - `NoAvailableDeliveryChannelException` : There is no delivery channel available to record configurations.
     /// - `NoSuchConfigurationRecorderException` : You have specified a configuration recorder that does not exist.
+    /// - `UnmodifiableEntityException` : The requested operation is not valid. For [PutConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationRecorder.html), you will see this exception because you cannot use this operation to create a service-linked configuration recorder. Use the [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html) operation to create a service-linked configuration recorder. For [DeleteConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteConfigurationRecorder.html), you will see this exception because you cannot use this operation to delete a service-linked configuration recorder. Use the [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html) operation to delete a service-linked configuration recorder. For [StartConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StartConfigurationRecorder.html) and [StopConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html), you will see this exception because these operations do not affect service-linked configuration recorders. Service-linked configuration recorders are always recording. To stop recording, you must delete the service-linked configuration recorder. Use the [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html) operation to delete a service-linked configuration recorder.
     public func startConfigurationRecorder(input: StartConfigurationRecorderInput) async throws -> StartConfigurationRecorderOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6854,6 +8576,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -6872,15 +8596,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartConfigurationRecorderOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartConfigurationRecorderOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartConfigurationRecorderInput, StartConfigurationRecorderOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartConfigurationRecorderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartConfigurationRecorderInput, StartConfigurationRecorderOutput>(xAmzTarget: "StarlingDoveService.StartConfigurationRecorder"))
         builder.serialize(ClientRuntime.BodyMiddleware<StartConfigurationRecorderInput, StartConfigurationRecorderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartConfigurationRecorderInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartConfigurationRecorderInput, StartConfigurationRecorderOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartConfigurationRecorderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartConfigurationRecorderInput, StartConfigurationRecorderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartConfigurationRecorderInput, StartConfigurationRecorderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartConfigurationRecorderInput, StartConfigurationRecorderOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartConfigurationRecorder")
@@ -6896,7 +8623,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartRemediationExecution` operation on the `StarlingDoveService` service.
+    /// Performs the `StartRemediationExecution` operation on the `Config` service.
     ///
     /// Runs an on-demand remediation for the specified Config rules against the last known remediation configuration. It runs an execution against the current state of your resources. Remediation execution is asynchronous. You can specify up to 100 resource keys per request. An existing StartRemediationExecution call for the specified resource keys must complete before you can call the API again.
     ///
@@ -6909,17 +8636,22 @@ extension ConfigClient {
     /// __Possible Exceptions:__
     /// - `InsufficientPermissionsException` : Indicates one of the following errors:
     ///
-    /// * For PutConfigRule, the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
     ///
-    /// * For PutConfigRule, the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
     ///
-    /// * For PutOrganizationConfigRule, organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
+    /// * For [PutOrganizationConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConfigRule.html), organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
     ///
-    /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot be created because you do not have the following permissions:
+    /// * For [PutConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html) and [PutOrganizationConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html), a conformance pack cannot be created because you do not have the following permissions:
     ///
     /// * You do not have permission to call IAM GetRole action or create a service-linked role.
     ///
     /// * You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
+    ///
+    ///
+    ///
+    ///
+    /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchRemediationConfigurationException` : You specified an Config rule without a remediation configuration.
     public func startRemediationExecution(input: StartRemediationExecutionInput) async throws -> StartRemediationExecutionOutput {
@@ -6938,6 +8670,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -6956,15 +8690,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartRemediationExecutionOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartRemediationExecutionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartRemediationExecutionInput, StartRemediationExecutionOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartRemediationExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartRemediationExecutionInput, StartRemediationExecutionOutput>(xAmzTarget: "StarlingDoveService.StartRemediationExecution"))
         builder.serialize(ClientRuntime.BodyMiddleware<StartRemediationExecutionInput, StartRemediationExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartRemediationExecutionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartRemediationExecutionInput, StartRemediationExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartRemediationExecutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartRemediationExecutionInput, StartRemediationExecutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartRemediationExecutionInput, StartRemediationExecutionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartRemediationExecutionInput, StartRemediationExecutionOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartRemediationExecution")
@@ -6980,7 +8717,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartResourceEvaluation` operation on the `StarlingDoveService` service.
+    /// Performs the `StartResourceEvaluation` operation on the `Config` service.
     ///
     /// Runs an on-demand evaluation for the specified resource to determine whether the resource details will comply with configured Config rules. You can also use it for evaluation purposes. Config recommends using an evaluation context. It runs an execution against the resource details with all of the Config rules in your account that match with the specified proactive mode and resource type. Ensure you have the cloudformation:DescribeType role setup to validate the resource type schema. You can find the [Resource type schema](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html) in "Amazon Web Services public extensions" within the CloudFormation registry or with the following CLI commmand: aws cloudformation describe-type --type-name "AWS::S3::Bucket" --type RESOURCE. For more information, see [Managing extensions through the CloudFormation registry](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry.html#registry-view) and [Amazon Web Services resource and property types reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html) in the CloudFormation User Guide.
     ///
@@ -7009,6 +8746,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -7027,15 +8766,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartResourceEvaluationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartResourceEvaluationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartResourceEvaluationInput, StartResourceEvaluationOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartResourceEvaluationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartResourceEvaluationInput, StartResourceEvaluationOutput>(xAmzTarget: "StarlingDoveService.StartResourceEvaluation"))
         builder.serialize(ClientRuntime.BodyMiddleware<StartResourceEvaluationInput, StartResourceEvaluationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartResourceEvaluationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartResourceEvaluationInput, StartResourceEvaluationOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartResourceEvaluationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartResourceEvaluationInput, StartResourceEvaluationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartResourceEvaluationInput, StartResourceEvaluationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartResourceEvaluationInput, StartResourceEvaluationOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartResourceEvaluation")
@@ -7051,11 +8793,11 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StopConfigurationRecorder` operation on the `StarlingDoveService` service.
+    /// Performs the `StopConfigurationRecorder` operation on the `Config` service.
     ///
-    /// Stops recording configurations of the Amazon Web Services resources you have selected to record in your Amazon Web Services account.
+    /// Stops the customer managed configuration recorder. The customer managed configuration recorder will stop recording configuration changes for the resource types you have specified.
     ///
-    /// - Parameter StopConfigurationRecorderInput : The input for the [StopConfigurationRecorder] action.
+    /// - Parameter StopConfigurationRecorderInput : The input for the [StopConfigurationRecorder] operation.
     ///
     /// - Returns: `StopConfigurationRecorderOutput` : [no documentation found]
     ///
@@ -7063,6 +8805,7 @@ extension ConfigClient {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchConfigurationRecorderException` : You have specified a configuration recorder that does not exist.
+    /// - `UnmodifiableEntityException` : The requested operation is not valid. For [PutConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationRecorder.html), you will see this exception because you cannot use this operation to create a service-linked configuration recorder. Use the [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html) operation to create a service-linked configuration recorder. For [DeleteConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteConfigurationRecorder.html), you will see this exception because you cannot use this operation to delete a service-linked configuration recorder. Use the [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html) operation to delete a service-linked configuration recorder. For [StartConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StartConfigurationRecorder.html) and [StopConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html), you will see this exception because these operations do not affect service-linked configuration recorders. Service-linked configuration recorders are always recording. To stop recording, you must delete the service-linked configuration recorder. Use the [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html) operation to delete a service-linked configuration recorder.
     public func stopConfigurationRecorder(input: StopConfigurationRecorderInput) async throws -> StopConfigurationRecorderOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7079,6 +8822,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -7097,15 +8842,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopConfigurationRecorderOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StopConfigurationRecorderOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopConfigurationRecorderInput, StopConfigurationRecorderOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopConfigurationRecorderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopConfigurationRecorderInput, StopConfigurationRecorderOutput>(xAmzTarget: "StarlingDoveService.StopConfigurationRecorder"))
         builder.serialize(ClientRuntime.BodyMiddleware<StopConfigurationRecorderInput, StopConfigurationRecorderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopConfigurationRecorderInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopConfigurationRecorderInput, StopConfigurationRecorderOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopConfigurationRecorderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopConfigurationRecorderInput, StopConfigurationRecorderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopConfigurationRecorderInput, StopConfigurationRecorderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopConfigurationRecorderInput, StopConfigurationRecorderOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopConfigurationRecorder")
@@ -7121,9 +8869,9 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `StarlingDoveService` service.
+    /// Performs the `TagResource` operation on the `Config` service.
     ///
-    /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. If existing tags are specified, however, then their values will be updated. When a resource is deleted, the tags associated with that resource are deleted as well.
+    /// Associates the specified tags to a resource with the specified ResourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. If existing tags are specified, however, then their values will be updated. When a resource is deleted, the tags associated with that resource are deleted as well.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
@@ -7134,7 +8882,29 @@ extension ConfigClient {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : You have specified a resource that does not exist.
     /// - `TooManyTagsException` : You have reached the limit of the number of tags you can use. For more information, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7151,6 +8921,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -7169,15 +8941,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<TagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "StarlingDoveService.TagResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TagResource")
@@ -7193,7 +8968,7 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UntagResource` operation on the `StarlingDoveService` service.
+    /// Performs the `UntagResource` operation on the `Config` service.
     ///
     /// Deletes specified tags from a resource.
     ///
@@ -7205,7 +8980,29 @@ extension ConfigClient {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : You have specified a resource that does not exist.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7222,6 +9019,8 @@ extension ConfigClient {
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "config")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
@@ -7240,15 +9039,18 @@ extension ConfigClient {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Config", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "StarlingDoveService.UntagResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")

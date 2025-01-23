@@ -38,8 +38,7 @@ extension FirehoseClientTypes {
         public init(
             intervalInSeconds: Swift.Int? = nil,
             sizeInMBs: Swift.Int? = nil
-        )
-        {
+        ) {
             self.intervalInSeconds = intervalInSeconds
             self.sizeInMBs = sizeInMBs
         }
@@ -61,8 +60,7 @@ extension FirehoseClientTypes {
             enabled: Swift.Bool? = nil,
             logGroupName: Swift.String? = nil,
             logStreamName: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.logGroupName = logGroupName
             self.logStreamName = logStreamName
@@ -140,8 +138,7 @@ extension FirehoseClientTypes {
         public init(
             parameterName: FirehoseClientTypes.ProcessorParameterName? = nil,
             parameterValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.parameterName = parameterName
             self.parameterValue = parameterValue
         }
@@ -202,8 +199,7 @@ extension FirehoseClientTypes {
         public init(
             parameters: [FirehoseClientTypes.ProcessorParameter]? = nil,
             type: FirehoseClientTypes.ProcessorType? = nil
-        )
-        {
+        ) {
             self.parameters = parameters
             self.type = type
         }
@@ -222,8 +218,7 @@ extension FirehoseClientTypes {
         public init(
             enabled: Swift.Bool? = nil,
             processors: [FirehoseClientTypes.Processor]? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.processors = processors
         }
@@ -239,8 +234,7 @@ extension FirehoseClientTypes {
 
         public init(
             durationInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.durationInSeconds = durationInSeconds
         }
     }
@@ -287,8 +281,7 @@ extension FirehoseClientTypes {
         public init(
             intervalInSeconds: Swift.Int? = nil,
             sizeInMBs: Swift.Int? = nil
-        )
-        {
+        ) {
             self.intervalInSeconds = intervalInSeconds
             self.sizeInMBs = sizeInMBs
         }
@@ -343,8 +336,7 @@ extension FirehoseClientTypes {
 
         public init(
             awskmsKeyARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.awskmsKeyARN = awskmsKeyARN
         }
     }
@@ -388,8 +380,7 @@ extension FirehoseClientTypes {
         public init(
             kmsEncryptionConfig: FirehoseClientTypes.KMSEncryptionConfig? = nil,
             noEncryptionConfig: FirehoseClientTypes.NoEncryptionConfig? = nil
-        )
-        {
+        ) {
             self.kmsEncryptionConfig = kmsEncryptionConfig
             self.noEncryptionConfig = noEncryptionConfig
         }
@@ -428,8 +419,7 @@ extension FirehoseClientTypes {
             errorOutputPrefix: Swift.String? = nil,
             `prefix`: Swift.String? = nil,
             roleARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketARN = bucketARN
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
@@ -479,8 +469,7 @@ extension FirehoseClientTypes {
             roleARN: Swift.String? = nil,
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.roleARN = roleARN
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -527,8 +516,7 @@ extension FirehoseClientTypes {
             s3BackupMode: FirehoseClientTypes.AmazonOpenSearchServerlessS3BackupMode? = nil,
             s3Configuration: FirehoseClientTypes.S3DestinationConfiguration? = nil,
             vpcConfiguration: FirehoseClientTypes.VpcConfiguration? = nil
-        )
-        {
+        ) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.collectionEndpoint = collectionEndpoint
@@ -578,8 +566,7 @@ extension FirehoseClientTypes {
             errorOutputPrefix: Swift.String? = nil,
             `prefix`: Swift.String? = nil,
             roleARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketARN = bucketARN
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
@@ -633,8 +620,7 @@ extension FirehoseClientTypes {
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.roleARN = roleARN
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -679,8 +665,7 @@ extension FirehoseClientTypes {
             s3BackupMode: FirehoseClientTypes.AmazonOpenSearchServerlessS3BackupMode? = nil,
             s3DestinationDescription: FirehoseClientTypes.S3DestinationDescription? = nil,
             vpcConfigurationDescription: FirehoseClientTypes.VpcConfigurationDescription? = nil
-        )
-        {
+        ) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.collectionEndpoint = collectionEndpoint
@@ -725,8 +710,7 @@ extension FirehoseClientTypes {
             errorOutputPrefix: Swift.String? = nil,
             `prefix`: Swift.String? = nil,
             roleARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucketARN = bucketARN
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
@@ -769,8 +753,7 @@ extension FirehoseClientTypes {
             retryOptions: FirehoseClientTypes.AmazonOpenSearchServerlessRetryOptions? = nil,
             roleARN: Swift.String? = nil,
             s3Update: FirehoseClientTypes.S3DestinationUpdate? = nil
-        )
-        {
+        ) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.collectionEndpoint = collectionEndpoint
@@ -795,8 +778,7 @@ extension FirehoseClientTypes {
         public init(
             intervalInSeconds: Swift.Int? = nil,
             sizeInMBs: Swift.Int? = nil
-        )
-        {
+        ) {
             self.intervalInSeconds = intervalInSeconds
             self.sizeInMBs = sizeInMBs
         }
@@ -842,8 +824,7 @@ extension FirehoseClientTypes {
 
         public init(
             defaultDocumentIdFormat: FirehoseClientTypes.DefaultDocumentIdFormat? = nil
-        )
-        {
+        ) {
             self.defaultDocumentIdFormat = defaultDocumentIdFormat
         }
     }
@@ -896,8 +877,7 @@ extension FirehoseClientTypes {
 
         public init(
             durationInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.durationInSeconds = durationInSeconds
         }
     }
@@ -983,8 +963,7 @@ extension FirehoseClientTypes {
             s3Configuration: FirehoseClientTypes.S3DestinationConfiguration? = nil,
             typeName: Swift.String? = nil,
             vpcConfiguration: FirehoseClientTypes.VpcConfiguration? = nil
-        )
-        {
+        ) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.clusterEndpoint = clusterEndpoint
@@ -1051,8 +1030,7 @@ extension FirehoseClientTypes {
             s3DestinationDescription: FirehoseClientTypes.S3DestinationDescription? = nil,
             typeName: Swift.String? = nil,
             vpcConfigurationDescription: FirehoseClientTypes.VpcConfigurationDescription? = nil
-        )
-        {
+        ) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.clusterEndpoint = clusterEndpoint
@@ -1113,8 +1091,7 @@ extension FirehoseClientTypes {
             roleARN: Swift.String? = nil,
             s3Update: FirehoseClientTypes.S3DestinationUpdate? = nil,
             typeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.clusterEndpoint = clusterEndpoint
@@ -1174,8 +1151,7 @@ extension FirehoseClientTypes {
         public init(
             connectivity: FirehoseClientTypes.Connectivity? = nil,
             roleARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.connectivity = connectivity
             self.roleARN = roleARN
         }
@@ -1194,8 +1170,7 @@ extension FirehoseClientTypes {
         public init(
             catalogARN: Swift.String? = nil,
             warehouseLocation: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalogARN = catalogARN
             self.warehouseLocation = warehouseLocation
         }
@@ -1203,9 +1178,9 @@ extension FirehoseClientTypes {
 }
 
 /// Another modification has already happened. Fetch VersionId again and use it to update the destination.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message that provides information about the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1221,8 +1196,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1272,8 +1246,7 @@ extension FirehoseClientTypes {
             copyOptions: Swift.String? = nil,
             dataTableColumns: Swift.String? = nil,
             dataTableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.copyOptions = copyOptions
             self.dataTableColumns = dataTableColumns
             self.dataTableName = dataTableName
@@ -1282,9 +1255,9 @@ extension FirehoseClientTypes {
 }
 
 /// The specified input parameter has a value that is not valid.
-public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message that provides information about the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1300,16 +1273,15 @@ public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRun
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Firehose throws this exception when an attempt to put records or to start or stop Firehose stream encryption fails. This happens when the KMS service throws one of the following exception types: AccessDeniedException, InvalidStateException, DisabledException, or NotFoundException.
-public struct InvalidKMSResourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidKMSResourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -1326,17 +1298,16 @@ public struct InvalidKMSResourceException: ClientRuntime.ModeledError, AWSClient
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
 /// You have already reached the limit for a requested resource.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message that provides information about the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1352,16 +1323,15 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The resource is already in use and not available for this operation.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message that provides information about the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1377,8 +1347,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1395,8 +1364,7 @@ extension FirehoseClientTypes {
         public init(
             exclude: [Swift.String]? = nil,
             include: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.exclude = exclude
             self.include = include
         }
@@ -1415,8 +1383,7 @@ extension FirehoseClientTypes {
         public init(
             exclude: [Swift.String]? = nil,
             include: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.exclude = exclude
             self.include = include
         }
@@ -1439,8 +1406,7 @@ extension FirehoseClientTypes {
             enabled: Swift.Bool? = nil,
             roleARN: Swift.String? = nil,
             secretARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.roleARN = roleARN
             self.secretARN = secretARN
@@ -1458,8 +1424,7 @@ extension FirehoseClientTypes {
 
         public init(
             secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration? = nil
-        )
-        {
+        ) {
             self.secretsManagerConfiguration = secretsManagerConfiguration
         }
     }
@@ -1475,8 +1440,7 @@ extension FirehoseClientTypes {
 
         public init(
             vpcEndpointServiceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.vpcEndpointServiceName = vpcEndpointServiceName
         }
     }
@@ -1523,8 +1487,7 @@ extension FirehoseClientTypes {
         public init(
             exclude: [Swift.String]? = nil,
             include: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.exclude = exclude
             self.include = include
         }
@@ -1607,8 +1570,7 @@ extension FirehoseClientTypes {
             surrogateKeys: [Swift.String]? = nil,
             tables: FirehoseClientTypes.DatabaseTableList? = nil,
             type: FirehoseClientTypes.DatabaseType? = nil
-        )
-        {
+        ) {
             self.columns = columns
             self.databaseSourceAuthenticationConfiguration = databaseSourceAuthenticationConfiguration
             self.databaseSourceVPCConfiguration = databaseSourceVPCConfiguration
@@ -1666,8 +1628,7 @@ extension FirehoseClientTypes {
         public init(
             keyARN: Swift.String? = nil,
             keyType: FirehoseClientTypes.KeyType? = nil
-        )
-        {
+        ) {
             self.keyARN = keyARN
             self.keyType = keyType
         }
@@ -1721,8 +1682,7 @@ extension FirehoseClientTypes {
         public init(
             intervalInSeconds: Swift.Int? = nil,
             sizeInMBs: Swift.Int? = nil
-        )
-        {
+        ) {
             self.intervalInSeconds = intervalInSeconds
             self.sizeInMBs = sizeInMBs
         }
@@ -1776,8 +1736,7 @@ extension FirehoseClientTypes {
 
         public init(
             durationInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.durationInSeconds = durationInSeconds
         }
     }
@@ -1863,8 +1822,7 @@ extension FirehoseClientTypes {
             s3Configuration: FirehoseClientTypes.S3DestinationConfiguration? = nil,
             typeName: Swift.String? = nil,
             vpcConfiguration: FirehoseClientTypes.VpcConfiguration? = nil
-        )
-        {
+        ) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.clusterEndpoint = clusterEndpoint
@@ -1892,8 +1850,7 @@ extension FirehoseClientTypes {
 
         public init(
             timestampFormats: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.timestampFormats = timestampFormats
         }
     }
@@ -1914,8 +1871,7 @@ extension FirehoseClientTypes {
             caseInsensitive: Swift.Bool? = nil,
             columnToJsonKeyMappings: [Swift.String: Swift.String]? = nil,
             convertDotsInJsonKeysToUnderscores: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.caseInsensitive = caseInsensitive
             self.columnToJsonKeyMappings = columnToJsonKeyMappings
             self.convertDotsInJsonKeysToUnderscores = convertDotsInJsonKeysToUnderscores
@@ -1935,8 +1891,7 @@ extension FirehoseClientTypes {
         public init(
             hiveJsonSerDe: FirehoseClientTypes.HiveJsonSerDe? = nil,
             openXJsonSerDe: FirehoseClientTypes.OpenXJsonSerDe? = nil
-        )
-        {
+        ) {
             self.hiveJsonSerDe = hiveJsonSerDe
             self.openXJsonSerDe = openXJsonSerDe
         }
@@ -1952,8 +1907,7 @@ extension FirehoseClientTypes {
 
         public init(
             deserializer: FirehoseClientTypes.Deserializer? = nil
-        )
-        {
+        ) {
             self.deserializer = deserializer
         }
     }
@@ -2056,8 +2010,7 @@ extension FirehoseClientTypes {
             paddingTolerance: Swift.Double? = nil,
             rowIndexStride: Swift.Int? = nil,
             stripeSizeBytes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.blockSizeBytes = blockSizeBytes
             self.bloomFilterColumns = bloomFilterColumns
             self.bloomFilterFalsePositiveProbability = bloomFilterFalsePositiveProbability
@@ -2157,8 +2110,7 @@ extension FirehoseClientTypes {
             maxPaddingBytes: Swift.Int? = nil,
             pageSizeBytes: Swift.Int? = nil,
             writerVersion: FirehoseClientTypes.ParquetWriterVersion? = nil
-        )
-        {
+        ) {
             self.blockSizeBytes = blockSizeBytes
             self.compression = compression
             self.enableDictionaryCompression = enableDictionaryCompression
@@ -2181,8 +2133,7 @@ extension FirehoseClientTypes {
         public init(
             orcSerDe: FirehoseClientTypes.OrcSerDe? = nil,
             parquetSerDe: FirehoseClientTypes.ParquetSerDe? = nil
-        )
-        {
+        ) {
             self.orcSerDe = orcSerDe
             self.parquetSerDe = parquetSerDe
         }
@@ -2198,8 +2149,7 @@ extension FirehoseClientTypes {
 
         public init(
             serializer: FirehoseClientTypes.Serializer? = nil
-        )
-        {
+        ) {
             self.serializer = serializer
         }
     }
@@ -2229,8 +2179,7 @@ extension FirehoseClientTypes {
             roleARN: Swift.String? = nil,
             tableName: Swift.String? = nil,
             versionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.region = region
@@ -2259,8 +2208,7 @@ extension FirehoseClientTypes {
             inputFormatConfiguration: FirehoseClientTypes.InputFormatConfiguration? = nil,
             outputFormatConfiguration: FirehoseClientTypes.OutputFormatConfiguration? = nil,
             schemaConfiguration: FirehoseClientTypes.SchemaConfiguration? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.inputFormatConfiguration = inputFormatConfiguration
             self.outputFormatConfiguration = outputFormatConfiguration
@@ -2278,8 +2226,7 @@ extension FirehoseClientTypes {
 
         public init(
             durationInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.durationInSeconds = durationInSeconds
         }
     }
@@ -2297,8 +2244,7 @@ extension FirehoseClientTypes {
         public init(
             enabled: Swift.Bool? = nil,
             retryOptions: FirehoseClientTypes.RetryOptions? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.retryOptions = retryOptions
         }
@@ -2387,8 +2333,7 @@ extension FirehoseClientTypes {
             roleARN: Swift.String? = nil,
             s3BackupConfiguration: FirehoseClientTypes.S3DestinationConfiguration? = nil,
             s3BackupMode: FirehoseClientTypes.S3BackupMode? = nil
-        )
-        {
+        ) {
             self.bucketARN = bucketARN
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
@@ -2420,8 +2365,7 @@ extension FirehoseClientTypes {
         public init(
             intervalInSeconds: Swift.Int? = nil,
             sizeInMBs: Swift.Int? = nil
-        )
-        {
+        ) {
             self.intervalInSeconds = intervalInSeconds
             self.sizeInMBs = sizeInMBs
         }
@@ -2444,8 +2388,7 @@ extension FirehoseClientTypes {
             accessKey: Swift.String? = nil,
             name: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.accessKey = accessKey
             self.name = name
             self.url = url
@@ -2472,8 +2415,7 @@ extension FirehoseClientTypes {
         public init(
             attributeName: Swift.String? = nil,
             attributeValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributeName = attributeName
             self.attributeValue = attributeValue
         }
@@ -2497,8 +2439,7 @@ extension FirehoseClientTypes {
         public init(
             commonAttributes: [FirehoseClientTypes.HttpEndpointCommonAttribute]? = nil,
             contentEncoding: FirehoseClientTypes.ContentEncoding? = nil
-        )
-        {
+        ) {
             self.commonAttributes = commonAttributes
             self.contentEncoding = contentEncoding
         }
@@ -2514,8 +2455,7 @@ extension FirehoseClientTypes {
 
         public init(
             durationInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.durationInSeconds = durationInSeconds
         }
     }
@@ -2588,8 +2528,7 @@ extension FirehoseClientTypes {
             s3BackupMode: FirehoseClientTypes.HttpEndpointS3BackupMode? = nil,
             s3Configuration: FirehoseClientTypes.S3DestinationConfiguration? = nil,
             secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration? = nil
-        )
-        {
+        ) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.endpointConfiguration = endpointConfiguration
@@ -2614,8 +2553,7 @@ extension FirehoseClientTypes {
 
         public init(
             sourceName: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceName = sourceName
         }
     }
@@ -2630,8 +2568,7 @@ extension FirehoseClientTypes {
 
         public init(
             identity: [FirehoseClientTypes.PartitionField]? = nil
-        )
-        {
+        ) {
             self.identity = identity
         }
     }
@@ -2660,8 +2597,7 @@ extension FirehoseClientTypes {
             partitionSpec: FirehoseClientTypes.PartitionSpec? = nil,
             s3ErrorOutputPrefix: Swift.String? = nil,
             uniqueKeys: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.destinationDatabaseName = destinationDatabaseName
             self.destinationTableName = destinationTableName
             self.partitionSpec = partitionSpec
@@ -2710,8 +2646,7 @@ extension FirehoseClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -2727,8 +2662,7 @@ extension FirehoseClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -2776,8 +2710,7 @@ extension FirehoseClientTypes {
             s3Configuration: FirehoseClientTypes.S3DestinationConfiguration? = nil,
             schemaEvolutionConfiguration: FirehoseClientTypes.SchemaEvolutionConfiguration? = nil,
             tableCreationConfiguration: FirehoseClientTypes.TableCreationConfiguration? = nil
-        )
-        {
+        ) {
             self.bufferingHints = bufferingHints
             self.catalogConfiguration = catalogConfiguration
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
@@ -2807,8 +2740,7 @@ extension FirehoseClientTypes {
         public init(
             kinesisStreamARN: Swift.String? = nil,
             roleARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.kinesisStreamARN = kinesisStreamARN
             self.roleARN = roleARN
         }
@@ -2836,8 +2768,7 @@ extension FirehoseClientTypes {
             mskClusterARN: Swift.String? = nil,
             readFromTimestamp: Foundation.Date? = nil,
             topicName: Swift.String? = nil
-        )
-        {
+        ) {
             self.authenticationConfiguration = authenticationConfiguration
             self.mskClusterARN = mskClusterARN
             self.readFromTimestamp = readFromTimestamp
@@ -2855,8 +2786,7 @@ extension FirehoseClientTypes {
 
         public init(
             durationInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.durationInSeconds = durationInSeconds
         }
     }
@@ -2937,8 +2867,7 @@ extension FirehoseClientTypes {
             s3Configuration: FirehoseClientTypes.S3DestinationConfiguration? = nil,
             secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.clusterJDBCURL = clusterJDBCURL
             self.copyCommand = copyCommand
@@ -2972,8 +2901,7 @@ extension FirehoseClientTypes {
         public init(
             intervalInSeconds: Swift.Int? = nil,
             sizeInMBs: Swift.Int? = nil
-        )
-        {
+        ) {
             self.intervalInSeconds = intervalInSeconds
             self.sizeInMBs = sizeInMBs
         }
@@ -3021,8 +2949,7 @@ extension FirehoseClientTypes {
 
         public init(
             durationInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.durationInSeconds = durationInSeconds
         }
     }
@@ -3069,8 +2996,7 @@ extension FirehoseClientTypes {
         public init(
             enabled: Swift.Bool? = nil,
             snowflakeRole: Swift.String? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.snowflakeRole = snowflakeRole
         }
@@ -3092,8 +3018,7 @@ extension FirehoseClientTypes {
 
         public init(
             privateLinkVpceId: Swift.String? = nil
-        )
-        {
+        ) {
             self.privateLinkVpceId = privateLinkVpceId
         }
     }
@@ -3176,8 +3101,7 @@ extension FirehoseClientTypes {
             snowflakeVpcConfiguration: FirehoseClientTypes.SnowflakeVpcConfiguration? = nil,
             table: Swift.String? = nil,
             user: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountUrl = accountUrl
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
@@ -3219,8 +3143,7 @@ extension FirehoseClientTypes {
         public init(
             intervalInSeconds: Swift.Int? = nil,
             sizeInMBs: Swift.Int? = nil
-        )
-        {
+        ) {
             self.intervalInSeconds = intervalInSeconds
             self.sizeInMBs = sizeInMBs
         }
@@ -3265,8 +3188,7 @@ extension FirehoseClientTypes {
 
         public init(
             durationInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.durationInSeconds = durationInSeconds
         }
     }
@@ -3343,8 +3265,7 @@ extension FirehoseClientTypes {
             s3BackupMode: FirehoseClientTypes.SplunkS3BackupMode? = nil,
             s3Configuration: FirehoseClientTypes.S3DestinationConfiguration? = nil,
             secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration? = nil
-        )
-        {
+        ) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.hecAcknowledgmentTimeoutInSeconds = hecAcknowledgmentTimeoutInSeconds
@@ -3373,8 +3294,7 @@ extension FirehoseClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -3441,8 +3361,7 @@ public struct CreateDeliveryStreamInput: Swift.Sendable {
         snowflakeDestinationConfiguration: FirehoseClientTypes.SnowflakeDestinationConfiguration? = nil,
         splunkDestinationConfiguration: FirehoseClientTypes.SplunkDestinationConfiguration? = nil,
         tags: [FirehoseClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.amazonOpenSearchServerlessDestinationConfiguration = amazonOpenSearchServerlessDestinationConfiguration
         self.amazonopensearchserviceDestinationConfiguration = amazonopensearchserviceDestinationConfiguration
         self.databaseSourceConfiguration = databaseSourceConfiguration
@@ -3469,8 +3388,7 @@ public struct CreateDeliveryStreamOutput: Swift.Sendable {
 
     public init(
         deliveryStreamARN: Swift.String? = nil
-    )
-    {
+    ) {
         self.deliveryStreamARN = deliveryStreamARN
     }
 }
@@ -3563,8 +3481,7 @@ extension FirehoseClientTypes {
         public init(
             details: Swift.String? = nil,
             type: FirehoseClientTypes.DeliveryStreamFailureType? = nil
-        )
-        {
+        ) {
             self.details = details
             self.type = type
         }
@@ -3661,8 +3578,7 @@ extension FirehoseClientTypes {
             requestedBy: FirehoseClientTypes.SnapshotRequestedBy? = nil,
             status: FirehoseClientTypes.SnapshotStatus? = nil,
             table: Swift.String? = nil
-        )
-        {
+        ) {
             self.failureDescription = failureDescription
             self.id = id
             self.requestTimestamp = requestTimestamp
@@ -3715,8 +3631,7 @@ extension FirehoseClientTypes {
             surrogateKeys: [Swift.String]? = nil,
             tables: FirehoseClientTypes.DatabaseTableList? = nil,
             type: FirehoseClientTypes.DatabaseType? = nil
-        )
-        {
+        ) {
             self.columns = columns
             self.databaseSourceAuthenticationConfiguration = databaseSourceAuthenticationConfiguration
             self.databaseSourceVPCConfiguration = databaseSourceVPCConfiguration
@@ -3734,9 +3649,9 @@ extension FirehoseClientTypes {
 }
 
 /// The specified resource could not be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message that provides information about the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3752,8 +3667,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -3768,8 +3682,7 @@ public struct DeleteDeliveryStreamInput: Swift.Sendable {
     public init(
         allowForceDelete: Swift.Bool? = nil,
         deliveryStreamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.allowForceDelete = allowForceDelete
         self.deliveryStreamName = deliveryStreamName
     }
@@ -3839,8 +3752,7 @@ extension FirehoseClientTypes {
             keyARN: Swift.String? = nil,
             keyType: FirehoseClientTypes.KeyType? = nil,
             status: FirehoseClientTypes.DeliveryStreamEncryptionStatus? = nil
-        )
-        {
+        ) {
             self.failureDescription = failureDescription
             self.keyARN = keyARN
             self.keyType = keyType
@@ -3935,8 +3847,7 @@ extension FirehoseClientTypes {
             s3DestinationDescription: FirehoseClientTypes.S3DestinationDescription? = nil,
             typeName: Swift.String? = nil,
             vpcConfigurationDescription: FirehoseClientTypes.VpcConfigurationDescription? = nil
-        )
-        {
+        ) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.clusterEndpoint = clusterEndpoint
@@ -4011,8 +3922,7 @@ extension FirehoseClientTypes {
             roleARN: Swift.String? = nil,
             s3BackupDescription: FirehoseClientTypes.S3DestinationDescription? = nil,
             s3BackupMode: FirehoseClientTypes.S3BackupMode? = nil
-        )
-        {
+        ) {
             self.bucketARN = bucketARN
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
@@ -4044,8 +3954,7 @@ extension FirehoseClientTypes {
         public init(
             name: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.url = url
         }
@@ -4093,8 +4002,7 @@ extension FirehoseClientTypes {
             s3BackupMode: FirehoseClientTypes.HttpEndpointS3BackupMode? = nil,
             s3DestinationDescription: FirehoseClientTypes.S3DestinationDescription? = nil,
             secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration? = nil
-        )
-        {
+        ) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.endpointConfiguration = endpointConfiguration
@@ -4148,8 +4056,7 @@ extension FirehoseClientTypes {
             s3DestinationDescription: FirehoseClientTypes.S3DestinationDescription? = nil,
             schemaEvolutionConfiguration: FirehoseClientTypes.SchemaEvolutionConfiguration? = nil,
             tableCreationConfiguration: FirehoseClientTypes.TableCreationConfiguration? = nil
-        )
-        {
+        ) {
             self.bufferingHints = bufferingHints
             self.catalogConfiguration = catalogConfiguration
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
@@ -4208,8 +4115,7 @@ extension FirehoseClientTypes {
             s3DestinationDescription: FirehoseClientTypes.S3DestinationDescription? = nil,
             secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.clusterJDBCURL = clusterJDBCURL
             self.copyCommand = copyCommand
@@ -4290,8 +4196,7 @@ extension FirehoseClientTypes {
             snowflakeVpcConfiguration: FirehoseClientTypes.SnowflakeVpcConfiguration? = nil,
             table: Swift.String? = nil,
             user: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountUrl = accountUrl
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
@@ -4358,8 +4263,7 @@ extension FirehoseClientTypes {
             s3BackupMode: FirehoseClientTypes.SplunkS3BackupMode? = nil,
             s3DestinationDescription: FirehoseClientTypes.S3DestinationDescription? = nil,
             secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration? = nil
-        )
-        {
+        ) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.hecAcknowledgmentTimeoutInSeconds = hecAcknowledgmentTimeoutInSeconds
@@ -4415,8 +4319,7 @@ extension FirehoseClientTypes {
             s3DestinationDescription: FirehoseClientTypes.S3DestinationDescription? = nil,
             snowflakeDestinationDescription: FirehoseClientTypes.SnowflakeDestinationDescription? = nil,
             splunkDestinationDescription: FirehoseClientTypes.SplunkDestinationDescription? = nil
-        )
-        {
+        ) {
             self.amazonOpenSearchServerlessDestinationDescription = amazonOpenSearchServerlessDestinationDescription
             self.amazonopensearchserviceDestinationDescription = amazonopensearchserviceDestinationDescription
             self.destinationId = destinationId
@@ -4447,8 +4350,7 @@ extension FirehoseClientTypes {
             deliveryStartTimestamp: Foundation.Date? = nil,
             kinesisStreamARN: Swift.String? = nil,
             roleARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.deliveryStartTimestamp = deliveryStartTimestamp
             self.kinesisStreamARN = kinesisStreamARN
             self.roleARN = roleARN
@@ -4477,8 +4379,7 @@ extension FirehoseClientTypes {
             mskClusterARN: Swift.String? = nil,
             readFromTimestamp: Foundation.Date? = nil,
             topicName: Swift.String? = nil
-        )
-        {
+        ) {
             self.authenticationConfiguration = authenticationConfiguration
             self.deliveryStartTimestamp = deliveryStartTimestamp
             self.mskClusterARN = mskClusterARN
@@ -4503,8 +4404,7 @@ extension FirehoseClientTypes {
             databaseSourceDescription: FirehoseClientTypes.DatabaseSourceDescription? = nil,
             kinesisStreamSourceDescription: FirehoseClientTypes.KinesisStreamSourceDescription? = nil,
             mskSourceDescription: FirehoseClientTypes.MSKSourceDescription? = nil
-        )
-        {
+        ) {
             self.databaseSourceDescription = databaseSourceDescription
             self.kinesisStreamSourceDescription = kinesisStreamSourceDescription
             self.mskSourceDescription = mskSourceDescription
@@ -4565,8 +4465,7 @@ extension FirehoseClientTypes {
             lastUpdateTimestamp: Foundation.Date? = nil,
             source: FirehoseClientTypes.SourceDescription? = nil,
             versionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.createTimestamp = createTimestamp
             self.deliveryStreamARN = deliveryStreamARN
             self.deliveryStreamEncryptionConfiguration = deliveryStreamEncryptionConfiguration
@@ -4596,8 +4495,7 @@ public struct DescribeDeliveryStreamInput: Swift.Sendable {
         deliveryStreamName: Swift.String? = nil,
         exclusiveStartDestinationId: Swift.String? = nil,
         limit: Swift.Int? = nil
-    )
-    {
+    ) {
         self.deliveryStreamName = deliveryStreamName
         self.exclusiveStartDestinationId = exclusiveStartDestinationId
         self.limit = limit
@@ -4611,8 +4509,7 @@ public struct DescribeDeliveryStreamOutput: Swift.Sendable {
 
     public init(
         deliveryStreamDescription: FirehoseClientTypes.DeliveryStreamDescription? = nil
-    )
-    {
+    ) {
         self.deliveryStreamDescription = deliveryStreamDescription
     }
 }
@@ -4659,8 +4556,7 @@ extension FirehoseClientTypes {
             roleARN: Swift.String? = nil,
             s3Update: FirehoseClientTypes.S3DestinationUpdate? = nil,
             typeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.clusterEndpoint = clusterEndpoint
@@ -4728,8 +4624,7 @@ extension FirehoseClientTypes {
             roleARN: Swift.String? = nil,
             s3BackupMode: FirehoseClientTypes.S3BackupMode? = nil,
             s3BackupUpdate: FirehoseClientTypes.S3DestinationUpdate? = nil
-        )
-        {
+        ) {
             self.bucketARN = bucketARN
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
@@ -4768,8 +4663,7 @@ public struct ListDeliveryStreamsInput: Swift.Sendable {
         deliveryStreamType: FirehoseClientTypes.DeliveryStreamType? = nil,
         exclusiveStartDeliveryStreamName: Swift.String? = nil,
         limit: Swift.Int? = nil
-    )
-    {
+    ) {
         self.deliveryStreamType = deliveryStreamType
         self.exclusiveStartDeliveryStreamName = exclusiveStartDeliveryStreamName
         self.limit = limit
@@ -4787,8 +4681,7 @@ public struct ListDeliveryStreamsOutput: Swift.Sendable {
     public init(
         deliveryStreamNames: [Swift.String]? = nil,
         hasMoreDeliveryStreams: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.deliveryStreamNames = deliveryStreamNames
         self.hasMoreDeliveryStreams = hasMoreDeliveryStreams
     }
@@ -4807,8 +4700,7 @@ public struct ListTagsForDeliveryStreamInput: Swift.Sendable {
         deliveryStreamName: Swift.String? = nil,
         exclusiveStartTagKey: Swift.String? = nil,
         limit: Swift.Int? = nil
-    )
-    {
+    ) {
         self.deliveryStreamName = deliveryStreamName
         self.exclusiveStartTagKey = exclusiveStartTagKey
         self.limit = limit
@@ -4826,17 +4718,16 @@ public struct ListTagsForDeliveryStreamOutput: Swift.Sendable {
     public init(
         hasMoreTags: Swift.Bool? = nil,
         tags: [FirehoseClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.hasMoreTags = hasMoreTags
         self.tags = tags
     }
 }
 
 /// Only requests from CloudWatch Logs are supported when CloudWatch Logs decompression is enabled.
-public struct InvalidSourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var code: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
     }
@@ -4853,17 +4744,16 @@ public struct InvalidSourceException: ClientRuntime.ModeledError, AWSClientRunti
     public init(
         code: Swift.String? = nil,
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.code = code
         self.properties.message = message
     }
 }
 
 /// The service is unavailable. Back off and retry the operation. If you continue to see the exception, throughput limits for the Firehose stream may have been exceeded. For more information about limits and how to request an increase, see [Amazon Firehose Limits](https://docs.aws.amazon.com/firehose/latest/dev/limits.html).
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message that provides information about the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4879,8 +4769,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -4895,8 +4784,7 @@ extension FirehoseClientTypes {
 
         public init(
             data: Foundation.Data? = nil
-        )
-        {
+        ) {
             self.data = data
         }
     }
@@ -4913,8 +4801,7 @@ public struct PutRecordInput: Swift.Sendable {
     public init(
         deliveryStreamName: Swift.String? = nil,
         record: FirehoseClientTypes.Record? = nil
-    )
-    {
+    ) {
         self.deliveryStreamName = deliveryStreamName
         self.record = record
     }
@@ -4930,8 +4817,7 @@ public struct PutRecordOutput: Swift.Sendable {
     public init(
         encrypted: Swift.Bool? = nil,
         recordId: Swift.String? = nil
-    )
-    {
+    ) {
         self.encrypted = encrypted
         self.recordId = recordId
     }
@@ -4948,8 +4834,7 @@ public struct PutRecordBatchInput: Swift.Sendable {
     public init(
         deliveryStreamName: Swift.String? = nil,
         records: [FirehoseClientTypes.Record]? = nil
-    )
-    {
+    ) {
         self.deliveryStreamName = deliveryStreamName
         self.records = records
     }
@@ -4970,8 +4855,7 @@ extension FirehoseClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             recordId: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.recordId = recordId
@@ -4993,8 +4877,7 @@ public struct PutRecordBatchOutput: Swift.Sendable {
         encrypted: Swift.Bool? = nil,
         failedPutCount: Swift.Int? = nil,
         requestResponses: [FirehoseClientTypes.PutRecordBatchResponseEntry]? = nil
-    )
-    {
+    ) {
         self.encrypted = encrypted
         self.failedPutCount = failedPutCount
         self.requestResponses = requestResponses
@@ -5011,8 +4894,7 @@ public struct StartDeliveryStreamEncryptionInput: Swift.Sendable {
     public init(
         deliveryStreamEncryptionConfigurationInput: FirehoseClientTypes.DeliveryStreamEncryptionConfigurationInput? = nil,
         deliveryStreamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.deliveryStreamEncryptionConfigurationInput = deliveryStreamEncryptionConfigurationInput
         self.deliveryStreamName = deliveryStreamName
     }
@@ -5030,8 +4912,7 @@ public struct StopDeliveryStreamEncryptionInput: Swift.Sendable {
 
     public init(
         deliveryStreamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.deliveryStreamName = deliveryStreamName
     }
 }
@@ -5052,8 +4933,7 @@ public struct TagDeliveryStreamInput: Swift.Sendable {
     public init(
         deliveryStreamName: Swift.String? = nil,
         tags: [FirehoseClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.deliveryStreamName = deliveryStreamName
         self.tags = tags
     }
@@ -5075,8 +4955,7 @@ public struct UntagDeliveryStreamInput: Swift.Sendable {
     public init(
         deliveryStreamName: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.deliveryStreamName = deliveryStreamName
         self.tagKeys = tagKeys
     }
@@ -5123,8 +5002,7 @@ extension FirehoseClientTypes {
             s3BackupMode: FirehoseClientTypes.HttpEndpointS3BackupMode? = nil,
             s3Update: FirehoseClientTypes.S3DestinationUpdate? = nil,
             secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration? = nil
-        )
-        {
+        ) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.endpointConfiguration = endpointConfiguration
@@ -5178,8 +5056,7 @@ extension FirehoseClientTypes {
             s3Configuration: FirehoseClientTypes.S3DestinationConfiguration? = nil,
             schemaEvolutionConfiguration: FirehoseClientTypes.SchemaEvolutionConfiguration? = nil,
             tableCreationConfiguration: FirehoseClientTypes.TableCreationConfiguration? = nil
-        )
-        {
+        ) {
             self.bufferingHints = bufferingHints
             self.catalogConfiguration = catalogConfiguration
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
@@ -5237,8 +5114,7 @@ extension FirehoseClientTypes {
             s3Update: FirehoseClientTypes.S3DestinationUpdate? = nil,
             secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration? = nil,
             username: Swift.String? = nil
-        )
-        {
+        ) {
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.clusterJDBCURL = clusterJDBCURL
             self.copyCommand = copyCommand
@@ -5323,8 +5199,7 @@ extension FirehoseClientTypes {
             snowflakeRoleConfiguration: FirehoseClientTypes.SnowflakeRoleConfiguration? = nil,
             table: Swift.String? = nil,
             user: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountUrl = accountUrl
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
@@ -5392,8 +5267,7 @@ extension FirehoseClientTypes {
             s3BackupMode: FirehoseClientTypes.SplunkS3BackupMode? = nil,
             s3Update: FirehoseClientTypes.S3DestinationUpdate? = nil,
             secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration? = nil
-        )
-        {
+        ) {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.hecAcknowledgmentTimeoutInSeconds = hecAcknowledgmentTimeoutInSeconds
@@ -5455,8 +5329,7 @@ public struct UpdateDestinationInput: Swift.Sendable {
         s3DestinationUpdate: FirehoseClientTypes.S3DestinationUpdate? = nil,
         snowflakeDestinationUpdate: FirehoseClientTypes.SnowflakeDestinationUpdate? = nil,
         splunkDestinationUpdate: FirehoseClientTypes.SplunkDestinationUpdate? = nil
-    )
-    {
+    ) {
         self.amazonOpenSearchServerlessDestinationUpdate = amazonOpenSearchServerlessDestinationUpdate
         self.amazonopensearchserviceDestinationUpdate = amazonopensearchserviceDestinationUpdate
         self.currentDeliveryStreamVersionId = currentDeliveryStreamVersionId

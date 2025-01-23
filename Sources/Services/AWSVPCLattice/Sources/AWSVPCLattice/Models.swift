@@ -29,9 +29,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// The user does not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -47,16 +47,15 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request conflicts with the current state of the resource. Updating or deleting a resource can cause an inconsistent state.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The resource ID.
@@ -80,8 +79,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -89,9 +87,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// An unexpected error occurred while processing the request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The number of seconds to wait before retrying.
@@ -110,17 +108,16 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.retryAfterSeconds = retryAfterSeconds
     }
 }
 
 /// The request references a resource that does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The resource ID.
@@ -144,8 +141,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
@@ -153,9 +149,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The limit on the number of requests per second was exceeded.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The ID of the service quota that was exceeded.
@@ -180,8 +176,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         quotaCode: Swift.String? = nil,
         retryAfterSeconds: Swift.Int? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
@@ -203,8 +198,7 @@ extension VPCLatticeClientTypes {
         public init(
             message: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.message = message
             self.name = name
         }
@@ -247,9 +241,9 @@ extension VPCLatticeClientTypes {
 }
 
 /// The input does not satisfy the constraints specified by an Amazon Web Services service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The fields that failed validation.
         public internal(set) var fieldList: [VPCLatticeClientTypes.ValidationExceptionField]? = nil
         /// This member is required.
@@ -272,11 +266,41 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         fieldList: [VPCLatticeClientTypes.ValidationExceptionField]? = nil,
         message: Swift.String? = nil,
         reason: VPCLatticeClientTypes.ValidationExceptionReason? = nil
-    )
-    {
+    ) {
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
+    }
+}
+
+extension VPCLatticeClientTypes {
+
+    public enum ServiceNetworkLogType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Indicates logs for Lattice resource configurations.
+        case resource
+        /// Indicates logs for Lattice services.
+        case service
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceNetworkLogType] {
+            return [
+                .resource,
+                .service
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .resource: return "RESOURCE"
+            case .service: return "SERVICE"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -286,9 +310,11 @@ public struct CreateAccessLogSubscriptionInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the destination. The supported destination types are CloudWatch Log groups, Kinesis Data Firehose delivery streams, and Amazon S3 buckets.
     /// This member is required.
     public var destinationArn: Swift.String?
-    /// The ID or Amazon Resource Name (ARN) of the service network or service.
+    /// The ID or ARN of the service network or service.
     /// This member is required.
     public var resourceIdentifier: Swift.String?
+    /// The type of log that monitors your Amazon VPC Lattice service networks.
+    public var serviceNetworkLogType: VPCLatticeClientTypes.ServiceNetworkLogType?
     /// The tags for the access log subscription.
     public var tags: [Swift.String: Swift.String]?
 
@@ -296,12 +322,13 @@ public struct CreateAccessLogSubscriptionInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         destinationArn: Swift.String? = nil,
         resourceIdentifier: Swift.String? = nil,
+        serviceNetworkLogType: VPCLatticeClientTypes.ServiceNetworkLogType? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.destinationArn = destinationArn
         self.resourceIdentifier = resourceIdentifier
+        self.serviceNetworkLogType = serviceNetworkLogType
         self.tags = tags
     }
 }
@@ -322,32 +349,34 @@ public struct CreateAccessLogSubscriptionOutput: Swift.Sendable {
     /// The ID of the service network or service.
     /// This member is required.
     public var resourceId: Swift.String?
+    /// The type of log that monitors your Amazon VPC Lattice service networks.
+    public var serviceNetworkLogType: VPCLatticeClientTypes.ServiceNetworkLogType?
 
     public init(
         arn: Swift.String? = nil,
         destinationArn: Swift.String? = nil,
         id: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
-        resourceId: Swift.String? = nil
-    )
-    {
+        resourceId: Swift.String? = nil,
+        serviceNetworkLogType: VPCLatticeClientTypes.ServiceNetworkLogType? = nil
+    ) {
         self.arn = arn
         self.destinationArn = destinationArn
         self.id = id
         self.resourceArn = resourceArn
         self.resourceId = resourceId
+        self.serviceNetworkLogType = serviceNetworkLogType
     }
 }
 
 public struct DeleteAccessLogSubscriptionInput: Swift.Sendable {
-    /// The ID or Amazon Resource Name (ARN) of the access log subscription.
+    /// The ID or ARN of the access log subscription.
     /// This member is required.
     public var accessLogSubscriptionIdentifier: Swift.String?
 
     public init(
         accessLogSubscriptionIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessLogSubscriptionIdentifier = accessLogSubscriptionIdentifier
     }
 }
@@ -358,14 +387,13 @@ public struct DeleteAccessLogSubscriptionOutput: Swift.Sendable {
 }
 
 public struct GetAccessLogSubscriptionInput: Swift.Sendable {
-    /// The ID or Amazon Resource Name (ARN) of the access log subscription.
+    /// The ID or ARN of the access log subscription.
     /// This member is required.
     public var accessLogSubscriptionIdentifier: Swift.String?
 
     public init(
         accessLogSubscriptionIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessLogSubscriptionIdentifier = accessLogSubscriptionIdentifier
     }
 }
@@ -374,7 +402,7 @@ public struct GetAccessLogSubscriptionOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the access log subscription.
     /// This member is required.
     public var arn: Swift.String?
-    /// The date and time that the access log subscription was created, specified in ISO-8601 format.
+    /// The date and time that the access log subscription was created, in ISO-8601 format.
     /// This member is required.
     public var createdAt: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the access log destination.
@@ -383,7 +411,7 @@ public struct GetAccessLogSubscriptionOutput: Swift.Sendable {
     /// The ID of the access log subscription.
     /// This member is required.
     public var id: Swift.String?
-    /// The date and time that the access log subscription was last updated, specified in ISO-8601 format.
+    /// The date and time that the access log subscription was last updated, in ISO-8601 format.
     /// This member is required.
     public var lastUpdatedAt: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the service network or service.
@@ -392,6 +420,8 @@ public struct GetAccessLogSubscriptionOutput: Swift.Sendable {
     /// The ID of the service network or service.
     /// This member is required.
     public var resourceId: Swift.String?
+    /// The log type for the service network.
+    public var serviceNetworkLogType: VPCLatticeClientTypes.ServiceNetworkLogType?
 
     public init(
         arn: Swift.String? = nil,
@@ -400,9 +430,9 @@ public struct GetAccessLogSubscriptionOutput: Swift.Sendable {
         id: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         resourceArn: Swift.String? = nil,
-        resourceId: Swift.String? = nil
-    )
-    {
+        resourceId: Swift.String? = nil,
+        serviceNetworkLogType: VPCLatticeClientTypes.ServiceNetworkLogType? = nil
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.destinationArn = destinationArn
@@ -410,6 +440,7 @@ public struct GetAccessLogSubscriptionOutput: Swift.Sendable {
         self.lastUpdatedAt = lastUpdatedAt
         self.resourceArn = resourceArn
         self.resourceId = resourceId
+        self.serviceNetworkLogType = serviceNetworkLogType
     }
 }
 
@@ -418,7 +449,7 @@ public struct ListAccessLogSubscriptionsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// A pagination token for the next page of results.
     public var nextToken: Swift.String?
-    /// The ID or Amazon Resource Name (ARN) of the service network or service.
+    /// The ID or ARN of the service network or service.
     /// This member is required.
     public var resourceIdentifier: Swift.String?
 
@@ -426,8 +457,7 @@ public struct ListAccessLogSubscriptionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceIdentifier = resourceIdentifier
@@ -441,7 +471,7 @@ extension VPCLatticeClientTypes {
         /// The Amazon Resource Name (ARN) of the access log subscription
         /// This member is required.
         public var arn: Swift.String?
-        /// The date and time that the access log subscription was created, specified in ISO-8601 format.
+        /// The date and time that the access log subscription was created, in ISO-8601 format.
         /// This member is required.
         public var createdAt: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the destination.
@@ -450,7 +480,7 @@ extension VPCLatticeClientTypes {
         /// The ID of the access log subscription.
         /// This member is required.
         public var id: Swift.String?
-        /// The date and time that the access log subscription was last updated, specified in ISO-8601 format.
+        /// The date and time that the access log subscription was last updated, in ISO-8601 format.
         /// This member is required.
         public var lastUpdatedAt: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the service or service network.
@@ -459,6 +489,8 @@ extension VPCLatticeClientTypes {
         /// The ID of the service or service network.
         /// This member is required.
         public var resourceId: Swift.String?
+        /// Log type of the service network.
+        public var serviceNetworkLogType: VPCLatticeClientTypes.ServiceNetworkLogType?
 
         public init(
             arn: Swift.String? = nil,
@@ -467,9 +499,9 @@ extension VPCLatticeClientTypes {
             id: Swift.String? = nil,
             lastUpdatedAt: Foundation.Date? = nil,
             resourceArn: Swift.String? = nil,
-            resourceId: Swift.String? = nil
-        )
-        {
+            resourceId: Swift.String? = nil,
+            serviceNetworkLogType: VPCLatticeClientTypes.ServiceNetworkLogType? = nil
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.destinationArn = destinationArn
@@ -477,6 +509,7 @@ extension VPCLatticeClientTypes {
             self.lastUpdatedAt = lastUpdatedAt
             self.resourceArn = resourceArn
             self.resourceId = resourceId
+            self.serviceNetworkLogType = serviceNetworkLogType
         }
     }
 }
@@ -491,15 +524,14 @@ public struct ListAccessLogSubscriptionsOutput: Swift.Sendable {
     public init(
         items: [VPCLatticeClientTypes.AccessLogSubscriptionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
 }
 
 public struct UpdateAccessLogSubscriptionInput: Swift.Sendable {
-    /// The ID or Amazon Resource Name (ARN) of the access log subscription.
+    /// The ID or ARN of the access log subscription.
     /// This member is required.
     public var accessLogSubscriptionIdentifier: Swift.String?
     /// The Amazon Resource Name (ARN) of the access log destination.
@@ -509,8 +541,7 @@ public struct UpdateAccessLogSubscriptionInput: Swift.Sendable {
     public init(
         accessLogSubscriptionIdentifier: Swift.String? = nil,
         destinationArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.accessLogSubscriptionIdentifier = accessLogSubscriptionIdentifier
         self.destinationArn = destinationArn
     }
@@ -539,13 +570,27 @@ public struct UpdateAccessLogSubscriptionOutput: Swift.Sendable {
         id: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         resourceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.destinationArn = destinationArn
         self.id = id
         self.resourceArn = resourceArn
         self.resourceId = resourceId
+    }
+}
+
+extension VPCLatticeClientTypes {
+
+    /// The Amazon Resource Name (ARN) of the resource.
+    public struct ArnResource: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the resource.
+        public var arn: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil
+        ) {
+            self.arn = arn
+        }
     }
 }
 
@@ -617,8 +662,7 @@ extension VPCLatticeClientTypes {
 
         public init(
             statusCode: Swift.Int? = nil
-        )
-        {
+        ) {
             self.statusCode = statusCode
         }
     }
@@ -628,7 +672,7 @@ extension VPCLatticeClientTypes {
 
     /// Describes the weight of a target group.
     public struct WeightedTargetGroup: Swift.Sendable {
-        /// The ID or Amazon Resource Name (ARN) of the target group.
+        /// The ID or ARN of the target group.
         /// This member is required.
         public var targetGroupIdentifier: Swift.String?
         /// Only required if you specify multiple target groups for a forward action. The weight determines how requests are distributed to the target group. For example, if you specify two target groups, each with a weight of 10, each target group receives half the requests. If you specify two target groups, one with a weight of 10 and the other with a weight of 20, the target group with a weight of 20 receives twice as many requests as the other target group. If there's only one target group specified, then the default value is 100.
@@ -637,8 +681,7 @@ extension VPCLatticeClientTypes {
         public init(
             targetGroupIdentifier: Swift.String? = nil,
             weight: Swift.Int? = nil
-        )
-        {
+        ) {
             self.targetGroupIdentifier = targetGroupIdentifier
             self.weight = weight
         }
@@ -655,8 +698,7 @@ extension VPCLatticeClientTypes {
 
         public init(
             targetGroups: [VPCLatticeClientTypes.WeightedTargetGroup]? = nil
-        )
-        {
+        ) {
             self.targetGroups = targetGroups
         }
     }
@@ -705,8 +747,7 @@ extension VPCLatticeClientTypes {
             caseSensitive: Swift.Bool? = nil,
             match: VPCLatticeClientTypes.HeaderMatchType? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.caseSensitive = caseSensitive
             self.match = match
             self.name = name
@@ -739,8 +780,7 @@ extension VPCLatticeClientTypes {
         public init(
             caseSensitive: Swift.Bool? = nil,
             match: VPCLatticeClientTypes.PathMatchType? = nil
-        )
-        {
+        ) {
             self.caseSensitive = caseSensitive
             self.match = match
         }
@@ -762,8 +802,7 @@ extension VPCLatticeClientTypes {
             headerMatches: [VPCLatticeClientTypes.HeaderMatch]? = nil,
             method: Swift.String? = nil,
             pathMatch: VPCLatticeClientTypes.PathMatch? = nil
-        )
-        {
+        ) {
             self.headerMatches = headerMatches
             self.method = method
             self.pathMatch = pathMatch
@@ -791,7 +830,7 @@ extension VPCLatticeClientTypes {
         public var match: VPCLatticeClientTypes.RuleMatch?
         /// The rule priority. A listener can't have multiple rules with the same priority.
         public var priority: Swift.Int?
-        /// The ID or Amazon Resource Name (ARN) of the rule.
+        /// The ID or ARN of the rule.
         /// This member is required.
         public var ruleIdentifier: Swift.String?
 
@@ -800,8 +839,7 @@ extension VPCLatticeClientTypes {
             match: VPCLatticeClientTypes.RuleMatch? = nil,
             priority: Swift.Int? = nil,
             ruleIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.action = action
             self.match = match
             self.priority = priority
@@ -811,13 +849,13 @@ extension VPCLatticeClientTypes {
 }
 
 public struct BatchUpdateRuleInput: Swift.Sendable {
-    /// The ID or Amazon Resource Name (ARN) of the listener.
+    /// The ID or ARN of the listener.
     /// This member is required.
     public var listenerIdentifier: Swift.String?
     /// The rules for the specified listener.
     /// This member is required.
     public var rules: [VPCLatticeClientTypes.RuleUpdate]?
-    /// The ID or Amazon Resource Name (ARN) of the service.
+    /// The ID or ARN of the service.
     /// This member is required.
     public var serviceIdentifier: Swift.String?
 
@@ -825,8 +863,7 @@ public struct BatchUpdateRuleInput: Swift.Sendable {
         listenerIdentifier: Swift.String? = nil,
         rules: [VPCLatticeClientTypes.RuleUpdate]? = nil,
         serviceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.listenerIdentifier = listenerIdentifier
         self.rules = rules
         self.serviceIdentifier = serviceIdentifier
@@ -860,8 +897,7 @@ extension VPCLatticeClientTypes {
             match: VPCLatticeClientTypes.RuleMatch? = nil,
             name: Swift.String? = nil,
             priority: Swift.Int? = nil
-        )
-        {
+        ) {
             self.action = action
             self.arn = arn
             self.id = id
@@ -881,15 +917,14 @@ extension VPCLatticeClientTypes {
         public var failureCode: Swift.String?
         /// The failure message.
         public var failureMessage: Swift.String?
-        /// The ID or Amazon Resource Name (ARN) of the rule.
+        /// The ID or ARN of the rule.
         public var ruleIdentifier: Swift.String?
 
         public init(
             failureCode: Swift.String? = nil,
             failureMessage: Swift.String? = nil,
             ruleIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.failureCode = failureCode
             self.failureMessage = failureMessage
             self.ruleIdentifier = ruleIdentifier
@@ -906,17 +941,16 @@ public struct BatchUpdateRuleOutput: Swift.Sendable {
     public init(
         successful: [VPCLatticeClientTypes.RuleUpdateSuccess]? = nil,
         unsuccessful: [VPCLatticeClientTypes.RuleUpdateFailure]? = nil
-    )
-    {
+    ) {
         self.successful = successful
         self.unsuccessful = unsuccessful
     }
 }
 
 /// The request would cause a service quota to be exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The ID of the service quota that was exceeded.
@@ -947,8 +981,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         serviceCode: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
         self.properties.quotaCode = quotaCode
         self.properties.resourceId = resourceId
@@ -1006,7 +1039,7 @@ public struct CreateListenerInput: Swift.Sendable {
     /// The listener protocol.
     /// This member is required.
     public var `protocol`: VPCLatticeClientTypes.ListenerProtocol?
-    /// The ID or Amazon Resource Name (ARN) of the service.
+    /// The ID or ARN of the service.
     /// This member is required.
     public var serviceIdentifier: Swift.String?
     /// The tags for the listener.
@@ -1020,8 +1053,7 @@ public struct CreateListenerInput: Swift.Sendable {
         `protocol`: VPCLatticeClientTypes.ListenerProtocol? = nil,
         serviceIdentifier: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.defaultAction = defaultAction
         self.name = name
@@ -1059,8 +1091,7 @@ public struct CreateListenerOutput: Swift.Sendable {
         `protocol`: VPCLatticeClientTypes.ListenerProtocol? = nil,
         serviceArn: Swift.String? = nil,
         serviceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.defaultAction = defaultAction
         self.id = id
@@ -1072,13 +1103,492 @@ public struct CreateListenerOutput: Swift.Sendable {
     }
 }
 
+extension VPCLatticeClientTypes {
+
+    public enum ProtocolType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Resource Configuration protocol type TCP
+        case tcp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProtocolType] {
+            return [
+                .tcp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .tcp: return "TCP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension VPCLatticeClientTypes {
+
+    public enum ResourceConfigurationIpAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Dualstack ip address type for dns type resource configs
+        case dualstack
+        /// Ipv4 ip address type for dns type resource configs
+        case ipv4
+        /// IPv6 ip address type for dns type resource configs
+        case ipv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceConfigurationIpAddressType] {
+            return [
+                .dualstack,
+                .ipv4,
+                .ipv6
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualstack: return "DUALSTACK"
+            case .ipv4: return "IPV4"
+            case .ipv6: return "IPV6"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension VPCLatticeClientTypes {
+
+    /// The DNS name of the resource.
+    public struct DnsResource: Swift.Sendable {
+        /// The domain name of the resource.
+        public var domainName: Swift.String?
+        /// The type of IP address.
+        public var ipAddressType: VPCLatticeClientTypes.ResourceConfigurationIpAddressType?
+
+        public init(
+            domainName: Swift.String? = nil,
+            ipAddressType: VPCLatticeClientTypes.ResourceConfigurationIpAddressType? = nil
+        ) {
+            self.domainName = domainName
+            self.ipAddressType = ipAddressType
+        }
+    }
+}
+
+extension VPCLatticeClientTypes {
+
+    /// Describes an IP resource.
+    public struct IpResource: Swift.Sendable {
+        /// The IP address of the IP resource.
+        public var ipAddress: Swift.String?
+
+        public init(
+            ipAddress: Swift.String? = nil
+        ) {
+            self.ipAddress = ipAddress
+        }
+    }
+}
+
+extension VPCLatticeClientTypes {
+
+    /// Describes a resource configuration.
+    public enum ResourceConfigurationDefinition: Swift.Sendable {
+        /// The DNS name of the resource.
+        case dnsresource(VPCLatticeClientTypes.DnsResource)
+        /// The IP resource.
+        case ipresource(VPCLatticeClientTypes.IpResource)
+        /// The Amazon Resource Name (ARN) of the resource.
+        case arnresource(VPCLatticeClientTypes.ArnResource)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension VPCLatticeClientTypes {
+
+    public enum ResourceConfigurationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Resource Configuration of type ARN
+        case arn
+        /// Resource Configuration of type CHILD
+        case child
+        /// Resource Configuration of type GROUP
+        case group
+        /// Resource Configuration of type SINGLE
+        case single
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceConfigurationType] {
+            return [
+                .arn,
+                .child,
+                .group,
+                .single
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .arn: return "ARN"
+            case .child: return "CHILD"
+            case .group: return "GROUP"
+            case .single: return "SINGLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateResourceConfigurationInput: Swift.Sendable {
+    /// (SINGLE, GROUP, ARN) Specifies whether the resource configuration can be associated with a sharable service network. The default is false.
+    public var allowAssociationToShareableServiceNetwork: Swift.Bool?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
+    public var clientToken: Swift.String?
+    /// The name of the resource configuration. The name must be unique within the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen.
+    /// This member is required.
+    public var name: Swift.String?
+    /// (SINGLE, GROUP, CHILD) The TCP port ranges that a consumer can use to access a resource configuration (for example: 1-65535). You can separate port ranges using commas (for example: 1,2,22-30).
+    public var portRanges: [Swift.String]?
+    /// (SINGLE, GROUP) The protocol accepted by the resource configuration.
+    public var `protocol`: VPCLatticeClientTypes.ProtocolType?
+    /// (SINGLE, CHILD, ARN) The resource configuration.
+    public var resourceConfigurationDefinition: VPCLatticeClientTypes.ResourceConfigurationDefinition?
+    /// (CHILD) The ID or ARN of the parent resource configuration (type is GROUP). This is used to associate a child resource configuration with a group resource configuration.
+    public var resourceConfigurationGroupIdentifier: Swift.String?
+    /// (SINGLE, GROUP, ARN) The ID or ARN of the resource gateway used to connect to the resource configuration. For a child resource configuration, this value is inherited from the parent resource configuration.
+    public var resourceGatewayIdentifier: Swift.String?
+    /// The tags for the resource configuration.
+    public var tags: [Swift.String: Swift.String]?
+    /// The type of resource configuration.
+    ///
+    /// * SINGLE - A single resource.
+    ///
+    /// * GROUP - A group of resources. You must create a group resource configuration before you create a child resource configuration.
+    ///
+    /// * CHILD - A single resource that is part of a group resource configuration.
+    ///
+    /// * ARN - An Amazon Web Services resource.
+    /// This member is required.
+    public var type: VPCLatticeClientTypes.ResourceConfigurationType?
+
+    public init(
+        allowAssociationToShareableServiceNetwork: Swift.Bool? = nil,
+        clientToken: Swift.String? = nil,
+        name: Swift.String? = nil,
+        portRanges: [Swift.String]? = nil,
+        `protocol`: VPCLatticeClientTypes.ProtocolType? = nil,
+        resourceConfigurationDefinition: VPCLatticeClientTypes.ResourceConfigurationDefinition? = nil,
+        resourceConfigurationGroupIdentifier: Swift.String? = nil,
+        resourceGatewayIdentifier: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        type: VPCLatticeClientTypes.ResourceConfigurationType? = nil
+    ) {
+        self.allowAssociationToShareableServiceNetwork = allowAssociationToShareableServiceNetwork
+        self.clientToken = clientToken
+        self.name = name
+        self.portRanges = portRanges
+        self.`protocol` = `protocol`
+        self.resourceConfigurationDefinition = resourceConfigurationDefinition
+        self.resourceConfigurationGroupIdentifier = resourceConfigurationGroupIdentifier
+        self.resourceGatewayIdentifier = resourceGatewayIdentifier
+        self.tags = tags
+        self.type = type
+    }
+}
+
+extension VPCLatticeClientTypes {
+
+    public enum ResourceConfigurationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Resource Configuration is active.
+        case active
+        /// Resource Configuration creation failed
+        case createFailed
+        /// Resource Configuration creation in progress.
+        case createInProgress
+        /// Resource Configuration deletion failed.
+        case deleteFailed
+        /// Resource Configuration deletion in progress
+        case deleteInProgress
+        /// Resource Configuration update failed
+        case updateFailed
+        /// Resource Configuration update in progress.
+        case updateInProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceConfigurationStatus] {
+            return [
+                .active,
+                .createFailed,
+                .createInProgress,
+                .deleteFailed,
+                .deleteInProgress,
+                .updateFailed,
+                .updateInProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .createFailed: return "CREATE_FAILED"
+            case .createInProgress: return "CREATE_IN_PROGRESS"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleteInProgress: return "DELETE_IN_PROGRESS"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updateInProgress: return "UPDATE_IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateResourceConfigurationOutput: Swift.Sendable {
+    /// Specifies whether the resource configuration can be associated with a sharable service network.
+    public var allowAssociationToShareableServiceNetwork: Swift.Bool?
+    /// The Amazon Resource Name (ARN) of the resource configuration.
+    public var arn: Swift.String?
+    /// The date and time that the resource configuration was created, in ISO-8601 format.
+    public var createdAt: Foundation.Date?
+    /// The reason that the request failed.
+    public var failureReason: Swift.String?
+    /// The ID of the resource configuration.
+    public var id: Swift.String?
+    /// The name of the resource configuration.
+    public var name: Swift.String?
+    /// The port range.
+    public var portRanges: [Swift.String]?
+    /// The protocol.
+    public var `protocol`: VPCLatticeClientTypes.ProtocolType?
+    /// The resource configuration.
+    public var resourceConfigurationDefinition: VPCLatticeClientTypes.ResourceConfigurationDefinition?
+    /// The ID of the parent resource configuration (type is GROUP).
+    public var resourceConfigurationGroupId: Swift.String?
+    /// The ID of the resource gateway associated with the resource configuration.
+    public var resourceGatewayId: Swift.String?
+    /// The current status of the resource configuration.
+    public var status: VPCLatticeClientTypes.ResourceConfigurationStatus?
+    /// The type of resource configuration.
+    public var type: VPCLatticeClientTypes.ResourceConfigurationType?
+
+    public init(
+        allowAssociationToShareableServiceNetwork: Swift.Bool? = nil,
+        arn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        failureReason: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        portRanges: [Swift.String]? = nil,
+        `protocol`: VPCLatticeClientTypes.ProtocolType? = nil,
+        resourceConfigurationDefinition: VPCLatticeClientTypes.ResourceConfigurationDefinition? = nil,
+        resourceConfigurationGroupId: Swift.String? = nil,
+        resourceGatewayId: Swift.String? = nil,
+        status: VPCLatticeClientTypes.ResourceConfigurationStatus? = nil,
+        type: VPCLatticeClientTypes.ResourceConfigurationType? = nil
+    ) {
+        self.allowAssociationToShareableServiceNetwork = allowAssociationToShareableServiceNetwork
+        self.arn = arn
+        self.createdAt = createdAt
+        self.failureReason = failureReason
+        self.id = id
+        self.name = name
+        self.portRanges = portRanges
+        self.`protocol` = `protocol`
+        self.resourceConfigurationDefinition = resourceConfigurationDefinition
+        self.resourceConfigurationGroupId = resourceConfigurationGroupId
+        self.resourceGatewayId = resourceGatewayId
+        self.status = status
+        self.type = type
+    }
+}
+
+extension VPCLatticeClientTypes {
+
+    public enum ResourceGatewayIpAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Dualstack ip address type for resource gateway
+        case dualstack
+        /// Ipv4 ip address type for resource gateway
+        case ipv4
+        /// IPv6 ip address type for resource gateway
+        case ipv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceGatewayIpAddressType] {
+            return [
+                .dualstack,
+                .ipv4,
+                .ipv6
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualstack: return "DUALSTACK"
+            case .ipv4: return "IPV4"
+            case .ipv6: return "IPV6"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateResourceGatewayInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
+    public var clientToken: Swift.String?
+    /// The type of IP address used by the resource gateway.
+    public var ipAddressType: VPCLatticeClientTypes.ResourceGatewayIpAddressType?
+    /// The name of the resource gateway.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The IDs of the security groups to apply to the resource gateway. The security groups must be in the same VPC.
+    public var securityGroupIds: [Swift.String]?
+    /// The IDs of the VPC subnets in which to create the resource gateway.
+    /// This member is required.
+    public var subnetIds: [Swift.String]?
+    /// The tags for the resource gateway.
+    public var tags: [Swift.String: Swift.String]?
+    /// The ID of the VPC for the resource gateway.
+    /// This member is required.
+    public var vpcIdentifier: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        ipAddressType: VPCLatticeClientTypes.ResourceGatewayIpAddressType? = nil,
+        name: Swift.String? = nil,
+        securityGroupIds: [Swift.String]? = nil,
+        subnetIds: [Swift.String]? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        vpcIdentifier: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.ipAddressType = ipAddressType
+        self.name = name
+        self.securityGroupIds = securityGroupIds
+        self.subnetIds = subnetIds
+        self.tags = tags
+        self.vpcIdentifier = vpcIdentifier
+    }
+}
+
+extension VPCLatticeClientTypes {
+
+    public enum ResourceGatewayStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Resource Gateway is active.
+        case active
+        /// Resource Gateway creation failed
+        case createFailed
+        /// Resource Gateway creation in progress.
+        case createInProgress
+        /// Resource Gateway deletion failed.
+        case deleteFailed
+        /// Resource Gateway deletion in progress
+        case deleteInProgress
+        /// Reosurce Gateway update failed
+        case updateFailed
+        /// Resource Gateway update in progress.
+        case updateInProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceGatewayStatus] {
+            return [
+                .active,
+                .createFailed,
+                .createInProgress,
+                .deleteFailed,
+                .deleteInProgress,
+                .updateFailed,
+                .updateInProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .createFailed: return "CREATE_FAILED"
+            case .createInProgress: return "CREATE_IN_PROGRESS"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleteInProgress: return "DELETE_IN_PROGRESS"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updateInProgress: return "UPDATE_IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateResourceGatewayOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the resource gateway.
+    public var arn: Swift.String?
+    /// The ID of the resource gateway.
+    public var id: Swift.String?
+    /// The type of IP address for the resource gateway.
+    public var ipAddressType: VPCLatticeClientTypes.ResourceGatewayIpAddressType?
+    /// The name of the resource gateway.
+    public var name: Swift.String?
+    /// The IDs of the security groups for the resource gateway.
+    public var securityGroupIds: [Swift.String]?
+    /// The status of the resource gateway.
+    public var status: VPCLatticeClientTypes.ResourceGatewayStatus?
+    /// The IDs of the resource gateway subnets.
+    public var subnetIds: [Swift.String]?
+    /// The ID of the VPC.
+    public var vpcIdentifier: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        ipAddressType: VPCLatticeClientTypes.ResourceGatewayIpAddressType? = nil,
+        name: Swift.String? = nil,
+        securityGroupIds: [Swift.String]? = nil,
+        status: VPCLatticeClientTypes.ResourceGatewayStatus? = nil,
+        subnetIds: [Swift.String]? = nil,
+        vpcIdentifier: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.id = id
+        self.ipAddressType = ipAddressType
+        self.name = name
+        self.securityGroupIds = securityGroupIds
+        self.status = status
+        self.subnetIds = subnetIds
+        self.vpcIdentifier = vpcIdentifier
+    }
+}
+
 public struct CreateRuleInput: Swift.Sendable {
     /// The action for the default rule.
     /// This member is required.
     public var action: VPCLatticeClientTypes.RuleAction?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
     public var clientToken: Swift.String?
-    /// The ID or Amazon Resource Name (ARN) of the listener.
+    /// The ID or ARN of the listener.
     /// This member is required.
     public var listenerIdentifier: Swift.String?
     /// The rule match.
@@ -1090,7 +1600,7 @@ public struct CreateRuleInput: Swift.Sendable {
     /// The priority assigned to the rule. Each rule for a specific listener must have a unique priority. The lower the priority number the higher the priority.
     /// This member is required.
     public var priority: Swift.Int?
-    /// The ID or Amazon Resource Name (ARN) of the service.
+    /// The ID or ARN of the service.
     /// This member is required.
     public var serviceIdentifier: Swift.String?
     /// The tags for the rule.
@@ -1105,8 +1615,7 @@ public struct CreateRuleInput: Swift.Sendable {
         priority: Swift.Int? = nil,
         serviceIdentifier: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.action = action
         self.clientToken = clientToken
         self.listenerIdentifier = listenerIdentifier
@@ -1139,8 +1648,7 @@ public struct CreateRuleOutput: Swift.Sendable {
         match: VPCLatticeClientTypes.RuleMatch? = nil,
         name: Swift.String? = nil,
         priority: Swift.Int? = nil
-    )
-    {
+    ) {
         self.action = action
         self.arn = arn
         self.id = id
@@ -1176,8 +1684,7 @@ public struct CreateServiceInput: Swift.Sendable {
         customDomainName: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.authType = authType
         self.certificateArn = certificateArn
         self.clientToken = clientToken
@@ -1199,8 +1706,7 @@ extension VPCLatticeClientTypes {
         public init(
             domainName: Swift.String? = nil,
             hostedZoneId: Swift.String? = nil
-        )
-        {
+        ) {
             self.domainName = domainName
             self.hostedZoneId = hostedZoneId
         }
@@ -1277,8 +1783,7 @@ public struct CreateServiceOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         status: VPCLatticeClientTypes.ServiceStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.authType = authType
         self.certificateArn = certificateArn
@@ -1287,6 +1792,21 @@ public struct CreateServiceOutput: Swift.Sendable {
         self.id = id
         self.name = name
         self.status = status
+    }
+}
+
+extension VPCLatticeClientTypes {
+
+    /// Specifies if the service network should be enabled for sharing.
+    public struct SharingConfig: Swift.Sendable {
+        /// Specifies if the service network is enabled for sharing.
+        public var enabled: Swift.Bool?
+
+        public init(
+            enabled: Swift.Bool? = nil
+        ) {
+            self.enabled = enabled
+        }
     }
 }
 
@@ -1302,6 +1822,8 @@ public struct CreateServiceNetworkInput: Swift.Sendable {
     /// The name of the service network. The name must be unique to the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen.
     /// This member is required.
     public var name: Swift.String?
+    /// Specify if the service network should be enabled for sharing.
+    public var sharingConfig: VPCLatticeClientTypes.SharingConfig?
     /// The tags for the service network.
     public var tags: [Swift.String: Swift.String]?
 
@@ -1309,12 +1831,13 @@ public struct CreateServiceNetworkInput: Swift.Sendable {
         authType: VPCLatticeClientTypes.AuthType? = nil,
         clientToken: Swift.String? = nil,
         name: Swift.String? = nil,
+        sharingConfig: VPCLatticeClientTypes.SharingConfig? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.authType = authType
         self.clientToken = clientToken
         self.name = name
+        self.sharingConfig = sharingConfig
         self.tags = tags
     }
 }
@@ -1328,28 +1851,126 @@ public struct CreateServiceNetworkOutput: Swift.Sendable {
     public var id: Swift.String?
     /// The name of the service network.
     public var name: Swift.String?
+    /// Specifies if the service network is enabled for sharing.
+    public var sharingConfig: VPCLatticeClientTypes.SharingConfig?
 
     public init(
         arn: Swift.String? = nil,
         authType: VPCLatticeClientTypes.AuthType? = nil,
         id: Swift.String? = nil,
-        name: Swift.String? = nil
-    )
-    {
+        name: Swift.String? = nil,
+        sharingConfig: VPCLatticeClientTypes.SharingConfig? = nil
+    ) {
         self.arn = arn
         self.authType = authType
         self.id = id
         self.name = name
+        self.sharingConfig = sharingConfig
+    }
+}
+
+public struct CreateServiceNetworkResourceAssociationInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
+    public var clientToken: Swift.String?
+    /// The ID of the resource configuration to associate with the service network.
+    /// This member is required.
+    public var resourceConfigurationIdentifier: Swift.String?
+    /// The ID of the service network to associate with the resource configuration.
+    /// This member is required.
+    public var serviceNetworkIdentifier: Swift.String?
+    /// The tags for the association.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        resourceConfigurationIdentifier: Swift.String? = nil,
+        serviceNetworkIdentifier: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.resourceConfigurationIdentifier = resourceConfigurationIdentifier
+        self.serviceNetworkIdentifier = serviceNetworkIdentifier
+        self.tags = tags
+    }
+}
+
+extension VPCLatticeClientTypes {
+
+    public enum ServiceNetworkResourceAssociationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// ServiceNetwork and Service association is active
+        case active
+        /// ServiceNetwork and Service association creation failed.
+        case createFailed
+        /// ServiceNetwork and Service association creation in progress
+        case createInProgress
+        /// ServiceNetwork and Service association deletion failed
+        case deleteFailed
+        /// ServiceNetwork and Service association deletion in progress
+        case deleteInProgress
+        /// ServiceNetwork and Service association is partial
+        case partial
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceNetworkResourceAssociationStatus] {
+            return [
+                .active,
+                .createFailed,
+                .createInProgress,
+                .deleteFailed,
+                .deleteInProgress,
+                .partial
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .createFailed: return "CREATE_FAILED"
+            case .createInProgress: return "CREATE_IN_PROGRESS"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleteInProgress: return "DELETE_IN_PROGRESS"
+            case .partial: return "PARTIAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateServiceNetworkResourceAssociationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the association.
+    public var arn: Swift.String?
+    /// The ID of the account that created the association.
+    public var createdBy: Swift.String?
+    /// The ID of the association.
+    public var id: Swift.String?
+    /// The status of the association.
+    public var status: VPCLatticeClientTypes.ServiceNetworkResourceAssociationStatus?
+
+    public init(
+        arn: Swift.String? = nil,
+        createdBy: Swift.String? = nil,
+        id: Swift.String? = nil,
+        status: VPCLatticeClientTypes.ServiceNetworkResourceAssociationStatus? = nil
+    ) {
+        self.arn = arn
+        self.createdBy = createdBy
+        self.id = id
+        self.status = status
     }
 }
 
 public struct CreateServiceNetworkServiceAssociationInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
     public var clientToken: Swift.String?
-    /// The ID or Amazon Resource Name (ARN) of the service.
+    /// The ID or ARN of the service.
     /// This member is required.
     public var serviceIdentifier: Swift.String?
-    /// The ID or Amazon Resource Name (ARN) of the service network. You must use the ARN if the resources specified in the operation are in different accounts.
+    /// The ID or ARN of the service network. You must use an ARN if the resources are in different accounts.
     /// This member is required.
     public var serviceNetworkIdentifier: Swift.String?
     /// The tags for the association.
@@ -1360,8 +1981,7 @@ public struct CreateServiceNetworkServiceAssociationInput: Swift.Sendable {
         serviceIdentifier: Swift.String? = nil,
         serviceNetworkIdentifier: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.serviceIdentifier = serviceIdentifier
         self.serviceNetworkIdentifier = serviceNetworkIdentifier
@@ -1433,8 +2053,7 @@ public struct CreateServiceNetworkServiceAssociationOutput: Swift.Sendable {
         dnsEntry: VPCLatticeClientTypes.DnsEntry? = nil,
         id: Swift.String? = nil,
         status: VPCLatticeClientTypes.ServiceNetworkServiceAssociationStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdBy = createdBy
         self.customDomainName = customDomainName
@@ -1449,7 +2068,7 @@ public struct CreateServiceNetworkVpcAssociationInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The IDs of the security groups. Security groups aren't added by default. You can add a security group to apply network level controls to control which resources in a VPC are allowed to access the service network and its services. For more information, see [Control traffic to resources using security groups](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html) in the Amazon VPC User Guide.
     public var securityGroupIds: [Swift.String]?
-    /// The ID or Amazon Resource Name (ARN) of the service network. You must use the ARN when the resources specified in the operation are in different accounts.
+    /// The ID or ARN of the service network. You must use an ARN if the resources are in different accounts.
     /// This member is required.
     public var serviceNetworkIdentifier: Swift.String?
     /// The tags for the association.
@@ -1464,8 +2083,7 @@ public struct CreateServiceNetworkVpcAssociationInput: Swift.Sendable {
         serviceNetworkIdentifier: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vpcIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.securityGroupIds = securityGroupIds
         self.serviceNetworkIdentifier = serviceNetworkIdentifier
@@ -1543,8 +2161,7 @@ public struct CreateServiceNetworkVpcAssociationOutput: Swift.Sendable {
         id: Swift.String? = nil,
         securityGroupIds: [Swift.String]? = nil,
         status: VPCLatticeClientTypes.ServiceNetworkVpcAssociationStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdBy = createdBy
         self.id = id
@@ -1665,8 +2282,7 @@ extension VPCLatticeClientTypes {
             `protocol`: VPCLatticeClientTypes.TargetGroupProtocol? = nil,
             protocolVersion: VPCLatticeClientTypes.HealthCheckProtocolVersion? = nil,
             unhealthyThresholdCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
             self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
             self.healthCheckTimeoutSeconds = healthCheckTimeoutSeconds
@@ -1805,8 +2421,7 @@ extension VPCLatticeClientTypes {
             `protocol`: VPCLatticeClientTypes.TargetGroupProtocol? = nil,
             protocolVersion: VPCLatticeClientTypes.TargetGroupProtocolVersion? = nil,
             vpcIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.healthCheck = healthCheck
             self.ipAddressType = ipAddressType
             self.lambdaEventStructureVersion = lambdaEventStructureVersion
@@ -1877,8 +2492,7 @@ public struct CreateTargetGroupInput: Swift.Sendable {
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         type: VPCLatticeClientTypes.TargetGroupType? = nil
-    )
-    {
+    ) {
         self.clientToken = clientToken
         self.config = config
         self.name = name
@@ -1951,8 +2565,7 @@ public struct CreateTargetGroupOutput: Swift.Sendable {
         name: Swift.String? = nil,
         status: VPCLatticeClientTypes.TargetGroupStatus? = nil,
         type: VPCLatticeClientTypes.TargetGroupType? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.config = config
         self.id = id
@@ -1963,14 +2576,13 @@ public struct CreateTargetGroupOutput: Swift.Sendable {
 }
 
 public struct DeleteAuthPolicyInput: Swift.Sendable {
-    /// The ID or Amazon Resource Name (ARN) of the resource.
+    /// The ID or ARN of the resource.
     /// This member is required.
     public var resourceIdentifier: Swift.String?
 
     public init(
         resourceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceIdentifier = resourceIdentifier
     }
 }
@@ -1981,18 +2593,17 @@ public struct DeleteAuthPolicyOutput: Swift.Sendable {
 }
 
 public struct DeleteListenerInput: Swift.Sendable {
-    /// The ID or Amazon Resource Name (ARN) of the listener.
+    /// The ID or ARN of the listener.
     /// This member is required.
     public var listenerIdentifier: Swift.String?
-    /// The ID or Amazon Resource Name (ARN) of the service.
+    /// The ID or ARN of the service.
     /// This member is required.
     public var serviceIdentifier: Swift.String?
 
     public init(
         listenerIdentifier: Swift.String? = nil,
         serviceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.listenerIdentifier = listenerIdentifier
         self.serviceIdentifier = serviceIdentifier
     }
@@ -2003,6 +2614,97 @@ public struct DeleteListenerOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteResourceConfigurationInput: Swift.Sendable {
+    /// The ID or ARN of the resource configuration.
+    /// This member is required.
+    public var resourceConfigurationIdentifier: Swift.String?
+
+    public init(
+        resourceConfigurationIdentifier: Swift.String? = nil
+    ) {
+        self.resourceConfigurationIdentifier = resourceConfigurationIdentifier
+    }
+}
+
+public struct DeleteResourceConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteResourceEndpointAssociationInput: Swift.Sendable {
+    /// The ID or ARN of the association.
+    /// This member is required.
+    public var resourceEndpointAssociationIdentifier: Swift.String?
+
+    public init(
+        resourceEndpointAssociationIdentifier: Swift.String? = nil
+    ) {
+        self.resourceEndpointAssociationIdentifier = resourceEndpointAssociationIdentifier
+    }
+}
+
+public struct DeleteResourceEndpointAssociationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the association.
+    public var arn: Swift.String?
+    /// The ID of the association.
+    public var id: Swift.String?
+    /// The Amazon Resource Name (ARN) of the resource configuration associated with the VPC endpoint of type resource.
+    public var resourceConfigurationArn: Swift.String?
+    /// The ID of the resource configuration.
+    public var resourceConfigurationId: Swift.String?
+    /// The ID of the resource VPC endpoint that is associated with the resource configuration.
+    public var vpcEndpointId: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        resourceConfigurationArn: Swift.String? = nil,
+        resourceConfigurationId: Swift.String? = nil,
+        vpcEndpointId: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.id = id
+        self.resourceConfigurationArn = resourceConfigurationArn
+        self.resourceConfigurationId = resourceConfigurationId
+        self.vpcEndpointId = vpcEndpointId
+    }
+}
+
+public struct DeleteResourceGatewayInput: Swift.Sendable {
+    /// The ID or ARN of the resource gateway.
+    /// This member is required.
+    public var resourceGatewayIdentifier: Swift.String?
+
+    public init(
+        resourceGatewayIdentifier: Swift.String? = nil
+    ) {
+        self.resourceGatewayIdentifier = resourceGatewayIdentifier
+    }
+}
+
+public struct DeleteResourceGatewayOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the resource gateway.
+    public var arn: Swift.String?
+    /// The ID of the resource gateway.
+    public var id: Swift.String?
+    /// The name of the resource gateway.
+    public var name: Swift.String?
+    /// The status of the resource gateway.
+    public var status: VPCLatticeClientTypes.ResourceGatewayStatus?
+
+    public init(
+        arn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: VPCLatticeClientTypes.ResourceGatewayStatus? = nil
+    ) {
+        self.arn = arn
+        self.id = id
+        self.name = name
+        self.status = status
+    }
+}
+
 public struct DeleteResourcePolicyInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
@@ -2010,8 +2712,7 @@ public struct DeleteResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2022,13 +2723,13 @@ public struct DeleteResourcePolicyOutput: Swift.Sendable {
 }
 
 public struct DeleteRuleInput: Swift.Sendable {
-    /// The ID or Amazon Resource Name (ARN) of the listener.
+    /// The ID or ARN of the listener.
     /// This member is required.
     public var listenerIdentifier: Swift.String?
-    /// The ID or Amazon Resource Name (ARN) of the rule.
+    /// The ID or ARN of the rule.
     /// This member is required.
     public var ruleIdentifier: Swift.String?
-    /// The ID or Amazon Resource Name (ARN) of the service.
+    /// The ID or ARN of the service.
     /// This member is required.
     public var serviceIdentifier: Swift.String?
 
@@ -2036,8 +2737,7 @@ public struct DeleteRuleInput: Swift.Sendable {
         listenerIdentifier: Swift.String? = nil,
         ruleIdentifier: Swift.String? = nil,
         serviceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.listenerIdentifier = listenerIdentifier
         self.ruleIdentifier = ruleIdentifier
         self.serviceIdentifier = serviceIdentifier
@@ -2050,14 +2750,13 @@ public struct DeleteRuleOutput: Swift.Sendable {
 }
 
 public struct DeleteServiceInput: Swift.Sendable {
-    /// The ID or Amazon Resource Name (ARN) of the service.
+    /// The ID or ARN of the service.
     /// This member is required.
     public var serviceIdentifier: Swift.String?
 
     public init(
         serviceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceIdentifier = serviceIdentifier
     }
 }
@@ -2077,8 +2776,7 @@ public struct DeleteServiceOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         status: VPCLatticeClientTypes.ServiceStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.name = name
@@ -2087,14 +2785,13 @@ public struct DeleteServiceOutput: Swift.Sendable {
 }
 
 public struct DeleteServiceNetworkInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) or ID of the service network.
+    /// The ID or ARN of the service network.
     /// This member is required.
     public var serviceNetworkIdentifier: Swift.String?
 
     public init(
         serviceNetworkIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceNetworkIdentifier = serviceNetworkIdentifier
     }
 }
@@ -2104,15 +2801,45 @@ public struct DeleteServiceNetworkOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteServiceNetworkResourceAssociationInput: Swift.Sendable {
+    /// The ID of the association.
+    /// This member is required.
+    public var serviceNetworkResourceAssociationIdentifier: Swift.String?
+
+    public init(
+        serviceNetworkResourceAssociationIdentifier: Swift.String? = nil
+    ) {
+        self.serviceNetworkResourceAssociationIdentifier = serviceNetworkResourceAssociationIdentifier
+    }
+}
+
+public struct DeleteServiceNetworkResourceAssociationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the association.
+    public var arn: Swift.String?
+    /// The ID of the association.
+    public var id: Swift.String?
+    /// The status of the association.
+    public var status: VPCLatticeClientTypes.ServiceNetworkResourceAssociationStatus?
+
+    public init(
+        arn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        status: VPCLatticeClientTypes.ServiceNetworkResourceAssociationStatus? = nil
+    ) {
+        self.arn = arn
+        self.id = id
+        self.status = status
+    }
+}
+
 public struct DeleteServiceNetworkServiceAssociationInput: Swift.Sendable {
-    /// The ID or Amazon Resource Name (ARN) of the association.
+    /// The ID or ARN of the association.
     /// This member is required.
     public var serviceNetworkServiceAssociationIdentifier: Swift.String?
 
     public init(
         serviceNetworkServiceAssociationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceNetworkServiceAssociationIdentifier = serviceNetworkServiceAssociationIdentifier
     }
 }
@@ -2129,8 +2856,7 @@ public struct DeleteServiceNetworkServiceAssociationOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         id: Swift.String? = nil,
         status: VPCLatticeClientTypes.ServiceNetworkServiceAssociationStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.status = status
@@ -2138,14 +2864,13 @@ public struct DeleteServiceNetworkServiceAssociationOutput: Swift.Sendable {
 }
 
 public struct DeleteServiceNetworkVpcAssociationInput: Swift.Sendable {
-    /// The ID or Amazon Resource Name (ARN) of the association.
+    /// The ID or ARN of the association.
     /// This member is required.
     public var serviceNetworkVpcAssociationIdentifier: Swift.String?
 
     public init(
         serviceNetworkVpcAssociationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceNetworkVpcAssociationIdentifier = serviceNetworkVpcAssociationIdentifier
     }
 }
@@ -2162,8 +2887,7 @@ public struct DeleteServiceNetworkVpcAssociationOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         id: Swift.String? = nil,
         status: VPCLatticeClientTypes.ServiceNetworkVpcAssociationStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.status = status
@@ -2171,14 +2895,13 @@ public struct DeleteServiceNetworkVpcAssociationOutput: Swift.Sendable {
 }
 
 public struct DeleteTargetGroupInput: Swift.Sendable {
-    /// The ID or Amazon Resource Name (ARN) of the target group.
+    /// The ID or ARN of the target group.
     /// This member is required.
     public var targetGroupIdentifier: Swift.String?
 
     public init(
         targetGroupIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.targetGroupIdentifier = targetGroupIdentifier
     }
 }
@@ -2195,8 +2918,7 @@ public struct DeleteTargetGroupOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         id: Swift.String? = nil,
         status: VPCLatticeClientTypes.TargetGroupStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.id = id
         self.status = status
@@ -2216,8 +2938,7 @@ extension VPCLatticeClientTypes {
         public init(
             id: Swift.String? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.id = id
             self.port = port
         }
@@ -2225,7 +2946,7 @@ extension VPCLatticeClientTypes {
 }
 
 public struct DeregisterTargetsInput: Swift.Sendable {
-    /// The ID or Amazon Resource Name (ARN) of the target group.
+    /// The ID or ARN of the target group.
     /// This member is required.
     public var targetGroupIdentifier: Swift.String?
     /// The targets to deregister.
@@ -2235,8 +2956,7 @@ public struct DeregisterTargetsInput: Swift.Sendable {
     public init(
         targetGroupIdentifier: Swift.String? = nil,
         targets: [VPCLatticeClientTypes.Target]? = nil
-    )
-    {
+    ) {
         self.targetGroupIdentifier = targetGroupIdentifier
         self.targets = targets
     }
@@ -2260,8 +2980,7 @@ extension VPCLatticeClientTypes {
             failureMessage: Swift.String? = nil,
             id: Swift.String? = nil,
             port: Swift.Int? = nil
-        )
-        {
+        ) {
             self.failureCode = failureCode
             self.failureMessage = failureMessage
             self.id = id
@@ -2279,30 +2998,28 @@ public struct DeregisterTargetsOutput: Swift.Sendable {
     public init(
         successful: [VPCLatticeClientTypes.Target]? = nil,
         unsuccessful: [VPCLatticeClientTypes.TargetFailure]? = nil
-    )
-    {
+    ) {
         self.successful = successful
         self.unsuccessful = unsuccessful
     }
 }
 
 public struct GetAuthPolicyInput: Swift.Sendable {
-    /// The ID or Amazon Resource Name (ARN) of the service network or service.
+    /// The ID or ARN of the service network or service.
     /// This member is required.
     public var resourceIdentifier: Swift.String?
 
     public init(
         resourceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceIdentifier = resourceIdentifier
     }
 }
 
 public struct GetAuthPolicyOutput: Swift.Sendable {
-    /// The date and time that the auth policy was created, specified in ISO-8601 format.
+    /// The date and time that the auth policy was created, in ISO-8601 format.
     public var createdAt: Foundation.Date?
-    /// The date and time that the auth policy was last updated, specified in ISO-8601 format.
+    /// The date and time that the auth policy was last updated, in ISO-8601 format.
     public var lastUpdatedAt: Foundation.Date?
     /// The auth policy.
     public var policy: Swift.String?
@@ -2314,8 +3031,7 @@ public struct GetAuthPolicyOutput: Swift.Sendable {
         lastUpdatedAt: Foundation.Date? = nil,
         policy: Swift.String? = nil,
         state: VPCLatticeClientTypes.AuthPolicyState? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.lastUpdatedAt = lastUpdatedAt
         self.policy = policy
@@ -2324,18 +3040,17 @@ public struct GetAuthPolicyOutput: Swift.Sendable {
 }
 
 public struct GetListenerInput: Swift.Sendable {
-    /// The ID or Amazon Resource Name (ARN) of the listener.
+    /// The ID or ARN of the listener.
     /// This member is required.
     public var listenerIdentifier: Swift.String?
-    /// The ID or Amazon Resource Name (ARN) of the service.
+    /// The ID or ARN of the service.
     /// This member is required.
     public var serviceIdentifier: Swift.String?
 
     public init(
         listenerIdentifier: Swift.String? = nil,
         serviceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.listenerIdentifier = listenerIdentifier
         self.serviceIdentifier = serviceIdentifier
     }
@@ -2344,13 +3059,13 @@ public struct GetListenerInput: Swift.Sendable {
 public struct GetListenerOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the listener.
     public var arn: Swift.String?
-    /// The date and time that the listener was created, specified in ISO-8601 format.
+    /// The date and time that the listener was created, in ISO-8601 format.
     public var createdAt: Foundation.Date?
     /// The actions for the default listener rule.
     public var defaultAction: VPCLatticeClientTypes.RuleAction?
     /// The ID of the listener.
     public var id: Swift.String?
-    /// The date and time that the listener was last updated, specified in ISO-8601 format.
+    /// The date and time that the listener was last updated, in ISO-8601 format.
     public var lastUpdatedAt: Foundation.Date?
     /// The name of the listener.
     public var name: Swift.String?
@@ -2374,8 +3089,7 @@ public struct GetListenerOutput: Swift.Sendable {
         `protocol`: VPCLatticeClientTypes.ListenerProtocol? = nil,
         serviceArn: Swift.String? = nil,
         serviceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.defaultAction = defaultAction
@@ -2389,6 +3103,156 @@ public struct GetListenerOutput: Swift.Sendable {
     }
 }
 
+public struct GetResourceConfigurationInput: Swift.Sendable {
+    /// The ID of the resource configuration.
+    /// This member is required.
+    public var resourceConfigurationIdentifier: Swift.String?
+
+    public init(
+        resourceConfigurationIdentifier: Swift.String? = nil
+    ) {
+        self.resourceConfigurationIdentifier = resourceConfigurationIdentifier
+    }
+}
+
+public struct GetResourceConfigurationOutput: Swift.Sendable {
+    /// Specifies whether the resource configuration is associated with a sharable service network.
+    public var allowAssociationToShareableServiceNetwork: Swift.Bool?
+    /// Indicates whether the resource configuration was created and is managed by Amazon.
+    public var amazonManaged: Swift.Bool?
+    /// The Amazon Resource Name (ARN) of the resource configuration.
+    public var arn: Swift.String?
+    /// The date and time that the resource configuration was created, in ISO-8601 format.
+    public var createdAt: Foundation.Date?
+    /// The custom domain name of the resource configuration.
+    public var customDomainName: Swift.String?
+    /// The reason the create-resource-configuration request failed.
+    public var failureReason: Swift.String?
+    /// The ID of the resource configuration.
+    public var id: Swift.String?
+    /// The most recent date and time that the resource configuration was updated, in ISO-8601 format.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The name of the resource configuration.
+    public var name: Swift.String?
+    /// The TCP port ranges that a consumer can use to access a resource configuration. You can separate port ranges with a comma. Example: 1-65535 or 1,2,22-30
+    public var portRanges: [Swift.String]?
+    /// The TCP protocol accepted by the specified resource configuration.
+    public var `protocol`: VPCLatticeClientTypes.ProtocolType?
+    /// The resource configuration.
+    public var resourceConfigurationDefinition: VPCLatticeClientTypes.ResourceConfigurationDefinition?
+    /// The ID of the group resource configuration.
+    public var resourceConfigurationGroupId: Swift.String?
+    /// The ID of the resource gateway used to connect to the resource configuration in a given VPC. You can specify the resource gateway identifier only for resource configurations with type SINGLE, GROUP, or ARN.
+    public var resourceGatewayId: Swift.String?
+    /// The status of the resource configuration.
+    public var status: VPCLatticeClientTypes.ResourceConfigurationStatus?
+    /// The type of resource configuration.
+    ///
+    /// * SINGLE - A single resource.
+    ///
+    /// * GROUP - A group of resources.
+    ///
+    /// * CHILD - A single resource that is part of a group resource configuration.
+    ///
+    /// * ARN - An Amazon Web Services resource.
+    public var type: VPCLatticeClientTypes.ResourceConfigurationType?
+
+    public init(
+        allowAssociationToShareableServiceNetwork: Swift.Bool? = nil,
+        amazonManaged: Swift.Bool? = nil,
+        arn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        customDomainName: Swift.String? = nil,
+        failureReason: Swift.String? = nil,
+        id: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        portRanges: [Swift.String]? = nil,
+        `protocol`: VPCLatticeClientTypes.ProtocolType? = nil,
+        resourceConfigurationDefinition: VPCLatticeClientTypes.ResourceConfigurationDefinition? = nil,
+        resourceConfigurationGroupId: Swift.String? = nil,
+        resourceGatewayId: Swift.String? = nil,
+        status: VPCLatticeClientTypes.ResourceConfigurationStatus? = nil,
+        type: VPCLatticeClientTypes.ResourceConfigurationType? = nil
+    ) {
+        self.allowAssociationToShareableServiceNetwork = allowAssociationToShareableServiceNetwork
+        self.amazonManaged = amazonManaged
+        self.arn = arn
+        self.createdAt = createdAt
+        self.customDomainName = customDomainName
+        self.failureReason = failureReason
+        self.id = id
+        self.lastUpdatedAt = lastUpdatedAt
+        self.name = name
+        self.portRanges = portRanges
+        self.`protocol` = `protocol`
+        self.resourceConfigurationDefinition = resourceConfigurationDefinition
+        self.resourceConfigurationGroupId = resourceConfigurationGroupId
+        self.resourceGatewayId = resourceGatewayId
+        self.status = status
+        self.type = type
+    }
+}
+
+public struct GetResourceGatewayInput: Swift.Sendable {
+    /// The ID of the resource gateway.
+    /// This member is required.
+    public var resourceGatewayIdentifier: Swift.String?
+
+    public init(
+        resourceGatewayIdentifier: Swift.String? = nil
+    ) {
+        self.resourceGatewayIdentifier = resourceGatewayIdentifier
+    }
+}
+
+public struct GetResourceGatewayOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the resource gateway.
+    public var arn: Swift.String?
+    /// The date and time that the resource gateway was created, in ISO-8601 format.
+    public var createdAt: Foundation.Date?
+    /// The ID of the resource gateway.
+    public var id: Swift.String?
+    /// The type of IP address for the resource gateway.
+    public var ipAddressType: VPCLatticeClientTypes.ResourceGatewayIpAddressType?
+    /// The date and time that the resource gateway was last updated, in ISO-8601 format.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The name of the resource gateway.
+    public var name: Swift.String?
+    /// The security group IDs associated with the resource gateway.
+    public var securityGroupIds: [Swift.String]?
+    /// The status for the resource gateway.
+    public var status: VPCLatticeClientTypes.ResourceGatewayStatus?
+    /// The IDs of the VPC subnets for resource gateway.
+    public var subnetIds: [Swift.String]?
+    /// The ID of the VPC for the resource gateway.
+    public var vpcId: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        id: Swift.String? = nil,
+        ipAddressType: VPCLatticeClientTypes.ResourceGatewayIpAddressType? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        securityGroupIds: [Swift.String]? = nil,
+        status: VPCLatticeClientTypes.ResourceGatewayStatus? = nil,
+        subnetIds: [Swift.String]? = nil,
+        vpcId: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.createdAt = createdAt
+        self.id = id
+        self.ipAddressType = ipAddressType
+        self.lastUpdatedAt = lastUpdatedAt
+        self.name = name
+        self.securityGroupIds = securityGroupIds
+        self.status = status
+        self.subnetIds = subnetIds
+        self.vpcId = vpcId
+    }
+}
+
 public struct GetResourcePolicyInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the service network or service.
     /// This member is required.
@@ -2396,8 +3260,7 @@ public struct GetResourcePolicyInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -2408,20 +3271,19 @@ public struct GetResourcePolicyOutput: Swift.Sendable {
 
     public init(
         policy: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
     }
 }
 
 public struct GetRuleInput: Swift.Sendable {
-    /// The ID or Amazon Resource Name (ARN) of the listener.
+    /// The ID or ARN of the listener.
     /// This member is required.
     public var listenerIdentifier: Swift.String?
-    /// The ID or Amazon Resource Name (ARN) of the listener rule.
+    /// The ID or ARN of the listener rule.
     /// This member is required.
     public var ruleIdentifier: Swift.String?
-    /// The ID or Amazon Resource Name (ARN) of the service.
+    /// The ID or ARN of the service.
     /// This member is required.
     public var serviceIdentifier: Swift.String?
 
@@ -2429,8 +3291,7 @@ public struct GetRuleInput: Swift.Sendable {
         listenerIdentifier: Swift.String? = nil,
         ruleIdentifier: Swift.String? = nil,
         serviceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.listenerIdentifier = listenerIdentifier
         self.ruleIdentifier = ruleIdentifier
         self.serviceIdentifier = serviceIdentifier
@@ -2442,13 +3303,13 @@ public struct GetRuleOutput: Swift.Sendable {
     public var action: VPCLatticeClientTypes.RuleAction?
     /// The Amazon Resource Name (ARN) of the listener.
     public var arn: Swift.String?
-    /// The date and time that the listener rule was created, specified in ISO-8601 format.
+    /// The date and time that the listener rule was created, in ISO-8601 format.
     public var createdAt: Foundation.Date?
     /// The ID of the listener.
     public var id: Swift.String?
     /// Indicates whether this is the default rule.
     public var isDefault: Swift.Bool?
-    /// The date and time that the listener rule was last updated, specified in ISO-8601 format.
+    /// The date and time that the listener rule was last updated, in ISO-8601 format.
     public var lastUpdatedAt: Foundation.Date?
     /// The rule match.
     public var match: VPCLatticeClientTypes.RuleMatch?
@@ -2467,8 +3328,7 @@ public struct GetRuleOutput: Swift.Sendable {
         match: VPCLatticeClientTypes.RuleMatch? = nil,
         name: Swift.String? = nil,
         priority: Swift.Int? = nil
-    )
-    {
+    ) {
         self.action = action
         self.arn = arn
         self.createdAt = createdAt
@@ -2482,14 +3342,13 @@ public struct GetRuleOutput: Swift.Sendable {
 }
 
 public struct GetServiceInput: Swift.Sendable {
-    /// The ID or Amazon Resource Name (ARN) of the service.
+    /// The ID or ARN of the service.
     /// This member is required.
     public var serviceIdentifier: Swift.String?
 
     public init(
         serviceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceIdentifier = serviceIdentifier
     }
 }
@@ -2501,7 +3360,7 @@ public struct GetServiceOutput: Swift.Sendable {
     public var authType: VPCLatticeClientTypes.AuthType?
     /// The Amazon Resource Name (ARN) of the certificate.
     public var certificateArn: Swift.String?
-    /// The date and time that the service was created, specified in ISO-8601 format.
+    /// The date and time that the service was created, in ISO-8601 format.
     public var createdAt: Foundation.Date?
     /// The custom domain name of the service.
     public var customDomainName: Swift.String?
@@ -2513,7 +3372,7 @@ public struct GetServiceOutput: Swift.Sendable {
     public var failureMessage: Swift.String?
     /// The ID of the service.
     public var id: Swift.String?
-    /// The date and time that the service was last updated, specified in ISO-8601 format.
+    /// The date and time that the service was last updated, in ISO-8601 format.
     public var lastUpdatedAt: Foundation.Date?
     /// The name of the service.
     public var name: Swift.String?
@@ -2533,8 +3392,7 @@ public struct GetServiceOutput: Swift.Sendable {
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         status: VPCLatticeClientTypes.ServiceStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.authType = authType
         self.certificateArn = certificateArn
@@ -2551,14 +3409,13 @@ public struct GetServiceOutput: Swift.Sendable {
 }
 
 public struct GetServiceNetworkInput: Swift.Sendable {
-    /// The ID or Amazon Resource Name (ARN) of the service network.
+    /// The ID or ARN of the service network.
     /// This member is required.
     public var serviceNetworkIdentifier: Swift.String?
 
     public init(
         serviceNetworkIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceNetworkIdentifier = serviceNetworkIdentifier
     }
 }
@@ -2568,11 +3425,11 @@ public struct GetServiceNetworkOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The type of IAM policy.
     public var authType: VPCLatticeClientTypes.AuthType?
-    /// The date and time that the service network was created, specified in ISO-8601 format.
+    /// The date and time that the service network was created, in ISO-8601 format.
     public var createdAt: Foundation.Date?
     /// The ID of the service network.
     public var id: Swift.String?
-    /// The date and time of the last update, specified in ISO-8601 format.
+    /// The date and time of the last update, in ISO-8601 format.
     public var lastUpdatedAt: Foundation.Date?
     /// The name of the service network.
     public var name: Swift.String?
@@ -2580,6 +3437,8 @@ public struct GetServiceNetworkOutput: Swift.Sendable {
     public var numberOfAssociatedServices: Swift.Int?
     /// The number of VPCs associated with the service network.
     public var numberOfAssociatedVPCs: Swift.Int?
+    /// Specifies if the service network is enabled for sharing.
+    public var sharingConfig: VPCLatticeClientTypes.SharingConfig?
 
     public init(
         arn: Swift.String? = nil,
@@ -2589,9 +3448,9 @@ public struct GetServiceNetworkOutput: Swift.Sendable {
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         numberOfAssociatedServices: Swift.Int? = nil,
-        numberOfAssociatedVPCs: Swift.Int? = nil
-    )
-    {
+        numberOfAssociatedVPCs: Swift.Int? = nil,
+        sharingConfig: VPCLatticeClientTypes.SharingConfig? = nil
+    ) {
         self.arn = arn
         self.authType = authType
         self.createdAt = createdAt
@@ -2600,18 +3459,105 @@ public struct GetServiceNetworkOutput: Swift.Sendable {
         self.name = name
         self.numberOfAssociatedServices = numberOfAssociatedServices
         self.numberOfAssociatedVPCs = numberOfAssociatedVPCs
+        self.sharingConfig = sharingConfig
+    }
+}
+
+public struct GetServiceNetworkResourceAssociationInput: Swift.Sendable {
+    /// The ID of the association.
+    /// This member is required.
+    public var serviceNetworkResourceAssociationIdentifier: Swift.String?
+
+    public init(
+        serviceNetworkResourceAssociationIdentifier: Swift.String? = nil
+    ) {
+        self.serviceNetworkResourceAssociationIdentifier = serviceNetworkResourceAssociationIdentifier
+    }
+}
+
+public struct GetServiceNetworkResourceAssociationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the association.
+    public var arn: Swift.String?
+    /// The date and time that the association was created, in ISO-8601 format.
+    public var createdAt: Foundation.Date?
+    /// The account that created the association.
+    public var createdBy: Swift.String?
+    /// The DNS entry for the service.
+    public var dnsEntry: VPCLatticeClientTypes.DnsEntry?
+    /// The failure code.
+    public var failureCode: Swift.String?
+    /// The reason the association request failed.
+    public var failureReason: Swift.String?
+    /// The ID of the association.
+    public var id: Swift.String?
+    /// Indicates whether the association is managed by Amazon.
+    public var isManagedAssociation: Swift.Bool?
+    /// The most recent date and time that the association was updated, in ISO-8601 format.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The private DNS entry for the service.
+    public var privateDnsEntry: VPCLatticeClientTypes.DnsEntry?
+    /// The Amazon Resource Name (ARN) of the association.
+    public var resourceConfigurationArn: Swift.String?
+    /// The ID of the resource configuration that is associated with the service network.
+    public var resourceConfigurationId: Swift.String?
+    /// The name of the resource configuration that is associated with the service network.
+    public var resourceConfigurationName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the service network that is associated with the resource configuration.
+    public var serviceNetworkArn: Swift.String?
+    /// The ID of the service network that is associated with the resource configuration.
+    public var serviceNetworkId: Swift.String?
+    /// The name of the service network that is associated with the resource configuration.
+    public var serviceNetworkName: Swift.String?
+    /// The status of the association.
+    public var status: VPCLatticeClientTypes.ServiceNetworkResourceAssociationStatus?
+
+    public init(
+        arn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        dnsEntry: VPCLatticeClientTypes.DnsEntry? = nil,
+        failureCode: Swift.String? = nil,
+        failureReason: Swift.String? = nil,
+        id: Swift.String? = nil,
+        isManagedAssociation: Swift.Bool? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        privateDnsEntry: VPCLatticeClientTypes.DnsEntry? = nil,
+        resourceConfigurationArn: Swift.String? = nil,
+        resourceConfigurationId: Swift.String? = nil,
+        resourceConfigurationName: Swift.String? = nil,
+        serviceNetworkArn: Swift.String? = nil,
+        serviceNetworkId: Swift.String? = nil,
+        serviceNetworkName: Swift.String? = nil,
+        status: VPCLatticeClientTypes.ServiceNetworkResourceAssociationStatus? = nil
+    ) {
+        self.arn = arn
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.dnsEntry = dnsEntry
+        self.failureCode = failureCode
+        self.failureReason = failureReason
+        self.id = id
+        self.isManagedAssociation = isManagedAssociation
+        self.lastUpdatedAt = lastUpdatedAt
+        self.privateDnsEntry = privateDnsEntry
+        self.resourceConfigurationArn = resourceConfigurationArn
+        self.resourceConfigurationId = resourceConfigurationId
+        self.resourceConfigurationName = resourceConfigurationName
+        self.serviceNetworkArn = serviceNetworkArn
+        self.serviceNetworkId = serviceNetworkId
+        self.serviceNetworkName = serviceNetworkName
+        self.status = status
     }
 }
 
 public struct GetServiceNetworkServiceAssociationInput: Swift.Sendable {
-    /// The ID or Amazon Resource Name (ARN) of the association.
+    /// The ID or ARN of the association.
     /// This member is required.
     public var serviceNetworkServiceAssociationIdentifier: Swift.String?
 
     public init(
         serviceNetworkServiceAssociationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceNetworkServiceAssociationIdentifier = serviceNetworkServiceAssociationIdentifier
     }
 }
@@ -2619,7 +3565,7 @@ public struct GetServiceNetworkServiceAssociationInput: Swift.Sendable {
 public struct GetServiceNetworkServiceAssociationOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the association.
     public var arn: Swift.String?
-    /// The date and time that the association was created, specified in ISO-8601 format.
+    /// The date and time that the association was created, in ISO-8601 format.
     public var createdAt: Foundation.Date?
     /// The account that created the association.
     public var createdBy: Swift.String?
@@ -2664,8 +3610,7 @@ public struct GetServiceNetworkServiceAssociationOutput: Swift.Sendable {
         serviceNetworkId: Swift.String? = nil,
         serviceNetworkName: Swift.String? = nil,
         status: VPCLatticeClientTypes.ServiceNetworkServiceAssociationStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.createdBy = createdBy
@@ -2685,14 +3630,13 @@ public struct GetServiceNetworkServiceAssociationOutput: Swift.Sendable {
 }
 
 public struct GetServiceNetworkVpcAssociationInput: Swift.Sendable {
-    /// The ID or Amazon Resource Name (ARN) of the association.
+    /// The ID or ARN of the association.
     /// This member is required.
     public var serviceNetworkVpcAssociationIdentifier: Swift.String?
 
     public init(
         serviceNetworkVpcAssociationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.serviceNetworkVpcAssociationIdentifier = serviceNetworkVpcAssociationIdentifier
     }
 }
@@ -2700,7 +3644,7 @@ public struct GetServiceNetworkVpcAssociationInput: Swift.Sendable {
 public struct GetServiceNetworkVpcAssociationOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the association.
     public var arn: Swift.String?
-    /// The date and time that the association was created, specified in ISO-8601 format.
+    /// The date and time that the association was created, in ISO-8601 format.
     public var createdAt: Foundation.Date?
     /// The account that created the association.
     public var createdBy: Swift.String?
@@ -2708,9 +3652,9 @@ public struct GetServiceNetworkVpcAssociationOutput: Swift.Sendable {
     public var failureCode: Swift.String?
     /// The failure message.
     public var failureMessage: Swift.String?
-    /// The ID of the specified association between the service network and the VPC.
+    /// The ID of the association.
     public var id: Swift.String?
-    /// The date and time that the association was last updated, specified in ISO-8601 format.
+    /// The date and time that the association was last updated, in ISO-8601 format.
     public var lastUpdatedAt: Foundation.Date?
     /// The IDs of the security groups.
     public var securityGroupIds: [Swift.String]?
@@ -2739,8 +3683,7 @@ public struct GetServiceNetworkVpcAssociationOutput: Swift.Sendable {
         serviceNetworkName: Swift.String? = nil,
         status: VPCLatticeClientTypes.ServiceNetworkVpcAssociationStatus? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdAt = createdAt
         self.createdBy = createdBy
@@ -2758,14 +3701,13 @@ public struct GetServiceNetworkVpcAssociationOutput: Swift.Sendable {
 }
 
 public struct GetTargetGroupInput: Swift.Sendable {
-    /// The ID or Amazon Resource Name (ARN) of the target group.
+    /// The ID or ARN of the target group.
     /// This member is required.
     public var targetGroupIdentifier: Swift.String?
 
     public init(
         targetGroupIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.targetGroupIdentifier = targetGroupIdentifier
     }
 }
@@ -2775,7 +3717,7 @@ public struct GetTargetGroupOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The target group configuration.
     public var config: VPCLatticeClientTypes.TargetGroupConfig?
-    /// The date and time that the target group was created, specified in ISO-8601 format.
+    /// The date and time that the target group was created, in ISO-8601 format.
     public var createdAt: Foundation.Date?
     /// The failure code.
     public var failureCode: Swift.String?
@@ -2783,7 +3725,7 @@ public struct GetTargetGroupOutput: Swift.Sendable {
     public var failureMessage: Swift.String?
     /// The ID of the target group.
     public var id: Swift.String?
-    /// The date and time that the target group was last updated, specified in ISO-8601 format.
+    /// The date and time that the target group was last updated, in ISO-8601 format.
     public var lastUpdatedAt: Foundation.Date?
     /// The name of the target group.
     public var name: Swift.String?
@@ -2806,8 +3748,7 @@ public struct GetTargetGroupOutput: Swift.Sendable {
         serviceArns: [Swift.String]? = nil,
         status: VPCLatticeClientTypes.TargetGroupStatus? = nil,
         type: VPCLatticeClientTypes.TargetGroupType? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.config = config
         self.createdAt = createdAt
@@ -2827,7 +3768,7 @@ public struct ListListenersInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// A pagination token for the next page of results.
     public var nextToken: Swift.String?
-    /// The ID or Amazon Resource Name (ARN) of the service.
+    /// The ID or ARN of the service.
     /// This member is required.
     public var serviceIdentifier: Swift.String?
 
@@ -2835,8 +3776,7 @@ public struct ListListenersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         serviceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.serviceIdentifier = serviceIdentifier
@@ -2849,11 +3789,11 @@ extension VPCLatticeClientTypes {
     public struct ListenerSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the listener.
         public var arn: Swift.String?
-        /// The date and time that the listener was created, specified in ISO-8601 format.
+        /// The date and time that the listener was created, in ISO-8601 format.
         public var createdAt: Foundation.Date?
         /// The ID of the listener.
         public var id: Swift.String?
-        /// The date and time that the listener was last updated, specified in ISO-8601 format.
+        /// The date and time that the listener was last updated, in ISO-8601 format.
         public var lastUpdatedAt: Foundation.Date?
         /// The name of the listener.
         public var name: Swift.String?
@@ -2870,8 +3810,7 @@ extension VPCLatticeClientTypes {
             name: Swift.String? = nil,
             port: Swift.Int? = nil,
             `protocol`: VPCLatticeClientTypes.ListenerProtocol? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.id = id
@@ -2893,8 +3832,7 @@ public struct ListListenersOutput: Swift.Sendable {
     public init(
         items: [VPCLatticeClientTypes.ListenerSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -2904,10 +3842,10 @@ public struct UpdateListenerInput: Swift.Sendable {
     /// The action for the default rule.
     /// This member is required.
     public var defaultAction: VPCLatticeClientTypes.RuleAction?
-    /// The ID or Amazon Resource Name (ARN) of the listener.
+    /// The ID or ARN of the listener.
     /// This member is required.
     public var listenerIdentifier: Swift.String?
-    /// The ID or Amazon Resource Name (ARN) of the service.
+    /// The ID or ARN of the service.
     /// This member is required.
     public var serviceIdentifier: Swift.String?
 
@@ -2915,8 +3853,7 @@ public struct UpdateListenerInput: Swift.Sendable {
         defaultAction: VPCLatticeClientTypes.RuleAction? = nil,
         listenerIdentifier: Swift.String? = nil,
         serviceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.defaultAction = defaultAction
         self.listenerIdentifier = listenerIdentifier
         self.serviceIdentifier = serviceIdentifier
@@ -2950,8 +3887,7 @@ public struct UpdateListenerOutput: Swift.Sendable {
         `protocol`: VPCLatticeClientTypes.ListenerProtocol? = nil,
         serviceArn: Swift.String? = nil,
         serviceId: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.defaultAction = defaultAction
         self.id = id
@@ -2963,15 +3899,288 @@ public struct UpdateListenerOutput: Swift.Sendable {
     }
 }
 
+public struct ListResourceConfigurationsInput: Swift.Sendable {
+    /// The maximum page size.
+    public var maxResults: Swift.Int?
+    /// A pagination token for the next page of results.
+    public var nextToken: Swift.String?
+    /// The ID of the group resource configuration.
+    public var resourceConfigurationGroupIdentifier: Swift.String?
+    /// The ID of the resource gateway for the resource configuration.
+    public var resourceGatewayIdentifier: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceConfigurationGroupIdentifier: Swift.String? = nil,
+        resourceGatewayIdentifier: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceConfigurationGroupIdentifier = resourceConfigurationGroupIdentifier
+        self.resourceGatewayIdentifier = resourceGatewayIdentifier
+    }
+}
+
+extension VPCLatticeClientTypes {
+
+    /// Summary information about a resource configuration.
+    public struct ResourceConfigurationSummary: Swift.Sendable {
+        /// Indicates whether the resource configuration was created and is managed by Amazon.
+        public var amazonManaged: Swift.Bool?
+        /// The Amazon Resource Name (ARN) of the resource configuration.
+        public var arn: Swift.String?
+        /// The date and time that the resource configuration was created, in ISO-8601 format.
+        public var createdAt: Foundation.Date?
+        /// The ID of the resource configuration.
+        public var id: Swift.String?
+        /// The most recent date and time that the resource configuration was updated, in ISO-8601 format.
+        public var lastUpdatedAt: Foundation.Date?
+        /// The name of the resource configuration.
+        public var name: Swift.String?
+        /// The ID of the group resource configuration.
+        public var resourceConfigurationGroupId: Swift.String?
+        /// The ID of the resource gateway.
+        public var resourceGatewayId: Swift.String?
+        /// The status of the resource configuration.
+        public var status: VPCLatticeClientTypes.ResourceConfigurationStatus?
+        /// The type of resource configuration.
+        ///
+        /// * SINGLE - A single resource.
+        ///
+        /// * GROUP - A group of resources.
+        ///
+        /// * CHILD - A single resource that is part of a group resource configuration.
+        ///
+        /// * ARN - An Amazon Web Services resource.
+        public var type: VPCLatticeClientTypes.ResourceConfigurationType?
+
+        public init(
+            amazonManaged: Swift.Bool? = nil,
+            arn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            resourceConfigurationGroupId: Swift.String? = nil,
+            resourceGatewayId: Swift.String? = nil,
+            status: VPCLatticeClientTypes.ResourceConfigurationStatus? = nil,
+            type: VPCLatticeClientTypes.ResourceConfigurationType? = nil
+        ) {
+            self.amazonManaged = amazonManaged
+            self.arn = arn
+            self.createdAt = createdAt
+            self.id = id
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.resourceConfigurationGroupId = resourceConfigurationGroupId
+            self.resourceGatewayId = resourceGatewayId
+            self.status = status
+            self.type = type
+        }
+    }
+}
+
+public struct ListResourceConfigurationsOutput: Swift.Sendable {
+    /// Information about the resource configurations.
+    public var items: [VPCLatticeClientTypes.ResourceConfigurationSummary]?
+    /// If there are additional results, a pagination token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [VPCLatticeClientTypes.ResourceConfigurationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListResourceEndpointAssociationsInput: Swift.Sendable {
+    /// The maximum page size.
+    public var maxResults: Swift.Int?
+    /// A pagination token for the next page of results.
+    public var nextToken: Swift.String?
+    /// The ID for the resource configuration associated with the VPC endpoint.
+    /// This member is required.
+    public var resourceConfigurationIdentifier: Swift.String?
+    /// The ID of the association.
+    public var resourceEndpointAssociationIdentifier: Swift.String?
+    /// The ID of the VPC endpoint in the association.
+    public var vpcEndpointId: Swift.String?
+    /// The owner of the VPC endpoint in the association.
+    public var vpcEndpointOwner: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceConfigurationIdentifier: Swift.String? = nil,
+        resourceEndpointAssociationIdentifier: Swift.String? = nil,
+        vpcEndpointId: Swift.String? = nil,
+        vpcEndpointOwner: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceConfigurationIdentifier = resourceConfigurationIdentifier
+        self.resourceEndpointAssociationIdentifier = resourceEndpointAssociationIdentifier
+        self.vpcEndpointId = vpcEndpointId
+        self.vpcEndpointOwner = vpcEndpointOwner
+    }
+}
+
+extension VPCLatticeClientTypes {
+
+    /// Summary information about a VPC endpoint association.
+    public struct ResourceEndpointAssociationSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the VPC endpoint association.
+        public var arn: Swift.String?
+        /// The date and time that the VPC endpoint association was created, in ISO-8601 format.
+        public var createdAt: Foundation.Date?
+        /// The account that created the association.
+        public var createdBy: Swift.String?
+        /// The ID of the VPC endpoint association.
+        public var id: Swift.String?
+        /// The Amazon Resource Name (ARN) of the resource configuration.
+        public var resourceConfigurationArn: Swift.String?
+        /// The ID of the resource configuration.
+        public var resourceConfigurationId: Swift.String?
+        /// The name of the resource configuration.
+        public var resourceConfigurationName: Swift.String?
+        /// The ID of the VPC endpoint.
+        public var vpcEndpointId: Swift.String?
+        /// The owner of the VPC endpoint.
+        public var vpcEndpointOwner: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            id: Swift.String? = nil,
+            resourceConfigurationArn: Swift.String? = nil,
+            resourceConfigurationId: Swift.String? = nil,
+            resourceConfigurationName: Swift.String? = nil,
+            vpcEndpointId: Swift.String? = nil,
+            vpcEndpointOwner: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.id = id
+            self.resourceConfigurationArn = resourceConfigurationArn
+            self.resourceConfigurationId = resourceConfigurationId
+            self.resourceConfigurationName = resourceConfigurationName
+            self.vpcEndpointId = vpcEndpointId
+            self.vpcEndpointOwner = vpcEndpointOwner
+        }
+    }
+}
+
+public struct ListResourceEndpointAssociationsOutput: Swift.Sendable {
+    /// Information about the VPC endpoint associations.
+    /// This member is required.
+    public var items: [VPCLatticeClientTypes.ResourceEndpointAssociationSummary]?
+    /// If there are additional results, a pagination token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [VPCLatticeClientTypes.ResourceEndpointAssociationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListResourceGatewaysInput: Swift.Sendable {
+    /// The maximum page size.
+    public var maxResults: Swift.Int?
+    /// If there are additional results, a pagination token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension VPCLatticeClientTypes {
+
+    /// Summary information about a resource gateway.
+    public struct ResourceGatewaySummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the resource gateway.
+        public var arn: Swift.String?
+        /// The date and time that the VPC endpoint association was created, in ISO-8601 format.
+        public var createdAt: Foundation.Date?
+        /// The ID of the resource gateway.
+        public var id: Swift.String?
+        /// The type of IP address used by the resource gateway.
+        public var ipAddressType: VPCLatticeClientTypes.ResourceGatewayIpAddressType?
+        /// The most recent date and time that the resource gateway was updated, in ISO-8601 format.
+        public var lastUpdatedAt: Foundation.Date?
+        /// The name of the resource gateway.
+        public var name: Swift.String?
+        /// The IDs of the security groups applied to the resource gateway.
+        public var securityGroupIds: [Swift.String]?
+        /// The name of the resource gateway.
+        public var status: VPCLatticeClientTypes.ResourceGatewayStatus?
+        /// The IDs of the VPC subnets for the resource gateway.
+        public var subnetIds: [Swift.String]?
+        /// The ID of the VPC for the resource gateway.
+        public var vpcIdentifier: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            ipAddressType: VPCLatticeClientTypes.ResourceGatewayIpAddressType? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            securityGroupIds: [Swift.String]? = nil,
+            status: VPCLatticeClientTypes.ResourceGatewayStatus? = nil,
+            subnetIds: [Swift.String]? = nil,
+            vpcIdentifier: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.id = id
+            self.ipAddressType = ipAddressType
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.securityGroupIds = securityGroupIds
+            self.status = status
+            self.subnetIds = subnetIds
+            self.vpcIdentifier = vpcIdentifier
+        }
+    }
+}
+
+public struct ListResourceGatewaysOutput: Swift.Sendable {
+    /// Information about the resource gateways.
+    public var items: [VPCLatticeClientTypes.ResourceGatewaySummary]?
+    /// If there are additional results, a pagination token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [VPCLatticeClientTypes.ResourceGatewaySummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListRulesInput: Swift.Sendable {
-    /// The ID or Amazon Resource Name (ARN) of the listener.
+    /// The ID or ARN of the listener.
     /// This member is required.
     public var listenerIdentifier: Swift.String?
     /// The maximum number of results to return.
     public var maxResults: Swift.Int?
     /// A pagination token for the next page of results.
     public var nextToken: Swift.String?
-    /// The ID or Amazon Resource Name (ARN) of the service.
+    /// The ID or ARN of the service.
     /// This member is required.
     public var serviceIdentifier: Swift.String?
 
@@ -2980,8 +4189,7 @@ public struct ListRulesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         serviceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.listenerIdentifier = listenerIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2991,17 +4199,17 @@ public struct ListRulesInput: Swift.Sendable {
 
 extension VPCLatticeClientTypes {
 
-    /// Summary information about the listener rule.
+    /// Summary information about a listener rule.
     public struct RuleSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the rule.
         public var arn: Swift.String?
-        /// The date and time that the listener rule was created, specified in ISO-8601 format.
+        /// The date and time that the listener rule was created, in ISO-8601 format.
         public var createdAt: Foundation.Date?
         /// The ID of the rule.
         public var id: Swift.String?
         /// Indicates whether this is the default listener rule.
         public var isDefault: Swift.Bool?
-        /// The date and time that the listener rule was last updated, specified in ISO-8601 format.
+        /// The date and time that the listener rule was last updated, in ISO-8601 format.
         public var lastUpdatedAt: Foundation.Date?
         /// The name of the rule.
         public var name: Swift.String?
@@ -3016,8 +4224,7 @@ extension VPCLatticeClientTypes {
             lastUpdatedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             priority: Swift.Int? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.id = id
@@ -3039,8 +4246,117 @@ public struct ListRulesOutput: Swift.Sendable {
     public init(
         items: [VPCLatticeClientTypes.RuleSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListServiceNetworkResourceAssociationsInput: Swift.Sendable {
+    /// The maximum page size.
+    public var maxResults: Swift.Int?
+    /// If there are additional results, a pagination token for the next page of results.
+    public var nextToken: Swift.String?
+    /// The ID of the resource configurationk.
+    public var resourceConfigurationIdentifier: Swift.String?
+    /// The ID of the service network.
+    public var serviceNetworkIdentifier: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceConfigurationIdentifier: Swift.String? = nil,
+        serviceNetworkIdentifier: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceConfigurationIdentifier = resourceConfigurationIdentifier
+        self.serviceNetworkIdentifier = serviceNetworkIdentifier
+    }
+}
+
+extension VPCLatticeClientTypes {
+
+    /// Summary information about an association between a service network and a resource configuration.
+    public struct ServiceNetworkResourceAssociationSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the association.
+        public var arn: Swift.String?
+        /// The date and time that the association was created, in ISO-8601 format.
+        public var createdAt: Foundation.Date?
+        /// The account that created the association.
+        public var createdBy: Swift.String?
+        /// The DNS entry for the service.
+        public var dnsEntry: VPCLatticeClientTypes.DnsEntry?
+        /// The failure code.
+        public var failureCode: Swift.String?
+        /// The ID of the association between the service network and resource configuration.
+        public var id: Swift.String?
+        /// Specifies whether the association is managed by Amazon.
+        public var isManagedAssociation: Swift.Bool?
+        /// The private DNS entry for the service.
+        public var privateDnsEntry: VPCLatticeClientTypes.DnsEntry?
+        /// The Amazon Resource Name (ARN) of the association.
+        public var resourceConfigurationArn: Swift.String?
+        /// The ID of the resource configuration associated with the service network.
+        public var resourceConfigurationId: Swift.String?
+        /// The name of the resource configuration associated with the service network.
+        public var resourceConfigurationName: Swift.String?
+        /// The Amazon Resource Name (ARN) of the service network associated with the resource configuration.
+        public var serviceNetworkArn: Swift.String?
+        /// The ID of the service network associated with the resource configuration.
+        public var serviceNetworkId: Swift.String?
+        /// The name of the service network associated with the resource configuration.
+        public var serviceNetworkName: Swift.String?
+        /// The status of the service network associated with the resource configuration.
+        public var status: VPCLatticeClientTypes.ServiceNetworkResourceAssociationStatus?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            dnsEntry: VPCLatticeClientTypes.DnsEntry? = nil,
+            failureCode: Swift.String? = nil,
+            id: Swift.String? = nil,
+            isManagedAssociation: Swift.Bool? = nil,
+            privateDnsEntry: VPCLatticeClientTypes.DnsEntry? = nil,
+            resourceConfigurationArn: Swift.String? = nil,
+            resourceConfigurationId: Swift.String? = nil,
+            resourceConfigurationName: Swift.String? = nil,
+            serviceNetworkArn: Swift.String? = nil,
+            serviceNetworkId: Swift.String? = nil,
+            serviceNetworkName: Swift.String? = nil,
+            status: VPCLatticeClientTypes.ServiceNetworkResourceAssociationStatus? = nil
+        ) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.dnsEntry = dnsEntry
+            self.failureCode = failureCode
+            self.id = id
+            self.isManagedAssociation = isManagedAssociation
+            self.privateDnsEntry = privateDnsEntry
+            self.resourceConfigurationArn = resourceConfigurationArn
+            self.resourceConfigurationId = resourceConfigurationId
+            self.resourceConfigurationName = resourceConfigurationName
+            self.serviceNetworkArn = serviceNetworkArn
+            self.serviceNetworkId = serviceNetworkId
+            self.serviceNetworkName = serviceNetworkName
+            self.status = status
+        }
+    }
+}
+
+public struct ListServiceNetworkResourceAssociationsOutput: Swift.Sendable {
+    /// Information about the associations.
+    /// This member is required.
+    public var items: [VPCLatticeClientTypes.ServiceNetworkResourceAssociationSummary]?
+    /// If there are additional results, a pagination token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [VPCLatticeClientTypes.ServiceNetworkResourceAssociationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3055,8 +4371,7 @@ public struct ListServiceNetworksInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3068,14 +4383,16 @@ extension VPCLatticeClientTypes {
     public struct ServiceNetworkSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the service network.
         public var arn: Swift.String?
-        /// The date and time that the service network was created, specified in ISO-8601 format.
+        /// The date and time that the service network was created, in ISO-8601 format.
         public var createdAt: Foundation.Date?
         /// The ID of the service network.
         public var id: Swift.String?
-        /// The date and time that the service network was last updated, specified in ISO-8601 format.
+        /// The date and time that the service network was last updated, in ISO-8601 format.
         public var lastUpdatedAt: Foundation.Date?
         /// The name of the service network.
         public var name: Swift.String?
+        /// The number of resource configurations associated with a service network.
+        public var numberOfAssociatedResourceConfigurations: Swift.Int?
         /// The number of services associated with the service network.
         public var numberOfAssociatedServices: Swift.Int?
         /// The number of VPCs associated with the service network.
@@ -3087,15 +4404,16 @@ extension VPCLatticeClientTypes {
             id: Swift.String? = nil,
             lastUpdatedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
+            numberOfAssociatedResourceConfigurations: Swift.Int? = nil,
             numberOfAssociatedServices: Swift.Int? = nil,
             numberOfAssociatedVPCs: Swift.Int? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.id = id
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
+            self.numberOfAssociatedResourceConfigurations = numberOfAssociatedResourceConfigurations
             self.numberOfAssociatedServices = numberOfAssociatedServices
             self.numberOfAssociatedVPCs = numberOfAssociatedVPCs
         }
@@ -3112,8 +4430,7 @@ public struct ListServiceNetworksOutput: Swift.Sendable {
     public init(
         items: [VPCLatticeClientTypes.ServiceNetworkSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3124,9 +4441,9 @@ public struct ListServiceNetworkServiceAssociationsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// A pagination token for the next page of results.
     public var nextToken: Swift.String?
-    /// The ID or Amazon Resource Name (ARN) of the service.
+    /// The ID or ARN of the service.
     public var serviceIdentifier: Swift.String?
-    /// The ID or Amazon Resource Name (ARN) of the service network.
+    /// The ID or ARN of the service network.
     public var serviceNetworkIdentifier: Swift.String?
 
     public init(
@@ -3134,8 +4451,7 @@ public struct ListServiceNetworkServiceAssociationsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         serviceIdentifier: Swift.String? = nil,
         serviceNetworkIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.serviceIdentifier = serviceIdentifier
@@ -3145,11 +4461,11 @@ public struct ListServiceNetworkServiceAssociationsInput: Swift.Sendable {
 
 extension VPCLatticeClientTypes {
 
-    /// Summary information about the association between a service network and a service.
+    /// Summary information about an association between a service network and a service.
     public struct ServiceNetworkServiceAssociationSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the association.
         public var arn: Swift.String?
-        /// The date and time that the association was created, specified in ISO-8601 format.
+        /// The date and time that the association was created, in ISO-8601 format.
         public var createdAt: Foundation.Date?
         /// The account that created the association.
         public var createdBy: Swift.String?
@@ -3188,8 +4504,7 @@ extension VPCLatticeClientTypes {
             serviceNetworkId: Swift.String? = nil,
             serviceNetworkName: Swift.String? = nil,
             status: VPCLatticeClientTypes.ServiceNetworkServiceAssociationStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -3217,8 +4532,7 @@ public struct ListServiceNetworkServiceAssociationsOutput: Swift.Sendable {
     public init(
         items: [VPCLatticeClientTypes.ServiceNetworkServiceAssociationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3229,9 +4543,9 @@ public struct ListServiceNetworkVpcAssociationsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// A pagination token for the next page of results.
     public var nextToken: Swift.String?
-    /// The ID or Amazon Resource Name (ARN) of the service network.
+    /// The ID or ARN of the service network.
     public var serviceNetworkIdentifier: Swift.String?
-    /// The ID or Amazon Resource Name (ARN) of the VPC.
+    /// The ID or ARN of the VPC.
     public var vpcIdentifier: Swift.String?
 
     public init(
@@ -3239,8 +4553,7 @@ public struct ListServiceNetworkVpcAssociationsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         serviceNetworkIdentifier: Swift.String? = nil,
         vpcIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.serviceNetworkIdentifier = serviceNetworkIdentifier
@@ -3254,13 +4567,13 @@ extension VPCLatticeClientTypes {
     public struct ServiceNetworkVpcAssociationSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the association.
         public var arn: Swift.String?
-        /// The date and time that the association was created, specified in ISO-8601 format.
+        /// The date and time that the association was created, in ISO-8601 format.
         public var createdAt: Foundation.Date?
         /// The account that created the association.
         public var createdBy: Swift.String?
         /// The ID of the association.
         public var id: Swift.String?
-        /// The date and time that the association was last updated, specified in ISO-8601 format.
+        /// The date and time that the association was last updated, in ISO-8601 format.
         public var lastUpdatedAt: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the service network.
         public var serviceNetworkArn: Swift.String?
@@ -3284,8 +4597,7 @@ extension VPCLatticeClientTypes {
             serviceNetworkName: Swift.String? = nil,
             status: VPCLatticeClientTypes.ServiceNetworkVpcAssociationStatus? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -3310,8 +4622,82 @@ public struct ListServiceNetworkVpcAssociationsOutput: Swift.Sendable {
     public init(
         items: [VPCLatticeClientTypes.ServiceNetworkVpcAssociationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListServiceNetworkVpcEndpointAssociationsInput: Swift.Sendable {
+    /// The maximum page size.
+    public var maxResults: Swift.Int?
+    /// If there are additional results, a pagination token for the next page of results.
+    public var nextToken: Swift.String?
+    /// The ID of the service network associated with the VPC endpoint.
+    /// This member is required.
+    public var serviceNetworkIdentifier: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        serviceNetworkIdentifier: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.serviceNetworkIdentifier = serviceNetworkIdentifier
+    }
+}
+
+extension VPCLatticeClientTypes {
+
+    /// Describes the association between a service network and a VPC endpoint.
+    public struct ServiceNetworkEndpointAssociation: Swift.Sendable {
+        /// The date and time that the association was created, in ISO-8601 format.
+        public var createdAt: Foundation.Date?
+        /// The ID of the association.
+        public var id: Swift.String?
+        /// The Amazon Resource Name (ARN) of the service network.
+        public var serviceNetworkArn: Swift.String?
+        /// The state of the association.
+        public var state: Swift.String?
+        /// The ID of the VPC endpoint associated with the service network.
+        public var vpcEndpointId: Swift.String?
+        /// The owner of the VPC endpoint associated with the service network.
+        public var vpcEndpointOwnerId: Swift.String?
+        /// The ID of the VPC for the association.
+        public var vpcId: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            serviceNetworkArn: Swift.String? = nil,
+            state: Swift.String? = nil,
+            vpcEndpointId: Swift.String? = nil,
+            vpcEndpointOwnerId: Swift.String? = nil,
+            vpcId: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.id = id
+            self.serviceNetworkArn = serviceNetworkArn
+            self.state = state
+            self.vpcEndpointId = vpcEndpointId
+            self.vpcEndpointOwnerId = vpcEndpointOwnerId
+            self.vpcId = vpcId
+        }
+    }
+}
+
+public struct ListServiceNetworkVpcEndpointAssociationsOutput: Swift.Sendable {
+    /// Information about the association between the VPC endpoint and service network.
+    /// This member is required.
+    public var items: [VPCLatticeClientTypes.ServiceNetworkEndpointAssociation]?
+    /// If there are additional results, a pagination token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [VPCLatticeClientTypes.ServiceNetworkEndpointAssociation]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3326,8 +4712,7 @@ public struct ListServicesInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -3339,7 +4724,7 @@ extension VPCLatticeClientTypes {
     public struct ServiceSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the service.
         public var arn: Swift.String?
-        /// The date and time that the service was created, specified in ISO-8601 format.
+        /// The date and time that the service was created, in ISO-8601 format.
         public var createdAt: Foundation.Date?
         /// The custom domain name of the service.
         public var customDomainName: Swift.String?
@@ -3347,7 +4732,7 @@ extension VPCLatticeClientTypes {
         public var dnsEntry: VPCLatticeClientTypes.DnsEntry?
         /// The ID of the service.
         public var id: Swift.String?
-        /// The date and time that the service was last updated. The format is ISO-8601.
+        /// The date and time that the service was last updated, in ISO-8601 format.
         public var lastUpdatedAt: Foundation.Date?
         /// The name of the service.
         public var name: Swift.String?
@@ -3363,8 +4748,7 @@ extension VPCLatticeClientTypes {
             lastUpdatedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: VPCLatticeClientTypes.ServiceStatus? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.customDomainName = customDomainName
@@ -3386,8 +4770,7 @@ public struct ListServicesOutput: Swift.Sendable {
     public init(
         items: [VPCLatticeClientTypes.ServiceSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3400,8 +4783,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -3412,8 +4794,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
     public init(
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -3425,7 +4806,7 @@ public struct ListTargetGroupsInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// The target group type.
     public var targetGroupType: VPCLatticeClientTypes.TargetGroupType?
-    /// The ID or Amazon Resource Name (ARN) of the VPC.
+    /// The ID or ARN of the VPC.
     public var vpcIdentifier: Swift.String?
 
     public init(
@@ -3433,8 +4814,7 @@ public struct ListTargetGroupsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         targetGroupType: VPCLatticeClientTypes.TargetGroupType? = nil,
         vpcIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.targetGroupType = targetGroupType
@@ -3448,7 +4828,7 @@ extension VPCLatticeClientTypes {
     public struct TargetGroupSummary: Swift.Sendable {
         /// The ARN (Amazon Resource Name) of the target group.
         public var arn: Swift.String?
-        /// The date and time that the target group was created, specified in ISO-8601 format.
+        /// The date and time that the target group was created, in ISO-8601 format.
         public var createdAt: Foundation.Date?
         /// The ID of the target group.
         public var id: Swift.String?
@@ -3456,7 +4836,7 @@ extension VPCLatticeClientTypes {
         public var ipAddressType: VPCLatticeClientTypes.IpAddressType?
         /// The version of the event structure that your Lambda function receives. Supported only if the target group type is LAMBDA.
         public var lambdaEventStructureVersion: VPCLatticeClientTypes.LambdaEventStructureVersion?
-        /// The date and time that the target group was last updated, specified in ISO-8601 format.
+        /// The date and time that the target group was last updated, in ISO-8601 format.
         public var lastUpdatedAt: Foundation.Date?
         /// The name of the target group.
         public var name: Swift.String?
@@ -3487,8 +4867,7 @@ extension VPCLatticeClientTypes {
             status: VPCLatticeClientTypes.TargetGroupStatus? = nil,
             type: VPCLatticeClientTypes.TargetGroupType? = nil,
             vpcIdentifier: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.createdAt = createdAt
             self.id = id
@@ -3515,8 +4894,7 @@ public struct ListTargetGroupsOutput: Swift.Sendable {
     public init(
         items: [VPCLatticeClientTypes.TargetGroupSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3527,7 +4905,7 @@ public struct ListTargetsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// A pagination token for the next page of results.
     public var nextToken: Swift.String?
-    /// The ID or Amazon Resource Name (ARN) of the target group.
+    /// The ID or ARN of the target group.
     /// This member is required.
     public var targetGroupIdentifier: Swift.String?
     /// The targets.
@@ -3538,8 +4916,7 @@ public struct ListTargetsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         targetGroupIdentifier: Swift.String? = nil,
         targets: [VPCLatticeClientTypes.Target]? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.targetGroupIdentifier = targetGroupIdentifier
@@ -3624,8 +5001,7 @@ extension VPCLatticeClientTypes {
             port: Swift.Int? = nil,
             reasonCode: Swift.String? = nil,
             status: VPCLatticeClientTypes.TargetStatus? = nil
-        )
-        {
+        ) {
             self.id = id
             self.port = port
             self.reasonCode = reasonCode
@@ -3644,8 +5020,7 @@ public struct ListTargetsOutput: Swift.Sendable {
     public init(
         items: [VPCLatticeClientTypes.TargetSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.items = items
         self.nextToken = nextToken
     }
@@ -3655,15 +5030,14 @@ public struct PutAuthPolicyInput: Swift.Sendable {
     /// The auth policy. The policy string in JSON must not contain newlines or blank lines.
     /// This member is required.
     public var policy: Swift.String?
-    /// The ID or Amazon Resource Name (ARN) of the service network or service for which the policy is created.
+    /// The ID or ARN of the service network or service for which the policy is created.
     /// This member is required.
     public var resourceIdentifier: Swift.String?
 
     public init(
         policy: Swift.String? = nil,
         resourceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.resourceIdentifier = resourceIdentifier
     }
@@ -3678,8 +5052,7 @@ public struct PutAuthPolicyOutput: Swift.Sendable {
     public init(
         policy: Swift.String? = nil,
         state: VPCLatticeClientTypes.AuthPolicyState? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.state = state
     }
@@ -3689,15 +5062,14 @@ public struct PutResourcePolicyInput: Swift.Sendable {
     /// An IAM policy. The policy string in JSON must not contain newlines or blank lines.
     /// This member is required.
     public var policy: Swift.String?
-    /// The ID or Amazon Resource Name (ARN) of the service network or service for which the policy is created.
+    /// The ID or ARN of the service network or service for which the policy is created.
     /// This member is required.
     public var resourceArn: Swift.String?
 
     public init(
         policy: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.policy = policy
         self.resourceArn = resourceArn
     }
@@ -3708,20 +5080,158 @@ public struct PutResourcePolicyOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateResourceConfigurationInput: Swift.Sendable {
+    /// Indicates whether to add the resource configuration to service networks that are shared with other accounts.
+    public var allowAssociationToShareableServiceNetwork: Swift.Bool?
+    /// The TCP port ranges that a consumer can use to access a resource configuration. You can separate port ranges with a comma. Example: 1-65535 or 1,2,22-30
+    public var portRanges: [Swift.String]?
+    /// The resource configuration.
+    public var resourceConfigurationDefinition: VPCLatticeClientTypes.ResourceConfigurationDefinition?
+    /// The ID of the resource configuration.
+    /// This member is required.
+    public var resourceConfigurationIdentifier: Swift.String?
+
+    public init(
+        allowAssociationToShareableServiceNetwork: Swift.Bool? = nil,
+        portRanges: [Swift.String]? = nil,
+        resourceConfigurationDefinition: VPCLatticeClientTypes.ResourceConfigurationDefinition? = nil,
+        resourceConfigurationIdentifier: Swift.String? = nil
+    ) {
+        self.allowAssociationToShareableServiceNetwork = allowAssociationToShareableServiceNetwork
+        self.portRanges = portRanges
+        self.resourceConfigurationDefinition = resourceConfigurationDefinition
+        self.resourceConfigurationIdentifier = resourceConfigurationIdentifier
+    }
+}
+
+public struct UpdateResourceConfigurationOutput: Swift.Sendable {
+    /// Indicates whether to add the resource configuration to service networks that are shared with other accounts.
+    public var allowAssociationToShareableServiceNetwork: Swift.Bool?
+    /// The Amazon Resource Name (ARN) of the resource configuration.
+    public var arn: Swift.String?
+    /// The ID of the resource configuration.
+    public var id: Swift.String?
+    /// The name of the resource configuration.
+    public var name: Swift.String?
+    /// The TCP port ranges that a consumer can use to access a resource configuration. You can separate port ranges with a comma. Example: 1-65535 or 1,2,22-30
+    public var portRanges: [Swift.String]?
+    /// The TCP protocol accepted by the specified resource configuration.
+    public var `protocol`: VPCLatticeClientTypes.ProtocolType?
+    /// The resource configuration.
+    public var resourceConfigurationDefinition: VPCLatticeClientTypes.ResourceConfigurationDefinition?
+    /// The ID of the group resource configuration.
+    public var resourceConfigurationGroupId: Swift.String?
+    /// The ID of the resource gateway associated with the resource configuration.
+    public var resourceGatewayId: Swift.String?
+    /// The status of the resource configuration.
+    public var status: VPCLatticeClientTypes.ResourceConfigurationStatus?
+    /// The type of resource configuration.
+    ///
+    /// * SINGLE - A single resource.
+    ///
+    /// * GROUP - A group of resources.
+    ///
+    /// * CHILD - A single resource that is part of a group resource configuration.
+    ///
+    /// * ARN - An Amazon Web Services resource.
+    public var type: VPCLatticeClientTypes.ResourceConfigurationType?
+
+    public init(
+        allowAssociationToShareableServiceNetwork: Swift.Bool? = nil,
+        arn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        portRanges: [Swift.String]? = nil,
+        `protocol`: VPCLatticeClientTypes.ProtocolType? = nil,
+        resourceConfigurationDefinition: VPCLatticeClientTypes.ResourceConfigurationDefinition? = nil,
+        resourceConfigurationGroupId: Swift.String? = nil,
+        resourceGatewayId: Swift.String? = nil,
+        status: VPCLatticeClientTypes.ResourceConfigurationStatus? = nil,
+        type: VPCLatticeClientTypes.ResourceConfigurationType? = nil
+    ) {
+        self.allowAssociationToShareableServiceNetwork = allowAssociationToShareableServiceNetwork
+        self.arn = arn
+        self.id = id
+        self.name = name
+        self.portRanges = portRanges
+        self.`protocol` = `protocol`
+        self.resourceConfigurationDefinition = resourceConfigurationDefinition
+        self.resourceConfigurationGroupId = resourceConfigurationGroupId
+        self.resourceGatewayId = resourceGatewayId
+        self.status = status
+        self.type = type
+    }
+}
+
+public struct UpdateResourceGatewayInput: Swift.Sendable {
+    /// The ID or ARN of the resource gateway.
+    /// This member is required.
+    public var resourceGatewayIdentifier: Swift.String?
+    /// The IDs of the security groups associated with the resource gateway.
+    public var securityGroupIds: [Swift.String]?
+
+    public init(
+        resourceGatewayIdentifier: Swift.String? = nil,
+        securityGroupIds: [Swift.String]? = nil
+    ) {
+        self.resourceGatewayIdentifier = resourceGatewayIdentifier
+        self.securityGroupIds = securityGroupIds
+    }
+}
+
+public struct UpdateResourceGatewayOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the resource gateway.
+    public var arn: Swift.String?
+    /// The ID of the resource gateway.
+    public var id: Swift.String?
+    /// The type of IP address used by the resource gateway.
+    public var ipAddressType: VPCLatticeClientTypes.IpAddressType?
+    /// The name of the resource gateway.
+    public var name: Swift.String?
+    /// The IDs of the security groups associated with the resource gateway.
+    public var securityGroupIds: [Swift.String]?
+    /// The status of the resource gateway.
+    public var status: VPCLatticeClientTypes.ResourceGatewayStatus?
+    /// The IDs of the VPC subnets for the resource gateway.
+    public var subnetIds: [Swift.String]?
+    /// The ID of the VPC for the resource gateway.
+    public var vpcId: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        ipAddressType: VPCLatticeClientTypes.IpAddressType? = nil,
+        name: Swift.String? = nil,
+        securityGroupIds: [Swift.String]? = nil,
+        status: VPCLatticeClientTypes.ResourceGatewayStatus? = nil,
+        subnetIds: [Swift.String]? = nil,
+        vpcId: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.id = id
+        self.ipAddressType = ipAddressType
+        self.name = name
+        self.securityGroupIds = securityGroupIds
+        self.status = status
+        self.subnetIds = subnetIds
+        self.vpcId = vpcId
+    }
+}
+
 public struct UpdateRuleInput: Swift.Sendable {
     /// Information about the action for the specified listener rule.
     public var action: VPCLatticeClientTypes.RuleAction?
-    /// The ID or Amazon Resource Name (ARN) of the listener.
+    /// The ID or ARN of the listener.
     /// This member is required.
     public var listenerIdentifier: Swift.String?
     /// The rule match.
     public var match: VPCLatticeClientTypes.RuleMatch?
     /// The rule priority. A listener can't have multiple rules with the same priority.
     public var priority: Swift.Int?
-    /// The ID or Amazon Resource Name (ARN) of the rule.
+    /// The ID or ARN of the rule.
     /// This member is required.
     public var ruleIdentifier: Swift.String?
-    /// The ID or Amazon Resource Name (ARN) of the service.
+    /// The ID or ARN of the service.
     /// This member is required.
     public var serviceIdentifier: Swift.String?
 
@@ -3732,8 +5242,7 @@ public struct UpdateRuleInput: Swift.Sendable {
         priority: Swift.Int? = nil,
         ruleIdentifier: Swift.String? = nil,
         serviceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.action = action
         self.listenerIdentifier = listenerIdentifier
         self.match = match
@@ -3767,8 +5276,7 @@ public struct UpdateRuleOutput: Swift.Sendable {
         match: VPCLatticeClientTypes.RuleMatch? = nil,
         name: Swift.String? = nil,
         priority: Swift.Int? = nil
-    )
-    {
+    ) {
         self.action = action
         self.arn = arn
         self.id = id
@@ -3788,7 +5296,7 @@ public struct UpdateServiceInput: Swift.Sendable {
     public var authType: VPCLatticeClientTypes.AuthType?
     /// The Amazon Resource Name (ARN) of the certificate.
     public var certificateArn: Swift.String?
-    /// The ID or Amazon Resource Name (ARN) of the service.
+    /// The ID or ARN of the service.
     /// This member is required.
     public var serviceIdentifier: Swift.String?
 
@@ -3796,8 +5304,7 @@ public struct UpdateServiceInput: Swift.Sendable {
         authType: VPCLatticeClientTypes.AuthType? = nil,
         certificateArn: Swift.String? = nil,
         serviceIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.authType = authType
         self.certificateArn = certificateArn
         self.serviceIdentifier = serviceIdentifier
@@ -3825,8 +5332,7 @@ public struct UpdateServiceOutput: Swift.Sendable {
         customDomainName: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.authType = authType
         self.certificateArn = certificateArn
@@ -3844,15 +5350,14 @@ public struct UpdateServiceNetworkInput: Swift.Sendable {
     /// * AWS_IAM: The resource uses an IAM policy. When this type is used, auth is enabled and an auth policy is required.
     /// This member is required.
     public var authType: VPCLatticeClientTypes.AuthType?
-    /// The ID or Amazon Resource Name (ARN) of the service network.
+    /// The ID or ARN of the service network.
     /// This member is required.
     public var serviceNetworkIdentifier: Swift.String?
 
     public init(
         authType: VPCLatticeClientTypes.AuthType? = nil,
         serviceNetworkIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.authType = authType
         self.serviceNetworkIdentifier = serviceNetworkIdentifier
     }
@@ -3873,8 +5378,7 @@ public struct UpdateServiceNetworkOutput: Swift.Sendable {
         authType: VPCLatticeClientTypes.AuthType? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.authType = authType
         self.id = id
@@ -3886,15 +5390,14 @@ public struct UpdateServiceNetworkVpcAssociationInput: Swift.Sendable {
     /// The IDs of the security groups.
     /// This member is required.
     public var securityGroupIds: [Swift.String]?
-    /// The ID or Amazon Resource Name (ARN) of the association.
+    /// The ID or ARN of the association.
     /// This member is required.
     public var serviceNetworkVpcAssociationIdentifier: Swift.String?
 
     public init(
         securityGroupIds: [Swift.String]? = nil,
         serviceNetworkVpcAssociationIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.securityGroupIds = securityGroupIds
         self.serviceNetworkVpcAssociationIdentifier = serviceNetworkVpcAssociationIdentifier
     }
@@ -3918,8 +5421,7 @@ public struct UpdateServiceNetworkVpcAssociationOutput: Swift.Sendable {
         id: Swift.String? = nil,
         securityGroupIds: [Swift.String]? = nil,
         status: VPCLatticeClientTypes.ServiceNetworkVpcAssociationStatus? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.createdBy = createdBy
         self.id = id
@@ -3939,8 +5441,7 @@ public struct TagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -3952,7 +5453,7 @@ public struct TagResourceOutput: Swift.Sendable {
 }
 
 public struct RegisterTargetsInput: Swift.Sendable {
-    /// The ID or Amazon Resource Name (ARN) of the target group.
+    /// The ID or ARN of the target group.
     /// This member is required.
     public var targetGroupIdentifier: Swift.String?
     /// The targets.
@@ -3962,8 +5463,7 @@ public struct RegisterTargetsInput: Swift.Sendable {
     public init(
         targetGroupIdentifier: Swift.String? = nil,
         targets: [VPCLatticeClientTypes.Target]? = nil
-    )
-    {
+    ) {
         self.targetGroupIdentifier = targetGroupIdentifier
         self.targets = targets
     }
@@ -3978,8 +5478,7 @@ public struct RegisterTargetsOutput: Swift.Sendable {
     public init(
         successful: [VPCLatticeClientTypes.Target]? = nil,
         unsuccessful: [VPCLatticeClientTypes.TargetFailure]? = nil
-    )
-    {
+    ) {
         self.successful = successful
         self.unsuccessful = unsuccessful
     }
@@ -3989,15 +5488,14 @@ public struct UpdateTargetGroupInput: Swift.Sendable {
     /// The health check configuration.
     /// This member is required.
     public var healthCheck: VPCLatticeClientTypes.HealthCheckConfig?
-    /// The ID or Amazon Resource Name (ARN) of the target group.
+    /// The ID or ARN of the target group.
     /// This member is required.
     public var targetGroupIdentifier: Swift.String?
 
     public init(
         healthCheck: VPCLatticeClientTypes.HealthCheckConfig? = nil,
         targetGroupIdentifier: Swift.String? = nil
-    )
-    {
+    ) {
         self.healthCheck = healthCheck
         self.targetGroupIdentifier = targetGroupIdentifier
     }
@@ -4024,8 +5522,7 @@ public struct UpdateTargetGroupOutput: Swift.Sendable {
         name: Swift.String? = nil,
         status: VPCLatticeClientTypes.TargetGroupStatus? = nil,
         type: VPCLatticeClientTypes.TargetGroupType? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.config = config
         self.id = id
@@ -4046,8 +5543,7 @@ public struct UntagResourceInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -4088,6 +5584,20 @@ extension CreateListenerInput {
     }
 }
 
+extension CreateResourceConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateResourceConfigurationInput) -> Swift.String? {
+        return "/resourceconfigurations"
+    }
+}
+
+extension CreateResourceGatewayInput {
+
+    static func urlPathProvider(_ value: CreateResourceGatewayInput) -> Swift.String? {
+        return "/resourcegateways"
+    }
+}
+
 extension CreateRuleInput {
 
     static func urlPathProvider(_ value: CreateRuleInput) -> Swift.String? {
@@ -4112,6 +5622,13 @@ extension CreateServiceNetworkInput {
 
     static func urlPathProvider(_ value: CreateServiceNetworkInput) -> Swift.String? {
         return "/servicenetworks"
+    }
+}
+
+extension CreateServiceNetworkResourceAssociationInput {
+
+    static func urlPathProvider(_ value: CreateServiceNetworkResourceAssociationInput) -> Swift.String? {
+        return "/servicenetworkresourceassociations"
     }
 }
 
@@ -4169,6 +5686,36 @@ extension DeleteListenerInput {
     }
 }
 
+extension DeleteResourceConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteResourceConfigurationInput) -> Swift.String? {
+        guard let resourceConfigurationIdentifier = value.resourceConfigurationIdentifier else {
+            return nil
+        }
+        return "/resourceconfigurations/\(resourceConfigurationIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension DeleteResourceEndpointAssociationInput {
+
+    static func urlPathProvider(_ value: DeleteResourceEndpointAssociationInput) -> Swift.String? {
+        guard let resourceEndpointAssociationIdentifier = value.resourceEndpointAssociationIdentifier else {
+            return nil
+        }
+        return "/resourceendpointassociations/\(resourceEndpointAssociationIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension DeleteResourceGatewayInput {
+
+    static func urlPathProvider(_ value: DeleteResourceGatewayInput) -> Swift.String? {
+        guard let resourceGatewayIdentifier = value.resourceGatewayIdentifier else {
+            return nil
+        }
+        return "/resourcegateways/\(resourceGatewayIdentifier.urlPercentEncoding())"
+    }
+}
+
 extension DeleteResourcePolicyInput {
 
     static func urlPathProvider(_ value: DeleteResourcePolicyInput) -> Swift.String? {
@@ -4212,6 +5759,16 @@ extension DeleteServiceNetworkInput {
             return nil
         }
         return "/servicenetworks/\(serviceNetworkIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension DeleteServiceNetworkResourceAssociationInput {
+
+    static func urlPathProvider(_ value: DeleteServiceNetworkResourceAssociationInput) -> Swift.String? {
+        guard let serviceNetworkResourceAssociationIdentifier = value.serviceNetworkResourceAssociationIdentifier else {
+            return nil
+        }
+        return "/servicenetworkresourceassociations/\(serviceNetworkResourceAssociationIdentifier.urlPercentEncoding())"
     }
 }
 
@@ -4288,6 +5845,26 @@ extension GetListenerInput {
     }
 }
 
+extension GetResourceConfigurationInput {
+
+    static func urlPathProvider(_ value: GetResourceConfigurationInput) -> Swift.String? {
+        guard let resourceConfigurationIdentifier = value.resourceConfigurationIdentifier else {
+            return nil
+        }
+        return "/resourceconfigurations/\(resourceConfigurationIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension GetResourceGatewayInput {
+
+    static func urlPathProvider(_ value: GetResourceGatewayInput) -> Swift.String? {
+        guard let resourceGatewayIdentifier = value.resourceGatewayIdentifier else {
+            return nil
+        }
+        return "/resourcegateways/\(resourceGatewayIdentifier.urlPercentEncoding())"
+    }
+}
+
 extension GetResourcePolicyInput {
 
     static func urlPathProvider(_ value: GetResourcePolicyInput) -> Swift.String? {
@@ -4331,6 +5908,16 @@ extension GetServiceNetworkInput {
             return nil
         }
         return "/servicenetworks/\(serviceNetworkIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension GetServiceNetworkResourceAssociationInput {
+
+    static func urlPathProvider(_ value: GetServiceNetworkResourceAssociationInput) -> Swift.String? {
+        guard let serviceNetworkResourceAssociationIdentifier = value.serviceNetworkResourceAssociationIdentifier else {
+            return nil
+        }
+        return "/servicenetworkresourceassociations/\(serviceNetworkResourceAssociationIdentifier.urlPercentEncoding())"
     }
 }
 
@@ -4419,6 +6006,101 @@ extension ListListenersInput {
     }
 }
 
+extension ListResourceConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListResourceConfigurationsInput) -> Swift.String? {
+        return "/resourceconfigurations"
+    }
+}
+
+extension ListResourceConfigurationsInput {
+
+    static func queryItemProvider(_ value: ListResourceConfigurationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let resourceConfigurationGroupIdentifier = value.resourceConfigurationGroupIdentifier {
+            let resourceConfigurationGroupIdentifierQueryItem = Smithy.URIQueryItem(name: "resourceConfigurationGroupIdentifier".urlPercentEncoding(), value: Swift.String(resourceConfigurationGroupIdentifier).urlPercentEncoding())
+            items.append(resourceConfigurationGroupIdentifierQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let resourceGatewayIdentifier = value.resourceGatewayIdentifier {
+            let resourceGatewayIdentifierQueryItem = Smithy.URIQueryItem(name: "resourceGatewayIdentifier".urlPercentEncoding(), value: Swift.String(resourceGatewayIdentifier).urlPercentEncoding())
+            items.append(resourceGatewayIdentifierQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListResourceEndpointAssociationsInput {
+
+    static func urlPathProvider(_ value: ListResourceEndpointAssociationsInput) -> Swift.String? {
+        return "/resourceendpointassociations"
+    }
+}
+
+extension ListResourceEndpointAssociationsInput {
+
+    static func queryItemProvider(_ value: ListResourceEndpointAssociationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let vpcEndpointOwner = value.vpcEndpointOwner {
+            let vpcEndpointOwnerQueryItem = Smithy.URIQueryItem(name: "vpcEndpointOwner".urlPercentEncoding(), value: Swift.String(vpcEndpointOwner).urlPercentEncoding())
+            items.append(vpcEndpointOwnerQueryItem)
+        }
+        if let resourceEndpointAssociationIdentifier = value.resourceEndpointAssociationIdentifier {
+            let resourceEndpointAssociationIdentifierQueryItem = Smithy.URIQueryItem(name: "resourceEndpointAssociationIdentifier".urlPercentEncoding(), value: Swift.String(resourceEndpointAssociationIdentifier).urlPercentEncoding())
+            items.append(resourceEndpointAssociationIdentifierQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        guard let resourceConfigurationIdentifier = value.resourceConfigurationIdentifier else {
+            let message = "Creating a URL Query Item failed. resourceConfigurationIdentifier is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let resourceConfigurationIdentifierQueryItem = Smithy.URIQueryItem(name: "resourceConfigurationIdentifier".urlPercentEncoding(), value: Swift.String(resourceConfigurationIdentifier).urlPercentEncoding())
+        items.append(resourceConfigurationIdentifierQueryItem)
+        if let vpcEndpointId = value.vpcEndpointId {
+            let vpcEndpointIdQueryItem = Smithy.URIQueryItem(name: "vpcEndpointId".urlPercentEncoding(), value: Swift.String(vpcEndpointId).urlPercentEncoding())
+            items.append(vpcEndpointIdQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListResourceGatewaysInput {
+
+    static func urlPathProvider(_ value: ListResourceGatewaysInput) -> Swift.String? {
+        return "/resourcegateways"
+    }
+}
+
+extension ListResourceGatewaysInput {
+
+    static func queryItemProvider(_ value: ListResourceGatewaysInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListRulesInput {
 
     static func urlPathProvider(_ value: ListRulesInput) -> Swift.String? {
@@ -4443,6 +6125,37 @@ extension ListRulesInput {
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListServiceNetworkResourceAssociationsInput {
+
+    static func urlPathProvider(_ value: ListServiceNetworkResourceAssociationsInput) -> Swift.String? {
+        return "/servicenetworkresourceassociations"
+    }
+}
+
+extension ListServiceNetworkResourceAssociationsInput {
+
+    static func queryItemProvider(_ value: ListServiceNetworkResourceAssociationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let serviceNetworkIdentifier = value.serviceNetworkIdentifier {
+            let serviceNetworkIdentifierQueryItem = Smithy.URIQueryItem(name: "serviceNetworkIdentifier".urlPercentEncoding(), value: Swift.String(serviceNetworkIdentifier).urlPercentEncoding())
+            items.append(serviceNetworkIdentifierQueryItem)
+        }
+        if let resourceConfigurationIdentifier = value.resourceConfigurationIdentifier {
+            let resourceConfigurationIdentifierQueryItem = Smithy.URIQueryItem(name: "resourceConfigurationIdentifier".urlPercentEncoding(), value: Swift.String(resourceConfigurationIdentifier).urlPercentEncoding())
+            items.append(resourceConfigurationIdentifierQueryItem)
         }
         return items
     }
@@ -4529,6 +6242,35 @@ extension ListServiceNetworkVpcAssociationsInput {
             let vpcIdentifierQueryItem = Smithy.URIQueryItem(name: "vpcIdentifier".urlPercentEncoding(), value: Swift.String(vpcIdentifier).urlPercentEncoding())
             items.append(vpcIdentifierQueryItem)
         }
+        return items
+    }
+}
+
+extension ListServiceNetworkVpcEndpointAssociationsInput {
+
+    static func urlPathProvider(_ value: ListServiceNetworkVpcEndpointAssociationsInput) -> Swift.String? {
+        return "/servicenetworkvpcendpointassociations"
+    }
+}
+
+extension ListServiceNetworkVpcEndpointAssociationsInput {
+
+    static func queryItemProvider(_ value: ListServiceNetworkVpcEndpointAssociationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        guard let serviceNetworkIdentifier = value.serviceNetworkIdentifier else {
+            let message = "Creating a URL Query Item failed. serviceNetworkIdentifier is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let serviceNetworkIdentifierQueryItem = Smithy.URIQueryItem(name: "serviceNetworkIdentifier".urlPercentEncoding(), value: Swift.String(serviceNetworkIdentifier).urlPercentEncoding())
+        items.append(serviceNetworkIdentifierQueryItem)
         return items
     }
 }
@@ -4712,6 +6454,26 @@ extension UpdateListenerInput {
     }
 }
 
+extension UpdateResourceConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateResourceConfigurationInput) -> Swift.String? {
+        guard let resourceConfigurationIdentifier = value.resourceConfigurationIdentifier else {
+            return nil
+        }
+        return "/resourceconfigurations/\(resourceConfigurationIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension UpdateResourceGatewayInput {
+
+    static func urlPathProvider(_ value: UpdateResourceGatewayInput) -> Swift.String? {
+        guard let resourceGatewayIdentifier = value.resourceGatewayIdentifier else {
+            return nil
+        }
+        return "/resourcegateways/\(resourceGatewayIdentifier.urlPercentEncoding())"
+    }
+}
+
 extension UpdateRuleInput {
 
     static func urlPathProvider(_ value: UpdateRuleInput) -> Swift.String? {
@@ -4783,6 +6545,7 @@ extension CreateAccessLogSubscriptionInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["destinationArn"].write(value.destinationArn)
         try writer["resourceIdentifier"].write(value.resourceIdentifier)
+        try writer["serviceNetworkLogType"].write(value.serviceNetworkLogType)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -4797,6 +6560,37 @@ extension CreateListenerInput {
         try writer["port"].write(value.port)
         try writer["protocol"].write(value.`protocol`)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateResourceConfigurationInput {
+
+    static func write(value: CreateResourceConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allowAssociationToShareableServiceNetwork"].write(value.allowAssociationToShareableServiceNetwork)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["name"].write(value.name)
+        try writer["portRanges"].writeList(value.portRanges, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["protocol"].write(value.`protocol`)
+        try writer["resourceConfigurationDefinition"].write(value.resourceConfigurationDefinition, with: VPCLatticeClientTypes.ResourceConfigurationDefinition.write(value:to:))
+        try writer["resourceConfigurationGroupIdentifier"].write(value.resourceConfigurationGroupIdentifier)
+        try writer["resourceGatewayIdentifier"].write(value.resourceGatewayIdentifier)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["type"].write(value.type)
+    }
+}
+
+extension CreateResourceGatewayInput {
+
+    static func write(value: CreateResourceGatewayInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["ipAddressType"].write(value.ipAddressType)
+        try writer["name"].write(value.name)
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["vpcIdentifier"].write(value.vpcIdentifier)
     }
 }
 
@@ -4833,6 +6627,18 @@ extension CreateServiceNetworkInput {
         try writer["authType"].write(value.authType)
         try writer["clientToken"].write(value.clientToken)
         try writer["name"].write(value.name)
+        try writer["sharingConfig"].write(value.sharingConfig, with: VPCLatticeClientTypes.SharingConfig.write(value:to:))
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateServiceNetworkResourceAssociationInput {
+
+    static func write(value: CreateServiceNetworkResourceAssociationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["resourceConfigurationIdentifier"].write(value.resourceConfigurationIdentifier)
+        try writer["serviceNetworkIdentifier"].write(value.serviceNetworkIdentifier)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -4936,6 +6742,24 @@ extension UpdateListenerInput {
     }
 }
 
+extension UpdateResourceConfigurationInput {
+
+    static func write(value: UpdateResourceConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allowAssociationToShareableServiceNetwork"].write(value.allowAssociationToShareableServiceNetwork)
+        try writer["portRanges"].writeList(value.portRanges, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["resourceConfigurationDefinition"].write(value.resourceConfigurationDefinition, with: VPCLatticeClientTypes.ResourceConfigurationDefinition.write(value:to:))
+    }
+}
+
+extension UpdateResourceGatewayInput {
+
+    static func write(value: UpdateResourceGatewayInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension UpdateRuleInput {
 
     static func write(value: UpdateRuleInput?, to writer: SmithyJSON.Writer) throws {
@@ -5004,6 +6828,7 @@ extension CreateAccessLogSubscriptionOutput {
         value.id = try reader["id"].readIfPresent() ?? ""
         value.resourceArn = try reader["resourceArn"].readIfPresent() ?? ""
         value.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.serviceNetworkLogType = try reader["serviceNetworkLogType"].readIfPresent()
         return value
     }
 }
@@ -5023,6 +6848,49 @@ extension CreateListenerOutput {
         value.`protocol` = try reader["protocol"].readIfPresent()
         value.serviceArn = try reader["serviceArn"].readIfPresent()
         value.serviceId = try reader["serviceId"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateResourceConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateResourceConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateResourceConfigurationOutput()
+        value.allowAssociationToShareableServiceNetwork = try reader["allowAssociationToShareableServiceNetwork"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.portRanges = try reader["portRanges"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.`protocol` = try reader["protocol"].readIfPresent()
+        value.resourceConfigurationDefinition = try reader["resourceConfigurationDefinition"].readIfPresent(with: VPCLatticeClientTypes.ResourceConfigurationDefinition.read(from:))
+        value.resourceConfigurationGroupId = try reader["resourceConfigurationGroupId"].readIfPresent()
+        value.resourceGatewayId = try reader["resourceGatewayId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateResourceGatewayOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateResourceGatewayOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateResourceGatewayOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent()
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcIdentifier = try reader["vpcIdentifier"].readIfPresent()
         return value
     }
 }
@@ -5074,6 +6942,22 @@ extension CreateServiceNetworkOutput {
         value.authType = try reader["authType"].readIfPresent()
         value.id = try reader["id"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
+        value.sharingConfig = try reader["sharingConfig"].readIfPresent(with: VPCLatticeClientTypes.SharingConfig.read(from:))
+        return value
+    }
+}
+
+extension CreateServiceNetworkResourceAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateServiceNetworkResourceAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateServiceNetworkResourceAssociationOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }
@@ -5149,6 +7033,44 @@ extension DeleteListenerOutput {
     }
 }
 
+extension DeleteResourceConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteResourceConfigurationOutput {
+        return DeleteResourceConfigurationOutput()
+    }
+}
+
+extension DeleteResourceEndpointAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteResourceEndpointAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteResourceEndpointAssociationOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.resourceConfigurationArn = try reader["resourceConfigurationArn"].readIfPresent()
+        value.resourceConfigurationId = try reader["resourceConfigurationId"].readIfPresent()
+        value.vpcEndpointId = try reader["vpcEndpointId"].readIfPresent()
+        return value
+    }
+}
+
+extension DeleteResourceGatewayOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteResourceGatewayOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteResourceGatewayOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension DeleteResourcePolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteResourcePolicyOutput {
@@ -5182,6 +7104,20 @@ extension DeleteServiceNetworkOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteServiceNetworkOutput {
         return DeleteServiceNetworkOutput()
+    }
+}
+
+extension DeleteServiceNetworkResourceAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteServiceNetworkResourceAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteServiceNetworkResourceAssociationOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
     }
 }
 
@@ -5254,6 +7190,7 @@ extension GetAccessLogSubscriptionOutput {
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.resourceArn = try reader["resourceArn"].readIfPresent() ?? ""
         value.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.serviceNetworkLogType = try reader["serviceNetworkLogType"].readIfPresent()
         return value
     }
 }
@@ -5290,6 +7227,54 @@ extension GetListenerOutput {
         value.`protocol` = try reader["protocol"].readIfPresent()
         value.serviceArn = try reader["serviceArn"].readIfPresent()
         value.serviceId = try reader["serviceId"].readIfPresent()
+        return value
+    }
+}
+
+extension GetResourceConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetResourceConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetResourceConfigurationOutput()
+        value.allowAssociationToShareableServiceNetwork = try reader["allowAssociationToShareableServiceNetwork"].readIfPresent()
+        value.amazonManaged = try reader["amazonManaged"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.customDomainName = try reader["customDomainName"].readIfPresent()
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.name = try reader["name"].readIfPresent()
+        value.portRanges = try reader["portRanges"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.`protocol` = try reader["protocol"].readIfPresent()
+        value.resourceConfigurationDefinition = try reader["resourceConfigurationDefinition"].readIfPresent(with: VPCLatticeClientTypes.ResourceConfigurationDefinition.read(from:))
+        value.resourceConfigurationGroupId = try reader["resourceConfigurationGroupId"].readIfPresent()
+        value.resourceGatewayId = try reader["resourceGatewayId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension GetResourceGatewayOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetResourceGatewayOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetResourceGatewayOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.id = try reader["id"].readIfPresent()
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.name = try reader["name"].readIfPresent()
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent()
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcId = try reader["vpcId"].readIfPresent()
         return value
     }
 }
@@ -5364,6 +7349,35 @@ extension GetServiceNetworkOutput {
         value.name = try reader["name"].readIfPresent()
         value.numberOfAssociatedServices = try reader["numberOfAssociatedServices"].readIfPresent()
         value.numberOfAssociatedVPCs = try reader["numberOfAssociatedVPCs"].readIfPresent()
+        value.sharingConfig = try reader["sharingConfig"].readIfPresent(with: VPCLatticeClientTypes.SharingConfig.read(from:))
+        return value
+    }
+}
+
+extension GetServiceNetworkResourceAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetServiceNetworkResourceAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetServiceNetworkResourceAssociationOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.dnsEntry = try reader["dnsEntry"].readIfPresent(with: VPCLatticeClientTypes.DnsEntry.read(from:))
+        value.failureCode = try reader["failureCode"].readIfPresent()
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.isManagedAssociation = try reader["isManagedAssociation"].readIfPresent()
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.privateDnsEntry = try reader["privateDnsEntry"].readIfPresent(with: VPCLatticeClientTypes.DnsEntry.read(from:))
+        value.resourceConfigurationArn = try reader["resourceConfigurationArn"].readIfPresent()
+        value.resourceConfigurationId = try reader["resourceConfigurationId"].readIfPresent()
+        value.resourceConfigurationName = try reader["resourceConfigurationName"].readIfPresent()
+        value.serviceNetworkArn = try reader["serviceNetworkArn"].readIfPresent()
+        value.serviceNetworkId = try reader["serviceNetworkId"].readIfPresent()
+        value.serviceNetworkName = try reader["serviceNetworkName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }
@@ -5466,6 +7480,45 @@ extension ListListenersOutput {
     }
 }
 
+extension ListResourceConfigurationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListResourceConfigurationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListResourceConfigurationsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: VPCLatticeClientTypes.ResourceConfigurationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListResourceEndpointAssociationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListResourceEndpointAssociationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListResourceEndpointAssociationsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: VPCLatticeClientTypes.ResourceEndpointAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListResourceGatewaysOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListResourceGatewaysOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListResourceGatewaysOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: VPCLatticeClientTypes.ResourceGatewaySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListRulesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRulesOutput {
@@ -5474,6 +7527,19 @@ extension ListRulesOutput {
         let reader = responseReader
         var value = ListRulesOutput()
         value.items = try reader["items"].readListIfPresent(memberReadingClosure: VPCLatticeClientTypes.RuleSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListServiceNetworkResourceAssociationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListServiceNetworkResourceAssociationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListServiceNetworkResourceAssociationsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: VPCLatticeClientTypes.ServiceNetworkResourceAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -5513,6 +7579,19 @@ extension ListServiceNetworkVpcAssociationsOutput {
         let reader = responseReader
         var value = ListServiceNetworkVpcAssociationsOutput()
         value.items = try reader["items"].readListIfPresent(memberReadingClosure: VPCLatticeClientTypes.ServiceNetworkVpcAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListServiceNetworkVpcEndpointAssociationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListServiceNetworkVpcEndpointAssociationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListServiceNetworkVpcEndpointAssociationsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: VPCLatticeClientTypes.ServiceNetworkEndpointAssociation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -5647,6 +7726,47 @@ extension UpdateListenerOutput {
         value.`protocol` = try reader["protocol"].readIfPresent()
         value.serviceArn = try reader["serviceArn"].readIfPresent()
         value.serviceId = try reader["serviceId"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateResourceConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateResourceConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateResourceConfigurationOutput()
+        value.allowAssociationToShareableServiceNetwork = try reader["allowAssociationToShareableServiceNetwork"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.portRanges = try reader["portRanges"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.`protocol` = try reader["protocol"].readIfPresent()
+        value.resourceConfigurationDefinition = try reader["resourceConfigurationDefinition"].readIfPresent(with: VPCLatticeClientTypes.ResourceConfigurationDefinition.read(from:))
+        value.resourceConfigurationGroupId = try reader["resourceConfigurationGroupId"].readIfPresent()
+        value.resourceGatewayId = try reader["resourceGatewayId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateResourceGatewayOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateResourceGatewayOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateResourceGatewayOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent()
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcId = try reader["vpcId"].readIfPresent()
         return value
     }
 }
@@ -5792,6 +7912,46 @@ enum CreateListenerOutputError {
     }
 }
 
+enum CreateResourceConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateResourceGatewayOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateRuleOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5833,6 +7993,26 @@ enum CreateServiceOutputError {
 }
 
 enum CreateServiceNetworkOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateServiceNetworkResourceAssociationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -5967,6 +8147,62 @@ enum DeleteListenerOutputError {
     }
 }
 
+enum DeleteResourceConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteResourceEndpointAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteResourceGatewayOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteResourcePolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6024,6 +8260,25 @@ enum DeleteServiceOutputError {
 }
 
 enum DeleteServiceNetworkOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteServiceNetworkResourceAssociationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -6171,6 +8426,42 @@ enum GetListenerOutputError {
     }
 }
 
+enum GetResourceConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetResourceGatewayOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetResourcePolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6226,6 +8517,24 @@ enum GetServiceOutputError {
 }
 
 enum GetServiceNetworkOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetServiceNetworkResourceAssociationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -6332,6 +8641,57 @@ enum ListListenersOutputError {
     }
 }
 
+enum ListResourceConfigurationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListResourceEndpointAssociationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListResourceGatewaysOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListRulesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6343,6 +8703,23 @@ enum ListRulesOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListServiceNetworkResourceAssociationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6385,6 +8762,23 @@ enum ListServiceNetworkServiceAssociationsOutputError {
 }
 
 enum ListServiceNetworkVpcAssociationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListServiceNetworkVpcEndpointAssociationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -6592,6 +8986,44 @@ enum UpdateListenerOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateResourceConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateResourceGatewayOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6611,6 +9043,7 @@ enum UpdateRuleOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6630,6 +9063,7 @@ enum UpdateServiceOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6687,6 +9121,7 @@ enum UpdateTargetGroupOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7047,6 +9482,85 @@ extension VPCLatticeClientTypes.RuleUpdateFailure {
     }
 }
 
+extension VPCLatticeClientTypes.ResourceConfigurationDefinition {
+
+    static func write(value: VPCLatticeClientTypes.ResourceConfigurationDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .arnresource(arnresource):
+                try writer["arnResource"].write(arnresource, with: VPCLatticeClientTypes.ArnResource.write(value:to:))
+            case let .dnsresource(dnsresource):
+                try writer["dnsResource"].write(dnsresource, with: VPCLatticeClientTypes.DnsResource.write(value:to:))
+            case let .ipresource(ipresource):
+                try writer["ipResource"].write(ipresource, with: VPCLatticeClientTypes.IpResource.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.ResourceConfigurationDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "dnsResource":
+                return .dnsresource(try reader["dnsResource"].read(with: VPCLatticeClientTypes.DnsResource.read(from:)))
+            case "ipResource":
+                return .ipresource(try reader["ipResource"].read(with: VPCLatticeClientTypes.IpResource.read(from:)))
+            case "arnResource":
+                return .arnresource(try reader["arnResource"].read(with: VPCLatticeClientTypes.ArnResource.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension VPCLatticeClientTypes.ArnResource {
+
+    static func write(value: VPCLatticeClientTypes.ArnResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["arn"].write(value.arn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.ArnResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VPCLatticeClientTypes.ArnResource()
+        value.arn = try reader["arn"].readIfPresent()
+        return value
+    }
+}
+
+extension VPCLatticeClientTypes.IpResource {
+
+    static func write(value: VPCLatticeClientTypes.IpResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ipAddress"].write(value.ipAddress)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.IpResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VPCLatticeClientTypes.IpResource()
+        value.ipAddress = try reader["ipAddress"].readIfPresent()
+        return value
+    }
+}
+
+extension VPCLatticeClientTypes.DnsResource {
+
+    static func write(value: VPCLatticeClientTypes.DnsResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["domainName"].write(value.domainName)
+        try writer["ipAddressType"].write(value.ipAddressType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.DnsResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VPCLatticeClientTypes.DnsResource()
+        value.domainName = try reader["domainName"].readIfPresent()
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
+        return value
+    }
+}
+
 extension VPCLatticeClientTypes.DnsEntry {
 
     static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.DnsEntry {
@@ -7054,6 +9568,21 @@ extension VPCLatticeClientTypes.DnsEntry {
         var value = VPCLatticeClientTypes.DnsEntry()
         value.domainName = try reader["domainName"].readIfPresent()
         value.hostedZoneId = try reader["hostedZoneId"].readIfPresent()
+        return value
+    }
+}
+
+extension VPCLatticeClientTypes.SharingConfig {
+
+    static func write(value: VPCLatticeClientTypes.SharingConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.SharingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VPCLatticeClientTypes.SharingConfig()
+        value.enabled = try reader["enabled"].readIfPresent()
         return value
     }
 }
@@ -7182,6 +9711,7 @@ extension VPCLatticeClientTypes.AccessLogSubscriptionSummary {
         value.resourceId = try reader["resourceId"].readIfPresent() ?? ""
         value.resourceArn = try reader["resourceArn"].readIfPresent() ?? ""
         value.destinationArn = try reader["destinationArn"].readIfPresent() ?? ""
+        value.serviceNetworkLogType = try reader["serviceNetworkLogType"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
@@ -7204,6 +9734,62 @@ extension VPCLatticeClientTypes.ListenerSummary {
     }
 }
 
+extension VPCLatticeClientTypes.ResourceConfigurationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.ResourceConfigurationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VPCLatticeClientTypes.ResourceConfigurationSummary()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.resourceGatewayId = try reader["resourceGatewayId"].readIfPresent()
+        value.resourceConfigurationGroupId = try reader["resourceConfigurationGroupId"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.amazonManaged = try reader["amazonManaged"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension VPCLatticeClientTypes.ResourceEndpointAssociationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.ResourceEndpointAssociationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VPCLatticeClientTypes.ResourceEndpointAssociationSummary()
+        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.resourceConfigurationId = try reader["resourceConfigurationId"].readIfPresent()
+        value.resourceConfigurationArn = try reader["resourceConfigurationArn"].readIfPresent()
+        value.resourceConfigurationName = try reader["resourceConfigurationName"].readIfPresent()
+        value.vpcEndpointId = try reader["vpcEndpointId"].readIfPresent()
+        value.vpcEndpointOwner = try reader["vpcEndpointOwner"].readIfPresent()
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension VPCLatticeClientTypes.ResourceGatewaySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.ResourceGatewaySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VPCLatticeClientTypes.ResourceGatewaySummary()
+        value.name = try reader["name"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.vpcIdentifier = try reader["vpcIdentifier"].readIfPresent()
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
 extension VPCLatticeClientTypes.RuleSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.RuleSummary {
@@ -7220,6 +9806,30 @@ extension VPCLatticeClientTypes.RuleSummary {
     }
 }
 
+extension VPCLatticeClientTypes.ServiceNetworkResourceAssociationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.ServiceNetworkResourceAssociationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VPCLatticeClientTypes.ServiceNetworkResourceAssociationSummary()
+        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.resourceConfigurationId = try reader["resourceConfigurationId"].readIfPresent()
+        value.resourceConfigurationArn = try reader["resourceConfigurationArn"].readIfPresent()
+        value.resourceConfigurationName = try reader["resourceConfigurationName"].readIfPresent()
+        value.serviceNetworkId = try reader["serviceNetworkId"].readIfPresent()
+        value.serviceNetworkArn = try reader["serviceNetworkArn"].readIfPresent()
+        value.serviceNetworkName = try reader["serviceNetworkName"].readIfPresent()
+        value.dnsEntry = try reader["dnsEntry"].readIfPresent(with: VPCLatticeClientTypes.DnsEntry.read(from:))
+        value.privateDnsEntry = try reader["privateDnsEntry"].readIfPresent(with: VPCLatticeClientTypes.DnsEntry.read(from:))
+        value.isManagedAssociation = try reader["isManagedAssociation"].readIfPresent()
+        value.failureCode = try reader["failureCode"].readIfPresent()
+        return value
+    }
+}
+
 extension VPCLatticeClientTypes.ServiceNetworkSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.ServiceNetworkSummary {
@@ -7232,6 +9842,7 @@ extension VPCLatticeClientTypes.ServiceNetworkSummary {
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.numberOfAssociatedVPCs = try reader["numberOfAssociatedVPCs"].readIfPresent()
         value.numberOfAssociatedServices = try reader["numberOfAssociatedServices"].readIfPresent()
+        value.numberOfAssociatedResourceConfigurations = try reader["numberOfAssociatedResourceConfigurations"].readIfPresent()
         return value
     }
 }
@@ -7273,6 +9884,22 @@ extension VPCLatticeClientTypes.ServiceNetworkVpcAssociationSummary {
         value.serviceNetworkArn = try reader["serviceNetworkArn"].readIfPresent()
         value.vpcId = try reader["vpcId"].readIfPresent()
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension VPCLatticeClientTypes.ServiceNetworkEndpointAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.ServiceNetworkEndpointAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VPCLatticeClientTypes.ServiceNetworkEndpointAssociation()
+        value.vpcEndpointId = try reader["vpcEndpointId"].readIfPresent()
+        value.vpcId = try reader["vpcId"].readIfPresent()
+        value.vpcEndpointOwnerId = try reader["vpcEndpointOwnerId"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
+        value.serviceNetworkArn = try reader["serviceNetworkArn"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }

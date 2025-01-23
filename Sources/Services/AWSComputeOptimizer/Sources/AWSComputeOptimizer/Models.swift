@@ -29,9 +29,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -46,8 +46,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -105,12 +104,69 @@ extension ComputeOptimizerClientTypes {
             lastUpdatedTimestamp: Foundation.Date? = nil,
             status: ComputeOptimizerClientTypes.Status? = nil,
             statusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
             self.status = status
             self.statusReason = statusReason
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+
+    public enum AllocationStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case lowestPrice
+        case prioritized
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AllocationStrategy] {
+            return [
+                .lowestPrice,
+                .prioritized
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .lowestPrice: return "LowestPrice"
+            case .prioritized: return "Prioritized"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+
+    public enum AsgType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case mixedInstanceType
+        case singleInstanceType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AsgType] {
+            return [
+                .mixedInstanceType,
+                .singleInstanceType
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .mixedInstanceType: return "MixedInstanceTypes"
+            case .singleInstanceType: return "SingleInstanceType"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -146,28 +202,43 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes {
 
-    /// Describes the configuration of an Auto Scaling group.
+    /// Describes the configuration of an EC2 Auto Scaling group.
     public struct AutoScalingGroupConfiguration: Swift.Sendable {
-        /// The desired capacity, or number of instances, for the Auto Scaling group.
+        /// Describes the allocation strategy that the EC2 Auto Scaling group uses. This field is only available for EC2 Auto Scaling groups with mixed instance types.
+        public var allocationStrategy: ComputeOptimizerClientTypes.AllocationStrategy?
+        /// The desired capacity, or number of instances, for the EC2 Auto Scaling group.
         public var desiredCapacity: Swift.Int
-        /// The instance type for the Auto Scaling group.
+        /// Describes the projected percentage reduction in instance hours after adopting the recommended configuration. This field is only available for EC2 Auto Scaling groups with scaling policies.
+        public var estimatedInstanceHourReductionPercentage: Swift.Double?
+        /// The instance type for the EC2 Auto Scaling group.
         public var instanceType: Swift.String?
-        /// The maximum size, or maximum number of instances, for the Auto Scaling group.
+        /// The maximum size, or maximum number of instances, for the EC2 Auto Scaling group.
         public var maxSize: Swift.Int
-        /// The minimum size, or minimum number of instances, for the Auto Scaling group.
+        /// The minimum size, or minimum number of instances, for the EC2 Auto Scaling group.
         public var minSize: Swift.Int
+        /// List the instance types within an EC2 Auto Scaling group that has mixed instance types.
+        public var mixedInstanceTypes: [Swift.String]?
+        /// Describes whether the EC2 Auto Scaling group has a single instance type or a mixed instance type configuration.
+        public var type: ComputeOptimizerClientTypes.AsgType?
 
         public init(
+            allocationStrategy: ComputeOptimizerClientTypes.AllocationStrategy? = nil,
             desiredCapacity: Swift.Int = 0,
+            estimatedInstanceHourReductionPercentage: Swift.Double? = nil,
             instanceType: Swift.String? = nil,
             maxSize: Swift.Int = 0,
-            minSize: Swift.Int = 0
-        )
-        {
+            minSize: Swift.Int = 0,
+            mixedInstanceTypes: [Swift.String]? = nil,
+            type: ComputeOptimizerClientTypes.AsgType? = nil
+        ) {
+            self.allocationStrategy = allocationStrategy
             self.desiredCapacity = desiredCapacity
+            self.estimatedInstanceHourReductionPercentage = estimatedInstanceHourReductionPercentage
             self.instanceType = instanceType
             self.maxSize = maxSize
             self.minSize = minSize
+            self.mixedInstanceTypes = mixedInstanceTypes
+            self.type = type
         }
     }
 }
@@ -213,8 +284,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             currency: ComputeOptimizerClientTypes.Currency? = nil,
             value: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.currency = currency
             self.value = value
         }
@@ -233,8 +303,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             gpuCount: Swift.Int = 0,
             gpuMemorySizeInMiB: Swift.Int = 0
-        )
-        {
+        ) {
             self.gpuCount = gpuCount
             self.gpuMemorySizeInMiB = gpuMemorySizeInMiB
         }
@@ -250,8 +319,7 @@ extension ComputeOptimizerClientTypes {
 
         public init(
             gpus: [ComputeOptimizerClientTypes.Gpu]? = nil
-        )
-        {
+        ) {
             self.gpus = gpus
         }
     }
@@ -394,8 +462,7 @@ extension ComputeOptimizerClientTypes {
 
         public init(
             source: ComputeOptimizerClientTypes.ExternalMetricsSource? = nil
-        )
-        {
+        ) {
             self.source = source
         }
     }
@@ -506,8 +573,7 @@ extension ComputeOptimizerClientTypes {
             excludeList: [Swift.String]? = nil,
             includeList: [Swift.String]? = nil,
             name: ComputeOptimizerClientTypes.PreferredResourceName? = nil
-        )
-        {
+        ) {
             self.effectiveIncludeList = effectiveIncludeList
             self.excludeList = excludeList
             self.includeList = includeList
@@ -557,8 +623,7 @@ extension ComputeOptimizerClientTypes {
 
         public init(
             source: ComputeOptimizerClientTypes.InstanceSavingsEstimationModeSource? = nil
-        )
-        {
+        ) {
             self.source = source
         }
     }
@@ -676,8 +741,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             headroom: ComputeOptimizerClientTypes.CustomizableMetricHeadroom? = nil,
             threshold: ComputeOptimizerClientTypes.CustomizableMetricThreshold? = nil
-        )
-        {
+        ) {
             self.headroom = headroom
             self.threshold = threshold
         }
@@ -696,8 +760,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             metricName: ComputeOptimizerClientTypes.CustomizableMetricName? = nil,
             metricParameters: ComputeOptimizerClientTypes.CustomizableMetricParameters? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
             self.metricParameters = metricParameters
         }
@@ -740,8 +803,7 @@ extension ComputeOptimizerClientTypes {
             preferredResources: [ComputeOptimizerClientTypes.EffectivePreferredResource]? = nil,
             savingsEstimationMode: ComputeOptimizerClientTypes.InstanceSavingsEstimationMode? = nil,
             utilizationPreferences: [ComputeOptimizerClientTypes.UtilizationPreference]? = nil
-        )
-        {
+        ) {
             self.cpuVendorArchitectures = cpuVendorArchitectures
             self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
             self.externalMetricsPreference = externalMetricsPreference
@@ -1021,8 +1083,7 @@ extension ComputeOptimizerClientTypes {
             name: ComputeOptimizerClientTypes.MetricName? = nil,
             statistic: ComputeOptimizerClientTypes.MetricStatistic? = nil,
             value: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.name = name
             self.statistic = statistic
             self.value = value
@@ -1042,8 +1103,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             currency: ComputeOptimizerClientTypes.Currency? = nil,
             value: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.currency = currency
             self.value = value
         }
@@ -1062,8 +1122,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             estimatedMonthlySavings: ComputeOptimizerClientTypes.EstimatedMonthlySavings? = nil,
             savingsOpportunityPercentage: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.estimatedMonthlySavings = estimatedMonthlySavings
             self.savingsOpportunityPercentage = savingsOpportunityPercentage
         }
@@ -1082,8 +1141,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             estimatedMonthlySavings: ComputeOptimizerClientTypes.AutoScalingGroupEstimatedMonthlySavings? = nil,
             savingsOpportunityPercentage: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.estimatedMonthlySavings = estimatedMonthlySavings
             self.savingsOpportunityPercentage = savingsOpportunityPercentage
         }
@@ -1120,8 +1178,7 @@ extension ComputeOptimizerClientTypes {
             rank: Swift.Int = 0,
             savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil,
             savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.AutoScalingGroupSavingsOpportunityAfterDiscounts? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.instanceGpuInfo = instanceGpuInfo
             self.migrationEffort = migrationEffort
@@ -1201,8 +1258,7 @@ extension ComputeOptimizerClientTypes {
             lookBackPeriodInDays: Swift.Double = 0.0,
             recommendationOptions: [ComputeOptimizerClientTypes.AutoScalingGroupRecommendationOption]? = nil,
             utilizationMetrics: [ComputeOptimizerClientTypes.UtilizationMetric]? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.autoScalingGroupArn = autoScalingGroupArn
             self.autoScalingGroupName = autoScalingGroupName
@@ -1221,9 +1277,9 @@ extension ComputeOptimizerClientTypes {
 }
 
 /// An internal error has occurred. Try your call again.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1238,16 +1294,15 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The value supplied for the input parameter is out of range or not valid.
-public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1262,16 +1317,15 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request must contain either a valid (registered) Amazon Web Services access key ID or X.509 certificate.
-public struct MissingAuthenticationToken: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MissingAuthenticationToken: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1286,16 +1340,15 @@ public struct MissingAuthenticationToken: ClientRuntime.ModeledError, AWSClientR
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The account is not opted in to Compute Optimizer.
-public struct OptInRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OptInRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1310,16 +1363,15 @@ public struct OptInRequiredException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// A resource that is required for the action doesn't exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1334,16 +1386,15 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request has failed due to a temporary failure of the server.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1358,16 +1409,15 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1383,8 +1433,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1437,6 +1486,7 @@ extension ComputeOptimizerClientTypes {
         case ebsVolume
         case ec2Instance
         case ecsService
+        case idle
         case lambdaFunction
         case license
         case notApplicable
@@ -1449,6 +1499,7 @@ extension ComputeOptimizerClientTypes {
                 .ebsVolume,
                 .ec2Instance,
                 .ecsService,
+                .idle,
                 .lambdaFunction,
                 .license,
                 .notApplicable,
@@ -1467,6 +1518,7 @@ extension ComputeOptimizerClientTypes {
             case .ebsVolume: return "EbsVolume"
             case .ec2Instance: return "Ec2Instance"
             case .ecsService: return "EcsService"
+            case .idle: return "Idle"
             case .lambdaFunction: return "LambdaFunction"
             case .license: return "License"
             case .notApplicable: return "NotApplicable"
@@ -1536,8 +1588,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             name: ComputeOptimizerClientTypes.ScopeName? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -1558,8 +1609,7 @@ public struct DeleteRecommendationPreferencesInput: Swift.Sendable {
         recommendationPreferenceNames: [ComputeOptimizerClientTypes.RecommendationPreferenceName]? = nil,
         resourceType: ComputeOptimizerClientTypes.ResourceType? = nil,
         scope: ComputeOptimizerClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.recommendationPreferenceNames = recommendationPreferenceNames
         self.resourceType = resourceType
         self.scope = scope
@@ -1616,8 +1666,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             name: ComputeOptimizerClientTypes.JobFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -1639,8 +1688,7 @@ public struct DescribeRecommendationExportJobsInput: Swift.Sendable {
         jobIds: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.jobIds = jobIds
         self.maxResults = maxResults
@@ -1663,8 +1711,7 @@ extension ComputeOptimizerClientTypes {
             bucket: Swift.String? = nil,
             key: Swift.String? = nil,
             metadataKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.key = key
             self.metadataKey = metadataKey
@@ -1681,8 +1728,7 @@ extension ComputeOptimizerClientTypes {
 
         public init(
             s3: ComputeOptimizerClientTypes.S3Destination? = nil
-        )
-        {
+        ) {
             self.s3 = s3
         }
     }
@@ -1750,8 +1796,7 @@ extension ComputeOptimizerClientTypes {
             lastUpdatedTimestamp: Foundation.Date? = nil,
             resourceType: ComputeOptimizerClientTypes.ResourceType? = nil,
             status: ComputeOptimizerClientTypes.JobStatus? = nil
-        )
-        {
+        ) {
             self.creationTimestamp = creationTimestamp
             self.destination = destination
             self.failureReason = failureReason
@@ -1772,17 +1817,16 @@ public struct DescribeRecommendationExportJobsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         recommendationExportJobs: [ComputeOptimizerClientTypes.RecommendationExportJob]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.recommendationExportJobs = recommendationExportJobs
     }
 }
 
 /// The request exceeds a limit of the service.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1797,8 +1841,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -1809,10 +1852,13 @@ extension ComputeOptimizerClientTypes {
         case accountId
         case autoScalingGroupArn
         case autoScalingGroupName
+        case currentConfigurationAllocationStrategy
         case currentConfigurationDesiredCapacity
         case currentConfigurationInstanceType
         case currentConfigurationMaxSize
         case currentConfigurationMinSize
+        case currentConfigurationMixedInstanceTypes
+        case currentConfigurationType
         case currentInstanceGpuInfo
         case currentMemory
         case currentNetwork
@@ -1832,10 +1878,14 @@ extension ComputeOptimizerClientTypes {
         case inferredWorkloadTypes
         case lastRefreshTimestamp
         case lookbackPeriodInDays
+        case recommendationOptionsConfigurationAllocationStrategy
         case recommendationOptionsConfigurationDesiredCapacity
+        case recommendationOptionsConfigurationEstimatedInstanceHourReductionPercentage
         case recommendationOptionsConfigurationInstanceType
         case recommendationOptionsConfigurationMaxSize
         case recommendationOptionsConfigurationMinSize
+        case recommendationOptionsConfigurationMixedInstanceTypes
+        case recommendationOptionsConfigurationType
         case recommendationOptionsEstimatedMonthlySavingsCurrency
         case recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts
         case recommendationOptionsEstimatedMonthlySavingsValue
@@ -1879,10 +1929,13 @@ extension ComputeOptimizerClientTypes {
                 .accountId,
                 .autoScalingGroupArn,
                 .autoScalingGroupName,
+                .currentConfigurationAllocationStrategy,
                 .currentConfigurationDesiredCapacity,
                 .currentConfigurationInstanceType,
                 .currentConfigurationMaxSize,
                 .currentConfigurationMinSize,
+                .currentConfigurationMixedInstanceTypes,
+                .currentConfigurationType,
                 .currentInstanceGpuInfo,
                 .currentMemory,
                 .currentNetwork,
@@ -1902,10 +1955,14 @@ extension ComputeOptimizerClientTypes {
                 .inferredWorkloadTypes,
                 .lastRefreshTimestamp,
                 .lookbackPeriodInDays,
+                .recommendationOptionsConfigurationAllocationStrategy,
                 .recommendationOptionsConfigurationDesiredCapacity,
+                .recommendationOptionsConfigurationEstimatedInstanceHourReductionPercentage,
                 .recommendationOptionsConfigurationInstanceType,
                 .recommendationOptionsConfigurationMaxSize,
                 .recommendationOptionsConfigurationMinSize,
+                .recommendationOptionsConfigurationMixedInstanceTypes,
+                .recommendationOptionsConfigurationType,
                 .recommendationOptionsEstimatedMonthlySavingsCurrency,
                 .recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts,
                 .recommendationOptionsEstimatedMonthlySavingsValue,
@@ -1955,10 +2012,13 @@ extension ComputeOptimizerClientTypes {
             case .accountId: return "AccountId"
             case .autoScalingGroupArn: return "AutoScalingGroupArn"
             case .autoScalingGroupName: return "AutoScalingGroupName"
+            case .currentConfigurationAllocationStrategy: return "CurrentConfigurationAllocationStrategy"
             case .currentConfigurationDesiredCapacity: return "CurrentConfigurationDesiredCapacity"
             case .currentConfigurationInstanceType: return "CurrentConfigurationInstanceType"
             case .currentConfigurationMaxSize: return "CurrentConfigurationMaxSize"
             case .currentConfigurationMinSize: return "CurrentConfigurationMinSize"
+            case .currentConfigurationMixedInstanceTypes: return "CurrentConfigurationMixedInstanceTypes"
+            case .currentConfigurationType: return "CurrentConfigurationType"
             case .currentInstanceGpuInfo: return "CurrentInstanceGpuInfo"
             case .currentMemory: return "CurrentMemory"
             case .currentNetwork: return "CurrentNetwork"
@@ -1978,10 +2038,14 @@ extension ComputeOptimizerClientTypes {
             case .inferredWorkloadTypes: return "InferredWorkloadTypes"
             case .lastRefreshTimestamp: return "LastRefreshTimestamp"
             case .lookbackPeriodInDays: return "LookbackPeriodInDays"
+            case .recommendationOptionsConfigurationAllocationStrategy: return "RecommendationOptionsConfigurationAllocationStrategy"
             case .recommendationOptionsConfigurationDesiredCapacity: return "RecommendationOptionsConfigurationDesiredCapacity"
+            case .recommendationOptionsConfigurationEstimatedInstanceHourReductionPercentage: return "RecommendationOptionsConfigurationEstimatedInstanceHourReductionPercentage"
             case .recommendationOptionsConfigurationInstanceType: return "RecommendationOptionsConfigurationInstanceType"
             case .recommendationOptionsConfigurationMaxSize: return "RecommendationOptionsConfigurationMaxSize"
             case .recommendationOptionsConfigurationMinSize: return "RecommendationOptionsConfigurationMinSize"
+            case .recommendationOptionsConfigurationMixedInstanceTypes: return "RecommendationOptionsConfigurationMixedInstanceTypes"
+            case .recommendationOptionsConfigurationType: return "RecommendationOptionsConfigurationType"
             case .recommendationOptionsEstimatedMonthlySavingsCurrency: return "RecommendationOptionsEstimatedMonthlySavingsCurrency"
             case .recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts: return "RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts"
             case .recommendationOptionsEstimatedMonthlySavingsValue: return "RecommendationOptionsEstimatedMonthlySavingsValue"
@@ -2137,8 +2201,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             name: ComputeOptimizerClientTypes.FilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -2160,8 +2223,7 @@ extension ComputeOptimizerClientTypes {
 
         public init(
             cpuVendorArchitectures: [ComputeOptimizerClientTypes.CpuVendorArchitecture]? = nil
-        )
-        {
+        ) {
             self.cpuVendorArchitectures = cpuVendorArchitectures
         }
     }
@@ -2179,8 +2241,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             bucket: Swift.String? = nil,
             keyPrefix: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.keyPrefix = keyPrefix
         }
@@ -2212,8 +2273,7 @@ public struct ExportAutoScalingGroupRecommendationsInput: Swift.Sendable {
         includeMemberAccounts: Swift.Bool? = false,
         recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences? = nil,
         s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.fieldsToExport = fieldsToExport
         self.fileFormat = fileFormat
@@ -2233,8 +2293,7 @@ public struct ExportAutoScalingGroupRecommendationsOutput: Swift.Sendable {
     public init(
         jobId: Swift.String? = nil,
         s3Destination: ComputeOptimizerClientTypes.S3Destination? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.s3Destination = s3Destination
     }
@@ -2406,8 +2465,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             name: ComputeOptimizerClientTypes.EBSFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -2436,8 +2494,7 @@ public struct ExportEBSVolumeRecommendationsInput: Swift.Sendable {
         filters: [ComputeOptimizerClientTypes.EBSFilter]? = nil,
         includeMemberAccounts: Swift.Bool? = false,
         s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.fieldsToExport = fieldsToExport
         self.fileFormat = fileFormat
@@ -2456,8 +2513,7 @@ public struct ExportEBSVolumeRecommendationsOutput: Swift.Sendable {
     public init(
         jobId: Swift.String? = nil,
         s3Destination: ComputeOptimizerClientTypes.S3Destination? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.s3Destination = s3Destination
     }
@@ -2724,8 +2780,7 @@ public struct ExportEC2InstanceRecommendationsInput: Swift.Sendable {
         includeMemberAccounts: Swift.Bool? = false,
         recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences? = nil,
         s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.fieldsToExport = fieldsToExport
         self.fileFormat = fileFormat
@@ -2745,8 +2800,7 @@ public struct ExportEC2InstanceRecommendationsOutput: Swift.Sendable {
     public init(
         jobId: Swift.String? = nil,
         s3Destination: ComputeOptimizerClientTypes.S3Destination? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.s3Destination = s3Destination
     }
@@ -2904,8 +2958,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             name: ComputeOptimizerClientTypes.ECSServiceRecommendationFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -2934,8 +2987,7 @@ public struct ExportECSServiceRecommendationsInput: Swift.Sendable {
         filters: [ComputeOptimizerClientTypes.ECSServiceRecommendationFilter]? = nil,
         includeMemberAccounts: Swift.Bool? = false,
         s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.fieldsToExport = fieldsToExport
         self.fileFormat = fileFormat
@@ -2954,8 +3006,185 @@ public struct ExportECSServiceRecommendationsOutput: Swift.Sendable {
     public init(
         jobId: Swift.String? = nil,
         s3Destination: ComputeOptimizerClientTypes.S3Destination? = nil
-    )
-    {
+    ) {
+        self.jobId = jobId
+        self.s3Destination = s3Destination
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+
+    public enum ExportableIdleField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accountId
+        case finding
+        case findingDescription
+        case lastRefreshTimestamp
+        case lookbackPeriodInDays
+        case resourceArn
+        case resourceId
+        case resourceType
+        case savingsOpportunity
+        case savingsOpportunityAfterDiscount
+        case tags
+        case utilizationMetricsCpuMaximum
+        case utilizationMetricsDatabaseConnectionsMaximum
+        case utilizationMetricsEbsVolumeReadIopsMaximum
+        case utilizationMetricsEbsVolumeWriteIopsMaximum
+        case utilizationMetricsMemoryMaximum
+        case utilizationMetricsNetworkInBytesPerSecondMaximum
+        case utilizationMetricsNetworkOutBytesPerSecondMaximum
+        case utilizationMetricsVolumeReadOpsPerSecondMaximum
+        case utilizationMetricsVolumeWriteOpsPerSecondMaximum
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExportableIdleField] {
+            return [
+                .accountId,
+                .finding,
+                .findingDescription,
+                .lastRefreshTimestamp,
+                .lookbackPeriodInDays,
+                .resourceArn,
+                .resourceId,
+                .resourceType,
+                .savingsOpportunity,
+                .savingsOpportunityAfterDiscount,
+                .tags,
+                .utilizationMetricsCpuMaximum,
+                .utilizationMetricsDatabaseConnectionsMaximum,
+                .utilizationMetricsEbsVolumeReadIopsMaximum,
+                .utilizationMetricsEbsVolumeWriteIopsMaximum,
+                .utilizationMetricsMemoryMaximum,
+                .utilizationMetricsNetworkInBytesPerSecondMaximum,
+                .utilizationMetricsNetworkOutBytesPerSecondMaximum,
+                .utilizationMetricsVolumeReadOpsPerSecondMaximum,
+                .utilizationMetricsVolumeWriteOpsPerSecondMaximum
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accountId: return "AccountId"
+            case .finding: return "Finding"
+            case .findingDescription: return "FindingDescription"
+            case .lastRefreshTimestamp: return "LastRefreshTimestamp"
+            case .lookbackPeriodInDays: return "LookbackPeriodInDays"
+            case .resourceArn: return "ResourceArn"
+            case .resourceId: return "ResourceId"
+            case .resourceType: return "ResourceType"
+            case .savingsOpportunity: return "SavingsOpportunity"
+            case .savingsOpportunityAfterDiscount: return "SavingsOpportunityAfterDiscount"
+            case .tags: return "Tags"
+            case .utilizationMetricsCpuMaximum: return "UtilizationMetricsCpuMaximum"
+            case .utilizationMetricsDatabaseConnectionsMaximum: return "UtilizationMetricsDatabaseConnectionsMaximum"
+            case .utilizationMetricsEbsVolumeReadIopsMaximum: return "UtilizationMetricsEBSVolumeReadIOPSMaximum"
+            case .utilizationMetricsEbsVolumeWriteIopsMaximum: return "UtilizationMetricsEBSVolumeWriteIOPSMaximum"
+            case .utilizationMetricsMemoryMaximum: return "UtilizationMetricsMemoryMaximum"
+            case .utilizationMetricsNetworkInBytesPerSecondMaximum: return "UtilizationMetricsNetworkInBytesPerSecondMaximum"
+            case .utilizationMetricsNetworkOutBytesPerSecondMaximum: return "UtilizationMetricsNetworkOutBytesPerSecondMaximum"
+            case .utilizationMetricsVolumeReadOpsPerSecondMaximum: return "UtilizationMetricsVolumeReadOpsPerSecondMaximum"
+            case .utilizationMetricsVolumeWriteOpsPerSecondMaximum: return "UtilizationMetricsVolumeWriteOpsPerSecondMaximum"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+
+    public enum IdleRecommendationFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case finding
+        case resourceType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IdleRecommendationFilterName] {
+            return [
+                .finding,
+                .resourceType
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .finding: return "Finding"
+            case .resourceType: return "ResourceType"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+
+    /// Describes a filter that returns a more specific list of idle resource recommendations.
+    public struct IdleRecommendationFilter: Swift.Sendable {
+        /// The name of the filter. Specify Finding to return recommendations with a specific finding classification. You can filter your idle resource recommendations by tag:key and tag-key tags. A tag:key is a key and value combination of a tag assigned to your idle resource recommendations. Use the tag key in the filter name and the tag value as the filter value. For example, to find all idle resource service recommendations that have a tag with the key of Owner and the value of TeamA, specify tag:Owner for the filter name and TeamA for the filter value. A tag-key is the key of a tag assigned to your idle resource recommendations. Use this filter to find all of your idle resource recommendations that have a tag with a specific key. This doesn’t consider the tag value. For example, you can find your idle resource service recommendations with a tag key value of Owner or without any tag keys assigned.
+        public var name: ComputeOptimizerClientTypes.IdleRecommendationFilterName?
+        /// The value of the filter.
+        public var values: [Swift.String]?
+
+        public init(
+            name: ComputeOptimizerClientTypes.IdleRecommendationFilterName? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+public struct ExportIdleRecommendationsInput: Swift.Sendable {
+    /// The Amazon Web Services account IDs for the export idle resource recommendations. If your account is the management account or the delegated administrator of an organization, use this parameter to specify the member account you want to export recommendations to. This parameter can't be specified together with the include member accounts parameter. The parameters are mutually exclusive. If this parameter or the include member accounts parameter is omitted, the recommendations for member accounts aren't included in the export. You can specify multiple account IDs per request.
+    public var accountIds: [Swift.String]?
+    /// The recommendations data to include in the export file. For more information about the fields that can be exported, see [Exported files](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html#exported-files) in the Compute Optimizer User Guide.
+    public var fieldsToExport: [ComputeOptimizerClientTypes.ExportableIdleField]?
+    /// The format of the export file. The CSV file is the only export file format currently supported.
+    public var fileFormat: ComputeOptimizerClientTypes.FileFormat?
+    /// An array of objects to specify a filter that exports a more specific set of idle resource recommendations.
+    public var filters: [ComputeOptimizerClientTypes.IdleRecommendationFilter]?
+    /// If your account is the management account or the delegated administrator of an organization, this parameter indicates whether to include recommendations for resources in all member accounts of the organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access) in the Compute Optimizer User Guide. If this parameter is omitted, recommendations for member accounts of the organization aren't included in the export file. If this parameter or the account ID parameter is omitted, recommendations for member accounts aren't included in the export.
+    public var includeMemberAccounts: Swift.Bool?
+    /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for a recommendations export job. You must create the destination Amazon S3 bucket for your recommendations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permission policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the policy that you add to the S3 bucket. For more information, see [Amazon S3 Bucket Policy for Compute Optimizer](https://docs.aws.amazon.com/compute-optimizer/latest/ug/create-s3-bucket-policy-for-compute-optimizer.html) in the Compute Optimizer User Guide.
+    /// This member is required.
+    public var s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig?
+
+    public init(
+        accountIds: [Swift.String]? = nil,
+        fieldsToExport: [ComputeOptimizerClientTypes.ExportableIdleField]? = nil,
+        fileFormat: ComputeOptimizerClientTypes.FileFormat? = nil,
+        filters: [ComputeOptimizerClientTypes.IdleRecommendationFilter]? = nil,
+        includeMemberAccounts: Swift.Bool? = false,
+        s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig? = nil
+    ) {
+        self.accountIds = accountIds
+        self.fieldsToExport = fieldsToExport
+        self.fileFormat = fileFormat
+        self.filters = filters
+        self.includeMemberAccounts = includeMemberAccounts
+        self.s3DestinationConfig = s3DestinationConfig
+    }
+}
+
+public struct ExportIdleRecommendationsOutput: Swift.Sendable {
+    /// The identification number of the export job. To view the status of an export job, use the [DescribeRecommendationExportJobs] action and specify the job ID.
+    public var jobId: Swift.String?
+    /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and object keys of a recommendations export file, and its associated metadata file.
+    public var s3Destination: ComputeOptimizerClientTypes.S3Destination?
+
+    public init(
+        jobId: Swift.String? = nil,
+        s3Destination: ComputeOptimizerClientTypes.S3Destination? = nil
+    ) {
         self.jobId = jobId
         self.s3Destination = s3Destination
     }
@@ -3122,8 +3351,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             name: ComputeOptimizerClientTypes.LambdaFunctionRecommendationFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -3152,8 +3380,7 @@ public struct ExportLambdaFunctionRecommendationsInput: Swift.Sendable {
         filters: [ComputeOptimizerClientTypes.LambdaFunctionRecommendationFilter]? = nil,
         includeMemberAccounts: Swift.Bool? = false,
         s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.fieldsToExport = fieldsToExport
         self.fileFormat = fileFormat
@@ -3172,8 +3399,7 @@ public struct ExportLambdaFunctionRecommendationsOutput: Swift.Sendable {
     public init(
         jobId: Swift.String? = nil,
         s3Destination: ComputeOptimizerClientTypes.S3Destination? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.s3Destination = s3Destination
     }
@@ -3313,8 +3539,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             name: ComputeOptimizerClientTypes.LicenseRecommendationFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -3343,8 +3568,7 @@ public struct ExportLicenseRecommendationsInput: Swift.Sendable {
         filters: [ComputeOptimizerClientTypes.LicenseRecommendationFilter]? = nil,
         includeMemberAccounts: Swift.Bool? = false,
         s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.fieldsToExport = fieldsToExport
         self.fileFormat = fileFormat
@@ -3363,8 +3587,7 @@ public struct ExportLicenseRecommendationsOutput: Swift.Sendable {
     public init(
         jobId: Swift.String? = nil,
         s3Destination: ComputeOptimizerClientTypes.S3Destination? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.s3Destination = s3Destination
     }
@@ -3376,12 +3599,14 @@ extension ComputeOptimizerClientTypes {
         case accountId
         case currentDbInstanceClass
         case currentInstanceOnDemandHourlyPrice
+        case currentInstancePerformanceRisk
         case currentStorageConfigurationAllocatedStorage
         case currentStorageConfigurationIops
         case currentStorageConfigurationMaxAllocatedStorage
         case currentStorageConfigurationStorageThroughput
         case currentStorageConfigurationStorageType
         case currentStorageOnDemandMonthlyPrice
+        case dbClusterIdentifier
         case effectiveRecommendationPreferencesCpuVendorArchitectures
         case effectiveRecommendationPreferencesEnhancedInfrastructureMetrics
         case effectiveRecommendationPreferencesLookbackPeriod
@@ -3405,6 +3630,7 @@ extension ComputeOptimizerClientTypes {
         case lastRefreshTimestamp
         case lookbackPeriodInDays
         case multiAzDbInstance
+        case promotionTier
         case resourceArn
         case storageFinding
         case storageFindingReasonCodes
@@ -3422,6 +3648,10 @@ extension ComputeOptimizerClientTypes {
         case storageRecommendationOptionsStorageThroughput
         case storageRecommendationOptionsStorageType
         case tags
+        case utilizationMetricsAuroraMemoryHealthStateMaximum
+        case utilizationMetricsAuroraMemoryNumDeclinedSqlTotalMaximum
+        case utilizationMetricsAuroraMemoryNumKillConnTotalMaximum
+        case utilizationMetricsAuroraMemoryNumKillQueryTotalMaximum
         case utilizationMetricsCpuMaximum
         case utilizationMetricsDatabaseConnectionsMaximum
         case utilizationMetricsEbsVolumeReadIopsMaximum
@@ -3432,6 +3662,10 @@ extension ComputeOptimizerClientTypes {
         case utilizationMetricsMemoryMaximum
         case utilizationMetricsNetworkReceiveThroughputMaximum
         case utilizationMetricsNetworkTransmitThroughputMaximum
+        case utilizationMetricsReadIopsEphemeralStorageMaximum
+        case utilizationMetricsStorageNetworkReceiveThroughputMaximum
+        case utilizationMetricsStorageNetworkTransmitThroughputMaximum
+        case utilizationMetricsWriteIopsEphemeralStorageMaximum
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ExportableRDSDBField] {
@@ -3439,12 +3673,14 @@ extension ComputeOptimizerClientTypes {
                 .accountId,
                 .currentDbInstanceClass,
                 .currentInstanceOnDemandHourlyPrice,
+                .currentInstancePerformanceRisk,
                 .currentStorageConfigurationAllocatedStorage,
                 .currentStorageConfigurationIops,
                 .currentStorageConfigurationMaxAllocatedStorage,
                 .currentStorageConfigurationStorageThroughput,
                 .currentStorageConfigurationStorageType,
                 .currentStorageOnDemandMonthlyPrice,
+                .dbClusterIdentifier,
                 .effectiveRecommendationPreferencesCpuVendorArchitectures,
                 .effectiveRecommendationPreferencesEnhancedInfrastructureMetrics,
                 .effectiveRecommendationPreferencesLookbackPeriod,
@@ -3468,6 +3704,7 @@ extension ComputeOptimizerClientTypes {
                 .lastRefreshTimestamp,
                 .lookbackPeriodInDays,
                 .multiAzDbInstance,
+                .promotionTier,
                 .resourceArn,
                 .storageFinding,
                 .storageFindingReasonCodes,
@@ -3485,6 +3722,10 @@ extension ComputeOptimizerClientTypes {
                 .storageRecommendationOptionsStorageThroughput,
                 .storageRecommendationOptionsStorageType,
                 .tags,
+                .utilizationMetricsAuroraMemoryHealthStateMaximum,
+                .utilizationMetricsAuroraMemoryNumDeclinedSqlTotalMaximum,
+                .utilizationMetricsAuroraMemoryNumKillConnTotalMaximum,
+                .utilizationMetricsAuroraMemoryNumKillQueryTotalMaximum,
                 .utilizationMetricsCpuMaximum,
                 .utilizationMetricsDatabaseConnectionsMaximum,
                 .utilizationMetricsEbsVolumeReadIopsMaximum,
@@ -3494,7 +3735,11 @@ extension ComputeOptimizerClientTypes {
                 .utilizationMetricsEbsVolumeWriteThroughputMaximum,
                 .utilizationMetricsMemoryMaximum,
                 .utilizationMetricsNetworkReceiveThroughputMaximum,
-                .utilizationMetricsNetworkTransmitThroughputMaximum
+                .utilizationMetricsNetworkTransmitThroughputMaximum,
+                .utilizationMetricsReadIopsEphemeralStorageMaximum,
+                .utilizationMetricsStorageNetworkReceiveThroughputMaximum,
+                .utilizationMetricsStorageNetworkTransmitThroughputMaximum,
+                .utilizationMetricsWriteIopsEphemeralStorageMaximum
             ]
         }
 
@@ -3508,12 +3753,14 @@ extension ComputeOptimizerClientTypes {
             case .accountId: return "AccountId"
             case .currentDbInstanceClass: return "CurrentDBInstanceClass"
             case .currentInstanceOnDemandHourlyPrice: return "CurrentInstanceOnDemandHourlyPrice"
+            case .currentInstancePerformanceRisk: return "CurrentInstancePerformanceRisk"
             case .currentStorageConfigurationAllocatedStorage: return "CurrentStorageConfigurationAllocatedStorage"
             case .currentStorageConfigurationIops: return "CurrentStorageConfigurationIOPS"
             case .currentStorageConfigurationMaxAllocatedStorage: return "CurrentStorageConfigurationMaxAllocatedStorage"
             case .currentStorageConfigurationStorageThroughput: return "CurrentStorageConfigurationStorageThroughput"
             case .currentStorageConfigurationStorageType: return "CurrentStorageConfigurationStorageType"
             case .currentStorageOnDemandMonthlyPrice: return "CurrentStorageOnDemandMonthlyPrice"
+            case .dbClusterIdentifier: return "DBClusterIdentifier"
             case .effectiveRecommendationPreferencesCpuVendorArchitectures: return "EffectiveRecommendationPreferencesCpuVendorArchitectures"
             case .effectiveRecommendationPreferencesEnhancedInfrastructureMetrics: return "EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics"
             case .effectiveRecommendationPreferencesLookbackPeriod: return "EffectiveRecommendationPreferencesLookBackPeriod"
@@ -3537,6 +3784,7 @@ extension ComputeOptimizerClientTypes {
             case .lastRefreshTimestamp: return "LastRefreshTimestamp"
             case .lookbackPeriodInDays: return "LookbackPeriodInDays"
             case .multiAzDbInstance: return "MultiAZDBInstance"
+            case .promotionTier: return "PromotionTier"
             case .resourceArn: return "ResourceArn"
             case .storageFinding: return "StorageFinding"
             case .storageFindingReasonCodes: return "StorageFindingReasonCodes"
@@ -3554,6 +3802,10 @@ extension ComputeOptimizerClientTypes {
             case .storageRecommendationOptionsStorageThroughput: return "StorageRecommendationOptionsStorageThroughput"
             case .storageRecommendationOptionsStorageType: return "StorageRecommendationOptionsStorageType"
             case .tags: return "Tags"
+            case .utilizationMetricsAuroraMemoryHealthStateMaximum: return "UtilizationMetricsAuroraMemoryHealthStateMaximum"
+            case .utilizationMetricsAuroraMemoryNumDeclinedSqlTotalMaximum: return "UtilizationMetricsAuroraMemoryNumDeclinedSqlTotalMaximum"
+            case .utilizationMetricsAuroraMemoryNumKillConnTotalMaximum: return "UtilizationMetricsAuroraMemoryNumKillConnTotalMaximum"
+            case .utilizationMetricsAuroraMemoryNumKillQueryTotalMaximum: return "UtilizationMetricsAuroraMemoryNumKillQueryTotalMaximum"
             case .utilizationMetricsCpuMaximum: return "UtilizationMetricsCpuMaximum"
             case .utilizationMetricsDatabaseConnectionsMaximum: return "UtilizationMetricsDatabaseConnectionsMaximum"
             case .utilizationMetricsEbsVolumeReadIopsMaximum: return "UtilizationMetricsEBSVolumeReadIOPSMaximum"
@@ -3564,6 +3816,10 @@ extension ComputeOptimizerClientTypes {
             case .utilizationMetricsMemoryMaximum: return "UtilizationMetricsMemoryMaximum"
             case .utilizationMetricsNetworkReceiveThroughputMaximum: return "UtilizationMetricsNetworkReceiveThroughputMaximum"
             case .utilizationMetricsNetworkTransmitThroughputMaximum: return "UtilizationMetricsNetworkTransmitThroughputMaximum"
+            case .utilizationMetricsReadIopsEphemeralStorageMaximum: return "UtilizationMetricsReadIOPSEphemeralStorageMaximum"
+            case .utilizationMetricsStorageNetworkReceiveThroughputMaximum: return "UtilizationMetricsStorageNetworkReceiveThroughputMaximum"
+            case .utilizationMetricsStorageNetworkTransmitThroughputMaximum: return "UtilizationMetricsStorageNetworkTransmitThroughputMaximum"
+            case .utilizationMetricsWriteIopsEphemeralStorageMaximum: return "UtilizationMetricsWriteIOPSEphemeralStorageMaximum"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3620,8 +3876,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             name: ComputeOptimizerClientTypes.RDSDBRecommendationFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -3653,8 +3908,7 @@ public struct ExportRDSDatabaseRecommendationsInput: Swift.Sendable {
         includeMemberAccounts: Swift.Bool? = false,
         recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences? = nil,
         s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.fieldsToExport = fieldsToExport
         self.fileFormat = fileFormat
@@ -3674,8 +3928,7 @@ public struct ExportRDSDatabaseRecommendationsOutput: Swift.Sendable {
     public init(
         jobId: Swift.String? = nil,
         s3Destination: ComputeOptimizerClientTypes.S3Destination? = nil
-    )
-    {
+    ) {
         self.jobId = jobId
         self.s3Destination = s3Destination
     }
@@ -3702,8 +3955,7 @@ public struct GetAutoScalingGroupRecommendationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.autoScalingGroupArns = autoScalingGroupArns
         self.filters = filters
@@ -3728,8 +3980,7 @@ extension ComputeOptimizerClientTypes {
             code: Swift.String? = nil,
             identifier: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.identifier = identifier
             self.message = message
@@ -3749,8 +4000,7 @@ public struct GetAutoScalingGroupRecommendationsOutput: Swift.Sendable {
         autoScalingGroupRecommendations: [ComputeOptimizerClientTypes.AutoScalingGroupRecommendation]? = nil,
         errors: [ComputeOptimizerClientTypes.GetRecommendationError]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoScalingGroupRecommendations = autoScalingGroupRecommendations
         self.errors = errors
         self.nextToken = nextToken
@@ -3775,8 +4025,7 @@ public struct GetEBSVolumeRecommendationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         volumeArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.filters = filters
         self.maxResults = maxResults
@@ -3801,7 +4050,17 @@ extension ComputeOptimizerClientTypes {
         public var volumeBurstThroughput: Swift.Int
         /// The size of the volume, in GiB.
         public var volumeSize: Swift.Int
-        /// The volume type. This can be gp2 for General Purpose SSD, io1 or io2 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1 for Cold HDD, or standard for Magnetic volumes.
+        /// The volume type. The volume types can be the following:
+        ///
+        /// * General Purpose SSD gp2 and gp3
+        ///
+        /// * Provisioned IOPS SSD io1, io2, and io2 Block Express
+        ///
+        /// * Throughput Optimized HDD st1
+        ///
+        /// * Cold HDD sc1
+        ///
+        /// * Magnetic volumes standard
         public var volumeType: Swift.String?
 
         public init(
@@ -3812,8 +4071,7 @@ extension ComputeOptimizerClientTypes {
             volumeBurstThroughput: Swift.Int = 0,
             volumeSize: Swift.Int = 0,
             volumeType: Swift.String? = nil
-        )
-        {
+        ) {
             self.rootVolume = rootVolume
             self.volumeBaselineIOPS = volumeBaselineIOPS
             self.volumeBaselineThroughput = volumeBaselineThroughput
@@ -3866,8 +4124,7 @@ extension ComputeOptimizerClientTypes {
 
         public init(
             source: ComputeOptimizerClientTypes.EBSSavingsEstimationModeSource? = nil
-        )
-        {
+        ) {
             self.source = source
         }
     }
@@ -3882,8 +4139,7 @@ extension ComputeOptimizerClientTypes {
 
         public init(
             savingsEstimationMode: ComputeOptimizerClientTypes.EBSSavingsEstimationMode? = nil
-        )
-        {
+        ) {
             self.savingsEstimationMode = savingsEstimationMode
         }
     }
@@ -3930,8 +4186,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -3996,8 +4251,7 @@ extension ComputeOptimizerClientTypes {
             name: ComputeOptimizerClientTypes.EBSMetricName? = nil,
             statistic: ComputeOptimizerClientTypes.MetricStatistic? = nil,
             value: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.name = name
             self.statistic = statistic
             self.value = value
@@ -4017,8 +4271,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             currency: ComputeOptimizerClientTypes.Currency? = nil,
             value: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.currency = currency
             self.value = value
         }
@@ -4037,8 +4290,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             estimatedMonthlySavings: ComputeOptimizerClientTypes.EBSEstimatedMonthlySavings? = nil,
             savingsOpportunityPercentage: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.estimatedMonthlySavings = estimatedMonthlySavings
             self.savingsOpportunityPercentage = savingsOpportunityPercentage
         }
@@ -4066,8 +4318,7 @@ extension ComputeOptimizerClientTypes {
             rank: Swift.Int = 0,
             savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil,
             savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.EBSSavingsOpportunityAfterDiscounts? = nil
-        )
-        {
+        ) {
             self.configuration = configuration
             self.performanceRisk = performanceRisk
             self.rank = rank
@@ -4120,8 +4371,7 @@ extension ComputeOptimizerClientTypes {
             utilizationMetrics: [ComputeOptimizerClientTypes.EBSUtilizationMetric]? = nil,
             volumeArn: Swift.String? = nil,
             volumeRecommendationOptions: [ComputeOptimizerClientTypes.VolumeRecommendationOption]? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.currentConfiguration = currentConfiguration
             self.currentPerformanceRisk = currentPerformanceRisk
@@ -4149,8 +4399,7 @@ public struct GetEBSVolumeRecommendationsOutput: Swift.Sendable {
         errors: [ComputeOptimizerClientTypes.GetRecommendationError]? = nil,
         nextToken: Swift.String? = nil,
         volumeRecommendations: [ComputeOptimizerClientTypes.VolumeRecommendation]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.nextToken = nextToken
         self.volumeRecommendations = volumeRecommendations
@@ -4178,8 +4427,7 @@ public struct GetEC2InstanceRecommendationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.filters = filters
         self.instanceArns = instanceArns
@@ -4254,8 +4502,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             statusCode: ComputeOptimizerClientTypes.ExternalMetricStatusCode? = nil,
             statusReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.statusCode = statusCode
             self.statusReason = statusReason
         }
@@ -4468,8 +4715,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             currency: ComputeOptimizerClientTypes.Currency? = nil,
             value: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.currency = currency
             self.value = value
         }
@@ -4488,8 +4734,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             estimatedMonthlySavings: ComputeOptimizerClientTypes.InstanceEstimatedMonthlySavings? = nil,
             savingsOpportunityPercentage: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.estimatedMonthlySavings = estimatedMonthlySavings
             self.savingsOpportunityPercentage = savingsOpportunityPercentage
         }
@@ -4541,8 +4786,7 @@ extension ComputeOptimizerClientTypes {
             rank: Swift.Int = 0,
             savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil,
             savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.InstanceSavingsOpportunityAfterDiscounts? = nil
-        )
-        {
+        ) {
             self.instanceGpuInfo = instanceGpuInfo
             self.instanceType = instanceType
             self.migrationEffort = migrationEffort
@@ -4615,8 +4859,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             recommendationSourceArn: Swift.String? = nil,
             recommendationSourceType: ComputeOptimizerClientTypes.RecommendationSourceType? = nil
-        )
-        {
+        ) {
             self.recommendationSourceArn = recommendationSourceArn
             self.recommendationSourceType = recommendationSourceType
         }
@@ -4748,8 +4991,7 @@ extension ComputeOptimizerClientTypes {
             recommendationSources: [ComputeOptimizerClientTypes.RecommendationSource]? = nil,
             tags: [ComputeOptimizerClientTypes.Tag]? = nil,
             utilizationMetrics: [ComputeOptimizerClientTypes.UtilizationMetric]? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.currentInstanceGpuInfo = currentInstanceGpuInfo
             self.currentInstanceType = currentInstanceType
@@ -4785,8 +5027,7 @@ public struct GetEC2InstanceRecommendationsOutput: Swift.Sendable {
         errors: [ComputeOptimizerClientTypes.GetRecommendationError]? = nil,
         instanceRecommendations: [ComputeOptimizerClientTypes.InstanceRecommendation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.instanceRecommendations = instanceRecommendations
         self.nextToken = nextToken
@@ -4819,8 +5060,7 @@ public struct GetEC2RecommendationProjectedMetricsInput: Swift.Sendable {
         recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences? = nil,
         startTime: Foundation.Date? = nil,
         stat: ComputeOptimizerClientTypes.MetricStatistic? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.instanceArn = instanceArn
         self.period = period
@@ -4853,8 +5093,7 @@ extension ComputeOptimizerClientTypes {
             name: ComputeOptimizerClientTypes.MetricName? = nil,
             timestamps: [Foundation.Date]? = nil,
             values: [Swift.Double]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.timestamps = timestamps
             self.values = values
@@ -4877,8 +5116,7 @@ extension ComputeOptimizerClientTypes {
             projectedMetrics: [ComputeOptimizerClientTypes.ProjectedMetric]? = nil,
             rank: Swift.Int = 0,
             recommendedInstanceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.projectedMetrics = projectedMetrics
             self.rank = rank
             self.recommendedInstanceType = recommendedInstanceType
@@ -4892,8 +5130,7 @@ public struct GetEC2RecommendationProjectedMetricsOutput: Swift.Sendable {
 
     public init(
         recommendedOptionProjectedMetrics: [ComputeOptimizerClientTypes.RecommendedOptionProjectedMetric]? = nil
-    )
-    {
+    ) {
         self.recommendedOptionProjectedMetrics = recommendedOptionProjectedMetrics
     }
 }
@@ -4921,8 +5158,7 @@ public struct GetECSServiceRecommendationProjectedMetricsInput: Swift.Sendable {
         serviceArn: Swift.String? = nil,
         startTime: Foundation.Date? = nil,
         stat: ComputeOptimizerClientTypes.MetricStatistic? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.period = period
         self.serviceArn = serviceArn
@@ -4982,8 +5218,7 @@ extension ComputeOptimizerClientTypes {
             name: ComputeOptimizerClientTypes.ECSServiceMetricName? = nil,
             timestamps: [Foundation.Date]? = nil,
             upperBoundValues: [Swift.Double]? = nil
-        )
-        {
+        ) {
             self.lowerBoundValues = lowerBoundValues
             self.name = name
             self.timestamps = timestamps
@@ -5007,8 +5242,7 @@ extension ComputeOptimizerClientTypes {
             projectedMetrics: [ComputeOptimizerClientTypes.ECSServiceProjectedMetric]? = nil,
             recommendedCpuUnits: Swift.Int = 0,
             recommendedMemorySize: Swift.Int = 0
-        )
-        {
+        ) {
             self.projectedMetrics = projectedMetrics
             self.recommendedCpuUnits = recommendedCpuUnits
             self.recommendedMemorySize = recommendedMemorySize
@@ -5022,8 +5256,7 @@ public struct GetECSServiceRecommendationProjectedMetricsOutput: Swift.Sendable 
 
     public init(
         recommendedOptionProjectedMetrics: [ComputeOptimizerClientTypes.ECSServiceRecommendedOptionProjectedMetric]? = nil
-    )
-    {
+    ) {
         self.recommendedOptionProjectedMetrics = recommendedOptionProjectedMetrics
     }
 }
@@ -5046,8 +5279,7 @@ public struct GetECSServiceRecommendationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         serviceArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.filters = filters
         self.maxResults = maxResults
@@ -5068,8 +5300,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             memory: Swift.Int? = nil,
             memoryReservation: Swift.Int? = nil
-        )
-        {
+        ) {
             self.memory = memory
             self.memoryReservation = memoryReservation
         }
@@ -5091,8 +5322,7 @@ extension ComputeOptimizerClientTypes {
             containerName: Swift.String? = nil,
             cpu: Swift.Int? = nil,
             memorySizeConfiguration: ComputeOptimizerClientTypes.MemorySizeConfiguration? = nil
-        )
-        {
+        ) {
             self.containerName = containerName
             self.cpu = cpu
             self.memorySizeConfiguration = memorySizeConfiguration
@@ -5128,8 +5358,7 @@ extension ComputeOptimizerClientTypes {
             cpu: Swift.Int? = nil,
             memory: Swift.Int? = nil,
             taskDefinitionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.autoScalingConfiguration = autoScalingConfiguration
             self.containerConfigurations = containerConfigurations
             self.cpu = cpu
@@ -5180,8 +5409,7 @@ extension ComputeOptimizerClientTypes {
 
         public init(
             source: ComputeOptimizerClientTypes.ECSSavingsEstimationModeSource? = nil
-        )
-        {
+        ) {
             self.source = source
         }
     }
@@ -5196,8 +5424,7 @@ extension ComputeOptimizerClientTypes {
 
         public init(
             savingsEstimationMode: ComputeOptimizerClientTypes.ECSSavingsEstimationMode? = nil
-        )
-        {
+        ) {
             self.savingsEstimationMode = savingsEstimationMode
         }
     }
@@ -5314,8 +5541,7 @@ extension ComputeOptimizerClientTypes {
             containerName: Swift.String? = nil,
             cpu: Swift.Int? = nil,
             memorySizeConfiguration: ComputeOptimizerClientTypes.MemorySizeConfiguration? = nil
-        )
-        {
+        ) {
             self.containerName = containerName
             self.cpu = cpu
             self.memorySizeConfiguration = memorySizeConfiguration
@@ -5374,8 +5600,7 @@ extension ComputeOptimizerClientTypes {
             name: ComputeOptimizerClientTypes.ECSServiceMetricName? = nil,
             statistic: ComputeOptimizerClientTypes.ECSServiceMetricStatistic? = nil,
             upperBoundValue: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.lowerBoundValue = lowerBoundValue
             self.name = name
             self.statistic = statistic
@@ -5396,8 +5621,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             currency: ComputeOptimizerClientTypes.Currency? = nil,
             value: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.currency = currency
             self.value = value
         }
@@ -5416,8 +5640,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             estimatedMonthlySavings: ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings? = nil,
             savingsOpportunityPercentage: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.estimatedMonthlySavings = estimatedMonthlySavings
             self.savingsOpportunityPercentage = savingsOpportunityPercentage
         }
@@ -5448,8 +5671,7 @@ extension ComputeOptimizerClientTypes {
             projectedUtilizationMetrics: [ComputeOptimizerClientTypes.ECSServiceProjectedUtilizationMetric]? = nil,
             savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil,
             savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.ECSSavingsOpportunityAfterDiscounts? = nil
-        )
-        {
+        ) {
             self.containerRecommendations = containerRecommendations
             self.cpu = cpu
             self.memory = memory
@@ -5479,8 +5701,7 @@ extension ComputeOptimizerClientTypes {
             name: ComputeOptimizerClientTypes.ECSServiceMetricName? = nil,
             statistic: ComputeOptimizerClientTypes.ECSServiceMetricStatistic? = nil,
             value: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.name = name
             self.statistic = statistic
             self.value = value
@@ -5547,8 +5768,7 @@ extension ComputeOptimizerClientTypes {
             serviceRecommendationOptions: [ComputeOptimizerClientTypes.ECSServiceRecommendationOption]? = nil,
             tags: [ComputeOptimizerClientTypes.Tag]? = nil,
             utilizationMetrics: [ComputeOptimizerClientTypes.ECSServiceUtilizationMetric]? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.currentPerformanceRisk = currentPerformanceRisk
             self.currentServiceConfiguration = currentServiceConfiguration
@@ -5578,8 +5798,7 @@ public struct GetECSServiceRecommendationsOutput: Swift.Sendable {
         ecsServiceRecommendations: [ComputeOptimizerClientTypes.ECSServiceRecommendation]? = nil,
         errors: [ComputeOptimizerClientTypes.GetRecommendationError]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.ecsServiceRecommendations = ecsServiceRecommendations
         self.errors = errors
         self.nextToken = nextToken
@@ -5593,8 +5812,7 @@ public struct GetEffectiveRecommendationPreferencesInput: Swift.Sendable {
 
     public init(
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
     }
 }
@@ -5617,8 +5835,7 @@ public struct GetEffectiveRecommendationPreferencesOutput: Swift.Sendable {
         lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference? = nil,
         preferredResources: [ComputeOptimizerClientTypes.EffectivePreferredResource]? = nil,
         utilizationPreferences: [ComputeOptimizerClientTypes.UtilizationPreference]? = nil
-    )
-    {
+    ) {
         self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
         self.externalMetricsPreference = externalMetricsPreference
         self.lookBackPeriod = lookBackPeriod
@@ -5650,8 +5867,7 @@ public struct GetEnrollmentStatusOutput: Swift.Sendable {
         numberOfMemberAccountsOptedIn: Swift.Int? = nil,
         status: ComputeOptimizerClientTypes.Status? = nil,
         statusReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.lastUpdatedTimestamp = lastUpdatedTimestamp
         self.memberAccountsEnrolled = memberAccountsEnrolled
         self.numberOfMemberAccountsOptedIn = numberOfMemberAccountsOptedIn
@@ -5698,8 +5914,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             name: ComputeOptimizerClientTypes.EnrollmentFilterName? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -5718,8 +5933,7 @@ public struct GetEnrollmentStatusesForOrganizationInput: Swift.Sendable {
         filters: [ComputeOptimizerClientTypes.EnrollmentFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -5735,9 +5949,418 @@ public struct GetEnrollmentStatusesForOrganizationOutput: Swift.Sendable {
     public init(
         accountEnrollmentStatuses: [ComputeOptimizerClientTypes.AccountEnrollmentStatus]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountEnrollmentStatuses = accountEnrollmentStatuses
+        self.nextToken = nextToken
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+
+    public enum Dimension: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case savingsValue
+        case savingsValueAfterDiscount
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Dimension] {
+            return [
+                .savingsValue,
+                .savingsValueAfterDiscount
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .savingsValue: return "SavingsValue"
+            case .savingsValueAfterDiscount: return "SavingsValueAfterDiscount"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+
+    public enum Order: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case asc
+        case desc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Order] {
+            return [
+                .asc,
+                .desc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .asc: return "Asc"
+            case .desc: return "Desc"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+
+    /// Describes how the recommendations are ordered.
+    public struct OrderBy: Swift.Sendable {
+        /// The dimension values to sort the recommendations.
+        public var dimension: ComputeOptimizerClientTypes.Dimension?
+        /// The order to sort the recommendations.
+        public var order: ComputeOptimizerClientTypes.Order?
+
+        public init(
+            dimension: ComputeOptimizerClientTypes.Dimension? = nil,
+            order: ComputeOptimizerClientTypes.Order? = nil
+        ) {
+            self.dimension = dimension
+            self.order = order
+        }
+    }
+}
+
+public struct GetIdleRecommendationsInput: Swift.Sendable {
+    /// Return the idle resource recommendations to the specified Amazon Web Services account IDs. If your account is the management account or the delegated administrator of an organization, use this parameter to return the idle resource recommendations to specific member accounts. You can only specify one account ID per request.
+    public var accountIds: [Swift.String]?
+    /// An array of objects to specify a filter that returns a more specific list of idle resource recommendations.
+    public var filters: [ComputeOptimizerClientTypes.IdleRecommendationFilter]?
+    /// The maximum number of idle resource recommendations to return with a single request. To retrieve the remaining results, make another request with the returned nextToken value.
+    public var maxResults: Swift.Int?
+    /// The token to advance to the next page of idle resource recommendations.
+    public var nextToken: Swift.String?
+    /// The order to sort the idle resource recommendations.
+    public var orderBy: ComputeOptimizerClientTypes.OrderBy?
+    /// The ARN that identifies the idle resource.
+    public var resourceArns: [Swift.String]?
+
+    public init(
+        accountIds: [Swift.String]? = nil,
+        filters: [ComputeOptimizerClientTypes.IdleRecommendationFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        orderBy: ComputeOptimizerClientTypes.OrderBy? = nil,
+        resourceArns: [Swift.String]? = nil
+    ) {
+        self.accountIds = accountIds
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.orderBy = orderBy
+        self.resourceArns = resourceArns
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+
+    public enum IdleRecommendationResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case autoScalingGroup
+        case ebsVolume
+        case ec2Instance
+        case ecsService
+        case rdsDbInstance
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IdleRecommendationResourceType] {
+            return [
+                .autoScalingGroup,
+                .ebsVolume,
+                .ec2Instance,
+                .ecsService,
+                .rdsDbInstance
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .autoScalingGroup: return "AutoScalingGroup"
+            case .ebsVolume: return "EBSVolume"
+            case .ec2Instance: return "EC2Instance"
+            case .ecsService: return "ECSService"
+            case .rdsDbInstance: return "RDSDBInstance"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+
+    /// Returns of list of resources that doesn't have idle recommendations.
+    public struct IdleRecommendationError: Swift.Sendable {
+        /// The error code.
+        public var code: Swift.String?
+        /// The ID of the error.
+        public var identifier: Swift.String?
+        /// The error message.
+        public var message: Swift.String?
+        /// The type of resource associated with the error.
+        public var resourceType: ComputeOptimizerClientTypes.IdleRecommendationResourceType?
+
+        public init(
+            code: Swift.String? = nil,
+            identifier: Swift.String? = nil,
+            message: Swift.String? = nil,
+            resourceType: ComputeOptimizerClientTypes.IdleRecommendationResourceType? = nil
+        ) {
+            self.code = code
+            self.identifier = identifier
+            self.message = message
+            self.resourceType = resourceType
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+
+    public enum IdleFinding: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case idle
+        case unattached
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IdleFinding] {
+            return [
+                .idle,
+                .unattached
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .idle: return "Idle"
+            case .unattached: return "Unattached"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+
+    /// Describes the estimated monthly savings possible for idle resources by adopting Compute Optimizer recommendations.
+    public struct IdleEstimatedMonthlySavings: Swift.Sendable {
+        /// The currency of the estimated monthly savings.
+        public var currency: ComputeOptimizerClientTypes.Currency?
+        /// The value of the estimated monthly savings for Idle resources.
+        public var value: Swift.Double
+
+        public init(
+            currency: ComputeOptimizerClientTypes.Currency? = nil,
+            value: Swift.Double = 0.0
+        ) {
+            self.currency = currency
+            self.value = value
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+
+    /// Describes the savings opportunity for idle resource recommendations.
+    public struct IdleSavingsOpportunity: Swift.Sendable {
+        /// The estimated monthly savings possible by adopting Compute Optimizer's idle resource recommendations.
+        public var estimatedMonthlySavings: ComputeOptimizerClientTypes.IdleEstimatedMonthlySavings?
+        /// The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer's idle resource recommendations.
+        public var savingsOpportunityPercentage: Swift.Double
+
+        public init(
+            estimatedMonthlySavings: ComputeOptimizerClientTypes.IdleEstimatedMonthlySavings? = nil,
+            savingsOpportunityPercentage: Swift.Double = 0.0
+        ) {
+            self.estimatedMonthlySavings = estimatedMonthlySavings
+            self.savingsOpportunityPercentage = savingsOpportunityPercentage
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+
+    /// Describes the savings opportunity for idle resource recommendations after applying discounts. Savings opportunity represents the estimated monthly savings after applying discounts. You can achieve this by implementing a given Compute Optimizer recommendation.
+    public struct IdleSavingsOpportunityAfterDiscounts: Swift.Sendable {
+        /// The estimated monthly savings possible by adopting Compute Optimizer's idle resource recommendations. This includes any applicable discounts.
+        public var estimatedMonthlySavings: ComputeOptimizerClientTypes.IdleEstimatedMonthlySavings?
+        /// The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer's idle resource recommendations. This includes any applicable discounts.
+        public var savingsOpportunityPercentage: Swift.Double
+
+        public init(
+            estimatedMonthlySavings: ComputeOptimizerClientTypes.IdleEstimatedMonthlySavings? = nil,
+            savingsOpportunityPercentage: Swift.Double = 0.0
+        ) {
+            self.estimatedMonthlySavings = estimatedMonthlySavings
+            self.savingsOpportunityPercentage = savingsOpportunityPercentage
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+
+    public enum IdleMetricName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cpu
+        case databaseConnections
+        case ebsVolumeReadIops
+        case ebsVolumeWriteIops
+        case memory
+        case networkInBytesPerSecond
+        case networkOutBytesPerSecond
+        case volumeReadOpsPerSecond
+        case volumeWriteOpsPerSecond
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IdleMetricName] {
+            return [
+                .cpu,
+                .databaseConnections,
+                .ebsVolumeReadIops,
+                .ebsVolumeWriteIops,
+                .memory,
+                .networkInBytesPerSecond,
+                .networkOutBytesPerSecond,
+                .volumeReadOpsPerSecond,
+                .volumeWriteOpsPerSecond
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cpu: return "CPU"
+            case .databaseConnections: return "DatabaseConnections"
+            case .ebsVolumeReadIops: return "EBSVolumeReadIOPS"
+            case .ebsVolumeWriteIops: return "EBSVolumeWriteIOPS"
+            case .memory: return "Memory"
+            case .networkInBytesPerSecond: return "NetworkInBytesPerSecond"
+            case .networkOutBytesPerSecond: return "NetworkOutBytesPerSecond"
+            case .volumeReadOpsPerSecond: return "VolumeReadOpsPerSecond"
+            case .volumeWriteOpsPerSecond: return "VolumeWriteOpsPerSecond"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+
+    /// Describes the utilization metric of an idle resource.
+    public struct IdleUtilizationMetric: Swift.Sendable {
+        /// The name of the utilization metric.
+        public var name: ComputeOptimizerClientTypes.IdleMetricName?
+        /// The statistic of the utilization metric. The Compute Optimizer API, Command Line Interface (CLI), and SDKs return utilization metrics using only the Maximum statistic, which is the highest value observed during the specified period. The Compute Optimizer console displays graphs for some utilization metrics using the Average statistic, which is the value of Sum / SampleCount during the specified period. For more information, see [Viewing resource recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/viewing-recommendations.html) in the Compute Optimizer User Guide. You can also get averaged utilization metric data for your resources using Amazon CloudWatch. For more information, see the [Amazon CloudWatch User Guide](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html).
+        public var statistic: ComputeOptimizerClientTypes.MetricStatistic?
+        /// The value of the utilization metric.
+        public var value: Swift.Double
+
+        public init(
+            name: ComputeOptimizerClientTypes.IdleMetricName? = nil,
+            statistic: ComputeOptimizerClientTypes.MetricStatistic? = nil,
+            value: Swift.Double = 0.0
+        ) {
+            self.name = name
+            self.statistic = statistic
+            self.value = value
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+
+    /// Describes an Idle resource recommendation.
+    public struct IdleRecommendation: Swift.Sendable {
+        /// The Amazon Web Services account ID of the idle resource.
+        public var accountId: Swift.String?
+        /// The finding classification of an idle resource.
+        public var finding: ComputeOptimizerClientTypes.IdleFinding?
+        /// A summary of the findings for the resource.
+        public var findingDescription: Swift.String?
+        /// The timestamp of when the idle resource recommendation was last generated.
+        public var lastRefreshTimestamp: Foundation.Date?
+        /// The number of days the idle resource utilization metrics were analyzed.
+        public var lookBackPeriodInDays: Swift.Double
+        /// The ARN of the current idle resource.
+        public var resourceArn: Swift.String?
+        /// The unique identifier for the resource.
+        public var resourceId: Swift.String?
+        /// The type of resource that is idle.
+        public var resourceType: ComputeOptimizerClientTypes.IdleRecommendationResourceType?
+        /// The savings opportunity for the idle resource.
+        public var savingsOpportunity: ComputeOptimizerClientTypes.IdleSavingsOpportunity?
+        /// The savings opportunity for the idle resource after any applying discounts.
+        public var savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.IdleSavingsOpportunityAfterDiscounts?
+        /// A list of tags assigned to your idle resource recommendations.
+        public var tags: [ComputeOptimizerClientTypes.Tag]?
+        /// An array of objects that describe the utilization metrics of the idle resource.
+        public var utilizationMetrics: [ComputeOptimizerClientTypes.IdleUtilizationMetric]?
+
+        public init(
+            accountId: Swift.String? = nil,
+            finding: ComputeOptimizerClientTypes.IdleFinding? = nil,
+            findingDescription: Swift.String? = nil,
+            lastRefreshTimestamp: Foundation.Date? = nil,
+            lookBackPeriodInDays: Swift.Double = 0.0,
+            resourceArn: Swift.String? = nil,
+            resourceId: Swift.String? = nil,
+            resourceType: ComputeOptimizerClientTypes.IdleRecommendationResourceType? = nil,
+            savingsOpportunity: ComputeOptimizerClientTypes.IdleSavingsOpportunity? = nil,
+            savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.IdleSavingsOpportunityAfterDiscounts? = nil,
+            tags: [ComputeOptimizerClientTypes.Tag]? = nil,
+            utilizationMetrics: [ComputeOptimizerClientTypes.IdleUtilizationMetric]? = nil
+        ) {
+            self.accountId = accountId
+            self.finding = finding
+            self.findingDescription = findingDescription
+            self.lastRefreshTimestamp = lastRefreshTimestamp
+            self.lookBackPeriodInDays = lookBackPeriodInDays
+            self.resourceArn = resourceArn
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.savingsOpportunity = savingsOpportunity
+            self.savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscounts
+            self.tags = tags
+            self.utilizationMetrics = utilizationMetrics
+        }
+    }
+}
+
+public struct GetIdleRecommendationsOutput: Swift.Sendable {
+    /// An array of objects that describe errors of the request.
+    public var errors: [ComputeOptimizerClientTypes.IdleRecommendationError]?
+    /// An array of objects that describe the idle resource recommendations.
+    public var idleRecommendations: [ComputeOptimizerClientTypes.IdleRecommendation]?
+    /// The token to advance to the next page of idle resource recommendations.
+    public var nextToken: Swift.String?
+
+    public init(
+        errors: [ComputeOptimizerClientTypes.IdleRecommendationError]? = nil,
+        idleRecommendations: [ComputeOptimizerClientTypes.IdleRecommendation]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.errors = errors
+        self.idleRecommendations = idleRecommendations
         self.nextToken = nextToken
     }
 }
@@ -5760,8 +6383,7 @@ public struct GetLambdaFunctionRecommendationsInput: Swift.Sendable {
         functionArns: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.filters = filters
         self.functionArns = functionArns
@@ -5811,8 +6433,7 @@ extension ComputeOptimizerClientTypes {
 
         public init(
             source: ComputeOptimizerClientTypes.LambdaSavingsEstimationModeSource? = nil
-        )
-        {
+        ) {
             self.source = source
         }
     }
@@ -5827,8 +6448,7 @@ extension ComputeOptimizerClientTypes {
 
         public init(
             savingsEstimationMode: ComputeOptimizerClientTypes.LambdaSavingsEstimationMode? = nil
-        )
-        {
+        ) {
             self.savingsEstimationMode = savingsEstimationMode
         }
     }
@@ -5974,8 +6594,7 @@ extension ComputeOptimizerClientTypes {
             name: ComputeOptimizerClientTypes.LambdaFunctionMemoryMetricName? = nil,
             statistic: ComputeOptimizerClientTypes.LambdaFunctionMemoryMetricStatistic? = nil,
             value: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.name = name
             self.statistic = statistic
             self.value = value
@@ -5995,8 +6614,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             currency: ComputeOptimizerClientTypes.Currency? = nil,
             value: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.currency = currency
             self.value = value
         }
@@ -6015,8 +6633,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             estimatedMonthlySavings: ComputeOptimizerClientTypes.LambdaEstimatedMonthlySavings? = nil,
             savingsOpportunityPercentage: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.estimatedMonthlySavings = estimatedMonthlySavings
             self.savingsOpportunityPercentage = savingsOpportunityPercentage
         }
@@ -6044,8 +6661,7 @@ extension ComputeOptimizerClientTypes {
             rank: Swift.Int = 0,
             savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil,
             savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.LambdaSavingsOpportunityAfterDiscounts? = nil
-        )
-        {
+        ) {
             self.memorySize = memorySize
             self.projectedUtilizationMetrics = projectedUtilizationMetrics
             self.rank = rank
@@ -6132,8 +6748,7 @@ extension ComputeOptimizerClientTypes {
             name: ComputeOptimizerClientTypes.LambdaFunctionMetricName? = nil,
             statistic: ComputeOptimizerClientTypes.LambdaFunctionMetricStatistic? = nil,
             value: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.name = name
             self.statistic = statistic
             self.value = value
@@ -6203,8 +6818,7 @@ extension ComputeOptimizerClientTypes {
             numberOfInvocations: Swift.Int = 0,
             tags: [ComputeOptimizerClientTypes.Tag]? = nil,
             utilizationMetrics: [ComputeOptimizerClientTypes.LambdaFunctionUtilizationMetric]? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.currentMemorySize = currentMemorySize
             self.currentPerformanceRisk = currentPerformanceRisk
@@ -6232,8 +6846,7 @@ public struct GetLambdaFunctionRecommendationsOutput: Swift.Sendable {
     public init(
         lambdaFunctionRecommendations: [ComputeOptimizerClientTypes.LambdaFunctionRecommendation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.lambdaFunctionRecommendations = lambdaFunctionRecommendations
         self.nextToken = nextToken
     }
@@ -6257,8 +6870,7 @@ public struct GetLicenseRecommendationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.filters = filters
         self.maxResults = maxResults
@@ -6395,8 +7007,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             provider: ComputeOptimizerClientTypes.MetricSourceProvider? = nil,
             providerArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.provider = provider
             self.providerArn = providerArn
         }
@@ -6433,8 +7044,7 @@ extension ComputeOptimizerClientTypes {
             metricsSource: [ComputeOptimizerClientTypes.MetricSource]? = nil,
             numberOfCores: Swift.Int = 0,
             operatingSystem: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceType = instanceType
             self.licenseEdition = licenseEdition
             self.licenseModel = licenseModel
@@ -6535,8 +7145,7 @@ extension ComputeOptimizerClientTypes {
             operatingSystem: Swift.String? = nil,
             rank: Swift.Int = 0,
             savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil
-        )
-        {
+        ) {
             self.licenseEdition = licenseEdition
             self.licenseModel = licenseModel
             self.operatingSystem = operatingSystem
@@ -6593,8 +7202,7 @@ extension ComputeOptimizerClientTypes {
             lookbackPeriodInDays: Swift.Double = 0.0,
             resourceArn: Swift.String? = nil,
             tags: [ComputeOptimizerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.currentLicenseConfiguration = currentLicenseConfiguration
             self.finding = finding
@@ -6620,8 +7228,7 @@ public struct GetLicenseRecommendationsOutput: Swift.Sendable {
         errors: [ComputeOptimizerClientTypes.GetRecommendationError]? = nil,
         licenseRecommendations: [ComputeOptimizerClientTypes.LicenseRecommendation]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.licenseRecommendations = licenseRecommendations
         self.nextToken = nextToken
@@ -6654,8 +7261,7 @@ public struct GetRDSDatabaseRecommendationProjectedMetricsInput: Swift.Sendable 
         resourceArn: Swift.String? = nil,
         startTime: Foundation.Date? = nil,
         stat: ComputeOptimizerClientTypes.MetricStatistic? = nil
-    )
-    {
+    ) {
         self.endTime = endTime
         self.period = period
         self.recommendationPreferences = recommendationPreferences
@@ -6668,6 +7274,10 @@ public struct GetRDSDatabaseRecommendationProjectedMetricsInput: Swift.Sendable 
 extension ComputeOptimizerClientTypes {
 
     public enum RDSDBMetricName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auroraMemoryHealthState
+        case auroraMemoryNumDeclinedSql
+        case auroraMemoryNumKillConnTotal
+        case auroraMemoryNumKillQueryTotal
         case cpu
         case databaseConnections
         case ebsVolumeReadIops
@@ -6678,10 +7288,18 @@ extension ComputeOptimizerClientTypes {
         case memory
         case networkReceiveThroughput
         case networkTransmitThroughput
+        case readIopsEphemeralStorage
+        case storageNetworkReceiveThroughput
+        case storageNetworkTransmitThroughput
+        case writeIopsEphemeralStorage
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RDSDBMetricName] {
             return [
+                .auroraMemoryHealthState,
+                .auroraMemoryNumDeclinedSql,
+                .auroraMemoryNumKillConnTotal,
+                .auroraMemoryNumKillQueryTotal,
                 .cpu,
                 .databaseConnections,
                 .ebsVolumeReadIops,
@@ -6691,7 +7309,11 @@ extension ComputeOptimizerClientTypes {
                 .ebsVolumeWriteThroughput,
                 .memory,
                 .networkReceiveThroughput,
-                .networkTransmitThroughput
+                .networkTransmitThroughput,
+                .readIopsEphemeralStorage,
+                .storageNetworkReceiveThroughput,
+                .storageNetworkTransmitThroughput,
+                .writeIopsEphemeralStorage
             ]
         }
 
@@ -6702,6 +7324,10 @@ extension ComputeOptimizerClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .auroraMemoryHealthState: return "AuroraMemoryHealthState"
+            case .auroraMemoryNumDeclinedSql: return "AuroraMemoryNumDeclinedSql"
+            case .auroraMemoryNumKillConnTotal: return "AuroraMemoryNumKillConnTotal"
+            case .auroraMemoryNumKillQueryTotal: return "AuroraMemoryNumKillQueryTotal"
             case .cpu: return "CPU"
             case .databaseConnections: return "DatabaseConnections"
             case .ebsVolumeReadIops: return "EBSVolumeReadIOPS"
@@ -6712,6 +7338,10 @@ extension ComputeOptimizerClientTypes {
             case .memory: return "Memory"
             case .networkReceiveThroughput: return "NetworkReceiveThroughput"
             case .networkTransmitThroughput: return "NetworkTransmitThroughput"
+            case .readIopsEphemeralStorage: return "ReadIOPSEphemeralStorage"
+            case .storageNetworkReceiveThroughput: return "StorageNetworkReceiveThroughput"
+            case .storageNetworkTransmitThroughput: return "StorageNetworkTransmitThroughput"
+            case .writeIopsEphemeralStorage: return "WriteIOPSEphemeralStorage"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6733,8 +7363,7 @@ extension ComputeOptimizerClientTypes {
             name: ComputeOptimizerClientTypes.RDSDBMetricName? = nil,
             timestamps: [Foundation.Date]? = nil,
             values: [Swift.Double]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.timestamps = timestamps
             self.values = values
@@ -6757,8 +7386,7 @@ extension ComputeOptimizerClientTypes {
             projectedMetrics: [ComputeOptimizerClientTypes.RDSDatabaseProjectedMetric]? = nil,
             rank: Swift.Int = 0,
             recommendedDBInstanceClass: Swift.String? = nil
-        )
-        {
+        ) {
             self.projectedMetrics = projectedMetrics
             self.rank = rank
             self.recommendedDBInstanceClass = recommendedDBInstanceClass
@@ -6772,8 +7400,7 @@ public struct GetRDSDatabaseRecommendationProjectedMetricsOutput: Swift.Sendable
 
     public init(
         recommendedOptionProjectedMetrics: [ComputeOptimizerClientTypes.RDSDatabaseRecommendedOptionProjectedMetric]? = nil
-    )
-    {
+    ) {
         self.recommendedOptionProjectedMetrics = recommendedOptionProjectedMetrics
     }
 }
@@ -6799,14 +7426,48 @@ public struct GetRDSDatabaseRecommendationsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences? = nil,
         resourceArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.recommendationPreferences = recommendationPreferences
         self.resourceArns = resourceArns
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+
+    public enum RDSCurrentInstancePerformanceRisk: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case veryLow
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RDSCurrentInstancePerformanceRisk] {
+            return [
+                .high,
+                .low,
+                .medium,
+                .veryLow
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "High"
+            case .low: return "Low"
+            case .medium: return "Medium"
+            case .veryLow: return "VeryLow"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -6831,8 +7492,7 @@ extension ComputeOptimizerClientTypes {
             maxAllocatedStorage: Swift.Int? = nil,
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil
-        )
-        {
+        ) {
             self.allocatedStorage = allocatedStorage
             self.iops = iops
             self.maxAllocatedStorage = maxAllocatedStorage
@@ -6883,8 +7543,7 @@ extension ComputeOptimizerClientTypes {
 
         public init(
             source: ComputeOptimizerClientTypes.RDSSavingsEstimationModeSource? = nil
-        )
-        {
+        ) {
             self.source = source
         }
     }
@@ -6908,8 +7567,7 @@ extension ComputeOptimizerClientTypes {
             enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics? = nil,
             lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference? = nil,
             savingsEstimationMode: ComputeOptimizerClientTypes.RDSSavingsEstimationMode? = nil
-        )
-        {
+        ) {
             self.cpuVendorArchitectures = cpuVendorArchitectures
             self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
             self.lookBackPeriod = lookBackPeriod
@@ -6984,9 +7642,14 @@ extension ComputeOptimizerClientTypes {
     public enum RDSInstanceFindingReasonCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cpuOverProvisioned
         case cpuUnderProvisioned
+        case dbClusterWriterUnderProvisioned
         case ebsIopsOverProvisioned
+        case ebsIopsUnderProvisioned
         case ebsThroughputOverProvisioned
         case ebsThroughputUnderProvisioned
+        case instanceStorageReadIopsUnderProvisioned
+        case instanceStorageWriteIopsUnderProvisioned
+        case memoryUnderProvisioned
         case networkBandwidthOverProvisioned
         case networkBandwidthUnderProvisioned
         case newEngineVersionAvailable
@@ -6997,9 +7660,14 @@ extension ComputeOptimizerClientTypes {
             return [
                 .cpuOverProvisioned,
                 .cpuUnderProvisioned,
+                .dbClusterWriterUnderProvisioned,
                 .ebsIopsOverProvisioned,
+                .ebsIopsUnderProvisioned,
                 .ebsThroughputOverProvisioned,
                 .ebsThroughputUnderProvisioned,
+                .instanceStorageReadIopsUnderProvisioned,
+                .instanceStorageWriteIopsUnderProvisioned,
+                .memoryUnderProvisioned,
                 .networkBandwidthOverProvisioned,
                 .networkBandwidthUnderProvisioned,
                 .newEngineVersionAvailable,
@@ -7016,9 +7684,14 @@ extension ComputeOptimizerClientTypes {
             switch self {
             case .cpuOverProvisioned: return "CPUOverprovisioned"
             case .cpuUnderProvisioned: return "CPUUnderprovisioned"
+            case .dbClusterWriterUnderProvisioned: return "DBClusterWriterUnderprovisioned"
             case .ebsIopsOverProvisioned: return "EBSIOPSOverprovisioned"
+            case .ebsIopsUnderProvisioned: return "EBSIOPSUnderprovisioned"
             case .ebsThroughputOverProvisioned: return "EBSThroughputOverprovisioned"
             case .ebsThroughputUnderProvisioned: return "EBSThroughputUnderprovisioned"
+            case .instanceStorageReadIopsUnderProvisioned: return "InstanceStorageReadIOPSUnderprovisioned"
+            case .instanceStorageWriteIopsUnderProvisioned: return "InstanceStorageWriteIOPSUnderprovisioned"
+            case .memoryUnderProvisioned: return "MemoryUnderprovisioned"
             case .networkBandwidthOverProvisioned: return "NetworkBandwidthOverprovisioned"
             case .networkBandwidthUnderProvisioned: return "NetworkBandwidthUnderprovisioned"
             case .newEngineVersionAvailable: return "NewEngineVersionAvailable"
@@ -7076,8 +7749,7 @@ extension ComputeOptimizerClientTypes {
             name: ComputeOptimizerClientTypes.RDSDBMetricName? = nil,
             statistic: ComputeOptimizerClientTypes.RDSDBMetricStatistic? = nil,
             value: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.name = name
             self.statistic = statistic
             self.value = value
@@ -7097,8 +7769,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             currency: ComputeOptimizerClientTypes.Currency? = nil,
             value: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.currency = currency
             self.value = value
         }
@@ -7117,8 +7788,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             estimatedMonthlySavings: ComputeOptimizerClientTypes.RDSInstanceEstimatedMonthlySavings? = nil,
             savingsOpportunityPercentage: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.estimatedMonthlySavings = estimatedMonthlySavings
             self.savingsOpportunityPercentage = savingsOpportunityPercentage
         }
@@ -7149,8 +7819,7 @@ extension ComputeOptimizerClientTypes {
             rank: Swift.Int = 0,
             savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil,
             savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.RDSInstanceSavingsOpportunityAfterDiscounts? = nil
-        )
-        {
+        ) {
             self.dbInstanceClass = dbInstanceClass
             self.performanceRisk = performanceRisk
             self.projectedUtilizationMetrics = projectedUtilizationMetrics
@@ -7243,8 +7912,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             currency: ComputeOptimizerClientTypes.Currency? = nil,
             value: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.currency = currency
             self.value = value
         }
@@ -7263,8 +7931,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             estimatedMonthlySavings: ComputeOptimizerClientTypes.RDSStorageEstimatedMonthlySavings? = nil,
             savingsOpportunityPercentage: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.estimatedMonthlySavings = estimatedMonthlySavings
             self.savingsOpportunityPercentage = savingsOpportunityPercentage
         }
@@ -7289,8 +7956,7 @@ extension ComputeOptimizerClientTypes {
             savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil,
             savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.RDSStorageSavingsOpportunityAfterDiscounts? = nil,
             storageConfiguration: ComputeOptimizerClientTypes.DBStorageConfiguration? = nil
-        )
-        {
+        ) {
             self.rank = rank
             self.savingsOpportunity = savingsOpportunity
             self.savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscounts
@@ -7307,8 +7973,12 @@ extension ComputeOptimizerClientTypes {
         public var accountId: Swift.String?
         /// The DB instance class of the current RDS instance.
         public var currentDBInstanceClass: Swift.String?
+        /// The performance risk for the current DB instance.
+        public var currentInstancePerformanceRisk: ComputeOptimizerClientTypes.RDSCurrentInstancePerformanceRisk?
         /// The configuration of the current RDS storage.
         public var currentStorageConfiguration: ComputeOptimizerClientTypes.DBStorageConfiguration?
+        /// The identifier for DB cluster.
+        public var dbClusterIdentifier: Swift.String?
         /// Describes the effective recommendation preferences for Amazon RDS.
         public var effectiveRecommendationPreferences: ComputeOptimizerClientTypes.RDSEffectiveRecommendationPreferences?
         /// The engine of the RDS instance.
@@ -7333,6 +8003,8 @@ extension ComputeOptimizerClientTypes {
         public var lastRefreshTimestamp: Foundation.Date?
         /// The number of days the Amazon RDS utilization metrics were analyzed.
         public var lookbackPeriodInDays: Swift.Double
+        /// The promotion tier for the Aurora instance.
+        public var promotionTier: Swift.Int?
         /// The ARN of the current Amazon RDS. The following is the format of the ARN: arn:aws:rds:{region}:{accountId}:db:{resourceName}
         public var resourceArn: Swift.String?
         /// The finding classification of Amazon RDS storage. Findings for Amazon RDS instance include:
@@ -7355,7 +8027,9 @@ extension ComputeOptimizerClientTypes {
         public init(
             accountId: Swift.String? = nil,
             currentDBInstanceClass: Swift.String? = nil,
+            currentInstancePerformanceRisk: ComputeOptimizerClientTypes.RDSCurrentInstancePerformanceRisk? = nil,
             currentStorageConfiguration: ComputeOptimizerClientTypes.DBStorageConfiguration? = nil,
+            dbClusterIdentifier: Swift.String? = nil,
             effectiveRecommendationPreferences: ComputeOptimizerClientTypes.RDSEffectiveRecommendationPreferences? = nil,
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
@@ -7365,17 +8039,19 @@ extension ComputeOptimizerClientTypes {
             instanceRecommendationOptions: [ComputeOptimizerClientTypes.RDSDBInstanceRecommendationOption]? = nil,
             lastRefreshTimestamp: Foundation.Date? = nil,
             lookbackPeriodInDays: Swift.Double = 0.0,
+            promotionTier: Swift.Int? = nil,
             resourceArn: Swift.String? = nil,
             storageFinding: ComputeOptimizerClientTypes.RDSStorageFinding? = nil,
             storageFindingReasonCodes: [ComputeOptimizerClientTypes.RDSStorageFindingReasonCode]? = nil,
             storageRecommendationOptions: [ComputeOptimizerClientTypes.RDSDBStorageRecommendationOption]? = nil,
             tags: [ComputeOptimizerClientTypes.Tag]? = nil,
             utilizationMetrics: [ComputeOptimizerClientTypes.RDSDBUtilizationMetric]? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
             self.currentDBInstanceClass = currentDBInstanceClass
+            self.currentInstancePerformanceRisk = currentInstancePerformanceRisk
             self.currentStorageConfiguration = currentStorageConfiguration
+            self.dbClusterIdentifier = dbClusterIdentifier
             self.effectiveRecommendationPreferences = effectiveRecommendationPreferences
             self.engine = engine
             self.engineVersion = engineVersion
@@ -7385,6 +8061,7 @@ extension ComputeOptimizerClientTypes {
             self.instanceRecommendationOptions = instanceRecommendationOptions
             self.lastRefreshTimestamp = lastRefreshTimestamp
             self.lookbackPeriodInDays = lookbackPeriodInDays
+            self.promotionTier = promotionTier
             self.resourceArn = resourceArn
             self.storageFinding = storageFinding
             self.storageFindingReasonCodes = storageFindingReasonCodes
@@ -7407,8 +8084,7 @@ public struct GetRDSDatabaseRecommendationsOutput: Swift.Sendable {
         errors: [ComputeOptimizerClientTypes.GetRecommendationError]? = nil,
         nextToken: Swift.String? = nil,
         rdsDBRecommendations: [ComputeOptimizerClientTypes.RDSDBRecommendation]? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.nextToken = nextToken
         self.rdsDBRecommendations = rdsDBRecommendations
@@ -7431,8 +8107,7 @@ public struct GetRecommendationPreferencesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         resourceType: ComputeOptimizerClientTypes.ResourceType? = nil,
         scope: ComputeOptimizerClientTypes.Scope? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceType = resourceType
@@ -7502,8 +8177,7 @@ extension ComputeOptimizerClientTypes {
             savingsEstimationMode: ComputeOptimizerClientTypes.SavingsEstimationMode? = nil,
             scope: ComputeOptimizerClientTypes.Scope? = nil,
             utilizationPreferences: [ComputeOptimizerClientTypes.UtilizationPreference]? = nil
-        )
-        {
+        ) {
             self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
             self.externalMetricsPreference = externalMetricsPreference
             self.inferredWorkloadTypes = inferredWorkloadTypes
@@ -7526,8 +8200,7 @@ public struct GetRecommendationPreferencesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         recommendationPreferencesDetails: [ComputeOptimizerClientTypes.RecommendationPreferencesDetail]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.recommendationPreferencesDetails = recommendationPreferencesDetails
     }
@@ -7545,8 +8218,7 @@ public struct GetRecommendationSummariesInput: Swift.Sendable {
         accountIds: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.accountIds = accountIds
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7571,12 +8243,30 @@ extension ComputeOptimizerClientTypes {
             low: Swift.Int = 0,
             medium: Swift.Int = 0,
             veryLow: Swift.Int = 0
-        )
-        {
+        ) {
             self.high = high
             self.low = low
             self.medium = medium
             self.veryLow = veryLow
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+
+    /// Describes the findings summary of the idle resources.
+    public struct IdleSummary: Swift.Sendable {
+        /// The name of the finding group for the idle resources.
+        public var name: ComputeOptimizerClientTypes.IdleFinding?
+        /// The count of idle resources in the finding group.
+        public var value: Swift.Double
+
+        public init(
+            name: ComputeOptimizerClientTypes.IdleFinding? = nil,
+            value: Swift.Double = 0.0
+        ) {
+            self.name = name
+            self.value = value
         }
     }
 }
@@ -7611,8 +8301,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             estimatedMonthlySavings: ComputeOptimizerClientTypes.EstimatedMonthlySavings? = nil,
             inferredWorkloadTypes: [ComputeOptimizerClientTypes.InferredWorkloadType]? = nil
-        )
-        {
+        ) {
             self.estimatedMonthlySavings = estimatedMonthlySavings
             self.inferredWorkloadTypes = inferredWorkloadTypes
         }
@@ -7660,8 +8349,7 @@ extension ComputeOptimizerClientTypes {
         public init(
             name: ComputeOptimizerClientTypes.FindingReasonCode? = nil,
             value: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -7683,8 +8371,7 @@ extension ComputeOptimizerClientTypes {
             name: ComputeOptimizerClientTypes.Finding? = nil,
             reasonCodeSummaries: [ComputeOptimizerClientTypes.ReasonCodeSummary]? = nil,
             value: Swift.Double = 0.0
-        )
-        {
+        ) {
             self.name = name
             self.reasonCodeSummaries = reasonCodeSummaries
             self.value = value
@@ -7698,8 +8385,14 @@ extension ComputeOptimizerClientTypes {
     public struct RecommendationSummary: Swift.Sendable {
         /// The Amazon Web Services account ID of the recommendation summary.
         public var accountId: Swift.String?
+        /// Describes the savings opportunity for recommendations of a given resource type or for the recommendation option of an individual resource. Savings opportunity represents the estimated monthly savings you can achieve by implementing a given Compute Optimizer recommendation. Savings opportunity data requires that you opt in to Cost Explorer, as well as activate Receive Amazon EC2 resource recommendations in the Cost Explorer preferences page. That creates a connection between Cost Explorer and Compute Optimizer. With this connection, Cost Explorer generates savings estimates considering the price of existing resources, the price of recommended resources, and historical usage data. Estimated monthly savings reflects the projected dollar savings associated with each of the recommendations generated. For more information, see [Enabling Cost Explorer](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-enable.html) and [Optimizing your cost with Rightsizing Recommendations](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-rightsizing.html) in the Cost Management User Guide.
+        public var aggregatedSavingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity?
         /// An object that describes the performance risk ratings for a given resource type.
         public var currentPerformanceRiskRatings: ComputeOptimizerClientTypes.CurrentPerformanceRiskRatings?
+        /// Describes the savings opportunity for recommendations of a given resource type or for the recommendation option of an individual resource. Savings opportunity represents the estimated monthly savings you can achieve by implementing a given Compute Optimizer recommendation. Savings opportunity data requires that you opt in to Cost Explorer, as well as activate Receive Amazon EC2 resource recommendations in the Cost Explorer preferences page. That creates a connection between Cost Explorer and Compute Optimizer. With this connection, Cost Explorer generates savings estimates considering the price of existing resources, the price of recommended resources, and historical usage data. Estimated monthly savings reflects the projected dollar savings associated with each of the recommendations generated. For more information, see [Enabling Cost Explorer](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-enable.html) and [Optimizing your cost with Rightsizing Recommendations](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-rightsizing.html) in the Cost Management User Guide.
+        public var idleSavingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity?
+        /// Describes the findings summary of the idle resources.
+        public var idleSummaries: [ComputeOptimizerClientTypes.IdleSummary]?
         /// An array of objects that describes the estimated monthly saving amounts for the instances running on the specified inferredWorkloadTypes. The array contains the top five savings opportunites for the instances that run inferred workload types.
         public var inferredWorkloadSavings: [ComputeOptimizerClientTypes.InferredWorkloadSaving]?
         /// The resource type that the recommendation summary applies to.
@@ -7711,15 +8404,20 @@ extension ComputeOptimizerClientTypes {
 
         public init(
             accountId: Swift.String? = nil,
+            aggregatedSavingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil,
             currentPerformanceRiskRatings: ComputeOptimizerClientTypes.CurrentPerformanceRiskRatings? = nil,
+            idleSavingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil,
+            idleSummaries: [ComputeOptimizerClientTypes.IdleSummary]? = nil,
             inferredWorkloadSavings: [ComputeOptimizerClientTypes.InferredWorkloadSaving]? = nil,
             recommendationResourceType: ComputeOptimizerClientTypes.RecommendationSourceType? = nil,
             savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil,
             summaries: [ComputeOptimizerClientTypes.Summary]? = nil
-        )
-        {
+        ) {
             self.accountId = accountId
+            self.aggregatedSavingsOpportunity = aggregatedSavingsOpportunity
             self.currentPerformanceRiskRatings = currentPerformanceRiskRatings
+            self.idleSavingsOpportunity = idleSavingsOpportunity
+            self.idleSummaries = idleSummaries
             self.inferredWorkloadSavings = inferredWorkloadSavings
             self.recommendationResourceType = recommendationResourceType
             self.savingsOpportunity = savingsOpportunity
@@ -7737,8 +8435,7 @@ public struct GetRecommendationSummariesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         recommendationSummaries: [ComputeOptimizerClientTypes.RecommendationSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.recommendationSummaries = recommendationSummaries
     }
@@ -7763,8 +8460,7 @@ extension ComputeOptimizerClientTypes {
             excludeList: [Swift.String]? = nil,
             includeList: [Swift.String]? = nil,
             name: ComputeOptimizerClientTypes.PreferredResourceName? = nil
-        )
-        {
+        ) {
             self.excludeList = excludeList
             self.includeList = includeList
             self.name = name
@@ -7823,8 +8519,7 @@ public struct PutRecommendationPreferencesInput: Swift.Sendable {
         savingsEstimationMode: ComputeOptimizerClientTypes.SavingsEstimationMode? = nil,
         scope: ComputeOptimizerClientTypes.Scope? = nil,
         utilizationPreferences: [ComputeOptimizerClientTypes.UtilizationPreference]? = nil
-    )
-    {
+    ) {
         self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
         self.externalMetricsPreference = externalMetricsPreference
         self.inferredWorkloadTypes = inferredWorkloadTypes
@@ -7859,8 +8554,7 @@ public struct UpdateEnrollmentStatusInput: Swift.Sendable {
     public init(
         includeMemberAccounts: Swift.Bool? = false,
         status: ComputeOptimizerClientTypes.Status? = nil
-    )
-    {
+    ) {
         self.includeMemberAccounts = includeMemberAccounts
         self.status = status
     }
@@ -7875,8 +8569,7 @@ public struct UpdateEnrollmentStatusOutput: Swift.Sendable {
     public init(
         status: ComputeOptimizerClientTypes.Status? = nil,
         statusReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.status = status
         self.statusReason = statusReason
     }
@@ -7920,6 +8613,13 @@ extension ExportEC2InstanceRecommendationsInput {
 extension ExportECSServiceRecommendationsInput {
 
     static func urlPathProvider(_ value: ExportECSServiceRecommendationsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ExportIdleRecommendationsInput {
+
+    static func urlPathProvider(_ value: ExportIdleRecommendationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8004,6 +8704,13 @@ extension GetEnrollmentStatusInput {
 extension GetEnrollmentStatusesForOrganizationInput {
 
     static func urlPathProvider(_ value: GetEnrollmentStatusesForOrganizationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetIdleRecommendationsInput {
+
+    static func urlPathProvider(_ value: GetIdleRecommendationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8134,6 +8841,19 @@ extension ExportECSServiceRecommendationsInput {
         try writer["fieldsToExport"].writeList(value.fieldsToExport, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ComputeOptimizerClientTypes.ExportableECSServiceField>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["fileFormat"].write(value.fileFormat)
         try writer["filters"].writeList(value.filters, memberWritingClosure: ComputeOptimizerClientTypes.ECSServiceRecommendationFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["includeMemberAccounts"].write(value.includeMemberAccounts)
+        try writer["s3DestinationConfig"].write(value.s3DestinationConfig, with: ComputeOptimizerClientTypes.S3DestinationConfig.write(value:to:))
+    }
+}
+
+extension ExportIdleRecommendationsInput {
+
+    static func write(value: ExportIdleRecommendationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["fieldsToExport"].writeList(value.fieldsToExport, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ComputeOptimizerClientTypes.ExportableIdleField>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["fileFormat"].write(value.fileFormat)
+        try writer["filters"].writeList(value.filters, memberWritingClosure: ComputeOptimizerClientTypes.IdleRecommendationFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["includeMemberAccounts"].write(value.includeMemberAccounts)
         try writer["s3DestinationConfig"].write(value.s3DestinationConfig, with: ComputeOptimizerClientTypes.S3DestinationConfig.write(value:to:))
     }
@@ -8277,6 +8997,19 @@ extension GetEnrollmentStatusesForOrganizationInput {
         try writer["filters"].writeList(value.filters, memberWritingClosure: ComputeOptimizerClientTypes.EnrollmentFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension GetIdleRecommendationsInput {
+
+    static func write(value: GetIdleRecommendationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["filters"].writeList(value.filters, memberWritingClosure: ComputeOptimizerClientTypes.IdleRecommendationFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["orderBy"].write(value.orderBy, with: ComputeOptimizerClientTypes.OrderBy.write(value:to:))
+        try writer["resourceArns"].writeList(value.resourceArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -8448,6 +9181,19 @@ extension ExportECSServiceRecommendationsOutput {
     }
 }
 
+extension ExportIdleRecommendationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ExportIdleRecommendationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ExportIdleRecommendationsOutput()
+        value.jobId = try reader["jobId"].readIfPresent()
+        value.s3Destination = try reader["s3Destination"].readIfPresent(with: ComputeOptimizerClientTypes.S3Destination.read(from:))
+        return value
+    }
+}
+
 extension ExportLambdaFunctionRecommendationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ExportLambdaFunctionRecommendationsOutput {
@@ -8607,6 +9353,20 @@ extension GetEnrollmentStatusesForOrganizationOutput {
         let reader = responseReader
         var value = GetEnrollmentStatusesForOrganizationOutput()
         value.accountEnrollmentStatuses = try reader["accountEnrollmentStatuses"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.AccountEnrollmentStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension GetIdleRecommendationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetIdleRecommendationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetIdleRecommendationsOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.IdleRecommendationError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.idleRecommendations = try reader["idleRecommendations"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.IdleRecommendation.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -8817,6 +9577,27 @@ enum ExportEC2InstanceRecommendationsOutputError {
 }
 
 enum ExportECSServiceRecommendationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "MissingAuthenticationToken": return try MissingAuthenticationToken.makeError(baseError: baseError)
+            case "OptInRequiredException": return try OptInRequiredException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ExportIdleRecommendationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -9078,6 +9859,27 @@ enum GetEnrollmentStatusesForOrganizationOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MissingAuthenticationToken": return try MissingAuthenticationToken.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetIdleRecommendationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "MissingAuthenticationToken": return try MissingAuthenticationToken.makeError(baseError: baseError)
+            case "OptInRequiredException": return try OptInRequiredException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -9619,6 +10421,10 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupConfiguration {
         value.minSize = try reader["minSize"].readIfPresent() ?? 0
         value.maxSize = try reader["maxSize"].readIfPresent() ?? 0
         value.instanceType = try reader["instanceType"].readIfPresent()
+        value.allocationStrategy = try reader["allocationStrategy"].readIfPresent()
+        value.estimatedInstanceHourReductionPercentage = try reader["estimatedInstanceHourReductionPercentage"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.mixedInstanceTypes = try reader["mixedInstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -10055,6 +10861,85 @@ extension ComputeOptimizerClientTypes.AccountEnrollmentStatus {
     }
 }
 
+extension ComputeOptimizerClientTypes.IdleRecommendation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.IdleRecommendation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.IdleRecommendation()
+        value.resourceArn = try reader["resourceArn"].readIfPresent()
+        value.resourceId = try reader["resourceId"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.finding = try reader["finding"].readIfPresent()
+        value.findingDescription = try reader["findingDescription"].readIfPresent()
+        value.savingsOpportunity = try reader["savingsOpportunity"].readIfPresent(with: ComputeOptimizerClientTypes.IdleSavingsOpportunity.read(from:))
+        value.savingsOpportunityAfterDiscounts = try reader["savingsOpportunityAfterDiscounts"].readIfPresent(with: ComputeOptimizerClientTypes.IdleSavingsOpportunityAfterDiscounts.read(from:))
+        value.utilizationMetrics = try reader["utilizationMetrics"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.IdleUtilizationMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lookBackPeriodInDays = try reader["lookBackPeriodInDays"].readIfPresent() ?? 0
+        value.lastRefreshTimestamp = try reader["lastRefreshTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.IdleUtilizationMetric {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.IdleUtilizationMetric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.IdleUtilizationMetric()
+        value.name = try reader["name"].readIfPresent()
+        value.statistic = try reader["statistic"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.IdleSavingsOpportunityAfterDiscounts {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.IdleSavingsOpportunityAfterDiscounts {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.IdleSavingsOpportunityAfterDiscounts()
+        value.savingsOpportunityPercentage = try reader["savingsOpportunityPercentage"].readIfPresent() ?? 0
+        value.estimatedMonthlySavings = try reader["estimatedMonthlySavings"].readIfPresent(with: ComputeOptimizerClientTypes.IdleEstimatedMonthlySavings.read(from:))
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.IdleEstimatedMonthlySavings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.IdleEstimatedMonthlySavings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.IdleEstimatedMonthlySavings()
+        value.currency = try reader["currency"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.IdleSavingsOpportunity {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.IdleSavingsOpportunity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.IdleSavingsOpportunity()
+        value.savingsOpportunityPercentage = try reader["savingsOpportunityPercentage"].readIfPresent() ?? 0
+        value.estimatedMonthlySavings = try reader["estimatedMonthlySavings"].readIfPresent(with: ComputeOptimizerClientTypes.IdleEstimatedMonthlySavings.read(from:))
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.IdleRecommendationError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.IdleRecommendationError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.IdleRecommendationError()
+        value.identifier = try reader["identifier"].readIfPresent()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        return value
+    }
+}
+
 extension ComputeOptimizerClientTypes.LambdaFunctionRecommendation {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.LambdaFunctionRecommendation {
@@ -10251,12 +11136,15 @@ extension ComputeOptimizerClientTypes.RDSDBRecommendation {
         value.accountId = try reader["accountId"].readIfPresent()
         value.engine = try reader["engine"].readIfPresent()
         value.engineVersion = try reader["engineVersion"].readIfPresent()
+        value.promotionTier = try reader["promotionTier"].readIfPresent()
         value.currentDBInstanceClass = try reader["currentDBInstanceClass"].readIfPresent()
         value.currentStorageConfiguration = try reader["currentStorageConfiguration"].readIfPresent(with: ComputeOptimizerClientTypes.DBStorageConfiguration.read(from:))
+        value.dbClusterIdentifier = try reader["dbClusterIdentifier"].readIfPresent()
         value.idle = try reader["idle"].readIfPresent()
         value.instanceFinding = try reader["instanceFinding"].readIfPresent()
         value.storageFinding = try reader["storageFinding"].readIfPresent()
         value.instanceFindingReasonCodes = try reader["instanceFindingReasonCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ComputeOptimizerClientTypes.RDSInstanceFindingReasonCode>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.currentInstancePerformanceRisk = try reader["currentInstancePerformanceRisk"].readIfPresent()
         value.storageFindingReasonCodes = try reader["storageFindingReasonCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ComputeOptimizerClientTypes.RDSStorageFindingReasonCode>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.instanceRecommendationOptions = try reader["instanceRecommendationOptions"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.RDSDBInstanceRecommendationOption.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.storageRecommendationOptions = try reader["storageRecommendationOptions"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.RDSDBStorageRecommendationOption.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -10431,9 +11319,12 @@ extension ComputeOptimizerClientTypes.RecommendationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.RecommendationSummary()
         value.summaries = try reader["summaries"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.Summary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.idleSummaries = try reader["idleSummaries"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.IdleSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.recommendationResourceType = try reader["recommendationResourceType"].readIfPresent()
         value.accountId = try reader["accountId"].readIfPresent()
         value.savingsOpportunity = try reader["savingsOpportunity"].readIfPresent(with: ComputeOptimizerClientTypes.SavingsOpportunity.read(from:))
+        value.idleSavingsOpportunity = try reader["idleSavingsOpportunity"].readIfPresent(with: ComputeOptimizerClientTypes.SavingsOpportunity.read(from:))
+        value.aggregatedSavingsOpportunity = try reader["aggregatedSavingsOpportunity"].readIfPresent(with: ComputeOptimizerClientTypes.SavingsOpportunity.read(from:))
         value.currentPerformanceRiskRatings = try reader["currentPerformanceRiskRatings"].readIfPresent(with: ComputeOptimizerClientTypes.CurrentPerformanceRiskRatings.read(from:))
         value.inferredWorkloadSavings = try reader["inferredWorkloadSavings"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.InferredWorkloadSaving.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -10460,6 +11351,17 @@ extension ComputeOptimizerClientTypes.CurrentPerformanceRiskRatings {
         value.medium = try reader["medium"].readIfPresent() ?? 0
         value.low = try reader["low"].readIfPresent() ?? 0
         value.veryLow = try reader["veryLow"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.IdleSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.IdleSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.IdleSummary()
+        value.name = try reader["name"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? 0
         return value
     }
 }
@@ -10540,6 +11442,15 @@ extension ComputeOptimizerClientTypes.ECSServiceRecommendationFilter {
     }
 }
 
+extension ComputeOptimizerClientTypes.IdleRecommendationFilter {
+
+    static func write(value: ComputeOptimizerClientTypes.IdleRecommendationFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension ComputeOptimizerClientTypes.LambdaFunctionRecommendationFilter {
 
     static func write(value: ComputeOptimizerClientTypes.LambdaFunctionRecommendationFilter?, to writer: SmithyJSON.Writer) throws {
@@ -10573,6 +11484,15 @@ extension ComputeOptimizerClientTypes.EnrollmentFilter {
         guard let value else { return }
         try writer["name"].write(value.name)
         try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ComputeOptimizerClientTypes.OrderBy {
+
+    static func write(value: ComputeOptimizerClientTypes.OrderBy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dimension"].write(value.dimension)
+        try writer["order"].write(value.order)
     }
 }
 

@@ -62,12 +62,22 @@ public struct DeleteAppOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteClusterSchedulerConfigOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteCodeRepositoryOutput: Swift.Sendable {
 
     public init() { }
 }
 
 public struct DeleteCompilationJobOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteComputeQuotaOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -338,8 +348,7 @@ extension SageMakerClientTypes {
             sourceId: Swift.String? = nil,
             sourceType: Swift.String? = nil,
             sourceUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceId = sourceId
             self.sourceType = sourceType
             self.sourceUri = sourceUri
@@ -415,8 +424,7 @@ extension SageMakerClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             source: SageMakerClientTypes.ActionSource? = nil,
             status: SageMakerClientTypes.ActionStatus? = nil
-        )
-        {
+        ) {
             self.actionArn = actionArn
             self.actionName = actionName
             self.actionType = actionType
@@ -428,10 +436,39 @@ extension SageMakerClientTypes {
     }
 }
 
-/// You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
-public struct ResourceLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+extension SageMakerClientTypes {
 
-    public struct Properties {
+    public enum ActivationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ActivationState] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "Disabled"
+            case .enabled: return "Enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
+public struct ResourceLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -446,16 +483,15 @@ public struct ResourceLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntim
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
 
 /// Resource being access is not found.
-public struct ResourceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -470,8 +506,7 @@ public struct ResourceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -536,8 +571,7 @@ public struct AddAssociationInput: Swift.Sendable {
         associationType: SageMakerClientTypes.AssociationEdgeType? = nil,
         destinationArn: Swift.String? = nil,
         sourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationType = associationType
         self.destinationArn = destinationArn
         self.sourceArn = sourceArn
@@ -553,8 +587,7 @@ public struct AddAssociationOutput: Swift.Sendable {
     public init(
         destinationArn: Swift.String? = nil,
         sourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationArn = destinationArn
         self.sourceArn = sourceArn
     }
@@ -624,6 +657,8 @@ extension SageMakerClientTypes {
     public struct AdditionalS3DataSource: Swift.Sendable {
         /// The type of compression used for an additional data source used in inference or training. Specify None if your additional data source is not compressed.
         public var compressionType: SageMakerClientTypes.CompressionType?
+        /// The ETag associated with S3 URI.
+        public var eTag: Swift.String?
         /// The data type of the additional data source that you specify for use in inference or training.
         /// This member is required.
         public var s3DataType: SageMakerClientTypes.AdditionalS3DataSourceDataType?
@@ -633,11 +668,12 @@ extension SageMakerClientTypes {
 
         public init(
             compressionType: SageMakerClientTypes.CompressionType? = nil,
+            eTag: Swift.String? = nil,
             s3DataType: SageMakerClientTypes.AdditionalS3DataSourceDataType? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.compressionType = compressionType
+            self.eTag = eTag
             self.s3DataType = s3DataType
             self.s3Uri = s3Uri
         }
@@ -683,8 +719,7 @@ extension SageMakerClientTypes {
 
         public init(
             hubContentArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.hubContentArn = hubContentArn
         }
     }
@@ -704,8 +739,7 @@ extension SageMakerClientTypes {
 
         public init(
             acceptEula: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.acceptEula = acceptEula
         }
     }
@@ -770,8 +804,12 @@ extension SageMakerClientTypes {
         /// * Do not organize the model artifacts in [S3 console using folders](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-folders.html). When you create a folder in S3 console, S3 creates a 0-byte object with a key set to the folder name you provide. They key of the 0-byte object ends with a slash (/) which violates SageMaker restrictions on model artifact file names, leading to model deployment failure.
         /// This member is required.
         public var compressionType: SageMakerClientTypes.ModelCompressionType?
+        /// The ETag associated with S3 URI.
+        public var eTag: Swift.String?
         /// Configuration information for hub access.
         public var hubAccessConfig: SageMakerClientTypes.InferenceHubAccessConfig?
+        /// The ETag associated with Manifest S3 URI.
+        public var manifestEtag: Swift.String?
         /// The Amazon S3 URI of the manifest file. The manifest file is a CSV file that stores the artifact locations.
         public var manifestS3Uri: Swift.String?
         /// Specifies the access configuration file for the ML model. You can explicitly accept the model end-user license agreement (EULA) within the ModelAccessConfig. You are responsible for reviewing and complying with any applicable license terms and making sure they are acceptable for your use case before downloading or using a model.
@@ -785,15 +823,18 @@ extension SageMakerClientTypes {
 
         public init(
             compressionType: SageMakerClientTypes.ModelCompressionType? = nil,
+            eTag: Swift.String? = nil,
             hubAccessConfig: SageMakerClientTypes.InferenceHubAccessConfig? = nil,
+            manifestEtag: Swift.String? = nil,
             manifestS3Uri: Swift.String? = nil,
             modelAccessConfig: SageMakerClientTypes.ModelAccessConfig? = nil,
             s3DataType: SageMakerClientTypes.S3ModelDataType? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.compressionType = compressionType
+            self.eTag = eTag
             self.hubAccessConfig = hubAccessConfig
+            self.manifestEtag = manifestEtag
             self.manifestS3Uri = manifestS3Uri
             self.modelAccessConfig = modelAccessConfig
             self.s3DataType = s3DataType
@@ -811,8 +852,7 @@ extension SageMakerClientTypes {
 
         public init(
             s3DataSource: SageMakerClientTypes.S3ModelDataSource? = nil
-        )
-        {
+        ) {
             self.s3DataSource = s3DataSource
         }
     }
@@ -828,8 +868,7 @@ extension SageMakerClientTypes {
 
         public init(
             dataInputConfig: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataInputConfig = dataInputConfig
         }
     }
@@ -849,11 +888,13 @@ extension SageMakerClientTypes {
         public var framework: Swift.String?
         /// The framework version of the Model Package Container Image.
         public var frameworkVersion: Swift.String?
-        /// The Amazon EC2 Container Registry (Amazon ECR) path where inference code is stored. If you are using your own custom algorithm instead of an algorithm provided by SageMaker, the inference code must meet SageMaker requirements. SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see [Using Your Own Algorithms with Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html).
+        /// The Amazon Elastic Container Registry (Amazon ECR) path where inference code is stored. If you are using your own custom algorithm instead of an algorithm provided by SageMaker, the inference code must meet SageMaker requirements. SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see [Using Your Own Algorithms with Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html).
         /// This member is required.
         public var image: Swift.String?
         /// An MD5 hash of the training algorithm that identifies the Docker image used for training.
         public var imageDigest: Swift.String?
+        /// The ETag associated with Model Data URL.
+        public var modelDataETag: Swift.String?
         /// Specifies the location of ML model data to deploy during endpoint creation.
         public var modelDataSource: SageMakerClientTypes.ModelDataSource?
         /// The Amazon S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix). The model artifacts must be in an S3 bucket that is in the same region as the model package.
@@ -873,13 +914,13 @@ extension SageMakerClientTypes {
             frameworkVersion: Swift.String? = nil,
             image: Swift.String? = nil,
             imageDigest: Swift.String? = nil,
+            modelDataETag: Swift.String? = nil,
             modelDataSource: SageMakerClientTypes.ModelDataSource? = nil,
             modelDataUrl: Swift.String? = nil,
             modelInput: SageMakerClientTypes.ModelInput? = nil,
             nearestModelName: Swift.String? = nil,
             productId: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalS3DataSource = additionalS3DataSource
             self.containerHostname = containerHostname
             self.environment = environment
@@ -887,6 +928,7 @@ extension SageMakerClientTypes {
             self.frameworkVersion = frameworkVersion
             self.image = image
             self.imageDigest = imageDigest
+            self.modelDataETag = modelDataETag
             self.modelDataSource = modelDataSource
             self.modelDataUrl = modelDataUrl
             self.modelInput = modelInput
@@ -977,6 +1019,14 @@ extension SageMakerClientTypes {
         case mlG54xlarge
         case mlG58xlarge
         case mlG5Xlarge
+        case mlG6e12xlarge
+        case mlG6e16xlarge
+        case mlG6e24xlarge
+        case mlG6e2xlarge
+        case mlG6e48xlarge
+        case mlG6e4xlarge
+        case mlG6e8xlarge
+        case mlG6eXlarge
         case mlG612xlarge
         case mlG616xlarge
         case mlG624xlarge
@@ -1024,6 +1074,15 @@ extension SageMakerClientTypes {
         case mlM6g8xlarge
         case mlM6gLarge
         case mlM6gXlarge
+        case mlM6i12xlarge
+        case mlM6i16xlarge
+        case mlM6i24xlarge
+        case mlM6i2xlarge
+        case mlM6i32xlarge
+        case mlM6i4xlarge
+        case mlM6i8xlarge
+        case mlM6iLarge
+        case mlM6iXlarge
         case mlM7i12xlarge
         case mlM7i16xlarge
         case mlM7i24xlarge
@@ -1041,6 +1100,7 @@ extension SageMakerClientTypes {
         case mlP38xlarge
         case mlP4de24xlarge
         case mlP4d24xlarge
+        case mlP5e48xlarge
         case mlP548xlarge
         case mlR5d12xlarge
         case mlR5d24xlarge
@@ -1068,6 +1128,15 @@ extension SageMakerClientTypes {
         case mlR6g8xlarge
         case mlR6gLarge
         case mlR6gXlarge
+        case mlR6i12xlarge
+        case mlR6i16xlarge
+        case mlR6i24xlarge
+        case mlR6i2xlarge
+        case mlR6i32xlarge
+        case mlR6i4xlarge
+        case mlR6i8xlarge
+        case mlR6iLarge
+        case mlR6iXlarge
         case mlR7i12xlarge
         case mlR7i16xlarge
         case mlR7i24xlarge
@@ -1084,6 +1153,7 @@ extension SageMakerClientTypes {
         case mlTrn1n32xlarge
         case mlTrn12xlarge
         case mlTrn132xlarge
+        case mlTrn248xlarge
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ProductionVariantInstanceType] {
@@ -1166,6 +1236,14 @@ extension SageMakerClientTypes {
                 .mlG54xlarge,
                 .mlG58xlarge,
                 .mlG5Xlarge,
+                .mlG6e12xlarge,
+                .mlG6e16xlarge,
+                .mlG6e24xlarge,
+                .mlG6e2xlarge,
+                .mlG6e48xlarge,
+                .mlG6e4xlarge,
+                .mlG6e8xlarge,
+                .mlG6eXlarge,
                 .mlG612xlarge,
                 .mlG616xlarge,
                 .mlG624xlarge,
@@ -1213,6 +1291,15 @@ extension SageMakerClientTypes {
                 .mlM6g8xlarge,
                 .mlM6gLarge,
                 .mlM6gXlarge,
+                .mlM6i12xlarge,
+                .mlM6i16xlarge,
+                .mlM6i24xlarge,
+                .mlM6i2xlarge,
+                .mlM6i32xlarge,
+                .mlM6i4xlarge,
+                .mlM6i8xlarge,
+                .mlM6iLarge,
+                .mlM6iXlarge,
                 .mlM7i12xlarge,
                 .mlM7i16xlarge,
                 .mlM7i24xlarge,
@@ -1230,6 +1317,7 @@ extension SageMakerClientTypes {
                 .mlP38xlarge,
                 .mlP4de24xlarge,
                 .mlP4d24xlarge,
+                .mlP5e48xlarge,
                 .mlP548xlarge,
                 .mlR5d12xlarge,
                 .mlR5d24xlarge,
@@ -1257,6 +1345,15 @@ extension SageMakerClientTypes {
                 .mlR6g8xlarge,
                 .mlR6gLarge,
                 .mlR6gXlarge,
+                .mlR6i12xlarge,
+                .mlR6i16xlarge,
+                .mlR6i24xlarge,
+                .mlR6i2xlarge,
+                .mlR6i32xlarge,
+                .mlR6i4xlarge,
+                .mlR6i8xlarge,
+                .mlR6iLarge,
+                .mlR6iXlarge,
                 .mlR7i12xlarge,
                 .mlR7i16xlarge,
                 .mlR7i24xlarge,
@@ -1272,7 +1369,8 @@ extension SageMakerClientTypes {
                 .mlT2Xlarge,
                 .mlTrn1n32xlarge,
                 .mlTrn12xlarge,
-                .mlTrn132xlarge
+                .mlTrn132xlarge,
+                .mlTrn248xlarge
             ]
         }
 
@@ -1361,6 +1459,14 @@ extension SageMakerClientTypes {
             case .mlG54xlarge: return "ml.g5.4xlarge"
             case .mlG58xlarge: return "ml.g5.8xlarge"
             case .mlG5Xlarge: return "ml.g5.xlarge"
+            case .mlG6e12xlarge: return "ml.g6e.12xlarge"
+            case .mlG6e16xlarge: return "ml.g6e.16xlarge"
+            case .mlG6e24xlarge: return "ml.g6e.24xlarge"
+            case .mlG6e2xlarge: return "ml.g6e.2xlarge"
+            case .mlG6e48xlarge: return "ml.g6e.48xlarge"
+            case .mlG6e4xlarge: return "ml.g6e.4xlarge"
+            case .mlG6e8xlarge: return "ml.g6e.8xlarge"
+            case .mlG6eXlarge: return "ml.g6e.xlarge"
             case .mlG612xlarge: return "ml.g6.12xlarge"
             case .mlG616xlarge: return "ml.g6.16xlarge"
             case .mlG624xlarge: return "ml.g6.24xlarge"
@@ -1408,6 +1514,15 @@ extension SageMakerClientTypes {
             case .mlM6g8xlarge: return "ml.m6g.8xlarge"
             case .mlM6gLarge: return "ml.m6g.large"
             case .mlM6gXlarge: return "ml.m6g.xlarge"
+            case .mlM6i12xlarge: return "ml.m6i.12xlarge"
+            case .mlM6i16xlarge: return "ml.m6i.16xlarge"
+            case .mlM6i24xlarge: return "ml.m6i.24xlarge"
+            case .mlM6i2xlarge: return "ml.m6i.2xlarge"
+            case .mlM6i32xlarge: return "ml.m6i.32xlarge"
+            case .mlM6i4xlarge: return "ml.m6i.4xlarge"
+            case .mlM6i8xlarge: return "ml.m6i.8xlarge"
+            case .mlM6iLarge: return "ml.m6i.large"
+            case .mlM6iXlarge: return "ml.m6i.xlarge"
             case .mlM7i12xlarge: return "ml.m7i.12xlarge"
             case .mlM7i16xlarge: return "ml.m7i.16xlarge"
             case .mlM7i24xlarge: return "ml.m7i.24xlarge"
@@ -1425,6 +1540,7 @@ extension SageMakerClientTypes {
             case .mlP38xlarge: return "ml.p3.8xlarge"
             case .mlP4de24xlarge: return "ml.p4de.24xlarge"
             case .mlP4d24xlarge: return "ml.p4d.24xlarge"
+            case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
             case .mlR5d12xlarge: return "ml.r5d.12xlarge"
             case .mlR5d24xlarge: return "ml.r5d.24xlarge"
@@ -1452,6 +1568,15 @@ extension SageMakerClientTypes {
             case .mlR6g8xlarge: return "ml.r6g.8xlarge"
             case .mlR6gLarge: return "ml.r6g.large"
             case .mlR6gXlarge: return "ml.r6g.xlarge"
+            case .mlR6i12xlarge: return "ml.r6i.12xlarge"
+            case .mlR6i16xlarge: return "ml.r6i.16xlarge"
+            case .mlR6i24xlarge: return "ml.r6i.24xlarge"
+            case .mlR6i2xlarge: return "ml.r6i.2xlarge"
+            case .mlR6i32xlarge: return "ml.r6i.32xlarge"
+            case .mlR6i4xlarge: return "ml.r6i.4xlarge"
+            case .mlR6i8xlarge: return "ml.r6i.8xlarge"
+            case .mlR6iLarge: return "ml.r6i.large"
+            case .mlR6iXlarge: return "ml.r6i.xlarge"
             case .mlR7i12xlarge: return "ml.r7i.12xlarge"
             case .mlR7i16xlarge: return "ml.r7i.16xlarge"
             case .mlR7i24xlarge: return "ml.r7i.24xlarge"
@@ -1468,6 +1593,7 @@ extension SageMakerClientTypes {
             case .mlTrn1n32xlarge: return "ml.trn1n.32xlarge"
             case .mlTrn12xlarge: return "ml.trn1.2xlarge"
             case .mlTrn132xlarge: return "ml.trn1.32xlarge"
+            case .mlTrn248xlarge: return "ml.trn2.48xlarge"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1575,6 +1701,8 @@ extension SageMakerClientTypes {
         case mlR7i8xlarge
         case mlR7iLarge
         case mlR7iXlarge
+        case mlTrn12xlarge
+        case mlTrn132xlarge
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TransformInstanceType] {
@@ -1676,7 +1804,9 @@ extension SageMakerClientTypes {
                 .mlR7i4xlarge,
                 .mlR7i8xlarge,
                 .mlR7iLarge,
-                .mlR7iXlarge
+                .mlR7iXlarge,
+                .mlTrn12xlarge,
+                .mlTrn132xlarge
             ]
         }
 
@@ -1785,6 +1915,8 @@ extension SageMakerClientTypes {
             case .mlR7i8xlarge: return "ml.r7i.8xlarge"
             case .mlR7iLarge: return "ml.r7i.large"
             case .mlR7iXlarge: return "ml.r7i.xlarge"
+            case .mlTrn12xlarge: return "ml.trn1.2xlarge"
+            case .mlTrn132xlarge: return "ml.trn1.32xlarge"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1820,8 +1952,7 @@ extension SageMakerClientTypes {
             supportedRealtimeInferenceInstanceTypes: [SageMakerClientTypes.ProductionVariantInstanceType]? = nil,
             supportedResponseMIMETypes: [Swift.String]? = nil,
             supportedTransformInstanceTypes: [SageMakerClientTypes.TransformInstanceType]? = nil
-        )
-        {
+        ) {
             self.containers = containers
             self.description = description
             self.name = name
@@ -1847,8 +1978,7 @@ extension SageMakerClientTypes {
         public init(
             channelName: Swift.String? = nil,
             s3DataSource: SageMakerClientTypes.S3ModelDataSource? = nil
-        )
-        {
+        ) {
             self.channelName = channelName
             self.s3DataSource = s3DataSource
         }
@@ -1869,8 +1999,7 @@ extension SageMakerClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -1888,8 +2017,7 @@ public struct AddTagsInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tags = tags
     }
@@ -1901,8 +2029,7 @@ public struct AddTagsOutput: Swift.Sendable {
 
     public init(
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.tags = tags
     }
 }
@@ -1921,8 +2048,7 @@ extension SageMakerClientTypes {
         public init(
             agentCount: Swift.Int? = nil,
             version: Swift.String? = nil
-        )
-        {
+        ) {
             self.agentCount = agentCount
             self.version = version
         }
@@ -1976,8 +2102,7 @@ extension SageMakerClientTypes {
 
         public init(
             alarmName: Swift.String? = nil
-        )
-        {
+        ) {
             self.alarmName = alarmName
         }
     }
@@ -2026,8 +2151,7 @@ extension SageMakerClientTypes {
         public init(
             name: Swift.String? = nil,
             regex: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.regex = regex
         }
@@ -2073,8 +2197,7 @@ extension SageMakerClientTypes {
 
         public init(
             trainingRepositoryCredentialsProviderArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.trainingRepositoryCredentialsProviderArn = trainingRepositoryCredentialsProviderArn
         }
     }
@@ -2093,8 +2216,7 @@ extension SageMakerClientTypes {
         public init(
             trainingRepositoryAccessMode: SageMakerClientTypes.TrainingRepositoryAccessMode? = nil,
             trainingRepositoryAuthConfig: SageMakerClientTypes.TrainingRepositoryAuthConfig? = nil
-        )
-        {
+        ) {
             self.trainingRepositoryAccessMode = trainingRepositoryAccessMode
             self.trainingRepositoryAuthConfig = trainingRepositoryAuthConfig
         }
@@ -2136,7 +2258,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// Specifies the training algorithm to use in a [CreateTrainingJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html) request. For more information about algorithms provided by SageMaker, see [Algorithms](https://docs.aws.amazon.com/sagemaker/latest/dg/algos.html). For information about using your own algorithms, see [Using Your Own Algorithms with Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html).
+    /// Specifies the training algorithm to use in a [CreateTrainingJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html) request. SageMaker uses its own SageMaker account credentials to pull and access built-in algorithms so built-in algorithms are universally accessible across all Amazon Web Services accounts. As a result, built-in algorithms have standard, unrestricted access. You cannot restrict built-in algorithms using IAM roles. Use custom algorithms if you require specific access controls. For more information about algorithms provided by SageMaker, see [Algorithms](https://docs.aws.amazon.com/sagemaker/latest/dg/algos.html). For information about using your own algorithms, see [Using Your Own Algorithms with Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html).
     public struct AlgorithmSpecification: Swift.Sendable {
         /// The name of the algorithm resource to use for the training job. This must be an algorithm resource that you created or subscribe to on Amazon Web Services Marketplace. You must specify either the algorithm name to the AlgorithmName parameter or the image URI of the algorithm container to the TrainingImage parameter. Note that the AlgorithmName parameter is mutually exclusive with the TrainingImage parameter. If you specify a value for the AlgorithmName parameter, you can't specify a value for TrainingImage, and vice versa. If you specify values for both parameters, the training job might break; if you don't specify any value for both parameters, the training job might raise a null error.
         public var algorithmName: Swift.String?
@@ -2180,8 +2302,7 @@ extension SageMakerClientTypes {
             trainingImage: Swift.String? = nil,
             trainingImageConfig: SageMakerClientTypes.TrainingImageConfig? = nil,
             trainingInputMode: SageMakerClientTypes.TrainingInputMode? = nil
-        )
-        {
+        ) {
             self.algorithmName = algorithmName
             self.containerArguments = containerArguments
             self.containerEntrypoint = containerEntrypoint
@@ -2284,8 +2405,7 @@ extension SageMakerClientTypes {
             failureReason: Swift.String? = nil,
             name: Swift.String? = nil,
             status: SageMakerClientTypes.DetailedAlgorithmStatus? = nil
-        )
-        {
+        ) {
             self.failureReason = failureReason
             self.name = name
             self.status = status
@@ -2305,8 +2425,7 @@ extension SageMakerClientTypes {
         public init(
             imageScanStatuses: [SageMakerClientTypes.AlgorithmStatusItem]? = nil,
             validationStatuses: [SageMakerClientTypes.AlgorithmStatusItem]? = nil
-        )
-        {
+        ) {
             self.imageScanStatuses = imageScanStatuses
             self.validationStatuses = validationStatuses
         }
@@ -2338,8 +2457,7 @@ extension SageMakerClientTypes {
             algorithmName: Swift.String? = nil,
             algorithmStatus: SageMakerClientTypes.AlgorithmStatus? = nil,
             creationTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.algorithmArn = algorithmArn
             self.algorithmDescription = algorithmDescription
             self.algorithmName = algorithmName
@@ -2429,8 +2547,7 @@ extension SageMakerClientTypes {
             fileSystemAccessMode: SageMakerClientTypes.FileSystemAccessMode? = nil,
             fileSystemId: Swift.String? = nil,
             fileSystemType: SageMakerClientTypes.FileSystemType? = nil
-        )
-        {
+        ) {
             self.directoryPath = directoryPath
             self.fileSystemAccessMode = fileSystemAccessMode
             self.fileSystemId = fileSystemId
@@ -2530,8 +2647,7 @@ extension SageMakerClientTypes {
             s3DataDistributionType: SageMakerClientTypes.S3DataDistribution? = nil,
             s3DataType: SageMakerClientTypes.S3DataType? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.attributeNames = attributeNames
             self.instanceGroupNames = instanceGroupNames
             self.s3DataDistributionType = s3DataDistributionType
@@ -2553,8 +2669,7 @@ extension SageMakerClientTypes {
         public init(
             fileSystemDataSource: SageMakerClientTypes.FileSystemDataSource? = nil,
             s3DataSource: SageMakerClientTypes.S3DataSource? = nil
-        )
-        {
+        ) {
             self.fileSystemDataSource = fileSystemDataSource
             self.s3DataSource = s3DataSource
         }
@@ -2600,8 +2715,7 @@ extension SageMakerClientTypes {
 
         public init(
             seed: Swift.Int? = nil
-        )
-        {
+        ) {
             self.seed = seed
         }
     }
@@ -2636,8 +2750,7 @@ extension SageMakerClientTypes {
             inputMode: SageMakerClientTypes.TrainingInputMode? = nil,
             recordWrapperType: SageMakerClientTypes.RecordWrapper? = nil,
             shuffleConfig: SageMakerClientTypes.ShuffleConfig? = nil
-        )
-        {
+        ) {
             self.channelName = channelName
             self.compressionType = compressionType
             self.contentType = contentType
@@ -2705,8 +2818,7 @@ extension SageMakerClientTypes {
             compressionType: SageMakerClientTypes.OutputCompressionType? = nil,
             kmsKeyId: Swift.String? = nil,
             s3OutputPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.compressionType = compressionType
             self.kmsKeyId = kmsKeyId
             self.s3OutputPath = s3OutputPath
@@ -2798,6 +2910,7 @@ extension SageMakerClientTypes {
         case mlP38xlarge
         case mlP4de24xlarge
         case mlP4d24xlarge
+        case mlP5en48xlarge
         case mlP5e48xlarge
         case mlP548xlarge
         case mlR5d12xlarge
@@ -2823,6 +2936,7 @@ extension SageMakerClientTypes {
         case mlTrn1n32xlarge
         case mlTrn12xlarge
         case mlTrn132xlarge
+        case mlTrn248xlarge
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TrainingInstanceType] {
@@ -2908,6 +3022,7 @@ extension SageMakerClientTypes {
                 .mlP38xlarge,
                 .mlP4de24xlarge,
                 .mlP4d24xlarge,
+                .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
                 .mlR5d12xlarge,
@@ -2932,7 +3047,8 @@ extension SageMakerClientTypes {
                 .mlT3Xlarge,
                 .mlTrn1n32xlarge,
                 .mlTrn12xlarge,
-                .mlTrn132xlarge
+                .mlTrn132xlarge,
+                .mlTrn248xlarge
             ]
         }
 
@@ -3024,6 +3140,7 @@ extension SageMakerClientTypes {
             case .mlP38xlarge: return "ml.p3.8xlarge"
             case .mlP4de24xlarge: return "ml.p4de.24xlarge"
             case .mlP4d24xlarge: return "ml.p4d.24xlarge"
+            case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
             case .mlR5d12xlarge: return "ml.r5d.12xlarge"
@@ -3049,6 +3166,7 @@ extension SageMakerClientTypes {
             case .mlTrn1n32xlarge: return "ml.trn1n.32xlarge"
             case .mlTrn12xlarge: return "ml.trn1.2xlarge"
             case .mlTrn132xlarge: return "ml.trn1.32xlarge"
+            case .mlTrn248xlarge: return "ml.trn2.48xlarge"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3073,8 +3191,7 @@ extension SageMakerClientTypes {
             instanceCount: Swift.Int? = nil,
             instanceGroupName: Swift.String? = nil,
             instanceType: SageMakerClientTypes.TrainingInstanceType? = nil
-        )
-        {
+        ) {
             self.instanceCount = instanceCount
             self.instanceGroupName = instanceGroupName
             self.instanceType = instanceType
@@ -3101,6 +3218,8 @@ extension SageMakerClientTypes {
         public var instanceType: SageMakerClientTypes.TrainingInstanceType?
         /// The duration of time in seconds to retain configured resources in a warm pool for subsequent training jobs.
         public var keepAlivePeriodInSeconds: Swift.Int?
+        /// The Amazon Resource Name (ARN); of the training plan to use for this resource configuration.
+        public var trainingPlanArn: Swift.String?
         /// The Amazon Web Services KMS key that SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the training job. Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. You can't request a VolumeKmsKeyId when using an instance type with local storage. For a list of instance types that support local instance storage, see [Instance Store Volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html#instance-store-volumes). For more information about local instance storage encryption, see [SSD Instance Store Volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ssd-instance-store.html). The VolumeKmsKeyId can be in any of the following formats:
         ///
         /// * // KMS Key ID "1234abcd-12ab-34cd-56ef-1234567890ab"
@@ -3116,14 +3235,15 @@ extension SageMakerClientTypes {
             instanceGroups: [SageMakerClientTypes.InstanceGroup]? = nil,
             instanceType: SageMakerClientTypes.TrainingInstanceType? = nil,
             keepAlivePeriodInSeconds: Swift.Int? = nil,
+            trainingPlanArn: Swift.String? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             volumeSizeInGB: Swift.Int? = nil
-        )
-        {
+        ) {
             self.instanceCount = instanceCount
             self.instanceGroups = instanceGroups
             self.instanceType = instanceType
             self.keepAlivePeriodInSeconds = keepAlivePeriodInSeconds
+            self.trainingPlanArn = trainingPlanArn
             self.volumeKmsKeyId = volumeKmsKeyId
             self.volumeSizeInGB = volumeSizeInGB
         }
@@ -3145,8 +3265,7 @@ extension SageMakerClientTypes {
             maxPendingTimeInSeconds: Swift.Int? = nil,
             maxRuntimeInSeconds: Swift.Int? = nil,
             maxWaitTimeInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxPendingTimeInSeconds = maxPendingTimeInSeconds
             self.maxRuntimeInSeconds = maxRuntimeInSeconds
             self.maxWaitTimeInSeconds = maxWaitTimeInSeconds
@@ -3183,8 +3302,7 @@ extension SageMakerClientTypes {
             resourceConfig: SageMakerClientTypes.ResourceConfig? = nil,
             stoppingCondition: SageMakerClientTypes.StoppingCondition? = nil,
             trainingInputMode: SageMakerClientTypes.TrainingInputMode? = nil
-        )
-        {
+        ) {
             self.hyperParameters = hyperParameters
             self.inputDataConfig = inputDataConfig
             self.outputDataConfig = outputDataConfig
@@ -3242,8 +3360,7 @@ extension SageMakerClientTypes {
         public init(
             s3DataType: SageMakerClientTypes.S3DataType? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3DataType = s3DataType
             self.s3Uri = s3Uri
         }
@@ -3260,8 +3377,7 @@ extension SageMakerClientTypes {
 
         public init(
             s3DataSource: SageMakerClientTypes.TransformS3DataSource? = nil
-        )
-        {
+        ) {
             self.s3DataSource = s3DataSource
         }
     }
@@ -3328,8 +3444,7 @@ extension SageMakerClientTypes {
             contentType: Swift.String? = nil,
             dataSource: SageMakerClientTypes.TransformDataSource? = nil,
             splitType: SageMakerClientTypes.SplitType? = nil
-        )
-        {
+        ) {
             self.compressionType = compressionType
             self.contentType = contentType
             self.dataSource = dataSource
@@ -3397,8 +3512,7 @@ extension SageMakerClientTypes {
             assembleWith: SageMakerClientTypes.AssemblyType? = nil,
             kmsKeyId: Swift.String? = nil,
             s3OutputPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.accept = accept
             self.assembleWith = assembleWith
             self.kmsKeyId = kmsKeyId
@@ -3432,8 +3546,7 @@ extension SageMakerClientTypes {
             instanceCount: Swift.Int? = nil,
             instanceType: SageMakerClientTypes.TransformInstanceType? = nil,
             volumeKmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceCount = instanceCount
             self.instanceType = instanceType
             self.volumeKmsKeyId = volumeKmsKeyId
@@ -3471,8 +3584,7 @@ extension SageMakerClientTypes {
             transformInput: SageMakerClientTypes.TransformInput? = nil,
             transformOutput: SageMakerClientTypes.TransformOutput? = nil,
             transformResources: SageMakerClientTypes.TransformResources? = nil
-        )
-        {
+        ) {
             self.batchStrategy = batchStrategy
             self.environment = environment
             self.maxConcurrentTransforms = maxConcurrentTransforms
@@ -3501,8 +3613,7 @@ extension SageMakerClientTypes {
             profileName: Swift.String? = nil,
             trainingJobDefinition: SageMakerClientTypes.TrainingJobDefinition? = nil,
             transformJobDefinition: SageMakerClientTypes.TransformJobDefinition? = nil
-        )
-        {
+        ) {
             self.profileName = profileName
             self.trainingJobDefinition = trainingJobDefinition
             self.transformJobDefinition = transformJobDefinition
@@ -3524,8 +3635,7 @@ extension SageMakerClientTypes {
         public init(
             validationProfiles: [SageMakerClientTypes.AlgorithmValidationProfile]? = nil,
             validationRole: Swift.String? = nil
-        )
-        {
+        ) {
             self.validationProfiles = validationProfiles
             self.validationRole = validationRole
         }
@@ -3573,8 +3683,7 @@ extension SageMakerClientTypes {
         public init(
             qProfileArn: Swift.String? = nil,
             status: SageMakerClientTypes.FeatureStatus? = nil
-        )
-        {
+        ) {
             self.qProfileArn = qProfileArn
             self.status = status
         }
@@ -4184,8 +4293,7 @@ extension SageMakerClientTypes {
 
         public init(
             annotationConsolidationLambdaArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.annotationConsolidationLambdaArn = annotationConsolidationLambdaArn
         }
     }
@@ -4749,13 +4857,13 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// Specifies the ARN's of a SageMaker image and SageMaker image version, and the instance type that the version runs on.
+    /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
     public struct ResourceSpec: Swift.Sendable {
         /// The instance type that the image version runs on. JupyterServer apps only support the system value. For KernelGateway apps, the system value is translated to ml.t3.medium. KernelGateway apps also support all other values for available instance types.
         public var instanceType: SageMakerClientTypes.AppInstanceType?
         /// The Amazon Resource Name (ARN) of the Lifecycle Configuration attached to the Resource.
         public var lifecycleConfigArn: Swift.String?
-        /// The ARN of the SageMaker image that the image version belongs to.
+        /// The ARN of the SageMaker AI image that the image version belongs to.
         public var sageMakerImageArn: Swift.String?
         /// The SageMakerImageVersionAlias of the image to launch with. This value is in SemVer 2.0.0 versioning format.
         public var sageMakerImageVersionAlias: Swift.String?
@@ -4768,8 +4876,7 @@ extension SageMakerClientTypes {
             sageMakerImageArn: Swift.String? = nil,
             sageMakerImageVersionAlias: Swift.String? = nil,
             sageMakerImageVersionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.instanceType = instanceType
             self.lifecycleConfigArn = lifecycleConfigArn
             self.sageMakerImageArn = sageMakerImageArn
@@ -4819,7 +4926,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// Details about an Amazon SageMaker app.
+    /// Details about an Amazon SageMaker AI app.
     public struct AppDetails: Swift.Sendable {
         /// The name of the app.
         public var appName: Swift.String?
@@ -4829,7 +4936,7 @@ extension SageMakerClientTypes {
         public var creationTime: Foundation.Date?
         /// The domain ID.
         public var domainId: Swift.String?
-        /// Specifies the ARN's of a SageMaker image and SageMaker image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
         public var resourceSpec: SageMakerClientTypes.ResourceSpec?
         /// The name of the space.
         public var spaceName: Swift.String?
@@ -4847,8 +4954,7 @@ extension SageMakerClientTypes {
             spaceName: Swift.String? = nil,
             status: SageMakerClientTypes.AppStatus? = nil,
             userProfileName: Swift.String? = nil
-        )
-        {
+        ) {
             self.appName = appName
             self.appType = appType
             self.creationTime = creationTime
@@ -4876,8 +4982,7 @@ extension SageMakerClientTypes {
             containerArguments: [Swift.String]? = nil,
             containerEntrypoint: [Swift.String]? = nil,
             containerEnvironmentVariables: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.containerArguments = containerArguments
             self.containerEntrypoint = containerEntrypoint
             self.containerEnvironmentVariables = containerEnvironmentVariables
@@ -4887,7 +4992,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// The Amazon Elastic File System storage configuration for a SageMaker image.
+    /// The Amazon Elastic File System storage configuration for a SageMaker AI image.
     public struct FileSystemConfig: Swift.Sendable {
         /// The default POSIX group ID (GID). If not specified, defaults to 100.
         public var defaultGid: Swift.Int?
@@ -4900,8 +5005,7 @@ extension SageMakerClientTypes {
             defaultGid: Swift.Int? = nil,
             defaultUid: Swift.Int? = nil,
             mountPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultGid = defaultGid
             self.defaultUid = defaultUid
             self.mountPath = mountPath
@@ -4915,14 +5019,13 @@ extension SageMakerClientTypes {
     public struct CodeEditorAppImageConfig: Swift.Sendable {
         /// The configuration used to run the application image container.
         public var containerConfig: SageMakerClientTypes.ContainerConfig?
-        /// The Amazon Elastic File System storage configuration for a SageMaker image.
+        /// The Amazon Elastic File System storage configuration for a SageMaker AI image.
         public var fileSystemConfig: SageMakerClientTypes.FileSystemConfig?
 
         public init(
             containerConfig: SageMakerClientTypes.ContainerConfig? = nil,
             fileSystemConfig: SageMakerClientTypes.FileSystemConfig? = nil
-        )
-        {
+        ) {
             self.containerConfig = containerConfig
             self.fileSystemConfig = fileSystemConfig
         }
@@ -4931,18 +5034,17 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// The configuration for the file system and kernels in a SageMaker image running as a JupyterLab app. The FileSystemConfig object is not supported.
+    /// The configuration for the file system and kernels in a SageMaker AI image running as a JupyterLab app. The FileSystemConfig object is not supported.
     public struct JupyterLabAppImageConfig: Swift.Sendable {
         /// The configuration used to run the application image container.
         public var containerConfig: SageMakerClientTypes.ContainerConfig?
-        /// The Amazon Elastic File System storage configuration for a SageMaker image.
+        /// The Amazon Elastic File System storage configuration for a SageMaker AI image.
         public var fileSystemConfig: SageMakerClientTypes.FileSystemConfig?
 
         public init(
             containerConfig: SageMakerClientTypes.ContainerConfig? = nil,
             fileSystemConfig: SageMakerClientTypes.FileSystemConfig? = nil
-        )
-        {
+        ) {
             self.containerConfig = containerConfig
             self.fileSystemConfig = fileSystemConfig
         }
@@ -4962,8 +5064,7 @@ extension SageMakerClientTypes {
         public init(
             displayName: Swift.String? = nil,
             name: Swift.String? = nil
-        )
-        {
+        ) {
             self.displayName = displayName
             self.name = name
         }
@@ -4972,9 +5073,9 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// The configuration for the file system and kernels in a SageMaker image running as a KernelGateway app.
+    /// The configuration for the file system and kernels in a SageMaker AI image running as a KernelGateway app.
     public struct KernelGatewayImageConfig: Swift.Sendable {
-        /// The Amazon Elastic File System storage configuration for a SageMaker image.
+        /// The Amazon Elastic File System storage configuration for a SageMaker AI image.
         public var fileSystemConfig: SageMakerClientTypes.FileSystemConfig?
         /// The specification of the Jupyter kernels in the image.
         /// This member is required.
@@ -4983,8 +5084,7 @@ extension SageMakerClientTypes {
         public init(
             fileSystemConfig: SageMakerClientTypes.FileSystemConfig? = nil,
             kernelSpecs: [SageMakerClientTypes.KernelSpec]? = nil
-        )
-        {
+        ) {
             self.fileSystemConfig = fileSystemConfig
             self.kernelSpecs = kernelSpecs
         }
@@ -4993,7 +5093,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// The configuration for running a SageMaker image as a KernelGateway app.
+    /// The configuration for running a SageMaker AI image as a KernelGateway app.
     public struct AppImageConfigDetails: Swift.Sendable {
         /// The ARN of the AppImageConfig.
         public var appImageConfigArn: Swift.String?
@@ -5005,7 +5105,7 @@ extension SageMakerClientTypes {
         public var creationTime: Foundation.Date?
         /// The configuration for the file system and the runtime, such as the environment variables and entry point.
         public var jupyterLabAppImageConfig: SageMakerClientTypes.JupyterLabAppImageConfig?
-        /// The configuration for the file system and kernels in the SageMaker image.
+        /// The configuration for the file system and kernels in the SageMaker AI image.
         public var kernelGatewayImageConfig: SageMakerClientTypes.KernelGatewayImageConfig?
         /// When the AppImageConfig was last modified.
         public var lastModifiedTime: Foundation.Date?
@@ -5018,8 +5118,7 @@ extension SageMakerClientTypes {
             jupyterLabAppImageConfig: SageMakerClientTypes.JupyterLabAppImageConfig? = nil,
             kernelGatewayImageConfig: SageMakerClientTypes.KernelGatewayImageConfig? = nil,
             lastModifiedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.appImageConfigArn = appImageConfigArn
             self.appImageConfigName = appImageConfigName
             self.codeEditorAppImageConfig = codeEditorAppImageConfig
@@ -5110,8 +5209,7 @@ extension SageMakerClientTypes {
             lifecycleManagement: SageMakerClientTypes.LifecycleManagement? = nil,
             maxIdleTimeoutInMinutes: Swift.Int? = nil,
             minIdleTimeoutInMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.idleTimeoutInMinutes = idleTimeoutInMinutes
             self.lifecycleManagement = lifecycleManagement
             self.maxIdleTimeoutInMinutes = maxIdleTimeoutInMinutes
@@ -5129,8 +5227,7 @@ extension SageMakerClientTypes {
 
         public init(
             idleSettings: SageMakerClientTypes.IdleSettings? = nil
-        )
-        {
+        ) {
             self.idleSettings = idleSettings
         }
     }
@@ -5236,8 +5333,7 @@ extension SageMakerClientTypes {
             containerArguments: [Swift.String]? = nil,
             containerEntrypoint: [Swift.String]? = nil,
             imageUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerArguments = containerArguments
             self.containerEntrypoint = containerEntrypoint
             self.imageUri = imageUri
@@ -5294,8 +5390,7 @@ extension SageMakerClientTypes {
         public init(
             sourceIdType: SageMakerClientTypes.ArtifactSourceIdType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceIdType = sourceIdType
             self.value = value
         }
@@ -5315,8 +5410,7 @@ extension SageMakerClientTypes {
         public init(
             sourceTypes: [SageMakerClientTypes.ArtifactSourceType]? = nil,
             sourceUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceTypes = sourceTypes
             self.sourceUri = sourceUri
         }
@@ -5347,8 +5441,7 @@ extension SageMakerClientTypes {
             creationTime: Foundation.Date? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             source: SageMakerClientTypes.ArtifactSource? = nil
-        )
-        {
+        ) {
             self.artifactArn = artifactArn
             self.artifactName = artifactName
             self.artifactType = artifactType
@@ -5370,8 +5463,7 @@ public struct AssociateTrialComponentInput: Swift.Sendable {
     public init(
         trialComponentName: Swift.String? = nil,
         trialName: Swift.String? = nil
-    )
-    {
+    ) {
         self.trialComponentName = trialComponentName
         self.trialName = trialName
     }
@@ -5386,8 +5478,7 @@ public struct AssociateTrialComponentOutput: Swift.Sendable {
     public init(
         trialArn: Swift.String? = nil,
         trialComponentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trialArn = trialArn
         self.trialComponentArn = trialComponentArn
     }
@@ -5408,8 +5499,7 @@ extension SageMakerClientTypes {
             arn: Swift.String? = nil,
             principalId: Swift.String? = nil,
             sourceIdentity: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.principalId = principalId
             self.sourceIdentity = sourceIdentity
@@ -5435,8 +5525,7 @@ extension SageMakerClientTypes {
             iamIdentity: SageMakerClientTypes.IamIdentity? = nil,
             userProfileArn: Swift.String? = nil,
             userProfileName: Swift.String? = nil
-        )
-        {
+        ) {
             self.domainId = domainId
             self.iamIdentity = iamIdentity
             self.userProfileArn = userProfileArn
@@ -5478,8 +5567,7 @@ extension SageMakerClientTypes {
             sourceArn: Swift.String? = nil,
             sourceName: Swift.String? = nil,
             sourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.associationType = associationType
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -5502,8 +5590,7 @@ extension SageMakerClientTypes {
 
         public init(
             maxConcurrentInvocationsPerInstance: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxConcurrentInvocationsPerInstance = maxConcurrentInvocationsPerInstance
         }
     }
@@ -5553,8 +5640,7 @@ extension SageMakerClientTypes {
             errorTopic: Swift.String? = nil,
             includeInferenceResponseIn: [SageMakerClientTypes.AsyncNotificationTopicTypes]? = nil,
             successTopic: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorTopic = errorTopic
             self.includeInferenceResponseIn = includeInferenceResponseIn
             self.successTopic = successTopic
@@ -5580,8 +5666,7 @@ extension SageMakerClientTypes {
             notificationConfig: SageMakerClientTypes.AsyncInferenceNotificationConfig? = nil,
             s3FailurePath: Swift.String? = nil,
             s3OutputPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.notificationConfig = notificationConfig
             self.s3FailurePath = s3FailurePath
@@ -5603,8 +5688,7 @@ extension SageMakerClientTypes {
         public init(
             clientConfig: SageMakerClientTypes.AsyncInferenceClientConfig? = nil,
             outputConfig: SageMakerClientTypes.AsyncInferenceOutputConfig? = nil
-        )
-        {
+        ) {
             self.clientConfig = clientConfig
             self.outputConfig = outputConfig
         }
@@ -5718,8 +5802,7 @@ extension SageMakerClientTypes {
             outputS3Uri: Swift.String? = nil,
             queryString: Swift.String? = nil,
             workGroup: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalog = catalog
             self.database = database
             self.kmsKeyId = kmsKeyId
@@ -5892,8 +5975,7 @@ extension SageMakerClientTypes {
 
         public init(
             autoMLAlgorithms: [SageMakerClientTypes.AutoMLAlgorithm]? = nil
-        )
-        {
+        ) {
             self.autoMLAlgorithms = autoMLAlgorithms
         }
     }
@@ -5915,8 +5997,7 @@ extension SageMakerClientTypes {
             backtestResults: Swift.String? = nil,
             explainability: Swift.String? = nil,
             modelInsights: Swift.String? = nil
-        )
-        {
+        ) {
             self.backtestResults = backtestResults
             self.explainability = explainability
             self.modelInsights = modelInsights
@@ -6149,8 +6230,7 @@ extension SageMakerClientTypes {
             `set`: SageMakerClientTypes.MetricSetSource? = nil,
             standardMetricName: SageMakerClientTypes.AutoMLMetricExtendedEnum? = nil,
             value: Swift.Float? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
             self.`set` = `set`
             self.standardMetricName = standardMetricName
@@ -6171,8 +6251,7 @@ extension SageMakerClientTypes {
         public init(
             candidateArtifactLocations: SageMakerClientTypes.CandidateArtifactLocations? = nil,
             candidateMetrics: [SageMakerClientTypes.MetricDatum]? = nil
-        )
-        {
+        ) {
             self.candidateArtifactLocations = candidateArtifactLocations
             self.candidateMetrics = candidateMetrics
         }
@@ -6267,8 +6346,7 @@ extension SageMakerClientTypes {
             candidateStepArn: Swift.String? = nil,
             candidateStepName: Swift.String? = nil,
             candidateStepType: SageMakerClientTypes.CandidateStepType? = nil
-        )
-        {
+        ) {
             self.candidateStepArn = candidateStepArn
             self.candidateStepName = candidateStepName
             self.candidateStepType = candidateStepType
@@ -6325,8 +6403,7 @@ extension SageMakerClientTypes {
             standardMetricName: SageMakerClientTypes.AutoMLMetricEnum? = nil,
             type: SageMakerClientTypes.AutoMLJobObjectiveType? = nil,
             value: Swift.Float? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
             self.standardMetricName = standardMetricName
             self.type = type
@@ -6381,8 +6458,7 @@ extension SageMakerClientTypes {
             environment: [Swift.String: Swift.String]? = nil,
             image: Swift.String? = nil,
             modelDataUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.environment = environment
             self.image = image
             self.modelDataUrl = modelDataUrl
@@ -6470,8 +6546,7 @@ extension SageMakerClientTypes {
             inferenceContainers: [SageMakerClientTypes.AutoMLContainerDefinition]? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             objectiveStatus: SageMakerClientTypes.ObjectiveStatus? = nil
-        )
-        {
+        ) {
             self.candidateName = candidateName
             self.candidateProperties = candidateProperties
             self.candidateStatus = candidateStatus
@@ -6509,8 +6584,7 @@ extension SageMakerClientTypes {
         public init(
             algorithmsConfig: [SageMakerClientTypes.AutoMLAlgorithmConfig]? = nil,
             featureSpecificationS3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.algorithmsConfig = algorithmsConfig
             self.featureSpecificationS3Uri = featureSpecificationS3Uri
         }
@@ -6584,9 +6658,9 @@ extension SageMakerClientTypes {
     public struct AutoMLS3DataSource: Swift.Sendable {
         /// The data type.
         ///
-        /// * If you choose S3Prefix, S3Uri identifies a key name prefix. SageMaker uses all objects that match the specified key name prefix for model training. The S3Prefix should have the following format: s3://DOC-EXAMPLE-BUCKET/DOC-EXAMPLE-FOLDER-OR-FILE
+        /// * If you choose S3Prefix, S3Uri identifies a key name prefix. SageMaker AI uses all objects that match the specified key name prefix for model training. The S3Prefix should have the following format: s3://DOC-EXAMPLE-BUCKET/DOC-EXAMPLE-FOLDER-OR-FILE
         ///
-        /// * If you choose ManifestFile, S3Uri identifies an object that is a manifest file containing a list of object keys that you want SageMaker to use for model training. A ManifestFile should have the format shown below: [ {"prefix": "s3://DOC-EXAMPLE-BUCKET/DOC-EXAMPLE-FOLDER/DOC-EXAMPLE-PREFIX/"}, "DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-1","DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-2",... "DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-N" ]
+        /// * If you choose ManifestFile, S3Uri identifies an object that is a manifest file containing a list of object keys that you want SageMaker AI to use for model training. A ManifestFile should have the format shown below: [ {"prefix": "s3://DOC-EXAMPLE-BUCKET/DOC-EXAMPLE-FOLDER/DOC-EXAMPLE-PREFIX/"}, "DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-1","DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-2",... "DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-N" ]
         ///
         /// * If you choose AugmentedManifestFile, S3Uri identifies an object that is an augmented manifest file in JSON lines format. This file contains the data you want to use for model training. AugmentedManifestFile is available for V2 API jobs only (for example, for jobs created by calling CreateAutoMLJobV2). Here is a minimal, single-record example of an AugmentedManifestFile: {"source-ref": "s3://DOC-EXAMPLE-BUCKET/DOC-EXAMPLE-FOLDER/cats/cat.jpg","label-metadata": {"class-name": "cat" } For more information on AugmentedManifestFile, see [Provide Dataset Metadata to Training Jobs with an Augmented Manifest File](https://docs.aws.amazon.com/sagemaker/latest/dg/augmented-manifest.html).
         /// This member is required.
@@ -6598,8 +6672,7 @@ extension SageMakerClientTypes {
         public init(
             s3DataType: SageMakerClientTypes.AutoMLS3DataType? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3DataType = s3DataType
             self.s3Uri = s3Uri
         }
@@ -6616,8 +6689,7 @@ extension SageMakerClientTypes {
 
         public init(
             s3DataSource: SageMakerClientTypes.AutoMLS3DataSource? = nil
-        )
-        {
+        ) {
             self.s3DataSource = s3DataSource
         }
     }
@@ -6648,8 +6720,7 @@ extension SageMakerClientTypes {
             dataSource: SageMakerClientTypes.AutoMLDataSource? = nil,
             sampleWeightAttributeName: Swift.String? = nil,
             targetAttributeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.channelType = channelType
             self.compressionType = compressionType
             self.contentType = contentType
@@ -6670,8 +6741,7 @@ extension SageMakerClientTypes {
 
         public init(
             executionRoleARN: Swift.String? = nil
-        )
-        {
+        ) {
             self.executionRoleARN = executionRoleARN
         }
     }
@@ -6686,8 +6756,7 @@ extension SageMakerClientTypes {
 
         public init(
             emrServerlessComputeConfig: SageMakerClientTypes.EmrServerlessComputeConfig? = nil
-        )
-        {
+        ) {
             self.emrServerlessComputeConfig = emrServerlessComputeConfig
         }
     }
@@ -6702,8 +6771,7 @@ extension SageMakerClientTypes {
 
         public init(
             validationFraction: Swift.Float? = nil
-        )
-        {
+        ) {
             self.validationFraction = validationFraction
         }
     }
@@ -6721,8 +6789,7 @@ extension SageMakerClientTypes {
         public init(
             candidateDefinitionNotebookLocation: Swift.String? = nil,
             dataExplorationNotebookLocation: Swift.String? = nil
-        )
-        {
+        ) {
             self.candidateDefinitionNotebookLocation = candidateDefinitionNotebookLocation
             self.dataExplorationNotebookLocation = dataExplorationNotebookLocation
         }
@@ -6757,8 +6824,7 @@ extension SageMakerClientTypes {
             compressionType: SageMakerClientTypes.CompressionType? = nil,
             contentType: Swift.String? = nil,
             dataSource: SageMakerClientTypes.AutoMLDataSource? = nil
-        )
-        {
+        ) {
             self.channelType = channelType
             self.compressionType = compressionType
             self.contentType = contentType
@@ -6782,8 +6848,7 @@ extension SageMakerClientTypes {
             maxAutoMLJobRuntimeInSeconds: Swift.Int? = nil,
             maxCandidates: Swift.Int? = nil,
             maxRuntimePerTrainingJobInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxAutoMLJobRuntimeInSeconds = maxAutoMLJobRuntimeInSeconds
             self.maxCandidates = maxCandidates
             self.maxRuntimePerTrainingJobInSeconds = maxRuntimePerTrainingJobInSeconds
@@ -6837,8 +6902,7 @@ extension SageMakerClientTypes {
         public init(
             securityGroupIds: [Swift.String]? = nil,
             subnets: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnets = subnets
         }
@@ -6860,8 +6924,7 @@ extension SageMakerClientTypes {
             enableInterContainerTrafficEncryption: Swift.Bool? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             vpcConfig: SageMakerClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.enableInterContainerTrafficEncryption = enableInterContainerTrafficEncryption
             self.volumeKmsKeyId = volumeKmsKeyId
             self.vpcConfig = vpcConfig
@@ -6890,8 +6953,7 @@ extension SageMakerClientTypes {
             dataSplitConfig: SageMakerClientTypes.AutoMLDataSplitConfig? = nil,
             mode: SageMakerClientTypes.AutoMLMode? = nil,
             securityConfig: SageMakerClientTypes.AutoMLSecurityConfig? = nil
-        )
-        {
+        ) {
             self.candidateGenerationConfig = candidateGenerationConfig
             self.completionCriteria = completionCriteria
             self.dataSplitConfig = dataSplitConfig
@@ -6958,8 +7020,7 @@ extension SageMakerClientTypes {
 
         public init(
             metricName: SageMakerClientTypes.AutoMLMetricEnum? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
         }
     }
@@ -7092,8 +7153,7 @@ extension SageMakerClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -7108,8 +7168,7 @@ extension SageMakerClientTypes {
 
         public init(
             partialFailureMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.partialFailureMessage = partialFailureMessage
         }
     }
@@ -7154,8 +7213,7 @@ extension SageMakerClientTypes {
             failureReason: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             partialFailureReasons: [SageMakerClientTypes.AutoMLPartialFailureReason]? = nil
-        )
-        {
+        ) {
             self.autoMLJobArn = autoMLJobArn
             self.autoMLJobName = autoMLJobName
             self.autoMLJobSecondaryStatus = autoMLJobSecondaryStatus
@@ -7182,8 +7240,7 @@ extension SageMakerClientTypes {
         public init(
             kmsKeyId: Swift.String? = nil,
             s3OutputPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.s3OutputPath = s3OutputPath
         }
@@ -7199,8 +7256,7 @@ extension SageMakerClientTypes {
 
         public init(
             completionCriteria: SageMakerClientTypes.AutoMLJobCompletionCriteria? = nil
-        )
-        {
+        ) {
             self.completionCriteria = completionCriteria
         }
     }
@@ -7232,8 +7288,7 @@ extension SageMakerClientTypes {
 
         public init(
             algorithmsConfig: [SageMakerClientTypes.AutoMLAlgorithmConfig]? = nil
-        )
-        {
+        ) {
             self.algorithmsConfig = algorithmsConfig
         }
     }
@@ -7302,8 +7357,7 @@ extension SageMakerClientTypes {
             problemType: SageMakerClientTypes.ProblemType? = nil,
             sampleWeightAttributeName: Swift.String? = nil,
             targetAttributeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.candidateGenerationConfig = candidateGenerationConfig
             self.completionCriteria = completionCriteria
             self.featureSpecificationS3Uri = featureSpecificationS3Uri
@@ -7333,8 +7387,7 @@ extension SageMakerClientTypes {
             completionCriteria: SageMakerClientTypes.AutoMLJobCompletionCriteria? = nil,
             contentColumn: Swift.String? = nil,
             targetLabelColumn: Swift.String? = nil
-        )
-        {
+        ) {
             self.completionCriteria = completionCriteria
             self.contentColumn = contentColumn
             self.targetLabelColumn = targetLabelColumn
@@ -7375,8 +7428,7 @@ extension SageMakerClientTypes {
             completionCriteria: SageMakerClientTypes.AutoMLJobCompletionCriteria? = nil,
             modelAccessConfig: SageMakerClientTypes.ModelAccessConfig? = nil,
             textGenerationHyperParameters: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.baseModelName = baseModelName
             self.completionCriteria = completionCriteria
             self.modelAccessConfig = modelAccessConfig
@@ -7394,8 +7446,7 @@ extension SageMakerClientTypes {
 
         public init(
             countryCode: Swift.String? = nil
-        )
-        {
+        ) {
             self.countryCode = countryCode
         }
     }
@@ -7422,8 +7473,7 @@ extension SageMakerClientTypes {
             itemIdentifierAttributeName: Swift.String? = nil,
             targetAttributeName: Swift.String? = nil,
             timestampAttributeName: Swift.String? = nil
-        )
-        {
+        ) {
             self.groupingAttributeNames = groupingAttributeNames
             self.itemIdentifierAttributeName = itemIdentifierAttributeName
             self.targetAttributeName = targetAttributeName
@@ -7502,8 +7552,7 @@ extension SageMakerClientTypes {
         public init(
             aggregation: [Swift.String: SageMakerClientTypes.AggregationTransformationValue]? = nil,
             filling: [Swift.String: [Swift.String: Swift.String]]? = nil
-        )
-        {
+        ) {
             self.aggregation = aggregation
             self.filling = filling
         }
@@ -7558,8 +7607,7 @@ extension SageMakerClientTypes {
             holidayConfig: [SageMakerClientTypes.HolidayConfigAttributes]? = nil,
             timeSeriesConfig: SageMakerClientTypes.TimeSeriesConfig? = nil,
             transformations: SageMakerClientTypes.TimeSeriesTransformations? = nil
-        )
-        {
+        ) {
             self.candidateGenerationConfig = candidateGenerationConfig
             self.completionCriteria = completionCriteria
             self.featureSpecificationS3Uri = featureSpecificationS3Uri
@@ -7638,8 +7686,7 @@ extension SageMakerClientTypes {
 
         public init(
             problemType: SageMakerClientTypes.ProblemType? = nil
-        )
-        {
+        ) {
             self.problemType = problemType
         }
     }
@@ -7654,8 +7701,7 @@ extension SageMakerClientTypes {
 
         public init(
             baseModelName: Swift.String? = nil
-        )
-        {
+        ) {
             self.baseModelName = baseModelName
         }
     }
@@ -7688,8 +7734,7 @@ extension SageMakerClientTypes {
             autoMLJobObjective: SageMakerClientTypes.AutoMLJobObjective? = nil,
             autoMLProblemTypeResolvedAttributes: SageMakerClientTypes.AutoMLProblemTypeResolvedAttributes? = nil,
             completionCriteria: SageMakerClientTypes.AutoMLJobCompletionCriteria? = nil
-        )
-        {
+        ) {
             self.autoMLJobObjective = autoMLJobObjective
             self.autoMLProblemTypeResolvedAttributes = autoMLProblemTypeResolvedAttributes
             self.completionCriteria = completionCriteria
@@ -7804,8 +7849,7 @@ extension SageMakerClientTypes {
         public init(
             name: Swift.String? = nil,
             valueHint: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.valueHint = valueHint
         }
@@ -7821,8 +7865,7 @@ extension SageMakerClientTypes {
 
         public init(
             alarms: [SageMakerClientTypes.Alarm]? = nil
-        )
-        {
+        ) {
             self.alarms = alarms
         }
     }
@@ -7876,8 +7919,7 @@ extension SageMakerClientTypes {
 
         public init(
             mode: SageMakerClientTypes.AutotuneMode? = nil
-        )
-        {
+        ) {
             self.mode = mode
         }
     }
@@ -7936,8 +7978,7 @@ extension SageMakerClientTypes {
             destinationS3Uri: Swift.String? = nil,
             generateInferenceId: Swift.Bool? = nil,
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationS3Uri = destinationS3Uri
             self.generateInferenceId = generateInferenceId
             self.kmsKeyId = kmsKeyId
@@ -7956,8 +7997,7 @@ public struct BatchDeleteClusterNodesInput: Swift.Sendable {
     public init(
         clusterName: Swift.String? = nil,
         nodeIds: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.nodeIds = nodeIds
     }
@@ -8013,8 +8053,7 @@ extension SageMakerClientTypes {
             code: SageMakerClientTypes.BatchDeleteClusterNodesErrorCode? = nil,
             message: Swift.String? = nil,
             nodeId: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
             self.nodeId = nodeId
@@ -8031,8 +8070,7 @@ public struct BatchDeleteClusterNodesOutput: Swift.Sendable {
     public init(
         failed: [SageMakerClientTypes.BatchDeleteClusterNodesError]? = nil,
         successful: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.failed = failed
         self.successful = successful
     }
@@ -8045,8 +8083,7 @@ public struct BatchDescribeModelPackageInput: Swift.Sendable {
 
     public init(
         modelPackageArnList: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.modelPackageArnList = modelPackageArnList
     }
 }
@@ -8065,8 +8102,7 @@ extension SageMakerClientTypes {
         public init(
             errorCode: Swift.String? = nil,
             errorResponse: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorCode = errorCode
             self.errorResponse = errorResponse
         }
@@ -8095,8 +8131,7 @@ extension SageMakerClientTypes {
             supportedRealtimeInferenceInstanceTypes: [SageMakerClientTypes.ProductionVariantInstanceType]? = nil,
             supportedResponseMIMETypes: [Swift.String]? = nil,
             supportedTransformInstanceTypes: [SageMakerClientTypes.TransformInstanceType]? = nil
-        )
-        {
+        ) {
             self.containers = containers
             self.supportedContentTypes = supportedContentTypes
             self.supportedRealtimeInferenceInstanceTypes = supportedRealtimeInferenceInstanceTypes
@@ -8211,8 +8246,7 @@ extension SageMakerClientTypes {
             modelPackageGroupName: Swift.String? = nil,
             modelPackageStatus: SageMakerClientTypes.ModelPackageStatus? = nil,
             modelPackageVersion: Swift.Int? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.inferenceSpecification = inferenceSpecification
             self.modelApprovalStatus = modelApprovalStatus
@@ -8234,8 +8268,7 @@ public struct BatchDescribeModelPackageOutput: Swift.Sendable {
     public init(
         batchDescribeModelPackageErrorMap: [Swift.String: SageMakerClientTypes.BatchDescribeModelPackageError]? = nil,
         modelPackageSummaries: [Swift.String: SageMakerClientTypes.BatchDescribeModelPackageSummary]? = nil
-    )
-    {
+    ) {
         self.batchDescribeModelPackageErrorMap = batchDescribeModelPackageErrorMap
         self.modelPackageSummaries = modelPackageSummaries
     }
@@ -8250,8 +8283,7 @@ extension SageMakerClientTypes {
 
         public init(
             header: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.header = header
         }
     }
@@ -8266,8 +8298,7 @@ extension SageMakerClientTypes {
 
         public init(
             line: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.line = line
         }
     }
@@ -8297,8 +8328,7 @@ extension SageMakerClientTypes {
             csv: SageMakerClientTypes.MonitoringCsvDatasetFormat? = nil,
             json: SageMakerClientTypes.MonitoringJsonDatasetFormat? = nil,
             parquet: SageMakerClientTypes.MonitoringParquetDatasetFormat? = nil
-        )
-        {
+        ) {
             self.csv = csv
             self.json = json
             self.parquet = parquet
@@ -8409,8 +8439,7 @@ extension SageMakerClientTypes {
             s3DataDistributionType: SageMakerClientTypes.ProcessingS3DataDistributionType? = nil,
             s3InputMode: SageMakerClientTypes.ProcessingS3InputMode? = nil,
             startTimeOffset: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataCapturedDestinationS3Uri = dataCapturedDestinationS3Uri
             self.datasetFormat = datasetFormat
             self.endTimeOffset = endTimeOffset
@@ -8436,8 +8465,7 @@ extension SageMakerClientTypes {
 
         public init(
             maxNumberOfTrainingJobsNotImproving: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxNumberOfTrainingJobsNotImproving = maxNumberOfTrainingJobsNotImproving
         }
     }
@@ -8460,8 +8488,7 @@ extension SageMakerClientTypes {
             contentDigest: Swift.String? = nil,
             contentType: Swift.String? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentDigest = contentDigest
             self.contentType = contentType
             self.s3Uri = s3Uri
@@ -8484,8 +8511,7 @@ extension SageMakerClientTypes {
             postTrainingReport: SageMakerClientTypes.MetricsSource? = nil,
             preTrainingReport: SageMakerClientTypes.MetricsSource? = nil,
             report: SageMakerClientTypes.MetricsSource? = nil
-        )
-        {
+        ) {
             self.postTrainingReport = postTrainingReport
             self.preTrainingReport = preTrainingReport
             self.report = report
@@ -8540,8 +8566,7 @@ extension SageMakerClientTypes {
         public init(
             type: SageMakerClientTypes.CapacitySizeType? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.type = type
             self.value = value
         }
@@ -8606,8 +8631,7 @@ extension SageMakerClientTypes {
             linearStepSize: SageMakerClientTypes.CapacitySize? = nil,
             type: SageMakerClientTypes.TrafficRoutingConfigType? = nil,
             waitIntervalInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.canarySize = canarySize
             self.linearStepSize = linearStepSize
             self.type = type
@@ -8632,8 +8656,7 @@ extension SageMakerClientTypes {
             maximumExecutionTimeoutInSeconds: Swift.Int? = nil,
             terminationWaitInSeconds: Swift.Int? = nil,
             trafficRoutingConfiguration: SageMakerClientTypes.TrafficRoutingConfig? = nil
-        )
-        {
+        ) {
             self.maximumExecutionTimeoutInSeconds = maximumExecutionTimeoutInSeconds
             self.terminationWaitInSeconds = terminationWaitInSeconds
             self.trafficRoutingConfiguration = trafficRoutingConfiguration
@@ -8679,8 +8702,7 @@ extension SageMakerClientTypes {
 
         public init(
             sourcePipelineExecutionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourcePipelineExecutionArn = sourcePipelineExecutionArn
         }
     }
@@ -8700,8 +8722,7 @@ extension SageMakerClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -8723,8 +8744,7 @@ extension SageMakerClientTypes {
             callbackToken: Swift.String? = nil,
             outputParameters: [SageMakerClientTypes.OutputParameter]? = nil,
             sqsQueueUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.callbackToken = callbackToken
             self.outputParameters = outputParameters
             self.sqsQueueUrl = sqsQueueUrl
@@ -8773,8 +8793,7 @@ extension SageMakerClientTypes {
 
         public init(
             status: SageMakerClientTypes.FeatureStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -8792,8 +8811,7 @@ extension SageMakerClientTypes {
         public init(
             executionRoleArn: Swift.String? = nil,
             status: SageMakerClientTypes.FeatureStatus? = nil
-        )
-        {
+        ) {
             self.executionRoleArn = executionRoleArn
             self.status = status
         }
@@ -8809,8 +8827,7 @@ extension SageMakerClientTypes {
 
         public init(
             amazonBedrockRoleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.amazonBedrockRoleArn = amazonBedrockRoleArn
         }
     }
@@ -8860,8 +8877,7 @@ extension SageMakerClientTypes {
             dataSourceName: SageMakerClientTypes.DataSourceName? = nil,
             secretArn: Swift.String? = nil,
             status: SageMakerClientTypes.FeatureStatus? = nil
-        )
-        {
+        ) {
             self.dataSourceName = dataSourceName
             self.secretArn = secretArn
             self.status = status
@@ -8878,8 +8894,7 @@ extension SageMakerClientTypes {
 
         public init(
             status: SageMakerClientTypes.FeatureStatus? = nil
-        )
-        {
+        ) {
             self.status = status
         }
     }
@@ -8897,8 +8912,7 @@ extension SageMakerClientTypes {
         public init(
             crossAccountModelRegisterRoleArn: Swift.String? = nil,
             status: SageMakerClientTypes.FeatureStatus? = nil
-        )
-        {
+        ) {
             self.crossAccountModelRegisterRoleArn = crossAccountModelRegisterRoleArn
             self.status = status
         }
@@ -8917,8 +8931,7 @@ extension SageMakerClientTypes {
         public init(
             amazonForecastRoleArn: Swift.String? = nil,
             status: SageMakerClientTypes.FeatureStatus? = nil
-        )
-        {
+        ) {
             self.amazonForecastRoleArn = amazonForecastRoleArn
             self.status = status
         }
@@ -8937,8 +8950,7 @@ extension SageMakerClientTypes {
         public init(
             s3ArtifactPath: Swift.String? = nil,
             s3KmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3ArtifactPath = s3ArtifactPath
             self.s3KmsKeyId = s3KmsKeyId
         }
@@ -8975,8 +8987,7 @@ extension SageMakerClientTypes {
             modelRegisterSettings: SageMakerClientTypes.ModelRegisterSettings? = nil,
             timeSeriesForecastingSettings: SageMakerClientTypes.TimeSeriesForecastingSettings? = nil,
             workspaceSettings: SageMakerClientTypes.WorkspaceSettings? = nil
-        )
-        {
+        ) {
             self.directDeploySettings = directDeploySettings
             self.emrServerlessSettings = emrServerlessSettings
             self.generativeAiSettings = generativeAiSettings
@@ -8991,18 +9002,17 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// Configuration specifying how to treat different headers. If no headers are specified Amazon SageMaker will by default base64 encode when capturing the data.
+    /// Configuration specifying how to treat different headers. If no headers are specified Amazon SageMaker AI will by default base64 encode when capturing the data.
     public struct CaptureContentTypeHeader: Swift.Sendable {
-        /// The list of all content type headers that Amazon SageMaker will treat as CSV and capture accordingly.
+        /// The list of all content type headers that Amazon SageMaker AI will treat as CSV and capture accordingly.
         public var csvContentTypes: [Swift.String]?
-        /// The list of all content type headers that SageMaker will treat as JSON and capture accordingly.
+        /// The list of all content type headers that SageMaker AI will treat as JSON and capture accordingly.
         public var jsonContentTypes: [Swift.String]?
 
         public init(
             csvContentTypes: [Swift.String]? = nil,
             jsonContentTypes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.csvContentTypes = csvContentTypes
             self.jsonContentTypes = jsonContentTypes
         }
@@ -9051,8 +9061,7 @@ extension SageMakerClientTypes {
 
         public init(
             captureMode: SageMakerClientTypes.CaptureMode? = nil
-        )
-        {
+        ) {
             self.captureMode = captureMode
         }
     }
@@ -9101,8 +9110,7 @@ extension SageMakerClientTypes {
         public init(
             name: Swift.String? = nil,
             value: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -9123,8 +9131,7 @@ extension SageMakerClientTypes {
         public init(
             name: Swift.String? = nil,
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.name = name
             self.values = values
         }
@@ -9141,8 +9148,7 @@ extension SageMakerClientTypes {
 
         public init(
             values: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.values = values
         }
     }
@@ -9175,8 +9181,7 @@ extension SageMakerClientTypes {
             supportedCompressionTypes: [SageMakerClientTypes.CompressionType]? = nil,
             supportedContentTypes: [Swift.String]? = nil,
             supportedInputModes: [SageMakerClientTypes.TrainingInputMode]? = nil
-        )
-        {
+        ) {
             self.description = description
             self.isRequired = isRequired
             self.name = name
@@ -9200,8 +9205,7 @@ extension SageMakerClientTypes {
         public init(
             localPath: Swift.String? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.localPath = localPath
             self.s3Uri = s3Uri
         }
@@ -9238,8 +9242,7 @@ extension SageMakerClientTypes {
             registerNewBaseline: Swift.Bool? = nil,
             skipCheck: Swift.Bool? = nil,
             violationReport: Swift.String? = nil
-        )
-        {
+        ) {
             self.baselineUsedForDriftCheckConstraints = baselineUsedForDriftCheckConstraints
             self.calculatedBaselineConstraints = calculatedBaselineConstraints
             self.checkJobArn = checkJobArn
@@ -9323,8 +9326,7 @@ extension SageMakerClientTypes {
             maxRecordCount: Swift.Int? = nil,
             probabilityAttribute: Swift.String? = nil,
             probabilityIndex: Swift.Int? = nil
-        )
-        {
+        ) {
             self.contentTemplate = contentTemplate
             self.featureHeaders = featureHeaders
             self.featureTypes = featureTypes
@@ -9359,8 +9361,7 @@ extension SageMakerClientTypes {
             mimeType: Swift.String? = nil,
             shapBaseline: Swift.String? = nil,
             shapBaselineUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.mimeType = mimeType
             self.shapBaseline = shapBaseline
             self.shapBaselineUri = shapBaselineUri
@@ -9617,8 +9618,7 @@ extension SageMakerClientTypes {
         public init(
             granularity: SageMakerClientTypes.ClarifyTextGranularity? = nil,
             language: SageMakerClientTypes.ClarifyTextLanguage? = nil
-        )
-        {
+        ) {
             self.granularity = granularity
             self.language = language
         }
@@ -9647,8 +9647,7 @@ extension SageMakerClientTypes {
             shapBaselineConfig: SageMakerClientTypes.ClarifyShapBaselineConfig? = nil,
             textConfig: SageMakerClientTypes.ClarifyTextConfig? = nil,
             useLogit: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.numberOfSamples = numberOfSamples
             self.seed = seed
             self.shapBaselineConfig = shapBaselineConfig
@@ -9674,8 +9673,7 @@ extension SageMakerClientTypes {
             enableExplanations: Swift.String? = nil,
             inferenceConfig: SageMakerClientTypes.ClarifyInferenceConfig? = nil,
             shapConfig: SageMakerClientTypes.ClarifyShapConfig? = nil
-        )
-        {
+        ) {
             self.enableExplanations = enableExplanations
             self.inferenceConfig = inferenceConfig
             self.shapConfig = shapConfig
@@ -9693,8 +9691,7 @@ extension SageMakerClientTypes {
 
         public init(
             volumeSizeInGB: Swift.Int? = nil
-        )
-        {
+        ) {
             self.volumeSizeInGB = volumeSizeInGB
         }
     }
@@ -9726,6 +9723,15 @@ extension SageMakerClientTypes {
         case mlC59xlarge
         case mlC5Large
         case mlC5Xlarge
+        case mlC6i12xlarge
+        case mlC6i16xlarge
+        case mlC6i24xlarge
+        case mlC6i2xlarge
+        case mlC6i32xlarge
+        case mlC6i4xlarge
+        case mlC6i8xlarge
+        case mlC6iLarge
+        case mlC6iXlarge
         case mlG512xlarge
         case mlG516xlarge
         case mlG524xlarge
@@ -9760,16 +9766,36 @@ extension SageMakerClientTypes {
         case mlM58xlarge
         case mlM5Large
         case mlM5Xlarge
+        case mlM6i12xlarge
+        case mlM6i16xlarge
+        case mlM6i24xlarge
+        case mlM6i2xlarge
+        case mlM6i32xlarge
+        case mlM6i4xlarge
+        case mlM6i8xlarge
+        case mlM6iLarge
+        case mlM6iXlarge
         case mlP4de24xlarge
         case mlP4d24xlarge
+        case mlP5en48xlarge
         case mlP5e48xlarge
         case mlP548xlarge
+        case mlR6i12xlarge
+        case mlR6i16xlarge
+        case mlR6i24xlarge
+        case mlR6i2xlarge
+        case mlR6i32xlarge
+        case mlR6i4xlarge
+        case mlR6i8xlarge
+        case mlR6iLarge
+        case mlR6iXlarge
         case mlT32xlarge
         case mlT3Large
         case mlT3Medium
         case mlT3Xlarge
         case mlTrn1n32xlarge
         case mlTrn132xlarge
+        case mlTrn248xlarge
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ClusterInstanceType] {
@@ -9787,6 +9813,15 @@ extension SageMakerClientTypes {
                 .mlC59xlarge,
                 .mlC5Large,
                 .mlC5Xlarge,
+                .mlC6i12xlarge,
+                .mlC6i16xlarge,
+                .mlC6i24xlarge,
+                .mlC6i2xlarge,
+                .mlC6i32xlarge,
+                .mlC6i4xlarge,
+                .mlC6i8xlarge,
+                .mlC6iLarge,
+                .mlC6iXlarge,
                 .mlG512xlarge,
                 .mlG516xlarge,
                 .mlG524xlarge,
@@ -9821,16 +9856,36 @@ extension SageMakerClientTypes {
                 .mlM58xlarge,
                 .mlM5Large,
                 .mlM5Xlarge,
+                .mlM6i12xlarge,
+                .mlM6i16xlarge,
+                .mlM6i24xlarge,
+                .mlM6i2xlarge,
+                .mlM6i32xlarge,
+                .mlM6i4xlarge,
+                .mlM6i8xlarge,
+                .mlM6iLarge,
+                .mlM6iXlarge,
                 .mlP4de24xlarge,
                 .mlP4d24xlarge,
+                .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
+                .mlR6i12xlarge,
+                .mlR6i16xlarge,
+                .mlR6i24xlarge,
+                .mlR6i2xlarge,
+                .mlR6i32xlarge,
+                .mlR6i4xlarge,
+                .mlR6i8xlarge,
+                .mlR6iLarge,
+                .mlR6iXlarge,
                 .mlT32xlarge,
                 .mlT3Large,
                 .mlT3Medium,
                 .mlT3Xlarge,
                 .mlTrn1n32xlarge,
-                .mlTrn132xlarge
+                .mlTrn132xlarge,
+                .mlTrn248xlarge
             ]
         }
 
@@ -9854,6 +9909,15 @@ extension SageMakerClientTypes {
             case .mlC59xlarge: return "ml.c5.9xlarge"
             case .mlC5Large: return "ml.c5.large"
             case .mlC5Xlarge: return "ml.c5.xlarge"
+            case .mlC6i12xlarge: return "ml.c6i.12xlarge"
+            case .mlC6i16xlarge: return "ml.c6i.16xlarge"
+            case .mlC6i24xlarge: return "ml.c6i.24xlarge"
+            case .mlC6i2xlarge: return "ml.c6i.2xlarge"
+            case .mlC6i32xlarge: return "ml.c6i.32xlarge"
+            case .mlC6i4xlarge: return "ml.c6i.4xlarge"
+            case .mlC6i8xlarge: return "ml.c6i.8xlarge"
+            case .mlC6iLarge: return "ml.c6i.large"
+            case .mlC6iXlarge: return "ml.c6i.xlarge"
             case .mlG512xlarge: return "ml.g5.12xlarge"
             case .mlG516xlarge: return "ml.g5.16xlarge"
             case .mlG524xlarge: return "ml.g5.24xlarge"
@@ -9888,16 +9952,36 @@ extension SageMakerClientTypes {
             case .mlM58xlarge: return "ml.m5.8xlarge"
             case .mlM5Large: return "ml.m5.large"
             case .mlM5Xlarge: return "ml.m5.xlarge"
+            case .mlM6i12xlarge: return "ml.m6i.12xlarge"
+            case .mlM6i16xlarge: return "ml.m6i.16xlarge"
+            case .mlM6i24xlarge: return "ml.m6i.24xlarge"
+            case .mlM6i2xlarge: return "ml.m6i.2xlarge"
+            case .mlM6i32xlarge: return "ml.m6i.32xlarge"
+            case .mlM6i4xlarge: return "ml.m6i.4xlarge"
+            case .mlM6i8xlarge: return "ml.m6i.8xlarge"
+            case .mlM6iLarge: return "ml.m6i.large"
+            case .mlM6iXlarge: return "ml.m6i.xlarge"
             case .mlP4de24xlarge: return "ml.p4de.24xlarge"
             case .mlP4d24xlarge: return "ml.p4d.24xlarge"
+            case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlR6i12xlarge: return "ml.r6i.12xlarge"
+            case .mlR6i16xlarge: return "ml.r6i.16xlarge"
+            case .mlR6i24xlarge: return "ml.r6i.24xlarge"
+            case .mlR6i2xlarge: return "ml.r6i.2xlarge"
+            case .mlR6i32xlarge: return "ml.r6i.32xlarge"
+            case .mlR6i4xlarge: return "ml.r6i.4xlarge"
+            case .mlR6i8xlarge: return "ml.r6i.8xlarge"
+            case .mlR6iLarge: return "ml.r6i.large"
+            case .mlR6iXlarge: return "ml.r6i.xlarge"
             case .mlT32xlarge: return "ml.t3.2xlarge"
             case .mlT3Large: return "ml.t3.large"
             case .mlT3Medium: return "ml.t3.medium"
             case .mlT3Xlarge: return "ml.t3.xlarge"
             case .mlTrn1n32xlarge: return "ml.trn1n.32xlarge"
             case .mlTrn132xlarge: return "ml.trn1.32xlarge"
+            case .mlTrn248xlarge: return "ml.trn2.48xlarge"
             case let .sdkUnknown(s): return s
             }
         }
@@ -9918,8 +10002,7 @@ extension SageMakerClientTypes {
         public init(
             onCreate: Swift.String? = nil,
             sourceS3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.onCreate = onCreate
             self.sourceS3Uri = sourceS3Uri
         }
@@ -9957,6 +10040,50 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    public enum InstanceGroupStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case creating
+        case degraded
+        case deleting
+        case failed
+        case inservice
+        case systemupdating
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstanceGroupStatus] {
+            return [
+                .creating,
+                .degraded,
+                .deleting,
+                .failed,
+                .inservice,
+                .systemupdating,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .creating: return "Creating"
+            case .degraded: return "Degraded"
+            case .deleting: return "Deleting"
+            case .failed: return "Failed"
+            case .inservice: return "InService"
+            case .systemupdating: return "SystemUpdating"
+            case .updating: return "Updating"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Details of an instance group in a SageMaker HyperPod cluster.
     public struct ClusterInstanceGroupDetails: Swift.Sendable {
         /// The number of instances that are currently in the instance group of a SageMaker HyperPod cluster.
@@ -9973,10 +10100,30 @@ extension SageMakerClientTypes {
         public var lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig?
         /// A flag indicating whether deep health checks should be performed when the cluster instance group is created or updated.
         public var onStartDeepHealthChecks: [SageMakerClientTypes.DeepHealthCheckType]?
+        /// Specifies an Amazon Virtual Private Cloud (VPC) that your SageMaker jobs, hosted models, and compute resources have access to. You can control access to and from your resources by configuring a VPC. For more information, see [Give SageMaker Access to Resources in your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html).
+        public var overrideVpcConfig: SageMakerClientTypes.VpcConfig?
+        /// The current status of the cluster instance group.
+        ///
+        /// * InService: The instance group is active and healthy.
+        ///
+        /// * Creating: The instance group is being provisioned.
+        ///
+        /// * Updating: The instance group is being updated.
+        ///
+        /// * Failed: The instance group has failed to provision or is no longer healthy.
+        ///
+        /// * Degraded: The instance group is degraded, meaning that some instances have failed to provision or are no longer healthy.
+        ///
+        /// * Deleting: The instance group is being deleted.
+        public var status: SageMakerClientTypes.InstanceGroupStatus?
         /// The number of instances you specified to add to the instance group of a SageMaker HyperPod cluster.
         public var targetCount: Swift.Int?
         /// The number you specified to TreadsPerCore in CreateCluster for enabling or disabling multithreading. For instance types that support multithreading, you can specify 1 for disabling multithreading and 2 for enabling multithreading. For more information, see the reference table of [CPU cores and threads per CPU core per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/cpu-options-supported-instances-values.html) in the Amazon Elastic Compute Cloud User Guide.
         public var threadsPerCore: Swift.Int?
+        /// The Amazon Resource Name (ARN); of the training plan associated with this cluster instance group. For more information about how to reserve GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see [CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html).
+        public var trainingPlanArn: Swift.String?
+        /// The current status of the training plan associated with this cluster instance group.
+        public var trainingPlanStatus: Swift.String?
 
         public init(
             currentCount: Swift.Int? = nil,
@@ -9986,10 +10133,13 @@ extension SageMakerClientTypes {
             instanceType: SageMakerClientTypes.ClusterInstanceType? = nil,
             lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig? = nil,
             onStartDeepHealthChecks: [SageMakerClientTypes.DeepHealthCheckType]? = nil,
+            overrideVpcConfig: SageMakerClientTypes.VpcConfig? = nil,
+            status: SageMakerClientTypes.InstanceGroupStatus? = nil,
             targetCount: Swift.Int? = nil,
-            threadsPerCore: Swift.Int? = nil
-        )
-        {
+            threadsPerCore: Swift.Int? = nil,
+            trainingPlanArn: Swift.String? = nil,
+            trainingPlanStatus: Swift.String? = nil
+        ) {
             self.currentCount = currentCount
             self.executionRole = executionRole
             self.instanceGroupName = instanceGroupName
@@ -9997,8 +10147,12 @@ extension SageMakerClientTypes {
             self.instanceType = instanceType
             self.lifeCycleConfig = lifeCycleConfig
             self.onStartDeepHealthChecks = onStartDeepHealthChecks
+            self.overrideVpcConfig = overrideVpcConfig
+            self.status = status
             self.targetCount = targetCount
             self.threadsPerCore = threadsPerCore
+            self.trainingPlanArn = trainingPlanArn
+            self.trainingPlanStatus = trainingPlanStatus
         }
     }
 }
@@ -10026,8 +10180,12 @@ extension SageMakerClientTypes {
         public var lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig?
         /// A flag indicating whether deep health checks should be performed when the cluster instance group is created or updated.
         public var onStartDeepHealthChecks: [SageMakerClientTypes.DeepHealthCheckType]?
+        /// Specifies an Amazon Virtual Private Cloud (VPC) that your SageMaker jobs, hosted models, and compute resources have access to. You can control access to and from your resources by configuring a VPC. For more information, see [Give SageMaker Access to Resources in your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html).
+        public var overrideVpcConfig: SageMakerClientTypes.VpcConfig?
         /// Specifies the value for Threads per core. For instance types that support multithreading, you can specify 1 for disabling multithreading and 2 for enabling multithreading. For instance types that doesn't support multithreading, specify 1. For more information, see the reference table of [CPU cores and threads per CPU core per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/cpu-options-supported-instances-values.html) in the Amazon Elastic Compute Cloud User Guide.
         public var threadsPerCore: Swift.Int?
+        /// The Amazon Resource Name (ARN); of the training plan to use for this cluster instance group. For more information about how to reserve GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see [CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html).
+        public var trainingPlanArn: Swift.String?
 
         public init(
             executionRole: Swift.String? = nil,
@@ -10037,9 +10195,10 @@ extension SageMakerClientTypes {
             instanceType: SageMakerClientTypes.ClusterInstanceType? = nil,
             lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig? = nil,
             onStartDeepHealthChecks: [SageMakerClientTypes.DeepHealthCheckType]? = nil,
-            threadsPerCore: Swift.Int? = nil
-        )
-        {
+            overrideVpcConfig: SageMakerClientTypes.VpcConfig? = nil,
+            threadsPerCore: Swift.Int? = nil,
+            trainingPlanArn: Swift.String? = nil
+        ) {
             self.executionRole = executionRole
             self.instanceCount = instanceCount
             self.instanceGroupName = instanceGroupName
@@ -10047,7 +10206,9 @@ extension SageMakerClientTypes {
             self.instanceType = instanceType
             self.lifeCycleConfig = lifeCycleConfig
             self.onStartDeepHealthChecks = onStartDeepHealthChecks
+            self.overrideVpcConfig = overrideVpcConfig
             self.threadsPerCore = threadsPerCore
+            self.trainingPlanArn = trainingPlanArn
         }
     }
 }
@@ -10064,8 +10225,7 @@ extension SageMakerClientTypes {
         public init(
             availabilityZone: Swift.String? = nil,
             availabilityZoneId: Swift.String? = nil
-        )
-        {
+        ) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
         }
@@ -10126,8 +10286,7 @@ extension SageMakerClientTypes {
         public init(
             message: Swift.String? = nil,
             status: SageMakerClientTypes.ClusterInstanceStatus? = nil
-        )
-        {
+        ) {
             self.message = message
             self.status = status
         }
@@ -10152,12 +10311,16 @@ extension SageMakerClientTypes {
         public var launchTime: Foundation.Date?
         /// The LifeCycle configuration applied to the instance.
         public var lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig?
+        /// Specifies an Amazon Virtual Private Cloud (VPC) that your SageMaker jobs, hosted models, and compute resources have access to. You can control access to and from your resources by configuring a VPC. For more information, see [Give SageMaker Access to Resources in your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html).
+        public var overrideVpcConfig: SageMakerClientTypes.VpcConfig?
         /// The placement details of the SageMaker HyperPod cluster node.
         public var placement: SageMakerClientTypes.ClusterInstancePlacement?
         /// The private DNS hostname of the SageMaker HyperPod cluster node.
         public var privateDnsHostname: Swift.String?
         /// The private primary IP address of the SageMaker HyperPod cluster node.
         public var privatePrimaryIp: Swift.String?
+        /// The private primary IPv6 address of the SageMaker HyperPod cluster node.
+        public var privatePrimaryIpv6: Swift.String?
         /// The number of threads per CPU core you specified under CreateCluster.
         public var threadsPerCore: Swift.Int?
 
@@ -10169,12 +10332,13 @@ extension SageMakerClientTypes {
             instanceType: SageMakerClientTypes.ClusterInstanceType? = nil,
             launchTime: Foundation.Date? = nil,
             lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig? = nil,
+            overrideVpcConfig: SageMakerClientTypes.VpcConfig? = nil,
             placement: SageMakerClientTypes.ClusterInstancePlacement? = nil,
             privateDnsHostname: Swift.String? = nil,
             privatePrimaryIp: Swift.String? = nil,
+            privatePrimaryIpv6: Swift.String? = nil,
             threadsPerCore: Swift.Int? = nil
-        )
-        {
+        ) {
             self.instanceGroupName = instanceGroupName
             self.instanceId = instanceId
             self.instanceStatus = instanceStatus
@@ -10182,9 +10346,11 @@ extension SageMakerClientTypes {
             self.instanceType = instanceType
             self.launchTime = launchTime
             self.lifeCycleConfig = lifeCycleConfig
+            self.overrideVpcConfig = overrideVpcConfig
             self.placement = placement
             self.privateDnsHostname = privateDnsHostname
             self.privatePrimaryIp = privatePrimaryIp
+            self.privatePrimaryIpv6 = privatePrimaryIpv6
             self.threadsPerCore = threadsPerCore
         }
     }
@@ -10245,8 +10411,7 @@ extension SageMakerClientTypes {
             instanceStatus: SageMakerClientTypes.ClusterInstanceStatusDetails? = nil,
             instanceType: SageMakerClientTypes.ClusterInstanceType? = nil,
             launchTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.instanceGroupName = instanceGroupName
             self.instanceId = instanceId
             self.instanceStatus = instanceStatus
@@ -10266,8 +10431,7 @@ extension SageMakerClientTypes {
 
         public init(
             clusterArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.clusterArn = clusterArn
         }
     }
@@ -10283,9 +10447,115 @@ extension SageMakerClientTypes {
 
         public init(
             eks: SageMakerClientTypes.ClusterOrchestratorEksConfig? = nil
-        )
-        {
+        ) {
             self.eks = eks
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum SchedulerResourceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case created
+        case createFailed
+        case createRollbackFailed
+        case creating
+        case deleted
+        case deleteFailed
+        case deleteRollbackFailed
+        case deleting
+        case updated
+        case updateFailed
+        case updateRollbackFailed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SchedulerResourceStatus] {
+            return [
+                .created,
+                .createFailed,
+                .createRollbackFailed,
+                .creating,
+                .deleted,
+                .deleteFailed,
+                .deleteRollbackFailed,
+                .deleting,
+                .updated,
+                .updateFailed,
+                .updateRollbackFailed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .created: return "Created"
+            case .createFailed: return "CreateFailed"
+            case .createRollbackFailed: return "CreateRollbackFailed"
+            case .creating: return "Creating"
+            case .deleted: return "Deleted"
+            case .deleteFailed: return "DeleteFailed"
+            case .deleteRollbackFailed: return "DeleteRollbackFailed"
+            case .deleting: return "Deleting"
+            case .updated: return "Updated"
+            case .updateFailed: return "UpdateFailed"
+            case .updateRollbackFailed: return "UpdateRollbackFailed"
+            case .updating: return "Updating"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Summary of the cluster policy.
+    public struct ClusterSchedulerConfigSummary: Swift.Sendable {
+        /// ARN of the cluster.
+        public var clusterArn: Swift.String?
+        /// ARN of the cluster policy.
+        /// This member is required.
+        public var clusterSchedulerConfigArn: Swift.String?
+        /// ID of the cluster policy.
+        /// This member is required.
+        public var clusterSchedulerConfigId: Swift.String?
+        /// Version of the cluster policy.
+        public var clusterSchedulerConfigVersion: Swift.Int?
+        /// Creation time of the cluster policy.
+        /// This member is required.
+        public var creationTime: Foundation.Date?
+        /// Last modified time of the cluster policy.
+        public var lastModifiedTime: Foundation.Date?
+        /// Name of the cluster policy.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Status of the cluster policy.
+        /// This member is required.
+        public var status: SageMakerClientTypes.SchedulerResourceStatus?
+
+        public init(
+            clusterArn: Swift.String? = nil,
+            clusterSchedulerConfigArn: Swift.String? = nil,
+            clusterSchedulerConfigId: Swift.String? = nil,
+            clusterSchedulerConfigVersion: Swift.Int? = nil,
+            creationTime: Foundation.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            status: SageMakerClientTypes.SchedulerResourceStatus? = nil
+        ) {
+            self.clusterArn = clusterArn
+            self.clusterSchedulerConfigArn = clusterSchedulerConfigArn
+            self.clusterSchedulerConfigId = clusterSchedulerConfigId
+            self.clusterSchedulerConfigVersion = clusterSchedulerConfigVersion
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.status = status
         }
     }
 }
@@ -10379,25 +10649,28 @@ extension SageMakerClientTypes {
         /// The time when the SageMaker HyperPod cluster is created.
         /// This member is required.
         public var creationTime: Foundation.Date?
+        /// A list of Amazon Resource Names (ARNs) of the training plans associated with this cluster. For more information about how to reserve GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see [CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html).
+        public var trainingPlanArns: [Swift.String]?
 
         public init(
             clusterArn: Swift.String? = nil,
             clusterName: Swift.String? = nil,
             clusterStatus: SageMakerClientTypes.ClusterStatus? = nil,
-            creationTime: Foundation.Date? = nil
-        )
-        {
+            creationTime: Foundation.Date? = nil,
+            trainingPlanArns: [Swift.String]? = nil
+        ) {
             self.clusterArn = clusterArn
             self.clusterName = clusterName
             self.clusterStatus = clusterStatus
             self.creationTime = creationTime
+            self.trainingPlanArns = trainingPlanArns
         }
     }
 }
 
 extension SageMakerClientTypes {
 
-    /// A custom SageMaker image. For more information, see [Bring your own SageMaker image](https://docs.aws.amazon.com/sagemaker/latest/dg/studio-byoi.html).
+    /// A custom SageMaker AI image. For more information, see [Bring your own SageMaker AI image](https://docs.aws.amazon.com/sagemaker/latest/dg/studio-byoi.html).
     public struct CustomImage: Swift.Sendable {
         /// The name of the AppImageConfig.
         /// This member is required.
@@ -10412,8 +10685,7 @@ extension SageMakerClientTypes {
             appImageConfigName: Swift.String? = nil,
             imageName: Swift.String? = nil,
             imageVersionNumber: Swift.Int? = nil
-        )
-        {
+        ) {
             self.appImageConfigName = appImageConfigName
             self.imageName = imageName
             self.imageVersionNumber = imageVersionNumber
@@ -10431,7 +10703,7 @@ extension SageMakerClientTypes {
         public var builtInLifecycleConfigArn: Swift.String?
         /// A list of custom SageMaker images that are configured to run as a Code Editor app.
         public var customImages: [SageMakerClientTypes.CustomImage]?
-        /// Specifies the ARN's of a SageMaker image and SageMaker image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
         /// The Amazon Resource Name (ARN) of the Code Editor application lifecycle configuration.
         public var lifecycleConfigArns: [Swift.String]?
@@ -10442,8 +10714,7 @@ extension SageMakerClientTypes {
             customImages: [SageMakerClientTypes.CustomImage]? = nil,
             defaultResourceSpec: SageMakerClientTypes.ResourceSpec? = nil,
             lifecycleConfigArns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.appLifecycleManagement = appLifecycleManagement
             self.builtInLifecycleConfigArn = builtInLifecycleConfigArn
             self.customImages = customImages
@@ -10455,7 +10726,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// A Git repository that SageMaker automatically displays to users for cloning in the JupyterServer application.
+    /// A Git repository that SageMaker AI automatically displays to users for cloning in the JupyterServer application.
     public struct CodeRepository: Swift.Sendable {
         /// The URL of the Git repository.
         /// This member is required.
@@ -10463,8 +10734,7 @@ extension SageMakerClientTypes {
 
         public init(
             repositoryUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.repositoryUrl = repositoryUrl
         }
     }
@@ -10547,8 +10817,7 @@ extension SageMakerClientTypes {
             branch: Swift.String? = nil,
             repositoryUrl: Swift.String? = nil,
             secretArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.branch = branch
             self.repositoryUrl = repositoryUrl
             self.secretArn = secretArn
@@ -10581,8 +10850,7 @@ extension SageMakerClientTypes {
             creationTime: Foundation.Date? = nil,
             gitConfig: SageMakerClientTypes.GitConfig? = nil,
             lastModifiedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.codeRepositoryArn = codeRepositoryArn
             self.codeRepositoryName = codeRepositoryName
             self.creationTime = creationTime
@@ -10606,8 +10874,7 @@ extension SageMakerClientTypes {
         public init(
             clientId: Swift.String? = nil,
             userPool: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientId = clientId
             self.userPool = userPool
         }
@@ -10632,8 +10899,7 @@ extension SageMakerClientTypes {
             clientId: Swift.String? = nil,
             userGroup: Swift.String? = nil,
             userPool: Swift.String? = nil
-        )
-        {
+        ) {
             self.clientId = clientId
             self.userGroup = userGroup
             self.userPool = userPool
@@ -10651,8 +10917,7 @@ extension SageMakerClientTypes {
 
         public init(
             dimension: Swift.Int? = nil
-        )
-        {
+        ) {
             self.dimension = dimension
         }
     }
@@ -10682,8 +10947,7 @@ extension SageMakerClientTypes {
         public init(
             collectionName: Swift.String? = nil,
             collectionParameters: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.collectionName = collectionName
             self.collectionParameters = collectionParameters
         }
@@ -11042,8 +11306,7 @@ extension SageMakerClientTypes {
             compilationTargetPlatformOs: SageMakerClientTypes.TargetPlatformOs? = nil,
             creationTime: Foundation.Date? = nil,
             lastModifiedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.compilationEndTime = compilationEndTime
             self.compilationJobArn = compilationJobArn
             self.compilationJobName = compilationJobName
@@ -11090,6 +11353,221 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// Configuration of the resources used for the compute allocation definition.
+    public struct ComputeQuotaResourceConfig: Swift.Sendable {
+        /// The number of instances to add to the instance group of a SageMaker HyperPod cluster.
+        /// This member is required.
+        public var count: Swift.Int?
+        /// The instance type of the instance group for the cluster.
+        /// This member is required.
+        public var instanceType: SageMakerClientTypes.ClusterInstanceType?
+
+        public init(
+            count: Swift.Int? = nil,
+            instanceType: SageMakerClientTypes.ClusterInstanceType? = nil
+        ) {
+            self.count = count
+            self.instanceType = instanceType
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum PreemptTeamTasks: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case lowerpriority
+        case never
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PreemptTeamTasks] {
+            return [
+                .lowerpriority,
+                .never
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .lowerpriority: return "LowerPriority"
+            case .never: return "Never"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum ResourceSharingStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dontlend
+        case lend
+        case lendandborrow
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceSharingStrategy] {
+            return [
+                .dontlend,
+                .lend,
+                .lendandborrow
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dontlend: return "DontLend"
+            case .lend: return "Lend"
+            case .lendandborrow: return "LendAndBorrow"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Resource sharing configuration.
+    public struct ResourceSharingConfig: Swift.Sendable {
+        /// The limit on how much idle compute can be borrowed.The values can be 1 - 500 percent of idle compute that the team is allowed to borrow. Default is 50.
+        public var borrowLimit: Swift.Int?
+        /// The strategy of how idle compute is shared within the cluster. The following are the options of strategies.
+        ///
+        /// * DontLend: entities do not lend idle compute.
+        ///
+        /// * Lend: entities can lend idle compute to entities that can borrow.
+        ///
+        /// * LendandBorrow: entities can lend idle compute and borrow idle compute from other entities.
+        ///
+        ///
+        /// Default is LendandBorrow.
+        /// This member is required.
+        public var strategy: SageMakerClientTypes.ResourceSharingStrategy?
+
+        public init(
+            borrowLimit: Swift.Int? = nil,
+            strategy: SageMakerClientTypes.ResourceSharingStrategy? = nil
+        ) {
+            self.borrowLimit = borrowLimit
+            self.strategy = strategy
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Configuration of the compute allocation definition for an entity. This includes the resource sharing option and the setting to preempt low priority tasks.
+    public struct ComputeQuotaConfig: Swift.Sendable {
+        /// Allocate compute resources by instance types.
+        public var computeQuotaResources: [SageMakerClientTypes.ComputeQuotaResourceConfig]?
+        /// Allows workloads from within an entity to preempt same-team workloads. When set to LowerPriority, the entity's lower priority tasks are preempted by their own higher priority tasks. Default is LowerPriority.
+        public var preemptTeamTasks: SageMakerClientTypes.PreemptTeamTasks?
+        /// Resource sharing configuration. This defines how an entity can lend and borrow idle compute with other entities within the cluster.
+        public var resourceSharingConfig: SageMakerClientTypes.ResourceSharingConfig?
+
+        public init(
+            computeQuotaResources: [SageMakerClientTypes.ComputeQuotaResourceConfig]? = nil,
+            preemptTeamTasks: SageMakerClientTypes.PreemptTeamTasks? = nil,
+            resourceSharingConfig: SageMakerClientTypes.ResourceSharingConfig? = nil
+        ) {
+            self.computeQuotaResources = computeQuotaResources
+            self.preemptTeamTasks = preemptTeamTasks
+            self.resourceSharingConfig = resourceSharingConfig
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The target entity to allocate compute resources to.
+    public struct ComputeQuotaTarget: Swift.Sendable {
+        /// Assigned entity fair-share weight. Idle compute will be shared across entities based on these assigned weights. This weight is only used when FairShare is enabled. A weight of 0 is the lowest priority and 100 is the highest. Weight 0 is the default.
+        public var fairShareWeight: Swift.Int?
+        /// Name of the team to allocate compute resources to.
+        /// This member is required.
+        public var teamName: Swift.String?
+
+        public init(
+            fairShareWeight: Swift.Int? = nil,
+            teamName: Swift.String? = nil
+        ) {
+            self.fairShareWeight = fairShareWeight
+            self.teamName = teamName
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Summary of the compute allocation definition.
+    public struct ComputeQuotaSummary: Swift.Sendable {
+        /// The state of the compute allocation being described. Use to enable or disable compute allocation. Default is Enabled.
+        public var activationState: SageMakerClientTypes.ActivationState?
+        /// ARN of the cluster.
+        public var clusterArn: Swift.String?
+        /// ARN of the compute allocation definition.
+        /// This member is required.
+        public var computeQuotaArn: Swift.String?
+        /// Configuration of the compute allocation definition. This includes the resource sharing option, and the setting to preempt low priority tasks.
+        public var computeQuotaConfig: SageMakerClientTypes.ComputeQuotaConfig?
+        /// ID of the compute allocation definition.
+        /// This member is required.
+        public var computeQuotaId: Swift.String?
+        /// The target entity to allocate compute resources to.
+        /// This member is required.
+        public var computeQuotaTarget: SageMakerClientTypes.ComputeQuotaTarget?
+        /// Version of the compute allocation definition.
+        public var computeQuotaVersion: Swift.Int?
+        /// Creation time of the compute allocation definition.
+        /// This member is required.
+        public var creationTime: Foundation.Date?
+        /// Last modified time of the compute allocation definition.
+        public var lastModifiedTime: Foundation.Date?
+        /// Name of the compute allocation definition.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Status of the compute allocation definition.
+        /// This member is required.
+        public var status: SageMakerClientTypes.SchedulerResourceStatus?
+
+        public init(
+            activationState: SageMakerClientTypes.ActivationState? = nil,
+            clusterArn: Swift.String? = nil,
+            computeQuotaArn: Swift.String? = nil,
+            computeQuotaConfig: SageMakerClientTypes.ComputeQuotaConfig? = nil,
+            computeQuotaId: Swift.String? = nil,
+            computeQuotaTarget: SageMakerClientTypes.ComputeQuotaTarget? = nil,
+            computeQuotaVersion: Swift.Int? = nil,
+            creationTime: Foundation.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            status: SageMakerClientTypes.SchedulerResourceStatus? = nil
+        ) {
+            self.activationState = activationState
+            self.clusterArn = clusterArn
+            self.computeQuotaArn = computeQuotaArn
+            self.computeQuotaConfig = computeQuotaConfig
+            self.computeQuotaId = computeQuotaId
+            self.computeQuotaTarget = computeQuotaTarget
+            self.computeQuotaVersion = computeQuotaVersion
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.status = status
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum ConditionOutcome: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `false`
         case `true`
@@ -11126,17 +11604,16 @@ extension SageMakerClientTypes {
 
         public init(
             outcome: SageMakerClientTypes.ConditionOutcome? = nil
-        )
-        {
+        ) {
             self.outcome = outcome
         }
     }
 }
 
 /// There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -11151,8 +11628,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -11196,8 +11672,7 @@ extension SageMakerClientTypes {
 
         public init(
             repositoryCredentialsProviderArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.repositoryCredentialsProviderArn = repositoryCredentialsProviderArn
         }
     }
@@ -11220,8 +11695,7 @@ extension SageMakerClientTypes {
         public init(
             repositoryAccessMode: SageMakerClientTypes.RepositoryAccessMode? = nil,
             repositoryAuthConfig: SageMakerClientTypes.RepositoryAuthConfig? = nil
-        )
-        {
+        ) {
             self.repositoryAccessMode = repositoryAccessMode
             self.repositoryAuthConfig = repositoryAuthConfig
         }
@@ -11295,8 +11769,7 @@ extension SageMakerClientTypes {
 
         public init(
             modelCacheSetting: SageMakerClientTypes.ModelCacheSetting? = nil
-        )
-        {
+        ) {
             self.modelCacheSetting = modelCacheSetting
         }
     }
@@ -11341,8 +11814,7 @@ extension SageMakerClientTypes {
             modelDataUrl: Swift.String? = nil,
             modelPackageName: Swift.String? = nil,
             multiModelConfig: SageMakerClientTypes.MultiModelConfig? = nil
-        )
-        {
+        ) {
             self.additionalModelDataSources = additionalModelDataSources
             self.containerHostname = containerHostname
             self.environment = environment
@@ -11403,8 +11875,7 @@ extension SageMakerClientTypes {
             sourceId: Swift.String? = nil,
             sourceType: Swift.String? = nil,
             sourceUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceId = sourceId
             self.sourceType = sourceType
             self.sourceUri = sourceUri
@@ -11436,8 +11907,7 @@ extension SageMakerClientTypes {
             creationTime: Foundation.Date? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             source: SageMakerClientTypes.ContextSource? = nil
-        )
-        {
+        ) {
             self.contextArn = contextArn
             self.contextName = contextName
             self.contextType = contextType
@@ -11504,8 +11974,7 @@ extension SageMakerClientTypes {
             minValue: Swift.String? = nil,
             name: Swift.String? = nil,
             scalingType: SageMakerClientTypes.HyperParameterScalingType? = nil
-        )
-        {
+        ) {
             self.maxValue = maxValue
             self.minValue = minValue
             self.name = name
@@ -11528,8 +11997,7 @@ extension SageMakerClientTypes {
         public init(
             maxValue: Swift.String? = nil,
             minValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.maxValue = maxValue
             self.minValue = minValue
         }
@@ -11545,8 +12013,7 @@ extension SageMakerClientTypes {
 
         public init(
             completeOnConvergence: SageMakerClientTypes.CompleteOnConvergence? = nil
-        )
-        {
+        ) {
             self.completeOnConvergence = completeOnConvergence
         }
     }
@@ -11570,8 +12037,7 @@ extension SageMakerClientTypes {
             generatedBy: Swift.String? = nil,
             projectId: Swift.String? = nil,
             repository: Swift.String? = nil
-        )
-        {
+        ) {
             self.commitId = commitId
             self.generatedBy = generatedBy
             self.projectId = projectId
@@ -11610,8 +12076,7 @@ public struct CreateActionInput: Swift.Sendable {
         source: SageMakerClientTypes.ActionSource? = nil,
         status: SageMakerClientTypes.ActionStatus? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.actionName = actionName
         self.actionType = actionType
         self.description = description
@@ -11629,8 +12094,7 @@ public struct CreateActionOutput: Swift.Sendable {
 
     public init(
         actionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionArn = actionArn
     }
 }
@@ -11649,8 +12113,7 @@ extension SageMakerClientTypes {
         public init(
             maxValue: Swift.String? = nil,
             minValue: Swift.String? = nil
-        )
-        {
+        ) {
             self.maxValue = maxValue
             self.minValue = minValue
         }
@@ -11672,8 +12135,7 @@ extension SageMakerClientTypes {
             categoricalParameterRangeSpecification: SageMakerClientTypes.CategoricalParameterRangeSpecification? = nil,
             continuousParameterRangeSpecification: SageMakerClientTypes.ContinuousParameterRangeSpecification? = nil,
             integerParameterRangeSpecification: SageMakerClientTypes.IntegerParameterRangeSpecification? = nil
-        )
-        {
+        ) {
             self.categoricalParameterRangeSpecification = categoricalParameterRangeSpecification
             self.continuousParameterRangeSpecification = continuousParameterRangeSpecification
             self.integerParameterRangeSpecification = integerParameterRangeSpecification
@@ -11745,8 +12207,7 @@ extension SageMakerClientTypes {
             name: Swift.String? = nil,
             range: SageMakerClientTypes.ParameterRange? = nil,
             type: SageMakerClientTypes.ParameterType? = nil
-        )
-        {
+        ) {
             self.defaultValue = defaultValue
             self.description = description
             self.isRequired = isRequired
@@ -11801,8 +12262,7 @@ extension SageMakerClientTypes {
         public init(
             metricName: Swift.String? = nil,
             type: SageMakerClientTypes.HyperParameterTuningJobObjectiveType? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
             self.type = type
         }
@@ -11845,8 +12305,7 @@ extension SageMakerClientTypes {
             trainingChannels: [SageMakerClientTypes.ChannelSpecification]? = nil,
             trainingImage: Swift.String? = nil,
             trainingImageDigest: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalS3DataSource = additionalS3DataSource
             self.metricDefinitions = metricDefinitions
             self.supportedHyperParameters = supportedHyperParameters
@@ -11906,8 +12365,7 @@ public struct CreateAlgorithmInput: Swift.Sendable {
         tags: [SageMakerClientTypes.Tag]? = nil,
         trainingSpecification: SageMakerClientTypes.TrainingSpecification? = nil,
         validationSpecification: SageMakerClientTypes.AlgorithmValidationSpecification? = nil
-    )
-    {
+    ) {
         self.algorithmDescription = algorithmDescription
         self.algorithmName = algorithmName
         self.certifyForMarketplace = certifyForMarketplace
@@ -11925,16 +12383,15 @@ public struct CreateAlgorithmOutput: Swift.Sendable {
 
     public init(
         algorithmArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.algorithmArn = algorithmArn
     }
 }
 
 /// Resource being accessed is in use.
-public struct ResourceInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -11949,8 +12406,7 @@ public struct ResourceInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 
     public init(
         message: Swift.String? = nil
-    )
-    {
+    ) {
         self.properties.message = message
     }
 }
@@ -11965,7 +12421,7 @@ public struct CreateAppInput: Swift.Sendable {
     /// The domain ID.
     /// This member is required.
     public var domainId: Swift.String?
-    /// The instance type and the Amazon Resource Name (ARN) of the SageMaker image created on the instance. The value of InstanceType passed as part of the ResourceSpec in the CreateApp call overrides the value passed as part of the ResourceSpec configured for the user profile or the domain. If InstanceType is not specified in any of those three ResourceSpec values for a KernelGateway app, the CreateApp call fails with a request validation error.
+    /// The instance type and the Amazon Resource Name (ARN) of the SageMaker AI image created on the instance. The value of InstanceType passed as part of the ResourceSpec in the CreateApp call overrides the value passed as part of the ResourceSpec configured for the user profile or the domain. If InstanceType is not specified in any of those three ResourceSpec values for a KernelGateway app, the CreateApp call fails with a request validation error.
     public var resourceSpec: SageMakerClientTypes.ResourceSpec?
     /// The name of the space. If this value is not set, then UserProfileName must be set.
     public var spaceName: Swift.String?
@@ -11982,8 +12438,7 @@ public struct CreateAppInput: Swift.Sendable {
         spaceName: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         userProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appName = appName
         self.appType = appType
         self.domainId = domainId
@@ -12000,8 +12455,7 @@ public struct CreateAppOutput: Swift.Sendable {
 
     public init(
         appArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
     }
 }
@@ -12025,8 +12479,7 @@ public struct CreateAppImageConfigInput: Swift.Sendable {
         jupyterLabAppImageConfig: SageMakerClientTypes.JupyterLabAppImageConfig? = nil,
         kernelGatewayImageConfig: SageMakerClientTypes.KernelGatewayImageConfig? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.appImageConfigName = appImageConfigName
         self.codeEditorAppImageConfig = codeEditorAppImageConfig
         self.jupyterLabAppImageConfig = jupyterLabAppImageConfig
@@ -12041,8 +12494,7 @@ public struct CreateAppImageConfigOutput: Swift.Sendable {
 
     public init(
         appImageConfigArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appImageConfigArn = appImageConfigArn
     }
 }
@@ -12070,8 +12522,7 @@ public struct CreateArtifactInput: Swift.Sendable {
         properties: [Swift.String: Swift.String]? = nil,
         source: SageMakerClientTypes.ArtifactSource? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.artifactName = artifactName
         self.artifactType = artifactType
         self.metadataProperties = metadataProperties
@@ -12087,8 +12538,7 @@ public struct CreateArtifactOutput: Swift.Sendable {
 
     public init(
         artifactArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.artifactArn = artifactArn
     }
 }
@@ -12105,8 +12555,7 @@ extension SageMakerClientTypes {
         public init(
             autoGenerateEndpointName: Swift.Bool? = nil,
             endpointName: Swift.String? = nil
-        )
-        {
+        ) {
             self.autoGenerateEndpointName = autoGenerateEndpointName
             self.endpointName = endpointName
         }
@@ -12150,8 +12599,7 @@ public struct CreateAutoMLJobInput: Swift.Sendable {
         problemType: SageMakerClientTypes.ProblemType? = nil,
         roleArn: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.autoMLJobConfig = autoMLJobConfig
         self.autoMLJobName = autoMLJobName
         self.autoMLJobObjective = autoMLJobObjective
@@ -12172,8 +12620,7 @@ public struct CreateAutoMLJobOutput: Swift.Sendable {
 
     public init(
         autoMLJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoMLJobArn = autoMLJobArn
     }
 }
@@ -12233,8 +12680,7 @@ public struct CreateAutoMLJobV2Input: Swift.Sendable {
         roleArn: Swift.String? = nil,
         securityConfig: SageMakerClientTypes.AutoMLSecurityConfig? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.autoMLComputeConfig = autoMLComputeConfig
         self.autoMLJobInputDataConfig = autoMLJobInputDataConfig
         self.autoMLJobName = autoMLJobName
@@ -12256,8 +12702,7 @@ public struct CreateAutoMLJobV2Output: Swift.Sendable {
 
     public init(
         autoMLJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoMLJobArn = autoMLJobArn
     }
 }
@@ -12285,8 +12730,7 @@ public struct CreateClusterInput: Swift.Sendable {
         orchestrator: SageMakerClientTypes.ClusterOrchestrator? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.instanceGroups = instanceGroups
         self.nodeRecovery = nodeRecovery
@@ -12303,9 +12747,124 @@ public struct CreateClusterOutput: Swift.Sendable {
 
     public init(
         clusterArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum FairShare: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FairShare] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "Disabled"
+            case .enabled: return "Enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Priority class configuration. When included in PriorityClasses, these class configurations define how tasks are queued.
+    public struct PriorityClass: Swift.Sendable {
+        /// Name of the priority class.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Weight of the priority class. The value is within a range from 0 to 100, where 0 is the default. A weight of 0 is the lowest priority and 100 is the highest. Weight 0 is the default.
+        /// This member is required.
+        public var weight: Swift.Int?
+
+        public init(
+            name: Swift.String? = nil,
+            weight: Swift.Int? = nil
+        ) {
+            self.name = name
+            self.weight = weight
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Cluster policy configuration. This policy is used for task prioritization and fair-share allocation. This helps prioritize critical workloads and distributes idle compute across entities.
+    public struct SchedulerConfig: Swift.Sendable {
+        /// When enabled, entities borrow idle compute based on their assigned FairShareWeight. When disabled, entities borrow idle compute based on a first-come first-serve basis. Default is Enabled.
+        public var fairShare: SageMakerClientTypes.FairShare?
+        /// List of the priority classes, PriorityClass, of the cluster policy. When specified, these class configurations define how tasks are queued.
+        public var priorityClasses: [SageMakerClientTypes.PriorityClass]?
+
+        public init(
+            fairShare: SageMakerClientTypes.FairShare? = nil,
+            priorityClasses: [SageMakerClientTypes.PriorityClass]? = nil
+        ) {
+            self.fairShare = fairShare
+            self.priorityClasses = priorityClasses
+        }
+    }
+}
+
+public struct CreateClusterSchedulerConfigInput: Swift.Sendable {
+    /// ARN of the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// Description of the cluster policy.
+    public var description: Swift.String?
+    /// Name for the cluster policy.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Configuration about the monitoring schedule.
+    /// This member is required.
+    public var schedulerConfig: SageMakerClientTypes.SchedulerConfig?
+    /// Tags of the cluster policy.
+    public var tags: [SageMakerClientTypes.Tag]?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        schedulerConfig: SageMakerClientTypes.SchedulerConfig? = nil,
+        tags: [SageMakerClientTypes.Tag]? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.description = description
+        self.name = name
+        self.schedulerConfig = schedulerConfig
+        self.tags = tags
+    }
+}
+
+public struct CreateClusterSchedulerConfigOutput: Swift.Sendable {
+    /// ARN of the cluster policy.
+    /// This member is required.
+    public var clusterSchedulerConfigArn: Swift.String?
+    /// ID of the cluster policy.
+    /// This member is required.
+    public var clusterSchedulerConfigId: Swift.String?
+
+    public init(
+        clusterSchedulerConfigArn: Swift.String? = nil,
+        clusterSchedulerConfigId: Swift.String? = nil
+    ) {
+        self.clusterSchedulerConfigArn = clusterSchedulerConfigArn
+        self.clusterSchedulerConfigId = clusterSchedulerConfigId
     }
 }
 
@@ -12323,8 +12882,7 @@ public struct CreateCodeRepositoryInput: Swift.Sendable {
         codeRepositoryName: Swift.String? = nil,
         gitConfig: SageMakerClientTypes.GitConfig? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.codeRepositoryName = codeRepositoryName
         self.gitConfig = gitConfig
         self.tags = tags
@@ -12338,8 +12896,7 @@ public struct CreateCodeRepositoryOutput: Swift.Sendable {
 
     public init(
         codeRepositoryArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.codeRepositoryArn = codeRepositoryArn
     }
 }
@@ -12585,8 +13142,7 @@ extension SageMakerClientTypes {
             framework: SageMakerClientTypes.Framework? = nil,
             frameworkVersion: Swift.String? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataInputConfig = dataInputConfig
             self.framework = framework
             self.frameworkVersion = frameworkVersion
@@ -12632,8 +13188,7 @@ extension SageMakerClientTypes {
             accelerator: SageMakerClientTypes.TargetPlatformAccelerator? = nil,
             arch: SageMakerClientTypes.TargetPlatformArch? = nil,
             os: SageMakerClientTypes.TargetPlatformOs? = nil
-        )
-        {
+        ) {
             self.accelerator = accelerator
             self.arch = arch
             self.os = os
@@ -12698,7 +13253,7 @@ extension SageMakerClientTypes {
         ///
         /// * class_labels: Specifies the classification labels file name inside input tar.gz file. For example, {"class_labels": "imagenet_labels_1000.txt"}. Labels inside the txt file should be separated by newlines.
         public var compilerOptions: Swift.String?
-        /// The Amazon Web Services Key Management Service key (Amazon Web Services KMS) that Amazon SageMaker uses to encrypt your output models with Amazon S3 server-side encryption after compilation job. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. For more information, see [KMS-Managed Encryption Keys](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html) in the Amazon Simple Storage Service Developer Guide. The KmsKeyId can be any of the following formats:
+        /// The Amazon Web Services Key Management Service key (Amazon Web Services KMS) that Amazon SageMaker AI uses to encrypt your output models with Amazon S3 server-side encryption after compilation job. If you don't provide a KMS key ID, Amazon SageMaker AI uses the default KMS key for Amazon S3 for your role's account. For more information, see [KMS-Managed Encryption Keys](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html) in the Amazon Simple Storage Service Developer Guide. The KmsKeyId can be any of the following formats:
         ///
         /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
         ///
@@ -12708,7 +13263,7 @@ extension SageMakerClientTypes {
         ///
         /// * Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias
         public var kmsKeyId: Swift.String?
-        /// Identifies the S3 bucket where you want Amazon SageMaker to store the model artifacts. For example, s3://bucket-name/key-name-prefix.
+        /// Identifies the S3 bucket where you want Amazon SageMaker AI to store the model artifacts. For example, s3://bucket-name/key-name-prefix.
         /// This member is required.
         public var s3OutputLocation: Swift.String?
         /// Identifies the target device or the machine learning instance that you want to run your model on after the compilation has completed. Alternatively, you can specify OS, architecture, and accelerator using [TargetPlatform](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_TargetPlatform.html) fields. It can be used instead of TargetPlatform. Currently ml_trn1 is available only in US East (N. Virginia) Region, and ml_inf2 is available only in US East (Ohio) Region.
@@ -12734,8 +13289,7 @@ extension SageMakerClientTypes {
             s3OutputLocation: Swift.String? = nil,
             targetDevice: SageMakerClientTypes.TargetDevice? = nil,
             targetPlatform: SageMakerClientTypes.TargetPlatform? = nil
-        )
-        {
+        ) {
             self.compilerOptions = compilerOptions
             self.kmsKeyId = kmsKeyId
             self.s3OutputLocation = s3OutputLocation
@@ -12747,7 +13301,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// The [VpcConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_VpcConfig.html) configuration object that specifies the VPC that you want the compilation jobs to connect to. For more information on controlling access to your Amazon S3 buckets used for compilation job, see [Give Amazon SageMaker Compilation Jobs Access to Resources in Your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/neo-vpc.html).
+    /// The [VpcConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_VpcConfig.html) configuration object that specifies the VPC that you want the compilation jobs to connect to. For more information on controlling access to your Amazon S3 buckets used for compilation job, see [Give Amazon SageMaker AI Compilation Jobs Access to Resources in Your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/neo-vpc.html).
     public struct NeoVpcConfig: Swift.Sendable {
         /// The VPC security group IDs. IDs have the form of sg-xxxxxxxx. Specify the security groups for the VPC that is specified in the Subnets field.
         /// This member is required.
@@ -12759,8 +13313,7 @@ extension SageMakerClientTypes {
         public init(
             securityGroupIds: [Swift.String]? = nil,
             subnets: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnets = subnets
         }
@@ -12778,7 +13331,7 @@ public struct CreateCompilationJobInput: Swift.Sendable {
     /// Provides information about the output location for the compiled model and the target device the model runs on.
     /// This member is required.
     public var outputConfig: SageMakerClientTypes.OutputConfig?
-    /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker to perform tasks on your behalf. During model compilation, Amazon SageMaker needs your permission to:
+    /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker AI to perform tasks on your behalf. During model compilation, Amazon SageMaker AI needs your permission to:
     ///
     /// * Read input data from an S3 bucket
     ///
@@ -12789,10 +13342,10 @@ public struct CreateCompilationJobInput: Swift.Sendable {
     /// * Publish metrics to Amazon CloudWatch
     ///
     ///
-    /// You grant permissions for all of these tasks to an IAM role. To pass this role to Amazon SageMaker, the caller of this API must have the iam:PassRole permission. For more information, see [Amazon SageMaker Roles.](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html)
+    /// You grant permissions for all of these tasks to an IAM role. To pass this role to Amazon SageMaker AI, the caller of this API must have the iam:PassRole permission. For more information, see [Amazon SageMaker AI Roles.](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html)
     /// This member is required.
     public var roleArn: Swift.String?
-    /// Specifies a limit to how long a model compilation job can run. When the job reaches the time limit, Amazon SageMaker ends the compilation job. Use this API to cap model training costs.
+    /// Specifies a limit to how long a model compilation job can run. When the job reaches the time limit, Amazon SageMaker AI ends the compilation job. Use this API to cap model training costs.
     /// This member is required.
     public var stoppingCondition: SageMakerClientTypes.StoppingCondition?
     /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
@@ -12809,8 +13362,7 @@ public struct CreateCompilationJobInput: Swift.Sendable {
         stoppingCondition: SageMakerClientTypes.StoppingCondition? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         vpcConfig: SageMakerClientTypes.NeoVpcConfig? = nil
-    )
-    {
+    ) {
         self.compilationJobName = compilationJobName
         self.inputConfig = inputConfig
         self.modelPackageVersionArn = modelPackageVersionArn
@@ -12823,7 +13375,7 @@ public struct CreateCompilationJobInput: Swift.Sendable {
 }
 
 public struct CreateCompilationJobOutput: Swift.Sendable {
-    /// If the action is successful, the service sends back an HTTP 200 response. Amazon SageMaker returns the following data in JSON format:
+    /// If the action is successful, the service sends back an HTTP 200 response. Amazon SageMaker AI returns the following data in JSON format:
     ///
     /// * CompilationJobArn: The Amazon Resource Name (ARN) of the compiled job.
     /// This member is required.
@@ -12831,9 +13383,64 @@ public struct CreateCompilationJobOutput: Swift.Sendable {
 
     public init(
         compilationJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.compilationJobArn = compilationJobArn
+    }
+}
+
+public struct CreateComputeQuotaInput: Swift.Sendable {
+    /// The state of the compute allocation being described. Use to enable or disable compute allocation. Default is Enabled.
+    public var activationState: SageMakerClientTypes.ActivationState?
+    /// ARN of the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// Configuration of the compute allocation definition. This includes the resource sharing option, and the setting to preempt low priority tasks.
+    /// This member is required.
+    public var computeQuotaConfig: SageMakerClientTypes.ComputeQuotaConfig?
+    /// The target entity to allocate compute resources to.
+    /// This member is required.
+    public var computeQuotaTarget: SageMakerClientTypes.ComputeQuotaTarget?
+    /// Description of the compute allocation definition.
+    public var description: Swift.String?
+    /// Name to the compute allocation definition.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Tags of the compute allocation definition.
+    public var tags: [SageMakerClientTypes.Tag]?
+
+    public init(
+        activationState: SageMakerClientTypes.ActivationState? = nil,
+        clusterArn: Swift.String? = nil,
+        computeQuotaConfig: SageMakerClientTypes.ComputeQuotaConfig? = nil,
+        computeQuotaTarget: SageMakerClientTypes.ComputeQuotaTarget? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        tags: [SageMakerClientTypes.Tag]? = nil
+    ) {
+        self.activationState = activationState
+        self.clusterArn = clusterArn
+        self.computeQuotaConfig = computeQuotaConfig
+        self.computeQuotaTarget = computeQuotaTarget
+        self.description = description
+        self.name = name
+        self.tags = tags
+    }
+}
+
+public struct CreateComputeQuotaOutput: Swift.Sendable {
+    /// ARN of the compute allocation definition.
+    /// This member is required.
+    public var computeQuotaArn: Swift.String?
+    /// ID of the compute allocation definition.
+    /// This member is required.
+    public var computeQuotaId: Swift.String?
+
+    public init(
+        computeQuotaArn: Swift.String? = nil,
+        computeQuotaId: Swift.String? = nil
+    ) {
+        self.computeQuotaArn = computeQuotaArn
+        self.computeQuotaId = computeQuotaId
     }
 }
 
@@ -12861,8 +13468,7 @@ public struct CreateContextInput: Swift.Sendable {
         properties: [Swift.String: Swift.String]? = nil,
         source: SageMakerClientTypes.ContextSource? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.contextName = contextName
         self.contextType = contextType
         self.description = description
@@ -12878,8 +13484,7 @@ public struct CreateContextOutput: Swift.Sendable {
 
     public init(
         contextArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.contextArn = contextArn
     }
 }
@@ -12909,8 +13514,7 @@ extension SageMakerClientTypes {
             imageUri: Swift.String? = nil,
             postAnalyticsProcessorSourceUri: Swift.String? = nil,
             recordPreprocessorSourceUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerArguments = containerArguments
             self.containerEntrypoint = containerEntrypoint
             self.environment = environment
@@ -12930,8 +13534,7 @@ extension SageMakerClientTypes {
 
         public init(
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Uri = s3Uri
         }
     }
@@ -12946,8 +13549,7 @@ extension SageMakerClientTypes {
 
         public init(
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Uri = s3Uri
         }
     }
@@ -12968,8 +13570,7 @@ extension SageMakerClientTypes {
             baseliningJobName: Swift.String? = nil,
             constraintsResource: SageMakerClientTypes.MonitoringConstraintsResource? = nil,
             statisticsResource: SageMakerClientTypes.MonitoringStatisticsResource? = nil
-        )
-        {
+        ) {
             self.baseliningJobName = baseliningJobName
             self.constraintsResource = constraintsResource
             self.statisticsResource = statisticsResource
@@ -13018,8 +13619,7 @@ extension SageMakerClientTypes {
             s3DataDistributionType: SageMakerClientTypes.ProcessingS3DataDistributionType? = nil,
             s3InputMode: SageMakerClientTypes.ProcessingS3InputMode? = nil,
             startTimeOffset: Swift.String? = nil
-        )
-        {
+        ) {
             self.endTimeOffset = endTimeOffset
             self.endpointName = endpointName
             self.excludeFeaturesAttribute = excludeFeaturesAttribute
@@ -13047,8 +13647,7 @@ extension SageMakerClientTypes {
         public init(
             batchTransformInput: SageMakerClientTypes.BatchTransformInput? = nil,
             endpointInput: SageMakerClientTypes.EndpointInput? = nil
-        )
-        {
+        ) {
             self.batchTransformInput = batchTransformInput
             self.endpointInput = endpointInput
         }
@@ -13088,12 +13687,12 @@ extension SageMakerClientTypes {
 
     /// Information about where and how you want to store the results of a monitoring job.
     public struct MonitoringS3Output: Swift.Sendable {
-        /// The local path to the Amazon S3 storage location where Amazon SageMaker saves the results of a monitoring job. LocalPath is an absolute path for the output data.
+        /// The local path to the Amazon S3 storage location where Amazon SageMaker AI saves the results of a monitoring job. LocalPath is an absolute path for the output data.
         /// This member is required.
         public var localPath: Swift.String?
         /// Whether to upload the results of the monitoring job continuously or after the job completes.
         public var s3UploadMode: SageMakerClientTypes.ProcessingS3UploadMode?
-        /// A URI that identifies the Amazon S3 storage location where Amazon SageMaker saves the results of a monitoring job.
+        /// A URI that identifies the Amazon S3 storage location where Amazon SageMaker AI saves the results of a monitoring job.
         /// This member is required.
         public var s3Uri: Swift.String?
 
@@ -13101,8 +13700,7 @@ extension SageMakerClientTypes {
             localPath: Swift.String? = nil,
             s3UploadMode: SageMakerClientTypes.ProcessingS3UploadMode? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.localPath = localPath
             self.s3UploadMode = s3UploadMode
             self.s3Uri = s3Uri
@@ -13120,8 +13718,7 @@ extension SageMakerClientTypes {
 
         public init(
             s3Output: SageMakerClientTypes.MonitoringS3Output? = nil
-        )
-        {
+        ) {
             self.s3Output = s3Output
         }
     }
@@ -13131,7 +13728,7 @@ extension SageMakerClientTypes {
 
     /// The output configuration for monitoring jobs.
     public struct MonitoringOutputConfig: Swift.Sendable {
-        /// The Key Management Service (KMS) key that Amazon SageMaker uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption.
+        /// The Key Management Service (KMS) key that Amazon SageMaker AI uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption.
         public var kmsKeyId: Swift.String?
         /// Monitoring outputs for monitoring jobs. This is where the output of the periodic monitoring jobs is uploaded.
         /// This member is required.
@@ -13140,8 +13737,7 @@ extension SageMakerClientTypes {
         public init(
             kmsKeyId: Swift.String? = nil,
             monitoringOutputs: [SageMakerClientTypes.MonitoringOutput]? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.monitoringOutputs = monitoringOutputs
         }
@@ -13361,7 +13957,7 @@ extension SageMakerClientTypes {
         /// The ML compute instance type for the processing job.
         /// This member is required.
         public var instanceType: SageMakerClientTypes.ProcessingInstanceType?
-        /// The Key Management Service (KMS) key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the model monitoring job.
+        /// The Key Management Service (KMS) key that Amazon SageMaker AI uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the model monitoring job.
         public var volumeKmsKeyId: Swift.String?
         /// The size of the ML storage volume, in gigabytes, that you want to provision. You must specify sufficient ML storage for your scenario.
         /// This member is required.
@@ -13372,8 +13968,7 @@ extension SageMakerClientTypes {
             instanceType: SageMakerClientTypes.ProcessingInstanceType? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             volumeSizeInGB: Swift.Int? = nil
-        )
-        {
+        ) {
             self.instanceCount = instanceCount
             self.instanceType = instanceType
             self.volumeKmsKeyId = volumeKmsKeyId
@@ -13392,8 +13987,7 @@ extension SageMakerClientTypes {
 
         public init(
             clusterConfig: SageMakerClientTypes.MonitoringClusterConfig? = nil
-        )
-        {
+        ) {
             self.clusterConfig = clusterConfig
         }
     }
@@ -13414,8 +14008,7 @@ extension SageMakerClientTypes {
             enableInterContainerTrafficEncryption: Swift.Bool? = nil,
             enableNetworkIsolation: Swift.Bool? = nil,
             vpcConfig: SageMakerClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.enableInterContainerTrafficEncryption = enableInterContainerTrafficEncryption
             self.enableNetworkIsolation = enableNetworkIsolation
             self.vpcConfig = vpcConfig
@@ -13433,8 +14026,7 @@ extension SageMakerClientTypes {
 
         public init(
             maxRuntimeInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxRuntimeInSeconds = maxRuntimeInSeconds
         }
     }
@@ -13460,7 +14052,7 @@ public struct CreateDataQualityJobDefinitionInput: Swift.Sendable {
     public var jobResources: SageMakerClientTypes.MonitoringResources?
     /// Specifies networking configuration for the monitoring job.
     public var networkConfig: SageMakerClientTypes.MonitoringNetworkConfig?
-    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.
+    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can assume to perform tasks on your behalf.
     /// This member is required.
     public var roleArn: Swift.String?
     /// A time limit for how long the monitoring job is allowed to run before stopping.
@@ -13479,8 +14071,7 @@ public struct CreateDataQualityJobDefinitionInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         stoppingCondition: SageMakerClientTypes.MonitoringStoppingCondition? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.dataQualityAppSpecification = dataQualityAppSpecification
         self.dataQualityBaselineConfig = dataQualityBaselineConfig
         self.dataQualityJobInput = dataQualityJobInput
@@ -13501,8 +14092,7 @@ public struct CreateDataQualityJobDefinitionOutput: Swift.Sendable {
 
     public init(
         jobDefinitionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionArn = jobDefinitionArn
     }
 }
@@ -13562,8 +14152,7 @@ extension SageMakerClientTypes {
             presetDeploymentConfig: Swift.String? = nil,
             presetDeploymentType: SageMakerClientTypes.EdgePresetDeploymentType? = nil,
             s3OutputLocation: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.presetDeploymentConfig = presetDeploymentConfig
             self.presetDeploymentType = presetDeploymentType
@@ -13595,8 +14184,7 @@ public struct CreateDeviceFleetInput: Swift.Sendable {
         outputConfig: SageMakerClientTypes.EdgeOutputConfig? = nil,
         roleArn: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.deviceFleetName = deviceFleetName
         self.enableIotRoleAlias = enableIotRoleAlias
@@ -13608,19 +14196,18 @@ public struct CreateDeviceFleetInput: Swift.Sendable {
 
 extension SageMakerClientTypes {
 
-    /// The settings for assigning a custom Amazon EFS file system to a user profile or space for an Amazon SageMaker Domain.
+    /// The settings for assigning a custom Amazon EFS file system to a user profile or space for an Amazon SageMaker AI Domain.
     public struct EFSFileSystemConfig: Swift.Sendable {
         /// The ID of your Amazon EFS file system.
         /// This member is required.
         public var fileSystemId: Swift.String?
-        /// The path to the file system directory that is accessible in Amazon SageMaker Studio. Permitted users can access only this directory and below.
+        /// The path to the file system directory that is accessible in Amazon SageMaker AI Studio. Permitted users can access only this directory and below.
         public var fileSystemPath: Swift.String?
 
         public init(
             fileSystemId: Swift.String? = nil,
             fileSystemPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.fileSystemId = fileSystemId
             self.fileSystemPath = fileSystemPath
         }
@@ -13629,10 +14216,32 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// The settings for assigning a custom file system to a user profile or space for an Amazon SageMaker Domain. Permitted users can access this file system in Amazon SageMaker Studio.
+    /// The settings for assigning a custom Amazon FSx for Lustre file system to a user profile or space for an Amazon SageMaker Domain.
+    public struct FSxLustreFileSystemConfig: Swift.Sendable {
+        /// The globally unique, 17-digit, ID of the file system, assigned by Amazon FSx for Lustre.
+        /// This member is required.
+        public var fileSystemId: Swift.String?
+        /// The path to the file system directory that is accessible in Amazon SageMaker Studio. Permitted users can access only this directory and below.
+        public var fileSystemPath: Swift.String?
+
+        public init(
+            fileSystemId: Swift.String? = nil,
+            fileSystemPath: Swift.String? = nil
+        ) {
+            self.fileSystemId = fileSystemId
+            self.fileSystemPath = fileSystemPath
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The settings for assigning a custom file system to a user profile or space for an Amazon SageMaker AI Domain. Permitted users can access this file system in Amazon SageMaker AI Studio.
     public enum CustomFileSystemConfig: Swift.Sendable {
         /// The settings for a custom Amazon EFS file system.
         case efsfilesystemconfig(SageMakerClientTypes.EFSFileSystemConfig)
+        /// The settings for a custom Amazon FSx for Lustre file system.
+        case fsxlustrefilesystemconfig(SageMakerClientTypes.FSxLustreFileSystemConfig)
         case sdkUnknown(Swift.String)
     }
 }
@@ -13651,8 +14260,7 @@ extension SageMakerClientTypes {
         public init(
             gid: Swift.Int? = nil,
             uid: Swift.Int? = nil
-        )
-        {
+        ) {
             self.gid = gid
             self.uid = uid
         }
@@ -13671,8 +14279,7 @@ extension SageMakerClientTypes {
         public init(
             assumableRoleArns: [Swift.String]? = nil,
             executionRoleArns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.assumableRoleArns = assumableRoleArns
             self.executionRoleArns = executionRoleArns
         }
@@ -13691,7 +14298,7 @@ extension SageMakerClientTypes {
         public var codeRepositories: [SageMakerClientTypes.CodeRepository]?
         /// A list of custom SageMaker images that are configured to run as a JupyterLab app.
         public var customImages: [SageMakerClientTypes.CustomImage]?
-        /// Specifies the ARN's of a SageMaker image and SageMaker image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
         /// The configuration parameters that specify the IAM roles assumed by the execution role of SageMaker (assumable roles) and the cluster instances or job execution environments (execution roles or runtime roles) to manage and access resources required for running Amazon EMR clusters or Amazon EMR Serverless applications.
         public var emrSettings: SageMakerClientTypes.EmrSettings?
@@ -13706,8 +14313,7 @@ extension SageMakerClientTypes {
             defaultResourceSpec: SageMakerClientTypes.ResourceSpec? = nil,
             emrSettings: SageMakerClientTypes.EmrSettings? = nil,
             lifecycleConfigArns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.appLifecycleManagement = appLifecycleManagement
             self.builtInLifecycleConfigArn = builtInLifecycleConfigArn
             self.codeRepositories = codeRepositories
@@ -13723,9 +14329,9 @@ extension SageMakerClientTypes {
 
     /// The JupyterServer app settings.
     public struct JupyterServerAppSettings: Swift.Sendable {
-        /// A list of Git repositories that SageMaker automatically displays to users for cloning in the JupyterServer application.
+        /// A list of Git repositories that SageMaker AI automatically displays to users for cloning in the JupyterServer application.
         public var codeRepositories: [SageMakerClientTypes.CodeRepository]?
-        /// The default instance type and the Amazon Resource Name (ARN) of the default SageMaker image used by the JupyterServer app. If you use the LifecycleConfigArns parameter, then this parameter is also required.
+        /// The default instance type and the Amazon Resource Name (ARN) of the default SageMaker AI image used by the JupyterServer app. If you use the LifecycleConfigArns parameter, then this parameter is also required.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
         /// The Amazon Resource Name (ARN) of the Lifecycle Configurations attached to the JupyterServerApp. If you use this parameter, the DefaultResourceSpec parameter is also required. To remove a Lifecycle Config, you must set LifecycleConfigArns to an empty list.
         public var lifecycleConfigArns: [Swift.String]?
@@ -13734,8 +14340,7 @@ extension SageMakerClientTypes {
             codeRepositories: [SageMakerClientTypes.CodeRepository]? = nil,
             defaultResourceSpec: SageMakerClientTypes.ResourceSpec? = nil,
             lifecycleConfigArns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.codeRepositories = codeRepositories
             self.defaultResourceSpec = defaultResourceSpec
             self.lifecycleConfigArns = lifecycleConfigArns
@@ -13747,9 +14352,9 @@ extension SageMakerClientTypes {
 
     /// The KernelGateway app settings.
     public struct KernelGatewayAppSettings: Swift.Sendable {
-        /// A list of custom SageMaker images that are configured to run as a KernelGateway app.
+        /// A list of custom SageMaker AI images that are configured to run as a KernelGateway app.
         public var customImages: [SageMakerClientTypes.CustomImage]?
-        /// The default instance type and the Amazon Resource Name (ARN) of the default SageMaker image used by the KernelGateway app. The Amazon SageMaker Studio UI does not use the default instance type value set here. The default instance type set here is used when Apps are created using the CLI or CloudFormation and the instance type parameter value is not passed.
+        /// The default instance type and the Amazon Resource Name (ARN) of the default SageMaker AI image used by the KernelGateway app. The Amazon SageMaker AI Studio UI does not use the default instance type value set here. The default instance type set here is used when Apps are created using the CLI or CloudFormation and the instance type parameter value is not passed.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
         /// The Amazon Resource Name (ARN) of the Lifecycle Configurations attached to the the user profile or domain. To remove a Lifecycle Config, you must set LifecycleConfigArns to an empty list.
         public var lifecycleConfigArns: [Swift.String]?
@@ -13758,8 +14363,7 @@ extension SageMakerClientTypes {
             customImages: [SageMakerClientTypes.CustomImage]? = nil,
             defaultResourceSpec: SageMakerClientTypes.ResourceSpec? = nil,
             lifecycleConfigArns: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.customImages = customImages
             self.defaultResourceSpec = defaultResourceSpec
             self.lifecycleConfigArns = lifecycleConfigArns
@@ -13781,8 +14385,7 @@ extension SageMakerClientTypes {
         public init(
             defaultEbsVolumeSizeInGb: Swift.Int? = nil,
             maximumEbsVolumeSizeInGb: Swift.Int? = nil
-        )
-        {
+        ) {
             self.defaultEbsVolumeSizeInGb = defaultEbsVolumeSizeInGb
             self.maximumEbsVolumeSizeInGb = maximumEbsVolumeSizeInGb
         }
@@ -13798,8 +14401,7 @@ extension SageMakerClientTypes {
 
         public init(
             defaultEbsStorageSettings: SageMakerClientTypes.DefaultEbsStorageSettings? = nil
-        )
-        {
+        ) {
             self.defaultEbsStorageSettings = defaultEbsStorageSettings
         }
     }
@@ -13809,7 +14411,7 @@ extension SageMakerClientTypes {
 
     /// The default settings for shared spaces that users create in the domain. SageMaker applies these settings only to shared spaces. It doesn't apply them to private spaces.
     public struct DefaultSpaceSettings: Swift.Sendable {
-        /// The settings for assigning a custom file system to a domain. Permitted users can access this file system in Amazon SageMaker Studio.
+        /// The settings for assigning a custom file system to a domain. Permitted users can access this file system in Amazon SageMaker AI Studio.
         public var customFileSystemConfigs: [SageMakerClientTypes.CustomFileSystemConfig]?
         /// Details about the POSIX identity that is used for file system operations.
         public var customPosixUserConfig: SageMakerClientTypes.CustomPosixUserConfig?
@@ -13835,8 +14437,7 @@ extension SageMakerClientTypes {
             kernelGatewayAppSettings: SageMakerClientTypes.KernelGatewayAppSettings? = nil,
             securityGroups: [Swift.String]? = nil,
             spaceStorageSettings: SageMakerClientTypes.DefaultSpaceStorageSettings? = nil
-        )
-        {
+        ) {
             self.customFileSystemConfigs = customFileSystemConfigs
             self.customPosixUserConfig = customPosixUserConfig
             self.executionRole = executionRole
@@ -13853,16 +14454,15 @@ extension SageMakerClientTypes {
 
     /// A collection of settings that apply to an RSessionGateway app.
     public struct RSessionAppSettings: Swift.Sendable {
-        /// A list of custom SageMaker images that are configured to run as a RSession app.
+        /// A list of custom SageMaker AI images that are configured to run as a RSession app.
         public var customImages: [SageMakerClientTypes.CustomImage]?
-        /// Specifies the ARN's of a SageMaker image and SageMaker image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
 
         public init(
             customImages: [SageMakerClientTypes.CustomImage]? = nil,
             defaultResourceSpec: SageMakerClientTypes.ResourceSpec? = nil
-        )
-        {
+        ) {
             self.customImages = customImages
             self.defaultResourceSpec = defaultResourceSpec
         }
@@ -13939,8 +14539,7 @@ extension SageMakerClientTypes {
         public init(
             accessStatus: SageMakerClientTypes.RStudioServerProAccessStatus? = nil,
             userGroup: SageMakerClientTypes.RStudioServerProUserGroup? = nil
-        )
-        {
+        ) {
             self.accessStatus = accessStatus
             self.userGroup = userGroup
         }
@@ -13978,7 +14577,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// Specifies options for sharing Amazon SageMaker Studio notebooks. These settings are specified as part of DefaultUserSettings when the CreateDomain API is called, and as part of UserSettings when the CreateUserProfile API is called. When SharingSettings is not specified, notebook sharing isn't allowed.
+    /// Specifies options for sharing Amazon SageMaker AI Studio notebooks. These settings are specified as part of DefaultUserSettings when the CreateDomain API is called, and as part of UserSettings when the CreateUserProfile API is called. When SharingSettings is not specified, notebook sharing isn't allowed.
     public struct SharingSettings: Swift.Sendable {
         /// Whether to include the notebook cell output when sharing the notebook. The default is Disabled.
         public var notebookOutputOption: SageMakerClientTypes.NotebookOutputOption?
@@ -13991,8 +14590,7 @@ extension SageMakerClientTypes {
             notebookOutputOption: SageMakerClientTypes.NotebookOutputOption? = nil,
             s3KmsKeyId: Swift.String? = nil,
             s3OutputPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.notebookOutputOption = notebookOutputOption
             self.s3KmsKeyId = s3KmsKeyId
             self.s3OutputPath = s3OutputPath
@@ -14033,14 +14631,19 @@ extension SageMakerClientTypes {
 
     public enum MlTools: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case autoMl
+        case comet
         case dataWrangler
+        case deepchecksLlmEvaluation
         case emrClusters
         case endpoints
         case experiments
         case featureStore
+        case fiddler
+        case hyperPodClusters
         case inferenceOptimization
         case inferenceRecommender
         case jumpStart
+        case lakeraGuard
         case models
         case modelEvaluation
         case performanceEvaluation
@@ -14052,14 +14655,19 @@ extension SageMakerClientTypes {
         public static var allCases: [MlTools] {
             return [
                 .autoMl,
+                .comet,
                 .dataWrangler,
+                .deepchecksLlmEvaluation,
                 .emrClusters,
                 .endpoints,
                 .experiments,
                 .featureStore,
+                .fiddler,
+                .hyperPodClusters,
                 .inferenceOptimization,
                 .inferenceRecommender,
                 .jumpStart,
+                .lakeraGuard,
                 .models,
                 .modelEvaluation,
                 .performanceEvaluation,
@@ -14077,14 +14685,19 @@ extension SageMakerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .autoMl: return "AutoMl"
+            case .comet: return "Comet"
             case .dataWrangler: return "DataWrangler"
+            case .deepchecksLlmEvaluation: return "DeepchecksLLMEvaluation"
             case .emrClusters: return "EmrClusters"
             case .endpoints: return "Endpoints"
             case .experiments: return "Experiments"
             case .featureStore: return "FeatureStore"
+            case .fiddler: return "Fiddler"
+            case .hyperPodClusters: return "HyperPodClusters"
             case .inferenceOptimization: return "InferenceOptimization"
             case .inferenceRecommender: return "InferenceRecommender"
             case .jumpStart: return "JumpStart"
+            case .lakeraGuard: return "LakeraGuard"
             case .models: return "Models"
             case .modelEvaluation: return "ModelEvaluation"
             case .performanceEvaluation: return "PerformanceEvaluation"
@@ -14135,8 +14748,7 @@ extension SageMakerClientTypes {
         public init(
             sageMakerImageName: SageMakerClientTypes.SageMakerImageName? = nil,
             versionAliases: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.sageMakerImageName = sageMakerImageName
             self.versionAliases = versionAliases
         }
@@ -14161,8 +14773,7 @@ extension SageMakerClientTypes {
             hiddenInstanceTypes: [SageMakerClientTypes.AppInstanceType]? = nil,
             hiddenMlTools: [SageMakerClientTypes.MlTools]? = nil,
             hiddenSageMakerImageVersionAliases: [SageMakerClientTypes.HiddenSageMakerImage]? = nil
-        )
-        {
+        ) {
             self.hiddenAppTypes = hiddenAppTypes
             self.hiddenInstanceTypes = hiddenInstanceTypes
             self.hiddenMlTools = hiddenMlTools
@@ -14175,13 +14786,12 @@ extension SageMakerClientTypes {
 
     /// The TensorBoard app settings.
     public struct TensorBoardAppSettings: Swift.Sendable {
-        /// The default instance type and the Amazon Resource Name (ARN) of the SageMaker image created on the instance.
+        /// The default instance type and the Amazon Resource Name (ARN) of the SageMaker AI image created on the instance.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
 
         public init(
             defaultResourceSpec: SageMakerClientTypes.ResourceSpec? = nil
-        )
-        {
+        ) {
             self.defaultResourceSpec = defaultResourceSpec
         }
     }
@@ -14197,7 +14807,7 @@ extension SageMakerClientTypes {
         public var canvasAppSettings: SageMakerClientTypes.CanvasAppSettings?
         /// The Code Editor application settings. SageMaker applies these settings only to private spaces that the user creates in the domain. SageMaker doesn't apply these settings to shared spaces.
         public var codeEditorAppSettings: SageMakerClientTypes.CodeEditorAppSettings?
-        /// The settings for assigning a custom file system to a user profile. Permitted users can access this file system in Amazon SageMaker Studio. SageMaker applies these settings only to private spaces that the user creates in the domain. SageMaker doesn't apply these settings to shared spaces.
+        /// The settings for assigning a custom file system to a user profile. Permitted users can access this file system in Amazon SageMaker AI Studio. SageMaker applies these settings only to private spaces that the user creates in the domain. SageMaker doesn't apply these settings to shared spaces.
         public var customFileSystemConfigs: [SageMakerClientTypes.CustomFileSystemConfig]?
         /// Details about the POSIX identity that is used for file system operations. SageMaker applies these settings only to private spaces that the user creates in the domain. SageMaker doesn't apply these settings to shared spaces.
         public var customPosixUserConfig: SageMakerClientTypes.CustomPosixUserConfig?
@@ -14219,9 +14829,9 @@ extension SageMakerClientTypes {
         public var rSessionAppSettings: SageMakerClientTypes.RSessionAppSettings?
         /// A collection of settings that configure user interaction with the RStudioServerPro app.
         public var rStudioServerProAppSettings: SageMakerClientTypes.RStudioServerProAppSettings?
-        /// The security groups for the Amazon Virtual Private Cloud (VPC) that the domain uses for communication. Optional when the CreateDomain.AppNetworkAccessType parameter is set to PublicInternetOnly. Required when the CreateDomain.AppNetworkAccessType parameter is set to VpcOnly, unless specified as part of the DefaultUserSettings for the domain. Amazon SageMaker adds a security group to allow NFS traffic from Amazon SageMaker Studio. Therefore, the number of security groups that you can specify is one less than the maximum number shown. SageMaker applies these settings only to private spaces that the user creates in the domain. SageMaker doesn't apply these settings to shared spaces.
+        /// The security groups for the Amazon Virtual Private Cloud (VPC) that the domain uses for communication. Optional when the CreateDomain.AppNetworkAccessType parameter is set to PublicInternetOnly. Required when the CreateDomain.AppNetworkAccessType parameter is set to VpcOnly, unless specified as part of the DefaultUserSettings for the domain. Amazon SageMaker AI adds a security group to allow NFS traffic from Amazon SageMaker AI Studio. Therefore, the number of security groups that you can specify is one less than the maximum number shown. SageMaker applies these settings only to private spaces that the user creates in the domain. SageMaker doesn't apply these settings to shared spaces.
         public var securityGroups: [Swift.String]?
-        /// Specifies options for sharing Amazon SageMaker Studio notebooks.
+        /// Specifies options for sharing Amazon SageMaker AI Studio notebooks.
         public var sharingSettings: SageMakerClientTypes.SharingSettings?
         /// The storage settings for a space. SageMaker applies these settings only to private spaces that the user creates in the domain. SageMaker doesn't apply these settings to shared spaces.
         public var spaceStorageSettings: SageMakerClientTypes.DefaultSpaceStorageSettings?
@@ -14251,8 +14861,7 @@ extension SageMakerClientTypes {
             studioWebPortal: SageMakerClientTypes.StudioWebPortal? = nil,
             studioWebPortalSettings: SageMakerClientTypes.StudioWebPortalSettings? = nil,
             tensorBoardAppSettings: SageMakerClientTypes.TensorBoardAppSettings? = nil
-        )
-        {
+        ) {
             self.autoMountHomeEFS = autoMountHomeEFS
             self.canvasAppSettings = canvasAppSettings
             self.codeEditorAppSettings = codeEditorAppSettings
@@ -14287,8 +14896,7 @@ extension SageMakerClientTypes {
         public init(
             enableDockerAccess: SageMakerClientTypes.FeatureStatus? = nil,
             vpcOnlyTrustedAccounts: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.enableDockerAccess = enableDockerAccess
             self.vpcOnlyTrustedAccounts = vpcOnlyTrustedAccounts
         }
@@ -14328,7 +14936,7 @@ extension SageMakerClientTypes {
 
     /// A collection of settings that configure the RStudioServerPro Domain-level app.
     public struct RStudioServerProDomainSettings: Swift.Sendable {
-        /// Specifies the ARN's of a SageMaker image and SageMaker image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
         /// The ARN of the execution role for the RStudioServerPro Domain-level app.
         /// This member is required.
@@ -14343,8 +14951,7 @@ extension SageMakerClientTypes {
             domainExecutionRoleArn: Swift.String? = nil,
             rStudioConnectUrl: Swift.String? = nil,
             rStudioPackageManagerUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultResourceSpec = defaultResourceSpec
             self.domainExecutionRoleArn = domainExecutionRoleArn
             self.rStudioConnectUrl = rStudioConnectUrl
@@ -14361,7 +14968,7 @@ extension SageMakerClientTypes {
         public var amazonQSettings: SageMakerClientTypes.AmazonQSettings?
         /// A collection of settings that configure the domain's Docker interaction.
         public var dockerSettings: SageMakerClientTypes.DockerSettings?
-        /// The configuration for attaching a SageMaker user profile name to the execution role as a [sts:SourceIdentity key](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html).
+        /// The configuration for attaching a SageMaker AI user profile name to the execution role as a [sts:SourceIdentity key](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html).
         public var executionRoleIdentityConfig: SageMakerClientTypes.ExecutionRoleIdentityConfig?
         /// A collection of settings that configure the RStudioServerPro Domain-level app.
         public var rStudioServerProDomainSettings: SageMakerClientTypes.RStudioServerProDomainSettings?
@@ -14374,8 +14981,7 @@ extension SageMakerClientTypes {
             executionRoleIdentityConfig: SageMakerClientTypes.ExecutionRoleIdentityConfig? = nil,
             rStudioServerProDomainSettings: SageMakerClientTypes.RStudioServerProDomainSettings? = nil,
             securityGroupIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.amazonQSettings = amazonQSettings
             self.dockerSettings = dockerSettings
             self.executionRoleIdentityConfig = executionRoleIdentityConfig
@@ -14417,7 +15023,7 @@ extension SageMakerClientTypes {
 public struct CreateDomainInput: Swift.Sendable {
     /// Specifies the VPC used for non-EFS traffic. The default value is PublicInternetOnly.
     ///
-    /// * PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker, which allows direct internet access
+    /// * PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker AI, which allows direct internet access
     ///
     /// * VpcOnly - All traffic is through the specified VPC and subnets
     public var appNetworkAccessType: SageMakerClientTypes.AppNetworkAccessType?
@@ -14439,7 +15045,7 @@ public struct CreateDomainInput: Swift.Sendable {
     /// Use KmsKeyId.
     @available(*, deprecated, message: "This property is deprecated, use KmsKeyId instead.")
     public var homeEfsFileSystemKmsKeyId: Swift.String?
-    /// SageMaker uses Amazon Web Services KMS to encrypt EFS and EBS volumes attached to the domain with an Amazon Web Services managed key by default. For more control, specify a customer managed key.
+    /// SageMaker AI uses Amazon Web Services KMS to encrypt EFS and EBS volumes attached to the domain with an Amazon Web Services managed key by default. For more control, specify a customer managed key.
     public var kmsKeyId: Swift.String?
     /// The VPC subnets that the domain uses for communication.
     /// This member is required.
@@ -14466,8 +15072,7 @@ public struct CreateDomainInput: Swift.Sendable {
         tagPropagation: SageMakerClientTypes.TagPropagation? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appNetworkAccessType = appNetworkAccessType
         self.appSecurityGroupManagement = appSecurityGroupManagement
         self.authMode = authMode
@@ -14493,8 +15098,7 @@ public struct CreateDomainOutput: Swift.Sendable {
     public init(
         domainArn: Swift.String? = nil,
         url: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainArn = domainArn
         self.url = url
     }
@@ -14514,8 +15118,7 @@ extension SageMakerClientTypes {
         public init(
             edgePackagingJobName: Swift.String? = nil,
             modelHandle: Swift.String? = nil
-        )
-        {
+        ) {
             self.edgePackagingJobName = edgePackagingJobName
             self.modelHandle = modelHandle
         }
@@ -14561,8 +15164,7 @@ extension SageMakerClientTypes {
 
         public init(
             failureHandlingPolicy: SageMakerClientTypes.FailureHandlingPolicy? = nil
-        )
-        {
+        ) {
             self.failureHandlingPolicy = failureHandlingPolicy
         }
     }
@@ -14619,8 +15221,7 @@ extension SageMakerClientTypes {
             deviceNames: [Swift.String]? = nil,
             deviceSubsetType: SageMakerClientTypes.DeviceSubsetType? = nil,
             percentage: Swift.Int? = nil
-        )
-        {
+        ) {
             self.deviceNameContains = deviceNameContains
             self.deviceNames = deviceNames
             self.deviceSubsetType = deviceSubsetType
@@ -14646,8 +15247,7 @@ extension SageMakerClientTypes {
             deploymentConfig: SageMakerClientTypes.EdgeDeploymentConfig? = nil,
             deviceSelectionConfig: SageMakerClientTypes.DeviceSelectionConfig? = nil,
             stageName: Swift.String? = nil
-        )
-        {
+        ) {
             self.deploymentConfig = deploymentConfig
             self.deviceSelectionConfig = deviceSelectionConfig
             self.stageName = stageName
@@ -14676,8 +15276,7 @@ public struct CreateEdgeDeploymentPlanInput: Swift.Sendable {
         modelConfigs: [SageMakerClientTypes.EdgeDeploymentModelConfig]? = nil,
         stages: [SageMakerClientTypes.DeploymentStage]? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.deviceFleetName = deviceFleetName
         self.edgeDeploymentPlanName = edgeDeploymentPlanName
         self.modelConfigs = modelConfigs
@@ -14693,8 +15292,7 @@ public struct CreateEdgeDeploymentPlanOutput: Swift.Sendable {
 
     public init(
         edgeDeploymentPlanArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.edgeDeploymentPlanArn = edgeDeploymentPlanArn
     }
 }
@@ -14710,8 +15308,7 @@ public struct CreateEdgeDeploymentStageInput: Swift.Sendable {
     public init(
         edgeDeploymentPlanName: Swift.String? = nil,
         stages: [SageMakerClientTypes.DeploymentStage]? = nil
-    )
-    {
+    ) {
         self.edgeDeploymentPlanName = edgeDeploymentPlanName
         self.stages = stages
     }
@@ -14750,8 +15347,7 @@ public struct CreateEdgePackagingJobInput: Swift.Sendable {
         resourceKey: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.compilationJobName = compilationJobName
         self.edgePackagingJobName = edgePackagingJobName
         self.modelName = modelName
@@ -14783,8 +15379,7 @@ extension SageMakerClientTypes {
             maximumExecutionTimeoutInSeconds: Swift.Int? = nil,
             rollbackMaximumBatchSize: SageMakerClientTypes.CapacitySize? = nil,
             waitIntervalInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maximumBatchSize = maximumBatchSize
             self.maximumExecutionTimeoutInSeconds = maximumExecutionTimeoutInSeconds
             self.rollbackMaximumBatchSize = rollbackMaximumBatchSize
@@ -14808,8 +15403,7 @@ extension SageMakerClientTypes {
             autoRollbackConfiguration: SageMakerClientTypes.AutoRollbackConfig? = nil,
             blueGreenUpdatePolicy: SageMakerClientTypes.BlueGreenUpdatePolicy? = nil,
             rollingUpdatePolicy: SageMakerClientTypes.RollingUpdatePolicy? = nil
-        )
-        {
+        ) {
             self.autoRollbackConfiguration = autoRollbackConfiguration
             self.blueGreenUpdatePolicy = blueGreenUpdatePolicy
             self.rollingUpdatePolicy = rollingUpdatePolicy
@@ -14834,8 +15428,7 @@ public struct CreateEndpointInput: Swift.Sendable {
         endpointConfigName: Swift.String? = nil,
         endpointName: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.deploymentConfig = deploymentConfig
         self.endpointConfigName = endpointConfigName
         self.endpointName = endpointName
@@ -14850,17 +15443,16 @@ public struct CreateEndpointOutput: Swift.Sendable {
 
     public init(
         endpointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointArn = endpointArn
     }
 }
 
 extension SageMakerClientTypes {
 
-    /// Configuration to control how SageMaker captures inference data.
+    /// Configuration to control how SageMaker AI captures inference data.
     public struct DataCaptureConfig: Swift.Sendable {
-        /// Configuration specifying how to treat different headers. If no headers are specified SageMaker will by default base64 encode when capturing the data.
+        /// Configuration specifying how to treat different headers. If no headers are specified SageMaker AI will by default base64 encode when capturing the data.
         public var captureContentTypeHeader: SageMakerClientTypes.CaptureContentTypeHeader?
         /// Specifies data Model Monitor will capture. You can configure whether to collect only input, only output, or both
         /// This member is required.
@@ -14870,10 +15462,10 @@ extension SageMakerClientTypes {
         public var destinationS3Uri: Swift.String?
         /// Whether data capture should be enabled or disabled (defaults to enabled).
         public var enableCapture: Swift.Bool?
-        /// The percentage of requests SageMaker will capture. A lower value is recommended for Endpoints with high traffic.
+        /// The percentage of requests SageMaker AI will capture. A lower value is recommended for Endpoints with high traffic.
         /// This member is required.
         public var initialSamplingPercentage: Swift.Int?
-        /// The Amazon Resource Name (ARN) of an Key Management Service key that SageMaker uses to encrypt the captured data at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:
+        /// The Amazon Resource Name (ARN) of an Key Management Service key that SageMaker AI uses to encrypt the captured data at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:
         ///
         /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
         ///
@@ -14891,8 +15483,7 @@ extension SageMakerClientTypes {
             enableCapture: Swift.Bool? = nil,
             initialSamplingPercentage: Swift.Int? = nil,
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.captureContentTypeHeader = captureContentTypeHeader
             self.captureOptions = captureOptions
             self.destinationS3Uri = destinationS3Uri
@@ -14912,8 +15503,7 @@ extension SageMakerClientTypes {
 
         public init(
             clarifyExplainerConfig: SageMakerClientTypes.ClarifyExplainerConfig? = nil
-        )
-        {
+        ) {
             self.clarifyExplainerConfig = clarifyExplainerConfig
         }
     }
@@ -14984,8 +15574,7 @@ extension SageMakerClientTypes {
         public init(
             destinationS3Uri: Swift.String? = nil,
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.destinationS3Uri = destinationS3Uri
             self.kmsKeyId = kmsKeyId
         }
@@ -15062,8 +15651,7 @@ extension SageMakerClientTypes {
             maxInstanceCount: Swift.Int? = nil,
             minInstanceCount: Swift.Int? = nil,
             status: SageMakerClientTypes.ManagedInstanceScalingStatus? = nil
-        )
-        {
+        ) {
             self.maxInstanceCount = maxInstanceCount
             self.minInstanceCount = minInstanceCount
             self.status = status
@@ -15114,8 +15702,7 @@ extension SageMakerClientTypes {
 
         public init(
             routingStrategy: SageMakerClientTypes.RoutingStrategy? = nil
-        )
-        {
+        ) {
             self.routingStrategy = routingStrategy
         }
     }
@@ -15138,8 +15725,7 @@ extension SageMakerClientTypes {
             maxConcurrency: Swift.Int? = nil,
             memorySizeInMB: Swift.Int? = nil,
             provisionedConcurrency: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxConcurrency = maxConcurrency
             self.memorySizeInMB = memorySizeInMB
             self.provisionedConcurrency = provisionedConcurrency
@@ -15207,8 +15793,7 @@ extension SageMakerClientTypes {
             serverlessConfig: SageMakerClientTypes.ProductionVariantServerlessConfig? = nil,
             variantName: Swift.String? = nil,
             volumeSizeInGB: Swift.Int? = nil
-        )
-        {
+        ) {
             self.acceleratorType = acceleratorType
             self.containerStartupHealthCheckTimeoutInSeconds = containerStartupHealthCheckTimeoutInSeconds
             self.coreDumpConfig = coreDumpConfig
@@ -15231,14 +15816,14 @@ extension SageMakerClientTypes {
 public struct CreateEndpointConfigInput: Swift.Sendable {
     /// Specifies configuration for how an endpoint performs asynchronous inference. This is a required field in order for your Endpoint to be invoked using [InvokeEndpointAsync](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_runtime_InvokeEndpointAsync.html).
     public var asyncInferenceConfig: SageMakerClientTypes.AsyncInferenceConfig?
-    /// Configuration to control how SageMaker captures inference data.
+    /// Configuration to control how SageMaker AI captures inference data.
     public var dataCaptureConfig: SageMakerClientTypes.DataCaptureConfig?
     /// Sets whether all model containers deployed to the endpoint are isolated. If they are, no inbound or outbound network calls can be made to or from the model containers.
     public var enableNetworkIsolation: Swift.Bool?
     /// The name of the endpoint configuration. You specify this name in a [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpoint.html) request.
     /// This member is required.
     public var endpointConfigName: Swift.String?
-    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform actions on your behalf. For more information, see [SageMaker Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html). To be able to pass this role to Amazon SageMaker, the caller of this action must have the iam:PassRole permission.
+    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can assume to perform actions on your behalf. For more information, see [SageMaker AI Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html). To be able to pass this role to Amazon SageMaker AI, the caller of this action must have the iam:PassRole permission.
     public var executionRoleArn: Swift.String?
     /// A member of CreateEndpointConfig that enables explainers.
     public var explainerConfig: SageMakerClientTypes.ExplainerConfig?
@@ -15277,8 +15862,7 @@ public struct CreateEndpointConfigInput: Swift.Sendable {
         shadowProductionVariants: [SageMakerClientTypes.ProductionVariant]? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.asyncInferenceConfig = asyncInferenceConfig
         self.dataCaptureConfig = dataCaptureConfig
         self.enableNetworkIsolation = enableNetworkIsolation
@@ -15300,8 +15884,7 @@ public struct CreateEndpointConfigOutput: Swift.Sendable {
 
     public init(
         endpointConfigArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointConfigArn = endpointConfigArn
     }
 }
@@ -15322,8 +15905,7 @@ public struct CreateExperimentInput: Swift.Sendable {
         displayName: Swift.String? = nil,
         experimentName: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.displayName = displayName
         self.experimentName = experimentName
@@ -15337,8 +15919,7 @@ public struct CreateExperimentOutput: Swift.Sendable {
 
     public init(
         experimentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.experimentArn = experimentArn
     }
 }
@@ -15405,8 +15986,7 @@ extension SageMakerClientTypes {
             collectionType: SageMakerClientTypes.CollectionType? = nil,
             featureName: Swift.String? = nil,
             featureType: SageMakerClientTypes.FeatureType? = nil
-        )
-        {
+        ) {
             self.collectionConfig = collectionConfig
             self.collectionType = collectionType
             self.featureName = featureName
@@ -15433,8 +16013,7 @@ extension SageMakerClientTypes {
             catalog: Swift.String? = nil,
             database: Swift.String? = nil,
             tableName: Swift.String? = nil
-        )
-        {
+        ) {
             self.catalog = catalog
             self.database = database
             self.tableName = tableName
@@ -15460,8 +16039,7 @@ extension SageMakerClientTypes {
             kmsKeyId: Swift.String? = nil,
             resolvedOutputS3Uri: Swift.String? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.resolvedOutputS3Uri = resolvedOutputS3Uri
             self.s3Uri = s3Uri
@@ -15520,8 +16098,7 @@ extension SageMakerClientTypes {
             disableGlueTableCreation: Swift.Bool? = nil,
             s3StorageConfig: SageMakerClientTypes.S3StorageConfig? = nil,
             tableFormat: SageMakerClientTypes.TableFormat? = nil
-        )
-        {
+        ) {
             self.dataCatalogConfig = dataCatalogConfig
             self.disableGlueTableCreation = disableGlueTableCreation
             self.s3StorageConfig = s3StorageConfig
@@ -15566,8 +16143,7 @@ extension SageMakerClientTypes {
 
         public init(
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
         }
     }
@@ -15652,8 +16228,7 @@ extension SageMakerClientTypes {
         public init(
             unit: SageMakerClientTypes.TtlDurationUnit? = nil,
             value: Swift.Int? = nil
-        )
-        {
+        ) {
             self.unit = unit
             self.value = value
         }
@@ -15682,8 +16257,7 @@ extension SageMakerClientTypes {
             securityConfig: SageMakerClientTypes.OnlineStoreSecurityConfig? = nil,
             storageType: SageMakerClientTypes.StorageType? = nil,
             ttlDuration: SageMakerClientTypes.TtlDuration? = nil
-        )
-        {
+        ) {
             self.enableOnlineStore = enableOnlineStore
             self.securityConfig = securityConfig
             self.storageType = storageType
@@ -15737,8 +16311,7 @@ extension SageMakerClientTypes {
             provisionedReadCapacityUnits: Swift.Int? = nil,
             provisionedWriteCapacityUnits: Swift.Int? = nil,
             throughputMode: SageMakerClientTypes.ThroughputMode? = nil
-        )
-        {
+        ) {
             self.provisionedReadCapacityUnits = provisionedReadCapacityUnits
             self.provisionedWriteCapacityUnits = provisionedWriteCapacityUnits
             self.throughputMode = throughputMode
@@ -15806,8 +16379,7 @@ public struct CreateFeatureGroupInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         throughputConfig: SageMakerClientTypes.ThroughputConfig? = nil
-    )
-    {
+    ) {
         self.description = description
         self.eventTimeFeatureName = eventTimeFeatureName
         self.featureDefinitions = featureDefinitions
@@ -15828,8 +16400,7 @@ public struct CreateFeatureGroupOutput: Swift.Sendable {
 
     public init(
         featureGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.featureGroupArn = featureGroupArn
     }
 }
@@ -15844,8 +16415,7 @@ extension SageMakerClientTypes {
 
         public init(
             humanLoopActivationConditions: Swift.String? = nil
-        )
-        {
+        ) {
             self.humanLoopActivationConditions = humanLoopActivationConditions
         }
     }
@@ -15861,8 +16431,7 @@ extension SageMakerClientTypes {
 
         public init(
             humanLoopActivationConditionsConfig: SageMakerClientTypes.HumanLoopActivationConditionsConfig? = nil
-        )
-        {
+        ) {
             self.humanLoopActivationConditionsConfig = humanLoopActivationConditionsConfig
         }
     }
@@ -15883,8 +16452,7 @@ extension SageMakerClientTypes {
             cents: Swift.Int? = nil,
             dollars: Swift.Int? = nil,
             tenthFractionsOfACent: Swift.Int? = nil
-        )
-        {
+        ) {
             self.cents = cents
             self.dollars = dollars
             self.tenthFractionsOfACent = tenthFractionsOfACent
@@ -16100,8 +16668,7 @@ extension SageMakerClientTypes {
 
         public init(
             amountInUsd: SageMakerClientTypes.USD? = nil
-        )
-        {
+        ) {
             self.amountInUsd = amountInUsd
         }
     }
@@ -16344,8 +16911,7 @@ extension SageMakerClientTypes {
             taskTimeLimitInSeconds: Swift.Int? = nil,
             taskTitle: Swift.String? = nil,
             workteamArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.humanTaskUiArn = humanTaskUiArn
             self.publicWorkforceTaskPrice = publicWorkforceTaskPrice
             self.taskAvailabilityLifetimeInSeconds = taskAvailabilityLifetimeInSeconds
@@ -16369,8 +16935,7 @@ extension SageMakerClientTypes {
 
         public init(
             awsManagedHumanLoopRequestSource: SageMakerClientTypes.AwsManagedHumanLoopRequestSource? = nil
-        )
-        {
+        ) {
             self.awsManagedHumanLoopRequestSource = awsManagedHumanLoopRequestSource
         }
     }
@@ -16389,8 +16954,7 @@ extension SageMakerClientTypes {
         public init(
             kmsKeyId: Swift.String? = nil,
             s3OutputPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.s3OutputPath = s3OutputPath
         }
@@ -16424,8 +16988,7 @@ public struct CreateFlowDefinitionInput: Swift.Sendable {
         outputConfig: SageMakerClientTypes.FlowDefinitionOutputConfig? = nil,
         roleArn: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.flowDefinitionName = flowDefinitionName
         self.humanLoopActivationConfig = humanLoopActivationConfig
         self.humanLoopConfig = humanLoopConfig
@@ -16443,8 +17006,7 @@ public struct CreateFlowDefinitionOutput: Swift.Sendable {
 
     public init(
         flowDefinitionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.flowDefinitionArn = flowDefinitionArn
     }
 }
@@ -16458,8 +17020,7 @@ extension SageMakerClientTypes {
 
         public init(
             s3OutputPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3OutputPath = s3OutputPath
         }
     }
@@ -16488,8 +17049,7 @@ public struct CreateHubInput: Swift.Sendable {
         hubSearchKeywords: [Swift.String]? = nil,
         s3StorageConfig: SageMakerClientTypes.HubS3StorageConfig? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.hubDescription = hubDescription
         self.hubDisplayName = hubDisplayName
         self.hubName = hubName
@@ -16506,8 +17066,7 @@ public struct CreateHubOutput: Swift.Sendable {
 
     public init(
         hubArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.hubArn = hubArn
     }
 }
@@ -16532,8 +17091,7 @@ public struct CreateHubContentReferenceInput: Swift.Sendable {
         minVersion: Swift.String? = nil,
         sageMakerPublicHubContentArn: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.hubContentName = hubContentName
         self.hubName = hubName
         self.minVersion = minVersion
@@ -16553,8 +17111,7 @@ public struct CreateHubContentReferenceOutput: Swift.Sendable {
     public init(
         hubArn: Swift.String? = nil,
         hubContentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.hubArn = hubArn
         self.hubContentArn = hubContentArn
     }
@@ -16570,8 +17127,7 @@ extension SageMakerClientTypes {
 
         public init(
             content: Swift.String? = nil
-        )
-        {
+        ) {
             self.content = content
         }
     }
@@ -16591,8 +17147,7 @@ public struct CreateHumanTaskUiInput: Swift.Sendable {
         humanTaskUiName: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         uiTemplate: SageMakerClientTypes.UiTemplate? = nil
-    )
-    {
+    ) {
         self.humanTaskUiName = humanTaskUiName
         self.tags = tags
         self.uiTemplate = uiTemplate
@@ -16606,8 +17161,7 @@ public struct CreateHumanTaskUiOutput: Swift.Sendable {
 
     public init(
         humanTaskUiArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.humanTaskUiArn = humanTaskUiArn
     }
 }
@@ -16633,8 +17187,7 @@ extension SageMakerClientTypes {
             minValue: Swift.String? = nil,
             name: Swift.String? = nil,
             scalingType: SageMakerClientTypes.HyperParameterScalingType? = nil
-        )
-        {
+        ) {
             self.maxValue = maxValue
             self.minValue = minValue
             self.name = name
@@ -16661,8 +17214,7 @@ extension SageMakerClientTypes {
             categoricalParameterRanges: [SageMakerClientTypes.CategoricalParameterRange]? = nil,
             continuousParameterRanges: [SageMakerClientTypes.ContinuousParameterRange]? = nil,
             integerParameterRanges: [SageMakerClientTypes.IntegerParameterRange]? = nil
-        )
-        {
+        ) {
             self.autoParameters = autoParameters
             self.categoricalParameterRanges = categoricalParameterRanges
             self.continuousParameterRanges = continuousParameterRanges
@@ -16687,8 +17239,7 @@ extension SageMakerClientTypes {
             maxNumberOfTrainingJobs: Swift.Int? = nil,
             maxParallelTrainingJobs: Swift.Int? = nil,
             maxRuntimeInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxNumberOfTrainingJobs = maxNumberOfTrainingJobs
             self.maxParallelTrainingJobs = maxParallelTrainingJobs
             self.maxRuntimeInSeconds = maxRuntimeInSeconds
@@ -16757,8 +17308,7 @@ extension SageMakerClientTypes {
         public init(
             maxResource: Swift.Int? = nil,
             minResource: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxResource = maxResource
             self.minResource = minResource
         }
@@ -16774,8 +17324,7 @@ extension SageMakerClientTypes {
 
         public init(
             hyperbandStrategyConfig: SageMakerClientTypes.HyperbandStrategyConfig? = nil
-        )
-        {
+        ) {
             self.hyperbandStrategyConfig = hyperbandStrategyConfig
         }
     }
@@ -16825,8 +17374,7 @@ extension SageMakerClientTypes {
             bestObjectiveNotImproving: SageMakerClientTypes.BestObjectiveNotImproving? = nil,
             convergenceDetected: SageMakerClientTypes.ConvergenceDetected? = nil,
             targetObjectiveMetricValue: Swift.Float? = nil
-        )
-        {
+        ) {
             self.bestObjectiveNotImproving = bestObjectiveNotImproving
             self.convergenceDetected = convergenceDetected
             self.targetObjectiveMetricValue = targetObjectiveMetricValue
@@ -16866,8 +17414,7 @@ extension SageMakerClientTypes {
             strategyConfig: SageMakerClientTypes.HyperParameterTuningJobStrategyConfig? = nil,
             trainingJobEarlyStoppingType: SageMakerClientTypes.TrainingJobEarlyStoppingType? = nil,
             tuningJobCompletionCriteria: SageMakerClientTypes.TuningJobCompletionCriteria? = nil
-        )
-        {
+        ) {
             self.hyperParameterTuningJobObjective = hyperParameterTuningJobObjective
             self.parameterRanges = parameterRanges
             self.randomSeed = randomSeed
@@ -16899,8 +17446,7 @@ extension SageMakerClientTypes {
             metricDefinitions: [SageMakerClientTypes.MetricDefinition]? = nil,
             trainingImage: Swift.String? = nil,
             trainingInputMode: SageMakerClientTypes.TrainingInputMode? = nil
-        )
-        {
+        ) {
             self.algorithmName = algorithmName
             self.metricDefinitions = metricDefinitions
             self.trainingImage = trainingImage
@@ -16953,8 +17499,7 @@ extension SageMakerClientTypes {
             instanceCount: Swift.Int? = nil,
             instanceType: SageMakerClientTypes.TrainingInstanceType? = nil,
             volumeSizeInGB: Swift.Int? = nil
-        )
-        {
+        ) {
             self.instanceCount = instanceCount
             self.instanceType = instanceType
             self.volumeSizeInGB = volumeSizeInGB
@@ -16986,8 +17531,7 @@ extension SageMakerClientTypes {
             instanceType: SageMakerClientTypes.TrainingInstanceType? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             volumeSizeInGB: Swift.Int? = nil
-        )
-        {
+        ) {
             self.allocationStrategy = allocationStrategy
             self.instanceConfigs = instanceConfigs
             self.instanceCount = instanceCount
@@ -17008,8 +17552,7 @@ extension SageMakerClientTypes {
 
         public init(
             maximumRetryAttempts: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maximumRetryAttempts = maximumRetryAttempts
         }
     }
@@ -17079,8 +17622,7 @@ extension SageMakerClientTypes {
             stoppingCondition: SageMakerClientTypes.StoppingCondition? = nil,
             tuningObjective: SageMakerClientTypes.HyperParameterTuningJobObjective? = nil,
             vpcConfig: SageMakerClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.algorithmSpecification = algorithmSpecification
             self.checkpointConfig = checkpointConfig
             self.definitionName = definitionName
@@ -17112,8 +17654,7 @@ extension SageMakerClientTypes {
 
         public init(
             hyperParameterTuningJobName: Swift.String? = nil
-        )
-        {
+        ) {
             self.hyperParameterTuningJobName = hyperParameterTuningJobName
         }
     }
@@ -17162,8 +17703,7 @@ extension SageMakerClientTypes {
         public init(
             parentHyperParameterTuningJobs: [SageMakerClientTypes.ParentHyperParameterTuningJob]? = nil,
             warmStartType: SageMakerClientTypes.HyperParameterTuningJobWarmStartType? = nil
-        )
-        {
+        ) {
             self.parentHyperParameterTuningJobs = parentHyperParameterTuningJobs
             self.warmStartType = warmStartType
         }
@@ -17208,8 +17748,7 @@ public struct CreateHyperParameterTuningJobInput: Swift.Sendable {
         trainingJobDefinition: SageMakerClientTypes.HyperParameterTrainingJobDefinition? = nil,
         trainingJobDefinitions: [SageMakerClientTypes.HyperParameterTrainingJobDefinition]? = nil,
         warmStartConfig: SageMakerClientTypes.HyperParameterTuningJobWarmStartConfig? = nil
-    )
-    {
+    ) {
         self.autotune = autotune
         self.hyperParameterTuningJobConfig = hyperParameterTuningJobConfig
         self.hyperParameterTuningJobName = hyperParameterTuningJobName
@@ -17227,8 +17766,7 @@ public struct CreateHyperParameterTuningJobOutput: Swift.Sendable {
 
     public init(
         hyperParameterTuningJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.hyperParameterTuningJobArn = hyperParameterTuningJobArn
     }
 }
@@ -17241,7 +17779,7 @@ public struct CreateImageInput: Swift.Sendable {
     /// The name of the image. Must be unique to your account.
     /// This member is required.
     public var imageName: Swift.String?
-    /// The ARN of an IAM role that enables Amazon SageMaker to perform tasks on your behalf.
+    /// The ARN of an IAM role that enables Amazon SageMaker AI to perform tasks on your behalf.
     /// This member is required.
     public var roleArn: Swift.String?
     /// A list of tags to apply to the image.
@@ -17253,8 +17791,7 @@ public struct CreateImageInput: Swift.Sendable {
         imageName: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.displayName = displayName
         self.imageName = imageName
@@ -17269,8 +17806,7 @@ public struct CreateImageOutput: Swift.Sendable {
 
     public init(
         imageArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageArn = imageArn
     }
 }
@@ -17385,13 +17921,13 @@ public struct CreateImageVersionInput: Swift.Sendable {
     /// The ImageName of the Image to create a version of.
     /// This member is required.
     public var imageName: Swift.String?
-    /// Indicates SageMaker job type compatibility.
+    /// Indicates SageMaker AI job type compatibility.
     ///
-    /// * TRAINING: The image version is compatible with SageMaker training jobs.
+    /// * TRAINING: The image version is compatible with SageMaker AI training jobs.
     ///
-    /// * INFERENCE: The image version is compatible with SageMaker inference jobs.
+    /// * INFERENCE: The image version is compatible with SageMaker AI inference jobs.
     ///
-    /// * NOTEBOOK_KERNEL: The image version is compatible with SageMaker notebook kernels.
+    /// * NOTEBOOK_KERNEL: The image version is compatible with SageMaker AI notebook kernels.
     public var jobType: SageMakerClientTypes.JobType?
     /// The machine learning framework vended in the image version.
     public var mlFramework: Swift.String?
@@ -17428,8 +17964,7 @@ public struct CreateImageVersionInput: Swift.Sendable {
         programmingLang: Swift.String? = nil,
         releaseNotes: Swift.String? = nil,
         vendorGuidance: SageMakerClientTypes.VendorGuidance? = nil
-    )
-    {
+    ) {
         self.aliases = aliases
         self.baseImage = baseImage
         self.clientToken = clientToken
@@ -17450,8 +17985,7 @@ public struct CreateImageVersionOutput: Swift.Sendable {
 
     public init(
         imageVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageVersionArn = imageVersionArn
     }
 }
@@ -17466,8 +18000,7 @@ extension SageMakerClientTypes {
 
         public init(
             copyCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.copyCount = copyCount
         }
     }
@@ -17475,7 +18008,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// Defines the compute resources to allocate to run a model that you assign to an inference component. These resources include CPU cores, accelerators, and memory.
+    /// Defines the compute resources to allocate to run a model, plus any adapter models, that you assign to an inference component. These resources include CPU cores, accelerators, and memory.
     public struct InferenceComponentComputeResourceRequirements: Swift.Sendable {
         /// The maximum MB of memory to allocate to run a model that you assign to an inference component.
         public var maxMemoryRequiredInMb: Swift.Int?
@@ -17492,8 +18025,7 @@ extension SageMakerClientTypes {
             minMemoryRequiredInMb: Swift.Int? = nil,
             numberOfAcceleratorDevicesRequired: Swift.Float? = nil,
             numberOfCpuCoresRequired: Swift.Float? = nil
-        )
-        {
+        ) {
             self.maxMemoryRequiredInMb = maxMemoryRequiredInMb
             self.minMemoryRequiredInMb = minMemoryRequiredInMb
             self.numberOfAcceleratorDevicesRequired = numberOfAcceleratorDevicesRequired
@@ -17517,8 +18049,7 @@ extension SageMakerClientTypes {
             artifactUrl: Swift.String? = nil,
             environment: [Swift.String: Swift.String]? = nil,
             image: Swift.String? = nil
-        )
-        {
+        ) {
             self.artifactUrl = artifactUrl
             self.environment = environment
             self.image = image
@@ -17538,8 +18069,7 @@ extension SageMakerClientTypes {
         public init(
             containerStartupHealthCheckTimeoutInSeconds: Swift.Int? = nil,
             modelDataDownloadTimeoutInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.containerStartupHealthCheckTimeoutInSeconds = containerStartupHealthCheckTimeoutInSeconds
             self.modelDataDownloadTimeoutInSeconds = modelDataDownloadTimeoutInSeconds
         }
@@ -17550,23 +18080,25 @@ extension SageMakerClientTypes {
 
     /// Details about the resources to deploy with this inference component, including the model, container, and compute resources.
     public struct InferenceComponentSpecification: Swift.Sendable {
-        /// The compute resources allocated to run the model assigned to the inference component.
-        /// This member is required.
+        /// The name of an existing inference component that is to contain the inference component that you're creating with your request. Specify this parameter only if your request is meant to create an adapter inference component. An adapter inference component contains the path to an adapter model. The purpose of the adapter model is to tailor the inference output of a base foundation model, which is hosted by the base inference component. The adapter inference component uses the compute resources that you assigned to the base inference component. When you create an adapter inference component, use the Container parameter to specify the location of the adapter artifacts. In the parameter value, use the ArtifactUrl parameter of the InferenceComponentContainerSpecification data type. Before you can create an adapter inference component, you must have an existing inference component that contains the foundation model that you want to adapt.
+        public var baseInferenceComponentName: Swift.String?
+        /// The compute resources allocated to run the model, plus any adapter models, that you assign to the inference component. Omit this parameter if your request is meant to create an adapter inference component. An adapter inference component is loaded by a base inference component, and it uses the compute resources of the base inference component.
         public var computeResourceRequirements: SageMakerClientTypes.InferenceComponentComputeResourceRequirements?
         /// Defines a container that provides the runtime environment for a model that you deploy with an inference component.
         public var container: SageMakerClientTypes.InferenceComponentContainerSpecification?
-        /// The name of an existing SageMaker model object in your account that you want to deploy with the inference component.
+        /// The name of an existing SageMaker AI model object in your account that you want to deploy with the inference component.
         public var modelName: Swift.String?
         /// Settings that take effect while the model container starts up.
         public var startupParameters: SageMakerClientTypes.InferenceComponentStartupParameters?
 
         public init(
+            baseInferenceComponentName: Swift.String? = nil,
             computeResourceRequirements: SageMakerClientTypes.InferenceComponentComputeResourceRequirements? = nil,
             container: SageMakerClientTypes.InferenceComponentContainerSpecification? = nil,
             modelName: Swift.String? = nil,
             startupParameters: SageMakerClientTypes.InferenceComponentStartupParameters? = nil
-        )
-        {
+        ) {
+            self.baseInferenceComponentName = baseInferenceComponentName
             self.computeResourceRequirements = computeResourceRequirements
             self.container = container
             self.modelName = modelName
@@ -17583,7 +18115,6 @@ public struct CreateInferenceComponentInput: Swift.Sendable {
     /// This member is required.
     public var inferenceComponentName: Swift.String?
     /// Runtime settings for a model that is deployed with an inference component.
-    /// This member is required.
     public var runtimeConfig: SageMakerClientTypes.InferenceComponentRuntimeConfig?
     /// Details about the resources to deploy with this inference component, including the model, container, and compute resources.
     /// This member is required.
@@ -17591,7 +18122,6 @@ public struct CreateInferenceComponentInput: Swift.Sendable {
     /// A list of key-value pairs associated with the model. For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
     public var tags: [SageMakerClientTypes.Tag]?
     /// The name of an existing production variant where you host the inference component.
-    /// This member is required.
     public var variantName: Swift.String?
 
     public init(
@@ -17601,8 +18131,7 @@ public struct CreateInferenceComponentInput: Swift.Sendable {
         specification: SageMakerClientTypes.InferenceComponentSpecification? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         variantName: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointName = endpointName
         self.inferenceComponentName = inferenceComponentName
         self.runtimeConfig = runtimeConfig
@@ -17619,8 +18148,7 @@ public struct CreateInferenceComponentOutput: Swift.Sendable {
 
     public init(
         inferenceComponentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceComponentArn = inferenceComponentArn
     }
 }
@@ -17629,7 +18157,7 @@ extension SageMakerClientTypes {
 
     /// The Amazon S3 location and configuration for storing inference request and response data.
     public struct InferenceExperimentDataStorageConfig: Swift.Sendable {
-        /// Configuration specifying how to treat different headers. If no headers are specified Amazon SageMaker will by default base64 encode when capturing the data.
+        /// Configuration specifying how to treat different headers. If no headers are specified Amazon SageMaker AI will by default base64 encode when capturing the data.
         public var contentType: SageMakerClientTypes.CaptureContentTypeHeader?
         /// The Amazon S3 bucket where the inference request and response data is stored.
         /// This member is required.
@@ -17641,8 +18169,7 @@ extension SageMakerClientTypes {
             contentType: SageMakerClientTypes.CaptureContentTypeHeader? = nil,
             destination: Swift.String? = nil,
             kmsKey: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentType = contentType
             self.destination = destination
             self.kmsKey = kmsKey
@@ -18229,8 +18756,7 @@ extension SageMakerClientTypes {
         public init(
             instanceCount: Swift.Int? = nil,
             instanceType: SageMakerClientTypes.InstanceType? = nil
-        )
-        {
+        ) {
             self.instanceCount = instanceCount
             self.instanceType = instanceType
         }
@@ -18253,8 +18779,7 @@ extension SageMakerClientTypes {
         public init(
             infrastructureType: SageMakerClientTypes.ModelInfrastructureType? = nil,
             realTimeInferenceConfig: SageMakerClientTypes.RealTimeInferenceConfig? = nil
-        )
-        {
+        ) {
             self.infrastructureType = infrastructureType
             self.realTimeInferenceConfig = realTimeInferenceConfig
         }
@@ -18279,8 +18804,7 @@ extension SageMakerClientTypes {
             infrastructureConfig: SageMakerClientTypes.ModelInfrastructureConfig? = nil,
             modelName: Swift.String? = nil,
             variantName: Swift.String? = nil
-        )
-        {
+        ) {
             self.infrastructureConfig = infrastructureConfig
             self.modelName = modelName
             self.variantName = variantName
@@ -18300,8 +18824,7 @@ extension SageMakerClientTypes {
         public init(
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
         }
@@ -18322,8 +18845,7 @@ extension SageMakerClientTypes {
         public init(
             samplingPercentage: Swift.Int? = nil,
             shadowModelVariantName: Swift.String? = nil
-        )
-        {
+        ) {
             self.samplingPercentage = samplingPercentage
             self.shadowModelVariantName = shadowModelVariantName
         }
@@ -18344,8 +18866,7 @@ extension SageMakerClientTypes {
         public init(
             shadowModelVariants: [SageMakerClientTypes.ShadowModelVariantConfig]? = nil,
             sourceModelVariantName: Swift.String? = nil
-        )
-        {
+        ) {
             self.shadowModelVariants = shadowModelVariants
             self.sourceModelVariantName = sourceModelVariantName
         }
@@ -18433,8 +18954,7 @@ public struct CreateInferenceExperimentInput: Swift.Sendable {
         shadowModeConfig: SageMakerClientTypes.ShadowModeConfig? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         type: SageMakerClientTypes.InferenceExperimentType? = nil
-    )
-    {
+    ) {
         self.dataStorageConfig = dataStorageConfig
         self.description = description
         self.endpointName = endpointName
@@ -18456,8 +18976,7 @@ public struct CreateInferenceExperimentOutput: Swift.Sendable {
 
     public init(
         inferenceExperimentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceExperimentArn = inferenceExperimentArn
     }
 }
@@ -18474,8 +18993,7 @@ extension SageMakerClientTypes {
         public init(
             samplePayloadUrl: Swift.String? = nil,
             supportedContentTypes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.samplePayloadUrl = samplePayloadUrl
             self.supportedContentTypes = supportedContentTypes
         }
@@ -18547,8 +19065,7 @@ extension SageMakerClientTypes {
             supportedInstanceTypes: [Swift.String]? = nil,
             supportedResponseMIMETypes: [Swift.String]? = nil,
             task: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataInputConfig = dataInputConfig
             self.domain = domain
             self.framework = framework
@@ -18572,8 +19089,7 @@ extension SageMakerClientTypes {
 
         public init(
             categoricalParameterRanges: [SageMakerClientTypes.CategoricalParameter]? = nil
-        )
-        {
+        ) {
             self.categoricalParameterRanges = categoricalParameterRanges
         }
     }
@@ -18597,8 +19113,7 @@ extension SageMakerClientTypes {
             inferenceSpecificationName: Swift.String? = nil,
             instanceType: SageMakerClientTypes.ProductionVariantInstanceType? = nil,
             serverlessConfig: SageMakerClientTypes.ProductionVariantServerlessConfig? = nil
-        )
-        {
+        ) {
             self.environmentParameterRanges = environmentParameterRanges
             self.inferenceSpecificationName = inferenceSpecificationName
             self.instanceType = instanceType
@@ -18616,8 +19131,7 @@ extension SageMakerClientTypes {
 
         public init(
             endpointName: Swift.String? = nil
-        )
-        {
+        ) {
             self.endpointName = endpointName
         }
     }
@@ -18635,8 +19149,7 @@ extension SageMakerClientTypes {
         public init(
             maxNumberOfTests: Swift.Int? = nil,
             maxParallelOfTests: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxNumberOfTests = maxNumberOfTests
             self.maxParallelOfTests = maxParallelOfTests
         }
@@ -18658,8 +19171,7 @@ extension SageMakerClientTypes {
             durationInSeconds: Swift.Int? = nil,
             initialNumberOfUsers: Swift.Int? = nil,
             spawnRate: Swift.Int? = nil
-        )
-        {
+        ) {
             self.durationInSeconds = durationInSeconds
             self.initialNumberOfUsers = initialNumberOfUsers
             self.spawnRate = spawnRate
@@ -18682,8 +19194,7 @@ extension SageMakerClientTypes {
             durationInSeconds: Swift.Int? = nil,
             numberOfSteps: Swift.Int? = nil,
             usersPerStep: Swift.Int? = nil
-        )
-        {
+        ) {
             self.durationInSeconds = durationInSeconds
             self.numberOfSteps = numberOfSteps
             self.usersPerStep = usersPerStep
@@ -18735,8 +19246,7 @@ extension SageMakerClientTypes {
             phases: [SageMakerClientTypes.Phase]? = nil,
             stairs: SageMakerClientTypes.Stairs? = nil,
             trafficType: SageMakerClientTypes.TrafficType? = nil
-        )
-        {
+        ) {
             self.phases = phases
             self.stairs = stairs
             self.trafficType = trafficType
@@ -18758,8 +19268,7 @@ extension SageMakerClientTypes {
         public init(
             securityGroupIds: [Swift.String]? = nil,
             subnets: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnets = subnets
         }
@@ -18813,8 +19322,7 @@ extension SageMakerClientTypes {
             trafficPattern: SageMakerClientTypes.TrafficPattern? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             vpcConfig: SageMakerClientTypes.RecommendationJobVpcConfig? = nil
-        )
-        {
+        ) {
             self.containerConfig = containerConfig
             self.endpointConfigurations = endpointConfigurations
             self.endpoints = endpoints
@@ -18867,8 +19375,7 @@ extension SageMakerClientTypes {
 
         public init(
             s3OutputUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3OutputUri = s3OutputUri
         }
     }
@@ -18897,8 +19404,7 @@ extension SageMakerClientTypes {
         public init(
             compiledOutputConfig: SageMakerClientTypes.RecommendationJobCompiledOutputConfig? = nil,
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.compiledOutputConfig = compiledOutputConfig
             self.kmsKeyId = kmsKeyId
         }
@@ -18946,8 +19452,7 @@ extension SageMakerClientTypes {
         public init(
             percentile: Swift.String? = nil,
             valueInMilliseconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.percentile = percentile
             self.valueInMilliseconds = valueInMilliseconds
         }
@@ -18969,8 +19474,7 @@ extension SageMakerClientTypes {
             flatInvocations: SageMakerClientTypes.FlatInvocations? = nil,
             maxInvocations: Swift.Int? = nil,
             modelLatencyThresholds: [SageMakerClientTypes.ModelLatencyThreshold]? = nil
-        )
-        {
+        ) {
             self.flatInvocations = flatInvocations
             self.maxInvocations = maxInvocations
             self.modelLatencyThresholds = modelLatencyThresholds
@@ -19009,8 +19513,7 @@ public struct CreateInferenceRecommendationsJobInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         stoppingConditions: SageMakerClientTypes.RecommendationJobStoppingConditions? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.inputConfig = inputConfig
         self.jobDescription = jobDescription
         self.jobName = jobName
@@ -19029,8 +19532,7 @@ public struct CreateInferenceRecommendationsJobOutput: Swift.Sendable {
 
     public init(
         jobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobArn = jobArn
     }
 }
@@ -19069,8 +19571,7 @@ extension SageMakerClientTypes {
         public init(
             humanTaskUiArn: Swift.String? = nil,
             uiTemplateS3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.humanTaskUiArn = humanTaskUiArn
             self.uiTemplateS3Uri = uiTemplateS3Uri
         }
@@ -19724,8 +20225,7 @@ extension SageMakerClientTypes {
             taskTitle: Swift.String? = nil,
             uiConfig: SageMakerClientTypes.UiConfig? = nil,
             workteamArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.annotationConsolidationConfig = annotationConsolidationConfig
             self.maxConcurrentTaskCount = maxConcurrentTaskCount
             self.numberOfHumanWorkersPerDataObject = numberOfHumanWorkersPerDataObject
@@ -19751,8 +20251,7 @@ extension SageMakerClientTypes {
 
         public init(
             contentClassifiers: [SageMakerClientTypes.ContentClassifier]? = nil
-        )
-        {
+        ) {
             self.contentClassifiers = contentClassifiers
         }
     }
@@ -19775,8 +20274,7 @@ extension SageMakerClientTypes {
 
         public init(
             manifestS3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.manifestS3Uri = manifestS3Uri
         }
     }
@@ -19792,8 +20290,7 @@ extension SageMakerClientTypes {
 
         public init(
             snsTopicArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.snsTopicArn = snsTopicArn
         }
     }
@@ -19811,8 +20308,7 @@ extension SageMakerClientTypes {
         public init(
             s3DataSource: SageMakerClientTypes.LabelingJobS3DataSource? = nil,
             snsDataSource: SageMakerClientTypes.LabelingJobSnsDataSource? = nil
-        )
-        {
+        ) {
             self.s3DataSource = s3DataSource
             self.snsDataSource = snsDataSource
         }
@@ -19832,8 +20328,7 @@ extension SageMakerClientTypes {
         public init(
             dataAttributes: SageMakerClientTypes.LabelingJobDataAttributes? = nil,
             dataSource: SageMakerClientTypes.LabelingJobDataSource? = nil
-        )
-        {
+        ) {
             self.dataAttributes = dataAttributes
             self.dataSource = dataSource
         }
@@ -19856,8 +20351,7 @@ extension SageMakerClientTypes {
         public init(
             volumeKmsKeyId: Swift.String? = nil,
             vpcConfig: SageMakerClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.volumeKmsKeyId = volumeKmsKeyId
             self.vpcConfig = vpcConfig
         }
@@ -19888,8 +20382,7 @@ extension SageMakerClientTypes {
             initialActiveLearningModelArn: Swift.String? = nil,
             labelingJobAlgorithmSpecificationArn: Swift.String? = nil,
             labelingJobResourceConfig: SageMakerClientTypes.LabelingJobResourceConfig? = nil
-        )
-        {
+        ) {
             self.initialActiveLearningModelArn = initialActiveLearningModelArn
             self.labelingJobAlgorithmSpecificationArn = labelingJobAlgorithmSpecificationArn
             self.labelingJobResourceConfig = labelingJobResourceConfig
@@ -19913,8 +20406,7 @@ extension SageMakerClientTypes {
             kmsKeyId: Swift.String? = nil,
             s3OutputPath: Swift.String? = nil,
             snsTopicArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.s3OutputPath = s3OutputPath
             self.snsTopicArn = snsTopicArn
@@ -19934,8 +20426,7 @@ extension SageMakerClientTypes {
         public init(
             maxHumanLabeledObjectCount: Swift.Int? = nil,
             maxPercentageOfInputDatasetLabeled: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxHumanLabeledObjectCount = maxHumanLabeledObjectCount
             self.maxPercentageOfInputDatasetLabeled = maxPercentageOfInputDatasetLabeled
         }
@@ -20026,8 +20517,7 @@ public struct CreateLabelingJobInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         stoppingConditions: SageMakerClientTypes.LabelingJobStoppingConditions? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.humanTaskConfig = humanTaskConfig
         self.inputConfig = inputConfig
         self.labelAttributeName = labelAttributeName
@@ -20048,8 +20538,7 @@ public struct CreateLabelingJobOutput: Swift.Sendable {
 
     public init(
         labelingJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.labelingJobArn = labelingJobArn
     }
 }
@@ -20116,8 +20605,7 @@ public struct CreateMlflowTrackingServerInput: Swift.Sendable {
         trackingServerName: Swift.String? = nil,
         trackingServerSize: SageMakerClientTypes.TrackingServerSize? = nil,
         weeklyMaintenanceWindowStart: Swift.String? = nil
-    )
-    {
+    ) {
         self.artifactStoreUri = artifactStoreUri
         self.automaticModelRegistration = automaticModelRegistration
         self.mlflowVersion = mlflowVersion
@@ -20135,8 +20623,7 @@ public struct CreateMlflowTrackingServerOutput: Swift.Sendable {
 
     public init(
         trackingServerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trackingServerArn = trackingServerArn
     }
 }
@@ -20184,8 +20671,7 @@ extension SageMakerClientTypes {
 
         public init(
             mode: SageMakerClientTypes.InferenceExecutionMode? = nil
-        )
-        {
+        ) {
             self.mode = mode
         }
     }
@@ -20219,8 +20705,7 @@ public struct CreateModelInput: Swift.Sendable {
         primaryContainer: SageMakerClientTypes.ContainerDefinition? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.containers = containers
         self.enableNetworkIsolation = enableNetworkIsolation
         self.executionRoleArn = executionRoleArn
@@ -20239,8 +20724,7 @@ public struct CreateModelOutput: Swift.Sendable {
 
     public init(
         modelArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelArn = modelArn
     }
 }
@@ -20262,8 +20746,7 @@ extension SageMakerClientTypes {
             configUri: Swift.String? = nil,
             environment: [Swift.String: Swift.String]? = nil,
             imageUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.configUri = configUri
             self.environment = environment
             self.imageUri = imageUri
@@ -20283,8 +20766,7 @@ extension SageMakerClientTypes {
         public init(
             baseliningJobName: Swift.String? = nil,
             constraintsResource: SageMakerClientTypes.MonitoringConstraintsResource? = nil
-        )
-        {
+        ) {
             self.baseliningJobName = baseliningJobName
             self.constraintsResource = constraintsResource
         }
@@ -20300,8 +20782,7 @@ extension SageMakerClientTypes {
 
         public init(
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3Uri = s3Uri
         }
     }
@@ -20323,8 +20804,7 @@ extension SageMakerClientTypes {
             batchTransformInput: SageMakerClientTypes.BatchTransformInput? = nil,
             endpointInput: SageMakerClientTypes.EndpointInput? = nil,
             groundTruthS3Input: SageMakerClientTypes.MonitoringGroundTruthS3Input? = nil
-        )
-        {
+        ) {
             self.batchTransformInput = batchTransformInput
             self.endpointInput = endpointInput
             self.groundTruthS3Input = groundTruthS3Input
@@ -20352,7 +20832,7 @@ public struct CreateModelBiasJobDefinitionInput: Swift.Sendable {
     public var modelBiasJobOutputConfig: SageMakerClientTypes.MonitoringOutputConfig?
     /// Networking options for a model bias job.
     public var networkConfig: SageMakerClientTypes.MonitoringNetworkConfig?
-    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.
+    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can assume to perform tasks on your behalf.
     /// This member is required.
     public var roleArn: Swift.String?
     /// A time limit for how long the monitoring job is allowed to run before stopping.
@@ -20371,8 +20851,7 @@ public struct CreateModelBiasJobDefinitionInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         stoppingCondition: SageMakerClientTypes.MonitoringStoppingCondition? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.jobDefinitionName = jobDefinitionName
         self.jobResources = jobResources
         self.modelBiasAppSpecification = modelBiasAppSpecification
@@ -20393,8 +20872,7 @@ public struct CreateModelBiasJobDefinitionOutput: Swift.Sendable {
 
     public init(
         jobDefinitionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionArn = jobDefinitionArn
     }
 }
@@ -20443,8 +20921,7 @@ extension SageMakerClientTypes {
 
         public init(
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
         }
     }
@@ -20479,8 +20956,7 @@ public struct CreateModelCardInput: Swift.Sendable {
         modelCardStatus: SageMakerClientTypes.ModelCardStatus? = nil,
         securityConfig: SageMakerClientTypes.ModelCardSecurityConfig? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.content = content
         self.modelCardName = modelCardName
         self.modelCardStatus = modelCardStatus
@@ -20501,8 +20977,7 @@ public struct CreateModelCardOutput: Swift.Sendable {
 
     public init(
         modelCardArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelCardArn = modelCardArn
     }
 }
@@ -20517,8 +20992,7 @@ extension SageMakerClientTypes {
 
         public init(
             s3OutputPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3OutputPath = s3OutputPath
         }
     }
@@ -20542,8 +21016,7 @@ public struct CreateModelCardExportJobInput: Swift.Sendable {
         modelCardName: Swift.String? = nil,
         modelCardVersion: Swift.Int? = nil,
         outputConfig: SageMakerClientTypes.ModelCardExportOutputConfig? = nil
-    )
-    {
+    ) {
         self.modelCardExportJobName = modelCardExportJobName
         self.modelCardName = modelCardName
         self.modelCardVersion = modelCardVersion
@@ -20558,8 +21031,7 @@ public struct CreateModelCardExportJobOutput: Swift.Sendable {
 
     public init(
         modelCardExportJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelCardExportJobArn = modelCardExportJobArn
     }
 }
@@ -20581,8 +21053,7 @@ extension SageMakerClientTypes {
             configUri: Swift.String? = nil,
             environment: [Swift.String: Swift.String]? = nil,
             imageUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.configUri = configUri
             self.environment = environment
             self.imageUri = imageUri
@@ -20602,8 +21073,7 @@ extension SageMakerClientTypes {
         public init(
             baseliningJobName: Swift.String? = nil,
             constraintsResource: SageMakerClientTypes.MonitoringConstraintsResource? = nil
-        )
-        {
+        ) {
             self.baseliningJobName = baseliningJobName
             self.constraintsResource = constraintsResource
         }
@@ -20622,8 +21092,7 @@ extension SageMakerClientTypes {
         public init(
             batchTransformInput: SageMakerClientTypes.BatchTransformInput? = nil,
             endpointInput: SageMakerClientTypes.EndpointInput? = nil
-        )
-        {
+        ) {
             self.batchTransformInput = batchTransformInput
             self.endpointInput = endpointInput
         }
@@ -20650,7 +21119,7 @@ public struct CreateModelExplainabilityJobDefinitionInput: Swift.Sendable {
     public var modelExplainabilityJobOutputConfig: SageMakerClientTypes.MonitoringOutputConfig?
     /// Networking options for a model explainability job.
     public var networkConfig: SageMakerClientTypes.MonitoringNetworkConfig?
-    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.
+    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can assume to perform tasks on your behalf.
     /// This member is required.
     public var roleArn: Swift.String?
     /// A time limit for how long the monitoring job is allowed to run before stopping.
@@ -20669,8 +21138,7 @@ public struct CreateModelExplainabilityJobDefinitionInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         stoppingCondition: SageMakerClientTypes.MonitoringStoppingCondition? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.jobDefinitionName = jobDefinitionName
         self.jobResources = jobResources
         self.modelExplainabilityAppSpecification = modelExplainabilityAppSpecification
@@ -20691,8 +21159,7 @@ public struct CreateModelExplainabilityJobDefinitionOutput: Swift.Sendable {
 
     public init(
         jobDefinitionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionArn = jobDefinitionArn
     }
 }
@@ -20713,8 +21180,7 @@ extension SageMakerClientTypes {
             contentDigest: Swift.String? = nil,
             contentType: Swift.String? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentDigest = contentDigest
             self.contentType = contentType
             self.s3Uri = s3Uri
@@ -20737,8 +21203,7 @@ extension SageMakerClientTypes {
             configFile: SageMakerClientTypes.FileSource? = nil,
             postTrainingConstraints: SageMakerClientTypes.MetricsSource? = nil,
             preTrainingConstraints: SageMakerClientTypes.MetricsSource? = nil
-        )
-        {
+        ) {
             self.configFile = configFile
             self.postTrainingConstraints = postTrainingConstraints
             self.preTrainingConstraints = preTrainingConstraints
@@ -20758,8 +21223,7 @@ extension SageMakerClientTypes {
         public init(
             configFile: SageMakerClientTypes.FileSource? = nil,
             constraints: SageMakerClientTypes.MetricsSource? = nil
-        )
-        {
+        ) {
             self.configFile = configFile
             self.constraints = constraints
         }
@@ -20778,8 +21242,7 @@ extension SageMakerClientTypes {
         public init(
             constraints: SageMakerClientTypes.MetricsSource? = nil,
             statistics: SageMakerClientTypes.MetricsSource? = nil
-        )
-        {
+        ) {
             self.constraints = constraints
             self.statistics = statistics
         }
@@ -20798,8 +21261,7 @@ extension SageMakerClientTypes {
         public init(
             constraints: SageMakerClientTypes.MetricsSource? = nil,
             statistics: SageMakerClientTypes.MetricsSource? = nil
-        )
-        {
+        ) {
             self.constraints = constraints
             self.statistics = statistics
         }
@@ -20824,8 +21286,7 @@ extension SageMakerClientTypes {
             explainability: SageMakerClientTypes.DriftCheckExplainability? = nil,
             modelDataQuality: SageMakerClientTypes.DriftCheckModelDataQuality? = nil,
             modelQuality: SageMakerClientTypes.DriftCheckModelQuality? = nil
-        )
-        {
+        ) {
             self.bias = bias
             self.explainability = explainability
             self.modelDataQuality = modelDataQuality
@@ -20854,8 +21315,7 @@ extension SageMakerClientTypes {
         public init(
             modelCardContent: Swift.String? = nil,
             modelCardStatus: SageMakerClientTypes.ModelCardStatus? = nil
-        )
-        {
+        ) {
             self.modelCardContent = modelCardContent
             self.modelCardStatus = modelCardStatus
         }
@@ -20884,8 +21344,7 @@ extension SageMakerClientTypes {
             stage: Swift.String? = nil,
             stageDescription: Swift.String? = nil,
             stageStatus: Swift.String? = nil
-        )
-        {
+        ) {
             self.stage = stage
             self.stageDescription = stageDescription
             self.stageStatus = stageStatus
@@ -20902,8 +21361,7 @@ extension SageMakerClientTypes {
 
         public init(
             report: SageMakerClientTypes.MetricsSource? = nil
-        )
-        {
+        ) {
             self.report = report
         }
     }
@@ -20921,8 +21379,7 @@ extension SageMakerClientTypes {
         public init(
             constraints: SageMakerClientTypes.MetricsSource? = nil,
             statistics: SageMakerClientTypes.MetricsSource? = nil
-        )
-        {
+        ) {
             self.constraints = constraints
             self.statistics = statistics
         }
@@ -20941,8 +21398,7 @@ extension SageMakerClientTypes {
         public init(
             constraints: SageMakerClientTypes.MetricsSource? = nil,
             statistics: SageMakerClientTypes.MetricsSource? = nil
-        )
-        {
+        ) {
             self.constraints = constraints
             self.statistics = statistics
         }
@@ -20967,8 +21423,7 @@ extension SageMakerClientTypes {
             explainability: SageMakerClientTypes.Explainability? = nil,
             modelDataQuality: SageMakerClientTypes.ModelDataQuality? = nil,
             modelQuality: SageMakerClientTypes.ModelQuality? = nil
-        )
-        {
+        ) {
             self.bias = bias
             self.explainability = explainability
             self.modelDataQuality = modelDataQuality
@@ -20987,8 +21442,7 @@ extension SageMakerClientTypes {
 
         public init(
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
         }
     }
@@ -21030,6 +21484,8 @@ extension SageMakerClientTypes {
         /// The name of an algorithm that was used to create the model package. The algorithm must be either an algorithm resource in your SageMaker account or an algorithm in Amazon Web Services Marketplace that you are subscribed to.
         /// This member is required.
         public var algorithmName: Swift.String?
+        /// The ETag associated with Model Data URL.
+        public var modelDataETag: Swift.String?
         /// Specifies the location of ML model data to deploy during endpoint creation.
         public var modelDataSource: SageMakerClientTypes.ModelDataSource?
         /// The Amazon S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix). The model artifacts must be in an S3 bucket that is in the same Amazon Web Services region as the algorithm.
@@ -21037,11 +21493,12 @@ extension SageMakerClientTypes {
 
         public init(
             algorithmName: Swift.String? = nil,
+            modelDataETag: Swift.String? = nil,
             modelDataSource: SageMakerClientTypes.ModelDataSource? = nil,
             modelDataUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.algorithmName = algorithmName
+            self.modelDataETag = modelDataETag
             self.modelDataSource = modelDataSource
             self.modelDataUrl = modelDataUrl
         }
@@ -21058,8 +21515,7 @@ extension SageMakerClientTypes {
 
         public init(
             sourceAlgorithms: [SageMakerClientTypes.SourceAlgorithm]? = nil
-        )
-        {
+        ) {
             self.sourceAlgorithms = sourceAlgorithms
         }
     }
@@ -21079,8 +21535,7 @@ extension SageMakerClientTypes {
         public init(
             profileName: Swift.String? = nil,
             transformJobDefinition: SageMakerClientTypes.TransformJobDefinition? = nil
-        )
-        {
+        ) {
             self.profileName = profileName
             self.transformJobDefinition = transformJobDefinition
         }
@@ -21101,8 +21556,7 @@ extension SageMakerClientTypes {
         public init(
             validationProfiles: [SageMakerClientTypes.ModelPackageValidationProfile]? = nil,
             validationRole: Swift.String? = nil
-        )
-        {
+        ) {
             self.validationProfiles = validationProfiles
             self.validationRole = validationRole
         }
@@ -21187,8 +21641,7 @@ public struct CreateModelPackageInput: Swift.Sendable {
         tags: [SageMakerClientTypes.Tag]? = nil,
         task: Swift.String? = nil,
         validationSpecification: SageMakerClientTypes.ModelPackageValidationSpecification? = nil
-    )
-    {
+    ) {
         self.additionalInferenceSpecifications = additionalInferenceSpecifications
         self.certifyForMarketplace = certifyForMarketplace
         self.clientToken = clientToken
@@ -21222,8 +21675,7 @@ public struct CreateModelPackageOutput: Swift.Sendable {
 
     public init(
         modelPackageArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelPackageArn = modelPackageArn
     }
 }
@@ -21241,8 +21693,7 @@ public struct CreateModelPackageGroupInput: Swift.Sendable {
         modelPackageGroupDescription: Swift.String? = nil,
         modelPackageGroupName: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.modelPackageGroupDescription = modelPackageGroupDescription
         self.modelPackageGroupName = modelPackageGroupName
         self.tags = tags
@@ -21256,8 +21707,7 @@ public struct CreateModelPackageGroupOutput: Swift.Sendable {
 
     public init(
         modelPackageGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelPackageGroupArn = modelPackageGroupArn
     }
 }
@@ -21322,8 +21772,7 @@ extension SageMakerClientTypes {
             postAnalyticsProcessorSourceUri: Swift.String? = nil,
             problemType: SageMakerClientTypes.MonitoringProblemType? = nil,
             recordPreprocessorSourceUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerArguments = containerArguments
             self.containerEntrypoint = containerEntrypoint
             self.environment = environment
@@ -21347,8 +21796,7 @@ extension SageMakerClientTypes {
         public init(
             baseliningJobName: Swift.String? = nil,
             constraintsResource: SageMakerClientTypes.MonitoringConstraintsResource? = nil
-        )
-        {
+        ) {
             self.baseliningJobName = baseliningJobName
             self.constraintsResource = constraintsResource
         }
@@ -21371,8 +21819,7 @@ extension SageMakerClientTypes {
             batchTransformInput: SageMakerClientTypes.BatchTransformInput? = nil,
             endpointInput: SageMakerClientTypes.EndpointInput? = nil,
             groundTruthS3Input: SageMakerClientTypes.MonitoringGroundTruthS3Input? = nil
-        )
-        {
+        ) {
             self.batchTransformInput = batchTransformInput
             self.endpointInput = endpointInput
             self.groundTruthS3Input = groundTruthS3Input
@@ -21400,7 +21847,7 @@ public struct CreateModelQualityJobDefinitionInput: Swift.Sendable {
     public var modelQualityJobOutputConfig: SageMakerClientTypes.MonitoringOutputConfig?
     /// Specifies the network configuration for the monitoring job.
     public var networkConfig: SageMakerClientTypes.MonitoringNetworkConfig?
-    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.
+    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can assume to perform tasks on your behalf.
     /// This member is required.
     public var roleArn: Swift.String?
     /// A time limit for how long the monitoring job is allowed to run before stopping.
@@ -21419,8 +21866,7 @@ public struct CreateModelQualityJobDefinitionInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         stoppingCondition: SageMakerClientTypes.MonitoringStoppingCondition? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.jobDefinitionName = jobDefinitionName
         self.jobResources = jobResources
         self.modelQualityAppSpecification = modelQualityAppSpecification
@@ -21441,8 +21887,7 @@ public struct CreateModelQualityJobDefinitionOutput: Swift.Sendable {
 
     public init(
         jobDefinitionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionArn = jobDefinitionArn
     }
 }
@@ -21462,8 +21907,7 @@ extension SageMakerClientTypes {
             baseliningJobName: Swift.String? = nil,
             constraintsResource: SageMakerClientTypes.MonitoringConstraintsResource? = nil,
             statisticsResource: SageMakerClientTypes.MonitoringStatisticsResource? = nil
-        )
-        {
+        ) {
             self.baseliningJobName = baseliningJobName
             self.constraintsResource = constraintsResource
             self.statisticsResource = statisticsResource
@@ -21493,8 +21937,7 @@ extension SageMakerClientTypes {
             imageUri: Swift.String? = nil,
             postAnalyticsProcessorSourceUri: Swift.String? = nil,
             recordPreprocessorSourceUri: Swift.String? = nil
-        )
-        {
+        ) {
             self.containerArguments = containerArguments
             self.containerEntrypoint = containerEntrypoint
             self.imageUri = imageUri
@@ -21516,8 +21959,7 @@ extension SageMakerClientTypes {
         public init(
             batchTransformInput: SageMakerClientTypes.BatchTransformInput? = nil,
             endpointInput: SageMakerClientTypes.EndpointInput? = nil
-        )
-        {
+        ) {
             self.batchTransformInput = batchTransformInput
             self.endpointInput = endpointInput
         }
@@ -21539,8 +21981,7 @@ extension SageMakerClientTypes {
             enableInterContainerTrafficEncryption: Swift.Bool? = nil,
             enableNetworkIsolation: Swift.Bool? = nil,
             vpcConfig: SageMakerClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.enableInterContainerTrafficEncryption = enableInterContainerTrafficEncryption
             self.enableNetworkIsolation = enableNetworkIsolation
             self.vpcConfig = vpcConfig
@@ -21559,7 +22000,7 @@ extension SageMakerClientTypes {
         /// Configures the monitoring job to run a specified Docker container image.
         /// This member is required.
         public var monitoringAppSpecification: SageMakerClientTypes.MonitoringAppSpecification?
-        /// The array of inputs for the monitoring job. Currently we support monitoring an Amazon SageMaker Endpoint.
+        /// The array of inputs for the monitoring job. Currently we support monitoring an Amazon SageMaker AI Endpoint.
         /// This member is required.
         public var monitoringInputs: [SageMakerClientTypes.MonitoringInput]?
         /// The array of outputs from the monitoring job to be uploaded to Amazon S3.
@@ -21570,7 +22011,7 @@ extension SageMakerClientTypes {
         public var monitoringResources: SageMakerClientTypes.MonitoringResources?
         /// Specifies networking options for an monitoring job.
         public var networkConfig: SageMakerClientTypes.NetworkConfig?
-        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.
+        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can assume to perform tasks on your behalf.
         /// This member is required.
         public var roleArn: Swift.String?
         /// Specifies a time limit for how long the monitoring job is allowed to run.
@@ -21586,8 +22027,7 @@ extension SageMakerClientTypes {
             networkConfig: SageMakerClientTypes.NetworkConfig? = nil,
             roleArn: Swift.String? = nil,
             stoppingCondition: SageMakerClientTypes.MonitoringStoppingCondition? = nil
-        )
-        {
+        ) {
             self.baselineConfig = baselineConfig
             self.environment = environment
             self.monitoringAppSpecification = monitoringAppSpecification
@@ -21671,7 +22111,7 @@ extension SageMakerClientTypes {
         ///
         /// * Even though the cron expression is set to start at 5PM UTC, note that there could be a delay of 0-20 minutes from the actual requested time to run the execution.
         ///
-        /// * We recommend that if you would like a daily schedule, you do not provide this parameter. Amazon SageMaker will pick a time for running every day.
+        /// * We recommend that if you would like a daily schedule, you do not provide this parameter. Amazon SageMaker AI will pick a time for running every day.
         ///
         ///
         /// You can also specify the keyword NOW to run the monitoring job immediately, one time, without recurring.
@@ -21682,8 +22122,7 @@ extension SageMakerClientTypes {
             dataAnalysisEndTime: Swift.String? = nil,
             dataAnalysisStartTime: Swift.String? = nil,
             scheduleExpression: Swift.String? = nil
-        )
-        {
+        ) {
             self.dataAnalysisEndTime = dataAnalysisEndTime
             self.dataAnalysisStartTime = dataAnalysisStartTime
             self.scheduleExpression = scheduleExpression
@@ -21709,8 +22148,7 @@ extension SageMakerClientTypes {
             monitoringJobDefinitionName: Swift.String? = nil,
             monitoringType: SageMakerClientTypes.MonitoringType? = nil,
             scheduleConfig: SageMakerClientTypes.ScheduleConfig? = nil
-        )
-        {
+        ) {
             self.monitoringJobDefinition = monitoringJobDefinition
             self.monitoringJobDefinitionName = monitoringJobDefinitionName
             self.monitoringType = monitoringType
@@ -21733,8 +22171,7 @@ public struct CreateMonitoringScheduleInput: Swift.Sendable {
         monitoringScheduleConfig: SageMakerClientTypes.MonitoringScheduleConfig? = nil,
         monitoringScheduleName: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.monitoringScheduleConfig = monitoringScheduleConfig
         self.monitoringScheduleName = monitoringScheduleName
         self.tags = tags
@@ -21748,8 +22185,7 @@ public struct CreateMonitoringScheduleOutput: Swift.Sendable {
 
     public init(
         monitoringScheduleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitoringScheduleArn = monitoringScheduleArn
     }
 }
@@ -21834,8 +22270,7 @@ extension SageMakerClientTypes {
 
         public init(
             minimumInstanceMetadataServiceVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.minimumInstanceMetadataServiceVersion = minimumInstanceMetadataServiceVersion
         }
     }
@@ -21873,18 +22308,18 @@ extension SageMakerClientTypes {
 public struct CreateNotebookInstanceInput: Swift.Sendable {
     /// This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify a list of EI instance types to associate with this notebook instance.
     public var acceleratorTypes: [SageMakerClientTypes.NotebookInstanceAcceleratorType]?
-    /// An array of up to three Git repositories to associate with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
+    /// An array of up to three Git repositories to associate with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see [Associating Git Repositories with SageMaker AI Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
     public var additionalCodeRepositories: [Swift.String]?
-    /// A Git repository to associate with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
+    /// A Git repository to associate with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see [Associating Git Repositories with SageMaker AI Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
     public var defaultCodeRepository: Swift.String?
-    /// Sets whether SageMaker provides internet access to the notebook instance. If you set this to Disabled this notebook instance is able to access resources only in your VPC, and is not be able to connect to SageMaker training and endpoint services unless you configure a NAT Gateway in your VPC. For more information, see [Notebook Instances Are Internet-Enabled by Default](https://docs.aws.amazon.com/sagemaker/latest/dg/appendix-additional-considerations.html#appendix-notebook-and-internet-access). You can set the value of this parameter to Disabled only if you set a value for the SubnetId parameter.
+    /// Sets whether SageMaker AI provides internet access to the notebook instance. If you set this to Disabled this notebook instance is able to access resources only in your VPC, and is not be able to connect to SageMaker AI training and endpoint services unless you configure a NAT Gateway in your VPC. For more information, see [Notebook Instances Are Internet-Enabled by Default](https://docs.aws.amazon.com/sagemaker/latest/dg/appendix-additional-considerations.html#appendix-notebook-and-internet-access). You can set the value of this parameter to Disabled only if you set a value for the SubnetId parameter.
     public var directInternetAccess: SageMakerClientTypes.DirectInternetAccess?
     /// Information on the IMDS configuration of the notebook instance
     public var instanceMetadataServiceConfiguration: SageMakerClientTypes.InstanceMetadataServiceConfiguration?
     /// The type of ML compute instance to launch for the notebook instance.
     /// This member is required.
     public var instanceType: SageMakerClientTypes.InstanceType?
-    /// The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service key that SageMaker uses to encrypt data on the storage volume attached to your notebook instance. The KMS key you provide must be enabled. For information, see [Enabling and Disabling Keys](https://docs.aws.amazon.com/kms/latest/developerguide/enabling-keys.html) in the Amazon Web Services Key Management Service Developer Guide.
+    /// The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service key that SageMaker AI uses to encrypt data on the storage volume attached to your notebook instance. The KMS key you provide must be enabled. For information, see [Enabling and Disabling Keys](https://docs.aws.amazon.com/kms/latest/developerguide/enabling-keys.html) in the Amazon Web Services Key Management Service Developer Guide.
     public var kmsKeyId: Swift.String?
     /// The name of a lifecycle configuration to associate with the notebook instance. For information about lifestyle configurations, see [Step 2.1: (Optional) Customize a Notebook Instance](https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html).
     public var lifecycleConfigName: Swift.String?
@@ -21893,7 +22328,7 @@ public struct CreateNotebookInstanceInput: Swift.Sendable {
     public var notebookInstanceName: Swift.String?
     /// The platform identifier of the notebook instance runtime environment.
     public var platformIdentifier: Swift.String?
-    /// When you send any requests to Amazon Web Services resources from the notebook instance, SageMaker assumes this role to perform tasks on your behalf. You must grant this role necessary permissions so SageMaker can perform these tasks. The policy must allow the SageMaker service principal (sagemaker.amazonaws.com) permissions to assume this role. For more information, see [SageMaker Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html). To be able to pass this role to SageMaker, the caller of this API must have the iam:PassRole permission.
+    /// When you send any requests to Amazon Web Services resources from the notebook instance, SageMaker AI assumes this role to perform tasks on your behalf. You must grant this role necessary permissions so SageMaker AI can perform these tasks. The policy must allow the SageMaker AI service principal (sagemaker.amazonaws.com) permissions to assume this role. For more information, see [SageMaker AI Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html). To be able to pass this role to SageMaker AI, the caller of this API must have the iam:PassRole permission.
     /// This member is required.
     public var roleArn: Swift.String?
     /// Whether root access is enabled or disabled for users of the notebook instance. The default value is Enabled. Lifecycle configurations need root access to be able to set up a notebook instance. Because of this, lifecycle configurations associated with a notebook instance always run with root access even if you disable root access for users.
@@ -21924,8 +22359,7 @@ public struct CreateNotebookInstanceInput: Swift.Sendable {
         subnetId: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         volumeSizeInGB: Swift.Int? = nil
-    )
-    {
+    ) {
         self.acceleratorTypes = acceleratorTypes
         self.additionalCodeRepositories = additionalCodeRepositories
         self.defaultCodeRepository = defaultCodeRepository
@@ -21951,8 +22385,7 @@ public struct CreateNotebookInstanceOutput: Swift.Sendable {
 
     public init(
         notebookInstanceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.notebookInstanceArn = notebookInstanceArn
     }
 }
@@ -21966,8 +22399,7 @@ extension SageMakerClientTypes {
 
         public init(
             content: Swift.String? = nil
-        )
-        {
+        ) {
             self.content = content
         }
     }
@@ -21986,8 +22418,7 @@ public struct CreateNotebookInstanceLifecycleConfigInput: Swift.Sendable {
         notebookInstanceLifecycleConfigName: Swift.String? = nil,
         onCreate: [SageMakerClientTypes.NotebookInstanceLifecycleHook]? = nil,
         onStart: [SageMakerClientTypes.NotebookInstanceLifecycleHook]? = nil
-    )
-    {
+    ) {
         self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
         self.onCreate = onCreate
         self.onStart = onStart
@@ -22000,8 +22431,7 @@ public struct CreateNotebookInstanceLifecycleConfigOutput: Swift.Sendable {
 
     public init(
         notebookInstanceLifecycleConfigArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.notebookInstanceLifecycleConfigArn = notebookInstanceLifecycleConfigArn
     }
 }
@@ -22117,8 +22547,7 @@ extension SageMakerClientTypes {
 
         public init(
             acceptEula: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.acceptEula = acceptEula
         }
     }
@@ -22136,8 +22565,7 @@ extension SageMakerClientTypes {
         public init(
             modelAccessConfig: SageMakerClientTypes.OptimizationModelAccessConfig? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.modelAccessConfig = modelAccessConfig
             self.s3Uri = s3Uri
         }
@@ -22153,8 +22581,7 @@ extension SageMakerClientTypes {
 
         public init(
             s3: SageMakerClientTypes.OptimizationJobModelSourceS3? = nil
-        )
-        {
+        ) {
             self.s3 = s3
         }
     }
@@ -22172,8 +22599,7 @@ extension SageMakerClientTypes {
         public init(
             image: Swift.String? = nil,
             overrideEnvironment: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.image = image
             self.overrideEnvironment = overrideEnvironment
         }
@@ -22192,8 +22618,26 @@ extension SageMakerClientTypes {
         public init(
             image: Swift.String? = nil,
             overrideEnvironment: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
+            self.image = image
+            self.overrideEnvironment = overrideEnvironment
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Settings for the model sharding technique that's applied by a model optimization job.
+    public struct ModelShardingConfig: Swift.Sendable {
+        /// The URI of an LMI DLC in Amazon ECR. SageMaker uses this image to run the optimization.
+        public var image: Swift.String?
+        /// Environment variables that override the default ones in the model container.
+        public var overrideEnvironment: [Swift.String: Swift.String]?
+
+        public init(
+            image: Swift.String? = nil,
+            overrideEnvironment: [Swift.String: Swift.String]? = nil
+        ) {
             self.image = image
             self.overrideEnvironment = overrideEnvironment
         }
@@ -22208,6 +22652,8 @@ extension SageMakerClientTypes {
         case modelquantizationconfig(SageMakerClientTypes.ModelQuantizationConfig)
         /// Settings for the model compilation technique that's applied by a model optimization job.
         case modelcompilationconfig(SageMakerClientTypes.ModelCompilationConfig)
+        /// Settings for the model sharding technique that's applied by a model optimization job.
+        case modelshardingconfig(SageMakerClientTypes.ModelShardingConfig)
         case sdkUnknown(Swift.String)
     }
 }
@@ -22225,8 +22671,7 @@ extension SageMakerClientTypes {
         public init(
             kmsKeyId: Swift.String? = nil,
             s3OutputLocation: Swift.String? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.s3OutputLocation = s3OutputLocation
         }
@@ -22247,8 +22692,7 @@ extension SageMakerClientTypes {
         public init(
             securityGroupIds: [Swift.String]? = nil,
             subnets: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnets = subnets
         }
@@ -22273,7 +22717,7 @@ public struct CreateOptimizationJobInput: Swift.Sendable {
     /// Details for where to store the optimized model that you create with the optimization job.
     /// This member is required.
     public var outputConfig: SageMakerClientTypes.OptimizationJobOutputConfig?
-    /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker to perform tasks on your behalf. During model optimization, Amazon SageMaker needs your permission to:
+    /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker AI to perform tasks on your behalf. During model optimization, Amazon SageMaker AI needs your permission to:
     ///
     /// * Read input data from an S3 bucket
     ///
@@ -22284,7 +22728,7 @@ public struct CreateOptimizationJobInput: Swift.Sendable {
     /// * Publish metrics to Amazon CloudWatch
     ///
     ///
-    /// You grant permissions for all of these tasks to an IAM role. To pass this role to Amazon SageMaker, the caller of this API must have the iam:PassRole permission. For more information, see [Amazon SageMaker Roles.](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html)
+    /// You grant permissions for all of these tasks to an IAM role. To pass this role to Amazon SageMaker AI, the caller of this API must have the iam:PassRole permission. For more information, see [Amazon SageMaker AI Roles.](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html)
     /// This member is required.
     public var roleArn: Swift.String?
     /// Specifies a limit to how long a job can run. When the job reaches the time limit, SageMaker ends the job. Use this API to cap costs. To stop a training job, SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts, so the results of training are not lost. The training algorithms provided by SageMaker automatically save the intermediate results of a model training job when possible. This attempt to save artifacts is only a best effort case as model might not be in a state from which it can be saved. For example, if training has just started, the model might not be ready to save. When saved, this intermediate data is a valid model artifact. You can use it to create a model with CreateModel. The Neural Topic Model (NTM) currently does not support saving intermediate model artifacts. When training NTMs, make sure that the maximum runtime is sufficient for the training job to complete.
@@ -22306,8 +22750,7 @@ public struct CreateOptimizationJobInput: Swift.Sendable {
         stoppingCondition: SageMakerClientTypes.StoppingCondition? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         vpcConfig: SageMakerClientTypes.OptimizationVpcConfig? = nil
-    )
-    {
+    ) {
         self.deploymentInstanceType = deploymentInstanceType
         self.modelSource = modelSource
         self.optimizationConfigs = optimizationConfigs
@@ -22328,9 +22771,197 @@ public struct CreateOptimizationJobOutput: Swift.Sendable {
 
     public init(
         optimizationJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.optimizationJobArn = optimizationJobArn
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Configuration settings for the SageMaker Partner AI App.
+    public struct PartnerAppConfig: Swift.Sendable {
+        /// The list of users that are given admin access to the SageMaker Partner AI App.
+        public var adminUsers: [Swift.String]?
+        /// This is a map of required inputs for a SageMaker Partner AI App. Based on the application type, the map is populated with a key and value pair that is specific to the user and application.
+        public var arguments: [Swift.String: Swift.String]?
+
+        public init(
+            adminUsers: [Swift.String]? = nil,
+            arguments: [Swift.String: Swift.String]? = nil
+        ) {
+            self.adminUsers = adminUsers
+            self.arguments = arguments
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum PartnerAppAuthType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case iam
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PartnerAppAuthType] {
+            return [
+                .iam
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .iam: return "IAM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Maintenance configuration settings for the SageMaker Partner AI App.
+    public struct PartnerAppMaintenanceConfig: Swift.Sendable {
+        /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time that weekly maintenance updates are scheduled. This value must take the following format: 3-letter-day:24-h-hour:minute. For example: TUE:03:30.
+        public var maintenanceWindowStart: Swift.String?
+
+        public init(
+            maintenanceWindowStart: Swift.String? = nil
+        ) {
+            self.maintenanceWindowStart = maintenanceWindowStart
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum PartnerAppType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case comet
+        case deepchecksLlmEvaluation
+        case fiddler
+        case lakeraGuard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PartnerAppType] {
+            return [
+                .comet,
+                .deepchecksLlmEvaluation,
+                .fiddler,
+                .lakeraGuard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .comet: return "comet"
+            case .deepchecksLlmEvaluation: return "deepchecks-llm-evaluation"
+            case .fiddler: return "fiddler"
+            case .lakeraGuard: return "lakera-guard"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreatePartnerAppInput: Swift.Sendable {
+    /// Configuration settings for the SageMaker Partner AI App.
+    public var applicationConfig: SageMakerClientTypes.PartnerAppConfig?
+    /// The authorization type that users use to access the SageMaker Partner AI App.
+    /// This member is required.
+    public var authType: SageMakerClientTypes.PartnerAppAuthType?
+    /// A unique token that guarantees that the call to this API is idempotent.
+    public var clientToken: Swift.String?
+    /// When set to TRUE, the SageMaker Partner AI App sets the Amazon Web Services IAM session name or the authenticated IAM user as the identity of the SageMaker Partner AI App user.
+    public var enableIamSessionBasedIdentity: Swift.Bool?
+    /// The ARN of the IAM role that the partner application uses.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// Maintenance configuration settings for the SageMaker Partner AI App.
+    public var maintenanceConfig: SageMakerClientTypes.PartnerAppMaintenanceConfig?
+    /// The name to give the SageMaker Partner AI App.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Each tag consists of a key and an optional value. Tag keys must be unique per resource.
+    public var tags: [SageMakerClientTypes.Tag]?
+    /// Indicates the instance type and size of the cluster attached to the SageMaker Partner AI App.
+    /// This member is required.
+    public var tier: Swift.String?
+    /// The type of SageMaker Partner AI App to create. Must be one of the following: lakera-guard, comet, deepchecks-llm-evaluation, or fiddler.
+    /// This member is required.
+    public var type: SageMakerClientTypes.PartnerAppType?
+
+    public init(
+        applicationConfig: SageMakerClientTypes.PartnerAppConfig? = nil,
+        authType: SageMakerClientTypes.PartnerAppAuthType? = nil,
+        clientToken: Swift.String? = nil,
+        enableIamSessionBasedIdentity: Swift.Bool? = nil,
+        executionRoleArn: Swift.String? = nil,
+        maintenanceConfig: SageMakerClientTypes.PartnerAppMaintenanceConfig? = nil,
+        name: Swift.String? = nil,
+        tags: [SageMakerClientTypes.Tag]? = nil,
+        tier: Swift.String? = nil,
+        type: SageMakerClientTypes.PartnerAppType? = nil
+    ) {
+        self.applicationConfig = applicationConfig
+        self.authType = authType
+        self.clientToken = clientToken
+        self.enableIamSessionBasedIdentity = enableIamSessionBasedIdentity
+        self.executionRoleArn = executionRoleArn
+        self.maintenanceConfig = maintenanceConfig
+        self.name = name
+        self.tags = tags
+        self.tier = tier
+        self.type = type
+    }
+}
+
+public struct CreatePartnerAppOutput: Swift.Sendable {
+    /// The ARN of the SageMaker Partner AI App.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
+public struct CreatePartnerAppPresignedUrlInput: Swift.Sendable {
+    /// The ARN of the SageMaker Partner AI App to create the presigned URL for.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The time that will pass before the presigned URL expires.
+    public var expiresInSeconds: Swift.Int?
+    /// Indicates how long the Amazon SageMaker Partner AI App session can be accessed for after logging in.
+    public var sessionExpirationDurationInSeconds: Swift.Int?
+
+    public init(
+        arn: Swift.String? = nil,
+        expiresInSeconds: Swift.Int? = nil,
+        sessionExpirationDurationInSeconds: Swift.Int? = nil
+    ) {
+        self.arn = arn
+        self.expiresInSeconds = expiresInSeconds
+        self.sessionExpirationDurationInSeconds = sessionExpirationDurationInSeconds
+    }
+}
+
+public struct CreatePartnerAppPresignedUrlOutput: Swift.Sendable {
+    /// The presigned URL that you can use to access the SageMaker Partner AI App.
+    public var url: Swift.String?
+
+    public init(
+        url: Swift.String? = nil
+    ) {
+        self.url = url
     }
 }
 
@@ -22344,8 +22975,7 @@ extension SageMakerClientTypes {
 
         public init(
             maxParallelExecutionSteps: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxParallelExecutionSteps = maxParallelExecutionSteps
         }
     }
@@ -22368,8 +22998,7 @@ extension SageMakerClientTypes {
             bucket: Swift.String? = nil,
             objectKey: Swift.String? = nil,
             versionId: Swift.String? = nil
-        )
-        {
+        ) {
             self.bucket = bucket
             self.objectKey = objectKey
             self.versionId = versionId
@@ -22410,8 +23039,7 @@ public struct CreatePipelineInput: Swift.Sendable {
         pipelineName: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.parallelismConfiguration = parallelismConfiguration
         self.pipelineDefinition = pipelineDefinition
@@ -22430,8 +23058,7 @@ public struct CreatePipelineOutput: Swift.Sendable {
 
     public init(
         pipelineArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineArn = pipelineArn
     }
 }
@@ -22471,8 +23098,7 @@ public struct CreatePresignedDomainUrlInput: Swift.Sendable {
         sessionExpirationDurationInSeconds: Swift.Int? = nil,
         spaceName: Swift.String? = nil,
         userProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.expiresInSeconds = expiresInSeconds
         self.landingUri = landingUri
@@ -22488,8 +23114,7 @@ public struct CreatePresignedDomainUrlOutput: Swift.Sendable {
 
     public init(
         authorizedUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorizedUrl = authorizedUrl
     }
 }
@@ -22507,8 +23132,7 @@ public struct CreatePresignedMlflowTrackingServerUrlInput: Swift.Sendable {
         expiresInSeconds: Swift.Int? = nil,
         sessionExpirationDurationInSeconds: Swift.Int? = nil,
         trackingServerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.expiresInSeconds = expiresInSeconds
         self.sessionExpirationDurationInSeconds = sessionExpirationDurationInSeconds
         self.trackingServerName = trackingServerName
@@ -22521,8 +23145,7 @@ public struct CreatePresignedMlflowTrackingServerUrlOutput: Swift.Sendable {
 
     public init(
         authorizedUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorizedUrl = authorizedUrl
     }
 }
@@ -22537,8 +23160,7 @@ public struct CreatePresignedNotebookInstanceUrlInput: Swift.Sendable {
     public init(
         notebookInstanceName: Swift.String? = nil,
         sessionExpirationDurationInSeconds: Swift.Int? = nil
-    )
-    {
+    ) {
         self.notebookInstanceName = notebookInstanceName
         self.sessionExpirationDurationInSeconds = sessionExpirationDurationInSeconds
     }
@@ -22550,8 +23172,7 @@ public struct CreatePresignedNotebookInstanceUrlOutput: Swift.Sendable {
 
     public init(
         authorizedUrl: Swift.String? = nil
-    )
-    {
+    ) {
         self.authorizedUrl = authorizedUrl
     }
 }
@@ -22580,8 +23201,7 @@ extension SageMakerClientTypes {
             runName: Swift.String? = nil,
             trialComponentDisplayName: Swift.String? = nil,
             trialName: Swift.String? = nil
-        )
-        {
+        ) {
             self.experimentName = experimentName
             self.runName = runName
             self.trialComponentDisplayName = trialComponentDisplayName
@@ -22757,8 +23377,7 @@ extension SageMakerClientTypes {
             outputFormat: SageMakerClientTypes.RedshiftResultFormat? = nil,
             outputS3Uri: Swift.String? = nil,
             queryString: Swift.String? = nil
-        )
-        {
+        ) {
             self.clusterId = clusterId
             self.clusterRoleArn = clusterRoleArn
             self.database = database
@@ -22793,8 +23412,7 @@ extension SageMakerClientTypes {
             inputMode: SageMakerClientTypes.InputMode? = nil,
             localPath: Swift.String? = nil,
             redshiftDatasetDefinition: SageMakerClientTypes.RedshiftDatasetDefinition? = nil
-        )
-        {
+        ) {
             self.athenaDatasetDefinition = athenaDatasetDefinition
             self.dataDistributionType = dataDistributionType
             self.inputMode = inputMode
@@ -22888,8 +23506,7 @@ extension SageMakerClientTypes {
             s3DataType: SageMakerClientTypes.ProcessingS3DataType? = nil,
             s3InputMode: SageMakerClientTypes.ProcessingS3InputMode? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.localPath = localPath
             self.s3CompressionType = s3CompressionType
             self.s3DataDistributionType = s3DataDistributionType
@@ -22919,8 +23536,7 @@ extension SageMakerClientTypes {
             datasetDefinition: SageMakerClientTypes.DatasetDefinition? = nil,
             inputName: Swift.String? = nil,
             s3Input: SageMakerClientTypes.ProcessingS3Input? = nil
-        )
-        {
+        ) {
             self.appManaged = appManaged
             self.datasetDefinition = datasetDefinition
             self.inputName = inputName
@@ -22939,8 +23555,7 @@ extension SageMakerClientTypes {
 
         public init(
             featureGroupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.featureGroupName = featureGroupName
         }
     }
@@ -22963,8 +23578,7 @@ extension SageMakerClientTypes {
             localPath: Swift.String? = nil,
             s3UploadMode: SageMakerClientTypes.ProcessingS3UploadMode? = nil,
             s3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.localPath = localPath
             self.s3UploadMode = s3UploadMode
             self.s3Uri = s3Uri
@@ -22991,8 +23605,7 @@ extension SageMakerClientTypes {
             featureStoreOutput: SageMakerClientTypes.ProcessingFeatureStoreOutput? = nil,
             outputName: Swift.String? = nil,
             s3Output: SageMakerClientTypes.ProcessingS3Output? = nil
-        )
-        {
+        ) {
             self.appManaged = appManaged
             self.featureStoreOutput = featureStoreOutput
             self.outputName = outputName
@@ -23014,8 +23627,7 @@ extension SageMakerClientTypes {
         public init(
             kmsKeyId: Swift.String? = nil,
             outputs: [SageMakerClientTypes.ProcessingOutput]? = nil
-        )
-        {
+        ) {
             self.kmsKeyId = kmsKeyId
             self.outputs = outputs
         }
@@ -23043,8 +23655,7 @@ extension SageMakerClientTypes {
             instanceType: SageMakerClientTypes.ProcessingInstanceType? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             volumeSizeInGB: Swift.Int? = nil
-        )
-        {
+        ) {
             self.instanceCount = instanceCount
             self.instanceType = instanceType
             self.volumeKmsKeyId = volumeKmsKeyId
@@ -23063,8 +23674,7 @@ extension SageMakerClientTypes {
 
         public init(
             clusterConfig: SageMakerClientTypes.ProcessingClusterConfig? = nil
-        )
-        {
+        ) {
             self.clusterConfig = clusterConfig
         }
     }
@@ -23080,8 +23690,7 @@ extension SageMakerClientTypes {
 
         public init(
             maxRuntimeInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxRuntimeInSeconds = maxRuntimeInSeconds
         }
     }
@@ -23133,8 +23742,7 @@ public struct CreateProcessingJobInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         stoppingCondition: SageMakerClientTypes.ProcessingStoppingCondition? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.appSpecification = appSpecification
         self.environment = environment
         self.experimentConfig = experimentConfig
@@ -23156,8 +23764,7 @@ public struct CreateProcessingJobOutput: Swift.Sendable {
 
     public init(
         processingJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.processingJobArn = processingJobArn
     }
 }
@@ -23174,8 +23781,7 @@ extension SageMakerClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -23201,8 +23807,7 @@ extension SageMakerClientTypes {
             productId: Swift.String? = nil,
             provisioningArtifactId: Swift.String? = nil,
             provisioningParameters: [SageMakerClientTypes.ProvisioningParameter]? = nil
-        )
-        {
+        ) {
             self.pathId = pathId
             self.productId = productId
             self.provisioningArtifactId = provisioningArtifactId
@@ -23228,8 +23833,7 @@ public struct CreateProjectInput: Swift.Sendable {
         projectName: Swift.String? = nil,
         serviceCatalogProvisioningDetails: SageMakerClientTypes.ServiceCatalogProvisioningDetails? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.projectDescription = projectDescription
         self.projectName = projectName
         self.serviceCatalogProvisioningDetails = serviceCatalogProvisioningDetails
@@ -23248,8 +23852,7 @@ public struct CreateProjectOutput: Swift.Sendable {
     public init(
         projectArn: Swift.String? = nil,
         projectId: Swift.String? = nil
-    )
-    {
+    ) {
         self.projectArn = projectArn
         self.projectId = projectId
     }
@@ -23265,8 +23868,7 @@ extension SageMakerClientTypes {
 
         public init(
             ownerUserProfileName: Swift.String? = nil
-        )
-        {
+        ) {
             self.ownerUserProfileName = ownerUserProfileName
         }
     }
@@ -23281,8 +23883,7 @@ extension SageMakerClientTypes {
 
         public init(
             idleTimeoutInMinutes: Swift.Int? = nil
-        )
-        {
+        ) {
             self.idleTimeoutInMinutes = idleTimeoutInMinutes
         }
     }
@@ -23297,8 +23898,7 @@ extension SageMakerClientTypes {
 
         public init(
             idleSettings: SageMakerClientTypes.SpaceIdleSettings? = nil
-        )
-        {
+        ) {
             self.idleSettings = idleSettings
         }
     }
@@ -23310,14 +23910,13 @@ extension SageMakerClientTypes {
     public struct SpaceCodeEditorAppSettings: Swift.Sendable {
         /// Settings that are used to configure and manage the lifecycle of CodeEditor applications in a space.
         public var appLifecycleManagement: SageMakerClientTypes.SpaceAppLifecycleManagement?
-        /// Specifies the ARN's of a SageMaker image and SageMaker image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
 
         public init(
             appLifecycleManagement: SageMakerClientTypes.SpaceAppLifecycleManagement? = nil,
             defaultResourceSpec: SageMakerClientTypes.ResourceSpec? = nil
-        )
-        {
+        ) {
             self.appLifecycleManagement = appLifecycleManagement
             self.defaultResourceSpec = defaultResourceSpec
         }
@@ -23326,7 +23925,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// A file system, created by you in Amazon EFS, that you assign to a user profile or space for an Amazon SageMaker Domain. Permitted users can access this file system in Amazon SageMaker Studio.
+    /// A file system, created by you in Amazon EFS, that you assign to a user profile or space for an Amazon SageMaker AI Domain. Permitted users can access this file system in Amazon SageMaker AI Studio.
     public struct EFSFileSystem: Swift.Sendable {
         /// The ID of your Amazon EFS file system.
         /// This member is required.
@@ -23334,8 +23933,7 @@ extension SageMakerClientTypes {
 
         public init(
             fileSystemId: Swift.String? = nil
-        )
-        {
+        ) {
             self.fileSystemId = fileSystemId
         }
     }
@@ -23343,10 +23941,28 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// A file system, created by you, that you assign to a user profile or space for an Amazon SageMaker Domain. Permitted users can access this file system in Amazon SageMaker Studio.
+    /// A custom file system in Amazon FSx for Lustre.
+    public struct FSxLustreFileSystem: Swift.Sendable {
+        /// Amazon FSx for Lustre file system ID.
+        /// This member is required.
+        public var fileSystemId: Swift.String?
+
+        public init(
+            fileSystemId: Swift.String? = nil
+        ) {
+            self.fileSystemId = fileSystemId
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A file system, created by you, that you assign to a user profile or space for an Amazon SageMaker AI Domain. Permitted users can access this file system in Amazon SageMaker AI Studio.
     public enum CustomFileSystem: Swift.Sendable {
         /// A custom file system in Amazon EFS.
         case efsfilesystem(SageMakerClientTypes.EFSFileSystem)
+        /// A custom file system in Amazon FSx for Lustre.
+        case fsxlustrefilesystem(SageMakerClientTypes.FSxLustreFileSystem)
         case sdkUnknown(Swift.String)
     }
 }
@@ -23359,15 +23975,14 @@ extension SageMakerClientTypes {
         public var appLifecycleManagement: SageMakerClientTypes.SpaceAppLifecycleManagement?
         /// A list of Git repositories that SageMaker automatically displays to users for cloning in the JupyterLab application.
         public var codeRepositories: [SageMakerClientTypes.CodeRepository]?
-        /// Specifies the ARN's of a SageMaker image and SageMaker image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
 
         public init(
             appLifecycleManagement: SageMakerClientTypes.SpaceAppLifecycleManagement? = nil,
             codeRepositories: [SageMakerClientTypes.CodeRepository]? = nil,
             defaultResourceSpec: SageMakerClientTypes.ResourceSpec? = nil
-        )
-        {
+        ) {
             self.appLifecycleManagement = appLifecycleManagement
             self.codeRepositories = codeRepositories
             self.defaultResourceSpec = defaultResourceSpec
@@ -23385,8 +24000,7 @@ extension SageMakerClientTypes {
 
         public init(
             ebsVolumeSizeInGb: Swift.Int? = nil
-        )
-        {
+        ) {
             self.ebsVolumeSizeInGb = ebsVolumeSizeInGb
         }
     }
@@ -23401,8 +24015,7 @@ extension SageMakerClientTypes {
 
         public init(
             ebsStorageSettings: SageMakerClientTypes.EbsStorageSettings? = nil
-        )
-        {
+        ) {
             self.ebsStorageSettings = ebsStorageSettings
         }
     }
@@ -23412,11 +24025,11 @@ extension SageMakerClientTypes {
 
     /// A collection of space settings.
     public struct SpaceSettings: Swift.Sendable {
-        /// The type of app created within the space.
+        /// The type of app created within the space. If using the [ UpdateSpace](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateSpace.html) API, you can't change the app type of your space by specifying a different value for this field.
         public var appType: SageMakerClientTypes.AppType?
         /// The Code Editor application settings.
         public var codeEditorAppSettings: SageMakerClientTypes.SpaceCodeEditorAppSettings?
-        /// A file system, created by you, that you assign to a space for an Amazon SageMaker Domain. Permitted users can access this file system in Amazon SageMaker Studio.
+        /// A file system, created by you, that you assign to a space for an Amazon SageMaker AI Domain. Permitted users can access this file system in Amazon SageMaker AI Studio.
         public var customFileSystems: [SageMakerClientTypes.CustomFileSystem]?
         /// The settings for the JupyterLab application.
         public var jupyterLabAppSettings: SageMakerClientTypes.SpaceJupyterLabAppSettings?
@@ -23435,8 +24048,7 @@ extension SageMakerClientTypes {
             jupyterServerAppSettings: SageMakerClientTypes.JupyterServerAppSettings? = nil,
             kernelGatewayAppSettings: SageMakerClientTypes.KernelGatewayAppSettings? = nil,
             spaceStorageSettings: SageMakerClientTypes.SpaceStorageSettings? = nil
-        )
-        {
+        ) {
             self.appType = appType
             self.codeEditorAppSettings = codeEditorAppSettings
             self.customFileSystems = customFileSystems
@@ -23487,8 +24099,7 @@ extension SageMakerClientTypes {
 
         public init(
             sharingType: SageMakerClientTypes.SharingType? = nil
-        )
-        {
+        ) {
             self.sharingType = sharingType
         }
     }
@@ -23520,8 +24131,7 @@ public struct CreateSpaceInput: Swift.Sendable {
         spaceSettings: SageMakerClientTypes.SpaceSettings? = nil,
         spaceSharingSettings: SageMakerClientTypes.SpaceSharingSettings? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.ownershipSettings = ownershipSettings
         self.spaceDisplayName = spaceDisplayName
@@ -23538,8 +24148,7 @@ public struct CreateSpaceOutput: Swift.Sendable {
 
     public init(
         spaceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.spaceArn = spaceArn
     }
 }
@@ -23583,10 +24192,10 @@ public struct CreateStudioLifecycleConfigInput: Swift.Sendable {
     /// The App type that the Lifecycle Configuration is attached to.
     /// This member is required.
     public var studioLifecycleConfigAppType: SageMakerClientTypes.StudioLifecycleConfigAppType?
-    /// The content of your Amazon SageMaker Studio Lifecycle Configuration script. This content must be base64 encoded.
+    /// The content of your Amazon SageMaker AI Studio Lifecycle Configuration script. This content must be base64 encoded.
     /// This member is required.
     public var studioLifecycleConfigContent: Swift.String?
-    /// The name of the Amazon SageMaker Studio Lifecycle Configuration to create.
+    /// The name of the Amazon SageMaker AI Studio Lifecycle Configuration to create.
     /// This member is required.
     public var studioLifecycleConfigName: Swift.String?
     /// Tags to be associated with the Lifecycle Configuration. Each tag consists of a key and an optional value. Tag keys must be unique per resource. Tags are searchable using the Search API.
@@ -23597,8 +24206,7 @@ public struct CreateStudioLifecycleConfigInput: Swift.Sendable {
         studioLifecycleConfigContent: Swift.String? = nil,
         studioLifecycleConfigName: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.studioLifecycleConfigAppType = studioLifecycleConfigAppType
         self.studioLifecycleConfigContent = studioLifecycleConfigContent
         self.studioLifecycleConfigName = studioLifecycleConfigName
@@ -23612,8 +24220,7 @@ public struct CreateStudioLifecycleConfigOutput: Swift.Sendable {
 
     public init(
         studioLifecycleConfigArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.studioLifecycleConfigArn = studioLifecycleConfigArn
     }
 }
@@ -23637,8 +24244,7 @@ extension SageMakerClientTypes {
             hookParameters: [Swift.String: Swift.String]? = nil,
             localPath: Swift.String? = nil,
             s3OutputPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.collectionConfigurations = collectionConfigurations
             self.hookParameters = hookParameters
             self.localPath = localPath
@@ -23676,8 +24282,7 @@ extension SageMakerClientTypes {
             ruleParameters: [Swift.String: Swift.String]? = nil,
             s3OutputPath: Swift.String? = nil,
             volumeSizeInGB: Swift.Int? = nil
-        )
-        {
+        ) {
             self.instanceType = instanceType
             self.localPath = localPath
             self.ruleConfigurationName = ruleConfigurationName
@@ -23698,8 +24303,7 @@ extension SageMakerClientTypes {
 
         public init(
             enableInfraCheck: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enableInfraCheck = enableInfraCheck
         }
     }
@@ -23723,8 +24327,7 @@ extension SageMakerClientTypes {
             profilingIntervalInMilliseconds: Swift.Int? = nil,
             profilingParameters: [Swift.String: Swift.String]? = nil,
             s3OutputPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.disableProfiler = disableProfiler
             self.profilingIntervalInMilliseconds = profilingIntervalInMilliseconds
             self.profilingParameters = profilingParameters
@@ -23762,8 +24365,7 @@ extension SageMakerClientTypes {
             ruleParameters: [Swift.String: Swift.String]? = nil,
             s3OutputPath: Swift.String? = nil,
             volumeSizeInGB: Swift.Int? = nil
-        )
-        {
+        ) {
             self.instanceType = instanceType
             self.localPath = localPath
             self.ruleConfigurationName = ruleConfigurationName
@@ -23784,8 +24386,7 @@ extension SageMakerClientTypes {
 
         public init(
             enableRemoteDebug: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enableRemoteDebug = enableRemoteDebug
         }
     }
@@ -23800,8 +24401,7 @@ extension SageMakerClientTypes {
 
         public init(
             enableSessionTagChaining: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enableSessionTagChaining = enableSessionTagChaining
         }
     }
@@ -23820,8 +24420,7 @@ extension SageMakerClientTypes {
         public init(
             localPath: Swift.String? = nil,
             s3OutputPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.localPath = localPath
             self.s3OutputPath = s3OutputPath
         }
@@ -23918,8 +24517,7 @@ public struct CreateTrainingJobInput: Swift.Sendable {
         tensorBoardOutputConfig: SageMakerClientTypes.TensorBoardOutputConfig? = nil,
         trainingJobName: Swift.String? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.algorithmSpecification = algorithmSpecification
         self.checkpointConfig = checkpointConfig
         self.debugHookConfig = debugHookConfig
@@ -23955,9 +24553,41 @@ public struct CreateTrainingJobOutput: Swift.Sendable {
 
     public init(
         trainingJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trainingJobArn = trainingJobArn
+    }
+}
+
+public struct CreateTrainingPlanInput: Swift.Sendable {
+    /// An array of key-value pairs to apply to this training plan.
+    public var tags: [SageMakerClientTypes.Tag]?
+    /// The name of the training plan to create.
+    /// This member is required.
+    public var trainingPlanName: Swift.String?
+    /// The unique identifier of the training plan offering to use for creating this plan.
+    /// This member is required.
+    public var trainingPlanOfferingId: Swift.String?
+
+    public init(
+        tags: [SageMakerClientTypes.Tag]? = nil,
+        trainingPlanName: Swift.String? = nil,
+        trainingPlanOfferingId: Swift.String? = nil
+    ) {
+        self.tags = tags
+        self.trainingPlanName = trainingPlanName
+        self.trainingPlanOfferingId = trainingPlanOfferingId
+    }
+}
+
+public struct CreateTrainingPlanOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN); of the created training plan.
+    /// This member is required.
+    public var trainingPlanArn: Swift.String?
+
+    public init(
+        trainingPlanArn: Swift.String? = nil
+    ) {
+        self.trainingPlanArn = trainingPlanArn
     }
 }
 
@@ -24005,8 +24635,7 @@ extension SageMakerClientTypes {
             inputFilter: Swift.String? = nil,
             joinSource: SageMakerClientTypes.JoinSource? = nil,
             outputFilter: Swift.String? = nil
-        )
-        {
+        ) {
             self.inputFilter = inputFilter
             self.joinSource = joinSource
             self.outputFilter = outputFilter
@@ -24026,8 +24655,7 @@ extension SageMakerClientTypes {
         public init(
             invocationsMaxRetries: Swift.Int? = nil,
             invocationsTimeoutInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.invocationsMaxRetries = invocationsMaxRetries
             self.invocationsTimeoutInSeconds = invocationsTimeoutInSeconds
         }
@@ -24090,8 +24718,7 @@ public struct CreateTransformJobInput: Swift.Sendable {
         transformJobName: Swift.String? = nil,
         transformOutput: SageMakerClientTypes.TransformOutput? = nil,
         transformResources: SageMakerClientTypes.TransformResources? = nil
-    )
-    {
+    ) {
         self.batchStrategy = batchStrategy
         self.dataCaptureConfig = dataCaptureConfig
         self.dataProcessing = dataProcessing
@@ -24116,8 +24743,7 @@ public struct CreateTransformJobOutput: Swift.Sendable {
 
     public init(
         transformJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.transformJobArn = transformJobArn
     }
 }
@@ -24142,8 +24768,7 @@ public struct CreateTrialInput: Swift.Sendable {
         metadataProperties: SageMakerClientTypes.MetadataProperties? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         trialName: Swift.String? = nil
-    )
-    {
+    ) {
         self.displayName = displayName
         self.experimentName = experimentName
         self.metadataProperties = metadataProperties
@@ -24158,8 +24783,7 @@ public struct CreateTrialOutput: Swift.Sendable {
 
     public init(
         trialArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trialArn = trialArn
     }
 }
@@ -24177,8 +24801,7 @@ extension SageMakerClientTypes {
         public init(
             mediaType: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.mediaType = mediaType
             self.value = value
         }
@@ -24247,8 +24870,7 @@ extension SageMakerClientTypes {
         public init(
             message: Swift.String? = nil,
             primaryStatus: SageMakerClientTypes.TrialComponentPrimaryStatus? = nil
-        )
-        {
+        ) {
             self.message = message
             self.primaryStatus = primaryStatus
         }
@@ -24295,8 +24917,7 @@ public struct CreateTrialComponentInput: Swift.Sendable {
         status: SageMakerClientTypes.TrialComponentStatus? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         trialComponentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.displayName = displayName
         self.endTime = endTime
         self.inputArtifacts = inputArtifacts
@@ -24316,8 +24937,7 @@ public struct CreateTrialComponentOutput: Swift.Sendable {
 
     public init(
         trialComponentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trialComponentArn = trialComponentArn
     }
 }
@@ -24345,8 +24965,7 @@ public struct CreateUserProfileInput: Swift.Sendable {
         tags: [SageMakerClientTypes.Tag]? = nil,
         userProfileName: Swift.String? = nil,
         userSettings: SageMakerClientTypes.UserSettings? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.singleSignOnUserIdentifier = singleSignOnUserIdentifier
         self.singleSignOnUserValue = singleSignOnUserValue
@@ -24362,8 +24981,7 @@ public struct CreateUserProfileOutput: Swift.Sendable {
 
     public init(
         userProfileArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.userProfileArn = userProfileArn
     }
 }
@@ -24412,8 +25030,7 @@ extension SageMakerClientTypes {
             scope: Swift.String? = nil,
             tokenEndpoint: Swift.String? = nil,
             userInfoEndpoint: Swift.String? = nil
-        )
-        {
+        ) {
             self.authenticationRequestExtraParams = authenticationRequestExtraParams
             self.authorizationEndpoint = authorizationEndpoint
             self.clientId = clientId
@@ -24443,8 +25060,7 @@ extension SageMakerClientTypes {
 
         public init(
             cidrs: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.cidrs = cidrs
         }
     }
@@ -24465,8 +25081,7 @@ extension SageMakerClientTypes {
             securityGroupIds: [Swift.String]? = nil,
             subnets: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnets = subnets
             self.vpcId = vpcId
@@ -24496,8 +25111,7 @@ public struct CreateWorkforceInput: Swift.Sendable {
         tags: [SageMakerClientTypes.Tag]? = nil,
         workforceName: Swift.String? = nil,
         workforceVpcConfig: SageMakerClientTypes.WorkforceVpcConfigRequest? = nil
-    )
-    {
+    ) {
         self.cognitoConfig = cognitoConfig
         self.oidcConfig = oidcConfig
         self.sourceIpConfig = sourceIpConfig
@@ -24514,8 +25128,7 @@ public struct CreateWorkforceOutput: Swift.Sendable {
 
     public init(
         workforceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.workforceArn = workforceArn
     }
 }
@@ -24529,8 +25142,7 @@ extension SageMakerClientTypes {
 
         public init(
             groups: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.groups = groups
         }
     }
@@ -24548,8 +25160,7 @@ extension SageMakerClientTypes {
         public init(
             cognitoMemberDefinition: SageMakerClientTypes.CognitoMemberDefinition? = nil,
             oidcMemberDefinition: SageMakerClientTypes.OidcMemberDefinition? = nil
-        )
-        {
+        ) {
             self.cognitoMemberDefinition = cognitoMemberDefinition
             self.oidcMemberDefinition = oidcMemberDefinition
         }
@@ -24565,8 +25176,7 @@ extension SageMakerClientTypes {
 
         public init(
             notificationTopicArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.notificationTopicArn = notificationTopicArn
         }
     }
@@ -24613,8 +25223,7 @@ extension SageMakerClientTypes {
         public init(
             sourceIp: SageMakerClientTypes.EnabledOrDisabled? = nil,
             vpcSourceIp: SageMakerClientTypes.EnabledOrDisabled? = nil
-        )
-        {
+        ) {
             self.sourceIp = sourceIp
             self.vpcSourceIp = vpcSourceIp
         }
@@ -24630,8 +25239,7 @@ extension SageMakerClientTypes {
 
         public init(
             iamPolicyConstraints: SageMakerClientTypes.IamPolicyConstraints? = nil
-        )
-        {
+        ) {
             self.iamPolicyConstraints = iamPolicyConstraints
         }
     }
@@ -24646,8 +25254,7 @@ extension SageMakerClientTypes {
 
         public init(
             s3Presign: SageMakerClientTypes.S3Presign? = nil
-        )
-        {
+        ) {
             self.s3Presign = s3Presign
         }
     }
@@ -24680,8 +25287,7 @@ public struct CreateWorkteamInput: Swift.Sendable {
         workerAccessConfiguration: SageMakerClientTypes.WorkerAccessConfiguration? = nil,
         workforceName: Swift.String? = nil,
         workteamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.memberDefinitions = memberDefinitions
         self.notificationConfiguration = notificationConfiguration
@@ -24698,8 +25304,7 @@ public struct CreateWorkteamOutput: Swift.Sendable {
 
     public init(
         workteamArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.workteamArn = workteamArn
     }
 }
@@ -24786,8 +25391,7 @@ extension SageMakerClientTypes {
             metricName: Swift.String? = nil,
             namespace: Swift.String? = nil,
             statistic: SageMakerClientTypes.Statistic? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
             self.namespace = namespace
             self.statistic = statistic
@@ -24821,8 +25425,7 @@ extension SageMakerClientTypes {
             destinationS3Uri: Swift.String? = nil,
             enableCapture: Swift.Bool? = nil,
             kmsKeyId: Swift.String? = nil
-        )
-        {
+        ) {
             self.captureStatus = captureStatus
             self.currentSamplingPercentage = currentSamplingPercentage
             self.destinationS3Uri = destinationS3Uri
@@ -24894,8 +25497,7 @@ extension SageMakerClientTypes {
             ruleEvaluationJobArn: Swift.String? = nil,
             ruleEvaluationStatus: SageMakerClientTypes.RuleEvaluationStatus? = nil,
             statusDetails: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastModifiedTime = lastModifiedTime
             self.ruleConfigurationName = ruleConfigurationName
             self.ruleEvaluationJobArn = ruleEvaluationJobArn
@@ -24912,8 +25514,7 @@ public struct DeleteActionInput: Swift.Sendable {
 
     public init(
         actionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionName = actionName
     }
 }
@@ -24924,8 +25525,7 @@ public struct DeleteActionOutput: Swift.Sendable {
 
     public init(
         actionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionArn = actionArn
     }
 }
@@ -24937,8 +25537,7 @@ public struct DeleteAlgorithmInput: Swift.Sendable {
 
     public init(
         algorithmName: Swift.String? = nil
-    )
-    {
+    ) {
         self.algorithmName = algorithmName
     }
 }
@@ -24964,8 +25563,7 @@ public struct DeleteAppInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         spaceName: Swift.String? = nil,
         userProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appName = appName
         self.appType = appType
         self.domainId = domainId
@@ -24981,8 +25579,7 @@ public struct DeleteAppImageConfigInput: Swift.Sendable {
 
     public init(
         appImageConfigName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appImageConfigName = appImageConfigName
     }
 }
@@ -24996,8 +25593,7 @@ public struct DeleteArtifactInput: Swift.Sendable {
     public init(
         artifactArn: Swift.String? = nil,
         source: SageMakerClientTypes.ArtifactSource? = nil
-    )
-    {
+    ) {
         self.artifactArn = artifactArn
         self.source = source
     }
@@ -25009,8 +25605,7 @@ public struct DeleteArtifactOutput: Swift.Sendable {
 
     public init(
         artifactArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.artifactArn = artifactArn
     }
 }
@@ -25026,8 +25621,7 @@ public struct DeleteAssociationInput: Swift.Sendable {
     public init(
         destinationArn: Swift.String? = nil,
         sourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationArn = destinationArn
         self.sourceArn = sourceArn
     }
@@ -25042,8 +25636,7 @@ public struct DeleteAssociationOutput: Swift.Sendable {
     public init(
         destinationArn: Swift.String? = nil,
         sourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.destinationArn = destinationArn
         self.sourceArn = sourceArn
     }
@@ -25056,8 +25649,7 @@ public struct DeleteClusterInput: Swift.Sendable {
 
     public init(
         clusterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
     }
 }
@@ -25069,9 +25661,20 @@ public struct DeleteClusterOutput: Swift.Sendable {
 
     public init(
         clusterArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
+    }
+}
+
+public struct DeleteClusterSchedulerConfigInput: Swift.Sendable {
+    /// ID of the cluster policy.
+    /// This member is required.
+    public var clusterSchedulerConfigId: Swift.String?
+
+    public init(
+        clusterSchedulerConfigId: Swift.String? = nil
+    ) {
+        self.clusterSchedulerConfigId = clusterSchedulerConfigId
     }
 }
 
@@ -25082,8 +25685,7 @@ public struct DeleteCodeRepositoryInput: Swift.Sendable {
 
     public init(
         codeRepositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.codeRepositoryName = codeRepositoryName
     }
 }
@@ -25095,9 +25697,20 @@ public struct DeleteCompilationJobInput: Swift.Sendable {
 
     public init(
         compilationJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.compilationJobName = compilationJobName
+    }
+}
+
+public struct DeleteComputeQuotaInput: Swift.Sendable {
+    /// ID of the compute allocation definition.
+    /// This member is required.
+    public var computeQuotaId: Swift.String?
+
+    public init(
+        computeQuotaId: Swift.String? = nil
+    ) {
+        self.computeQuotaId = computeQuotaId
     }
 }
 
@@ -25108,8 +25721,7 @@ public struct DeleteContextInput: Swift.Sendable {
 
     public init(
         contextName: Swift.String? = nil
-    )
-    {
+    ) {
         self.contextName = contextName
     }
 }
@@ -25120,8 +25732,7 @@ public struct DeleteContextOutput: Swift.Sendable {
 
     public init(
         contextArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.contextArn = contextArn
     }
 }
@@ -25133,8 +25744,7 @@ public struct DeleteDataQualityJobDefinitionInput: Swift.Sendable {
 
     public init(
         jobDefinitionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionName = jobDefinitionName
     }
 }
@@ -25146,8 +25756,7 @@ public struct DeleteDeviceFleetInput: Swift.Sendable {
 
     public init(
         deviceFleetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceFleetName = deviceFleetName
     }
 }
@@ -25190,8 +25799,7 @@ extension SageMakerClientTypes {
 
         public init(
             homeEfsFileSystem: SageMakerClientTypes.RetentionType? = nil
-        )
-        {
+        ) {
             self.homeEfsFileSystem = homeEfsFileSystem
         }
     }
@@ -25207,8 +25815,7 @@ public struct DeleteDomainInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         retentionPolicy: SageMakerClientTypes.RetentionPolicy? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.retentionPolicy = retentionPolicy
     }
@@ -25221,8 +25828,7 @@ public struct DeleteEdgeDeploymentPlanInput: Swift.Sendable {
 
     public init(
         edgeDeploymentPlanName: Swift.String? = nil
-    )
-    {
+    ) {
         self.edgeDeploymentPlanName = edgeDeploymentPlanName
     }
 }
@@ -25238,8 +25844,7 @@ public struct DeleteEdgeDeploymentStageInput: Swift.Sendable {
     public init(
         edgeDeploymentPlanName: Swift.String? = nil,
         stageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.edgeDeploymentPlanName = edgeDeploymentPlanName
         self.stageName = stageName
     }
@@ -25252,8 +25857,7 @@ public struct DeleteEndpointInput: Swift.Sendable {
 
     public init(
         endpointName: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointName = endpointName
     }
 }
@@ -25265,8 +25869,7 @@ public struct DeleteEndpointConfigInput: Swift.Sendable {
 
     public init(
         endpointConfigName: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointConfigName = endpointConfigName
     }
 }
@@ -25278,8 +25881,7 @@ public struct DeleteExperimentInput: Swift.Sendable {
 
     public init(
         experimentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.experimentName = experimentName
     }
 }
@@ -25290,8 +25892,7 @@ public struct DeleteExperimentOutput: Swift.Sendable {
 
     public init(
         experimentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.experimentArn = experimentArn
     }
 }
@@ -25303,8 +25904,7 @@ public struct DeleteFeatureGroupInput: Swift.Sendable {
 
     public init(
         featureGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.featureGroupName = featureGroupName
     }
 }
@@ -25316,8 +25916,7 @@ public struct DeleteFlowDefinitionInput: Swift.Sendable {
 
     public init(
         flowDefinitionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.flowDefinitionName = flowDefinitionName
     }
 }
@@ -25334,8 +25933,7 @@ public struct DeleteHubInput: Swift.Sendable {
 
     public init(
         hubName: Swift.String? = nil
-    )
-    {
+    ) {
         self.hubName = hubName
     }
 }
@@ -25391,8 +25989,7 @@ public struct DeleteHubContentInput: Swift.Sendable {
         hubContentType: SageMakerClientTypes.HubContentType? = nil,
         hubContentVersion: Swift.String? = nil,
         hubName: Swift.String? = nil
-    )
-    {
+    ) {
         self.hubContentName = hubContentName
         self.hubContentType = hubContentType
         self.hubContentVersion = hubContentVersion
@@ -25415,8 +26012,7 @@ public struct DeleteHubContentReferenceInput: Swift.Sendable {
         hubContentName: Swift.String? = nil,
         hubContentType: SageMakerClientTypes.HubContentType? = nil,
         hubName: Swift.String? = nil
-    )
-    {
+    ) {
         self.hubContentName = hubContentName
         self.hubContentType = hubContentType
         self.hubName = hubName
@@ -25430,8 +26026,7 @@ public struct DeleteHumanTaskUiInput: Swift.Sendable {
 
     public init(
         humanTaskUiName: Swift.String? = nil
-    )
-    {
+    ) {
         self.humanTaskUiName = humanTaskUiName
     }
 }
@@ -25448,8 +26043,7 @@ public struct DeleteHyperParameterTuningJobInput: Swift.Sendable {
 
     public init(
         hyperParameterTuningJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.hyperParameterTuningJobName = hyperParameterTuningJobName
     }
 }
@@ -25461,8 +26055,7 @@ public struct DeleteImageInput: Swift.Sendable {
 
     public init(
         imageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageName = imageName
     }
 }
@@ -25485,8 +26078,7 @@ public struct DeleteImageVersionInput: Swift.Sendable {
         alias: Swift.String? = nil,
         imageName: Swift.String? = nil,
         version: Swift.Int? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.imageName = imageName
         self.version = version
@@ -25505,8 +26097,7 @@ public struct DeleteInferenceComponentInput: Swift.Sendable {
 
     public init(
         inferenceComponentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceComponentName = inferenceComponentName
     }
 }
@@ -25518,8 +26109,7 @@ public struct DeleteInferenceExperimentInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -25531,8 +26121,7 @@ public struct DeleteInferenceExperimentOutput: Swift.Sendable {
 
     public init(
         inferenceExperimentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceExperimentArn = inferenceExperimentArn
     }
 }
@@ -25544,8 +26133,7 @@ public struct DeleteMlflowTrackingServerInput: Swift.Sendable {
 
     public init(
         trackingServerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.trackingServerName = trackingServerName
     }
 }
@@ -25556,8 +26144,7 @@ public struct DeleteMlflowTrackingServerOutput: Swift.Sendable {
 
     public init(
         trackingServerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trackingServerArn = trackingServerArn
     }
 }
@@ -25569,8 +26156,7 @@ public struct DeleteModelInput: Swift.Sendable {
 
     public init(
         modelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelName = modelName
     }
 }
@@ -25582,8 +26168,7 @@ public struct DeleteModelBiasJobDefinitionInput: Swift.Sendable {
 
     public init(
         jobDefinitionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionName = jobDefinitionName
     }
 }
@@ -25595,8 +26180,7 @@ public struct DeleteModelCardInput: Swift.Sendable {
 
     public init(
         modelCardName: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelCardName = modelCardName
     }
 }
@@ -25608,8 +26192,7 @@ public struct DeleteModelExplainabilityJobDefinitionInput: Swift.Sendable {
 
     public init(
         jobDefinitionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionName = jobDefinitionName
     }
 }
@@ -25621,8 +26204,7 @@ public struct DeleteModelPackageInput: Swift.Sendable {
 
     public init(
         modelPackageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelPackageName = modelPackageName
     }
 }
@@ -25634,8 +26216,7 @@ public struct DeleteModelPackageGroupInput: Swift.Sendable {
 
     public init(
         modelPackageGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelPackageGroupName = modelPackageGroupName
     }
 }
@@ -25647,8 +26228,7 @@ public struct DeleteModelPackageGroupPolicyInput: Swift.Sendable {
 
     public init(
         modelPackageGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelPackageGroupName = modelPackageGroupName
     }
 }
@@ -25660,8 +26240,7 @@ public struct DeleteModelQualityJobDefinitionInput: Swift.Sendable {
 
     public init(
         jobDefinitionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionName = jobDefinitionName
     }
 }
@@ -25673,21 +26252,19 @@ public struct DeleteMonitoringScheduleInput: Swift.Sendable {
 
     public init(
         monitoringScheduleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitoringScheduleName = monitoringScheduleName
     }
 }
 
 public struct DeleteNotebookInstanceInput: Swift.Sendable {
-    /// The name of the SageMaker notebook instance to delete.
+    /// The name of the SageMaker AI notebook instance to delete.
     /// This member is required.
     public var notebookInstanceName: Swift.String?
 
     public init(
         notebookInstanceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.notebookInstanceName = notebookInstanceName
     }
 }
@@ -25699,8 +26276,7 @@ public struct DeleteNotebookInstanceLifecycleConfigInput: Swift.Sendable {
 
     public init(
         notebookInstanceLifecycleConfigName: Swift.String? = nil
-    )
-    {
+    ) {
         self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
     }
 }
@@ -25712,9 +26288,35 @@ public struct DeleteOptimizationJobInput: Swift.Sendable {
 
     public init(
         optimizationJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.optimizationJobName = optimizationJobName
+    }
+}
+
+public struct DeletePartnerAppInput: Swift.Sendable {
+    /// The ARN of the SageMaker Partner AI App to delete.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// A unique token that guarantees that the call to this API is idempotent.
+    public var clientToken: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        clientToken: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.clientToken = clientToken
+    }
+}
+
+public struct DeletePartnerAppOutput: Swift.Sendable {
+    /// The ARN of the SageMaker Partner AI App that was deleted.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
     }
 }
 
@@ -25729,8 +26331,7 @@ public struct DeletePipelineInput: Swift.Sendable {
     public init(
         clientRequestToken: Swift.String? = nil,
         pipelineName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.pipelineName = pipelineName
     }
@@ -25742,8 +26343,7 @@ public struct DeletePipelineOutput: Swift.Sendable {
 
     public init(
         pipelineArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineArn = pipelineArn
     }
 }
@@ -25755,8 +26355,7 @@ public struct DeleteProjectInput: Swift.Sendable {
 
     public init(
         projectName: Swift.String? = nil
-    )
-    {
+    ) {
         self.projectName = projectName
     }
 }
@@ -25772,22 +26371,20 @@ public struct DeleteSpaceInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.spaceName = spaceName
     }
 }
 
 public struct DeleteStudioLifecycleConfigInput: Swift.Sendable {
-    /// The name of the Amazon SageMaker Studio Lifecycle Configuration to delete.
+    /// The name of the Amazon SageMaker AI Studio Lifecycle Configuration to delete.
     /// This member is required.
     public var studioLifecycleConfigName: Swift.String?
 
     public init(
         studioLifecycleConfigName: Swift.String? = nil
-    )
-    {
+    ) {
         self.studioLifecycleConfigName = studioLifecycleConfigName
     }
 }
@@ -25803,8 +26400,7 @@ public struct DeleteTagsInput: Swift.Sendable {
     public init(
         resourceArn: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
@@ -25822,8 +26418,7 @@ public struct DeleteTrialInput: Swift.Sendable {
 
     public init(
         trialName: Swift.String? = nil
-    )
-    {
+    ) {
         self.trialName = trialName
     }
 }
@@ -25834,8 +26429,7 @@ public struct DeleteTrialOutput: Swift.Sendable {
 
     public init(
         trialArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trialArn = trialArn
     }
 }
@@ -25847,8 +26441,7 @@ public struct DeleteTrialComponentInput: Swift.Sendable {
 
     public init(
         trialComponentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.trialComponentName = trialComponentName
     }
 }
@@ -25859,8 +26452,7 @@ public struct DeleteTrialComponentOutput: Swift.Sendable {
 
     public init(
         trialComponentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trialComponentArn = trialComponentArn
     }
 }
@@ -25876,8 +26468,7 @@ public struct DeleteUserProfileInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         userProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.userProfileName = userProfileName
     }
@@ -25890,8 +26481,7 @@ public struct DeleteWorkforceInput: Swift.Sendable {
 
     public init(
         workforceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.workforceName = workforceName
     }
 }
@@ -25908,8 +26498,7 @@ public struct DeleteWorkteamInput: Swift.Sendable {
 
     public init(
         workteamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.workteamName = workteamName
     }
 }
@@ -25921,8 +26510,7 @@ public struct DeleteWorkteamOutput: Swift.Sendable {
 
     public init(
         success: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.success = success
     }
 }
@@ -25942,8 +26530,7 @@ extension SageMakerClientTypes {
             resolutionTime: Foundation.Date? = nil,
             resolvedImage: Swift.String? = nil,
             specifiedImage: Swift.String? = nil
-        )
-        {
+        ) {
             self.resolutionTime = resolutionTime
             self.resolvedImage = resolvedImage
             self.specifiedImage = specifiedImage
@@ -25968,8 +26555,7 @@ extension SageMakerClientTypes {
             environment: [Swift.String: Swift.String]? = nil,
             instanceType: SageMakerClientTypes.ProductionVariantInstanceType? = nil,
             recommendationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.environment = environment
             self.instanceType = instanceType
             self.recommendationId = recommendationId
@@ -26025,8 +26611,7 @@ extension SageMakerClientTypes {
         public init(
             realTimeInferenceRecommendations: [SageMakerClientTypes.RealTimeInferenceRecommendation]? = nil,
             recommendationStatus: SageMakerClientTypes.RecommendationStatus? = nil
-        )
-        {
+        ) {
             self.realTimeInferenceRecommendations = realTimeInferenceRecommendations
             self.recommendationStatus = recommendationStatus
         }
@@ -26108,8 +26693,7 @@ extension SageMakerClientTypes {
             edgeDeploymentStatusMessage: Swift.String? = nil,
             edgeDeploymentSuccessInStage: Swift.Int? = nil,
             stageStatus: SageMakerClientTypes.StageStatus? = nil
-        )
-        {
+        ) {
             self.edgeDeploymentFailedInStage = edgeDeploymentFailedInStage
             self.edgeDeploymentPendingInStage = edgeDeploymentPendingInStage
             self.edgeDeploymentStageStartTime = edgeDeploymentStageStartTime
@@ -26142,8 +26726,7 @@ extension SageMakerClientTypes {
             deploymentStatus: SageMakerClientTypes.EdgeDeploymentStatus? = nil,
             deviceSelectionConfig: SageMakerClientTypes.DeviceSelectionConfig? = nil,
             stageName: Swift.String? = nil
-        )
-        {
+        ) {
             self.deploymentConfig = deploymentConfig
             self.deploymentStatus = deploymentStatus
             self.deviceSelectionConfig = deviceSelectionConfig
@@ -26163,8 +26746,7 @@ public struct DeregisterDevicesInput: Swift.Sendable {
     public init(
         deviceFleetName: Swift.String? = nil,
         deviceNames: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.deviceFleetName = deviceFleetName
         self.deviceNames = deviceNames
     }
@@ -26179,8 +26761,7 @@ extension SageMakerClientTypes {
 
         public init(
             derivedDataInputConfig: Swift.String? = nil
-        )
-        {
+        ) {
             self.derivedDataInputConfig = derivedDataInputConfig
         }
     }
@@ -26193,8 +26774,7 @@ public struct DescribeActionInput: Swift.Sendable {
 
     public init(
         actionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionName = actionName
     }
 }
@@ -26241,8 +26821,7 @@ public struct DescribeActionOutput: Swift.Sendable {
         properties: [Swift.String: Swift.String]? = nil,
         source: SageMakerClientTypes.ActionSource? = nil,
         status: SageMakerClientTypes.ActionStatus? = nil
-    )
-    {
+    ) {
         self.actionArn = actionArn
         self.actionName = actionName
         self.actionType = actionType
@@ -26266,8 +26845,7 @@ public struct DescribeAlgorithmInput: Swift.Sendable {
 
     public init(
         algorithmName: Swift.String? = nil
-    )
-    {
+    ) {
         self.algorithmName = algorithmName
     }
 }
@@ -26314,8 +26892,7 @@ public struct DescribeAlgorithmOutput: Swift.Sendable {
         productId: Swift.String? = nil,
         trainingSpecification: SageMakerClientTypes.TrainingSpecification? = nil,
         validationSpecification: SageMakerClientTypes.AlgorithmValidationSpecification? = nil
-    )
-    {
+    ) {
         self.algorithmArn = algorithmArn
         self.algorithmDescription = algorithmDescription
         self.algorithmName = algorithmName
@@ -26351,8 +26928,7 @@ public struct DescribeAppInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         spaceName: Swift.String? = nil,
         userProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appName = appName
         self.appType = appType
         self.domainId = domainId
@@ -26370,7 +26946,7 @@ public struct DescribeAppOutput: Swift.Sendable {
     public var appType: SageMakerClientTypes.AppType?
     /// The lifecycle configuration that runs before the default lifecycle configuration
     public var builtInLifecycleConfigArn: Swift.String?
-    /// The creation time of the application. After an application has been shut down for 24 hours, SageMaker deletes all metadata for the application. To be considered an update and retain application metadata, applications must be restarted within 24 hours after the previous application has been shut down. After this time window, creation of an application is considered a new application rather than an update of the previous application.
+    /// The creation time of the application. After an application has been shut down for 24 hours, SageMaker AI deletes all metadata for the application. To be considered an update and retain application metadata, applications must be restarted within 24 hours after the previous application has been shut down. After this time window, creation of an application is considered a new application rather than an update of the previous application.
     public var creationTime: Foundation.Date?
     /// The domain ID.
     public var domainId: Swift.String?
@@ -26378,9 +26954,9 @@ public struct DescribeAppOutput: Swift.Sendable {
     public var failureReason: Swift.String?
     /// The timestamp of the last health check.
     public var lastHealthCheckTimestamp: Foundation.Date?
-    /// The timestamp of the last user's activity. LastUserActivityTimestamp is also updated when SageMaker performs health checks without user activity. As a result, this value is set to the same value as LastHealthCheckTimestamp.
+    /// The timestamp of the last user's activity. LastUserActivityTimestamp is also updated when SageMaker AI performs health checks without user activity. As a result, this value is set to the same value as LastHealthCheckTimestamp.
     public var lastUserActivityTimestamp: Foundation.Date?
-    /// The instance type and the Amazon Resource Name (ARN) of the SageMaker image created on the instance.
+    /// The instance type and the Amazon Resource Name (ARN) of the SageMaker AI image created on the instance.
     public var resourceSpec: SageMakerClientTypes.ResourceSpec?
     /// The name of the space. If this value is not set, then UserProfileName must be set.
     public var spaceName: Swift.String?
@@ -26403,8 +26979,7 @@ public struct DescribeAppOutput: Swift.Sendable {
         spaceName: Swift.String? = nil,
         status: SageMakerClientTypes.AppStatus? = nil,
         userProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appArn = appArn
         self.appName = appName
         self.appType = appType
@@ -26428,8 +27003,7 @@ public struct DescribeAppImageConfigInput: Swift.Sendable {
 
     public init(
         appImageConfigName: Swift.String? = nil
-    )
-    {
+    ) {
         self.appImageConfigName = appImageConfigName
     }
 }
@@ -26458,8 +27032,7 @@ public struct DescribeAppImageConfigOutput: Swift.Sendable {
         jupyterLabAppImageConfig: SageMakerClientTypes.JupyterLabAppImageConfig? = nil,
         kernelGatewayImageConfig: SageMakerClientTypes.KernelGatewayImageConfig? = nil,
         lastModifiedTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.appImageConfigArn = appImageConfigArn
         self.appImageConfigName = appImageConfigName
         self.codeEditorAppImageConfig = codeEditorAppImageConfig
@@ -26477,8 +27050,7 @@ public struct DescribeArtifactInput: Swift.Sendable {
 
     public init(
         artifactArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.artifactArn = artifactArn
     }
 }
@@ -26519,8 +27091,7 @@ public struct DescribeArtifactOutput: Swift.Sendable {
         metadataProperties: SageMakerClientTypes.MetadataProperties? = nil,
         properties: [Swift.String: Swift.String]? = nil,
         source: SageMakerClientTypes.ArtifactSource? = nil
-    )
-    {
+    ) {
         self.artifactArn = artifactArn
         self.artifactName = artifactName
         self.artifactType = artifactType
@@ -26542,8 +27113,7 @@ public struct DescribeAutoMLJobInput: Swift.Sendable {
 
     public init(
         autoMLJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoMLJobName = autoMLJobName
     }
 }
@@ -26557,8 +27127,7 @@ extension SageMakerClientTypes {
 
         public init(
             endpointName: Swift.String? = nil
-        )
-        {
+        ) {
             self.endpointName = endpointName
         }
     }
@@ -26579,8 +27148,7 @@ extension SageMakerClientTypes {
             autoMLJobObjective: SageMakerClientTypes.AutoMLJobObjective? = nil,
             completionCriteria: SageMakerClientTypes.AutoMLJobCompletionCriteria? = nil,
             problemType: SageMakerClientTypes.ProblemType? = nil
-        )
-        {
+        ) {
             self.autoMLJobObjective = autoMLJobObjective
             self.completionCriteria = completionCriteria
             self.problemType = problemType
@@ -26607,7 +27175,7 @@ public struct DescribeAutoMLJobOutput: Swift.Sendable {
     /// Returns the status of the AutoML job.
     /// This member is required.
     public var autoMLJobStatus: SageMakerClientTypes.AutoMLJobStatus?
-    /// The best model candidate selected by SageMaker Autopilot using both the best objective metric and lowest [InferenceLatency](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-metrics-validation.html) for an experiment.
+    /// The best model candidate selected by SageMaker AI Autopilot using both the best objective metric and lowest [InferenceLatency](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-metrics-validation.html) for an experiment.
     public var bestCandidate: SageMakerClientTypes.AutoMLCandidate?
     /// Returns the creation time of the AutoML job.
     /// This member is required.
@@ -26663,8 +27231,7 @@ public struct DescribeAutoMLJobOutput: Swift.Sendable {
         problemType: SageMakerClientTypes.ProblemType? = nil,
         resolvedAttributes: SageMakerClientTypes.ResolvedAttributes? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoMLJobArn = autoMLJobArn
         self.autoMLJobArtifacts = autoMLJobArtifacts
         self.autoMLJobConfig = autoMLJobConfig
@@ -26696,8 +27263,7 @@ public struct DescribeAutoMLJobV2Input: Swift.Sendable {
 
     public init(
         autoMLJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoMLJobName = autoMLJobName
     }
 }
@@ -26783,8 +27349,7 @@ public struct DescribeAutoMLJobV2Output: Swift.Sendable {
         resolvedAttributes: SageMakerClientTypes.AutoMLResolvedAttributes? = nil,
         roleArn: Swift.String? = nil,
         securityConfig: SageMakerClientTypes.AutoMLSecurityConfig? = nil
-    )
-    {
+    ) {
         self.autoMLComputeConfig = autoMLComputeConfig
         self.autoMLJobArn = autoMLJobArn
         self.autoMLJobArtifacts = autoMLJobArtifacts
@@ -26818,8 +27383,7 @@ public struct DescribeClusterInput: Swift.Sendable {
 
     public init(
         clusterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
     }
 }
@@ -26857,8 +27421,7 @@ public struct DescribeClusterOutput: Swift.Sendable {
         nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery? = nil,
         orchestrator: SageMakerClientTypes.ClusterOrchestrator? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
         self.clusterName = clusterName
         self.clusterStatus = clusterStatus
@@ -26882,8 +27445,7 @@ public struct DescribeClusterNodeInput: Swift.Sendable {
     public init(
         clusterName: Swift.String? = nil,
         nodeId: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.nodeId = nodeId
     }
@@ -26896,9 +27458,89 @@ public struct DescribeClusterNodeOutput: Swift.Sendable {
 
     public init(
         nodeDetails: SageMakerClientTypes.ClusterNodeDetails? = nil
-    )
-    {
+    ) {
         self.nodeDetails = nodeDetails
+    }
+}
+
+public struct DescribeClusterSchedulerConfigInput: Swift.Sendable {
+    /// ID of the cluster policy.
+    /// This member is required.
+    public var clusterSchedulerConfigId: Swift.String?
+    /// Version of the cluster policy.
+    public var clusterSchedulerConfigVersion: Swift.Int?
+
+    public init(
+        clusterSchedulerConfigId: Swift.String? = nil,
+        clusterSchedulerConfigVersion: Swift.Int? = nil
+    ) {
+        self.clusterSchedulerConfigId = clusterSchedulerConfigId
+        self.clusterSchedulerConfigVersion = clusterSchedulerConfigVersion
+    }
+}
+
+public struct DescribeClusterSchedulerConfigOutput: Swift.Sendable {
+    /// ARN of the cluster where the cluster policy is applied.
+    public var clusterArn: Swift.String?
+    /// ARN of the cluster policy.
+    /// This member is required.
+    public var clusterSchedulerConfigArn: Swift.String?
+    /// ID of the cluster policy.
+    /// This member is required.
+    public var clusterSchedulerConfigId: Swift.String?
+    /// Version of the cluster policy.
+    /// This member is required.
+    public var clusterSchedulerConfigVersion: Swift.Int?
+    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    public var createdBy: SageMakerClientTypes.UserContext?
+    /// Creation time of the cluster policy.
+    /// This member is required.
+    public var creationTime: Foundation.Date?
+    /// Description of the cluster policy.
+    public var description: Swift.String?
+    /// Failure reason of the cluster policy.
+    public var failureReason: Swift.String?
+    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    public var lastModifiedBy: SageMakerClientTypes.UserContext?
+    /// Last modified time of the cluster policy.
+    public var lastModifiedTime: Foundation.Date?
+    /// Name of the cluster policy.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Cluster policy configuration. This policy is used for task prioritization and fair-share allocation. This helps prioritize critical workloads and distributes idle compute across entities.
+    public var schedulerConfig: SageMakerClientTypes.SchedulerConfig?
+    /// Status of the cluster policy.
+    /// This member is required.
+    public var status: SageMakerClientTypes.SchedulerResourceStatus?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        clusterSchedulerConfigArn: Swift.String? = nil,
+        clusterSchedulerConfigId: Swift.String? = nil,
+        clusterSchedulerConfigVersion: Swift.Int? = nil,
+        createdBy: SageMakerClientTypes.UserContext? = nil,
+        creationTime: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        failureReason: Swift.String? = nil,
+        lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        schedulerConfig: SageMakerClientTypes.SchedulerConfig? = nil,
+        status: SageMakerClientTypes.SchedulerResourceStatus? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.clusterSchedulerConfigArn = clusterSchedulerConfigArn
+        self.clusterSchedulerConfigId = clusterSchedulerConfigId
+        self.clusterSchedulerConfigVersion = clusterSchedulerConfigVersion
+        self.createdBy = createdBy
+        self.creationTime = creationTime
+        self.description = description
+        self.failureReason = failureReason
+        self.lastModifiedBy = lastModifiedBy
+        self.lastModifiedTime = lastModifiedTime
+        self.name = name
+        self.schedulerConfig = schedulerConfig
+        self.status = status
     }
 }
 
@@ -26909,8 +27551,7 @@ public struct DescribeCodeRepositoryInput: Swift.Sendable {
 
     public init(
         codeRepositoryName: Swift.String? = nil
-    )
-    {
+    ) {
         self.codeRepositoryName = codeRepositoryName
     }
 }
@@ -26937,8 +27578,7 @@ public struct DescribeCodeRepositoryOutput: Swift.Sendable {
         creationTime: Foundation.Date? = nil,
         gitConfig: SageMakerClientTypes.GitConfig? = nil,
         lastModifiedTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.codeRepositoryArn = codeRepositoryArn
         self.codeRepositoryName = codeRepositoryName
         self.creationTime = creationTime
@@ -26954,8 +27594,7 @@ public struct DescribeCompilationJobInput: Swift.Sendable {
 
     public init(
         compilationJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.compilationJobName = compilationJobName
     }
 }
@@ -26970,8 +27609,7 @@ extension SageMakerClientTypes {
 
         public init(
             s3ModelArtifacts: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3ModelArtifacts = s3ModelArtifacts
         }
     }
@@ -26986,15 +27624,14 @@ extension SageMakerClientTypes {
 
         public init(
             artifactDigest: Swift.String? = nil
-        )
-        {
+        ) {
             self.artifactDigest = artifactDigest
         }
     }
 }
 
 public struct DescribeCompilationJobOutput: Swift.Sendable {
-    /// The time when the model compilation job on a compilation job instance ended. For a successful or stopped job, this is when the job's model artifacts have finished uploading. For a failed job, this is when Amazon SageMaker detected that the job failed.
+    /// The time when the model compilation job on a compilation job instance ended. For a successful or stopped job, this is when the job's model artifacts have finished uploading. For a failed job, this is when Amazon SageMaker AI detected that the job failed.
     public var compilationEndTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the model compilation job.
     /// This member is required.
@@ -27033,10 +27670,10 @@ public struct DescribeCompilationJobOutput: Swift.Sendable {
     /// Information about the output location for the compiled model and the target device that the model runs on.
     /// This member is required.
     public var outputConfig: SageMakerClientTypes.OutputConfig?
-    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker assumes to perform the model compilation job.
+    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI assumes to perform the model compilation job.
     /// This member is required.
     public var roleArn: Swift.String?
-    /// Specifies a limit to how long a model compilation job can run. When the job reaches the time limit, Amazon SageMaker ends the compilation job. Use this API to cap model training costs.
+    /// Specifies a limit to how long a model compilation job can run. When the job reaches the time limit, Amazon SageMaker AI ends the compilation job. Use this API to cap model training costs.
     /// This member is required.
     public var stoppingCondition: SageMakerClientTypes.StoppingCondition?
     /// A [VpcConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_VpcConfig.html) object that specifies the VPC that you want your compilation job to connect to. Control access to your models by configuring the VPC. For more information, see [Protect Compilation Jobs by Using an Amazon Virtual Private Cloud](https://docs.aws.amazon.com/sagemaker/latest/dg/neo-vpc.html).
@@ -27061,8 +27698,7 @@ public struct DescribeCompilationJobOutput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         stoppingCondition: SageMakerClientTypes.StoppingCondition? = nil,
         vpcConfig: SageMakerClientTypes.NeoVpcConfig? = nil
-    )
-    {
+    ) {
         self.compilationEndTime = compilationEndTime
         self.compilationJobArn = compilationJobArn
         self.compilationJobName = compilationJobName
@@ -27084,6 +27720,96 @@ public struct DescribeCompilationJobOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeComputeQuotaInput: Swift.Sendable {
+    /// ID of the compute allocation definition.
+    /// This member is required.
+    public var computeQuotaId: Swift.String?
+    /// Version of the compute allocation definition.
+    public var computeQuotaVersion: Swift.Int?
+
+    public init(
+        computeQuotaId: Swift.String? = nil,
+        computeQuotaVersion: Swift.Int? = nil
+    ) {
+        self.computeQuotaId = computeQuotaId
+        self.computeQuotaVersion = computeQuotaVersion
+    }
+}
+
+public struct DescribeComputeQuotaOutput: Swift.Sendable {
+    /// The state of the compute allocation being described. Use to enable or disable compute allocation. Default is Enabled.
+    public var activationState: SageMakerClientTypes.ActivationState?
+    /// ARN of the cluster.
+    public var clusterArn: Swift.String?
+    /// ARN of the compute allocation definition.
+    /// This member is required.
+    public var computeQuotaArn: Swift.String?
+    /// Configuration of the compute allocation definition. This includes the resource sharing option, and the setting to preempt low priority tasks.
+    public var computeQuotaConfig: SageMakerClientTypes.ComputeQuotaConfig?
+    /// ID of the compute allocation definition.
+    /// This member is required.
+    public var computeQuotaId: Swift.String?
+    /// The target entity to allocate compute resources to.
+    /// This member is required.
+    public var computeQuotaTarget: SageMakerClientTypes.ComputeQuotaTarget?
+    /// Version of the compute allocation definition.
+    /// This member is required.
+    public var computeQuotaVersion: Swift.Int?
+    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    public var createdBy: SageMakerClientTypes.UserContext?
+    /// Creation time of the compute allocation configuration.
+    /// This member is required.
+    public var creationTime: Foundation.Date?
+    /// Description of the compute allocation definition.
+    public var description: Swift.String?
+    /// Failure reason of the compute allocation definition.
+    public var failureReason: Swift.String?
+    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    public var lastModifiedBy: SageMakerClientTypes.UserContext?
+    /// Last modified time of the compute allocation configuration.
+    public var lastModifiedTime: Foundation.Date?
+    /// Name of the compute allocation definition.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Status of the compute allocation definition.
+    /// This member is required.
+    public var status: SageMakerClientTypes.SchedulerResourceStatus?
+
+    public init(
+        activationState: SageMakerClientTypes.ActivationState? = nil,
+        clusterArn: Swift.String? = nil,
+        computeQuotaArn: Swift.String? = nil,
+        computeQuotaConfig: SageMakerClientTypes.ComputeQuotaConfig? = nil,
+        computeQuotaId: Swift.String? = nil,
+        computeQuotaTarget: SageMakerClientTypes.ComputeQuotaTarget? = nil,
+        computeQuotaVersion: Swift.Int? = nil,
+        createdBy: SageMakerClientTypes.UserContext? = nil,
+        creationTime: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        failureReason: Swift.String? = nil,
+        lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        status: SageMakerClientTypes.SchedulerResourceStatus? = nil
+    ) {
+        self.activationState = activationState
+        self.clusterArn = clusterArn
+        self.computeQuotaArn = computeQuotaArn
+        self.computeQuotaConfig = computeQuotaConfig
+        self.computeQuotaId = computeQuotaId
+        self.computeQuotaTarget = computeQuotaTarget
+        self.computeQuotaVersion = computeQuotaVersion
+        self.createdBy = createdBy
+        self.creationTime = creationTime
+        self.description = description
+        self.failureReason = failureReason
+        self.lastModifiedBy = lastModifiedBy
+        self.lastModifiedTime = lastModifiedTime
+        self.name = name
+        self.status = status
+    }
+}
+
 public struct DescribeContextInput: Swift.Sendable {
     /// The name of the context to describe.
     /// This member is required.
@@ -27091,8 +27817,7 @@ public struct DescribeContextInput: Swift.Sendable {
 
     public init(
         contextName: Swift.String? = nil
-    )
-    {
+    ) {
         self.contextName = contextName
     }
 }
@@ -27133,8 +27858,7 @@ public struct DescribeContextOutput: Swift.Sendable {
         lineageGroupArn: Swift.String? = nil,
         properties: [Swift.String: Swift.String]? = nil,
         source: SageMakerClientTypes.ContextSource? = nil
-    )
-    {
+    ) {
         self.contextArn = contextArn
         self.contextName = contextName
         self.contextType = contextType
@@ -27156,8 +27880,7 @@ public struct DescribeDataQualityJobDefinitionInput: Swift.Sendable {
 
     public init(
         jobDefinitionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionName = jobDefinitionName
     }
 }
@@ -27188,7 +27911,7 @@ public struct DescribeDataQualityJobDefinitionOutput: Swift.Sendable {
     public var jobResources: SageMakerClientTypes.MonitoringResources?
     /// The networking configuration for the data quality monitoring job.
     public var networkConfig: SageMakerClientTypes.MonitoringNetworkConfig?
-    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.
+    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can assume to perform tasks on your behalf.
     /// This member is required.
     public var roleArn: Swift.String?
     /// A time limit for how long the monitoring job is allowed to run before stopping.
@@ -27206,8 +27929,7 @@ public struct DescribeDataQualityJobDefinitionOutput: Swift.Sendable {
         networkConfig: SageMakerClientTypes.MonitoringNetworkConfig? = nil,
         roleArn: Swift.String? = nil,
         stoppingCondition: SageMakerClientTypes.MonitoringStoppingCondition? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.dataQualityAppSpecification = dataQualityAppSpecification
         self.dataQualityBaselineConfig = dataQualityBaselineConfig
@@ -27236,8 +27958,7 @@ public struct DescribeDeviceInput: Swift.Sendable {
         deviceFleetName: Swift.String? = nil,
         deviceName: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceFleetName = deviceFleetName
         self.deviceName = deviceName
         self.nextToken = nextToken
@@ -27264,8 +27985,7 @@ extension SageMakerClientTypes {
             latestSampleTime: Foundation.Date? = nil,
             modelName: Swift.String? = nil,
             modelVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.latestInference = latestInference
             self.latestSampleTime = latestSampleTime
             self.modelName = modelName
@@ -27313,8 +28033,7 @@ public struct DescribeDeviceOutput: Swift.Sendable {
         models: [SageMakerClientTypes.EdgeModel]? = nil,
         nextToken: Swift.String? = nil,
         registrationTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.agentVersion = agentVersion
         self.description = description
         self.deviceArn = deviceArn
@@ -27336,8 +28055,7 @@ public struct DescribeDeviceFleetInput: Swift.Sendable {
 
     public init(
         deviceFleetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceFleetName = deviceFleetName
     }
 }
@@ -27374,8 +28092,7 @@ public struct DescribeDeviceFleetOutput: Swift.Sendable {
         lastModifiedTime: Foundation.Date? = nil,
         outputConfig: SageMakerClientTypes.EdgeOutputConfig? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.description = description
         self.deviceFleetArn = deviceFleetArn
@@ -27394,8 +28111,7 @@ public struct DescribeDomainInput: Swift.Sendable {
 
     public init(
         domainId: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
     }
 }
@@ -27447,7 +28163,7 @@ extension SageMakerClientTypes {
 public struct DescribeDomainOutput: Swift.Sendable {
     /// Specifies the VPC used for non-EFS traffic. The default value is PublicInternetOnly.
     ///
-    /// * PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker, which allows direct internet access
+    /// * PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker AI, which allows direct internet access
     ///
     /// * VpcOnly - All traffic is through the specified VPC and subnets
     public var appNetworkAccessType: SageMakerClientTypes.AppNetworkAccessType?
@@ -27482,7 +28198,7 @@ public struct DescribeDomainOutput: Swift.Sendable {
     public var lastModifiedTime: Foundation.Date?
     /// The ID of the security group that authorizes traffic between the RSessionGateway apps and the RStudioServerPro app.
     public var securityGroupIdForDomainBoundary: Swift.String?
-    /// The ARN of the application managed by SageMaker in IAM Identity Center. This value is only returned for domains created after October 1, 2023.
+    /// The ARN of the application managed by SageMaker AI in IAM Identity Center. This value is only returned for domains created after October 1, 2023.
     public var singleSignOnApplicationArn: Swift.String?
     /// The IAM Identity Center managed application instance ID.
     public var singleSignOnManagedApplicationInstanceId: Swift.String?
@@ -27521,8 +28237,7 @@ public struct DescribeDomainOutput: Swift.Sendable {
         tagPropagation: SageMakerClientTypes.TagPropagation? = nil,
         url: Swift.String? = nil,
         vpcId: Swift.String? = nil
-    )
-    {
+    ) {
         self.appNetworkAccessType = appNetworkAccessType
         self.appSecurityGroupManagement = appSecurityGroupManagement
         self.authMode = authMode
@@ -27562,8 +28277,7 @@ public struct DescribeEdgeDeploymentPlanInput: Swift.Sendable {
         edgeDeploymentPlanName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.edgeDeploymentPlanName = edgeDeploymentPlanName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -27611,8 +28325,7 @@ public struct DescribeEdgeDeploymentPlanOutput: Swift.Sendable {
         modelConfigs: [SageMakerClientTypes.EdgeDeploymentModelConfig]? = nil,
         nextToken: Swift.String? = nil,
         stages: [SageMakerClientTypes.DeploymentStageStatusSummary]? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.deviceFleetName = deviceFleetName
         self.edgeDeploymentFailed = edgeDeploymentFailed
@@ -27634,8 +28347,7 @@ public struct DescribeEdgePackagingJobInput: Swift.Sendable {
 
     public init(
         edgePackagingJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.edgePackagingJobName = edgePackagingJobName
     }
 }
@@ -27729,8 +28441,7 @@ extension SageMakerClientTypes {
             status: SageMakerClientTypes.EdgePresetDeploymentStatus? = nil,
             statusMessage: Swift.String? = nil,
             type: SageMakerClientTypes.EdgePresetDeploymentType? = nil
-        )
-        {
+        ) {
             self.artifact = artifact
             self.status = status
             self.statusMessage = statusMessage
@@ -27790,8 +28501,7 @@ public struct DescribeEdgePackagingJobOutput: Swift.Sendable {
         presetDeploymentOutput: SageMakerClientTypes.EdgePresetDeploymentOutput? = nil,
         resourceKey: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.compilationJobName = compilationJobName
         self.creationTime = creationTime
         self.edgePackagingJobArn = edgePackagingJobArn
@@ -27817,8 +28527,7 @@ public struct DescribeEndpointInput: Swift.Sendable {
 
     public init(
         endpointName: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointName = endpointName
     }
 }
@@ -27937,8 +28646,7 @@ extension SageMakerClientTypes {
             startTime: Foundation.Date? = nil,
             status: SageMakerClientTypes.VariantStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.startTime = startTime
             self.status = status
             self.statusMessage = statusMessage
@@ -27992,8 +28700,7 @@ extension SageMakerClientTypes {
             routingConfig: SageMakerClientTypes.ProductionVariantRoutingConfig? = nil,
             variantName: Swift.String? = nil,
             variantStatus: [SageMakerClientTypes.ProductionVariantStatus]? = nil
-        )
-        {
+        ) {
             self.acceleratorType = acceleratorType
             self.currentInstanceCount = currentInstanceCount
             self.currentServerlessConfig = currentServerlessConfig
@@ -28030,8 +28737,7 @@ extension SageMakerClientTypes {
             productionVariants: [SageMakerClientTypes.PendingProductionVariantSummary]? = nil,
             shadowProductionVariants: [SageMakerClientTypes.PendingProductionVariantSummary]? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.endpointConfigName = endpointConfigName
             self.productionVariants = productionVariants
             self.shadowProductionVariants = shadowProductionVariants
@@ -28080,8 +28786,7 @@ extension SageMakerClientTypes {
             routingConfig: SageMakerClientTypes.ProductionVariantRoutingConfig? = nil,
             variantName: Swift.String? = nil,
             variantStatus: [SageMakerClientTypes.ProductionVariantStatus]? = nil
-        )
-        {
+        ) {
             self.currentInstanceCount = currentInstanceCount
             self.currentServerlessConfig = currentServerlessConfig
             self.currentWeight = currentWeight
@@ -28165,8 +28870,7 @@ public struct DescribeEndpointOutput: Swift.Sendable {
         pendingDeploymentSummary: SageMakerClientTypes.PendingDeploymentSummary? = nil,
         productionVariants: [SageMakerClientTypes.ProductionVariantSummary]? = nil,
         shadowProductionVariants: [SageMakerClientTypes.ProductionVariantSummary]? = nil
-    )
-    {
+    ) {
         self.asyncInferenceConfig = asyncInferenceConfig
         self.creationTime = creationTime
         self.dataCaptureConfig = dataCaptureConfig
@@ -28191,8 +28895,7 @@ public struct DescribeEndpointConfigInput: Swift.Sendable {
 
     public init(
         endpointConfigName: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointConfigName = endpointConfigName
     }
 }
@@ -28203,7 +28906,7 @@ public struct DescribeEndpointConfigOutput: Swift.Sendable {
     /// A timestamp that shows when the endpoint configuration was created.
     /// This member is required.
     public var creationTime: Foundation.Date?
-    /// Configuration to control how SageMaker captures inference data.
+    /// Configuration to control how SageMaker AI captures inference data.
     public var dataCaptureConfig: SageMakerClientTypes.DataCaptureConfig?
     /// Indicates whether all model containers deployed to the endpoint are isolated. If they are, no inbound or outbound network calls can be made to or from the model containers.
     public var enableNetworkIsolation: Swift.Bool?
@@ -28240,8 +28943,7 @@ public struct DescribeEndpointConfigOutput: Swift.Sendable {
         productionVariants: [SageMakerClientTypes.ProductionVariant]? = nil,
         shadowProductionVariants: [SageMakerClientTypes.ProductionVariant]? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.asyncInferenceConfig = asyncInferenceConfig
         self.creationTime = creationTime
         self.dataCaptureConfig = dataCaptureConfig
@@ -28264,8 +28966,7 @@ public struct DescribeExperimentInput: Swift.Sendable {
 
     public init(
         experimentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.experimentName = experimentName
     }
 }
@@ -28283,8 +28984,7 @@ extension SageMakerClientTypes {
         public init(
             sourceArn: Swift.String? = nil,
             sourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceArn = sourceArn
             self.sourceType = sourceType
         }
@@ -28321,8 +29021,7 @@ public struct DescribeExperimentOutput: Swift.Sendable {
         lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         source: SageMakerClientTypes.ExperimentSource? = nil
-    )
-    {
+    ) {
         self.createdBy = createdBy
         self.creationTime = creationTime
         self.description = description
@@ -28345,8 +29044,7 @@ public struct DescribeFeatureGroupInput: Swift.Sendable {
     public init(
         featureGroupName: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.featureGroupName = featureGroupName
         self.nextToken = nextToken
     }
@@ -28435,8 +29133,7 @@ extension SageMakerClientTypes {
         public init(
             failureReason: Swift.String? = nil,
             status: SageMakerClientTypes.LastUpdateStatusValue? = nil
-        )
-        {
+        ) {
             self.failureReason = failureReason
             self.status = status
         }
@@ -28488,8 +29185,7 @@ extension SageMakerClientTypes {
         public init(
             blockedReason: Swift.String? = nil,
             status: SageMakerClientTypes.OfflineStoreStatusValue? = nil
-        )
-        {
+        ) {
             self.blockedReason = blockedReason
             self.status = status
         }
@@ -28512,8 +29208,7 @@ extension SageMakerClientTypes {
             provisionedReadCapacityUnits: Swift.Int? = nil,
             provisionedWriteCapacityUnits: Swift.Int? = nil,
             throughputMode: SageMakerClientTypes.ThroughputMode? = nil
-        )
-        {
+        ) {
             self.provisionedReadCapacityUnits = provisionedReadCapacityUnits
             self.provisionedWriteCapacityUnits = provisionedWriteCapacityUnits
             self.throughputMode = throughputMode
@@ -28599,8 +29294,7 @@ public struct DescribeFeatureGroupOutput: Swift.Sendable {
         recordIdentifierFeatureName: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         throughputConfig: SageMakerClientTypes.ThroughputConfigDescription? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.description = description
         self.eventTimeFeatureName = eventTimeFeatureName
@@ -28633,8 +29327,7 @@ public struct DescribeFeatureMetadataInput: Swift.Sendable {
     public init(
         featureGroupName: Swift.String? = nil,
         featureName: Swift.String? = nil
-    )
-    {
+    ) {
         self.featureGroupName = featureGroupName
         self.featureName = featureName
     }
@@ -28652,8 +29345,7 @@ extension SageMakerClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -28693,8 +29385,7 @@ public struct DescribeFeatureMetadataOutput: Swift.Sendable {
         featureType: SageMakerClientTypes.FeatureType? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         parameters: [SageMakerClientTypes.FeatureParameter]? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.description = description
         self.featureGroupArn = featureGroupArn
@@ -28713,8 +29404,7 @@ public struct DescribeFlowDefinitionInput: Swift.Sendable {
 
     public init(
         flowDefinitionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.flowDefinitionName = flowDefinitionName
     }
 }
@@ -28793,8 +29483,7 @@ public struct DescribeFlowDefinitionOutput: Swift.Sendable {
         humanLoopRequestSource: SageMakerClientTypes.HumanLoopRequestSource? = nil,
         outputConfig: SageMakerClientTypes.FlowDefinitionOutputConfig? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.failureReason = failureReason
         self.flowDefinitionArn = flowDefinitionArn
@@ -28815,8 +29504,7 @@ public struct DescribeHubInput: Swift.Sendable {
 
     public init(
         hubName: Swift.String? = nil
-    )
-    {
+    ) {
         self.hubName = hubName
     }
 }
@@ -28903,8 +29591,7 @@ public struct DescribeHubOutput: Swift.Sendable {
         hubStatus: SageMakerClientTypes.HubStatus? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         s3StorageConfig: SageMakerClientTypes.HubS3StorageConfig? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.failureReason = failureReason
         self.hubArn = hubArn
@@ -28936,8 +29623,7 @@ public struct DescribeHubContentInput: Swift.Sendable {
         hubContentType: SageMakerClientTypes.HubContentType? = nil,
         hubContentVersion: Swift.String? = nil,
         hubName: Swift.String? = nil
-    )
-    {
+    ) {
         self.hubContentName = hubContentName
         self.hubContentType = hubContentType
         self.hubContentVersion = hubContentVersion
@@ -28957,8 +29643,7 @@ extension SageMakerClientTypes {
         public init(
             dependencyCopyPath: Swift.String? = nil,
             dependencyOriginPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.dependencyCopyPath = dependencyCopyPath
             self.dependencyOriginPath = dependencyOriginPath
         }
@@ -29102,8 +29787,7 @@ public struct DescribeHubContentOutput: Swift.Sendable {
         referenceMinVersion: Swift.String? = nil,
         sageMakerPublicHubContentArn: Swift.String? = nil,
         supportStatus: SageMakerClientTypes.HubContentSupportStatus? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.documentSchemaVersion = documentSchemaVersion
         self.failureReason = failureReason
@@ -29133,8 +29817,7 @@ public struct DescribeHumanTaskUiInput: Swift.Sendable {
 
     public init(
         humanTaskUiName: Swift.String? = nil
-    )
-    {
+    ) {
         self.humanTaskUiName = humanTaskUiName
     }
 }
@@ -29180,8 +29863,7 @@ extension SageMakerClientTypes {
         public init(
             contentSha256: Swift.String? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.contentSha256 = contentSha256
             self.url = url
         }
@@ -29210,8 +29892,7 @@ public struct DescribeHumanTaskUiOutput: Swift.Sendable {
         humanTaskUiName: Swift.String? = nil,
         humanTaskUiStatus: SageMakerClientTypes.HumanTaskUiStatus? = nil,
         uiTemplate: SageMakerClientTypes.UiTemplateInfo? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.humanTaskUiArn = humanTaskUiArn
         self.humanTaskUiName = humanTaskUiName
@@ -29227,8 +29908,7 @@ public struct DescribeHyperParameterTuningJobInput: Swift.Sendable {
 
     public init(
         hyperParameterTuningJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.hyperParameterTuningJobName = hyperParameterTuningJobName
     }
 }
@@ -29250,8 +29930,7 @@ extension SageMakerClientTypes {
             metricName: Swift.String? = nil,
             type: SageMakerClientTypes.HyperParameterTuningJobObjectiveType? = nil,
             value: Swift.Float? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
             self.type = type
             self.value = value
@@ -29356,8 +30035,7 @@ extension SageMakerClientTypes {
             trainingStartTime: Foundation.Date? = nil,
             tunedHyperParameters: [Swift.String: Swift.String]? = nil,
             tuningJobName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.failureReason = failureReason
             self.finalHyperParameterTuningJobObjectiveMetric = finalHyperParameterTuningJobObjectiveMetric
@@ -29383,8 +30061,7 @@ extension SageMakerClientTypes {
 
         public init(
             runtimeInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.runtimeInSeconds = runtimeInSeconds
         }
     }
@@ -29449,8 +30126,7 @@ extension SageMakerClientTypes {
             failed: Swift.Int? = nil,
             pending: Swift.Int? = nil,
             succeeded: Swift.Int? = nil
-        )
-        {
+        ) {
             self.failed = failed
             self.pending = pending
             self.succeeded = succeeded
@@ -29479,8 +30155,7 @@ extension SageMakerClientTypes {
             nonRetryableError: Swift.Int? = nil,
             retryableError: Swift.Int? = nil,
             stopped: Swift.Int? = nil
-        )
-        {
+        ) {
             self.completed = completed
             self.inProgress = inProgress
             self.nonRetryableError = nonRetryableError
@@ -29502,8 +30177,7 @@ extension SageMakerClientTypes {
         public init(
             convergenceDetectedTime: Foundation.Date? = nil,
             numberOfTrainingJobsObjectiveNotImproving: Swift.Int? = nil
-        )
-        {
+        ) {
             self.convergenceDetectedTime = convergenceDetectedTime
             self.numberOfTrainingJobsObjectiveNotImproving = numberOfTrainingJobsObjectiveNotImproving
         }
@@ -29574,8 +30248,7 @@ public struct DescribeHyperParameterTuningJobOutput: Swift.Sendable {
         trainingJobStatusCounters: SageMakerClientTypes.TrainingJobStatusCounters? = nil,
         tuningJobCompletionDetails: SageMakerClientTypes.HyperParameterTuningJobCompletionDetails? = nil,
         warmStartConfig: SageMakerClientTypes.HyperParameterTuningJobWarmStartConfig? = nil
-    )
-    {
+    ) {
         self.autotune = autotune
         self.bestTrainingJob = bestTrainingJob
         self.consumedResources = consumedResources
@@ -29604,8 +30277,7 @@ public struct DescribeImageInput: Swift.Sendable {
 
     public init(
         imageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageName = imageName
     }
 }
@@ -29671,7 +30343,7 @@ public struct DescribeImageOutput: Swift.Sendable {
     public var imageStatus: SageMakerClientTypes.ImageStatus?
     /// When the image was last modified.
     public var lastModifiedTime: Foundation.Date?
-    /// The ARN of the IAM role that enables Amazon SageMaker to perform tasks on your behalf.
+    /// The ARN of the IAM role that enables Amazon SageMaker AI to perform tasks on your behalf.
     public var roleArn: Swift.String?
 
     public init(
@@ -29684,8 +30356,7 @@ public struct DescribeImageOutput: Swift.Sendable {
         imageStatus: SageMakerClientTypes.ImageStatus? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.description = description
         self.displayName = displayName
@@ -29711,8 +30382,7 @@ public struct DescribeImageVersionInput: Swift.Sendable {
         alias: Swift.String? = nil,
         imageName: Swift.String? = nil,
         version: Swift.Int? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.imageName = imageName
         self.version = version
@@ -29774,13 +30444,13 @@ public struct DescribeImageVersionOutput: Swift.Sendable {
     public var imageVersionArn: Swift.String?
     /// The status of the version.
     public var imageVersionStatus: SageMakerClientTypes.ImageVersionStatus?
-    /// Indicates SageMaker job type compatibility.
+    /// Indicates SageMaker AI job type compatibility.
     ///
-    /// * TRAINING: The image version is compatible with SageMaker training jobs.
+    /// * TRAINING: The image version is compatible with SageMaker AI training jobs.
     ///
-    /// * INFERENCE: The image version is compatible with SageMaker inference jobs.
+    /// * INFERENCE: The image version is compatible with SageMaker AI inference jobs.
     ///
-    /// * NOTEBOOK_KERNEL: The image version is compatible with SageMaker notebook kernels.
+    /// * NOTEBOOK_KERNEL: The image version is compatible with SageMaker AI notebook kernels.
     public var jobType: SageMakerClientTypes.JobType?
     /// When the version was last modified.
     public var lastModifiedTime: Foundation.Date?
@@ -29826,8 +30496,7 @@ public struct DescribeImageVersionOutput: Swift.Sendable {
         releaseNotes: Swift.String? = nil,
         vendorGuidance: SageMakerClientTypes.VendorGuidance? = nil,
         version: Swift.Int? = nil
-    )
-    {
+    ) {
         self.baseImage = baseImage
         self.containerImage = containerImage
         self.creationTime = creationTime
@@ -29854,8 +30523,7 @@ public struct DescribeInferenceComponentInput: Swift.Sendable {
 
     public init(
         inferenceComponentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceComponentName = inferenceComponentName
     }
 }
@@ -29910,8 +30578,7 @@ extension SageMakerClientTypes {
         public init(
             currentCopyCount: Swift.Int? = nil,
             desiredCopyCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.currentCopyCount = currentCopyCount
             self.desiredCopyCount = desiredCopyCount
         }
@@ -29933,8 +30600,7 @@ extension SageMakerClientTypes {
             artifactUrl: Swift.String? = nil,
             deployedImage: SageMakerClientTypes.DeployedImage? = nil,
             environment: [Swift.String: Swift.String]? = nil
-        )
-        {
+        ) {
             self.artifactUrl = artifactUrl
             self.deployedImage = deployedImage
             self.environment = environment
@@ -29946,22 +30612,25 @@ extension SageMakerClientTypes {
 
     /// Details about the resources that are deployed with this inference component.
     public struct InferenceComponentSpecificationSummary: Swift.Sendable {
-        /// The compute resources allocated to run the model assigned to the inference component.
+        /// The name of the base inference component that contains this inference component.
+        public var baseInferenceComponentName: Swift.String?
+        /// The compute resources allocated to run the model, plus any adapter models, that you assign to the inference component.
         public var computeResourceRequirements: SageMakerClientTypes.InferenceComponentComputeResourceRequirements?
         /// Details about the container that provides the runtime environment for the model that is deployed with the inference component.
         public var container: SageMakerClientTypes.InferenceComponentContainerSpecificationSummary?
-        /// The name of the SageMaker model object that is deployed with the inference component.
+        /// The name of the SageMaker AI model object that is deployed with the inference component.
         public var modelName: Swift.String?
         /// Settings that take effect while the model container starts up.
         public var startupParameters: SageMakerClientTypes.InferenceComponentStartupParameters?
 
         public init(
+            baseInferenceComponentName: Swift.String? = nil,
             computeResourceRequirements: SageMakerClientTypes.InferenceComponentComputeResourceRequirements? = nil,
             container: SageMakerClientTypes.InferenceComponentContainerSpecificationSummary? = nil,
             modelName: Swift.String? = nil,
             startupParameters: SageMakerClientTypes.InferenceComponentStartupParameters? = nil
-        )
-        {
+        ) {
+            self.baseInferenceComponentName = baseInferenceComponentName
             self.computeResourceRequirements = computeResourceRequirements
             self.container = container
             self.modelName = modelName
@@ -30012,8 +30681,7 @@ public struct DescribeInferenceComponentOutput: Swift.Sendable {
         runtimeConfig: SageMakerClientTypes.InferenceComponentRuntimeConfigSummary? = nil,
         specification: SageMakerClientTypes.InferenceComponentSpecificationSummary? = nil,
         variantName: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.endpointArn = endpointArn
         self.endpointName = endpointName
@@ -30035,8 +30703,7 @@ public struct DescribeInferenceExperimentInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -30060,8 +30727,7 @@ extension SageMakerClientTypes {
             endpointName: Swift.String? = nil,
             endpointStatus: SageMakerClientTypes.EndpointStatus? = nil,
             failureReason: Swift.String? = nil
-        )
-        {
+        ) {
             self.endpointConfigName = endpointConfigName
             self.endpointName = endpointName
             self.endpointStatus = endpointStatus
@@ -30140,8 +30806,7 @@ extension SageMakerClientTypes {
             modelName: Swift.String? = nil,
             status: SageMakerClientTypes.ModelVariantStatus? = nil,
             variantName: Swift.String? = nil
-        )
-        {
+        ) {
             self.infrastructureConfig = infrastructureConfig
             self.modelName = modelName
             self.status = status
@@ -30270,8 +30935,7 @@ public struct DescribeInferenceExperimentOutput: Swift.Sendable {
         status: SageMakerClientTypes.InferenceExperimentStatus? = nil,
         statusReason: Swift.String? = nil,
         type: SageMakerClientTypes.InferenceExperimentType? = nil
-    )
-    {
+    ) {
         self.arn = arn
         self.completionTime = completionTime
         self.creationTime = creationTime
@@ -30298,8 +30962,7 @@ public struct DescribeInferenceRecommendationsJobInput: Swift.Sendable {
 
     public init(
         jobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
     }
 }
@@ -30318,8 +30981,7 @@ extension SageMakerClientTypes {
         public init(
             maxInvocations: Swift.Int? = nil,
             modelLatency: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxInvocations = maxInvocations
             self.modelLatency = modelLatency
         }
@@ -30340,8 +31002,7 @@ extension SageMakerClientTypes {
         public init(
             endpointInfo: SageMakerClientTypes.EndpointInfo? = nil,
             metrics: SageMakerClientTypes.InferenceMetrics? = nil
-        )
-        {
+        ) {
             self.endpointInfo = endpointInfo
             self.metrics = metrics
         }
@@ -30371,8 +31032,7 @@ extension SageMakerClientTypes {
             instanceType: SageMakerClientTypes.ProductionVariantInstanceType? = nil,
             serverlessConfig: SageMakerClientTypes.ProductionVariantServerlessConfig? = nil,
             variantName: Swift.String? = nil
-        )
-        {
+        ) {
             self.endpointName = endpointName
             self.initialInstanceCount = initialInstanceCount
             self.instanceType = instanceType
@@ -30409,8 +31069,7 @@ extension SageMakerClientTypes {
             memoryUtilization: Swift.Float? = nil,
             modelLatency: Swift.Int? = nil,
             modelSetupTime: Swift.Int? = nil
-        )
-        {
+        ) {
             self.costPerHour = costPerHour
             self.costPerInference = costPerInference
             self.cpuUtilization = cpuUtilization
@@ -30440,8 +31099,7 @@ extension SageMakerClientTypes {
             key: Swift.String? = nil,
             value: Swift.String? = nil,
             valueType: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
             self.valueType = valueType
@@ -30464,8 +31122,7 @@ extension SageMakerClientTypes {
             compilationJobName: Swift.String? = nil,
             environmentParameters: [SageMakerClientTypes.EnvironmentParameter]? = nil,
             inferenceSpecificationName: Swift.String? = nil
-        )
-        {
+        ) {
             self.compilationJobName = compilationJobName
             self.environmentParameters = environmentParameters
             self.inferenceSpecificationName = inferenceSpecificationName
@@ -30499,8 +31156,7 @@ extension SageMakerClientTypes {
             metrics: SageMakerClientTypes.RecommendationMetrics? = nil,
             modelConfiguration: SageMakerClientTypes.ModelConfiguration? = nil,
             recommendationId: Swift.String? = nil
-        )
-        {
+        ) {
             self.endpointConfiguration = endpointConfiguration
             self.invocationEndTime = invocationEndTime
             self.invocationStartTime = invocationStartTime
@@ -30611,8 +31267,7 @@ public struct DescribeInferenceRecommendationsJobOutput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         status: SageMakerClientTypes.RecommendationJobStatus? = nil,
         stoppingConditions: SageMakerClientTypes.RecommendationJobStoppingConditions? = nil
-    )
-    {
+    ) {
         self.completionTime = completionTime
         self.creationTime = creationTime
         self.endpointPerformances = endpointPerformances
@@ -30637,8 +31292,7 @@ public struct DescribeLabelingJobInput: Swift.Sendable {
 
     public init(
         labelingJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.labelingJobName = labelingJobName
     }
 }
@@ -30664,8 +31318,7 @@ extension SageMakerClientTypes {
             machineLabeled: Swift.Int? = nil,
             totalLabeled: Swift.Int? = nil,
             unlabeled: Swift.Int? = nil
-        )
-        {
+        ) {
             self.failedNonRetryableError = failedNonRetryableError
             self.humanLabeled = humanLabeled
             self.machineLabeled = machineLabeled
@@ -30688,8 +31341,7 @@ extension SageMakerClientTypes {
         public init(
             finalActiveLearningModelArn: Swift.String? = nil,
             outputDatasetS3Uri: Swift.String? = nil
-        )
-        {
+        ) {
             self.finalActiveLearningModelArn = finalActiveLearningModelArn
             self.outputDatasetS3Uri = outputDatasetS3Uri
         }
@@ -30852,8 +31504,7 @@ public struct DescribeLabelingJobOutput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         stoppingConditions: SageMakerClientTypes.LabelingJobStoppingConditions? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.failureReason = failureReason
         self.humanTaskConfig = humanTaskConfig
@@ -30882,8 +31533,7 @@ public struct DescribeLineageGroupInput: Swift.Sendable {
 
     public init(
         lineageGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.lineageGroupName = lineageGroupName
     }
 }
@@ -30915,8 +31565,7 @@ public struct DescribeLineageGroupOutput: Swift.Sendable {
         lastModifiedTime: Foundation.Date? = nil,
         lineageGroupArn: Swift.String? = nil,
         lineageGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdBy = createdBy
         self.creationTime = creationTime
         self.description = description
@@ -30935,8 +31584,7 @@ public struct DescribeMlflowTrackingServerInput: Swift.Sendable {
 
     public init(
         trackingServerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.trackingServerName = trackingServerName
     }
 }
@@ -31092,8 +31740,7 @@ public struct DescribeMlflowTrackingServerOutput: Swift.Sendable {
         trackingServerStatus: SageMakerClientTypes.TrackingServerStatus? = nil,
         trackingServerUrl: Swift.String? = nil,
         weeklyMaintenanceWindowStart: Swift.String? = nil
-    )
-    {
+    ) {
         self.artifactStoreUri = artifactStoreUri
         self.automaticModelRegistration = automaticModelRegistration
         self.createdBy = createdBy
@@ -31119,8 +31766,7 @@ public struct DescribeModelInput: Swift.Sendable {
 
     public init(
         modelName: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelName = modelName
     }
 }
@@ -31161,8 +31807,7 @@ public struct DescribeModelOutput: Swift.Sendable {
         modelName: Swift.String? = nil,
         primaryContainer: SageMakerClientTypes.ContainerDefinition? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil
-    )
-    {
+    ) {
         self.containers = containers
         self.creationTime = creationTime
         self.deploymentRecommendation = deploymentRecommendation
@@ -31183,8 +31828,7 @@ public struct DescribeModelBiasJobDefinitionInput: Swift.Sendable {
 
     public init(
         jobDefinitionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionName = jobDefinitionName
     }
 }
@@ -31233,8 +31877,7 @@ public struct DescribeModelBiasJobDefinitionOutput: Swift.Sendable {
         networkConfig: SageMakerClientTypes.MonitoringNetworkConfig? = nil,
         roleArn: Swift.String? = nil,
         stoppingCondition: SageMakerClientTypes.MonitoringStoppingCondition? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.jobDefinitionArn = jobDefinitionArn
         self.jobDefinitionName = jobDefinitionName
@@ -31259,8 +31902,7 @@ public struct DescribeModelCardInput: Swift.Sendable {
     public init(
         modelCardName: Swift.String? = nil,
         modelCardVersion: Swift.Int? = nil
-    )
-    {
+    ) {
         self.modelCardName = modelCardName
         self.modelCardVersion = modelCardVersion
     }
@@ -31370,8 +32012,7 @@ public struct DescribeModelCardOutput: Swift.Sendable {
         modelCardStatus: SageMakerClientTypes.ModelCardStatus? = nil,
         modelCardVersion: Swift.Int? = nil,
         securityConfig: SageMakerClientTypes.ModelCardSecurityConfig? = nil
-    )
-    {
+    ) {
         self.content = content
         self.createdBy = createdBy
         self.creationTime = creationTime
@@ -31398,8 +32039,7 @@ public struct DescribeModelCardExportJobInput: Swift.Sendable {
 
     public init(
         modelCardExportJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelCardExportJobArn = modelCardExportJobArn
     }
 }
@@ -31414,8 +32054,7 @@ extension SageMakerClientTypes {
 
         public init(
             s3ExportArtifacts: Swift.String? = nil
-        )
-        {
+        ) {
             self.s3ExportArtifacts = s3ExportArtifacts
         }
     }
@@ -31500,8 +32139,7 @@ public struct DescribeModelCardExportJobOutput: Swift.Sendable {
         modelCardVersion: Swift.Int? = nil,
         outputConfig: SageMakerClientTypes.ModelCardExportOutputConfig? = nil,
         status: SageMakerClientTypes.ModelCardExportJobStatus? = nil
-    )
-    {
+    ) {
         self.createdAt = createdAt
         self.exportArtifacts = exportArtifacts
         self.failureReason = failureReason
@@ -31522,8 +32160,7 @@ public struct DescribeModelExplainabilityJobDefinitionInput: Swift.Sendable {
 
     public init(
         jobDefinitionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionName = jobDefinitionName
     }
 }
@@ -31572,8 +32209,7 @@ public struct DescribeModelExplainabilityJobDefinitionOutput: Swift.Sendable {
         networkConfig: SageMakerClientTypes.MonitoringNetworkConfig? = nil,
         roleArn: Swift.String? = nil,
         stoppingCondition: SageMakerClientTypes.MonitoringStoppingCondition? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.jobDefinitionArn = jobDefinitionArn
         self.jobDefinitionName = jobDefinitionName
@@ -31595,8 +32231,7 @@ public struct DescribeModelPackageInput: Swift.Sendable {
 
     public init(
         modelPackageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelPackageName = modelPackageName
     }
 }
@@ -31653,8 +32288,7 @@ extension SageMakerClientTypes {
             failureReason: Swift.String? = nil,
             name: Swift.String? = nil,
             status: SageMakerClientTypes.DetailedModelPackageStatus? = nil
-        )
-        {
+        ) {
             self.failureReason = failureReason
             self.name = name
             self.status = status
@@ -31675,8 +32309,7 @@ extension SageMakerClientTypes {
         public init(
             imageScanStatuses: [SageMakerClientTypes.ModelPackageStatusItem]? = nil,
             validationStatuses: [SageMakerClientTypes.ModelPackageStatusItem]? = nil
-        )
-        {
+        ) {
             self.imageScanStatuses = imageScanStatuses
             self.validationStatuses = validationStatuses
         }
@@ -31781,8 +32414,7 @@ public struct DescribeModelPackageOutput: Swift.Sendable {
         sourceUri: Swift.String? = nil,
         task: Swift.String? = nil,
         validationSpecification: SageMakerClientTypes.ModelPackageValidationSpecification? = nil
-    )
-    {
+    ) {
         self.additionalInferenceSpecifications = additionalInferenceSpecifications
         self.approvalDescription = approvalDescription
         self.certifyForMarketplace = certifyForMarketplace
@@ -31823,8 +32455,7 @@ public struct DescribeModelPackageGroupInput: Swift.Sendable {
 
     public init(
         modelPackageGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelPackageGroupName = modelPackageGroupName
     }
 }
@@ -31896,8 +32527,7 @@ public struct DescribeModelPackageGroupOutput: Swift.Sendable {
         modelPackageGroupDescription: Swift.String? = nil,
         modelPackageGroupName: Swift.String? = nil,
         modelPackageGroupStatus: SageMakerClientTypes.ModelPackageGroupStatus? = nil
-    )
-    {
+    ) {
         self.createdBy = createdBy
         self.creationTime = creationTime
         self.modelPackageGroupArn = modelPackageGroupArn
@@ -31914,8 +32544,7 @@ public struct DescribeModelQualityJobDefinitionInput: Swift.Sendable {
 
     public init(
         jobDefinitionName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionName = jobDefinitionName
     }
 }
@@ -31946,7 +32575,7 @@ public struct DescribeModelQualityJobDefinitionOutput: Swift.Sendable {
     public var modelQualityJobOutputConfig: SageMakerClientTypes.MonitoringOutputConfig?
     /// Networking options for a model quality job.
     public var networkConfig: SageMakerClientTypes.MonitoringNetworkConfig?
-    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.
+    /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can assume to perform tasks on your behalf.
     /// This member is required.
     public var roleArn: Swift.String?
     /// A time limit for how long the monitoring job is allowed to run before stopping.
@@ -31964,8 +32593,7 @@ public struct DescribeModelQualityJobDefinitionOutput: Swift.Sendable {
         networkConfig: SageMakerClientTypes.MonitoringNetworkConfig? = nil,
         roleArn: Swift.String? = nil,
         stoppingCondition: SageMakerClientTypes.MonitoringStoppingCondition? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.jobDefinitionArn = jobDefinitionArn
         self.jobDefinitionName = jobDefinitionName
@@ -31987,8 +32615,7 @@ public struct DescribeMonitoringScheduleInput: Swift.Sendable {
 
     public init(
         monitoringScheduleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitoringScheduleName = monitoringScheduleName
     }
 }
@@ -32078,8 +32705,7 @@ extension SageMakerClientTypes {
             monitoringType: SageMakerClientTypes.MonitoringType? = nil,
             processingJobArn: Swift.String? = nil,
             scheduledTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.endpointName = endpointName
             self.failureReason = failureReason
@@ -32176,8 +32802,7 @@ public struct DescribeMonitoringScheduleOutput: Swift.Sendable {
         monitoringScheduleName: Swift.String? = nil,
         monitoringScheduleStatus: SageMakerClientTypes.ScheduleStatus? = nil,
         monitoringType: SageMakerClientTypes.MonitoringType? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.endpointName = endpointName
         self.failureReason = failureReason
@@ -32198,8 +32823,7 @@ public struct DescribeNotebookInstanceInput: Swift.Sendable {
 
     public init(
         notebookInstanceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.notebookInstanceName = notebookInstanceName
     }
 }
@@ -32251,13 +32875,13 @@ extension SageMakerClientTypes {
 public struct DescribeNotebookInstanceOutput: Swift.Sendable {
     /// This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify a list of the EI instance types associated with this notebook instance.
     public var acceleratorTypes: [SageMakerClientTypes.NotebookInstanceAcceleratorType]?
-    /// An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
+    /// An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see [Associating Git Repositories with SageMaker AI Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
     public var additionalCodeRepositories: [Swift.String]?
     /// A timestamp. Use this parameter to return the time when the notebook instance was created
     public var creationTime: Foundation.Date?
-    /// The Git repository associated with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
+    /// The Git repository associated with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see [Associating Git Repositories with SageMaker AI Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
     public var defaultCodeRepository: Swift.String?
-    /// Describes whether SageMaker provides internet access to the notebook instance. If this value is set to Disabled, the notebook instance does not have internet access, and cannot connect to SageMaker training and endpoint services. For more information, see [Notebook Instances Are Internet-Enabled by Default](https://docs.aws.amazon.com/sagemaker/latest/dg/appendix-additional-considerations.html#appendix-notebook-and-internet-access).
+    /// Describes whether SageMaker AI provides internet access to the notebook instance. If this value is set to Disabled, the notebook instance does not have internet access, and cannot connect to SageMaker AI training and endpoint services. For more information, see [Notebook Instances Are Internet-Enabled by Default](https://docs.aws.amazon.com/sagemaker/latest/dg/appendix-additional-considerations.html#appendix-notebook-and-internet-access).
     public var directInternetAccess: SageMakerClientTypes.DirectInternetAccess?
     /// If status is Failed, the reason it failed.
     public var failureReason: Swift.String?
@@ -32265,17 +32889,17 @@ public struct DescribeNotebookInstanceOutput: Swift.Sendable {
     public var instanceMetadataServiceConfiguration: SageMakerClientTypes.InstanceMetadataServiceConfiguration?
     /// The type of ML compute instance running on the notebook instance.
     public var instanceType: SageMakerClientTypes.InstanceType?
-    /// The Amazon Web Services KMS key ID SageMaker uses to encrypt data when storing it on the ML storage volume attached to the instance.
+    /// The Amazon Web Services KMS key ID SageMaker AI uses to encrypt data when storing it on the ML storage volume attached to the instance.
     public var kmsKeyId: Swift.String?
     /// A timestamp. Use this parameter to retrieve the time when the notebook instance was last modified.
     public var lastModifiedTime: Foundation.Date?
-    /// The network interface IDs that SageMaker created at the time of creating the instance.
+    /// The network interface IDs that SageMaker AI created at the time of creating the instance.
     public var networkInterfaceId: Swift.String?
     /// The Amazon Resource Name (ARN) of the notebook instance.
     public var notebookInstanceArn: Swift.String?
     /// Returns the name of a notebook instance lifecycle configuration. For information about notebook instance lifestyle configurations, see [Step 2.1: (Optional) Customize a Notebook Instance](https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html)
     public var notebookInstanceLifecycleConfigName: Swift.String?
-    /// The name of the SageMaker notebook instance.
+    /// The name of the SageMaker AI notebook instance.
     public var notebookInstanceName: Swift.String?
     /// The status of the notebook instance.
     public var notebookInstanceStatus: SageMakerClientTypes.NotebookInstanceStatus?
@@ -32317,8 +32941,7 @@ public struct DescribeNotebookInstanceOutput: Swift.Sendable {
         subnetId: Swift.String? = nil,
         url: Swift.String? = nil,
         volumeSizeInGB: Swift.Int? = nil
-    )
-    {
+    ) {
         self.acceleratorTypes = acceleratorTypes
         self.additionalCodeRepositories = additionalCodeRepositories
         self.creationTime = creationTime
@@ -32351,8 +32974,7 @@ public struct DescribeNotebookInstanceLifecycleConfigInput: Swift.Sendable {
 
     public init(
         notebookInstanceLifecycleConfigName: Swift.String? = nil
-    )
-    {
+    ) {
         self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
     }
 }
@@ -32378,8 +33000,7 @@ public struct DescribeNotebookInstanceLifecycleConfigOutput: Swift.Sendable {
         notebookInstanceLifecycleConfigName: Swift.String? = nil,
         onCreate: [SageMakerClientTypes.NotebookInstanceLifecycleHook]? = nil,
         onStart: [SageMakerClientTypes.NotebookInstanceLifecycleHook]? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.lastModifiedTime = lastModifiedTime
         self.notebookInstanceLifecycleConfigArn = notebookInstanceLifecycleConfigArn
@@ -32396,8 +33017,7 @@ public struct DescribeOptimizationJobInput: Swift.Sendable {
 
     public init(
         optimizationJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.optimizationJobName = optimizationJobName
     }
 }
@@ -32452,8 +33072,7 @@ extension SageMakerClientTypes {
 
         public init(
             recommendedInferenceImage: Swift.String? = nil
-        )
-        {
+        ) {
             self.recommendedInferenceImage = recommendedInferenceImage
         }
     }
@@ -32524,8 +33143,7 @@ public struct DescribeOptimizationJobOutput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         stoppingCondition: SageMakerClientTypes.StoppingCondition? = nil,
         vpcConfig: SageMakerClientTypes.OptimizationVpcConfig? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.deploymentInstanceType = deploymentInstanceType
         self.failureReason = failureReason
@@ -32546,6 +33164,144 @@ public struct DescribeOptimizationJobOutput: Swift.Sendable {
     }
 }
 
+public struct DescribePartnerAppInput: Swift.Sendable {
+    /// The ARN of the SageMaker Partner AI App to describe.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// This is an error field object that contains the error code and the reason for an operation failure.
+    public struct ErrorInfo: Swift.Sendable {
+        /// The error code for an invalid or failed operation.
+        public var code: Swift.String?
+        /// The failure reason for the operation.
+        public var reason: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            reason: Swift.String? = nil
+        ) {
+            self.code = code
+            self.reason = reason
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum PartnerAppStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
+        case creating
+        case deleted
+        case deleting
+        case failed
+        case updateFailed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PartnerAppStatus] {
+            return [
+                .available,
+                .creating,
+                .deleted,
+                .deleting,
+                .failed,
+                .updateFailed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "Available"
+            case .creating: return "Creating"
+            case .deleted: return "Deleted"
+            case .deleting: return "Deleting"
+            case .failed: return "Failed"
+            case .updateFailed: return "UpdateFailed"
+            case .updating: return "Updating"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribePartnerAppOutput: Swift.Sendable {
+    /// Configuration settings for the SageMaker Partner AI App.
+    public var applicationConfig: SageMakerClientTypes.PartnerAppConfig?
+    /// The ARN of the SageMaker Partner AI App that was described.
+    public var arn: Swift.String?
+    /// The authorization type that users use to access the SageMaker Partner AI App.
+    public var authType: SageMakerClientTypes.PartnerAppAuthType?
+    /// The URL of the SageMaker Partner AI App that the Application SDK uses to support in-app calls for the user.
+    public var baseUrl: Swift.String?
+    /// The time that the SageMaker Partner AI App was created.
+    public var creationTime: Foundation.Date?
+    /// When set to TRUE, the SageMaker Partner AI App sets the Amazon Web Services IAM session name or the authenticated IAM user as the identity of the SageMaker Partner AI App user.
+    public var enableIamSessionBasedIdentity: Swift.Bool?
+    /// This is an error field object that contains the error code and the reason for an operation failure.
+    public var error: SageMakerClientTypes.ErrorInfo?
+    /// The ARN of the IAM role associated with the SageMaker Partner AI App.
+    public var executionRoleArn: Swift.String?
+    /// Maintenance configuration settings for the SageMaker Partner AI App.
+    public var maintenanceConfig: SageMakerClientTypes.PartnerAppMaintenanceConfig?
+    /// The name of the SageMaker Partner AI App.
+    public var name: Swift.String?
+    /// The status of the SageMaker Partner AI App.
+    public var status: SageMakerClientTypes.PartnerAppStatus?
+    /// The instance type and size of the cluster attached to the SageMaker Partner AI App.
+    public var tier: Swift.String?
+    /// The type of SageMaker Partner AI App. Must be one of the following: lakera-guard, comet, deepchecks-llm-evaluation, or fiddler.
+    public var type: SageMakerClientTypes.PartnerAppType?
+    /// The version of the SageMaker Partner AI App.
+    public var version: Swift.String?
+
+    public init(
+        applicationConfig: SageMakerClientTypes.PartnerAppConfig? = nil,
+        arn: Swift.String? = nil,
+        authType: SageMakerClientTypes.PartnerAppAuthType? = nil,
+        baseUrl: Swift.String? = nil,
+        creationTime: Foundation.Date? = nil,
+        enableIamSessionBasedIdentity: Swift.Bool? = nil,
+        error: SageMakerClientTypes.ErrorInfo? = nil,
+        executionRoleArn: Swift.String? = nil,
+        maintenanceConfig: SageMakerClientTypes.PartnerAppMaintenanceConfig? = nil,
+        name: Swift.String? = nil,
+        status: SageMakerClientTypes.PartnerAppStatus? = nil,
+        tier: Swift.String? = nil,
+        type: SageMakerClientTypes.PartnerAppType? = nil,
+        version: Swift.String? = nil
+    ) {
+        self.applicationConfig = applicationConfig
+        self.arn = arn
+        self.authType = authType
+        self.baseUrl = baseUrl
+        self.creationTime = creationTime
+        self.enableIamSessionBasedIdentity = enableIamSessionBasedIdentity
+        self.error = error
+        self.executionRoleArn = executionRoleArn
+        self.maintenanceConfig = maintenanceConfig
+        self.name = name
+        self.status = status
+        self.tier = tier
+        self.type = type
+        self.version = version
+    }
+}
+
 public struct DescribePipelineInput: Swift.Sendable {
     /// The name or Amazon Resource Name (ARN) of the pipeline to describe.
     /// This member is required.
@@ -32553,8 +33309,7 @@ public struct DescribePipelineInput: Swift.Sendable {
 
     public init(
         pipelineName: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineName = pipelineName
     }
 }
@@ -32630,8 +33385,7 @@ public struct DescribePipelineOutput: Swift.Sendable {
         pipelineName: Swift.String? = nil,
         pipelineStatus: SageMakerClientTypes.PipelineStatus? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdBy = createdBy
         self.creationTime = creationTime
         self.lastModifiedBy = lastModifiedBy
@@ -32655,8 +33409,7 @@ public struct DescribePipelineDefinitionForExecutionInput: Swift.Sendable {
 
     public init(
         pipelineExecutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineExecutionArn = pipelineExecutionArn
     }
 }
@@ -32670,8 +33423,7 @@ public struct DescribePipelineDefinitionForExecutionOutput: Swift.Sendable {
     public init(
         creationTime: Foundation.Date? = nil,
         pipelineDefinition: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.pipelineDefinition = pipelineDefinition
     }
@@ -32684,8 +33436,7 @@ public struct DescribePipelineExecutionInput: Swift.Sendable {
 
     public init(
         pipelineExecutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineExecutionArn = pipelineExecutionArn
     }
 }
@@ -32740,8 +33491,7 @@ extension SageMakerClientTypes {
         public init(
             experimentName: Swift.String? = nil,
             trialName: Swift.String? = nil
-        )
-        {
+        ) {
             self.experimentName = experimentName
             self.trialName = trialName
         }
@@ -32758,8 +33508,7 @@ extension SageMakerClientTypes {
 
         public init(
             stepName: Swift.String? = nil
-        )
-        {
+        ) {
             self.stepName = stepName
         }
     }
@@ -32778,8 +33527,7 @@ extension SageMakerClientTypes {
         public init(
             selectedSteps: [SageMakerClientTypes.SelectedStep]? = nil,
             sourcePipelineExecutionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.selectedSteps = selectedSteps
             self.sourcePipelineExecutionArn = sourcePipelineExecutionArn
         }
@@ -32828,8 +33576,7 @@ public struct DescribePipelineExecutionOutput: Swift.Sendable {
         pipelineExecutionStatus: SageMakerClientTypes.PipelineExecutionStatus? = nil,
         pipelineExperimentConfig: SageMakerClientTypes.PipelineExperimentConfig? = nil,
         selectiveExecutionConfig: SageMakerClientTypes.SelectiveExecutionConfig? = nil
-    )
-    {
+    ) {
         self.createdBy = createdBy
         self.creationTime = creationTime
         self.failureReason = failureReason
@@ -32853,8 +33600,7 @@ public struct DescribeProcessingJobInput: Swift.Sendable {
 
     public init(
         processingJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.processingJobName = processingJobName
     }
 }
@@ -32969,8 +33715,7 @@ public struct DescribeProcessingJobOutput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         stoppingCondition: SageMakerClientTypes.ProcessingStoppingCondition? = nil,
         trainingJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appSpecification = appSpecification
         self.autoMLJobArn = autoMLJobArn
         self.creationTime = creationTime
@@ -33002,8 +33747,7 @@ public struct DescribeProjectInput: Swift.Sendable {
 
     public init(
         projectName: Swift.String? = nil
-    )
-    {
+    ) {
         self.projectName = projectName
     }
 }
@@ -33083,8 +33827,7 @@ extension SageMakerClientTypes {
         public init(
             provisionedProductId: Swift.String? = nil,
             provisionedProductStatusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.provisionedProductId = provisionedProductId
             self.provisionedProductStatusMessage = provisionedProductStatusMessage
         }
@@ -33133,8 +33876,7 @@ public struct DescribeProjectOutput: Swift.Sendable {
         projectStatus: SageMakerClientTypes.ProjectStatus? = nil,
         serviceCatalogProvisionedProductDetails: SageMakerClientTypes.ServiceCatalogProvisionedProductDetails? = nil,
         serviceCatalogProvisioningDetails: SageMakerClientTypes.ServiceCatalogProvisioningDetails? = nil
-    )
-    {
+    ) {
         self.createdBy = createdBy
         self.creationTime = creationTime
         self.lastModifiedBy = lastModifiedBy
@@ -33160,8 +33902,7 @@ public struct DescribeSpaceInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         spaceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.spaceName = spaceName
     }
@@ -33259,8 +34000,7 @@ public struct DescribeSpaceOutput: Swift.Sendable {
         spaceSharingSettings: SageMakerClientTypes.SpaceSharingSettings? = nil,
         status: SageMakerClientTypes.SpaceStatus? = nil,
         url: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.domainId = domainId
         self.failureReason = failureReason
@@ -33278,30 +34018,29 @@ public struct DescribeSpaceOutput: Swift.Sendable {
 }
 
 public struct DescribeStudioLifecycleConfigInput: Swift.Sendable {
-    /// The name of the Amazon SageMaker Studio Lifecycle Configuration to describe.
+    /// The name of the Amazon SageMaker AI Studio Lifecycle Configuration to describe.
     /// This member is required.
     public var studioLifecycleConfigName: Swift.String?
 
     public init(
         studioLifecycleConfigName: Swift.String? = nil
-    )
-    {
+    ) {
         self.studioLifecycleConfigName = studioLifecycleConfigName
     }
 }
 
 public struct DescribeStudioLifecycleConfigOutput: Swift.Sendable {
-    /// The creation time of the Amazon SageMaker Studio Lifecycle Configuration.
+    /// The creation time of the Amazon SageMaker AI Studio Lifecycle Configuration.
     public var creationTime: Foundation.Date?
-    /// This value is equivalent to CreationTime because Amazon SageMaker Studio Lifecycle Configurations are immutable.
+    /// This value is equivalent to CreationTime because Amazon SageMaker AI Studio Lifecycle Configurations are immutable.
     public var lastModifiedTime: Foundation.Date?
     /// The App type that the Lifecycle Configuration is attached to.
     public var studioLifecycleConfigAppType: SageMakerClientTypes.StudioLifecycleConfigAppType?
     /// The ARN of the Lifecycle Configuration to describe.
     public var studioLifecycleConfigArn: Swift.String?
-    /// The content of your Amazon SageMaker Studio Lifecycle Configuration script.
+    /// The content of your Amazon SageMaker AI Studio Lifecycle Configuration script.
     public var studioLifecycleConfigContent: Swift.String?
-    /// The name of the Amazon SageMaker Studio Lifecycle Configuration that is described.
+    /// The name of the Amazon SageMaker AI Studio Lifecycle Configuration that is described.
     public var studioLifecycleConfigName: Swift.String?
 
     public init(
@@ -33311,8 +34050,7 @@ public struct DescribeStudioLifecycleConfigOutput: Swift.Sendable {
         studioLifecycleConfigArn: Swift.String? = nil,
         studioLifecycleConfigContent: Swift.String? = nil,
         studioLifecycleConfigName: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.lastModifiedTime = lastModifiedTime
         self.studioLifecycleConfigAppType = studioLifecycleConfigAppType
@@ -33329,8 +34067,7 @@ public struct DescribeSubscribedWorkteamInput: Swift.Sendable {
 
     public init(
         workteamArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.workteamArn = workteamArn
     }
 }
@@ -33357,8 +34094,7 @@ extension SageMakerClientTypes {
             marketplaceTitle: Swift.String? = nil,
             sellerName: Swift.String? = nil,
             workteamArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.listingId = listingId
             self.marketplaceDescription = marketplaceDescription
             self.marketplaceTitle = marketplaceTitle
@@ -33375,8 +34111,7 @@ public struct DescribeSubscribedWorkteamOutput: Swift.Sendable {
 
     public init(
         subscribedWorkteam: SageMakerClientTypes.SubscribedWorkteam? = nil
-    )
-    {
+    ) {
         self.subscribedWorkteam = subscribedWorkteam
     }
 }
@@ -33388,8 +34123,7 @@ public struct DescribeTrainingJobInput: Swift.Sendable {
 
     public init(
         trainingJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.trainingJobName = trainingJobName
     }
 }
@@ -33409,8 +34143,7 @@ extension SageMakerClientTypes {
             metricName: Swift.String? = nil,
             timestamp: Foundation.Date? = nil,
             value: Swift.Float? = nil
-        )
-        {
+        ) {
             self.metricName = metricName
             self.timestamp = timestamp
             self.value = value
@@ -33439,8 +34172,7 @@ extension SageMakerClientTypes {
             ruleEvaluationJobArn: Swift.String? = nil,
             ruleEvaluationStatus: SageMakerClientTypes.RuleEvaluationStatus? = nil,
             statusDetails: Swift.String? = nil
-        )
-        {
+        ) {
             self.lastModifiedTime = lastModifiedTime
             self.ruleConfigurationName = ruleConfigurationName
             self.ruleEvaluationJobArn = ruleEvaluationJobArn
@@ -33636,8 +34368,7 @@ extension SageMakerClientTypes {
             startTime: Foundation.Date? = nil,
             status: SageMakerClientTypes.SecondaryStatus? = nil,
             statusMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.endTime = endTime
             self.startTime = startTime
             self.status = status
@@ -33705,8 +34436,7 @@ extension SageMakerClientTypes {
             resourceRetainedBillableTimeInSeconds: Swift.Int? = nil,
             reusedByJob: Swift.String? = nil,
             status: SageMakerClientTypes.WarmPoolResourceStatus? = nil
-        )
-        {
+        ) {
             self.resourceRetainedBillableTimeInSeconds = resourceRetainedBillableTimeInSeconds
             self.reusedByJob = reusedByJob
             self.status = status
@@ -33917,8 +34647,7 @@ public struct DescribeTrainingJobOutput: Swift.Sendable {
         tuningJobArn: Swift.String? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil,
         warmPoolStatus: SageMakerClientTypes.WarmPoolStatus? = nil
-    )
-    {
+    ) {
         self.algorithmSpecification = algorithmSpecification
         self.autoMLJobArn = autoMLJobArn
         self.billableTimeInSeconds = billableTimeInSeconds
@@ -33965,6 +34694,289 @@ public struct DescribeTrainingJobOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeTrainingPlanInput: Swift.Sendable {
+    /// The name of the training plan to describe.
+    /// This member is required.
+    public var trainingPlanName: Swift.String?
+
+    public init(
+        trainingPlanName: Swift.String? = nil
+    ) {
+        self.trainingPlanName = trainingPlanName
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum ReservedCapacityInstanceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case mlP4d24xlarge
+        case mlP5en48xlarge
+        case mlP5e48xlarge
+        case mlP548xlarge
+        case mlTrn132xlarge
+        case mlTrn248xlarge
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReservedCapacityInstanceType] {
+            return [
+                .mlP4d24xlarge,
+                .mlP5en48xlarge,
+                .mlP5e48xlarge,
+                .mlP548xlarge,
+                .mlTrn132xlarge,
+                .mlTrn248xlarge
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .mlP4d24xlarge: return "ml.p4d.24xlarge"
+            case .mlP5en48xlarge: return "ml.p5en.48xlarge"
+            case .mlP5e48xlarge: return "ml.p5e.48xlarge"
+            case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlTrn132xlarge: return "ml.trn1.32xlarge"
+            case .mlTrn248xlarge: return "ml.trn2.48xlarge"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum ReservedCapacityStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case expired
+        case failed
+        case pending
+        case scheduled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReservedCapacityStatus] {
+            return [
+                .active,
+                .expired,
+                .failed,
+                .pending,
+                .scheduled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .expired: return "Expired"
+            case .failed: return "Failed"
+            case .pending: return "Pending"
+            case .scheduled: return "Scheduled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Details of a reserved capacity for the training plan. For more information about how to reserve GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see [CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html).
+    public struct ReservedCapacitySummary: Swift.Sendable {
+        /// The availability zone for the reserved capacity.
+        public var availabilityZone: Swift.String?
+        /// The number of whole hours in the total duration for this reserved capacity.
+        public var durationHours: Swift.Int?
+        /// The additional minutes beyond whole hours in the total duration for this reserved capacity.
+        public var durationMinutes: Swift.Int?
+        /// The end time of the reserved capacity.
+        public var endTime: Foundation.Date?
+        /// The instance type for the reserved capacity.
+        /// This member is required.
+        public var instanceType: SageMakerClientTypes.ReservedCapacityInstanceType?
+        /// The Amazon Resource Name (ARN); of the reserved capacity.
+        /// This member is required.
+        public var reservedCapacityArn: Swift.String?
+        /// The start time of the reserved capacity.
+        public var startTime: Foundation.Date?
+        /// The current status of the reserved capacity.
+        /// This member is required.
+        public var status: SageMakerClientTypes.ReservedCapacityStatus?
+        /// The total number of instances in the reserved capacity.
+        /// This member is required.
+        public var totalInstanceCount: Swift.Int?
+
+        public init(
+            availabilityZone: Swift.String? = nil,
+            durationHours: Swift.Int? = nil,
+            durationMinutes: Swift.Int? = nil,
+            endTime: Foundation.Date? = nil,
+            instanceType: SageMakerClientTypes.ReservedCapacityInstanceType? = nil,
+            reservedCapacityArn: Swift.String? = nil,
+            startTime: Foundation.Date? = nil,
+            status: SageMakerClientTypes.ReservedCapacityStatus? = nil,
+            totalInstanceCount: Swift.Int? = nil
+        ) {
+            self.availabilityZone = availabilityZone
+            self.durationHours = durationHours
+            self.durationMinutes = durationMinutes
+            self.endTime = endTime
+            self.instanceType = instanceType
+            self.reservedCapacityArn = reservedCapacityArn
+            self.startTime = startTime
+            self.status = status
+            self.totalInstanceCount = totalInstanceCount
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum TrainingPlanStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case expired
+        case failed
+        case pending
+        case scheduled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrainingPlanStatus] {
+            return [
+                .active,
+                .expired,
+                .failed,
+                .pending,
+                .scheduled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .expired: return "Expired"
+            case .failed: return "Failed"
+            case .pending: return "Pending"
+            case .scheduled: return "Scheduled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum SageMakerResourceName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case hyperpodCluster
+        case trainingJob
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SageMakerResourceName] {
+            return [
+                .hyperpodCluster,
+                .trainingJob
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hyperpodCluster: return "hyperpod-cluster"
+            case .trainingJob: return "training-job"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeTrainingPlanOutput: Swift.Sendable {
+    /// The number of instances currently available for use in this training plan.
+    public var availableInstanceCount: Swift.Int?
+    /// The currency code for the upfront fee (e.g., USD).
+    public var currencyCode: Swift.String?
+    /// The number of whole hours in the total duration for this training plan.
+    public var durationHours: Swift.Int?
+    /// The additional minutes beyond whole hours in the total duration for this training plan.
+    public var durationMinutes: Swift.Int?
+    /// The end time of the training plan.
+    public var endTime: Foundation.Date?
+    /// The number of instances currently in use from this training plan.
+    public var inUseInstanceCount: Swift.Int?
+    /// The list of Reserved Capacity providing the underlying compute resources of the plan.
+    public var reservedCapacitySummaries: [SageMakerClientTypes.ReservedCapacitySummary]?
+    /// The start time of the training plan.
+    public var startTime: Foundation.Date?
+    /// The current status of the training plan (e.g., Pending, Active, Expired). To see the complete list of status values available for a training plan, refer to the Status attribute within the [TrainingPlanSummary](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_TrainingPlanSummary.html) object.
+    /// This member is required.
+    public var status: SageMakerClientTypes.TrainingPlanStatus?
+    /// A message providing additional information about the current status of the training plan.
+    public var statusMessage: Swift.String?
+    /// The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod) that can use this training plan. Training plans are specific to their target resource.
+    ///
+    /// * A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.
+    ///
+    /// * A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.
+    public var targetResources: [SageMakerClientTypes.SageMakerResourceName]?
+    /// The total number of instances reserved in this training plan.
+    public var totalInstanceCount: Swift.Int?
+    /// The Amazon Resource Name (ARN); of the training plan.
+    /// This member is required.
+    public var trainingPlanArn: Swift.String?
+    /// The name of the training plan.
+    /// This member is required.
+    public var trainingPlanName: Swift.String?
+    /// The upfront fee for the training plan.
+    public var upfrontFee: Swift.String?
+
+    public init(
+        availableInstanceCount: Swift.Int? = nil,
+        currencyCode: Swift.String? = nil,
+        durationHours: Swift.Int? = nil,
+        durationMinutes: Swift.Int? = nil,
+        endTime: Foundation.Date? = nil,
+        inUseInstanceCount: Swift.Int? = nil,
+        reservedCapacitySummaries: [SageMakerClientTypes.ReservedCapacitySummary]? = nil,
+        startTime: Foundation.Date? = nil,
+        status: SageMakerClientTypes.TrainingPlanStatus? = nil,
+        statusMessage: Swift.String? = nil,
+        targetResources: [SageMakerClientTypes.SageMakerResourceName]? = nil,
+        totalInstanceCount: Swift.Int? = nil,
+        trainingPlanArn: Swift.String? = nil,
+        trainingPlanName: Swift.String? = nil,
+        upfrontFee: Swift.String? = nil
+    ) {
+        self.availableInstanceCount = availableInstanceCount
+        self.currencyCode = currencyCode
+        self.durationHours = durationHours
+        self.durationMinutes = durationMinutes
+        self.endTime = endTime
+        self.inUseInstanceCount = inUseInstanceCount
+        self.reservedCapacitySummaries = reservedCapacitySummaries
+        self.startTime = startTime
+        self.status = status
+        self.statusMessage = statusMessage
+        self.targetResources = targetResources
+        self.totalInstanceCount = totalInstanceCount
+        self.trainingPlanArn = trainingPlanArn
+        self.trainingPlanName = trainingPlanName
+        self.upfrontFee = upfrontFee
+    }
+}
+
 public struct DescribeTransformJobInput: Swift.Sendable {
     /// The name of the transform job that you want to view details of.
     /// This member is required.
@@ -33972,8 +34984,7 @@ public struct DescribeTransformJobInput: Swift.Sendable {
 
     public init(
         transformJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.transformJobName = transformJobName
     }
 }
@@ -34095,8 +35106,7 @@ public struct DescribeTransformJobOutput: Swift.Sendable {
         transformOutput: SageMakerClientTypes.TransformOutput? = nil,
         transformResources: SageMakerClientTypes.TransformResources? = nil,
         transformStartTime: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.autoMLJobArn = autoMLJobArn
         self.batchStrategy = batchStrategy
         self.creationTime = creationTime
@@ -34128,8 +35138,7 @@ public struct DescribeTrialInput: Swift.Sendable {
 
     public init(
         trialName: Swift.String? = nil
-    )
-    {
+    ) {
         self.trialName = trialName
     }
 }
@@ -34147,8 +35156,7 @@ extension SageMakerClientTypes {
         public init(
             sourceArn: Swift.String? = nil,
             sourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceArn = sourceArn
             self.sourceType = sourceType
         }
@@ -34188,8 +35196,7 @@ public struct DescribeTrialOutput: Swift.Sendable {
         source: SageMakerClientTypes.TrialSource? = nil,
         trialArn: Swift.String? = nil,
         trialName: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdBy = createdBy
         self.creationTime = creationTime
         self.displayName = displayName
@@ -34210,8 +35217,7 @@ public struct DescribeTrialComponentInput: Swift.Sendable {
 
     public init(
         trialComponentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.trialComponentName = trialComponentName
     }
 }
@@ -34249,8 +35255,7 @@ extension SageMakerClientTypes {
             sourceArn: Swift.String? = nil,
             stdDev: Swift.Double? = nil,
             timeStamp: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.avg = avg
             self.count = count
             self.last = last
@@ -34277,8 +35282,7 @@ extension SageMakerClientTypes {
         public init(
             sourceArn: Swift.String? = nil,
             sourceType: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourceArn = sourceArn
             self.sourceType = sourceType
         }
@@ -34348,8 +35352,7 @@ public struct DescribeTrialComponentOutput: Swift.Sendable {
         status: SageMakerClientTypes.TrialComponentStatus? = nil,
         trialComponentArn: Swift.String? = nil,
         trialComponentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdBy = createdBy
         self.creationTime = creationTime
         self.displayName = displayName
@@ -34382,8 +35385,7 @@ public struct DescribeUserProfileInput: Swift.Sendable {
     public init(
         domainId: Swift.String? = nil,
         userProfileName: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.userProfileName = userProfileName
     }
@@ -34469,8 +35471,7 @@ public struct DescribeUserProfileOutput: Swift.Sendable {
         userProfileArn: Swift.String? = nil,
         userProfileName: Swift.String? = nil,
         userSettings: SageMakerClientTypes.UserSettings? = nil
-    )
-    {
+    ) {
         self.creationTime = creationTime
         self.domainId = domainId
         self.failureReason = failureReason
@@ -34492,8 +35493,7 @@ public struct DescribeWorkforceInput: Swift.Sendable {
 
     public init(
         workforceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.workforceName = workforceName
     }
 }
@@ -34531,8 +35531,7 @@ extension SageMakerClientTypes {
             scope: Swift.String? = nil,
             tokenEndpoint: Swift.String? = nil,
             userInfoEndpoint: Swift.String? = nil
-        )
-        {
+        ) {
             self.authenticationRequestExtraParams = authenticationRequestExtraParams
             self.authorizationEndpoint = authorizationEndpoint
             self.clientId = clientId
@@ -34605,8 +35604,7 @@ extension SageMakerClientTypes {
             subnets: [Swift.String]? = nil,
             vpcEndpointId: Swift.String? = nil,
             vpcId: Swift.String? = nil
-        )
-        {
+        ) {
             self.securityGroupIds = securityGroupIds
             self.subnets = subnets
             self.vpcEndpointId = vpcEndpointId
@@ -34656,8 +35654,7 @@ extension SageMakerClientTypes {
             workforceArn: Swift.String? = nil,
             workforceName: Swift.String? = nil,
             workforceVpcConfig: SageMakerClientTypes.WorkforceVpcConfigResponse? = nil
-        )
-        {
+        ) {
             self.cognitoConfig = cognitoConfig
             self.createDate = createDate
             self.failureReason = failureReason
@@ -34680,8 +35677,7 @@ public struct DescribeWorkforceOutput: Swift.Sendable {
 
     public init(
         workforce: SageMakerClientTypes.Workforce? = nil
-    )
-    {
+    ) {
         self.workforce = workforce
     }
 }
@@ -34693,8 +35689,7 @@ public struct DescribeWorkteamInput: Swift.Sendable {
 
     public init(
         workteamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.workteamName = workteamName
     }
 }
@@ -34742,8 +35737,7 @@ extension SageMakerClientTypes {
             workforceArn: Swift.String? = nil,
             workteamArn: Swift.String? = nil,
             workteamName: Swift.String? = nil
-        )
-        {
+        ) {
             self.createDate = createDate
             self.description = description
             self.lastUpdatedDate = lastUpdatedDate
@@ -34766,8 +35760,7 @@ public struct DescribeWorkteamOutput: Swift.Sendable {
 
     public init(
         workteam: SageMakerClientTypes.Workteam? = nil
-    )
-    {
+    ) {
         self.workteam = workteam
     }
 }
@@ -34784,8 +35777,7 @@ extension SageMakerClientTypes {
         public init(
             maxConcurrency: Swift.Int? = nil,
             provisionedConcurrency: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxConcurrency = maxConcurrency
             self.provisionedConcurrency = provisionedConcurrency
         }
@@ -34811,8 +35803,7 @@ extension SageMakerClientTypes {
             desiredWeight: Swift.Float? = nil,
             serverlessUpdateConfig: SageMakerClientTypes.ProductionVariantServerlessUpdateConfig? = nil,
             variantName: Swift.String? = nil
-        )
-        {
+        ) {
             self.desiredInstanceCount = desiredInstanceCount
             self.desiredWeight = desiredWeight
             self.serverlessUpdateConfig = serverlessUpdateConfig
@@ -34837,8 +35828,7 @@ extension SageMakerClientTypes {
             description: Swift.String? = nil,
             deviceName: Swift.String? = nil,
             iotThingName: Swift.String? = nil
-        )
-        {
+        ) {
             self.description = description
             self.deviceName = deviceName
             self.iotThingName = iotThingName
@@ -34931,8 +35921,7 @@ extension SageMakerClientTypes {
             edgeDeploymentPlanArn: Swift.String? = nil,
             edgeDeploymentPlanName: Swift.String? = nil,
             stageName: Swift.String? = nil
-        )
-        {
+        ) {
             self.deployedStageName = deployedStageName
             self.deploymentStartTime = deploymentStartTime
             self.description = description
@@ -34968,8 +35957,7 @@ extension SageMakerClientTypes {
             deviceFleetArn: Swift.String? = nil,
             deviceFleetName: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.deviceFleetArn = deviceFleetArn
             self.deviceFleetName = deviceFleetName
@@ -34992,8 +35980,7 @@ extension SageMakerClientTypes {
         public init(
             connectedDeviceCount: Swift.Int? = nil,
             registeredDeviceCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.connectedDeviceCount = connectedDeviceCount
             self.registeredDeviceCount = registeredDeviceCount
         }
@@ -35014,8 +36001,7 @@ extension SageMakerClientTypes {
         public init(
             modelName: Swift.String? = nil,
             modelVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.modelName = modelName
             self.modelVersion = modelVersion
         }
@@ -35057,8 +36043,7 @@ extension SageMakerClientTypes {
             latestHeartbeat: Foundation.Date? = nil,
             models: [SageMakerClientTypes.EdgeModelSummary]? = nil,
             registrationTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.agentVersion = agentVersion
             self.description = description
             self.deviceArn = deviceArn
@@ -35125,8 +36110,7 @@ public struct DisassociateTrialComponentInput: Swift.Sendable {
     public init(
         trialComponentName: Swift.String? = nil,
         trialName: Swift.String? = nil
-    )
-    {
+    ) {
         self.trialComponentName = trialComponentName
         self.trialName = trialName
     }
@@ -35141,8 +36125,7 @@ public struct DisassociateTrialComponentOutput: Swift.Sendable {
     public init(
         trialArn: Swift.String? = nil,
         trialComponentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trialArn = trialArn
         self.trialComponentArn = trialComponentArn
     }
@@ -35175,8 +36158,7 @@ extension SageMakerClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             status: SageMakerClientTypes.DomainStatus? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.domainArn = domainArn
             self.domainId = domainId
@@ -35192,7 +36174,7 @@ extension SageMakerClientTypes {
 
     /// A collection of settings that update the current configuration for the RStudioServerPro Domain-level app.
     public struct RStudioServerProDomainSettingsForUpdate: Swift.Sendable {
-        /// Specifies the ARN's of a SageMaker image and SageMaker image version, and the instance type that the version runs on.
+        /// Specifies the ARN's of a SageMaker AI image and SageMaker AI image version, and the instance type that the version runs on.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
         /// The execution role for the RStudioServerPro Domain-level app.
         /// This member is required.
@@ -35207,8 +36189,7 @@ extension SageMakerClientTypes {
             domainExecutionRoleArn: Swift.String? = nil,
             rStudioConnectUrl: Swift.String? = nil,
             rStudioPackageManagerUrl: Swift.String? = nil
-        )
-        {
+        ) {
             self.defaultResourceSpec = defaultResourceSpec
             self.domainExecutionRoleArn = domainExecutionRoleArn
             self.rStudioConnectUrl = rStudioConnectUrl
@@ -35225,7 +36206,7 @@ extension SageMakerClientTypes {
         public var amazonQSettings: SageMakerClientTypes.AmazonQSettings?
         /// A collection of settings that configure the domain's Docker interaction.
         public var dockerSettings: SageMakerClientTypes.DockerSettings?
-        /// The configuration for attaching a SageMaker user profile name to the execution role as a [sts:SourceIdentity key](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html). This configuration can only be modified if there are no apps in the InService or Pending state.
+        /// The configuration for attaching a SageMaker AI user profile name to the execution role as a [sts:SourceIdentity key](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html). This configuration can only be modified if there are no apps in the InService or Pending state.
         public var executionRoleIdentityConfig: SageMakerClientTypes.ExecutionRoleIdentityConfig?
         /// A collection of RStudioServerPro Domain-level app settings to update. A single RStudioServerPro application is created for a domain.
         public var rStudioServerProDomainSettingsForUpdate: SageMakerClientTypes.RStudioServerProDomainSettingsForUpdate?
@@ -35238,8 +36219,7 @@ extension SageMakerClientTypes {
             executionRoleIdentityConfig: SageMakerClientTypes.ExecutionRoleIdentityConfig? = nil,
             rStudioServerProDomainSettingsForUpdate: SageMakerClientTypes.RStudioServerProDomainSettingsForUpdate? = nil,
             securityGroupIds: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.amazonQSettings = amazonQSettings
             self.dockerSettings = dockerSettings
             self.executionRoleIdentityConfig = executionRoleIdentityConfig
@@ -35258,8 +36238,7 @@ extension SageMakerClientTypes {
 
         public init(
             predefinedMetricType: Swift.String? = nil
-        )
-        {
+        ) {
             self.predefinedMetricType = predefinedMetricType
         }
     }
@@ -35289,8 +36268,7 @@ extension SageMakerClientTypes {
         public init(
             metricSpecification: SageMakerClientTypes.MetricSpecification? = nil,
             targetValue: Swift.Double? = nil
-        )
-        {
+        ) {
             self.metricSpecification = metricSpecification
             self.targetValue = targetValue
         }
@@ -35328,8 +36306,7 @@ extension SageMakerClientTypes {
             scaleInCooldown: Swift.Int? = nil,
             scaleOutCooldown: Swift.Int? = nil,
             scalingPolicies: [SageMakerClientTypes.ScalingPolicy]? = nil
-        )
-        {
+        ) {
             self.maxCapacity = maxCapacity
             self.minCapacity = minCapacity
             self.scaleInCooldown = scaleInCooldown
@@ -35354,8 +36331,7 @@ extension SageMakerClientTypes {
             associationType: SageMakerClientTypes.AssociationEdgeType? = nil,
             destinationArn: Swift.String? = nil,
             sourceArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.associationType = associationType
             self.destinationArn = destinationArn
             self.sourceArn = sourceArn
@@ -35399,8 +36375,7 @@ extension SageMakerClientTypes {
             edgeDeploymentPlanName: Swift.String? = nil,
             edgeDeploymentSuccess: Swift.Int? = nil,
             lastModifiedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.deviceFleetName = deviceFleetName
             self.edgeDeploymentFailed = edgeDeploymentFailed
@@ -35443,8 +36418,7 @@ extension SageMakerClientTypes {
             modelVersion: Swift.String? = nil,
             offlineDeviceCount: Swift.Int? = nil,
             samplingDeviceCount: Swift.Int? = nil
-        )
-        {
+        ) {
             self.activeDeviceCount = activeDeviceCount
             self.connectedDeviceCount = connectedDeviceCount
             self.modelName = modelName
@@ -35488,8 +36462,7 @@ extension SageMakerClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             modelName: Swift.String? = nil,
             modelVersion: Swift.String? = nil
-        )
-        {
+        ) {
             self.compilationJobName = compilationJobName
             self.creationTime = creationTime
             self.edgePackagingJobArn = edgePackagingJobArn
@@ -35520,8 +36493,7 @@ extension SageMakerClientTypes {
             logFilePath: Swift.String? = nil,
             stepId: Swift.String? = nil,
             stepName: Swift.String? = nil
-        )
-        {
+        ) {
             self.clusterId = clusterId
             self.logFilePath = logFilePath
             self.stepId = stepId
@@ -35587,8 +36559,7 @@ extension SageMakerClientTypes {
             monitoringScheduleStatus: SageMakerClientTypes.ScheduleStatus? = nil,
             monitoringType: SageMakerClientTypes.MonitoringType? = nil,
             tags: [SageMakerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.endpointName = endpointName
             self.failureReason = failureReason
@@ -35652,8 +36623,7 @@ extension SageMakerClientTypes {
             productionVariants: [SageMakerClientTypes.ProductionVariantSummary]? = nil,
             shadowProductionVariants: [SageMakerClientTypes.ProductionVariantSummary]? = nil,
             tags: [SageMakerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.dataCaptureConfig = dataCaptureConfig
             self.endpointArn = endpointArn
@@ -35708,8 +36678,7 @@ extension SageMakerClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -35733,8 +36702,7 @@ extension SageMakerClientTypes {
             creationTime: Foundation.Date? = nil,
             endpointConfigArn: Swift.String? = nil,
             endpointConfigName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.endpointConfigArn = endpointConfigArn
             self.endpointConfigName = endpointConfigName
@@ -35783,8 +36751,7 @@ extension SageMakerClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -35835,8 +36802,7 @@ extension SageMakerClientTypes {
             endpointName: Swift.String? = nil,
             endpointStatus: SageMakerClientTypes.EndpointStatus? = nil,
             lastModifiedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.endpointArn = endpointArn
             self.endpointName = endpointName
@@ -35882,8 +36848,7 @@ extension SageMakerClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             source: SageMakerClientTypes.ExperimentSource? = nil,
             tags: [SageMakerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.description = description
@@ -35922,8 +36887,7 @@ extension SageMakerClientTypes {
             experimentName: Swift.String? = nil,
             experimentSource: SageMakerClientTypes.ExperimentSource? = nil,
             lastModifiedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.displayName = displayName
             self.experimentArn = experimentArn
@@ -35943,8 +36907,7 @@ extension SageMakerClientTypes {
 
         public init(
             errorMessage: Swift.String? = nil
-        )
-        {
+        ) {
             self.errorMessage = errorMessage
         }
     }
@@ -36004,8 +36967,7 @@ extension SageMakerClientTypes {
             recordIdentifierFeatureName: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             tags: [SageMakerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.description = description
             self.eventTimeFeatureName = eventTimeFeatureName
@@ -36114,8 +37076,7 @@ extension SageMakerClientTypes {
             featureGroupName: Swift.String? = nil,
             featureGroupStatus: SageMakerClientTypes.FeatureGroupStatus? = nil,
             offlineStoreStatus: SageMakerClientTypes.OfflineStoreStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.featureGroupArn = featureGroupArn
             self.featureGroupName = featureGroupName
@@ -36155,8 +37116,7 @@ extension SageMakerClientTypes {
             featureType: SageMakerClientTypes.FeatureType? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             parameters: [SageMakerClientTypes.FeatureParameter]? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.description = description
             self.featureGroupArn = featureGroupArn
@@ -36281,8 +37241,7 @@ extension SageMakerClientTypes {
             name: Swift.String? = nil,
             `operator`: SageMakerClientTypes.Operator? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.`operator` = `operator`
             self.value = value
@@ -36315,8 +37274,7 @@ extension SageMakerClientTypes {
             flowDefinitionArn: Swift.String? = nil,
             flowDefinitionName: Swift.String? = nil,
             flowDefinitionStatus: SageMakerClientTypes.FlowDefinitionStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.failureReason = failureReason
             self.flowDefinitionArn = flowDefinitionArn
@@ -36333,8 +37291,7 @@ public struct GetDeviceFleetReportInput: Swift.Sendable {
 
     public init(
         deviceFleetName: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceFleetName = deviceFleetName
     }
 }
@@ -36368,8 +37325,7 @@ public struct GetDeviceFleetReportOutput: Swift.Sendable {
         modelStats: [SageMakerClientTypes.EdgeModelStat]? = nil,
         outputConfig: SageMakerClientTypes.EdgeOutputConfig? = nil,
         reportGenerated: Foundation.Date? = nil
-    )
-    {
+    ) {
         self.agentVersions = agentVersions
         self.description = description
         self.deviceFleetArn = deviceFleetArn
@@ -36388,8 +37344,7 @@ public struct GetLineageGroupPolicyInput: Swift.Sendable {
 
     public init(
         lineageGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.lineageGroupName = lineageGroupName
     }
 }
@@ -36403,8 +37358,7 @@ public struct GetLineageGroupPolicyOutput: Swift.Sendable {
     public init(
         lineageGroupArn: Swift.String? = nil,
         resourcePolicy: Swift.String? = nil
-    )
-    {
+    ) {
         self.lineageGroupArn = lineageGroupArn
         self.resourcePolicy = resourcePolicy
     }
@@ -36417,8 +37371,7 @@ public struct GetModelPackageGroupPolicyInput: Swift.Sendable {
 
     public init(
         modelPackageGroupName: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelPackageGroupName = modelPackageGroupName
     }
 }
@@ -36430,8 +37383,7 @@ public struct GetModelPackageGroupPolicyOutput: Swift.Sendable {
 
     public init(
         resourcePolicy: Swift.String? = nil
-    )
-    {
+    ) {
         self.resourcePolicy = resourcePolicy
     }
 }
@@ -36476,8 +37428,7 @@ public struct GetSagemakerServicecatalogPortfolioStatusOutput: Swift.Sendable {
 
     public init(
         status: SageMakerClientTypes.SagemakerServicecatalogStatus? = nil
-    )
-    {
+    ) {
         self.status = status
     }
 }
@@ -36494,8 +37445,7 @@ extension SageMakerClientTypes {
         public init(
             maxInvocationsPerMinute: Swift.Int? = nil,
             minInvocationsPerMinute: Swift.Int? = nil
-        )
-        {
+        ) {
             self.maxInvocationsPerMinute = maxInvocationsPerMinute
             self.minInvocationsPerMinute = minInvocationsPerMinute
         }
@@ -36521,8 +37471,7 @@ public struct GetScalingConfigurationRecommendationInput: Swift.Sendable {
         recommendationId: Swift.String? = nil,
         scalingPolicyObjective: SageMakerClientTypes.ScalingPolicyObjective? = nil,
         targetCpuUtilizationPerCore: Swift.Int? = nil
-    )
-    {
+    ) {
         self.endpointName = endpointName
         self.inferenceRecommendationsJobName = inferenceRecommendationsJobName
         self.recommendationId = recommendationId
@@ -36543,8 +37492,7 @@ extension SageMakerClientTypes {
         public init(
             invocationsPerInstance: Swift.Int? = nil,
             modelLatency: Swift.Int? = nil
-        )
-        {
+        ) {
             self.invocationsPerInstance = invocationsPerInstance
             self.modelLatency = modelLatency
         }
@@ -36575,8 +37523,7 @@ public struct GetScalingConfigurationRecommendationOutput: Swift.Sendable {
         recommendationId: Swift.String? = nil,
         scalingPolicyObjective: SageMakerClientTypes.ScalingPolicyObjective? = nil,
         targetCpuUtilizationPerCore: Swift.Int? = nil
-    )
-    {
+    ) {
         self.dynamicScalingConfiguration = dynamicScalingConfiguration
         self.endpointName = endpointName
         self.inferenceRecommendationsJobName = inferenceRecommendationsJobName
@@ -36671,8 +37618,7 @@ extension SageMakerClientTypes {
 
         public init(
             propertyNameHint: Swift.String? = nil
-        )
-        {
+        ) {
             self.propertyNameHint = propertyNameHint
         }
     }
@@ -36687,8 +37633,7 @@ extension SageMakerClientTypes {
 
         public init(
             propertyNameQuery: SageMakerClientTypes.PropertyNameQuery? = nil
-        )
-        {
+        ) {
             self.propertyNameQuery = propertyNameQuery
         }
     }
@@ -36704,8 +37649,7 @@ public struct GetSearchSuggestionsInput: Swift.Sendable {
     public init(
         resource: SageMakerClientTypes.ResourceType? = nil,
         suggestionQuery: SageMakerClientTypes.SuggestionQuery? = nil
-    )
-    {
+    ) {
         self.resource = resource
         self.suggestionQuery = suggestionQuery
     }
@@ -36720,8 +37664,7 @@ extension SageMakerClientTypes {
 
         public init(
             propertyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.propertyName = propertyName
         }
     }
@@ -36733,8 +37676,7 @@ public struct GetSearchSuggestionsOutput: Swift.Sendable {
 
     public init(
         propertyNameSuggestions: [SageMakerClientTypes.PropertyNameSuggestion]? = nil
-    )
-    {
+    ) {
         self.propertyNameSuggestions = propertyNameSuggestions
     }
 }
@@ -36748,8 +37690,7 @@ extension SageMakerClientTypes {
 
         public init(
             secretArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.secretArn = secretArn
         }
     }
@@ -36807,8 +37748,7 @@ extension SageMakerClientTypes {
             originalCreationTime: Foundation.Date? = nil,
             sageMakerPublicHubContentArn: Swift.String? = nil,
             supportStatus: SageMakerClientTypes.HubContentSupportStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.documentSchemaVersion = documentSchemaVersion
             self.hubContentArn = hubContentArn
@@ -36893,8 +37833,7 @@ extension SageMakerClientTypes {
             hubSearchKeywords: [Swift.String]? = nil,
             hubStatus: SageMakerClientTypes.HubStatus? = nil,
             lastModifiedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.hubArn = hubArn
             self.hubDescription = hubDescription
@@ -36960,8 +37899,7 @@ extension SageMakerClientTypes {
             creationTime: Foundation.Date? = nil,
             humanTaskUiArn: Swift.String? = nil,
             humanTaskUiName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.humanTaskUiArn = humanTaskUiArn
             self.humanTaskUiName = humanTaskUiName
@@ -37029,8 +37967,7 @@ extension SageMakerClientTypes {
             trainingJobStatusCounters: SageMakerClientTypes.TrainingJobStatusCounters? = nil,
             tuningJobCompletionDetails: SageMakerClientTypes.HyperParameterTuningJobCompletionDetails? = nil,
             warmStartConfig: SageMakerClientTypes.HyperParameterTuningJobWarmStartConfig? = nil
-        )
-        {
+        ) {
             self.bestTrainingJob = bestTrainingJob
             self.consumedResources = consumedResources
             self.creationTime = creationTime
@@ -37128,8 +38065,7 @@ extension SageMakerClientTypes {
             resourceLimits: SageMakerClientTypes.ResourceLimits? = nil,
             strategy: SageMakerClientTypes.HyperParameterTuningJobStrategyType? = nil,
             trainingJobStatusCounters: SageMakerClientTypes.TrainingJobStatusCounters? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.hyperParameterTuningEndTime = hyperParameterTuningEndTime
             self.hyperParameterTuningJobArn = hyperParameterTuningJobArn
@@ -37146,7 +38082,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// A SageMaker image. A SageMaker image represents a set of container images that are derived from a common base container image. Each of these container images is represented by a SageMaker ImageVersion.
+    /// A SageMaker AI image. A SageMaker AI image represents a set of container images that are derived from a common base container image. Each of these container images is represented by a SageMaker AI ImageVersion.
     public struct Image: Swift.Sendable {
         /// When the image was created.
         /// This member is required.
@@ -37179,8 +38115,7 @@ extension SageMakerClientTypes {
             imageName: Swift.String? = nil,
             imageStatus: SageMakerClientTypes.ImageStatus? = nil,
             lastModifiedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.description = description
             self.displayName = displayName
@@ -37256,7 +38191,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// A version of a SageMaker Image. A version represents an existing container image.
+    /// A version of a SageMaker AI Image. A version represents an existing container image.
     public struct ImageVersion: Swift.Sendable {
         /// When the version was created.
         /// This member is required.
@@ -37287,8 +38222,7 @@ extension SageMakerClientTypes {
             imageVersionStatus: SageMakerClientTypes.ImageVersionStatus? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             version: Swift.Int? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.failureReason = failureReason
             self.imageArn = imageArn
@@ -37402,8 +38336,7 @@ public struct ImportHubContentInput: Swift.Sendable {
         hubContentVersion: Swift.String? = nil,
         hubName: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.documentSchemaVersion = documentSchemaVersion
         self.hubContentDescription = hubContentDescription
         self.hubContentDisplayName = hubContentDisplayName
@@ -37429,8 +38362,7 @@ public struct ImportHubContentOutput: Swift.Sendable {
     public init(
         hubArn: Swift.String? = nil,
         hubContentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.hubArn = hubArn
         self.hubContentArn = hubContentArn
     }
@@ -37505,8 +38437,7 @@ extension SageMakerClientTypes {
             inferenceComponentStatus: SageMakerClientTypes.InferenceComponentStatus? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             variantName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.endpointArn = endpointArn
             self.endpointName = endpointName
@@ -37560,8 +38491,7 @@ extension SageMakerClientTypes {
             status: SageMakerClientTypes.InferenceExperimentStatus? = nil,
             statusReason: Swift.String? = nil,
             type: SageMakerClientTypes.InferenceExperimentType? = nil
-        )
-        {
+        ) {
             self.completionTime = completionTime
             self.creationTime = creationTime
             self.description = description
@@ -37658,8 +38588,7 @@ extension SageMakerClientTypes {
             roleArn: Swift.String? = nil,
             samplePayloadUrl: Swift.String? = nil,
             status: SageMakerClientTypes.RecommendationJobStatus? = nil
-        )
-        {
+        ) {
             self.completionTime = completionTime
             self.creationTime = creationTime
             self.failureReason = failureReason
@@ -37705,8 +38634,7 @@ extension SageMakerClientTypes {
             invocationStartTime: Foundation.Date? = nil,
             metrics: SageMakerClientTypes.RecommendationMetrics? = nil,
             modelConfiguration: SageMakerClientTypes.ModelConfiguration? = nil
-        )
-        {
+        ) {
             self.endpointConfiguration = endpointConfiguration
             self.endpointMetrics = endpointMetrics
             self.failureReason = failureReason
@@ -37765,8 +38693,7 @@ extension SageMakerClientTypes {
             jobName: Swift.String? = nil,
             status: SageMakerClientTypes.RecommendationJobStatus? = nil,
             stepType: SageMakerClientTypes.RecommendationStepType? = nil
-        )
-        {
+        ) {
             self.inferenceBenchmark = inferenceBenchmark
             self.jobName = jobName
             self.status = status
@@ -37790,8 +38717,7 @@ extension SageMakerClientTypes {
             humanLabeled: Swift.Int? = nil,
             pendingHuman: Swift.Int? = nil,
             total: Swift.Int? = nil
-        )
-        {
+        ) {
             self.humanLabeled = humanLabeled
             self.pendingHuman = pendingHuman
             self.total = total
@@ -37826,8 +38752,7 @@ extension SageMakerClientTypes {
             labelingJobName: Swift.String? = nil,
             numberOfHumanWorkersPerDataObject: Swift.Int? = nil,
             workRequesterAccountId: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.jobReferenceCode = jobReferenceCode
             self.labelCounters = labelCounters
@@ -37887,8 +38812,7 @@ extension SageMakerClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             preHumanTaskLambdaArn: Swift.String? = nil,
             workteamArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.annotationConsolidationLambdaArn = annotationConsolidationLambdaArn
             self.creationTime = creationTime
             self.failureReason = failureReason
@@ -37917,8 +38841,7 @@ extension SageMakerClientTypes {
         public init(
             arn: Swift.String? = nil,
             outputParameters: [SageMakerClientTypes.OutputParameter]? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.outputParameters = outputParameters
         }
@@ -37946,8 +38869,7 @@ extension SageMakerClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             lineageGroupArn: Swift.String? = nil,
             lineageGroupName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.displayName = displayName
             self.lastModifiedTime = lastModifiedTime
@@ -38077,8 +38999,7 @@ public struct ListActionsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.SortActionsBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         sourceUri: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionType = actionType
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
@@ -38099,8 +39020,7 @@ public struct ListActionsOutput: Swift.Sendable {
     public init(
         actionSummaries: [SageMakerClientTypes.ActionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionSummaries = actionSummaries
         self.nextToken = nextToken
     }
@@ -38130,8 +39050,7 @@ public struct ListAlgorithmsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.AlgorithmSortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -38152,8 +39071,7 @@ public struct ListAlgorithmsOutput: Swift.Sendable {
     public init(
         algorithmSummaryList: [SageMakerClientTypes.AlgorithmSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.algorithmSummaryList = algorithmSummaryList
         self.nextToken = nextToken
     }
@@ -38178,8 +39096,7 @@ public struct ListAliasesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         version: Swift.Int? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.imageName = imageName
         self.maxResults = maxResults
@@ -38191,14 +39108,13 @@ public struct ListAliasesInput: Swift.Sendable {
 public struct ListAliasesOutput: Swift.Sendable {
     /// A token for getting the next set of aliases, if more aliases exist.
     public var nextToken: Swift.String?
-    /// A list of SageMaker image version aliases.
+    /// A list of SageMaker AI image version aliases.
     public var sageMakerImageVersionAliases: [Swift.String]?
 
     public init(
         nextToken: Swift.String? = nil,
         sageMakerImageVersionAliases: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.sageMakerImageVersionAliases = sageMakerImageVersionAliases
     }
@@ -38234,8 +39150,7 @@ public struct ListAppImageConfigsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.AppImageConfigSortKey? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -38257,8 +39172,7 @@ public struct ListAppImageConfigsOutput: Swift.Sendable {
     public init(
         appImageConfigs: [SageMakerClientTypes.AppImageConfigDetails]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.appImageConfigs = appImageConfigs
         self.nextToken = nextToken
     }
@@ -38288,8 +39202,7 @@ public struct ListAppsInput: Swift.Sendable {
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         spaceNameEquals: Swift.String? = nil,
         userProfileNameEquals: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdEquals = domainIdEquals
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -38309,8 +39222,7 @@ public struct ListAppsOutput: Swift.Sendable {
     public init(
         apps: [SageMakerClientTypes.AppDetails]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.apps = apps
         self.nextToken = nextToken
     }
@@ -38369,8 +39281,7 @@ public struct ListArtifactsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.SortArtifactsBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         sourceUri: Swift.String? = nil
-    )
-    {
+    ) {
         self.artifactType = artifactType
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
@@ -38391,8 +39302,7 @@ public struct ListArtifactsOutput: Swift.Sendable {
     public init(
         artifactSummaries: [SageMakerClientTypes.ArtifactSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.artifactSummaries = artifactSummaries
         self.nextToken = nextToken
     }
@@ -38472,8 +39382,7 @@ public struct ListAssociationsInput: Swift.Sendable {
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         sourceArn: Swift.String? = nil,
         sourceType: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationType = associationType
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
@@ -38497,8 +39406,7 @@ public struct ListAssociationsOutput: Swift.Sendable {
     public init(
         associationSummaries: [SageMakerClientTypes.AssociationSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.associationSummaries = associationSummaries
         self.nextToken = nextToken
     }
@@ -38537,8 +39445,7 @@ public struct ListAutoMLJobsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.AutoMLSortBy? = nil,
         sortOrder: SageMakerClientTypes.AutoMLSortOrder? = nil,
         statusEquals: SageMakerClientTypes.AutoMLJobStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -38562,8 +39469,7 @@ public struct ListAutoMLJobsOutput: Swift.Sendable {
     public init(
         autoMLJobSummaries: [SageMakerClientTypes.AutoMLJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoMLJobSummaries = autoMLJobSummaries
         self.nextToken = nextToken
     }
@@ -38594,8 +39500,7 @@ public struct ListCandidatesForAutoMLJobInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.CandidateSortBy? = nil,
         sortOrder: SageMakerClientTypes.AutoMLSortOrder? = nil,
         statusEquals: SageMakerClientTypes.CandidateStatus? = nil
-    )
-    {
+    ) {
         self.autoMLJobName = autoMLJobName
         self.candidateNameEquals = candidateNameEquals
         self.maxResults = maxResults
@@ -38616,8 +39521,7 @@ public struct ListCandidatesForAutoMLJobOutput: Swift.Sendable {
     public init(
         candidates: [SageMakerClientTypes.AutoMLCandidate]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.candidates = candidates
         self.nextToken = nextToken
     }
@@ -38662,8 +39566,7 @@ public struct ListClusterNodesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.ClusterSortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
@@ -38686,8 +39589,7 @@ public struct ListClusterNodesOutput: Swift.Sendable {
     public init(
         clusterNodeSummaries: [SageMakerClientTypes.ClusterNodeSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterNodeSummaries = clusterNodeSummaries
         self.nextToken = nextToken
     }
@@ -38719,6 +39621,8 @@ public struct ListClustersInput: Swift.Sendable {
     public var sortBy: SageMakerClientTypes.ClusterSortBy?
     /// The sort order for results. The default value is Ascending.
     public var sortOrder: SageMakerClientTypes.SortOrder?
+    /// The Amazon Resource Name (ARN); of the training plan to filter clusters by. For more information about reserving GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see [CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html).
+    public var trainingPlanArn: Swift.String?
 
     public init(
         creationTimeAfter: Foundation.Date? = nil,
@@ -38727,9 +39631,9 @@ public struct ListClustersInput: Swift.Sendable {
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.ClusterSortBy? = nil,
-        sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+        sortOrder: SageMakerClientTypes.SortOrder? = nil,
+        trainingPlanArn: Swift.String? = nil
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -38737,6 +39641,7 @@ public struct ListClustersInput: Swift.Sendable {
         self.nextToken = nextToken
         self.sortBy = sortBy
         self.sortOrder = sortOrder
+        self.trainingPlanArn = trainingPlanArn
     }
 }
 
@@ -38751,9 +39656,98 @@ public struct ListClustersOutput: Swift.Sendable {
     public init(
         clusterSummaries: [SageMakerClientTypes.ClusterSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterSummaries = clusterSummaries
+        self.nextToken = nextToken
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum SortClusterSchedulerConfigBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case creationTime
+        case name
+        case status
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortClusterSchedulerConfigBy] {
+            return [
+                .creationTime,
+                .name,
+                .status
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .creationTime: return "CreationTime"
+            case .name: return "Name"
+            case .status: return "Status"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListClusterSchedulerConfigsInput: Swift.Sendable {
+    /// Filter for ARN of the cluster.
+    public var clusterArn: Swift.String?
+    /// Filter for after this creation time. The input for this parameter is a Unix timestamp. To convert a date and time into a Unix timestamp, see [EpochConverter](https://www.epochconverter.com/).
+    public var createdAfter: Foundation.Date?
+    /// Filter for before this creation time. The input for this parameter is a Unix timestamp. To convert a date and time into a Unix timestamp, see [EpochConverter](https://www.epochconverter.com/).
+    public var createdBefore: Foundation.Date?
+    /// The maximum number of cluster policies to list.
+    public var maxResults: Swift.Int?
+    /// Filter for name containing this string.
+    public var nameContains: Swift.String?
+    /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+    public var nextToken: Swift.String?
+    /// Filter for sorting the list by a given value. For example, sort by name, creation time, or status.
+    public var sortBy: SageMakerClientTypes.SortClusterSchedulerConfigBy?
+    /// The order of the list. By default, listed in Descending order according to by SortBy. To change the list order, you can specify SortOrder to be Ascending.
+    public var sortOrder: SageMakerClientTypes.SortOrder?
+    /// Filter for status.
+    public var status: SageMakerClientTypes.SchedulerResourceStatus?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        createdAfter: Foundation.Date? = nil,
+        createdBefore: Foundation.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        nameContains: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        sortBy: SageMakerClientTypes.SortClusterSchedulerConfigBy? = nil,
+        sortOrder: SageMakerClientTypes.SortOrder? = nil,
+        status: SageMakerClientTypes.SchedulerResourceStatus? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.createdAfter = createdAfter
+        self.createdBefore = createdBefore
+        self.maxResults = maxResults
+        self.nameContains = nameContains
+        self.nextToken = nextToken
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+        self.status = status
+    }
+}
+
+public struct ListClusterSchedulerConfigsOutput: Swift.Sendable {
+    /// Summaries of the cluster policies.
+    public var clusterSchedulerConfigSummaries: [SageMakerClientTypes.ClusterSchedulerConfigSummary]?
+    /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        clusterSchedulerConfigSummaries: [SageMakerClientTypes.ClusterSchedulerConfigSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.clusterSchedulerConfigSummaries = clusterSchedulerConfigSummaries
         self.nextToken = nextToken
     }
 }
@@ -38788,8 +39782,7 @@ public struct ListCodeRepositoriesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.CodeRepositorySortBy? = nil,
         sortOrder: SageMakerClientTypes.CodeRepositorySortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -38822,8 +39815,7 @@ public struct ListCodeRepositoriesOutput: Swift.Sendable {
     public init(
         codeRepositorySummaryList: [SageMakerClientTypes.CodeRepositorySummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.codeRepositorySummaryList = codeRepositorySummaryList
         self.nextToken = nextToken
     }
@@ -38894,8 +39886,7 @@ public struct ListCompilationJobsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.ListCompilationJobsSortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         statusEquals: SageMakerClientTypes.CompilationJobStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -38913,15 +39904,107 @@ public struct ListCompilationJobsOutput: Swift.Sendable {
     /// An array of [CompilationJobSummary](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CompilationJobSummary.html) objects, each describing a model compilation job.
     /// This member is required.
     public var compilationJobSummaries: [SageMakerClientTypes.CompilationJobSummary]?
-    /// If the response is truncated, Amazon SageMaker returns this NextToken. To retrieve the next set of model compilation jobs, use this token in the next request.
+    /// If the response is truncated, Amazon SageMaker AI returns this NextToken. To retrieve the next set of model compilation jobs, use this token in the next request.
     public var nextToken: Swift.String?
 
     public init(
         compilationJobSummaries: [SageMakerClientTypes.CompilationJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.compilationJobSummaries = compilationJobSummaries
+        self.nextToken = nextToken
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum SortQuotaBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case clusterArn
+        case creationTime
+        case name
+        case status
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortQuotaBy] {
+            return [
+                .clusterArn,
+                .creationTime,
+                .name,
+                .status
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .clusterArn: return "ClusterArn"
+            case .creationTime: return "CreationTime"
+            case .name: return "Name"
+            case .status: return "Status"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListComputeQuotasInput: Swift.Sendable {
+    /// Filter for ARN of the cluster.
+    public var clusterArn: Swift.String?
+    /// Filter for after this creation time. The input for this parameter is a Unix timestamp. To convert a date and time into a Unix timestamp, see [EpochConverter](https://www.epochconverter.com/).
+    public var createdAfter: Foundation.Date?
+    /// Filter for before this creation time. The input for this parameter is a Unix timestamp. To convert a date and time into a Unix timestamp, see [EpochConverter](https://www.epochconverter.com/).
+    public var createdBefore: Foundation.Date?
+    /// The maximum number of compute allocation definitions to list.
+    public var maxResults: Swift.Int?
+    /// Filter for name containing this string.
+    public var nameContains: Swift.String?
+    /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+    public var nextToken: Swift.String?
+    /// Filter for sorting the list by a given value. For example, sort by name, creation time, or status.
+    public var sortBy: SageMakerClientTypes.SortQuotaBy?
+    /// The order of the list. By default, listed in Descending order according to by SortBy. To change the list order, you can specify SortOrder to be Ascending.
+    public var sortOrder: SageMakerClientTypes.SortOrder?
+    /// Filter for status.
+    public var status: SageMakerClientTypes.SchedulerResourceStatus?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        createdAfter: Foundation.Date? = nil,
+        createdBefore: Foundation.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        nameContains: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        sortBy: SageMakerClientTypes.SortQuotaBy? = nil,
+        sortOrder: SageMakerClientTypes.SortOrder? = nil,
+        status: SageMakerClientTypes.SchedulerResourceStatus? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.createdAfter = createdAfter
+        self.createdBefore = createdBefore
+        self.maxResults = maxResults
+        self.nameContains = nameContains
+        self.nextToken = nextToken
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+        self.status = status
+    }
+}
+
+public struct ListComputeQuotasOutput: Swift.Sendable {
+    /// Summaries of the compute allocation definitions.
+    public var computeQuotaSummaries: [SageMakerClientTypes.ComputeQuotaSummary]?
+    /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        computeQuotaSummaries: [SageMakerClientTypes.ComputeQuotaSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.computeQuotaSummaries = computeQuotaSummaries
         self.nextToken = nextToken
     }
 }
@@ -38982,8 +40065,7 @@ public struct ListContextsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.SortContextsBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         sourceUri: Swift.String? = nil
-    )
-    {
+    ) {
         self.contextType = contextType
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
@@ -39004,8 +40086,7 @@ public struct ListContextsOutput: Swift.Sendable {
     public init(
         contextSummaries: [SageMakerClientTypes.ContextSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.contextSummaries = contextSummaries
         self.nextToken = nextToken
     }
@@ -39067,8 +40148,7 @@ public struct ListDataQualityJobDefinitionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.MonitoringJobDefinitionSortKey? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.endpointName = endpointName
@@ -39102,8 +40182,7 @@ extension SageMakerClientTypes {
             endpointName: Swift.String? = nil,
             monitoringJobDefinitionArn: Swift.String? = nil,
             monitoringJobDefinitionName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.endpointName = endpointName
             self.monitoringJobDefinitionArn = monitoringJobDefinitionArn
@@ -39122,8 +40201,7 @@ public struct ListDataQualityJobDefinitionsOutput: Swift.Sendable {
     public init(
         jobDefinitionSummaries: [SageMakerClientTypes.MonitoringJobDefinitionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionSummaries = jobDefinitionSummaries
         self.nextToken = nextToken
     }
@@ -39191,8 +40269,7 @@ public struct ListDeviceFleetsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.ListDeviceFleetsSortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -39215,8 +40292,7 @@ public struct ListDeviceFleetsOutput: Swift.Sendable {
     public init(
         deviceFleetSummaries: [SageMakerClientTypes.DeviceFleetSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceFleetSummaries = deviceFleetSummaries
         self.nextToken = nextToken
     }
@@ -39240,8 +40316,7 @@ public struct ListDevicesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         modelName: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceFleetName = deviceFleetName
         self.latestHeartbeatAfter = latestHeartbeatAfter
         self.maxResults = maxResults
@@ -39260,8 +40335,7 @@ public struct ListDevicesOutput: Swift.Sendable {
     public init(
         deviceSummaries: [SageMakerClientTypes.DeviceSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceSummaries = deviceSummaries
         self.nextToken = nextToken
     }
@@ -39276,8 +40350,7 @@ public struct ListDomainsInput: Swift.Sendable {
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -39292,8 +40365,7 @@ public struct ListDomainsOutput: Swift.Sendable {
     public init(
         domains: [SageMakerClientTypes.DomainDetails]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.domains = domains
         self.nextToken = nextToken
     }
@@ -39367,8 +40439,7 @@ public struct ListEdgeDeploymentPlansInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.ListEdgeDeploymentPlansSortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.deviceFleetNameContains = deviceFleetNameContains
@@ -39392,8 +40463,7 @@ public struct ListEdgeDeploymentPlansOutput: Swift.Sendable {
     public init(
         edgeDeploymentPlanSummaries: [SageMakerClientTypes.EdgeDeploymentPlanSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.edgeDeploymentPlanSummaries = edgeDeploymentPlanSummaries
         self.nextToken = nextToken
     }
@@ -39473,8 +40543,7 @@ public struct ListEdgePackagingJobsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.ListEdgePackagingJobsSortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         statusEquals: SageMakerClientTypes.EdgePackagingJobStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -39499,8 +40568,7 @@ public struct ListEdgePackagingJobsOutput: Swift.Sendable {
     public init(
         edgePackagingJobSummaries: [SageMakerClientTypes.EdgePackagingJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.edgePackagingJobSummaries = edgePackagingJobSummaries
         self.nextToken = nextToken
     }
@@ -39559,8 +40627,7 @@ public struct ListEndpointConfigsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.EndpointConfigSortKey? = nil,
         sortOrder: SageMakerClientTypes.OrderKey? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -39581,8 +40648,7 @@ public struct ListEndpointConfigsOutput: Swift.Sendable {
     public init(
         endpointConfigs: [SageMakerClientTypes.EndpointConfigSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointConfigs = endpointConfigs
         self.nextToken = nextToken
     }
@@ -39621,8 +40687,7 @@ public struct ListEndpointsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.EndpointSortKey? = nil,
         sortOrder: SageMakerClientTypes.OrderKey? = nil,
         statusEquals: SageMakerClientTypes.EndpointStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -39646,8 +40711,7 @@ public struct ListEndpointsOutput: Swift.Sendable {
     public init(
         endpoints: [SageMakerClientTypes.EndpointSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpoints = endpoints
         self.nextToken = nextToken
     }
@@ -39703,8 +40767,7 @@ public struct ListExperimentsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.SortExperimentsBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
         self.maxResults = maxResults
@@ -39723,8 +40786,7 @@ public struct ListExperimentsOutput: Swift.Sendable {
     public init(
         experimentSummaries: [SageMakerClientTypes.ExperimentSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.experimentSummaries = experimentSummaries
         self.nextToken = nextToken
     }
@@ -39760,8 +40822,7 @@ public struct ListFeatureGroupsInput: Swift.Sendable {
         offlineStoreStatusEquals: SageMakerClientTypes.OfflineStoreStatusValue? = nil,
         sortBy: SageMakerClientTypes.FeatureGroupSortBy? = nil,
         sortOrder: SageMakerClientTypes.FeatureGroupSortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.featureGroupStatusEquals = featureGroupStatusEquals
@@ -39784,8 +40845,7 @@ public struct ListFeatureGroupsOutput: Swift.Sendable {
     public init(
         featureGroupSummaries: [SageMakerClientTypes.FeatureGroupSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.featureGroupSummaries = featureGroupSummaries
         self.nextToken = nextToken
     }
@@ -39809,8 +40869,7 @@ public struct ListFlowDefinitionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -39829,8 +40888,7 @@ public struct ListFlowDefinitionsOutput: Swift.Sendable {
     public init(
         flowDefinitionSummaries: [SageMakerClientTypes.FlowDefinitionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.flowDefinitionSummaries = flowDefinitionSummaries
         self.nextToken = nextToken
     }
@@ -39871,8 +40929,7 @@ public struct ListHubContentsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.HubContentSortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.hubContentType = hubContentType
@@ -39896,8 +40953,7 @@ public struct ListHubContentsOutput: Swift.Sendable {
     public init(
         hubContentSummaries: [SageMakerClientTypes.HubContentInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.hubContentSummaries = hubContentSummaries
         self.nextToken = nextToken
     }
@@ -39942,8 +40998,7 @@ public struct ListHubContentVersionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.HubContentSortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.hubContentName = hubContentName
@@ -39968,8 +41023,7 @@ public struct ListHubContentVersionsOutput: Swift.Sendable {
     public init(
         hubContentSummaries: [SageMakerClientTypes.HubContentInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.hubContentSummaries = hubContentSummaries
         self.nextToken = nextToken
     }
@@ -40005,8 +41059,7 @@ public struct ListHubsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.HubSortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -40029,8 +41082,7 @@ public struct ListHubsOutput: Swift.Sendable {
     public init(
         hubSummaries: [SageMakerClientTypes.HubInfo]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.hubSummaries = hubSummaries
         self.nextToken = nextToken
     }
@@ -40054,8 +41106,7 @@ public struct ListHumanTaskUisInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -40074,8 +41125,7 @@ public struct ListHumanTaskUisOutput: Swift.Sendable {
     public init(
         humanTaskUiSummaries: [SageMakerClientTypes.HumanTaskUiSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.humanTaskUiSummaries = humanTaskUiSummaries
         self.nextToken = nextToken
     }
@@ -40114,8 +41164,7 @@ public struct ListHyperParameterTuningJobsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.HyperParameterTuningJobSortByOptions? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         statusEquals: SageMakerClientTypes.HyperParameterTuningJobStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -40139,8 +41188,7 @@ public struct ListHyperParameterTuningJobsOutput: Swift.Sendable {
     public init(
         hyperParameterTuningJobSummaries: [SageMakerClientTypes.HyperParameterTuningJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.hyperParameterTuningJobSummaries = hyperParameterTuningJobSummaries
         self.nextToken = nextToken
     }
@@ -40176,8 +41224,7 @@ public struct ListImagesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.ImageSortBy? = nil,
         sortOrder: SageMakerClientTypes.ImageSortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -40199,8 +41246,7 @@ public struct ListImagesOutput: Swift.Sendable {
     public init(
         images: [SageMakerClientTypes.Image]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.images = images
         self.nextToken = nextToken
     }
@@ -40237,8 +41283,7 @@ public struct ListImageVersionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.ImageVersionSortBy? = nil,
         sortOrder: SageMakerClientTypes.ImageVersionSortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.imageName = imageName
@@ -40260,8 +41305,7 @@ public struct ListImageVersionsOutput: Swift.Sendable {
     public init(
         imageVersions: [SageMakerClientTypes.ImageVersion]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageVersions = imageVersions
         self.nextToken = nextToken
     }
@@ -40306,8 +41350,7 @@ public struct ListInferenceComponentsInput: Swift.Sendable {
         sortOrder: SageMakerClientTypes.OrderKey? = nil,
         statusEquals: SageMakerClientTypes.InferenceComponentStatus? = nil,
         variantNameEquals: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.endpointNameEquals = endpointNameEquals
@@ -40333,8 +41376,7 @@ public struct ListInferenceComponentsOutput: Swift.Sendable {
     public init(
         inferenceComponents: [SageMakerClientTypes.InferenceComponentSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceComponents = inferenceComponents
         self.nextToken = nextToken
     }
@@ -40408,8 +41450,7 @@ public struct ListInferenceExperimentsInput: Swift.Sendable {
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         statusEquals: SageMakerClientTypes.InferenceExperimentStatus? = nil,
         type: SageMakerClientTypes.InferenceExperimentType? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -40433,8 +41474,7 @@ public struct ListInferenceExperimentsOutput: Swift.Sendable {
     public init(
         inferenceExperiments: [SageMakerClientTypes.InferenceExperimentSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceExperiments = inferenceExperiments
         self.nextToken = nextToken
     }
@@ -40511,8 +41551,7 @@ public struct ListInferenceRecommendationsJobsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.ListInferenceRecommendationsJobsSortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         statusEquals: SageMakerClientTypes.RecommendationJobStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -40538,8 +41577,7 @@ public struct ListInferenceRecommendationsJobsOutput: Swift.Sendable {
     public init(
         inferenceRecommendationsJobs: [SageMakerClientTypes.InferenceRecommendationsJob]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceRecommendationsJobs = inferenceRecommendationsJobs
         self.nextToken = nextToken
     }
@@ -40564,8 +41602,7 @@ public struct ListInferenceRecommendationsJobStepsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         status: SageMakerClientTypes.RecommendationJobStatus? = nil,
         stepType: SageMakerClientTypes.RecommendationStepType? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -40583,8 +41620,7 @@ public struct ListInferenceRecommendationsJobStepsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         steps: [SageMakerClientTypes.InferenceRecommendationsJobStep]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.steps = steps
     }
@@ -40655,8 +41691,7 @@ public struct ListLabelingJobsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.SortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         statusEquals: SageMakerClientTypes.LabelingJobStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -40679,8 +41714,7 @@ public struct ListLabelingJobsOutput: Swift.Sendable {
     public init(
         labelingJobSummaryList: [SageMakerClientTypes.LabelingJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.labelingJobSummaryList = labelingJobSummaryList
         self.nextToken = nextToken
     }
@@ -40740,8 +41774,7 @@ public struct ListLabelingJobsForWorkteamInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.ListLabelingJobsForWorkteamSortByOptions? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         workteamArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.jobReferenceCodeContains = jobReferenceCodeContains
@@ -40763,8 +41796,7 @@ public struct ListLabelingJobsForWorkteamOutput: Swift.Sendable {
     public init(
         labelingJobSummaryList: [SageMakerClientTypes.LabelingJobForWorkteamSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.labelingJobSummaryList = labelingJobSummaryList
         self.nextToken = nextToken
     }
@@ -40820,8 +41852,7 @@ public struct ListLineageGroupsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.SortLineageGroupsBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
         self.maxResults = maxResults
@@ -40840,8 +41871,7 @@ public struct ListLineageGroupsOutput: Swift.Sendable {
     public init(
         lineageGroupSummaries: [SageMakerClientTypes.LineageGroupSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.lineageGroupSummaries = lineageGroupSummaries
         self.nextToken = nextToken
     }
@@ -40906,8 +41936,7 @@ public struct ListMlflowTrackingServersInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.SortTrackingServerBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         trackingServerStatus: SageMakerClientTypes.TrackingServerStatus? = nil
-    )
-    {
+    ) {
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
         self.maxResults = maxResults
@@ -40946,8 +41975,7 @@ extension SageMakerClientTypes {
             trackingServerArn: Swift.String? = nil,
             trackingServerName: Swift.String? = nil,
             trackingServerStatus: SageMakerClientTypes.TrackingServerStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.isActive = isActive
             self.lastModifiedTime = lastModifiedTime
@@ -40968,8 +41996,7 @@ public struct ListMlflowTrackingServersOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         trackingServerSummaries: [SageMakerClientTypes.TrackingServerSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.trackingServerSummaries = trackingServerSummaries
     }
@@ -41002,8 +42029,7 @@ public struct ListModelBiasJobDefinitionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.MonitoringJobDefinitionSortKey? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.endpointName = endpointName
@@ -41025,8 +42051,7 @@ public struct ListModelBiasJobDefinitionsOutput: Swift.Sendable {
     public init(
         jobDefinitionSummaries: [SageMakerClientTypes.MonitoringJobDefinitionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionSummaries = jobDefinitionSummaries
         self.nextToken = nextToken
     }
@@ -41128,8 +42153,7 @@ public struct ListModelCardExportJobsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.ModelCardExportJobSortBy? = nil,
         sortOrder: SageMakerClientTypes.ModelCardExportJobSortOrder? = nil,
         statusEquals: SageMakerClientTypes.ModelCardExportJobStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -41177,8 +42201,7 @@ extension SageMakerClientTypes {
             modelCardName: Swift.String? = nil,
             modelCardVersion: Swift.Int? = nil,
             status: SageMakerClientTypes.ModelCardExportJobStatus? = nil
-        )
-        {
+        ) {
             self.createdAt = createdAt
             self.lastModifiedAt = lastModifiedAt
             self.modelCardExportJobArn = modelCardExportJobArn
@@ -41200,8 +42223,7 @@ public struct ListModelCardExportJobsOutput: Swift.Sendable {
     public init(
         modelCardExportJobSummaries: [SageMakerClientTypes.ModelCardExportJobSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelCardExportJobSummaries = modelCardExportJobSummaries
         self.nextToken = nextToken
     }
@@ -41292,8 +42314,7 @@ public struct ListModelCardsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.ModelCardSortBy? = nil,
         sortOrder: SageMakerClientTypes.ModelCardSortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -41338,8 +42359,7 @@ extension SageMakerClientTypes {
             modelCardArn: Swift.String? = nil,
             modelCardName: Swift.String? = nil,
             modelCardStatus: SageMakerClientTypes.ModelCardStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.lastModifiedTime = lastModifiedTime
             self.modelCardArn = modelCardArn
@@ -41359,8 +42379,7 @@ public struct ListModelCardsOutput: Swift.Sendable {
     public init(
         modelCardSummaries: [SageMakerClientTypes.ModelCardSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelCardSummaries = modelCardSummaries
         self.nextToken = nextToken
     }
@@ -41420,8 +42439,7 @@ public struct ListModelCardVersionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.ModelCardVersionSortBy? = nil,
         sortOrder: SageMakerClientTypes.ModelCardSortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -41470,8 +42488,7 @@ extension SageMakerClientTypes {
             modelCardName: Swift.String? = nil,
             modelCardStatus: SageMakerClientTypes.ModelCardStatus? = nil,
             modelCardVersion: Swift.Int? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.lastModifiedTime = lastModifiedTime
             self.modelCardArn = modelCardArn
@@ -41492,8 +42509,7 @@ public struct ListModelCardVersionsOutput: Swift.Sendable {
     public init(
         modelCardVersionSummaryList: [SageMakerClientTypes.ModelCardVersionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelCardVersionSummaryList = modelCardVersionSummaryList
         self.nextToken = nextToken
     }
@@ -41526,8 +42542,7 @@ public struct ListModelExplainabilityJobDefinitionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.MonitoringJobDefinitionSortKey? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.endpointName = endpointName
@@ -41549,8 +42564,7 @@ public struct ListModelExplainabilityJobDefinitionsOutput: Swift.Sendable {
     public init(
         jobDefinitionSummaries: [SageMakerClientTypes.MonitoringJobDefinitionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionSummaries = jobDefinitionSummaries
         self.nextToken = nextToken
     }
@@ -41605,8 +42619,7 @@ extension SageMakerClientTypes {
         public init(
             name: SageMakerClientTypes.ModelMetadataFilterType? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -41622,8 +42635,7 @@ extension SageMakerClientTypes {
 
         public init(
             filters: [SageMakerClientTypes.ModelMetadataFilter]? = nil
-        )
-        {
+        ) {
             self.filters = filters
         }
     }
@@ -41641,8 +42653,7 @@ public struct ListModelMetadataInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         searchExpression: SageMakerClientTypes.ModelMetadataSearchExpression? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.searchExpression = searchExpression
@@ -41675,8 +42686,7 @@ extension SageMakerClientTypes {
             frameworkVersion: Swift.String? = nil,
             model: Swift.String? = nil,
             task: Swift.String? = nil
-        )
-        {
+        ) {
             self.domain = domain
             self.framework = framework
             self.frameworkVersion = frameworkVersion
@@ -41696,8 +42706,7 @@ public struct ListModelMetadataOutput: Swift.Sendable {
     public init(
         modelMetadataSummaries: [SageMakerClientTypes.ModelMetadataSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelMetadataSummaries = modelMetadataSummaries
         self.nextToken = nextToken
     }
@@ -41759,8 +42768,7 @@ public struct ListModelPackageGroupsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.ModelPackageGroupSortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.crossAccountFilterOption = crossAccountFilterOption
@@ -41797,8 +42805,7 @@ extension SageMakerClientTypes {
             modelPackageGroupDescription: Swift.String? = nil,
             modelPackageGroupName: Swift.String? = nil,
             modelPackageGroupStatus: SageMakerClientTypes.ModelPackageGroupStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.modelPackageGroupArn = modelPackageGroupArn
             self.modelPackageGroupDescription = modelPackageGroupDescription
@@ -41818,8 +42825,7 @@ public struct ListModelPackageGroupsOutput: Swift.Sendable {
     public init(
         modelPackageGroupSummaryList: [SageMakerClientTypes.ModelPackageGroupSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelPackageGroupSummaryList = modelPackageGroupSummaryList
         self.nextToken = nextToken
     }
@@ -41925,8 +42931,7 @@ public struct ListModelPackagesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.ModelPackageSortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -41979,8 +42984,7 @@ extension SageMakerClientTypes {
             modelPackageName: Swift.String? = nil,
             modelPackageStatus: SageMakerClientTypes.ModelPackageStatus? = nil,
             modelPackageVersion: Swift.Int? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.modelApprovalStatus = modelApprovalStatus
             self.modelPackageArn = modelPackageArn
@@ -42003,8 +43007,7 @@ public struct ListModelPackagesOutput: Swift.Sendable {
     public init(
         modelPackageSummaryList: [SageMakerClientTypes.ModelPackageSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelPackageSummaryList = modelPackageSummaryList
         self.nextToken = nextToken
     }
@@ -42037,8 +43040,7 @@ public struct ListModelQualityJobDefinitionsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.MonitoringJobDefinitionSortKey? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.endpointName = endpointName
@@ -42054,14 +43056,13 @@ public struct ListModelQualityJobDefinitionsOutput: Swift.Sendable {
     /// A list of summaries of model quality monitoring job definitions.
     /// This member is required.
     public var jobDefinitionSummaries: [SageMakerClientTypes.MonitoringJobDefinitionSummary]?
-    /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of model quality monitoring job definitions, use it in the next request.
+    /// If the response is truncated, Amazon SageMaker AI returns this token. To retrieve the next set of model quality monitoring job definitions, use it in the next request.
     public var nextToken: Swift.String?
 
     public init(
         jobDefinitionSummaries: [SageMakerClientTypes.MonitoringJobDefinitionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobDefinitionSummaries = jobDefinitionSummaries
         self.nextToken = nextToken
     }
@@ -42120,8 +43121,7 @@ public struct ListModelsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.ModelSortKey? = nil,
         sortOrder: SageMakerClientTypes.OrderKey? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -42150,8 +43150,7 @@ extension SageMakerClientTypes {
             creationTime: Foundation.Date? = nil,
             modelArn: Swift.String? = nil,
             modelName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.modelArn = modelArn
             self.modelName = modelName
@@ -42169,8 +43168,7 @@ public struct ListModelsOutput: Swift.Sendable {
     public init(
         models: [SageMakerClientTypes.ModelSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.models = models
         self.nextToken = nextToken
     }
@@ -42264,8 +43262,7 @@ public struct ListMonitoringAlertHistoryInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.MonitoringAlertHistorySortKey? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         statusEquals: SageMakerClientTypes.MonitoringAlertStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -42300,8 +43297,7 @@ extension SageMakerClientTypes {
             creationTime: Foundation.Date? = nil,
             monitoringAlertName: Swift.String? = nil,
             monitoringScheduleName: Swift.String? = nil
-        )
-        {
+        ) {
             self.alertStatus = alertStatus
             self.creationTime = creationTime
             self.monitoringAlertName = monitoringAlertName
@@ -42319,8 +43315,7 @@ public struct ListMonitoringAlertHistoryOutput: Swift.Sendable {
     public init(
         monitoringAlertHistory: [SageMakerClientTypes.MonitoringAlertHistorySummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitoringAlertHistory = monitoringAlertHistory
         self.nextToken = nextToken
     }
@@ -42339,8 +43334,7 @@ public struct ListMonitoringAlertsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         monitoringScheduleName: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.monitoringScheduleName = monitoringScheduleName
         self.nextToken = nextToken
@@ -42356,8 +43350,7 @@ extension SageMakerClientTypes {
 
         public init(
             enabled: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enabled = enabled
         }
     }
@@ -42372,8 +43365,7 @@ extension SageMakerClientTypes {
 
         public init(
             modelDashboardIndicator: SageMakerClientTypes.ModelDashboardIndicatorAction? = nil
-        )
-        {
+        ) {
             self.modelDashboardIndicator = modelDashboardIndicator
         }
     }
@@ -42413,8 +43405,7 @@ extension SageMakerClientTypes {
             evaluationPeriod: Swift.Int? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             monitoringAlertName: Swift.String? = nil
-        )
-        {
+        ) {
             self.actions = actions
             self.alertStatus = alertStatus
             self.creationTime = creationTime
@@ -42435,8 +43426,7 @@ public struct ListMonitoringAlertsOutput: Swift.Sendable {
     public init(
         monitoringAlertSummaries: [SageMakerClientTypes.MonitoringAlertSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitoringAlertSummaries = monitoringAlertSummaries
         self.nextToken = nextToken
     }
@@ -42522,8 +43512,7 @@ public struct ListMonitoringExecutionsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.MonitoringExecutionSortKey? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         statusEquals: SageMakerClientTypes.ExecutionStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.endpointName = endpointName
@@ -42552,8 +43541,7 @@ public struct ListMonitoringExecutionsOutput: Swift.Sendable {
     public init(
         monitoringExecutionSummaries: [SageMakerClientTypes.MonitoringExecutionSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitoringExecutionSummaries = monitoringExecutionSummaries
         self.nextToken = nextToken
     }
@@ -42633,8 +43621,7 @@ public struct ListMonitoringSchedulesInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.MonitoringScheduleSortKey? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         statusEquals: SageMakerClientTypes.ScheduleStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.endpointName = endpointName
@@ -42686,8 +43673,7 @@ extension SageMakerClientTypes {
             monitoringScheduleName: Swift.String? = nil,
             monitoringScheduleStatus: SageMakerClientTypes.ScheduleStatus? = nil,
             monitoringType: SageMakerClientTypes.MonitoringType? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.endpointName = endpointName
             self.lastModifiedTime = lastModifiedTime
@@ -42710,8 +43696,7 @@ public struct ListMonitoringSchedulesOutput: Swift.Sendable {
     public init(
         monitoringScheduleSummaries: [SageMakerClientTypes.MonitoringScheduleSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitoringScheduleSummaries = monitoringScheduleSummaries
         self.nextToken = nextToken
     }
@@ -42808,8 +43793,7 @@ public struct ListNotebookInstanceLifecycleConfigsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.NotebookInstanceLifecycleConfigSortKey? = nil,
         sortOrder: SageMakerClientTypes.NotebookInstanceLifecycleConfigSortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -42842,8 +43826,7 @@ extension SageMakerClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             notebookInstanceLifecycleConfigArn: Swift.String? = nil,
             notebookInstanceLifecycleConfigName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.lastModifiedTime = lastModifiedTime
             self.notebookInstanceLifecycleConfigArn = notebookInstanceLifecycleConfigArn
@@ -42853,7 +43836,7 @@ extension SageMakerClientTypes {
 }
 
 public struct ListNotebookInstanceLifecycleConfigsOutput: Swift.Sendable {
-    /// If the response is truncated, SageMaker returns this token. To get the next set of lifecycle configurations, use it in the next request.
+    /// If the response is truncated, SageMaker AI returns this token. To get the next set of lifecycle configurations, use it in the next request.
     public var nextToken: Swift.String?
     /// An array of NotebookInstanceLifecycleConfiguration objects, each listing a lifecycle configuration.
     public var notebookInstanceLifecycleConfigs: [SageMakerClientTypes.NotebookInstanceLifecycleConfigSummary]?
@@ -42861,8 +43844,7 @@ public struct ListNotebookInstanceLifecycleConfigsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         notebookInstanceLifecycleConfigs: [SageMakerClientTypes.NotebookInstanceLifecycleConfigSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.notebookInstanceLifecycleConfigs = notebookInstanceLifecycleConfigs
     }
@@ -42971,8 +43953,7 @@ public struct ListNotebookInstancesInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.NotebookInstanceSortKey? = nil,
         sortOrder: SageMakerClientTypes.NotebookInstanceSortOrder? = nil,
         statusEquals: SageMakerClientTypes.NotebookInstanceStatus? = nil
-    )
-    {
+    ) {
         self.additionalCodeRepositoryEquals = additionalCodeRepositoryEquals
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
@@ -42991,13 +43972,13 @@ public struct ListNotebookInstancesInput: Swift.Sendable {
 
 extension SageMakerClientTypes {
 
-    /// Provides summary information for an SageMaker notebook instance.
+    /// Provides summary information for an SageMaker AI notebook instance.
     public struct NotebookInstanceSummary: Swift.Sendable {
-        /// An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
+        /// An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see [Associating Git Repositories with SageMaker AI Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
         public var additionalCodeRepositories: [Swift.String]?
         /// A timestamp that shows when the notebook instance was created.
         public var creationTime: Foundation.Date?
-        /// The Git repository associated with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
+        /// The Git repository associated with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see [Associating Git Repositories with SageMaker AI Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
         public var defaultCodeRepository: Swift.String?
         /// The type of ML compute instance that the notebook instance is running on.
         public var instanceType: SageMakerClientTypes.InstanceType?
@@ -43027,8 +44008,7 @@ extension SageMakerClientTypes {
             notebookInstanceName: Swift.String? = nil,
             notebookInstanceStatus: SageMakerClientTypes.NotebookInstanceStatus? = nil,
             url: Swift.String? = nil
-        )
-        {
+        ) {
             self.additionalCodeRepositories = additionalCodeRepositories
             self.creationTime = creationTime
             self.defaultCodeRepository = defaultCodeRepository
@@ -43044,7 +44024,7 @@ extension SageMakerClientTypes {
 }
 
 public struct ListNotebookInstancesOutput: Swift.Sendable {
-    /// If the response to the previous ListNotebookInstances request was truncated, SageMaker returns this token. To retrieve the next set of notebook instances, use the token in the next request.
+    /// If the response to the previous ListNotebookInstances request was truncated, SageMaker AI returns this token. To retrieve the next set of notebook instances, use the token in the next request.
     public var nextToken: Swift.String?
     /// An array of NotebookInstanceSummary objects, one for each notebook instance.
     public var notebookInstances: [SageMakerClientTypes.NotebookInstanceSummary]?
@@ -43052,8 +44032,7 @@ public struct ListNotebookInstancesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         notebookInstances: [SageMakerClientTypes.NotebookInstanceSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.notebookInstances = notebookInstances
     }
@@ -43127,8 +44106,7 @@ public struct ListOptimizationJobsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.ListOptimizationJobsSortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         statusEquals: SageMakerClientTypes.OptimizationJobStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -43182,8 +44160,7 @@ extension SageMakerClientTypes {
             optimizationJobStatus: SageMakerClientTypes.OptimizationJobStatus? = nil,
             optimizationStartTime: Foundation.Date? = nil,
             optimizationTypes: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.deploymentInstanceType = deploymentInstanceType
             self.lastModifiedTime = lastModifiedTime
@@ -43207,10 +44184,70 @@ public struct ListOptimizationJobsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         optimizationJobSummaries: [SageMakerClientTypes.OptimizationJobSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.optimizationJobSummaries = optimizationJobSummaries
+    }
+}
+
+public struct ListPartnerAppsInput: Swift.Sendable {
+    /// This parameter defines the maximum number of results that can be returned in a single response. The MaxResults parameter is an upper bound, not a target. If there are more results available than the value specified, a NextToken is provided in the response. The NextToken indicates that the user should get the next set of results by providing this token as a part of a subsequent call. The default value for MaxResults is 10.
+    public var maxResults: Swift.Int?
+    /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A subset of information related to a SageMaker Partner AI App. This information is used as part of the ListPartnerApps API response.
+    public struct PartnerAppSummary: Swift.Sendable {
+        /// The ARN of the SageMaker Partner AI App.
+        public var arn: Swift.String?
+        /// The creation time of the SageMaker Partner AI App.
+        public var creationTime: Foundation.Date?
+        /// The name of the SageMaker Partner AI App.
+        public var name: Swift.String?
+        /// The status of the SageMaker Partner AI App.
+        public var status: SageMakerClientTypes.PartnerAppStatus?
+        /// The type of SageMaker Partner AI App to create. Must be one of the following: lakera-guard, comet, deepchecks-llm-evaluation, or fiddler.
+        public var type: SageMakerClientTypes.PartnerAppType?
+
+        public init(
+            arn: Swift.String? = nil,
+            creationTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            status: SageMakerClientTypes.PartnerAppStatus? = nil,
+            type: SageMakerClientTypes.PartnerAppType? = nil
+        ) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.name = name
+            self.status = status
+            self.type = type
+        }
+    }
+}
+
+public struct ListPartnerAppsOutput: Swift.Sendable {
+    /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+    public var nextToken: Swift.String?
+    /// The information related to each of the SageMaker Partner AI Apps in an account.
+    public var summaries: [SageMakerClientTypes.PartnerAppSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        summaries: [SageMakerClientTypes.PartnerAppSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.summaries = summaries
     }
 }
 
@@ -43268,8 +44305,7 @@ public struct ListPipelineExecutionsInput: Swift.Sendable {
         pipelineName: Swift.String? = nil,
         sortBy: SageMakerClientTypes.SortPipelineExecutionsBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
         self.maxResults = maxResults
@@ -43304,8 +44340,7 @@ extension SageMakerClientTypes {
             pipelineExecutionFailureReason: Swift.String? = nil,
             pipelineExecutionStatus: SageMakerClientTypes.PipelineExecutionStatus? = nil,
             startTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.pipelineExecutionArn = pipelineExecutionArn
             self.pipelineExecutionDescription = pipelineExecutionDescription
             self.pipelineExecutionDisplayName = pipelineExecutionDisplayName
@@ -43325,8 +44360,7 @@ public struct ListPipelineExecutionsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pipelineExecutionSummaries: [SageMakerClientTypes.PipelineExecutionSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pipelineExecutionSummaries = pipelineExecutionSummaries
     }
@@ -43347,8 +44381,7 @@ public struct ListPipelineExecutionStepsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         pipelineExecutionArn: Swift.String? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.pipelineExecutionArn = pipelineExecutionArn
@@ -43365,8 +44398,7 @@ extension SageMakerClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -43381,8 +44413,7 @@ extension SageMakerClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -43424,8 +44455,7 @@ extension SageMakerClientTypes {
             registerNewBaseline: Swift.Bool? = nil,
             skipCheck: Swift.Bool? = nil,
             violationReport: Swift.String? = nil
-        )
-        {
+        ) {
             self.baselineUsedForDriftCheckConstraints = baselineUsedForDriftCheckConstraints
             self.baselineUsedForDriftCheckStatistics = baselineUsedForDriftCheckStatistics
             self.calculatedBaselineConstraints = calculatedBaselineConstraints
@@ -43449,8 +44479,7 @@ extension SageMakerClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -43465,8 +44494,7 @@ extension SageMakerClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -43481,8 +44509,7 @@ extension SageMakerClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -43497,8 +44524,7 @@ extension SageMakerClientTypes {
 
         public init(
             arn: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
         }
     }
@@ -43590,8 +44616,7 @@ extension SageMakerClientTypes {
             trainingJob: SageMakerClientTypes.TrainingJobStepMetadata? = nil,
             transformJob: SageMakerClientTypes.TransformJobStepMetadata? = nil,
             tuningJob: SageMakerClientTypes.TuningJobStepMetaData? = nil
-        )
-        {
+        ) {
             self.autoMLJob = autoMLJob
             self.callback = callback
             self.clarifyCheck = clarifyCheck
@@ -43621,8 +44646,7 @@ extension SageMakerClientTypes {
 
         public init(
             sourcePipelineExecutionArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.sourcePipelineExecutionArn = sourcePipelineExecutionArn
         }
     }
@@ -43708,8 +44732,7 @@ extension SageMakerClientTypes {
             stepDisplayName: Swift.String? = nil,
             stepName: Swift.String? = nil,
             stepStatus: SageMakerClientTypes.StepStatus? = nil
-        )
-        {
+        ) {
             self.attemptCount = attemptCount
             self.cacheHitResult = cacheHitResult
             self.endTime = endTime
@@ -43734,8 +44757,7 @@ public struct ListPipelineExecutionStepsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pipelineExecutionSteps: [SageMakerClientTypes.PipelineExecutionStep]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pipelineExecutionSteps = pipelineExecutionSteps
     }
@@ -43754,8 +44776,7 @@ public struct ListPipelineParametersForExecutionInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         pipelineExecutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.pipelineExecutionArn = pipelineExecutionArn
@@ -43776,8 +44797,7 @@ extension SageMakerClientTypes {
         public init(
             name: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.name = name
             self.value = value
         }
@@ -43793,8 +44813,7 @@ public struct ListPipelineParametersForExecutionOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pipelineParameters: [SageMakerClientTypes.Parameter]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pipelineParameters = pipelineParameters
     }
@@ -43853,8 +44872,7 @@ public struct ListPipelinesInput: Swift.Sendable {
         pipelineNamePrefix: Swift.String? = nil,
         sortBy: SageMakerClientTypes.SortPipelinesBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
         self.maxResults = maxResults
@@ -43895,8 +44913,7 @@ extension SageMakerClientTypes {
             pipelineDisplayName: Swift.String? = nil,
             pipelineName: Swift.String? = nil,
             roleArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.lastExecutionTime = lastExecutionTime
             self.lastModifiedTime = lastModifiedTime
@@ -43918,8 +44935,7 @@ public struct ListPipelinesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         pipelineSummaries: [SageMakerClientTypes.PipelineSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.pipelineSummaries = pipelineSummaries
     }
@@ -43958,8 +44974,7 @@ public struct ListProcessingJobsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.SortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         statusEquals: SageMakerClientTypes.ProcessingJobStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -44007,8 +45022,7 @@ extension SageMakerClientTypes {
             processingJobArn: Swift.String? = nil,
             processingJobName: Swift.String? = nil,
             processingJobStatus: SageMakerClientTypes.ProcessingJobStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.exitMessage = exitMessage
             self.failureReason = failureReason
@@ -44031,8 +45045,7 @@ public struct ListProcessingJobsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         processingJobSummaries: [SageMakerClientTypes.ProcessingJobSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.processingJobSummaries = processingJobSummaries
     }
@@ -44120,8 +45133,7 @@ public struct ListProjectsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.ProjectSortBy? = nil,
         sortOrder: SageMakerClientTypes.ProjectSortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -44161,8 +45173,7 @@ extension SageMakerClientTypes {
             projectId: Swift.String? = nil,
             projectName: Swift.String? = nil,
             projectStatus: SageMakerClientTypes.ProjectStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.projectArn = projectArn
             self.projectDescription = projectDescription
@@ -44183,8 +45194,7 @@ public struct ListProjectsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         projectSummaryList: [SageMakerClientTypes.ProjectSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.projectSummaryList = projectSummaryList
     }
@@ -44269,8 +45279,7 @@ public struct ListResourceCatalogsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.ResourceCatalogSortBy? = nil,
         sortOrder: SageMakerClientTypes.ResourceCatalogSortOrder? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.maxResults = maxResults
@@ -44303,8 +45312,7 @@ extension SageMakerClientTypes {
             description: Swift.String? = nil,
             resourceCatalogArn: Swift.String? = nil,
             resourceCatalogName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.description = description
             self.resourceCatalogArn = resourceCatalogArn
@@ -44322,8 +45330,7 @@ public struct ListResourceCatalogsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         resourceCatalogs: [SageMakerClientTypes.ResourceCatalog]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.resourceCatalogs = resourceCatalogs
     }
@@ -44379,8 +45386,7 @@ public struct ListSpacesInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.SpaceSortKey? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         spaceNameContains: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdEquals = domainIdEquals
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -44399,8 +45405,7 @@ extension SageMakerClientTypes {
 
         public init(
             ownerUserProfileName: Swift.String? = nil
-        )
-        {
+        ) {
             self.ownerUserProfileName = ownerUserProfileName
         }
     }
@@ -44418,8 +45423,7 @@ extension SageMakerClientTypes {
         public init(
             appType: SageMakerClientTypes.AppType? = nil,
             spaceStorageSettings: SageMakerClientTypes.SpaceStorageSettings? = nil
-        )
-        {
+        ) {
             self.appType = appType
             self.spaceStorageSettings = spaceStorageSettings
         }
@@ -44435,8 +45439,7 @@ extension SageMakerClientTypes {
 
         public init(
             sharingType: SageMakerClientTypes.SharingType? = nil
-        )
-        {
+        ) {
             self.sharingType = sharingType
         }
     }
@@ -44475,8 +45478,7 @@ extension SageMakerClientTypes {
             spaceSettingsSummary: SageMakerClientTypes.SpaceSettingsSummary? = nil,
             spaceSharingSettingsSummary: SageMakerClientTypes.SpaceSharingSettingsSummary? = nil,
             status: SageMakerClientTypes.SpaceStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.domainId = domainId
             self.lastModifiedTime = lastModifiedTime
@@ -44499,8 +45501,7 @@ public struct ListSpacesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         spaces: [SageMakerClientTypes.SpaceDetails]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.spaces = spaces
     }
@@ -44526,8 +45527,7 @@ public struct ListStageDevicesInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         stageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.edgeDeploymentPlanName = edgeDeploymentPlanName
         self.excludeDevicesDeployedInOtherStage = excludeDevicesDeployedInOtherStage
         self.maxResults = maxResults
@@ -44546,8 +45546,7 @@ public struct ListStageDevicesOutput: Swift.Sendable {
     public init(
         deviceDeploymentSummaries: [SageMakerClientTypes.DeviceDeploymentSummary]? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.deviceDeploymentSummaries = deviceDeploymentSummaries
         self.nextToken = nextToken
     }
@@ -44618,8 +45617,7 @@ public struct ListStudioLifecycleConfigsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.StudioLifecycleConfigSortKey? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.appTypeEquals = appTypeEquals
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
@@ -44635,17 +45633,17 @@ public struct ListStudioLifecycleConfigsInput: Swift.Sendable {
 
 extension SageMakerClientTypes {
 
-    /// Details of the Amazon SageMaker Studio Lifecycle Configuration.
+    /// Details of the Amazon SageMaker AI Studio Lifecycle Configuration.
     public struct StudioLifecycleConfigDetails: Swift.Sendable {
-        /// The creation time of the Amazon SageMaker Studio Lifecycle Configuration.
+        /// The creation time of the Amazon SageMaker AI Studio Lifecycle Configuration.
         public var creationTime: Foundation.Date?
-        /// This value is equivalent to CreationTime because Amazon SageMaker Studio Lifecycle Configurations are immutable.
+        /// This value is equivalent to CreationTime because Amazon SageMaker AI Studio Lifecycle Configurations are immutable.
         public var lastModifiedTime: Foundation.Date?
         /// The App type to which the Lifecycle Configuration is attached.
         public var studioLifecycleConfigAppType: SageMakerClientTypes.StudioLifecycleConfigAppType?
         /// The Amazon Resource Name (ARN) of the Lifecycle Configuration.
         public var studioLifecycleConfigArn: Swift.String?
-        /// The name of the Amazon SageMaker Studio Lifecycle Configuration.
+        /// The name of the Amazon SageMaker AI Studio Lifecycle Configuration.
         public var studioLifecycleConfigName: Swift.String?
 
         public init(
@@ -44654,8 +45652,7 @@ extension SageMakerClientTypes {
             studioLifecycleConfigAppType: SageMakerClientTypes.StudioLifecycleConfigAppType? = nil,
             studioLifecycleConfigArn: Swift.String? = nil,
             studioLifecycleConfigName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.lastModifiedTime = lastModifiedTime
             self.studioLifecycleConfigAppType = studioLifecycleConfigAppType
@@ -44674,8 +45671,7 @@ public struct ListStudioLifecycleConfigsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         studioLifecycleConfigs: [SageMakerClientTypes.StudioLifecycleConfigDetails]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.studioLifecycleConfigs = studioLifecycleConfigs
     }
@@ -44693,8 +45689,7 @@ public struct ListSubscribedWorkteamsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nameContains = nameContains
         self.nextToken = nextToken
@@ -44711,8 +45706,7 @@ public struct ListSubscribedWorkteamsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         subscribedWorkteams: [SageMakerClientTypes.SubscribedWorkteam]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.subscribedWorkteams = subscribedWorkteams
     }
@@ -44731,8 +45725,7 @@ public struct ListTagsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceArn = resourceArn
@@ -44748,8 +45741,7 @@ public struct ListTagsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.tags = tags
     }
@@ -44776,6 +45768,8 @@ public struct ListTrainingJobsInput: Swift.Sendable {
     public var sortOrder: SageMakerClientTypes.SortOrder?
     /// A filter that retrieves only training jobs with a specific status.
     public var statusEquals: SageMakerClientTypes.TrainingJobStatus?
+    /// The Amazon Resource Name (ARN); of the training plan to filter training jobs by. For more information about reserving GPU capacity for your SageMaker training jobs using Amazon SageMaker Training Plan, see [CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html).
+    public var trainingPlanArnEquals: Swift.String?
     /// A filter that retrieves only training jobs with a specific warm pool status.
     public var warmPoolStatusEquals: SageMakerClientTypes.WarmPoolResourceStatus?
 
@@ -44790,9 +45784,9 @@ public struct ListTrainingJobsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.SortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         statusEquals: SageMakerClientTypes.TrainingJobStatus? = nil,
+        trainingPlanArnEquals: Swift.String? = nil,
         warmPoolStatusEquals: SageMakerClientTypes.WarmPoolResourceStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -44803,6 +45797,7 @@ public struct ListTrainingJobsInput: Swift.Sendable {
         self.sortBy = sortBy
         self.sortOrder = sortOrder
         self.statusEquals = statusEquals
+        self.trainingPlanArnEquals = trainingPlanArnEquals
         self.warmPoolStatusEquals = warmPoolStatusEquals
     }
 }
@@ -44829,6 +45824,8 @@ extension SageMakerClientTypes {
         /// The status of the training job.
         /// This member is required.
         public var trainingJobStatus: SageMakerClientTypes.TrainingJobStatus?
+        /// The Amazon Resource Name (ARN); of the training plan associated with this training job. For more information about how to reserve GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see [CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html).
+        public var trainingPlanArn: Swift.String?
         /// The status of the warm pool associated with the training job.
         public var warmPoolStatus: SageMakerClientTypes.WarmPoolStatus?
 
@@ -44840,9 +45837,9 @@ extension SageMakerClientTypes {
             trainingJobArn: Swift.String? = nil,
             trainingJobName: Swift.String? = nil,
             trainingJobStatus: SageMakerClientTypes.TrainingJobStatus? = nil,
+            trainingPlanArn: Swift.String? = nil,
             warmPoolStatus: SageMakerClientTypes.WarmPoolStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.lastModifiedTime = lastModifiedTime
             self.secondaryStatus = secondaryStatus
@@ -44850,6 +45847,7 @@ extension SageMakerClientTypes {
             self.trainingJobArn = trainingJobArn
             self.trainingJobName = trainingJobName
             self.trainingJobStatus = trainingJobStatus
+            self.trainingPlanArn = trainingPlanArn
             self.warmPoolStatus = warmPoolStatus
         }
     }
@@ -44865,8 +45863,7 @@ public struct ListTrainingJobsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         trainingJobSummaries: [SageMakerClientTypes.TrainingJobSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.trainingJobSummaries = trainingJobSummaries
     }
@@ -44929,8 +45926,7 @@ public struct ListTrainingJobsForHyperParameterTuningJobInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.TrainingJobSortByOptions? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         statusEquals: SageMakerClientTypes.TrainingJobStatus? = nil
-    )
-    {
+    ) {
         self.hyperParameterTuningJobName = hyperParameterTuningJobName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -44950,10 +45946,246 @@ public struct ListTrainingJobsForHyperParameterTuningJobOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         trainingJobSummaries: [SageMakerClientTypes.HyperParameterTrainingJobSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.trainingJobSummaries = trainingJobSummaries
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum TrainingPlanFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case status
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrainingPlanFilterName] {
+            return [
+                .status
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .status: return "Status"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A filter to apply when listing or searching for training plans. For more information about how to reserve GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see [CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html).
+    public struct TrainingPlanFilter: Swift.Sendable {
+        /// The name of the filter field (e.g., Status, InstanceType).
+        /// This member is required.
+        public var name: SageMakerClientTypes.TrainingPlanFilterName?
+        /// The value to filter by for the specified field.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            name: SageMakerClientTypes.TrainingPlanFilterName? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.name = name
+            self.value = value
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum TrainingPlanSortBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case name
+        case startTime
+        case status
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrainingPlanSortBy] {
+            return [
+                .name,
+                .startTime,
+                .status
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .name: return "TrainingPlanName"
+            case .startTime: return "StartTime"
+            case .status: return "Status"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum TrainingPlanSortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ascending
+        case descending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrainingPlanSortOrder] {
+            return [
+                .ascending,
+                .descending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ascending: return "Ascending"
+            case .descending: return "Descending"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListTrainingPlansInput: Swift.Sendable {
+    /// Additional filters to apply to the list of training plans.
+    public var filters: [SageMakerClientTypes.TrainingPlanFilter]?
+    /// The maximum number of results to return in the response.
+    public var maxResults: Swift.Int?
+    /// A token to continue pagination if more results are available.
+    public var nextToken: Swift.String?
+    /// The training plan field to sort the results by (e.g., StartTime, Status).
+    public var sortBy: SageMakerClientTypes.TrainingPlanSortBy?
+    /// The order to sort the results (Ascending or Descending).
+    public var sortOrder: SageMakerClientTypes.TrainingPlanSortOrder?
+    /// Filter to list only training plans with an actual start time after this date.
+    public var startTimeAfter: Foundation.Date?
+    /// Filter to list only training plans with an actual start time before this date.
+    public var startTimeBefore: Foundation.Date?
+
+    public init(
+        filters: [SageMakerClientTypes.TrainingPlanFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sortBy: SageMakerClientTypes.TrainingPlanSortBy? = nil,
+        sortOrder: SageMakerClientTypes.TrainingPlanSortOrder? = nil,
+        startTimeAfter: Foundation.Date? = nil,
+        startTimeBefore: Foundation.Date? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+        self.startTimeAfter = startTimeAfter
+        self.startTimeBefore = startTimeBefore
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Details of the training plan. For more information about how to reserve GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see [CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html).
+    public struct TrainingPlanSummary: Swift.Sendable {
+        /// The number of instances currently available for use in this training plan.
+        public var availableInstanceCount: Swift.Int?
+        /// The currency code for the upfront fee (e.g., USD).
+        public var currencyCode: Swift.String?
+        /// The number of whole hours in the total duration for this training plan.
+        public var durationHours: Swift.Int?
+        /// The additional minutes beyond whole hours in the total duration for this training plan.
+        public var durationMinutes: Swift.Int?
+        /// The end time of the training plan.
+        public var endTime: Foundation.Date?
+        /// The number of instances currently in use from this training plan.
+        public var inUseInstanceCount: Swift.Int?
+        /// A list of reserved capacities associated with this training plan, including details such as instance types, counts, and availability zones.
+        public var reservedCapacitySummaries: [SageMakerClientTypes.ReservedCapacitySummary]?
+        /// The start time of the training plan.
+        public var startTime: Foundation.Date?
+        /// The current status of the training plan (e.g., Pending, Active, Expired). To see the complete list of status values available for a training plan, refer to the Status attribute within the [TrainingPlanSummary](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_TrainingPlanSummary.html) object.
+        /// This member is required.
+        public var status: SageMakerClientTypes.TrainingPlanStatus?
+        /// A message providing additional information about the current status of the training plan.
+        public var statusMessage: Swift.String?
+        /// The target resources (e.g., training jobs, HyperPod clusters) that can use this training plan. Training plans are specific to their target resource.
+        ///
+        /// * A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.
+        ///
+        /// * A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.
+        public var targetResources: [SageMakerClientTypes.SageMakerResourceName]?
+        /// The total number of instances reserved in this training plan.
+        public var totalInstanceCount: Swift.Int?
+        /// The Amazon Resource Name (ARN); of the training plan.
+        /// This member is required.
+        public var trainingPlanArn: Swift.String?
+        /// The name of the training plan.
+        /// This member is required.
+        public var trainingPlanName: Swift.String?
+        /// The upfront fee for the training plan.
+        public var upfrontFee: Swift.String?
+
+        public init(
+            availableInstanceCount: Swift.Int? = nil,
+            currencyCode: Swift.String? = nil,
+            durationHours: Swift.Int? = nil,
+            durationMinutes: Swift.Int? = nil,
+            endTime: Foundation.Date? = nil,
+            inUseInstanceCount: Swift.Int? = nil,
+            reservedCapacitySummaries: [SageMakerClientTypes.ReservedCapacitySummary]? = nil,
+            startTime: Foundation.Date? = nil,
+            status: SageMakerClientTypes.TrainingPlanStatus? = nil,
+            statusMessage: Swift.String? = nil,
+            targetResources: [SageMakerClientTypes.SageMakerResourceName]? = nil,
+            totalInstanceCount: Swift.Int? = nil,
+            trainingPlanArn: Swift.String? = nil,
+            trainingPlanName: Swift.String? = nil,
+            upfrontFee: Swift.String? = nil
+        ) {
+            self.availableInstanceCount = availableInstanceCount
+            self.currencyCode = currencyCode
+            self.durationHours = durationHours
+            self.durationMinutes = durationMinutes
+            self.endTime = endTime
+            self.inUseInstanceCount = inUseInstanceCount
+            self.reservedCapacitySummaries = reservedCapacitySummaries
+            self.startTime = startTime
+            self.status = status
+            self.statusMessage = statusMessage
+            self.targetResources = targetResources
+            self.totalInstanceCount = totalInstanceCount
+            self.trainingPlanArn = trainingPlanArn
+            self.trainingPlanName = trainingPlanName
+            self.upfrontFee = upfrontFee
+        }
+    }
+}
+
+public struct ListTrainingPlansOutput: Swift.Sendable {
+    /// A token to continue pagination if more results are available.
+    public var nextToken: Swift.String?
+    /// A list of summary information for the training plans.
+    /// This member is required.
+    public var trainingPlanSummaries: [SageMakerClientTypes.TrainingPlanSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        trainingPlanSummaries: [SageMakerClientTypes.TrainingPlanSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.trainingPlanSummaries = trainingPlanSummaries
     }
 }
 
@@ -44990,8 +46222,7 @@ public struct ListTransformJobsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.SortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         statusEquals: SageMakerClientTypes.TransformJobStatus? = nil
-    )
-    {
+    ) {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
         self.lastModifiedTimeAfter = lastModifiedTimeAfter
@@ -45036,8 +46267,7 @@ extension SageMakerClientTypes {
             transformJobArn: Swift.String? = nil,
             transformJobName: Swift.String? = nil,
             transformJobStatus: SageMakerClientTypes.TransformJobStatus? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.failureReason = failureReason
             self.lastModifiedTime = lastModifiedTime
@@ -45059,8 +46289,7 @@ public struct ListTransformJobsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         transformJobSummaries: [SageMakerClientTypes.TransformJobSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.transformJobSummaries = transformJobSummaries
     }
@@ -45125,8 +46354,7 @@ public struct ListTrialComponentsInput: Swift.Sendable {
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         sourceArn: Swift.String? = nil,
         trialName: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
         self.experimentName = experimentName
@@ -45184,8 +46412,7 @@ extension SageMakerClientTypes {
             trialComponentArn: Swift.String? = nil,
             trialComponentName: Swift.String? = nil,
             trialComponentSource: SageMakerClientTypes.TrialComponentSource? = nil
-        )
-        {
+        ) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.displayName = displayName
@@ -45210,8 +46437,7 @@ public struct ListTrialComponentsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         trialComponentSummaries: [SageMakerClientTypes.TrialComponentSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.trialComponentSummaries = trialComponentSummaries
     }
@@ -45273,8 +46499,7 @@ public struct ListTrialsInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.SortTrialsBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         trialComponentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
         self.experimentName = experimentName
@@ -45310,8 +46535,7 @@ extension SageMakerClientTypes {
             trialArn: Swift.String? = nil,
             trialName: Swift.String? = nil,
             trialSource: SageMakerClientTypes.TrialSource? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.displayName = displayName
             self.lastModifiedTime = lastModifiedTime
@@ -45331,8 +46555,7 @@ public struct ListTrialsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         trialSummaries: [SageMakerClientTypes.TrialSummary]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.trialSummaries = trialSummaries
     }
@@ -45388,8 +46611,7 @@ public struct ListUserProfilesInput: Swift.Sendable {
         sortBy: SageMakerClientTypes.UserProfileSortKey? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         userProfileNameContains: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainIdEquals = domainIdEquals
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -45420,8 +46642,7 @@ extension SageMakerClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             status: SageMakerClientTypes.UserProfileStatus? = nil,
             userProfileName: Swift.String? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.domainId = domainId
             self.lastModifiedTime = lastModifiedTime
@@ -45440,8 +46661,7 @@ public struct ListUserProfilesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         userProfiles: [SageMakerClientTypes.UserProfileDetails]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.userProfiles = userProfiles
     }
@@ -45494,8 +46714,7 @@ public struct ListWorkforcesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.ListWorkforcesSortByOptions? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nameContains = nameContains
         self.nextToken = nextToken
@@ -45514,8 +46733,7 @@ public struct ListWorkforcesOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         workforces: [SageMakerClientTypes.Workforce]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.workforces = workforces
     }
@@ -45568,8 +46786,7 @@ public struct ListWorkteamsInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.ListWorkteamsSortByOptions? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
-    )
-    {
+    ) {
         self.maxResults = maxResults
         self.nameContains = nameContains
         self.nextToken = nextToken
@@ -45588,8 +46805,7 @@ public struct ListWorkteamsOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         workteams: [SageMakerClientTypes.Workteam]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.workteams = workteams
     }
@@ -45634,8 +46850,7 @@ extension SageMakerClientTypes {
             primaryContainer: SageMakerClientTypes.ContainerDefinition? = nil,
             tags: [SageMakerClientTypes.Tag]? = nil,
             vpcConfig: SageMakerClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.containers = containers
             self.creationTime = creationTime
             self.deploymentRecommendation = deploymentRecommendation
@@ -45707,8 +46922,7 @@ extension SageMakerClientTypes {
             riskRating: Swift.String? = nil,
             securityConfig: SageMakerClientTypes.ModelCardSecurityConfig? = nil,
             tags: [SageMakerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.content = content
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -45758,8 +46972,7 @@ extension SageMakerClientTypes {
             endpointName: Swift.String? = nil,
             endpointStatus: SageMakerClientTypes.EndpointStatus? = nil,
             lastModifiedTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.creationTime = creationTime
             self.endpointArn = endpointArn
             self.endpointName = endpointName
@@ -45857,8 +47070,7 @@ extension SageMakerClientTypes {
             transformOutput: SageMakerClientTypes.TransformOutput? = nil,
             transformResources: SageMakerClientTypes.TransformResources? = nil,
             transformStartTime: Foundation.Date? = nil
-        )
-        {
+        ) {
             self.autoMLJobArn = autoMLJobArn
             self.batchStrategy = batchStrategy
             self.creationTime = creationTime
@@ -45927,8 +47139,7 @@ extension SageMakerClientTypes {
             riskRating: Swift.String? = nil,
             securityConfig: SageMakerClientTypes.ModelCardSecurityConfig? = nil,
             tags: [SageMakerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.lastModifiedBy = lastModifiedBy
@@ -45987,8 +47198,7 @@ extension SageMakerClientTypes {
             monitoringScheduleName: Swift.String? = nil,
             monitoringScheduleStatus: SageMakerClientTypes.ScheduleStatus? = nil,
             monitoringType: SageMakerClientTypes.MonitoringType? = nil
-        )
-        {
+        ) {
             self.batchTransformInput = batchTransformInput
             self.creationTime = creationTime
             self.endpointName = endpointName
@@ -46026,8 +47236,7 @@ extension SageMakerClientTypes {
             model: SageMakerClientTypes.Model? = nil,
             modelCard: SageMakerClientTypes.ModelDashboardModelCard? = nil,
             monitoringSchedules: [SageMakerClientTypes.ModelDashboardMonitoringSchedule]? = nil
-        )
-        {
+        ) {
             self.endpoints = endpoints
             self.lastBatchTransformJob = lastBatchTransformJob
             self.model = model
@@ -46152,8 +47361,7 @@ extension SageMakerClientTypes {
             tags: [SageMakerClientTypes.Tag]? = nil,
             task: Swift.String? = nil,
             validationSpecification: SageMakerClientTypes.ModelPackageValidationSpecification? = nil
-        )
-        {
+        ) {
             self.additionalInferenceSpecifications = additionalInferenceSpecifications
             self.approvalDescription = approvalDescription
             self.certifyForMarketplace = certifyForMarketplace
@@ -46228,8 +47436,7 @@ extension SageMakerClientTypes {
             modelPackageGroupName: Swift.String? = nil,
             modelPackageGroupStatus: SageMakerClientTypes.ModelPackageGroupStatus? = nil,
             tags: [SageMakerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.modelPackageGroupArn = modelPackageGroupArn
@@ -46291,8 +47498,7 @@ extension SageMakerClientTypes {
         public init(
             filters: [SageMakerClientTypes.Filter]? = nil,
             nestedPropertyName: Swift.String? = nil
-        )
-        {
+        ) {
             self.filters = filters
             self.nestedPropertyName = nestedPropertyName
         }
@@ -46308,8 +47514,7 @@ extension SageMakerClientTypes {
 
         public init(
             ttlDuration: SageMakerClientTypes.TtlDuration? = nil
-        )
-        {
+        ) {
             self.ttlDuration = ttlDuration
         }
     }
@@ -46327,8 +47532,7 @@ extension SageMakerClientTypes {
         public init(
             experimentName: Swift.String? = nil,
             trialName: Swift.String? = nil
-        )
-        {
+        ) {
             self.experimentName = experimentName
             self.trialName = trialName
         }
@@ -46380,8 +47584,7 @@ extension SageMakerClientTypes {
             pipelineStatus: SageMakerClientTypes.PipelineStatus? = nil,
             roleArn: Swift.String? = nil,
             tags: [SageMakerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.lastModifiedBy = lastModifiedBy
@@ -46447,8 +47650,7 @@ extension SageMakerClientTypes {
             pipelineExperimentConfig: SageMakerClientTypes.PipelineExperimentConfig? = nil,
             pipelineParameters: [SageMakerClientTypes.Parameter]? = nil,
             selectiveExecutionConfig: SageMakerClientTypes.SelectiveExecutionConfig? = nil
-        )
-        {
+        ) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.failureReason = failureReason
@@ -46545,8 +47747,7 @@ extension SageMakerClientTypes {
             stoppingCondition: SageMakerClientTypes.ProcessingStoppingCondition? = nil,
             tags: [SageMakerClientTypes.Tag]? = nil,
             trainingJobArn: Swift.String? = nil
-        )
-        {
+        ) {
             self.appSpecification = appSpecification
             self.autoMLJobArn = autoMLJobArn
             self.creationTime = creationTime
@@ -46591,8 +47792,7 @@ extension SageMakerClientTypes {
             profilingIntervalInMilliseconds: Swift.Int? = nil,
             profilingParameters: [Swift.String: Swift.String]? = nil,
             s3OutputPath: Swift.String? = nil
-        )
-        {
+        ) {
             self.disableProfiler = disableProfiler
             self.profilingIntervalInMilliseconds = profilingIntervalInMilliseconds
             self.profilingParameters = profilingParameters
@@ -46643,8 +47843,7 @@ extension SageMakerClientTypes {
             serviceCatalogProvisionedProductDetails: SageMakerClientTypes.ServiceCatalogProvisionedProductDetails? = nil,
             serviceCatalogProvisioningDetails: SageMakerClientTypes.ServiceCatalogProvisioningDetails? = nil,
             tags: [SageMakerClientTypes.Tag]? = nil
-        )
-        {
+        ) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.lastModifiedBy = lastModifiedBy
@@ -46672,8 +47871,7 @@ public struct PutModelPackageGroupPolicyInput: Swift.Sendable {
     public init(
         modelPackageGroupName: Swift.String? = nil,
         resourcePolicy: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelPackageGroupName = modelPackageGroupName
         self.resourcePolicy = resourcePolicy
     }
@@ -46686,8 +47884,7 @@ public struct PutModelPackageGroupPolicyOutput: Swift.Sendable {
 
     public init(
         modelPackageGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelPackageGroupArn = modelPackageGroupArn
     }
 }
@@ -46719,8 +47916,7 @@ extension SageMakerClientTypes {
             modifiedBefore: Foundation.Date? = nil,
             properties: [Swift.String: Swift.String]? = nil,
             types: [Swift.String]? = nil
-        )
-        {
+        ) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
             self.lineageTypes = lineageTypes
@@ -46766,8 +47962,7 @@ public struct QueryLineageInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         startArns: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.direction = direction
         self.filters = filters
         self.includeEdges = includeEdges
@@ -46793,8 +47988,7 @@ extension SageMakerClientTypes {
             arn: Swift.String? = nil,
             lineageType: SageMakerClientTypes.LineageType? = nil,
             type: Swift.String? = nil
-        )
-        {
+        ) {
             self.arn = arn
             self.lineageType = lineageType
             self.type = type
@@ -46814,8 +48008,7 @@ public struct QueryLineageOutput: Swift.Sendable {
         edges: [SageMakerClientTypes.Edge]? = nil,
         nextToken: Swift.String? = nil,
         vertices: [SageMakerClientTypes.Vertex]? = nil
-    )
-    {
+    ) {
         self.edges = edges
         self.nextToken = nextToken
         self.vertices = vertices
@@ -46836,8 +48029,7 @@ public struct RegisterDevicesInput: Swift.Sendable {
         deviceFleetName: Swift.String? = nil,
         devices: [SageMakerClientTypes.Device]? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.deviceFleetName = deviceFleetName
         self.devices = devices
         self.tags = tags
@@ -46853,8 +48045,7 @@ extension SageMakerClientTypes {
 
         public init(
             enableRemoteDebug: Swift.Bool? = nil
-        )
-        {
+        ) {
             self.enableRemoteDebug = enableRemoteDebug
         }
     }
@@ -46870,8 +48061,7 @@ extension SageMakerClientTypes {
 
         public init(
             input: Swift.String? = nil
-        )
-        {
+        ) {
             self.input = input
         }
     }
@@ -46891,8 +48081,7 @@ extension SageMakerClientTypes {
         public init(
             code: Swift.String? = nil,
             message: Swift.String? = nil
-        )
-        {
+        ) {
             self.code = code
             self.message = message
         }
@@ -46916,8 +48105,7 @@ public struct RenderUiTemplateInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         task: SageMakerClientTypes.RenderableTask? = nil,
         uiTemplate: SageMakerClientTypes.UiTemplate? = nil
-    )
-    {
+    ) {
         self.humanTaskUiArn = humanTaskUiArn
         self.roleArn = roleArn
         self.task = task
@@ -46936,10 +48124,50 @@ public struct RenderUiTemplateOutput: Swift.Sendable {
     public init(
         errors: [SageMakerClientTypes.RenderingError]? = nil,
         renderedContent: Swift.String? = nil
-    )
-    {
+    ) {
         self.errors = errors
         self.renderedContent = renderedContent
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Details about a reserved capacity offering for a training plan offering. For more information about how to reserve GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see [CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html).
+    public struct ReservedCapacityOffering: Swift.Sendable {
+        /// The availability zone for the reserved capacity offering.
+        public var availabilityZone: Swift.String?
+        /// The number of whole hours in the total duration for this reserved capacity offering.
+        public var durationHours: Swift.Int?
+        /// The additional minutes beyond whole hours in the total duration for this reserved capacity offering.
+        public var durationMinutes: Swift.Int?
+        /// The end time of the reserved capacity offering.
+        public var endTime: Foundation.Date?
+        /// The number of instances in the reserved capacity offering.
+        /// This member is required.
+        public var instanceCount: Swift.Int?
+        /// The instance type for the reserved capacity offering.
+        /// This member is required.
+        public var instanceType: SageMakerClientTypes.ReservedCapacityInstanceType?
+        /// The start time of the reserved capacity offering.
+        public var startTime: Foundation.Date?
+
+        public init(
+            availabilityZone: Swift.String? = nil,
+            durationHours: Swift.Int? = nil,
+            durationMinutes: Swift.Int? = nil,
+            endTime: Foundation.Date? = nil,
+            instanceCount: Swift.Int? = nil,
+            instanceType: SageMakerClientTypes.ReservedCapacityInstanceType? = nil,
+            startTime: Foundation.Date? = nil
+        ) {
+            self.availabilityZone = availabilityZone
+            self.durationHours = durationHours
+            self.durationMinutes = durationMinutes
+            self.endTime = endTime
+            self.instanceCount = instanceCount
+            self.instanceType = instanceType
+            self.startTime = startTime
+        }
     }
 }
 
@@ -46953,8 +48181,7 @@ extension SageMakerClientTypes {
 
         public init(
             keepAlivePeriodInSeconds: Swift.Int? = nil
-        )
-        {
+        ) {
             self.keepAlivePeriodInSeconds = keepAlivePeriodInSeconds
         }
     }
@@ -46974,8 +48201,7 @@ public struct RetryPipelineExecutionInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         parallelismConfiguration: SageMakerClientTypes.ParallelismConfiguration? = nil,
         pipelineExecutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.parallelismConfiguration = parallelismConfiguration
         self.pipelineExecutionArn = pipelineExecutionArn
@@ -46988,8 +48214,7 @@ public struct RetryPipelineExecutionOutput: Swift.Sendable {
 
     public init(
         pipelineExecutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineExecutionArn = pipelineExecutionArn
     }
 }
@@ -47035,8 +48260,7 @@ extension SageMakerClientTypes {
         public init(
             key: Swift.String? = nil,
             value: Swift.String? = nil
-        )
-        {
+        ) {
             self.key = key
             self.value = value
         }
@@ -47221,8 +48445,7 @@ extension SageMakerClientTypes {
             trainingTimeInSeconds: Swift.Int? = nil,
             tuningJobArn: Swift.String? = nil,
             vpcConfig: SageMakerClientTypes.VpcConfig? = nil
-        )
-        {
+        ) {
             self.algorithmSpecification = algorithmSpecification
             self.autoMLJobArn = autoMLJobArn
             self.billableTimeInSeconds = billableTimeInSeconds
@@ -47286,8 +48509,7 @@ extension SageMakerClientTypes {
             trialComponentArn: Swift.String? = nil,
             trialComponentName: Swift.String? = nil,
             trialComponentSource: SageMakerClientTypes.TrialComponentSource? = nil
-        )
-        {
+        ) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.trialComponentArn = trialComponentArn
@@ -47339,8 +48561,7 @@ extension SageMakerClientTypes {
             trialArn: Swift.String? = nil,
             trialComponentSummaries: [SageMakerClientTypes.TrialComponentSimpleSummary]? = nil,
             trialName: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.displayName = displayName
@@ -47375,8 +48596,7 @@ extension SageMakerClientTypes {
             sourceArn: Swift.String? = nil,
             trainingJob: SageMakerClientTypes.TrainingJob? = nil,
             transformJob: SageMakerClientTypes.TransformJob? = nil
-        )
-        {
+        ) {
             self.processingJob = processingJob
             self.sourceArn = sourceArn
             self.trainingJob = trainingJob
@@ -47454,8 +48674,7 @@ extension SageMakerClientTypes {
             tags: [SageMakerClientTypes.Tag]? = nil,
             trialComponentArn: Swift.String? = nil,
             trialComponentName: Swift.String? = nil
-        )
-        {
+        ) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.displayName = displayName
@@ -47532,8 +48751,7 @@ extension SageMakerClientTypes {
             trainingJob: SageMakerClientTypes.TrainingJob? = nil,
             trial: SageMakerClientTypes.Trial? = nil,
             trialComponent: SageMakerClientTypes.TrialComponent? = nil
-        )
-        {
+        ) {
             self.endpoint = endpoint
             self.experiment = experiment
             self.featureGroup = featureGroup
@@ -47562,10 +48780,112 @@ public struct SearchOutput: Swift.Sendable {
     public init(
         nextToken: Swift.String? = nil,
         results: [SageMakerClientTypes.SearchRecord]? = nil
-    )
-    {
+    ) {
         self.nextToken = nextToken
         self.results = results
+    }
+}
+
+public struct SearchTrainingPlanOfferingsInput: Swift.Sendable {
+    /// The desired duration in hours for the training plan offerings.
+    public var durationHours: Swift.Int?
+    /// A filter to search for reserved capacity offerings with an end time before a specified date.
+    public var endTimeBefore: Foundation.Date?
+    /// The number of instances you want to reserve in the training plan offerings. This allows you to specify the quantity of compute resources needed for your SageMaker training jobs or SageMaker HyperPod clusters, helping you find reserved capacity offerings that match your requirements.
+    /// This member is required.
+    public var instanceCount: Swift.Int?
+    /// The type of instance you want to search for in the available training plan offerings. This field allows you to filter the search results based on the specific compute resources you require for your SageMaker training jobs or SageMaker HyperPod clusters. When searching for training plan offerings, specifying the instance type helps you find Reserved Instances that match your computational needs.
+    /// This member is required.
+    public var instanceType: SageMakerClientTypes.ReservedCapacityInstanceType?
+    /// A filter to search for training plan offerings with a start time after a specified date.
+    public var startTimeAfter: Foundation.Date?
+    /// The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod) to search for in the offerings. Training plans are specific to their target resource.
+    ///
+    /// * A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.
+    ///
+    /// * A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.
+    /// This member is required.
+    public var targetResources: [SageMakerClientTypes.SageMakerResourceName]?
+
+    public init(
+        durationHours: Swift.Int? = nil,
+        endTimeBefore: Foundation.Date? = nil,
+        instanceCount: Swift.Int? = nil,
+        instanceType: SageMakerClientTypes.ReservedCapacityInstanceType? = nil,
+        startTimeAfter: Foundation.Date? = nil,
+        targetResources: [SageMakerClientTypes.SageMakerResourceName]? = nil
+    ) {
+        self.durationHours = durationHours
+        self.endTimeBefore = endTimeBefore
+        self.instanceCount = instanceCount
+        self.instanceType = instanceType
+        self.startTimeAfter = startTimeAfter
+        self.targetResources = targetResources
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Details about a training plan offering. For more information about how to reserve GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see [CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html).
+    public struct TrainingPlanOffering: Swift.Sendable {
+        /// The currency code for the upfront fee (e.g., USD).
+        public var currencyCode: Swift.String?
+        /// The number of whole hours in the total duration for this training plan offering.
+        public var durationHours: Swift.Int?
+        /// The additional minutes beyond whole hours in the total duration for this training plan offering.
+        public var durationMinutes: Swift.Int?
+        /// The requested end time that the user specified when searching for the training plan offering.
+        public var requestedEndTimeBefore: Foundation.Date?
+        /// The requested start time that the user specified when searching for the training plan offering.
+        public var requestedStartTimeAfter: Foundation.Date?
+        /// A list of reserved capacity offerings associated with this training plan offering.
+        public var reservedCapacityOfferings: [SageMakerClientTypes.ReservedCapacityOffering]?
+        /// The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod) for this training plan offering. Training plans are specific to their target resource.
+        ///
+        /// * A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.
+        ///
+        /// * A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.
+        /// This member is required.
+        public var targetResources: [SageMakerClientTypes.SageMakerResourceName]?
+        /// The unique identifier for this training plan offering.
+        /// This member is required.
+        public var trainingPlanOfferingId: Swift.String?
+        /// The upfront fee for this training plan offering.
+        public var upfrontFee: Swift.String?
+
+        public init(
+            currencyCode: Swift.String? = nil,
+            durationHours: Swift.Int? = nil,
+            durationMinutes: Swift.Int? = nil,
+            requestedEndTimeBefore: Foundation.Date? = nil,
+            requestedStartTimeAfter: Foundation.Date? = nil,
+            reservedCapacityOfferings: [SageMakerClientTypes.ReservedCapacityOffering]? = nil,
+            targetResources: [SageMakerClientTypes.SageMakerResourceName]? = nil,
+            trainingPlanOfferingId: Swift.String? = nil,
+            upfrontFee: Swift.String? = nil
+        ) {
+            self.currencyCode = currencyCode
+            self.durationHours = durationHours
+            self.durationMinutes = durationMinutes
+            self.requestedEndTimeBefore = requestedEndTimeBefore
+            self.requestedStartTimeAfter = requestedStartTimeAfter
+            self.reservedCapacityOfferings = reservedCapacityOfferings
+            self.targetResources = targetResources
+            self.trainingPlanOfferingId = trainingPlanOfferingId
+            self.upfrontFee = upfrontFee
+        }
+    }
+}
+
+public struct SearchTrainingPlanOfferingsOutput: Swift.Sendable {
+    /// A list of training plan offerings that match the search criteria.
+    /// This member is required.
+    public var trainingPlanOfferings: [SageMakerClientTypes.TrainingPlanOffering]?
+
+    public init(
+        trainingPlanOfferings: [SageMakerClientTypes.TrainingPlanOffering]? = nil
+    ) {
+        self.trainingPlanOfferings = trainingPlanOfferings
     }
 }
 
@@ -47582,8 +48902,7 @@ public struct SendPipelineExecutionStepFailureInput: Swift.Sendable {
         callbackToken: Swift.String? = nil,
         clientRequestToken: Swift.String? = nil,
         failureReason: Swift.String? = nil
-    )
-    {
+    ) {
         self.callbackToken = callbackToken
         self.clientRequestToken = clientRequestToken
         self.failureReason = failureReason
@@ -47596,8 +48915,7 @@ public struct SendPipelineExecutionStepFailureOutput: Swift.Sendable {
 
     public init(
         pipelineExecutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineExecutionArn = pipelineExecutionArn
     }
 }
@@ -47615,8 +48933,7 @@ public struct SendPipelineExecutionStepSuccessInput: Swift.Sendable {
         callbackToken: Swift.String? = nil,
         clientRequestToken: Swift.String? = nil,
         outputParameters: [SageMakerClientTypes.OutputParameter]? = nil
-    )
-    {
+    ) {
         self.callbackToken = callbackToken
         self.clientRequestToken = clientRequestToken
         self.outputParameters = outputParameters
@@ -47629,8 +48946,7 @@ public struct SendPipelineExecutionStepSuccessOutput: Swift.Sendable {
 
     public init(
         pipelineExecutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineExecutionArn = pipelineExecutionArn
     }
 }
@@ -47646,8 +48962,7 @@ public struct StartEdgeDeploymentStageInput: Swift.Sendable {
     public init(
         edgeDeploymentPlanName: Swift.String? = nil,
         stageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.edgeDeploymentPlanName = edgeDeploymentPlanName
         self.stageName = stageName
     }
@@ -47660,8 +48975,7 @@ public struct StartInferenceExperimentInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil
-    )
-    {
+    ) {
         self.name = name
     }
 }
@@ -47673,8 +48987,7 @@ public struct StartInferenceExperimentOutput: Swift.Sendable {
 
     public init(
         inferenceExperimentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceExperimentArn = inferenceExperimentArn
     }
 }
@@ -47686,8 +48999,7 @@ public struct StartMlflowTrackingServerInput: Swift.Sendable {
 
     public init(
         trackingServerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.trackingServerName = trackingServerName
     }
 }
@@ -47698,8 +49010,7 @@ public struct StartMlflowTrackingServerOutput: Swift.Sendable {
 
     public init(
         trackingServerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trackingServerArn = trackingServerArn
     }
 }
@@ -47711,8 +49022,7 @@ public struct StartMonitoringScheduleInput: Swift.Sendable {
 
     public init(
         monitoringScheduleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitoringScheduleName = monitoringScheduleName
     }
 }
@@ -47724,8 +49034,7 @@ public struct StartNotebookInstanceInput: Swift.Sendable {
 
     public init(
         notebookInstanceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.notebookInstanceName = notebookInstanceName
     }
 }
@@ -47756,8 +49065,7 @@ public struct StartPipelineExecutionInput: Swift.Sendable {
         pipelineName: Swift.String? = nil,
         pipelineParameters: [SageMakerClientTypes.Parameter]? = nil,
         selectiveExecutionConfig: SageMakerClientTypes.SelectiveExecutionConfig? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.parallelismConfiguration = parallelismConfiguration
         self.pipelineExecutionDescription = pipelineExecutionDescription
@@ -47774,8 +49082,7 @@ public struct StartPipelineExecutionOutput: Swift.Sendable {
 
     public init(
         pipelineExecutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineExecutionArn = pipelineExecutionArn
     }
 }
@@ -47787,8 +49094,7 @@ public struct StopAutoMLJobInput: Swift.Sendable {
 
     public init(
         autoMLJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.autoMLJobName = autoMLJobName
     }
 }
@@ -47800,8 +49106,7 @@ public struct StopCompilationJobInput: Swift.Sendable {
 
     public init(
         compilationJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.compilationJobName = compilationJobName
     }
 }
@@ -47817,8 +49122,7 @@ public struct StopEdgeDeploymentStageInput: Swift.Sendable {
     public init(
         edgeDeploymentPlanName: Swift.String? = nil,
         stageName: Swift.String? = nil
-    )
-    {
+    ) {
         self.edgeDeploymentPlanName = edgeDeploymentPlanName
         self.stageName = stageName
     }
@@ -47831,8 +49135,7 @@ public struct StopEdgePackagingJobInput: Swift.Sendable {
 
     public init(
         edgePackagingJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.edgePackagingJobName = edgePackagingJobName
     }
 }
@@ -47844,8 +49147,7 @@ public struct StopHyperParameterTuningJobInput: Swift.Sendable {
 
     public init(
         hyperParameterTuningJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.hyperParameterTuningJobName = hyperParameterTuningJobName
     }
 }
@@ -47880,8 +49182,7 @@ public struct StopInferenceExperimentInput: Swift.Sendable {
         modelVariantActions: [Swift.String: SageMakerClientTypes.ModelVariantAction]? = nil,
         name: Swift.String? = nil,
         reason: Swift.String? = nil
-    )
-    {
+    ) {
         self.desiredModelVariants = desiredModelVariants
         self.desiredState = desiredState
         self.modelVariantActions = modelVariantActions
@@ -47897,8 +49198,7 @@ public struct StopInferenceExperimentOutput: Swift.Sendable {
 
     public init(
         inferenceExperimentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceExperimentArn = inferenceExperimentArn
     }
 }
@@ -47910,8 +49210,7 @@ public struct StopInferenceRecommendationsJobInput: Swift.Sendable {
 
     public init(
         jobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.jobName = jobName
     }
 }
@@ -47923,8 +49222,7 @@ public struct StopLabelingJobInput: Swift.Sendable {
 
     public init(
         labelingJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.labelingJobName = labelingJobName
     }
 }
@@ -47936,8 +49234,7 @@ public struct StopMlflowTrackingServerInput: Swift.Sendable {
 
     public init(
         trackingServerName: Swift.String? = nil
-    )
-    {
+    ) {
         self.trackingServerName = trackingServerName
     }
 }
@@ -47948,8 +49245,7 @@ public struct StopMlflowTrackingServerOutput: Swift.Sendable {
 
     public init(
         trackingServerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trackingServerArn = trackingServerArn
     }
 }
@@ -47961,8 +49257,7 @@ public struct StopMonitoringScheduleInput: Swift.Sendable {
 
     public init(
         monitoringScheduleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitoringScheduleName = monitoringScheduleName
     }
 }
@@ -47974,8 +49269,7 @@ public struct StopNotebookInstanceInput: Swift.Sendable {
 
     public init(
         notebookInstanceName: Swift.String? = nil
-    )
-    {
+    ) {
         self.notebookInstanceName = notebookInstanceName
     }
 }
@@ -47987,8 +49281,7 @@ public struct StopOptimizationJobInput: Swift.Sendable {
 
     public init(
         optimizationJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.optimizationJobName = optimizationJobName
     }
 }
@@ -48004,8 +49297,7 @@ public struct StopPipelineExecutionInput: Swift.Sendable {
     public init(
         clientRequestToken: Swift.String? = nil,
         pipelineExecutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clientRequestToken = clientRequestToken
         self.pipelineExecutionArn = pipelineExecutionArn
     }
@@ -48017,8 +49309,7 @@ public struct StopPipelineExecutionOutput: Swift.Sendable {
 
     public init(
         pipelineExecutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineExecutionArn = pipelineExecutionArn
     }
 }
@@ -48030,8 +49321,7 @@ public struct StopProcessingJobInput: Swift.Sendable {
 
     public init(
         processingJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.processingJobName = processingJobName
     }
 }
@@ -48043,8 +49333,7 @@ public struct StopTrainingJobInput: Swift.Sendable {
 
     public init(
         trainingJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.trainingJobName = trainingJobName
     }
 }
@@ -48056,8 +49345,7 @@ public struct StopTransformJobInput: Swift.Sendable {
 
     public init(
         transformJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.transformJobName = transformJobName
     }
 }
@@ -48081,8 +49369,7 @@ public struct UpdateActionInput: Swift.Sendable {
         properties: [Swift.String: Swift.String]? = nil,
         propertiesToRemove: [Swift.String]? = nil,
         status: SageMakerClientTypes.ActionStatus? = nil
-    )
-    {
+    ) {
         self.actionName = actionName
         self.description = description
         self.properties = properties
@@ -48097,8 +49384,7 @@ public struct UpdateActionOutput: Swift.Sendable {
 
     public init(
         actionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.actionArn = actionArn
     }
 }
@@ -48119,8 +49405,7 @@ public struct UpdateAppImageConfigInput: Swift.Sendable {
         codeEditorAppImageConfig: SageMakerClientTypes.CodeEditorAppImageConfig? = nil,
         jupyterLabAppImageConfig: SageMakerClientTypes.JupyterLabAppImageConfig? = nil,
         kernelGatewayImageConfig: SageMakerClientTypes.KernelGatewayImageConfig? = nil
-    )
-    {
+    ) {
         self.appImageConfigName = appImageConfigName
         self.codeEditorAppImageConfig = codeEditorAppImageConfig
         self.jupyterLabAppImageConfig = jupyterLabAppImageConfig
@@ -48134,8 +49419,7 @@ public struct UpdateAppImageConfigOutput: Swift.Sendable {
 
     public init(
         appImageConfigArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.appImageConfigArn = appImageConfigArn
     }
 }
@@ -48156,8 +49440,7 @@ public struct UpdateArtifactInput: Swift.Sendable {
         artifactName: Swift.String? = nil,
         properties: [Swift.String: Swift.String]? = nil,
         propertiesToRemove: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.artifactArn = artifactArn
         self.artifactName = artifactName
         self.properties = properties
@@ -48171,8 +49454,7 @@ public struct UpdateArtifactOutput: Swift.Sendable {
 
     public init(
         artifactArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.artifactArn = artifactArn
     }
 }
@@ -48191,8 +49473,7 @@ public struct UpdateClusterInput: Swift.Sendable {
         clusterName: Swift.String? = nil,
         instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupSpecification]? = nil,
         nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
         self.instanceGroups = instanceGroups
         self.nodeRecovery = nodeRecovery
@@ -48206,9 +49487,50 @@ public struct UpdateClusterOutput: Swift.Sendable {
 
     public init(
         clusterArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
+    }
+}
+
+public struct UpdateClusterSchedulerConfigInput: Swift.Sendable {
+    /// ID of the cluster policy.
+    /// This member is required.
+    public var clusterSchedulerConfigId: Swift.String?
+    /// Description of the cluster policy.
+    public var description: Swift.String?
+    /// Cluster policy configuration.
+    public var schedulerConfig: SageMakerClientTypes.SchedulerConfig?
+    /// Target version.
+    /// This member is required.
+    public var targetVersion: Swift.Int?
+
+    public init(
+        clusterSchedulerConfigId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        schedulerConfig: SageMakerClientTypes.SchedulerConfig? = nil,
+        targetVersion: Swift.Int? = nil
+    ) {
+        self.clusterSchedulerConfigId = clusterSchedulerConfigId
+        self.description = description
+        self.schedulerConfig = schedulerConfig
+        self.targetVersion = targetVersion
+    }
+}
+
+public struct UpdateClusterSchedulerConfigOutput: Swift.Sendable {
+    /// ARN of the cluster policy.
+    /// This member is required.
+    public var clusterSchedulerConfigArn: Swift.String?
+    /// Version of the cluster policy.
+    /// This member is required.
+    public var clusterSchedulerConfigVersion: Swift.Int?
+
+    public init(
+        clusterSchedulerConfigArn: Swift.String? = nil,
+        clusterSchedulerConfigVersion: Swift.Int? = nil
+    ) {
+        self.clusterSchedulerConfigArn = clusterSchedulerConfigArn
+        self.clusterSchedulerConfigVersion = clusterSchedulerConfigVersion
     }
 }
 
@@ -48219,8 +49541,7 @@ public struct UpdateClusterSoftwareInput: Swift.Sendable {
 
     public init(
         clusterName: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterName = clusterName
     }
 }
@@ -48232,8 +49553,7 @@ public struct UpdateClusterSoftwareOutput: Swift.Sendable {
 
     public init(
         clusterArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.clusterArn = clusterArn
     }
 }
@@ -48248,8 +49568,7 @@ public struct UpdateCodeRepositoryInput: Swift.Sendable {
     public init(
         codeRepositoryName: Swift.String? = nil,
         gitConfig: SageMakerClientTypes.GitConfigForUpdate? = nil
-    )
-    {
+    ) {
         self.codeRepositoryName = codeRepositoryName
         self.gitConfig = gitConfig
     }
@@ -48262,9 +49581,58 @@ public struct UpdateCodeRepositoryOutput: Swift.Sendable {
 
     public init(
         codeRepositoryArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.codeRepositoryArn = codeRepositoryArn
+    }
+}
+
+public struct UpdateComputeQuotaInput: Swift.Sendable {
+    /// The state of the compute allocation being described. Use to enable or disable compute allocation. Default is Enabled.
+    public var activationState: SageMakerClientTypes.ActivationState?
+    /// Configuration of the compute allocation definition. This includes the resource sharing option, and the setting to preempt low priority tasks.
+    public var computeQuotaConfig: SageMakerClientTypes.ComputeQuotaConfig?
+    /// ID of the compute allocation definition.
+    /// This member is required.
+    public var computeQuotaId: Swift.String?
+    /// The target entity to allocate compute resources to.
+    public var computeQuotaTarget: SageMakerClientTypes.ComputeQuotaTarget?
+    /// Description of the compute allocation definition.
+    public var description: Swift.String?
+    /// Target version.
+    /// This member is required.
+    public var targetVersion: Swift.Int?
+
+    public init(
+        activationState: SageMakerClientTypes.ActivationState? = nil,
+        computeQuotaConfig: SageMakerClientTypes.ComputeQuotaConfig? = nil,
+        computeQuotaId: Swift.String? = nil,
+        computeQuotaTarget: SageMakerClientTypes.ComputeQuotaTarget? = nil,
+        description: Swift.String? = nil,
+        targetVersion: Swift.Int? = nil
+    ) {
+        self.activationState = activationState
+        self.computeQuotaConfig = computeQuotaConfig
+        self.computeQuotaId = computeQuotaId
+        self.computeQuotaTarget = computeQuotaTarget
+        self.description = description
+        self.targetVersion = targetVersion
+    }
+}
+
+public struct UpdateComputeQuotaOutput: Swift.Sendable {
+    /// ARN of the compute allocation definition.
+    /// This member is required.
+    public var computeQuotaArn: Swift.String?
+    /// Version of the compute allocation definition.
+    /// This member is required.
+    public var computeQuotaVersion: Swift.Int?
+
+    public init(
+        computeQuotaArn: Swift.String? = nil,
+        computeQuotaVersion: Swift.Int? = nil
+    ) {
+        self.computeQuotaArn = computeQuotaArn
+        self.computeQuotaVersion = computeQuotaVersion
     }
 }
 
@@ -48284,8 +49652,7 @@ public struct UpdateContextInput: Swift.Sendable {
         description: Swift.String? = nil,
         properties: [Swift.String: Swift.String]? = nil,
         propertiesToRemove: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.contextName = contextName
         self.description = description
         self.properties = properties
@@ -48299,8 +49666,7 @@ public struct UpdateContextOutput: Swift.Sendable {
 
     public init(
         contextArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.contextArn = contextArn
     }
 }
@@ -48325,8 +49691,7 @@ public struct UpdateDeviceFleetInput: Swift.Sendable {
         enableIotRoleAlias: Swift.Bool? = nil,
         outputConfig: SageMakerClientTypes.EdgeOutputConfig? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.deviceFleetName = deviceFleetName
         self.enableIotRoleAlias = enableIotRoleAlias
@@ -48346,8 +49711,7 @@ public struct UpdateDevicesInput: Swift.Sendable {
     public init(
         deviceFleetName: Swift.String? = nil,
         devices: [SageMakerClientTypes.Device]? = nil
-    )
-    {
+    ) {
         self.deviceFleetName = deviceFleetName
         self.devices = devices
     }
@@ -48356,7 +49720,7 @@ public struct UpdateDevicesInput: Swift.Sendable {
 public struct UpdateDomainInput: Swift.Sendable {
     /// Specifies the VPC used for non-EFS traffic.
     ///
-    /// * PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker, which allows direct internet access.
+    /// * PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker AI, which allows direct internet access.
     ///
     /// * VpcOnly - All Studio traffic is through the specified VPC and subnets.
     ///
@@ -48388,8 +49752,7 @@ public struct UpdateDomainInput: Swift.Sendable {
         domainSettingsForUpdate: SageMakerClientTypes.DomainSettingsForUpdate? = nil,
         subnetIds: [Swift.String]? = nil,
         tagPropagation: SageMakerClientTypes.TagPropagation? = nil
-    )
-    {
+    ) {
         self.appNetworkAccessType = appNetworkAccessType
         self.appSecurityGroupManagement = appSecurityGroupManagement
         self.defaultSpaceSettings = defaultSpaceSettings
@@ -48407,8 +49770,7 @@ public struct UpdateDomainOutput: Swift.Sendable {
 
     public init(
         domainArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.domainArn = domainArn
     }
 }
@@ -48461,8 +49823,7 @@ extension SageMakerClientTypes {
 
         public init(
             variantPropertyType: SageMakerClientTypes.VariantPropertyType? = nil
-        )
-        {
+        ) {
             self.variantPropertyType = variantPropertyType
         }
     }
@@ -48491,8 +49852,7 @@ public struct UpdateEndpointInput: Swift.Sendable {
         excludeRetainedVariantProperties: [SageMakerClientTypes.VariantProperty]? = nil,
         retainAllVariantProperties: Swift.Bool? = nil,
         retainDeploymentConfig: Swift.Bool? = nil
-    )
-    {
+    ) {
         self.deploymentConfig = deploymentConfig
         self.endpointConfigName = endpointConfigName
         self.endpointName = endpointName
@@ -48509,8 +49869,7 @@ public struct UpdateEndpointOutput: Swift.Sendable {
 
     public init(
         endpointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointArn = endpointArn
     }
 }
@@ -48526,8 +49885,7 @@ public struct UpdateEndpointWeightsAndCapacitiesInput: Swift.Sendable {
     public init(
         desiredWeightsAndCapacities: [SageMakerClientTypes.DesiredWeightAndCapacity]? = nil,
         endpointName: Swift.String? = nil
-    )
-    {
+    ) {
         self.desiredWeightsAndCapacities = desiredWeightsAndCapacities
         self.endpointName = endpointName
     }
@@ -48540,8 +49898,7 @@ public struct UpdateEndpointWeightsAndCapacitiesOutput: Swift.Sendable {
 
     public init(
         endpointArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.endpointArn = endpointArn
     }
 }
@@ -48559,8 +49916,7 @@ public struct UpdateExperimentInput: Swift.Sendable {
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         experimentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.displayName = displayName
         self.experimentName = experimentName
@@ -48573,8 +49929,7 @@ public struct UpdateExperimentOutput: Swift.Sendable {
 
     public init(
         experimentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.experimentArn = experimentArn
     }
 }
@@ -48594,8 +49949,7 @@ extension SageMakerClientTypes {
             provisionedReadCapacityUnits: Swift.Int? = nil,
             provisionedWriteCapacityUnits: Swift.Int? = nil,
             throughputMode: SageMakerClientTypes.ThroughputMode? = nil
-        )
-        {
+        ) {
             self.provisionedReadCapacityUnits = provisionedReadCapacityUnits
             self.provisionedWriteCapacityUnits = provisionedWriteCapacityUnits
             self.throughputMode = throughputMode
@@ -48619,8 +49973,7 @@ public struct UpdateFeatureGroupInput: Swift.Sendable {
         featureGroupName: Swift.String? = nil,
         onlineStoreConfig: SageMakerClientTypes.OnlineStoreConfigUpdate? = nil,
         throughputConfig: SageMakerClientTypes.ThroughputConfigUpdate? = nil
-    )
-    {
+    ) {
         self.featureAdditions = featureAdditions
         self.featureGroupName = featureGroupName
         self.onlineStoreConfig = onlineStoreConfig
@@ -48635,8 +49988,7 @@ public struct UpdateFeatureGroupOutput: Swift.Sendable {
 
     public init(
         featureGroupArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.featureGroupArn = featureGroupArn
     }
 }
@@ -48661,8 +50013,7 @@ public struct UpdateFeatureMetadataInput: Swift.Sendable {
         featureName: Swift.String? = nil,
         parameterAdditions: [SageMakerClientTypes.FeatureParameter]? = nil,
         parameterRemovals: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.description = description
         self.featureGroupName = featureGroupName
         self.featureName = featureName
@@ -48687,8 +50038,7 @@ public struct UpdateHubInput: Swift.Sendable {
         hubDisplayName: Swift.String? = nil,
         hubName: Swift.String? = nil,
         hubSearchKeywords: [Swift.String]? = nil
-    )
-    {
+    ) {
         self.hubDescription = hubDescription
         self.hubDisplayName = hubDisplayName
         self.hubName = hubName
@@ -48703,8 +50053,7 @@ public struct UpdateHubOutput: Swift.Sendable {
 
     public init(
         hubArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.hubArn = hubArn
     }
 }
@@ -48719,7 +50068,7 @@ public struct UpdateImageInput: Swift.Sendable {
     /// The name of the image to update.
     /// This member is required.
     public var imageName: Swift.String?
-    /// The new ARN for the IAM role that enables Amazon SageMaker to perform tasks on your behalf.
+    /// The new ARN for the IAM role that enables Amazon SageMaker AI to perform tasks on your behalf.
     public var roleArn: Swift.String?
 
     public init(
@@ -48728,8 +50077,7 @@ public struct UpdateImageInput: Swift.Sendable {
         displayName: Swift.String? = nil,
         imageName: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.deleteProperties = deleteProperties
         self.description = description
         self.displayName = displayName
@@ -48744,8 +50092,7 @@ public struct UpdateImageOutput: Swift.Sendable {
 
     public init(
         imageArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageArn = imageArn
     }
 }
@@ -48762,13 +50109,13 @@ public struct UpdateImageVersionInput: Swift.Sendable {
     /// The name of the image.
     /// This member is required.
     public var imageName: Swift.String?
-    /// Indicates SageMaker job type compatibility.
+    /// Indicates SageMaker AI job type compatibility.
     ///
-    /// * TRAINING: The image version is compatible with SageMaker training jobs.
+    /// * TRAINING: The image version is compatible with SageMaker AI training jobs.
     ///
-    /// * INFERENCE: The image version is compatible with SageMaker inference jobs.
+    /// * INFERENCE: The image version is compatible with SageMaker AI inference jobs.
     ///
-    /// * NOTEBOOK_KERNEL: The image version is compatible with SageMaker notebook kernels.
+    /// * NOTEBOOK_KERNEL: The image version is compatible with SageMaker AI notebook kernels.
     public var jobType: SageMakerClientTypes.JobType?
     /// The machine learning framework vended in the image version.
     public var mlFramework: Swift.String?
@@ -48808,8 +50155,7 @@ public struct UpdateImageVersionInput: Swift.Sendable {
         releaseNotes: Swift.String? = nil,
         vendorGuidance: SageMakerClientTypes.VendorGuidance? = nil,
         version: Swift.Int? = nil
-    )
-    {
+    ) {
         self.alias = alias
         self.aliasesToAdd = aliasesToAdd
         self.aliasesToDelete = aliasesToDelete
@@ -48831,8 +50177,7 @@ public struct UpdateImageVersionOutput: Swift.Sendable {
 
     public init(
         imageVersionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.imageVersionArn = imageVersionArn
     }
 }
@@ -48850,8 +50195,7 @@ public struct UpdateInferenceComponentInput: Swift.Sendable {
         inferenceComponentName: Swift.String? = nil,
         runtimeConfig: SageMakerClientTypes.InferenceComponentRuntimeConfig? = nil,
         specification: SageMakerClientTypes.InferenceComponentSpecification? = nil
-    )
-    {
+    ) {
         self.inferenceComponentName = inferenceComponentName
         self.runtimeConfig = runtimeConfig
         self.specification = specification
@@ -48865,8 +50209,7 @@ public struct UpdateInferenceComponentOutput: Swift.Sendable {
 
     public init(
         inferenceComponentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceComponentArn = inferenceComponentArn
     }
 }
@@ -48882,8 +50225,7 @@ public struct UpdateInferenceComponentRuntimeConfigInput: Swift.Sendable {
     public init(
         desiredRuntimeConfig: SageMakerClientTypes.InferenceComponentRuntimeConfig? = nil,
         inferenceComponentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.desiredRuntimeConfig = desiredRuntimeConfig
         self.inferenceComponentName = inferenceComponentName
     }
@@ -48896,8 +50238,7 @@ public struct UpdateInferenceComponentRuntimeConfigOutput: Swift.Sendable {
 
     public init(
         inferenceComponentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceComponentArn = inferenceComponentArn
     }
 }
@@ -48924,8 +50265,7 @@ public struct UpdateInferenceExperimentInput: Swift.Sendable {
         name: Swift.String? = nil,
         schedule: SageMakerClientTypes.InferenceExperimentSchedule? = nil,
         shadowModeConfig: SageMakerClientTypes.ShadowModeConfig? = nil
-    )
-    {
+    ) {
         self.dataStorageConfig = dataStorageConfig
         self.description = description
         self.modelVariants = modelVariants
@@ -48942,8 +50282,7 @@ public struct UpdateInferenceExperimentOutput: Swift.Sendable {
 
     public init(
         inferenceExperimentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.inferenceExperimentArn = inferenceExperimentArn
     }
 }
@@ -48967,8 +50306,7 @@ public struct UpdateMlflowTrackingServerInput: Swift.Sendable {
         trackingServerName: Swift.String? = nil,
         trackingServerSize: SageMakerClientTypes.TrackingServerSize? = nil,
         weeklyMaintenanceWindowStart: Swift.String? = nil
-    )
-    {
+    ) {
         self.artifactStoreUri = artifactStoreUri
         self.automaticModelRegistration = automaticModelRegistration
         self.trackingServerName = trackingServerName
@@ -48983,8 +50321,7 @@ public struct UpdateMlflowTrackingServerOutput: Swift.Sendable {
 
     public init(
         trackingServerArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trackingServerArn = trackingServerArn
     }
 }
@@ -49010,8 +50347,7 @@ public struct UpdateModelCardInput: Swift.Sendable {
         content: Swift.String? = nil,
         modelCardName: Swift.String? = nil,
         modelCardStatus: SageMakerClientTypes.ModelCardStatus? = nil
-    )
-    {
+    ) {
         self.content = content
         self.modelCardName = modelCardName
         self.modelCardStatus = modelCardStatus
@@ -49030,8 +50366,7 @@ public struct UpdateModelCardOutput: Swift.Sendable {
 
     public init(
         modelCardArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelCardArn = modelCardArn
     }
 }
@@ -49079,8 +50414,7 @@ public struct UpdateModelPackageInput: Swift.Sendable {
         modelLifeCycle: SageMakerClientTypes.ModelLifeCycle? = nil,
         modelPackageArn: Swift.String? = nil,
         sourceUri: Swift.String? = nil
-    )
-    {
+    ) {
         self.additionalInferenceSpecificationsToAdd = additionalInferenceSpecificationsToAdd
         self.approvalDescription = approvalDescription
         self.clientToken = clientToken
@@ -49102,8 +50436,7 @@ public struct UpdateModelPackageOutput: Swift.Sendable {
 
     public init(
         modelPackageArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.modelPackageArn = modelPackageArn
     }
 }
@@ -49127,8 +50460,7 @@ public struct UpdateMonitoringAlertInput: Swift.Sendable {
         evaluationPeriod: Swift.Int? = nil,
         monitoringAlertName: Swift.String? = nil,
         monitoringScheduleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.datapointsToAlert = datapointsToAlert
         self.evaluationPeriod = evaluationPeriod
         self.monitoringAlertName = monitoringAlertName
@@ -49146,8 +50478,7 @@ public struct UpdateMonitoringAlertOutput: Swift.Sendable {
     public init(
         monitoringAlertName: Swift.String? = nil,
         monitoringScheduleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitoringAlertName = monitoringAlertName
         self.monitoringScheduleArn = monitoringScheduleArn
     }
@@ -49164,8 +50495,7 @@ public struct UpdateMonitoringScheduleInput: Swift.Sendable {
     public init(
         monitoringScheduleConfig: SageMakerClientTypes.MonitoringScheduleConfig? = nil,
         monitoringScheduleName: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitoringScheduleConfig = monitoringScheduleConfig
         self.monitoringScheduleName = monitoringScheduleName
     }
@@ -49178,8 +50508,7 @@ public struct UpdateMonitoringScheduleOutput: Swift.Sendable {
 
     public init(
         monitoringScheduleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.monitoringScheduleArn = monitoringScheduleArn
     }
 }
@@ -49187,9 +50516,9 @@ public struct UpdateMonitoringScheduleOutput: Swift.Sendable {
 public struct UpdateNotebookInstanceInput: Swift.Sendable {
     /// This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify a list of the EI instance types to associate with this notebook instance.
     public var acceleratorTypes: [SageMakerClientTypes.NotebookInstanceAcceleratorType]?
-    /// An array of up to three Git repositories to associate with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
+    /// An array of up to three Git repositories to associate with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see [Associating Git Repositories with SageMaker AI Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
     public var additionalCodeRepositories: [Swift.String]?
-    /// The Git repository to associate with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
+    /// The Git repository to associate with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see [Associating Git Repositories with SageMaker AI Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
     public var defaultCodeRepository: Swift.String?
     /// This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify a list of the EI instance types to remove from this notebook instance.
     public var disassociateAcceleratorTypes: Swift.Bool?
@@ -49208,11 +50537,11 @@ public struct UpdateNotebookInstanceInput: Swift.Sendable {
     /// The name of the notebook instance to update.
     /// This member is required.
     public var notebookInstanceName: Swift.String?
-    /// The Amazon Resource Name (ARN) of the IAM role that SageMaker can assume to access the notebook instance. For more information, see [SageMaker Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html). To be able to pass this role to SageMaker, the caller of this API must have the iam:PassRole permission.
+    /// The Amazon Resource Name (ARN) of the IAM role that SageMaker AI can assume to access the notebook instance. For more information, see [SageMaker AI Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html). To be able to pass this role to SageMaker AI, the caller of this API must have the iam:PassRole permission.
     public var roleArn: Swift.String?
     /// Whether root access is enabled or disabled for users of the notebook instance. The default value is Enabled. If you set this to Disabled, users don't have root access on the notebook instance, but lifecycle configuration scripts still run with root permissions.
     public var rootAccess: SageMakerClientTypes.RootAccess?
-    /// The size, in GB, of the ML storage volume to attach to the notebook instance. The default value is 5 GB. ML storage volumes are encrypted, so SageMaker can't determine the amount of available free space on the volume. Because of this, you can increase the volume size when you update a notebook instance, but you can't decrease the volume size. If you want to decrease the size of the ML storage volume in use, create a new notebook instance with the desired size.
+    /// The size, in GB, of the ML storage volume to attach to the notebook instance. The default value is 5 GB. ML storage volumes are encrypted, so SageMaker AI can't determine the amount of available free space on the volume. Because of this, you can increase the volume size when you update a notebook instance, but you can't decrease the volume size. If you want to decrease the size of the ML storage volume in use, create a new notebook instance with the desired size.
     public var volumeSizeInGB: Swift.Int?
 
     public init(
@@ -49230,8 +50559,7 @@ public struct UpdateNotebookInstanceInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         rootAccess: SageMakerClientTypes.RootAccess? = nil,
         volumeSizeInGB: Swift.Int? = nil
-    )
-    {
+    ) {
         self.acceleratorTypes = acceleratorTypes
         self.additionalCodeRepositories = additionalCodeRepositories
         self.defaultCodeRepository = defaultCodeRepository
@@ -49267,8 +50595,7 @@ public struct UpdateNotebookInstanceLifecycleConfigInput: Swift.Sendable {
         notebookInstanceLifecycleConfigName: Swift.String? = nil,
         onCreate: [SageMakerClientTypes.NotebookInstanceLifecycleHook]? = nil,
         onStart: [SageMakerClientTypes.NotebookInstanceLifecycleHook]? = nil
-    )
-    {
+    ) {
         self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
         self.onCreate = onCreate
         self.onStart = onStart
@@ -49278,6 +50605,53 @@ public struct UpdateNotebookInstanceLifecycleConfigInput: Swift.Sendable {
 public struct UpdateNotebookInstanceLifecycleConfigOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct UpdatePartnerAppInput: Swift.Sendable {
+    /// Configuration settings for the SageMaker Partner AI App.
+    public var applicationConfig: SageMakerClientTypes.PartnerAppConfig?
+    /// The ARN of the SageMaker Partner AI App to update.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// A unique token that guarantees that the call to this API is idempotent.
+    public var clientToken: Swift.String?
+    /// When set to TRUE, the SageMaker Partner AI App sets the Amazon Web Services IAM session name or the authenticated IAM user as the identity of the SageMaker Partner AI App user.
+    public var enableIamSessionBasedIdentity: Swift.Bool?
+    /// Maintenance configuration settings for the SageMaker Partner AI App.
+    public var maintenanceConfig: SageMakerClientTypes.PartnerAppMaintenanceConfig?
+    /// Each tag consists of a key and an optional value. Tag keys must be unique per resource.
+    public var tags: [SageMakerClientTypes.Tag]?
+    /// Indicates the instance type and size of the cluster attached to the SageMaker Partner AI App.
+    public var tier: Swift.String?
+
+    public init(
+        applicationConfig: SageMakerClientTypes.PartnerAppConfig? = nil,
+        arn: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        enableIamSessionBasedIdentity: Swift.Bool? = nil,
+        maintenanceConfig: SageMakerClientTypes.PartnerAppMaintenanceConfig? = nil,
+        tags: [SageMakerClientTypes.Tag]? = nil,
+        tier: Swift.String? = nil
+    ) {
+        self.applicationConfig = applicationConfig
+        self.arn = arn
+        self.clientToken = clientToken
+        self.enableIamSessionBasedIdentity = enableIamSessionBasedIdentity
+        self.maintenanceConfig = maintenanceConfig
+        self.tags = tags
+        self.tier = tier
+    }
+}
+
+public struct UpdatePartnerAppOutput: Swift.Sendable {
+    /// The ARN of the SageMaker Partner AI App that was updated.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
 }
 
 public struct UpdatePipelineInput: Swift.Sendable {
@@ -49305,8 +50679,7 @@ public struct UpdatePipelineInput: Swift.Sendable {
         pipelineDisplayName: Swift.String? = nil,
         pipelineName: Swift.String? = nil,
         roleArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.parallelismConfiguration = parallelismConfiguration
         self.pipelineDefinition = pipelineDefinition
         self.pipelineDefinitionS3Location = pipelineDefinitionS3Location
@@ -49323,8 +50696,7 @@ public struct UpdatePipelineOutput: Swift.Sendable {
 
     public init(
         pipelineArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineArn = pipelineArn
     }
 }
@@ -49345,8 +50717,7 @@ public struct UpdatePipelineExecutionInput: Swift.Sendable {
         pipelineExecutionArn: Swift.String? = nil,
         pipelineExecutionDescription: Swift.String? = nil,
         pipelineExecutionDisplayName: Swift.String? = nil
-    )
-    {
+    ) {
         self.parallelismConfiguration = parallelismConfiguration
         self.pipelineExecutionArn = pipelineExecutionArn
         self.pipelineExecutionDescription = pipelineExecutionDescription
@@ -49360,8 +50731,7 @@ public struct UpdatePipelineExecutionOutput: Swift.Sendable {
 
     public init(
         pipelineExecutionArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.pipelineExecutionArn = pipelineExecutionArn
     }
 }
@@ -49378,8 +50748,7 @@ extension SageMakerClientTypes {
         public init(
             provisioningArtifactId: Swift.String? = nil,
             provisioningParameters: [SageMakerClientTypes.ProvisioningParameter]? = nil
-        )
-        {
+        ) {
             self.provisioningArtifactId = provisioningArtifactId
             self.provisioningParameters = provisioningParameters
         }
@@ -49402,8 +50771,7 @@ public struct UpdateProjectInput: Swift.Sendable {
         projectName: Swift.String? = nil,
         serviceCatalogProvisioningUpdateDetails: SageMakerClientTypes.ServiceCatalogProvisioningUpdateDetails? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
-    )
-    {
+    ) {
         self.projectDescription = projectDescription
         self.projectName = projectName
         self.serviceCatalogProvisioningUpdateDetails = serviceCatalogProvisioningUpdateDetails
@@ -49418,8 +50786,7 @@ public struct UpdateProjectOutput: Swift.Sendable {
 
     public init(
         projectArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.projectArn = projectArn
     }
 }
@@ -49441,8 +50808,7 @@ public struct UpdateSpaceInput: Swift.Sendable {
         spaceDisplayName: Swift.String? = nil,
         spaceName: Swift.String? = nil,
         spaceSettings: SageMakerClientTypes.SpaceSettings? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.spaceDisplayName = spaceDisplayName
         self.spaceName = spaceName
@@ -49456,8 +50822,7 @@ public struct UpdateSpaceOutput: Swift.Sendable {
 
     public init(
         spaceArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.spaceArn = spaceArn
     }
 }
@@ -49481,8 +50846,7 @@ public struct UpdateTrainingJobInput: Swift.Sendable {
         remoteDebugConfig: SageMakerClientTypes.RemoteDebugConfigForUpdate? = nil,
         resourceConfig: SageMakerClientTypes.ResourceConfigForUpdate? = nil,
         trainingJobName: Swift.String? = nil
-    )
-    {
+    ) {
         self.profilerConfig = profilerConfig
         self.profilerRuleConfigurations = profilerRuleConfigurations
         self.remoteDebugConfig = remoteDebugConfig
@@ -49498,8 +50862,7 @@ public struct UpdateTrainingJobOutput: Swift.Sendable {
 
     public init(
         trainingJobArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trainingJobArn = trainingJobArn
     }
 }
@@ -49514,8 +50877,7 @@ public struct UpdateTrialInput: Swift.Sendable {
     public init(
         displayName: Swift.String? = nil,
         trialName: Swift.String? = nil
-    )
-    {
+    ) {
         self.displayName = displayName
         self.trialName = trialName
     }
@@ -49527,8 +50889,7 @@ public struct UpdateTrialOutput: Swift.Sendable {
 
     public init(
         trialArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trialArn = trialArn
     }
 }
@@ -49570,8 +50931,7 @@ public struct UpdateTrialComponentInput: Swift.Sendable {
         startTime: Foundation.Date? = nil,
         status: SageMakerClientTypes.TrialComponentStatus? = nil,
         trialComponentName: Swift.String? = nil
-    )
-    {
+    ) {
         self.displayName = displayName
         self.endTime = endTime
         self.inputArtifacts = inputArtifacts
@@ -49592,8 +50952,7 @@ public struct UpdateTrialComponentOutput: Swift.Sendable {
 
     public init(
         trialComponentArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.trialComponentArn = trialComponentArn
     }
 }
@@ -49612,8 +50971,7 @@ public struct UpdateUserProfileInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         userProfileName: Swift.String? = nil,
         userSettings: SageMakerClientTypes.UserSettings? = nil
-    )
-    {
+    ) {
         self.domainId = domainId
         self.userProfileName = userProfileName
         self.userSettings = userSettings
@@ -49626,8 +50984,7 @@ public struct UpdateUserProfileOutput: Swift.Sendable {
 
     public init(
         userProfileArn: Swift.String? = nil
-    )
-    {
+    ) {
         self.userProfileArn = userProfileArn
     }
 }
@@ -49648,8 +51005,7 @@ public struct UpdateWorkforceInput: Swift.Sendable {
         sourceIpConfig: SageMakerClientTypes.SourceIpConfig? = nil,
         workforceName: Swift.String? = nil,
         workforceVpcConfig: SageMakerClientTypes.WorkforceVpcConfigRequest? = nil
-    )
-    {
+    ) {
         self.oidcConfig = oidcConfig
         self.sourceIpConfig = sourceIpConfig
         self.workforceName = workforceName
@@ -49664,8 +51020,7 @@ public struct UpdateWorkforceOutput: Swift.Sendable {
 
     public init(
         workforce: SageMakerClientTypes.Workforce? = nil
-    )
-    {
+    ) {
         self.workforce = workforce
     }
 }
@@ -49689,8 +51044,7 @@ public struct UpdateWorkteamInput: Swift.Sendable {
         notificationConfiguration: SageMakerClientTypes.NotificationConfiguration? = nil,
         workerAccessConfiguration: SageMakerClientTypes.WorkerAccessConfiguration? = nil,
         workteamName: Swift.String? = nil
-    )
-    {
+    ) {
         self.description = description
         self.memberDefinitions = memberDefinitions
         self.notificationConfiguration = notificationConfiguration
@@ -49706,8 +51060,7 @@ public struct UpdateWorkteamOutput: Swift.Sendable {
 
     public init(
         workteam: SageMakerClientTypes.Workteam? = nil
-    )
-    {
+    ) {
         self.workteam = workteam
     }
 }
@@ -49738,8 +51091,7 @@ extension SageMakerClientTypes {
             nestedFilters: [SageMakerClientTypes.NestedFilters]? = nil,
             `operator`: SageMakerClientTypes.BooleanOperator? = nil,
             subExpressions: [SageMakerClientTypes.SearchExpression]? = nil
-        )
-        {
+        ) {
             self.filters = filters
             self.nestedFilters = nestedFilters
             self.`operator` = `operator`
@@ -49776,8 +51128,7 @@ public struct SearchInput: Swift.Sendable {
         sortBy: Swift.String? = nil,
         sortOrder: SageMakerClientTypes.SearchSortOrder? = nil,
         visibilityConditions: [SageMakerClientTypes.VisibilityConditions]? = nil
-    )
-    {
+    ) {
         self.crossAccountFilterOption = crossAccountFilterOption
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -49880,6 +51231,13 @@ extension CreateClusterInput {
     }
 }
 
+extension CreateClusterSchedulerConfigInput {
+
+    static func urlPathProvider(_ value: CreateClusterSchedulerConfigInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateCodeRepositoryInput {
 
     static func urlPathProvider(_ value: CreateCodeRepositoryInput) -> Swift.String? {
@@ -49890,6 +51248,13 @@ extension CreateCodeRepositoryInput {
 extension CreateCompilationJobInput {
 
     static func urlPathProvider(_ value: CreateCompilationJobInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateComputeQuotaInput {
+
+    static func urlPathProvider(_ value: CreateComputeQuotaInput) -> Swift.String? {
         return "/"
     }
 }
@@ -50139,6 +51504,20 @@ extension CreateOptimizationJobInput {
     }
 }
 
+extension CreatePartnerAppInput {
+
+    static func urlPathProvider(_ value: CreatePartnerAppInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreatePartnerAppPresignedUrlInput {
+
+    static func urlPathProvider(_ value: CreatePartnerAppPresignedUrlInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreatePipelineInput {
 
     static func urlPathProvider(_ value: CreatePipelineInput) -> Swift.String? {
@@ -50198,6 +51577,13 @@ extension CreateStudioLifecycleConfigInput {
 extension CreateTrainingJobInput {
 
     static func urlPathProvider(_ value: CreateTrainingJobInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateTrainingPlanInput {
+
+    static func urlPathProvider(_ value: CreateTrainingPlanInput) -> Swift.String? {
         return "/"
     }
 }
@@ -50293,6 +51679,13 @@ extension DeleteClusterInput {
     }
 }
 
+extension DeleteClusterSchedulerConfigInput {
+
+    static func urlPathProvider(_ value: DeleteClusterSchedulerConfigInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeleteCodeRepositoryInput {
 
     static func urlPathProvider(_ value: DeleteCodeRepositoryInput) -> Swift.String? {
@@ -50303,6 +51696,13 @@ extension DeleteCodeRepositoryInput {
 extension DeleteCompilationJobInput {
 
     static func urlPathProvider(_ value: DeleteCompilationJobInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteComputeQuotaInput {
+
+    static func urlPathProvider(_ value: DeleteComputeQuotaInput) -> Swift.String? {
         return "/"
     }
 }
@@ -50538,6 +51938,13 @@ extension DeleteOptimizationJobInput {
     }
 }
 
+extension DeletePartnerAppInput {
+
+    static func urlPathProvider(_ value: DeletePartnerAppInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeletePipelineInput {
 
     static func urlPathProvider(_ value: DeletePipelineInput) -> Swift.String? {
@@ -50678,6 +52085,13 @@ extension DescribeClusterNodeInput {
     }
 }
 
+extension DescribeClusterSchedulerConfigInput {
+
+    static func urlPathProvider(_ value: DescribeClusterSchedulerConfigInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeCodeRepositoryInput {
 
     static func urlPathProvider(_ value: DescribeCodeRepositoryInput) -> Swift.String? {
@@ -50688,6 +52102,13 @@ extension DescribeCodeRepositoryInput {
 extension DescribeCompilationJobInput {
 
     static func urlPathProvider(_ value: DescribeCompilationJobInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeComputeQuotaInput {
+
+    static func urlPathProvider(_ value: DescribeComputeQuotaInput) -> Swift.String? {
         return "/"
     }
 }
@@ -50951,6 +52372,13 @@ extension DescribeOptimizationJobInput {
     }
 }
 
+extension DescribePartnerAppInput {
+
+    static func urlPathProvider(_ value: DescribePartnerAppInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribePipelineInput {
 
     static func urlPathProvider(_ value: DescribePipelineInput) -> Swift.String? {
@@ -51010,6 +52438,13 @@ extension DescribeSubscribedWorkteamInput {
 extension DescribeTrainingJobInput {
 
     static func urlPathProvider(_ value: DescribeTrainingJobInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeTrainingPlanInput {
+
+    static func urlPathProvider(_ value: DescribeTrainingPlanInput) -> Swift.String? {
         return "/"
     }
 }
@@ -51203,6 +52638,13 @@ extension ListClustersInput {
     }
 }
 
+extension ListClusterSchedulerConfigsInput {
+
+    static func urlPathProvider(_ value: ListClusterSchedulerConfigsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListCodeRepositoriesInput {
 
     static func urlPathProvider(_ value: ListCodeRepositoriesInput) -> Swift.String? {
@@ -51213,6 +52655,13 @@ extension ListCodeRepositoriesInput {
 extension ListCompilationJobsInput {
 
     static func urlPathProvider(_ value: ListCompilationJobsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListComputeQuotasInput {
+
+    static func urlPathProvider(_ value: ListComputeQuotasInput) -> Swift.String? {
         return "/"
     }
 }
@@ -51525,6 +52974,13 @@ extension ListOptimizationJobsInput {
     }
 }
 
+extension ListPartnerAppsInput {
+
+    static func urlPathProvider(_ value: ListPartnerAppsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListPipelineExecutionsInput {
 
     static func urlPathProvider(_ value: ListPipelineExecutionsInput) -> Swift.String? {
@@ -51623,6 +53079,13 @@ extension ListTrainingJobsForHyperParameterTuningJobInput {
     }
 }
 
+extension ListTrainingPlansInput {
+
+    static func urlPathProvider(_ value: ListTrainingPlansInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListTransformJobsInput {
 
     static func urlPathProvider(_ value: ListTransformJobsInput) -> Swift.String? {
@@ -51703,6 +53166,13 @@ extension RetryPipelineExecutionInput {
 extension SearchInput {
 
     static func urlPathProvider(_ value: SearchInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension SearchTrainingPlanOfferingsInput {
+
+    static func urlPathProvider(_ value: SearchTrainingPlanOfferingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -51903,6 +53373,13 @@ extension UpdateClusterInput {
     }
 }
 
+extension UpdateClusterSchedulerConfigInput {
+
+    static func urlPathProvider(_ value: UpdateClusterSchedulerConfigInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UpdateClusterSoftwareInput {
 
     static func urlPathProvider(_ value: UpdateClusterSoftwareInput) -> Swift.String? {
@@ -51913,6 +53390,13 @@ extension UpdateClusterSoftwareInput {
 extension UpdateCodeRepositoryInput {
 
     static func urlPathProvider(_ value: UpdateCodeRepositoryInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateComputeQuotaInput {
+
+    static func urlPathProvider(_ value: UpdateComputeQuotaInput) -> Swift.String? {
         return "/"
     }
 }
@@ -52067,6 +53551,13 @@ extension UpdateNotebookInstanceInput {
 extension UpdateNotebookInstanceLifecycleConfigInput {
 
     static func urlPathProvider(_ value: UpdateNotebookInstanceLifecycleConfigInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdatePartnerAppInput {
+
+    static func urlPathProvider(_ value: UpdatePartnerAppInput) -> Swift.String? {
         return "/"
     }
 }
@@ -52302,6 +53793,18 @@ extension CreateClusterInput {
     }
 }
 
+extension CreateClusterSchedulerConfigInput {
+
+    static func write(value: CreateClusterSchedulerConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClusterArn"].write(value.clusterArn)
+        try writer["Description"].write(value.description)
+        try writer["Name"].write(value.name)
+        try writer["SchedulerConfig"].write(value.schedulerConfig, with: SageMakerClientTypes.SchedulerConfig.write(value:to:))
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateCodeRepositoryInput {
 
     static func write(value: CreateCodeRepositoryInput?, to writer: SmithyJSON.Writer) throws {
@@ -52324,6 +53827,20 @@ extension CreateCompilationJobInput {
         try writer["StoppingCondition"].write(value.stoppingCondition, with: SageMakerClientTypes.StoppingCondition.write(value:to:))
         try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VpcConfig"].write(value.vpcConfig, with: SageMakerClientTypes.NeoVpcConfig.write(value:to:))
+    }
+}
+
+extension CreateComputeQuotaInput {
+
+    static func write(value: CreateComputeQuotaInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActivationState"].write(value.activationState)
+        try writer["ClusterArn"].write(value.clusterArn)
+        try writer["ComputeQuotaConfig"].write(value.computeQuotaConfig, with: SageMakerClientTypes.ComputeQuotaConfig.write(value:to:))
+        try writer["ComputeQuotaTarget"].write(value.computeQuotaTarget, with: SageMakerClientTypes.ComputeQuotaTarget.write(value:to:))
+        try writer["Description"].write(value.description)
+        try writer["Name"].write(value.name)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -52843,6 +54360,33 @@ extension CreateOptimizationJobInput {
     }
 }
 
+extension CreatePartnerAppInput {
+
+    static func write(value: CreatePartnerAppInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationConfig"].write(value.applicationConfig, with: SageMakerClientTypes.PartnerAppConfig.write(value:to:))
+        try writer["AuthType"].write(value.authType)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["EnableIamSessionBasedIdentity"].write(value.enableIamSessionBasedIdentity)
+        try writer["ExecutionRoleArn"].write(value.executionRoleArn)
+        try writer["MaintenanceConfig"].write(value.maintenanceConfig, with: SageMakerClientTypes.PartnerAppMaintenanceConfig.write(value:to:))
+        try writer["Name"].write(value.name)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Tier"].write(value.tier)
+        try writer["Type"].write(value.type)
+    }
+}
+
+extension CreatePartnerAppPresignedUrlInput {
+
+    static func write(value: CreatePartnerAppPresignedUrlInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Arn"].write(value.arn)
+        try writer["ExpiresInSeconds"].write(value.expiresInSeconds)
+        try writer["SessionExpirationDurationInSeconds"].write(value.sessionExpirationDurationInSeconds)
+    }
+}
+
 extension CreatePipelineInput {
 
     static func write(value: CreatePipelineInput?, to writer: SmithyJSON.Writer) throws {
@@ -52974,6 +54518,16 @@ extension CreateTrainingJobInput {
         try writer["TensorBoardOutputConfig"].write(value.tensorBoardOutputConfig, with: SageMakerClientTypes.TensorBoardOutputConfig.write(value:to:))
         try writer["TrainingJobName"].write(value.trainingJobName)
         try writer["VpcConfig"].write(value.vpcConfig, with: SageMakerClientTypes.VpcConfig.write(value:to:))
+    }
+}
+
+extension CreateTrainingPlanInput {
+
+    static func write(value: CreateTrainingPlanInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TrainingPlanName"].write(value.trainingPlanName)
+        try writer["TrainingPlanOfferingId"].write(value.trainingPlanOfferingId)
     }
 }
 
@@ -53129,6 +54683,14 @@ extension DeleteClusterInput {
     }
 }
 
+extension DeleteClusterSchedulerConfigInput {
+
+    static func write(value: DeleteClusterSchedulerConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClusterSchedulerConfigId"].write(value.clusterSchedulerConfigId)
+    }
+}
+
 extension DeleteCodeRepositoryInput {
 
     static func write(value: DeleteCodeRepositoryInput?, to writer: SmithyJSON.Writer) throws {
@@ -53142,6 +54704,14 @@ extension DeleteCompilationJobInput {
     static func write(value: DeleteCompilationJobInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CompilationJobName"].write(value.compilationJobName)
+    }
+}
+
+extension DeleteComputeQuotaInput {
+
+    static func write(value: DeleteComputeQuotaInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComputeQuotaId"].write(value.computeQuotaId)
     }
 }
 
@@ -53418,6 +54988,15 @@ extension DeleteOptimizationJobInput {
     }
 }
 
+extension DeletePartnerAppInput {
+
+    static func write(value: DeletePartnerAppInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Arn"].write(value.arn)
+        try writer["ClientToken"].write(value.clientToken)
+    }
+}
+
 extension DeletePipelineInput {
 
     static func write(value: DeletePipelineInput?, to writer: SmithyJSON.Writer) throws {
@@ -53588,6 +55167,15 @@ extension DescribeClusterNodeInput {
     }
 }
 
+extension DescribeClusterSchedulerConfigInput {
+
+    static func write(value: DescribeClusterSchedulerConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClusterSchedulerConfigId"].write(value.clusterSchedulerConfigId)
+        try writer["ClusterSchedulerConfigVersion"].write(value.clusterSchedulerConfigVersion)
+    }
+}
+
 extension DescribeCodeRepositoryInput {
 
     static func write(value: DescribeCodeRepositoryInput?, to writer: SmithyJSON.Writer) throws {
@@ -53601,6 +55189,15 @@ extension DescribeCompilationJobInput {
     static func write(value: DescribeCompilationJobInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CompilationJobName"].write(value.compilationJobName)
+    }
+}
+
+extension DescribeComputeQuotaInput {
+
+    static func write(value: DescribeComputeQuotaInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComputeQuotaId"].write(value.computeQuotaId)
+        try writer["ComputeQuotaVersion"].write(value.computeQuotaVersion)
     }
 }
 
@@ -53912,6 +55509,14 @@ extension DescribeOptimizationJobInput {
     }
 }
 
+extension DescribePartnerAppInput {
+
+    static func write(value: DescribePartnerAppInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Arn"].write(value.arn)
+    }
+}
+
 extension DescribePipelineInput {
 
     static func write(value: DescribePipelineInput?, to writer: SmithyJSON.Writer) throws {
@@ -53982,6 +55587,14 @@ extension DescribeTrainingJobInput {
     static func write(value: DescribeTrainingJobInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["TrainingJobName"].write(value.trainingJobName)
+    }
+}
+
+extension DescribeTrainingPlanInput {
+
+    static func write(value: DescribeTrainingPlanInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TrainingPlanName"].write(value.trainingPlanName)
     }
 }
 
@@ -54291,6 +55904,23 @@ extension ListClustersInput {
         try writer["NextToken"].write(value.nextToken)
         try writer["SortBy"].write(value.sortBy)
         try writer["SortOrder"].write(value.sortOrder)
+        try writer["TrainingPlanArn"].write(value.trainingPlanArn)
+    }
+}
+
+extension ListClusterSchedulerConfigsInput {
+
+    static func write(value: ListClusterSchedulerConfigsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClusterArn"].write(value.clusterArn)
+        try writer["CreatedAfter"].writeTimestamp(value.createdAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["CreatedBefore"].writeTimestamp(value.createdBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NameContains"].write(value.nameContains)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["SortBy"].write(value.sortBy)
+        try writer["SortOrder"].write(value.sortOrder)
+        try writer["Status"].write(value.status)
     }
 }
 
@@ -54324,6 +55954,22 @@ extension ListCompilationJobsInput {
         try writer["SortBy"].write(value.sortBy)
         try writer["SortOrder"].write(value.sortOrder)
         try writer["StatusEquals"].write(value.statusEquals)
+    }
+}
+
+extension ListComputeQuotasInput {
+
+    static func write(value: ListComputeQuotasInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClusterArn"].write(value.clusterArn)
+        try writer["CreatedAfter"].writeTimestamp(value.createdAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["CreatedBefore"].writeTimestamp(value.createdBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NameContains"].write(value.nameContains)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["SortBy"].write(value.sortBy)
+        try writer["SortOrder"].write(value.sortOrder)
+        try writer["Status"].write(value.status)
     }
 }
 
@@ -55011,6 +56657,15 @@ extension ListOptimizationJobsInput {
     }
 }
 
+extension ListPartnerAppsInput {
+
+    static func write(value: ListPartnerAppsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
 extension ListPipelineExecutionsInput {
 
     static func write(value: ListPipelineExecutionsInput?, to writer: SmithyJSON.Writer) throws {
@@ -55181,6 +56836,7 @@ extension ListTrainingJobsInput {
         try writer["SortBy"].write(value.sortBy)
         try writer["SortOrder"].write(value.sortOrder)
         try writer["StatusEquals"].write(value.statusEquals)
+        try writer["TrainingPlanArnEquals"].write(value.trainingPlanArnEquals)
         try writer["WarmPoolStatusEquals"].write(value.warmPoolStatusEquals)
     }
 }
@@ -55195,6 +56851,20 @@ extension ListTrainingJobsForHyperParameterTuningJobInput {
         try writer["SortBy"].write(value.sortBy)
         try writer["SortOrder"].write(value.sortOrder)
         try writer["StatusEquals"].write(value.statusEquals)
+    }
+}
+
+extension ListTrainingPlansInput {
+
+    static func write(value: ListTrainingPlansInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: SageMakerClientTypes.TrainingPlanFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["SortBy"].write(value.sortBy)
+        try writer["SortOrder"].write(value.sortOrder)
+        try writer["StartTimeAfter"].writeTimestamp(value.startTimeAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["StartTimeBefore"].writeTimestamp(value.startTimeBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
     }
 }
 
@@ -55349,6 +57019,19 @@ extension SearchInput {
         try writer["SortBy"].write(value.sortBy)
         try writer["SortOrder"].write(value.sortOrder)
         try writer["VisibilityConditions"].writeList(value.visibilityConditions, memberWritingClosure: SageMakerClientTypes.VisibilityConditions.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SearchTrainingPlanOfferingsInput {
+
+    static func write(value: SearchTrainingPlanOfferingsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DurationHours"].write(value.durationHours)
+        try writer["EndTimeBefore"].writeTimestamp(value.endTimeBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["InstanceCount"].write(value.instanceCount)
+        try writer["InstanceType"].write(value.instanceType)
+        try writer["StartTimeAfter"].writeTimestamp(value.startTimeAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["TargetResources"].writeList(value.targetResources, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SageMakerClientTypes.SageMakerResourceName>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -55605,6 +57288,17 @@ extension UpdateClusterInput {
     }
 }
 
+extension UpdateClusterSchedulerConfigInput {
+
+    static func write(value: UpdateClusterSchedulerConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClusterSchedulerConfigId"].write(value.clusterSchedulerConfigId)
+        try writer["Description"].write(value.description)
+        try writer["SchedulerConfig"].write(value.schedulerConfig, with: SageMakerClientTypes.SchedulerConfig.write(value:to:))
+        try writer["TargetVersion"].write(value.targetVersion)
+    }
+}
+
 extension UpdateClusterSoftwareInput {
 
     static func write(value: UpdateClusterSoftwareInput?, to writer: SmithyJSON.Writer) throws {
@@ -55619,6 +57313,19 @@ extension UpdateCodeRepositoryInput {
         guard let value else { return }
         try writer["CodeRepositoryName"].write(value.codeRepositoryName)
         try writer["GitConfig"].write(value.gitConfig, with: SageMakerClientTypes.GitConfigForUpdate.write(value:to:))
+    }
+}
+
+extension UpdateComputeQuotaInput {
+
+    static func write(value: UpdateComputeQuotaInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActivationState"].write(value.activationState)
+        try writer["ComputeQuotaConfig"].write(value.computeQuotaConfig, with: SageMakerClientTypes.ComputeQuotaConfig.write(value:to:))
+        try writer["ComputeQuotaId"].write(value.computeQuotaId)
+        try writer["ComputeQuotaTarget"].write(value.computeQuotaTarget, with: SageMakerClientTypes.ComputeQuotaTarget.write(value:to:))
+        try writer["Description"].write(value.description)
+        try writer["TargetVersion"].write(value.targetVersion)
     }
 }
 
@@ -55886,6 +57593,20 @@ extension UpdateNotebookInstanceLifecycleConfigInput {
         try writer["NotebookInstanceLifecycleConfigName"].write(value.notebookInstanceLifecycleConfigName)
         try writer["OnCreate"].writeList(value.onCreate, memberWritingClosure: SageMakerClientTypes.NotebookInstanceLifecycleHook.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["OnStart"].writeList(value.onStart, memberWritingClosure: SageMakerClientTypes.NotebookInstanceLifecycleHook.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension UpdatePartnerAppInput {
+
+    static func write(value: UpdatePartnerAppInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationConfig"].write(value.applicationConfig, with: SageMakerClientTypes.PartnerAppConfig.write(value:to:))
+        try writer["Arn"].write(value.arn)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["EnableIamSessionBasedIdentity"].write(value.enableIamSessionBasedIdentity)
+        try writer["MaintenanceConfig"].write(value.maintenanceConfig, with: SageMakerClientTypes.PartnerAppMaintenanceConfig.write(value:to:))
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Tier"].write(value.tier)
     }
 }
 
@@ -56168,6 +57889,19 @@ extension CreateClusterOutput {
     }
 }
 
+extension CreateClusterSchedulerConfigOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateClusterSchedulerConfigOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateClusterSchedulerConfigOutput()
+        value.clusterSchedulerConfigArn = try reader["ClusterSchedulerConfigArn"].readIfPresent() ?? ""
+        value.clusterSchedulerConfigId = try reader["ClusterSchedulerConfigId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension CreateCodeRepositoryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCodeRepositoryOutput {
@@ -56188,6 +57922,19 @@ extension CreateCompilationJobOutput {
         let reader = responseReader
         var value = CreateCompilationJobOutput()
         value.compilationJobArn = try reader["CompilationJobArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateComputeQuotaOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateComputeQuotaOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateComputeQuotaOutput()
+        value.computeQuotaArn = try reader["ComputeQuotaArn"].readIfPresent() ?? ""
+        value.computeQuotaId = try reader["ComputeQuotaId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -56599,6 +58346,30 @@ extension CreateOptimizationJobOutput {
     }
 }
 
+extension CreatePartnerAppOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePartnerAppOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreatePartnerAppOutput()
+        value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension CreatePartnerAppPresignedUrlOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePartnerAppPresignedUrlOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreatePartnerAppPresignedUrlOutput()
+        value.url = try reader["Url"].readIfPresent()
+        return value
+    }
+}
+
 extension CreatePipelineOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePipelineOutput {
@@ -56704,6 +58475,18 @@ extension CreateTrainingJobOutput {
         let reader = responseReader
         var value = CreateTrainingJobOutput()
         value.trainingJobArn = try reader["TrainingJobArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateTrainingPlanOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateTrainingPlanOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateTrainingPlanOutput()
+        value.trainingPlanArn = try reader["TrainingPlanArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -56850,6 +58633,13 @@ extension DeleteClusterOutput {
     }
 }
 
+extension DeleteClusterSchedulerConfigOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteClusterSchedulerConfigOutput {
+        return DeleteClusterSchedulerConfigOutput()
+    }
+}
+
 extension DeleteCodeRepositoryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCodeRepositoryOutput {
@@ -56861,6 +58651,13 @@ extension DeleteCompilationJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCompilationJobOutput {
         return DeleteCompilationJobOutput()
+    }
+}
+
+extension DeleteComputeQuotaOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteComputeQuotaOutput {
+        return DeleteComputeQuotaOutput()
     }
 }
 
@@ -57112,6 +58909,18 @@ extension DeleteOptimizationJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteOptimizationJobOutput {
         return DeleteOptimizationJobOutput()
+    }
+}
+
+extension DeletePartnerAppOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePartnerAppOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeletePartnerAppOutput()
+        value.arn = try reader["Arn"].readIfPresent()
+        return value
     }
 }
 
@@ -57420,6 +59229,30 @@ extension DescribeClusterNodeOutput {
     }
 }
 
+extension DescribeClusterSchedulerConfigOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeClusterSchedulerConfigOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeClusterSchedulerConfigOutput()
+        value.clusterArn = try reader["ClusterArn"].readIfPresent()
+        value.clusterSchedulerConfigArn = try reader["ClusterSchedulerConfigArn"].readIfPresent() ?? ""
+        value.clusterSchedulerConfigId = try reader["ClusterSchedulerConfigId"].readIfPresent() ?? ""
+        value.clusterSchedulerConfigVersion = try reader["ClusterSchedulerConfigVersion"].readIfPresent() ?? 0
+        value.createdBy = try reader["CreatedBy"].readIfPresent(with: SageMakerClientTypes.UserContext.read(from:))
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["Description"].readIfPresent()
+        value.failureReason = try reader["FailureReason"].readIfPresent()
+        value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent(with: SageMakerClientTypes.UserContext.read(from:))
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.schedulerConfig = try reader["SchedulerConfig"].readIfPresent(with: SageMakerClientTypes.SchedulerConfig.read(from:))
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension DescribeCodeRepositoryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeCodeRepositoryOutput {
@@ -57461,6 +59294,32 @@ extension DescribeCompilationJobOutput {
         value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
         value.stoppingCondition = try reader["StoppingCondition"].readIfPresent(with: SageMakerClientTypes.StoppingCondition.read(from:))
         value.vpcConfig = try reader["VpcConfig"].readIfPresent(with: SageMakerClientTypes.NeoVpcConfig.read(from:))
+        return value
+    }
+}
+
+extension DescribeComputeQuotaOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeComputeQuotaOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeComputeQuotaOutput()
+        value.activationState = try reader["ActivationState"].readIfPresent()
+        value.clusterArn = try reader["ClusterArn"].readIfPresent()
+        value.computeQuotaArn = try reader["ComputeQuotaArn"].readIfPresent() ?? ""
+        value.computeQuotaConfig = try reader["ComputeQuotaConfig"].readIfPresent(with: SageMakerClientTypes.ComputeQuotaConfig.read(from:))
+        value.computeQuotaId = try reader["ComputeQuotaId"].readIfPresent() ?? ""
+        value.computeQuotaTarget = try reader["ComputeQuotaTarget"].readIfPresent(with: SageMakerClientTypes.ComputeQuotaTarget.read(from:))
+        value.computeQuotaVersion = try reader["ComputeQuotaVersion"].readIfPresent() ?? 0
+        value.createdBy = try reader["CreatedBy"].readIfPresent(with: SageMakerClientTypes.UserContext.read(from:))
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["Description"].readIfPresent()
+        value.failureReason = try reader["FailureReason"].readIfPresent()
+        value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent(with: SageMakerClientTypes.UserContext.read(from:))
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -58347,6 +60206,31 @@ extension DescribeOptimizationJobOutput {
     }
 }
 
+extension DescribePartnerAppOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribePartnerAppOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribePartnerAppOutput()
+        value.applicationConfig = try reader["ApplicationConfig"].readIfPresent(with: SageMakerClientTypes.PartnerAppConfig.read(from:))
+        value.arn = try reader["Arn"].readIfPresent()
+        value.authType = try reader["AuthType"].readIfPresent()
+        value.baseUrl = try reader["BaseUrl"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.enableIamSessionBasedIdentity = try reader["EnableIamSessionBasedIdentity"].readIfPresent()
+        value.error = try reader["Error"].readIfPresent(with: SageMakerClientTypes.ErrorInfo.read(from:))
+        value.executionRoleArn = try reader["ExecutionRoleArn"].readIfPresent()
+        value.maintenanceConfig = try reader["MaintenanceConfig"].readIfPresent(with: SageMakerClientTypes.PartnerAppMaintenanceConfig.read(from:))
+        value.name = try reader["Name"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.tier = try reader["Tier"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.version = try reader["Version"].readIfPresent()
+        return value
+    }
+}
+
 extension DescribePipelineOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribePipelineOutput {
@@ -58565,6 +60449,32 @@ extension DescribeTrainingJobOutput {
         value.tuningJobArn = try reader["TuningJobArn"].readIfPresent()
         value.vpcConfig = try reader["VpcConfig"].readIfPresent(with: SageMakerClientTypes.VpcConfig.read(from:))
         value.warmPoolStatus = try reader["WarmPoolStatus"].readIfPresent(with: SageMakerClientTypes.WarmPoolStatus.read(from:))
+        return value
+    }
+}
+
+extension DescribeTrainingPlanOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeTrainingPlanOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeTrainingPlanOutput()
+        value.availableInstanceCount = try reader["AvailableInstanceCount"].readIfPresent()
+        value.currencyCode = try reader["CurrencyCode"].readIfPresent()
+        value.durationHours = try reader["DurationHours"].readIfPresent()
+        value.durationMinutes = try reader["DurationMinutes"].readIfPresent()
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.inUseInstanceCount = try reader["InUseInstanceCount"].readIfPresent()
+        value.reservedCapacitySummaries = try reader["ReservedCapacitySummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ReservedCapacitySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.targetResources = try reader["TargetResources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerClientTypes.SageMakerResourceName>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.totalInstanceCount = try reader["TotalInstanceCount"].readIfPresent()
+        value.trainingPlanArn = try reader["TrainingPlanArn"].readIfPresent() ?? ""
+        value.trainingPlanName = try reader["TrainingPlanName"].readIfPresent() ?? ""
+        value.upfrontFee = try reader["UpfrontFee"].readIfPresent()
         return value
     }
 }
@@ -58966,6 +60876,19 @@ extension ListClustersOutput {
     }
 }
 
+extension ListClusterSchedulerConfigsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListClusterSchedulerConfigsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListClusterSchedulerConfigsOutput()
+        value.clusterSchedulerConfigSummaries = try reader["ClusterSchedulerConfigSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ClusterSchedulerConfigSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListCodeRepositoriesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCodeRepositoriesOutput {
@@ -58987,6 +60910,19 @@ extension ListCompilationJobsOutput {
         let reader = responseReader
         var value = ListCompilationJobsOutput()
         value.compilationJobSummaries = try reader["CompilationJobSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.CompilationJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListComputeQuotasOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListComputeQuotasOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListComputeQuotasOutput()
+        value.computeQuotaSummaries = try reader["ComputeQuotaSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ComputeQuotaSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -59564,6 +61500,19 @@ extension ListOptimizationJobsOutput {
     }
 }
 
+extension ListPartnerAppsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPartnerAppsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPartnerAppsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.summaries = try reader["Summaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.PartnerAppSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListPipelineExecutionsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPipelineExecutionsOutput {
@@ -59746,6 +61695,19 @@ extension ListTrainingJobsForHyperParameterTuningJobOutput {
     }
 }
 
+extension ListTrainingPlansOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTrainingPlansOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTrainingPlansOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.trainingPlanSummaries = try reader["TrainingPlanSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.TrainingPlanSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ListTransformJobsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTransformJobsOutput {
@@ -59891,6 +61853,18 @@ extension SearchOutput {
         var value = SearchOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.results = try reader["Results"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.SearchRecord.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SearchTrainingPlanOfferingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchTrainingPlanOfferingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SearchTrainingPlanOfferingsOutput()
+        value.trainingPlanOfferings = try reader["TrainingPlanOfferings"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.TrainingPlanOffering.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -60151,6 +62125,19 @@ extension UpdateClusterOutput {
     }
 }
 
+extension UpdateClusterSchedulerConfigOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateClusterSchedulerConfigOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateClusterSchedulerConfigOutput()
+        value.clusterSchedulerConfigArn = try reader["ClusterSchedulerConfigArn"].readIfPresent() ?? ""
+        value.clusterSchedulerConfigVersion = try reader["ClusterSchedulerConfigVersion"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension UpdateClusterSoftwareOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateClusterSoftwareOutput {
@@ -60171,6 +62158,19 @@ extension UpdateCodeRepositoryOutput {
         let reader = responseReader
         var value = UpdateCodeRepositoryOutput()
         value.codeRepositoryArn = try reader["CodeRepositoryArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension UpdateComputeQuotaOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateComputeQuotaOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateComputeQuotaOutput()
+        value.computeQuotaArn = try reader["ComputeQuotaArn"].readIfPresent() ?? ""
+        value.computeQuotaVersion = try reader["ComputeQuotaVersion"].readIfPresent() ?? 0
         return value
     }
 }
@@ -60412,6 +62412,18 @@ extension UpdateNotebookInstanceLifecycleConfigOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateNotebookInstanceLifecycleConfigOutput {
         return UpdateNotebookInstanceLifecycleConfigOutput()
+    }
+}
+
+extension UpdatePartnerAppOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdatePartnerAppOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdatePartnerAppOutput()
+        value.arn = try reader["Arn"].readIfPresent()
+        return value
     }
 }
 
@@ -60720,6 +62732,21 @@ enum CreateClusterOutputError {
     }
 }
 
+enum CreateClusterSchedulerConfigOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceLimitExceeded": return try ResourceLimitExceeded.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateCodeRepositoryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -60742,6 +62769,21 @@ enum CreateCompilationJobOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceInUse": return try ResourceInUse.makeError(baseError: baseError)
+            case "ResourceLimitExceeded": return try ResourceLimitExceeded.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateComputeQuotaOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceLimitExceeded": return try ResourceLimitExceeded.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -61263,6 +63305,35 @@ enum CreateOptimizationJobOutputError {
     }
 }
 
+enum CreatePartnerAppOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceLimitExceeded": return try ResourceLimitExceeded.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreatePartnerAppPresignedUrlOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreatePipelineOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -61380,6 +63451,22 @@ enum CreateStudioLifecycleConfigOutputError {
 }
 
 enum CreateTrainingJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceInUse": return try ResourceInUse.makeError(baseError: baseError)
+            case "ResourceLimitExceeded": return try ResourceLimitExceeded.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateTrainingPlanOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -61583,6 +63670,20 @@ enum DeleteClusterOutputError {
     }
 }
 
+enum DeleteClusterSchedulerConfigOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteCodeRepositoryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -61597,6 +63698,20 @@ enum DeleteCodeRepositoryOutputError {
 }
 
 enum DeleteCompilationJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteComputeQuotaOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -62072,6 +64187,21 @@ enum DeleteOptimizationJobOutputError {
     }
 }
 
+enum DeletePartnerAppOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeletePipelineOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -62352,6 +64482,20 @@ enum DescribeClusterNodeOutputError {
     }
 }
 
+enum DescribeClusterSchedulerConfigOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeCodeRepositoryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -62366,6 +64510,20 @@ enum DescribeCodeRepositoryOutputError {
 }
 
 enum DescribeCompilationJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeComputeQuotaOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -62889,6 +65047,20 @@ enum DescribeOptimizationJobOutputError {
     }
 }
 
+enum DescribePartnerAppOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribePipelineOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -63000,6 +65172,20 @@ enum DescribeSubscribedWorkteamOutputError {
 }
 
 enum DescribeTrainingJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeTrainingPlanOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -63381,6 +65567,19 @@ enum ListClustersOutputError {
     }
 }
 
+enum ListClusterSchedulerConfigsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListCodeRepositoriesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -63395,6 +65594,19 @@ enum ListCodeRepositoriesOutputError {
 }
 
 enum ListCompilationJobsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListComputeQuotasOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -63988,6 +66200,19 @@ enum ListOptimizationJobsOutputError {
     }
 }
 
+enum ListPartnerAppsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListPipelineExecutionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -64175,6 +66400,19 @@ enum ListTrainingJobsForHyperParameterTuningJobOutputError {
     }
 }
 
+enum ListTrainingPlansOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListTransformJobsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -64335,6 +66573,20 @@ enum SearchOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SearchTrainingPlanOfferingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceLimitExceeded": return try ResourceLimitExceeded.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -64743,6 +66995,22 @@ enum UpdateClusterOutputError {
     }
 }
 
+enum UpdateClusterSchedulerConfigOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceLimitExceeded": return try ResourceLimitExceeded.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateClusterSoftwareOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -64767,6 +67035,22 @@ enum UpdateCodeRepositoryOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateComputeQuotaOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceLimitExceeded": return try ResourceLimitExceeded.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -65093,6 +67377,21 @@ enum UpdateNotebookInstanceLifecycleConfigOutputError {
     }
 }
 
+enum UpdatePartnerAppOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdatePipelineOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -65374,6 +67673,7 @@ extension SageMakerClientTypes.ModelPackageContainerDefinition {
         try writer["FrameworkVersion"].write(value.frameworkVersion)
         try writer["Image"].write(value.image)
         try writer["ImageDigest"].write(value.imageDigest)
+        try writer["ModelDataETag"].write(value.modelDataETag)
         try writer["ModelDataSource"].write(value.modelDataSource, with: SageMakerClientTypes.ModelDataSource.write(value:to:))
         try writer["ModelDataUrl"].write(value.modelDataUrl)
         try writer["ModelInput"].write(value.modelInput, with: SageMakerClientTypes.ModelInput.write(value:to:))
@@ -65396,6 +67696,7 @@ extension SageMakerClientTypes.ModelPackageContainerDefinition {
         value.frameworkVersion = try reader["FrameworkVersion"].readIfPresent()
         value.nearestModelName = try reader["NearestModelName"].readIfPresent()
         value.additionalS3DataSource = try reader["AdditionalS3DataSource"].readIfPresent(with: SageMakerClientTypes.AdditionalS3DataSource.read(from:))
+        value.modelDataETag = try reader["ModelDataETag"].readIfPresent()
         return value
     }
 }
@@ -65405,6 +67706,7 @@ extension SageMakerClientTypes.AdditionalS3DataSource {
     static func write(value: SageMakerClientTypes.AdditionalS3DataSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CompressionType"].write(value.compressionType)
+        try writer["ETag"].write(value.eTag)
         try writer["S3DataType"].write(value.s3DataType)
         try writer["S3Uri"].write(value.s3Uri)
     }
@@ -65415,6 +67717,7 @@ extension SageMakerClientTypes.AdditionalS3DataSource {
         value.s3DataType = try reader["S3DataType"].readIfPresent() ?? .sdkUnknown("")
         value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         value.compressionType = try reader["CompressionType"].readIfPresent()
+        value.eTag = try reader["ETag"].readIfPresent()
         return value
     }
 }
@@ -65454,7 +67757,9 @@ extension SageMakerClientTypes.S3ModelDataSource {
     static func write(value: SageMakerClientTypes.S3ModelDataSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CompressionType"].write(value.compressionType)
+        try writer["ETag"].write(value.eTag)
         try writer["HubAccessConfig"].write(value.hubAccessConfig, with: SageMakerClientTypes.InferenceHubAccessConfig.write(value:to:))
+        try writer["ManifestEtag"].write(value.manifestEtag)
         try writer["ManifestS3Uri"].write(value.manifestS3Uri)
         try writer["ModelAccessConfig"].write(value.modelAccessConfig, with: SageMakerClientTypes.ModelAccessConfig.write(value:to:))
         try writer["S3DataType"].write(value.s3DataType)
@@ -65470,6 +67775,8 @@ extension SageMakerClientTypes.S3ModelDataSource {
         value.modelAccessConfig = try reader["ModelAccessConfig"].readIfPresent(with: SageMakerClientTypes.ModelAccessConfig.read(from:))
         value.hubAccessConfig = try reader["HubAccessConfig"].readIfPresent(with: SageMakerClientTypes.InferenceHubAccessConfig.read(from:))
         value.manifestS3Uri = try reader["ManifestS3Uri"].readIfPresent()
+        value.eTag = try reader["ETag"].readIfPresent()
+        value.manifestEtag = try reader["ManifestEtag"].readIfPresent()
         return value
     }
 }
@@ -65973,6 +68280,7 @@ extension SageMakerClientTypes.ResourceConfig {
         try writer["InstanceGroups"].writeList(value.instanceGroups, memberWritingClosure: SageMakerClientTypes.InstanceGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["InstanceType"].write(value.instanceType)
         try writer["KeepAlivePeriodInSeconds"].write(value.keepAlivePeriodInSeconds)
+        try writer["TrainingPlanArn"].write(value.trainingPlanArn)
         try writer["VolumeKmsKeyId"].write(value.volumeKmsKeyId)
         try writer["VolumeSizeInGB"].write(value.volumeSizeInGB)
     }
@@ -65986,6 +68294,7 @@ extension SageMakerClientTypes.ResourceConfig {
         value.volumeKmsKeyId = try reader["VolumeKmsKeyId"].readIfPresent()
         value.keepAlivePeriodInSeconds = try reader["KeepAlivePeriodInSeconds"].readIfPresent()
         value.instanceGroups = try reader["InstanceGroups"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.InstanceGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.trainingPlanArn = try reader["TrainingPlanArn"].readIfPresent()
         return value
     }
 }
@@ -67021,6 +69330,10 @@ extension SageMakerClientTypes.ClusterInstanceGroupDetails {
         value.threadsPerCore = try reader["ThreadsPerCore"].readIfPresent()
         value.instanceStorageConfigs = try reader["InstanceStorageConfigs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ClusterInstanceStorageConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.onStartDeepHealthChecks = try reader["OnStartDeepHealthChecks"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerClientTypes.DeepHealthCheckType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["Status"].readIfPresent()
+        value.trainingPlanArn = try reader["TrainingPlanArn"].readIfPresent()
+        value.trainingPlanStatus = try reader["TrainingPlanStatus"].readIfPresent()
+        value.overrideVpcConfig = try reader["OverrideVpcConfig"].readIfPresent(with: SageMakerClientTypes.VpcConfig.read(from:))
         return value
     }
 }
@@ -67122,9 +69435,11 @@ extension SageMakerClientTypes.ClusterNodeDetails {
         value.instanceType = try reader["InstanceType"].readIfPresent()
         value.launchTime = try reader["LaunchTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lifeCycleConfig = try reader["LifeCycleConfig"].readIfPresent(with: SageMakerClientTypes.ClusterLifeCycleConfig.read(from:))
+        value.overrideVpcConfig = try reader["OverrideVpcConfig"].readIfPresent(with: SageMakerClientTypes.VpcConfig.read(from:))
         value.threadsPerCore = try reader["ThreadsPerCore"].readIfPresent()
         value.instanceStorageConfigs = try reader["InstanceStorageConfigs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ClusterInstanceStorageConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.privatePrimaryIp = try reader["PrivatePrimaryIp"].readIfPresent()
+        value.privatePrimaryIpv6 = try reader["PrivatePrimaryIpv6"].readIfPresent()
         value.privateDnsHostname = try reader["PrivateDnsHostname"].readIfPresent()
         value.placement = try reader["Placement"].readIfPresent(with: SageMakerClientTypes.ClusterInstancePlacement.read(from:))
         return value
@@ -67149,6 +69464,40 @@ extension SageMakerClientTypes.ClusterInstanceStatusDetails {
         var value = SageMakerClientTypes.ClusterInstanceStatusDetails()
         value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.SchedulerConfig {
+
+    static func write(value: SageMakerClientTypes.SchedulerConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FairShare"].write(value.fairShare)
+        try writer["PriorityClasses"].writeList(value.priorityClasses, memberWritingClosure: SageMakerClientTypes.PriorityClass.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.SchedulerConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.SchedulerConfig()
+        value.priorityClasses = try reader["PriorityClasses"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.PriorityClass.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.fairShare = try reader["FairShare"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.PriorityClass {
+
+    static func write(value: SageMakerClientTypes.PriorityClass?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Weight"].write(value.weight)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.PriorityClass {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.PriorityClass()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.weight = try reader["Weight"].readIfPresent() ?? 0
         return value
     }
 }
@@ -67278,6 +69627,76 @@ extension SageMakerClientTypes.DerivedInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.DerivedInformation()
         value.derivedDataInputConfig = try reader["DerivedDataInputConfig"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ComputeQuotaConfig {
+
+    static func write(value: SageMakerClientTypes.ComputeQuotaConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComputeQuotaResources"].writeList(value.computeQuotaResources, memberWritingClosure: SageMakerClientTypes.ComputeQuotaResourceConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PreemptTeamTasks"].write(value.preemptTeamTasks)
+        try writer["ResourceSharingConfig"].write(value.resourceSharingConfig, with: SageMakerClientTypes.ResourceSharingConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ComputeQuotaConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ComputeQuotaConfig()
+        value.computeQuotaResources = try reader["ComputeQuotaResources"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ComputeQuotaResourceConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceSharingConfig = try reader["ResourceSharingConfig"].readIfPresent(with: SageMakerClientTypes.ResourceSharingConfig.read(from:))
+        value.preemptTeamTasks = try reader["PreemptTeamTasks"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ResourceSharingConfig {
+
+    static func write(value: SageMakerClientTypes.ResourceSharingConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BorrowLimit"].write(value.borrowLimit)
+        try writer["Strategy"].write(value.strategy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ResourceSharingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ResourceSharingConfig()
+        value.strategy = try reader["Strategy"].readIfPresent() ?? .sdkUnknown("")
+        value.borrowLimit = try reader["BorrowLimit"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ComputeQuotaResourceConfig {
+
+    static func write(value: SageMakerClientTypes.ComputeQuotaResourceConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Count"].write(value.count)
+        try writer["InstanceType"].write(value.instanceType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ComputeQuotaResourceConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ComputeQuotaResourceConfig()
+        value.instanceType = try reader["InstanceType"].readIfPresent() ?? .sdkUnknown("")
+        value.count = try reader["Count"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ComputeQuotaTarget {
+
+    static func write(value: SageMakerClientTypes.ComputeQuotaTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FairShareWeight"].write(value.fairShareWeight)
+        try writer["TeamName"].write(value.teamName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ComputeQuotaTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ComputeQuotaTarget()
+        value.teamName = try reader["TeamName"].readIfPresent() ?? ""
+        value.fairShareWeight = try reader["FairShareWeight"].readIfPresent()
         return value
     }
 }
@@ -67775,6 +70194,8 @@ extension SageMakerClientTypes.CustomFileSystemConfig {
         switch value {
             case let .efsfilesystemconfig(efsfilesystemconfig):
                 try writer["EFSFileSystemConfig"].write(efsfilesystemconfig, with: SageMakerClientTypes.EFSFileSystemConfig.write(value:to:))
+            case let .fsxlustrefilesystemconfig(fsxlustrefilesystemconfig):
+                try writer["FSxLustreFileSystemConfig"].write(fsxlustrefilesystemconfig, with: SageMakerClientTypes.FSxLustreFileSystemConfig.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -67786,9 +70207,28 @@ extension SageMakerClientTypes.CustomFileSystemConfig {
         switch name {
             case "EFSFileSystemConfig":
                 return .efsfilesystemconfig(try reader["EFSFileSystemConfig"].read(with: SageMakerClientTypes.EFSFileSystemConfig.read(from:)))
+            case "FSxLustreFileSystemConfig":
+                return .fsxlustrefilesystemconfig(try reader["FSxLustreFileSystemConfig"].read(with: SageMakerClientTypes.FSxLustreFileSystemConfig.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension SageMakerClientTypes.FSxLustreFileSystemConfig {
+
+    static func write(value: SageMakerClientTypes.FSxLustreFileSystemConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FileSystemId"].write(value.fileSystemId)
+        try writer["FileSystemPath"].write(value.fileSystemPath)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.FSxLustreFileSystemConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.FSxLustreFileSystemConfig()
+        value.fileSystemId = try reader["FileSystemId"].readIfPresent() ?? ""
+        value.fileSystemPath = try reader["FileSystemPath"].readIfPresent()
+        return value
     }
 }
 
@@ -69959,6 +72399,7 @@ extension SageMakerClientTypes.InferenceComponentSpecificationSummary {
         value.container = try reader["Container"].readIfPresent(with: SageMakerClientTypes.InferenceComponentContainerSpecificationSummary.read(from:))
         value.startupParameters = try reader["StartupParameters"].readIfPresent(with: SageMakerClientTypes.InferenceComponentStartupParameters.read(from:))
         value.computeResourceRequirements = try reader["ComputeResourceRequirements"].readIfPresent(with: SageMakerClientTypes.InferenceComponentComputeResourceRequirements.read(from:))
+        value.baseInferenceComponentName = try reader["BaseInferenceComponentName"].readIfPresent()
         return value
     }
 }
@@ -71088,6 +73529,7 @@ extension SageMakerClientTypes.SourceAlgorithm {
     static func write(value: SageMakerClientTypes.SourceAlgorithm?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AlgorithmName"].write(value.algorithmName)
+        try writer["ModelDataETag"].write(value.modelDataETag)
         try writer["ModelDataSource"].write(value.modelDataSource, with: SageMakerClientTypes.ModelDataSource.write(value:to:))
         try writer["ModelDataUrl"].write(value.modelDataUrl)
     }
@@ -71097,6 +73539,7 @@ extension SageMakerClientTypes.SourceAlgorithm {
         var value = SageMakerClientTypes.SourceAlgorithm()
         value.modelDataUrl = try reader["ModelDataUrl"].readIfPresent()
         value.modelDataSource = try reader["ModelDataSource"].readIfPresent(with: SageMakerClientTypes.ModelDataSource.read(from:))
+        value.modelDataETag = try reader["ModelDataETag"].readIfPresent()
         value.algorithmName = try reader["AlgorithmName"].readIfPresent() ?? ""
         return value
     }
@@ -71772,6 +74215,8 @@ extension SageMakerClientTypes.OptimizationConfig {
                 try writer["ModelCompilationConfig"].write(modelcompilationconfig, with: SageMakerClientTypes.ModelCompilationConfig.write(value:to:))
             case let .modelquantizationconfig(modelquantizationconfig):
                 try writer["ModelQuantizationConfig"].write(modelquantizationconfig, with: SageMakerClientTypes.ModelQuantizationConfig.write(value:to:))
+            case let .modelshardingconfig(modelshardingconfig):
+                try writer["ModelShardingConfig"].write(modelshardingconfig, with: SageMakerClientTypes.ModelShardingConfig.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -71785,9 +74230,28 @@ extension SageMakerClientTypes.OptimizationConfig {
                 return .modelquantizationconfig(try reader["ModelQuantizationConfig"].read(with: SageMakerClientTypes.ModelQuantizationConfig.read(from:)))
             case "ModelCompilationConfig":
                 return .modelcompilationconfig(try reader["ModelCompilationConfig"].read(with: SageMakerClientTypes.ModelCompilationConfig.read(from:)))
+            case "ModelShardingConfig":
+                return .modelshardingconfig(try reader["ModelShardingConfig"].read(with: SageMakerClientTypes.ModelShardingConfig.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension SageMakerClientTypes.ModelShardingConfig {
+
+    static func write(value: SageMakerClientTypes.ModelShardingConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Image"].write(value.image)
+        try writer["OverrideEnvironment"].writeMap(value.overrideEnvironment, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelShardingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ModelShardingConfig()
+        value.image = try reader["Image"].readIfPresent()
+        value.overrideEnvironment = try reader["OverrideEnvironment"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
     }
 }
 
@@ -71865,6 +74329,49 @@ extension SageMakerClientTypes.OptimizationVpcConfig {
         var value = SageMakerClientTypes.OptimizationVpcConfig()
         value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension SageMakerClientTypes.PartnerAppMaintenanceConfig {
+
+    static func write(value: SageMakerClientTypes.PartnerAppMaintenanceConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaintenanceWindowStart"].write(value.maintenanceWindowStart)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.PartnerAppMaintenanceConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.PartnerAppMaintenanceConfig()
+        value.maintenanceWindowStart = try reader["MaintenanceWindowStart"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.PartnerAppConfig {
+
+    static func write(value: SageMakerClientTypes.PartnerAppConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdminUsers"].writeList(value.adminUsers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Arguments"].writeMap(value.arguments, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.PartnerAppConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.PartnerAppConfig()
+        value.adminUsers = try reader["AdminUsers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.arguments = try reader["Arguments"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ErrorInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ErrorInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ErrorInfo()
+        value.code = try reader["Code"].readIfPresent()
+        value.reason = try reader["Reason"].readIfPresent()
         return value
     }
 }
@@ -72302,6 +74809,8 @@ extension SageMakerClientTypes.CustomFileSystem {
         switch value {
             case let .efsfilesystem(efsfilesystem):
                 try writer["EFSFileSystem"].write(efsfilesystem, with: SageMakerClientTypes.EFSFileSystem.write(value:to:))
+            case let .fsxlustrefilesystem(fsxlustrefilesystem):
+                try writer["FSxLustreFileSystem"].write(fsxlustrefilesystem, with: SageMakerClientTypes.FSxLustreFileSystem.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -72313,9 +74822,26 @@ extension SageMakerClientTypes.CustomFileSystem {
         switch name {
             case "EFSFileSystem":
                 return .efsfilesystem(try reader["EFSFileSystem"].read(with: SageMakerClientTypes.EFSFileSystem.read(from:)))
+            case "FSxLustreFileSystem":
+                return .fsxlustrefilesystem(try reader["FSxLustreFileSystem"].read(with: SageMakerClientTypes.FSxLustreFileSystem.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension SageMakerClientTypes.FSxLustreFileSystem {
+
+    static func write(value: SageMakerClientTypes.FSxLustreFileSystem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FileSystemId"].write(value.fileSystemId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.FSxLustreFileSystem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.FSxLustreFileSystem()
+        value.fileSystemId = try reader["FileSystemId"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -72756,6 +75282,24 @@ extension SageMakerClientTypes.InfraCheckConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.InfraCheckConfig()
         value.enableInfraCheck = try reader["EnableInfraCheck"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ReservedCapacitySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ReservedCapacitySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ReservedCapacitySummary()
+        value.reservedCapacityArn = try reader["ReservedCapacityArn"].readIfPresent() ?? ""
+        value.instanceType = try reader["InstanceType"].readIfPresent() ?? .sdkUnknown("")
+        value.totalInstanceCount = try reader["TotalInstanceCount"].readIfPresent() ?? 0
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.durationHours = try reader["DurationHours"].readIfPresent()
+        value.durationMinutes = try reader["DurationMinutes"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -73422,6 +75966,24 @@ extension SageMakerClientTypes.ClusterSummary {
         value.clusterName = try reader["ClusterName"].readIfPresent() ?? ""
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.clusterStatus = try reader["ClusterStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.trainingPlanArns = try reader["TrainingPlanArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ClusterSchedulerConfigSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClusterSchedulerConfigSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ClusterSchedulerConfigSummary()
+        value.clusterSchedulerConfigArn = try reader["ClusterSchedulerConfigArn"].readIfPresent() ?? ""
+        value.clusterSchedulerConfigId = try reader["ClusterSchedulerConfigId"].readIfPresent() ?? ""
+        value.clusterSchedulerConfigVersion = try reader["ClusterSchedulerConfigVersion"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.clusterArn = try reader["ClusterArn"].readIfPresent()
         return value
     }
 }
@@ -73456,6 +76018,26 @@ extension SageMakerClientTypes.CompilationJobSummary {
         value.compilationTargetPlatformAccelerator = try reader["CompilationTargetPlatformAccelerator"].readIfPresent()
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.compilationJobStatus = try reader["CompilationJobStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ComputeQuotaSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ComputeQuotaSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ComputeQuotaSummary()
+        value.computeQuotaArn = try reader["ComputeQuotaArn"].readIfPresent() ?? ""
+        value.computeQuotaId = try reader["ComputeQuotaId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.computeQuotaVersion = try reader["ComputeQuotaVersion"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.clusterArn = try reader["ClusterArn"].readIfPresent()
+        value.computeQuotaConfig = try reader["ComputeQuotaConfig"].readIfPresent(with: SageMakerClientTypes.ComputeQuotaConfig.read(from:))
+        value.computeQuotaTarget = try reader["ComputeQuotaTarget"].readIfPresent(with: SageMakerClientTypes.ComputeQuotaTarget.read(from:))
+        value.activationState = try reader["ActivationState"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -74135,6 +76717,20 @@ extension SageMakerClientTypes.OptimizationJobSummary {
     }
 }
 
+extension SageMakerClientTypes.PartnerAppSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.PartnerAppSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.PartnerAppSummary()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension SageMakerClientTypes.PipelineExecutionSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.PipelineExecutionSummary {
@@ -74589,6 +77185,31 @@ extension SageMakerClientTypes.TrainingJobSummary {
         value.trainingJobStatus = try reader["TrainingJobStatus"].readIfPresent() ?? .sdkUnknown("")
         value.secondaryStatus = try reader["SecondaryStatus"].readIfPresent()
         value.warmPoolStatus = try reader["WarmPoolStatus"].readIfPresent(with: SageMakerClientTypes.WarmPoolStatus.read(from:))
+        value.trainingPlanArn = try reader["TrainingPlanArn"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.TrainingPlanSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TrainingPlanSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.TrainingPlanSummary()
+        value.trainingPlanArn = try reader["TrainingPlanArn"].readIfPresent() ?? ""
+        value.trainingPlanName = try reader["TrainingPlanName"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.durationHours = try reader["DurationHours"].readIfPresent()
+        value.durationMinutes = try reader["DurationMinutes"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.upfrontFee = try reader["UpfrontFee"].readIfPresent()
+        value.currencyCode = try reader["CurrencyCode"].readIfPresent()
+        value.totalInstanceCount = try reader["TotalInstanceCount"].readIfPresent()
+        value.availableInstanceCount = try reader["AvailableInstanceCount"].readIfPresent()
+        value.inUseInstanceCount = try reader["InUseInstanceCount"].readIfPresent()
+        value.targetResources = try reader["TargetResources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerClientTypes.SageMakerResourceName>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.reservedCapacitySummaries = try reader["ReservedCapacitySummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ReservedCapacitySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -75279,6 +77900,40 @@ extension SageMakerClientTypes.Experiment {
     }
 }
 
+extension SageMakerClientTypes.TrainingPlanOffering {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TrainingPlanOffering {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.TrainingPlanOffering()
+        value.trainingPlanOfferingId = try reader["TrainingPlanOfferingId"].readIfPresent() ?? ""
+        value.targetResources = try reader["TargetResources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerClientTypes.SageMakerResourceName>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.requestedStartTimeAfter = try reader["RequestedStartTimeAfter"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.requestedEndTimeBefore = try reader["RequestedEndTimeBefore"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.durationHours = try reader["DurationHours"].readIfPresent()
+        value.durationMinutes = try reader["DurationMinutes"].readIfPresent()
+        value.upfrontFee = try reader["UpfrontFee"].readIfPresent()
+        value.currencyCode = try reader["CurrencyCode"].readIfPresent()
+        value.reservedCapacityOfferings = try reader["ReservedCapacityOfferings"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ReservedCapacityOffering.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ReservedCapacityOffering {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ReservedCapacityOffering {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ReservedCapacityOffering()
+        value.instanceType = try reader["InstanceType"].readIfPresent() ?? .sdkUnknown("")
+        value.instanceCount = try reader["InstanceCount"].readIfPresent() ?? 0
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.durationHours = try reader["DurationHours"].readIfPresent()
+        value.durationMinutes = try reader["DurationMinutes"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension SageMakerClientTypes.ClusterInstanceGroupSpecification {
 
     static func write(value: SageMakerClientTypes.ClusterInstanceGroupSpecification?, to writer: SmithyJSON.Writer) throws {
@@ -75290,7 +77945,9 @@ extension SageMakerClientTypes.ClusterInstanceGroupSpecification {
         try writer["InstanceType"].write(value.instanceType)
         try writer["LifeCycleConfig"].write(value.lifeCycleConfig, with: SageMakerClientTypes.ClusterLifeCycleConfig.write(value:to:))
         try writer["OnStartDeepHealthChecks"].writeList(value.onStartDeepHealthChecks, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SageMakerClientTypes.DeepHealthCheckType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["OverrideVpcConfig"].write(value.overrideVpcConfig, with: SageMakerClientTypes.VpcConfig.write(value:to:))
         try writer["ThreadsPerCore"].write(value.threadsPerCore)
+        try writer["TrainingPlanArn"].write(value.trainingPlanArn)
     }
 }
 
@@ -75326,6 +77983,7 @@ extension SageMakerClientTypes.InferenceComponentSpecification {
 
     static func write(value: SageMakerClientTypes.InferenceComponentSpecification?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["BaseInferenceComponentName"].write(value.baseInferenceComponentName)
         try writer["ComputeResourceRequirements"].write(value.computeResourceRequirements, with: SageMakerClientTypes.InferenceComponentComputeResourceRequirements.write(value:to:))
         try writer["Container"].write(value.container, with: SageMakerClientTypes.InferenceComponentContainerSpecification.write(value:to:))
         try writer["ModelName"].write(value.modelName)
@@ -75458,6 +78116,15 @@ extension SageMakerClientTypes.ModelMetadataSearchExpression {
 extension SageMakerClientTypes.ModelMetadataFilter {
 
     static func write(value: SageMakerClientTypes.ModelMetadataFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
+    }
+}
+
+extension SageMakerClientTypes.TrainingPlanFilter {
+
+    static func write(value: SageMakerClientTypes.TrainingPlanFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["Value"].write(value.value)
