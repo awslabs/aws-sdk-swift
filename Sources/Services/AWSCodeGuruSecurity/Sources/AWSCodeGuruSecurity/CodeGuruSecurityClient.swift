@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodeGuruSecurityClient: ClientRuntime.Client {
     public static let clientName = "CodeGuruSecurityClient"
-    public static let version = "1.2.3"
+    public static let version = "1.2.4"
     let client: ClientRuntime.SdkHttpClient
     let config: CodeGuruSecurityClient.CodeGuruSecurityClientConfiguration
     let serviceName = "CodeGuru Security"

@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SSOOIDCClient: ClientRuntime.Client {
     public static let clientName = "SSOOIDCClient"
-    public static let version = "1.2.3"
+    public static let version = "1.2.4"
     let client: ClientRuntime.SdkHttpClient
     let config: SSOOIDCClient.SSOOIDCClientConfiguration
     let serviceName = "SSO OIDC"
@@ -360,7 +360,7 @@ extension SSOOIDCClient {
 extension SSOOIDCClient {
     /// Performs the `CreateToken` operation on the `SSOOIDC` service.
     ///
-    /// Creates and returns access and refresh tokens for clients that are authenticated using client secrets. The access token can be used to fetch short-term credentials for the assigned AWS accounts or to access application APIs using bearer authentication.
+    /// Creates and returns access and refresh tokens for clients that are authenticated using client secrets. The access token can be used to fetch short-lived credentials for the assigned AWS accounts or to access application APIs using bearer authentication.
     ///
     /// - Parameter CreateTokenInput : [no documentation found]
     ///
@@ -442,7 +442,7 @@ extension SSOOIDCClient {
 
     /// Performs the `CreateTokenWithIAM` operation on the `SSOOIDC` service.
     ///
-    /// Creates and returns access and refresh tokens for clients and applications that are authenticated using IAM entities. The access token can be used to fetch short-term credentials for the assigned Amazon Web Services accounts or to access application APIs using bearer authentication.
+    /// Creates and returns access and refresh tokens for clients and applications that are authenticated using IAM entities. The access token can be used to fetch short-lived credentials for the assigned Amazon Web Services accounts or to access application APIs using bearer authentication.
     ///
     /// - Parameter CreateTokenWithIAMInput : [no documentation found]
     ///
@@ -528,7 +528,7 @@ extension SSOOIDCClient {
 
     /// Performs the `RegisterClient` operation on the `SSOOIDC` service.
     ///
-    /// Registers a client with IAM Identity Center. This allows clients to initiate device authorization. The output should be persisted for reuse through many authentication requests.
+    /// Registers a public client with IAM Identity Center. This allows clients to perform authorization using the authorization code grant with Proof Key for Code Exchange (PKCE) or the device code grant.
     ///
     /// - Parameter RegisterClientInput : [no documentation found]
     ///
