@@ -13,6 +13,14 @@ import protocol AWSClientRuntime.AWSServiceError
 
 final class TranscribeStreamingTests: XCTestCase {
 
+    // Shared TranscribeStreamingClient instance
+    private var client: TranscribeStreamingClient!
+
+    override func setUp() async throws {
+        try await super.setUp()
+        client = try TranscribeStreamingClient(region: "us-west-2")
+    }
+
     // MARK: - Test transcription
 
     func test_single_streamTranscription() async throws {
@@ -51,8 +59,6 @@ final class TranscribeStreamingTests: XCTestCase {
         let audioDataSize = audioData.count
         let dataRate = Double(audioDataSize) / duration
         let delay = Double(chunkSize) / dataRate
-
-        let client = try TranscribeStreamingClient(region: "us-west-2")
 
         let audioStream = AsyncThrowingStream<TranscribeStreamingClientTypes.AudioStream, Error> { continuation in
             Task {
