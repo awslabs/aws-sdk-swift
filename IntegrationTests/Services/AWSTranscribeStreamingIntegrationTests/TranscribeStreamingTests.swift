@@ -27,8 +27,6 @@ final class TranscribeStreamingTests: XCTestCase {
         try await attempt()
     }
 
-#if !os(Linux)
-
     // Concurrent stream transcription frequently fails on the CRT HTTP client with errors
     // such as:
     // code: 2087, message: "Stream acquisition failed because stream manager failed to acquire a connection"
@@ -39,8 +37,6 @@ final class TranscribeStreamingTests: XCTestCase {
         // in throttling / resource exceeded errors, which may be retried (see retry logic below.)
         try await repeatConcurrently(count: 25, test: attempt)
     }
-
-#endif
 
     // MARK: - Private / implementation methods
 
