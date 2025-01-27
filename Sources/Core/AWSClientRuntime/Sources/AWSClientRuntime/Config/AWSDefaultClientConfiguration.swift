@@ -7,6 +7,7 @@
 
 import SmithyIdentity
 import SmithyIdentityAPI
+import enum AWSSDKChecksums.AWSChecksumCalculationMode
 
 public protocol AWSDefaultClientConfiguration {
     /// The AWS credential identity resolver to be used for AWS credentials.
@@ -45,6 +46,24 @@ public protocol AWSDefaultClientConfiguration {
     ///
     /// If set, this value gets used when resolving max attempts value from the standard progression of potential sources. If no value could be resolved, the SDK uses max attempts value of 3 by default.
     var maxAttempts: Int? { get set }
+
+    /// The AWS request checksum calculation mode to use.
+    ///
+    /// If `.whenRequired`, the client calculates checksum for the request payload only if the operation requires it.
+    /// If `.whenSupported`, the client calculates checksum for the request payload if the operation supports it.
+    ///
+    /// Default mode is `.whenSupported`.
+    ///
+    /// If no algorithm was chosen and no checksum was provided, CRC32 checksum algorithm is used by default.
+    var requestChecksumCalculation: AWSChecksumCalculationMode { get set }
+
+    /// The AWS response checksum calculation mode to use.
+    ///
+    /// If `.whenRequired`, the client validates checksum of the response only if the top-level input field for `requestValidationModeMember` is set to `.enabled` and SDK supports the checksum algorithm.
+    /// If `.whenSupported`, the client validates checksum of the response if the operation supports it and SDK supports at least one of the checksum algorithms returend by service.
+    ///
+    /// Default mode is `.whenSupported`.
+    var responseChecksumValidation: AWSChecksumCalculationMode { get set }
 
     /// Specifies whether the endpoint configured via environment variables or shared config file should be used by the service client.
     ///

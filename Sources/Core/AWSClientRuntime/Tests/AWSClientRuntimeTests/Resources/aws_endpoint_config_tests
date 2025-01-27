@@ -1,0 +1,5 @@
+[default]
+account_id_endpoint_mode = disabled
+
+[profile aws-endpoint-config-test]
+account_id_endpoint_mode = required

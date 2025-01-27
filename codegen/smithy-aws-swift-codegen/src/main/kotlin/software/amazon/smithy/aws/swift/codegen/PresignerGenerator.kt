@@ -56,14 +56,6 @@ class PresignerGenerator : SwiftIntegration {
                 renderPresignAPIInServiceClient(writer, symbol.name, op, inputType)
             }
         }
-//        // Import FoundationNetworking statement with preprocessor commands
-//        if (presignOperations.isNotEmpty()) {
-//            val symbol = protoCtx.symbolProvider.toSymbol(protoCtx.service)
-//            protoCtx.delegator.useFileWriter("Sources/${ctx.settings.moduleName}/${symbol.name}.swift") { writer ->
-//                // In Linux, Foundation.URLRequest is moved to FoundationNetworking.
-//                writer.addImport(packageName = "FoundationNetworking", importOnlyIfCanImport = true)
-//            }
-//        }
     }
 
     private fun renderPresigner(
@@ -108,10 +100,7 @@ class PresignerGenerator : SwiftIntegration {
                     operationMiddleware,
                     operationStackName
                 )
-                generator.render(serviceShape, op, PRESIGN_REQUEST) { writer, _ ->
-                    writer.write("return nil")
-                }
-
+                generator.render(serviceShape, op, PRESIGN_REQUEST)
                 writer.write("return try await op.presignRequest(input: input)")
             }
         }

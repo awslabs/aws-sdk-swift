@@ -16,6 +16,10 @@ let package = Package(
             exact: "0.0.1"
         ),
         .package(
+            id: "aws-sdk-swift.AWSSDKChecksums",
+            exact: "0.0.1"
+        ),
+        .package(
             id: "aws-sdk-swift.AWSSDKHTTPAuth",
             exact: "0.0.1"
         ),
@@ -31,6 +35,10 @@ let package = Package(
                 .product(
                     name: "AWSClientRuntime",
                     package: "aws-sdk-swift.AWSClientRuntime"
+                ),
+                .product(
+                    name: "AWSSDKChecksums",
+                    package: "aws-sdk-swift.AWSSDKChecksums"
                 ),
                 .product(
                     name: "AWSSDKHTTPAuth",
