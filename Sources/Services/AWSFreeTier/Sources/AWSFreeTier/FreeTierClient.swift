@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class FreeTierClient: ClientRuntime.Client {
     public static let clientName = "FreeTierClient"
-    public static let version = "1.2.4"
+    public static let version = "1.2.5"
     let client: ClientRuntime.SdkHttpClient
     let config: FreeTierClient.FreeTierClientConfiguration
     let serviceName = "FreeTier"

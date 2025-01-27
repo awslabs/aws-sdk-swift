@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class WAFRegionalClient: ClientRuntime.Client {
     public static let clientName = "WAFRegionalClient"
-    public static let version = "1.2.4"
+    public static let version = "1.2.5"
     let client: ClientRuntime.SdkHttpClient
     let config: WAFRegionalClient.WAFRegionalClientConfiguration
     let serviceName = "WAF Regional"

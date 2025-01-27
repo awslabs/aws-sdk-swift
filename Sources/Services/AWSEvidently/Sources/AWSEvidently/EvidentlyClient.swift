@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EvidentlyClient: ClientRuntime.Client {
     public static let clientName = "EvidentlyClient"
-    public static let version = "1.2.4"
+    public static let version = "1.2.5"
     let client: ClientRuntime.SdkHttpClient
     let config: EvidentlyClient.EvidentlyClientConfiguration
     let serviceName = "Evidently"
