@@ -37,11 +37,11 @@ import struct SmithyHTTPAPI.Headers
 
 extension DeadlineClientTypes {
 
-    /// The range for the GPU fleet acceleration.
+    /// Defines the maximum and minimum number of GPU accelerators required for a worker instance..
     public struct AcceleratorCountRange: Swift.Sendable {
-        /// The maximum number of GPUs for the accelerator.
+        /// The maximum number of GPU accelerators in the worker host.
         public var max: Swift.Int?
-        /// The minimum number of GPUs for the accelerator. If you set the value to 0, a worker will still have 1 GPU.
+        /// The minimum number of GPU accelerators in the worker host.
         /// This member is required.
         public var min: Swift.Int?
 
@@ -92,12 +92,29 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes {
 
-    /// Values that you can use to select a particular Amazon EC2 instance type.
+    /// Describes a specific GPU accelerator required for an Amazon Elastic Compute Cloud worker host.
     public struct AcceleratorSelection: Swift.Sendable {
-        /// The name of the GPU accelerator.
+        /// The name of the chip used by the GPU accelerator. If you specify l4 as the name of the accelerator, you must specify latest or grid:r550 as the runtime. The available GPU accelerators are:
+        ///
+        /// * t4 - NVIDIA T4 Tensor Core GPU
+        ///
+        /// * a10g - NVIDIA A10G Tensor Core GPU
+        ///
+        /// * l4 - NVIDIA L4 Tensor Core GPU
+        ///
+        /// * l40s - NVIDIA L40S Tensor Core GPU
         /// This member is required.
         public var name: DeadlineClientTypes.AcceleratorName?
-        /// The driver version that the GPU accelerator uses.
+        /// Specifies the runtime driver to use for the GPU accelerator. You must use the same runtime for all GPUs. You can choose from the following runtimes:
+        ///
+        /// * latest - Use the latest runtime available for the chip. If you specify latest and a new version of the runtime is released, the new version of the runtime is used.
+        ///
+        /// * grid:r550 - [NVIDIA vGPU software 17](https://docs.nvidia.com/vgpu/17.0/index.html)
+        ///
+        /// * grid:r535 - [NVIDIA vGPU software 16](https://docs.nvidia.com/vgpu/16.0/index.html)
+        ///
+        ///
+        /// If you don't specify a runtime, Deadline Cloud uses latest as the default. However, if you have multiple accelerators and specify latest for some and leave others blank, Deadline Cloud raises an exception.
         public var runtime: Swift.String?
 
         public init(
@@ -112,11 +129,11 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes {
 
-    /// Provides information about the GPU accelerators and drivers for the instance types in a fleet. If you include the acceleratorCapabilities property in the [ServiceManagedEc2InstanceCapabilities](https://docs.aws.amazon.com/deadline-cloud/latest/APIReference/API_ServiceManagedEc2InstanceCapabilities) object, all of the Amazon EC2 instances will have at least one accelerator.
+    /// Provides information about the GPU accelerators used for jobs processed by a fleet.
     public struct AcceleratorCapabilities: Swift.Sendable {
-        /// The number of GPUs on each worker. The default is 1.
+        /// The number of GPU accelerators specified for worker hosts in this fleet.
         public var count: DeadlineClientTypes.AcceleratorCountRange?
-        /// A list of objects that contain the GPU name of the accelerator and driver for the instance types that support the accelerator.
+        /// A list of accelerator capabilities requested for this fleet. Only Amazon Elastic Compute Cloud instances that provide these capabilities will be used. For example, if you specify both L4 and T4 chips, Deadline Cloud will use Amazon EC2 instances that have either the L4 or the T4 chip installed.
         /// This member is required.
         public var selections: [DeadlineClientTypes.AcceleratorSelection]?
 
@@ -132,7 +149,7 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes {
 
-    /// The range for memory, in MiB, to use for the accelerator.
+    /// Defines the maximum and minimum amount of memory, in MiB, to use for the accelerator.
     public struct AcceleratorTotalMemoryMiBRange: Swift.Sendable {
         /// The maximum amount of memory to use for the accelerator, measured in MiB.
         public var max: Swift.Int?
@@ -202,6 +219,27 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     ) {
         self.properties.context = context
         self.properties.message = message
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Provides information about the number of resources used.
+    public struct AcquiredLimit: Swift.Sendable {
+        /// The number of limit resources used.
+        /// This member is required.
+        public var count: Swift.Int?
+        /// The unique identifier of the limit.
+        /// This member is required.
+        public var limitId: Swift.String?
+
+        public init(
+            count: Swift.Int? = nil,
+            limitId: Swift.String? = nil
+        ) {
+            self.count = count
+            self.limitId = limitId
+        }
     }
 }
 
@@ -1278,7 +1316,7 @@ extension DeadlineClientTypes {
     public struct ManifestProperties: Swift.Sendable {
         /// The file system location name.
         public var fileSystemLocationName: Swift.String?
-        /// The has value of the file.
+        /// The hash value of the file.
         public var inputManifestHash: Swift.String?
         /// The file path.
         public var inputManifestPath: Swift.String?
@@ -3082,7 +3120,7 @@ extension DeadlineClientTypes {
 
     /// The Amazon EC2 instance capabilities.
     public struct ServiceManagedEc2InstanceCapabilities: Swift.Sendable {
-        /// The GPU accelerator capabilities required for the Amazon EC2 instances. If you include the acceleratorCapabilities property in the [ServiceManagedEc2InstanceCapabilities](https://docs.aws.amazon.com/deadline-cloud/latest/APIReference/API_ServiceManagedEc2InstanceCapabilities) object, all of the Amazon EC2 instances will have at least one accelerator.
+        /// Describes the GPU accelerator capabilities required for worker host instances in this fleet.
         public var acceleratorCapabilities: DeadlineClientTypes.AcceleratorCapabilities?
         /// The allowable Amazon EC2 instance types.
         public var allowedInstanceTypes: [Swift.String]?
@@ -3317,6 +3355,8 @@ public struct CreateJobInput: Swift.Sendable {
     public var maxFailedTasksCount: Swift.Int?
     /// The maximum number of retries for each task.
     public var maxRetriesPerTask: Swift.Int?
+    /// The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. You can't set the maxWorkerCount to 0. If you set it to -1, there is no maximum number of workers. If you don't specify the maxWorkerCount, Deadline Cloud won't throttle the number of workers used to process the job.
+    public var maxWorkerCount: Swift.Int?
     /// The parameters for the job.
     public var parameters: [Swift.String: DeadlineClientTypes.JobParameter]?
     /// The priority of the job on a scale of 0 to 100. The highest priority (first scheduled) is 100. When two jobs have the same priority, the oldest job is scheduled first.
@@ -3342,6 +3382,7 @@ public struct CreateJobInput: Swift.Sendable {
         farmId: Swift.String? = nil,
         maxFailedTasksCount: Swift.Int? = nil,
         maxRetriesPerTask: Swift.Int? = nil,
+        maxWorkerCount: Swift.Int? = nil,
         parameters: [Swift.String: DeadlineClientTypes.JobParameter]? = nil,
         priority: Swift.Int? = nil,
         queueId: Swift.String? = nil,
@@ -3356,6 +3397,7 @@ public struct CreateJobInput: Swift.Sendable {
         self.farmId = farmId
         self.maxFailedTasksCount = maxFailedTasksCount
         self.maxRetriesPerTask = maxRetriesPerTask
+        self.maxWorkerCount = maxWorkerCount
         self.parameters = parameters
         self.priority = priority
         self.queueId = queueId
@@ -3369,7 +3411,7 @@ public struct CreateJobInput: Swift.Sendable {
 
 extension CreateJobInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateJobInput(attachments: \(Swift.String(describing: attachments)), clientToken: \(Swift.String(describing: clientToken)), farmId: \(Swift.String(describing: farmId)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), sourceJobId: \(Swift.String(describing: sourceJobId)), storageProfileId: \(Swift.String(describing: storageProfileId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), templateType: \(Swift.String(describing: templateType)), parameters: \"CONTENT_REDACTED\", template: \"CONTENT_REDACTED\")"}
+        "CreateJobInput(attachments: \(Swift.String(describing: attachments)), clientToken: \(Swift.String(describing: clientToken)), farmId: \(Swift.String(describing: farmId)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), sourceJobId: \(Swift.String(describing: sourceJobId)), storageProfileId: \(Swift.String(describing: storageProfileId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), templateType: \(Swift.String(describing: templateType)), parameters: \"CONTENT_REDACTED\", template: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateJobOutput: Swift.Sendable {
@@ -3423,6 +3465,58 @@ public struct CreateLicenseEndpointOutput: Swift.Sendable {
         licenseEndpointId: Swift.String? = nil
     ) {
         self.licenseEndpointId = licenseEndpointId
+    }
+}
+
+public struct CreateLimitInput: Swift.Sendable {
+    /// The value that you specify as the name in the amounts field of the hostRequirements in a step of a job template to declare the limit requirement.
+    /// This member is required.
+    public var amountRequirementName: Swift.String?
+    /// The unique token which the server uses to recognize retries of the same request.
+    public var clientToken: Swift.String?
+    /// A description of the limit. A description helps you identify the purpose of the limit. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    public var description: Swift.String?
+    /// The display name of the limit. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// The farm ID of the farm that contains the limit.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The maximum number of resources constrained by this limit. When all of the resources are in use, steps that require the limit won't be scheduled until the resource is available. The maxCount must not be 0. If the value is -1, there is no restriction on the number of resources that can be acquired for this limit.
+    /// This member is required.
+    public var maxCount: Swift.Int?
+
+    public init(
+        amountRequirementName: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        farmId: Swift.String? = nil,
+        maxCount: Swift.Int? = nil
+    ) {
+        self.amountRequirementName = amountRequirementName
+        self.clientToken = clientToken
+        self.description = description
+        self.displayName = displayName
+        self.farmId = farmId
+        self.maxCount = maxCount
+    }
+}
+
+extension CreateLimitInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateLimitInput(amountRequirementName: \(Swift.String(describing: amountRequirementName)), clientToken: \(Swift.String(describing: clientToken)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), maxCount: \(Swift.String(describing: maxCount)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateLimitOutput: Swift.Sendable {
+    /// A unique identifier for the limit. Use this identifier in other operations, such as CreateQueueLimitAssociation and DeleteLimit.
+    /// This member is required.
+    public var limitId: Swift.String?
+
+    public init(
+        limitId: Swift.String? = nil
+    ) {
+        self.limitId = limitId
     }
 }
 
@@ -3681,6 +3775,33 @@ public struct CreateQueueFleetAssociationInput: Swift.Sendable {
 }
 
 public struct CreateQueueFleetAssociationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct CreateQueueLimitAssociationInput: Swift.Sendable {
+    /// The unique identifier of the farm that contains the queue and limit to associate.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The unique identifier of the limit to associate with the queue.
+    /// This member is required.
+    public var limitId: Swift.String?
+    /// The unique identifier of the queue to associate with the limit.
+    /// This member is required.
+    public var queueId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        limitId: Swift.String? = nil,
+        queueId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.limitId = limitId
+        self.queueId = queueId
+    }
+}
+
+public struct CreateQueueLimitAssociationOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -3953,6 +4074,33 @@ public struct DeleteQueueFleetAssociationOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteQueueLimitAssociationInput: Swift.Sendable {
+    /// The unique identifier of the farm that contains the queue and limit to disassociate.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The unique identifier of the limit to disassociate.
+    /// This member is required.
+    public var limitId: Swift.String?
+    /// The unique identifier of the queue to disassociate.
+    /// This member is required.
+    public var queueId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        limitId: Swift.String? = nil,
+        queueId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.limitId = limitId
+        self.queueId = queueId
+    }
+}
+
+public struct DeleteQueueLimitAssociationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteFarmInput: Swift.Sendable {
     /// The farm ID of the farm to delete.
     /// This member is required.
@@ -3966,6 +4114,28 @@ public struct DeleteFarmInput: Swift.Sendable {
 }
 
 public struct DeleteFarmOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteLimitInput: Swift.Sendable {
+    /// The unique identifier of the farm that contains the limit to delete.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The unique identifier of the limit to delete.
+    /// This member is required.
+    public var limitId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        limitId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.limitId = limitId
+    }
+}
+
+public struct DeleteLimitOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -5245,6 +5415,87 @@ extension GetFarmOutput: Swift.CustomDebugStringConvertible {
         "GetFarmOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\")"}
 }
 
+public struct GetLimitInput: Swift.Sendable {
+    /// The unique identifier of the farm that contains the limit.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The unique identifier of the limit to return.
+    /// This member is required.
+    public var limitId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        limitId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.limitId = limitId
+    }
+}
+
+public struct GetLimitOutput: Swift.Sendable {
+    /// The value that you specify as the name in the amounts field of the hostRequirements in a step of a job template to declare the limit requirement.
+    /// This member is required.
+    public var amountRequirementName: Swift.String?
+    /// The Unix timestamp of the date and time that the limit was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The user identifier of the person that created the limit.
+    /// This member is required.
+    public var createdBy: Swift.String?
+    /// The number of resources from the limit that are being used by jobs. The result is delayed and may not be the count at the time that you called the operation.
+    /// This member is required.
+    public var currentCount: Swift.Int?
+    /// The description of the limit that helps identify what the limit is used for. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    public var description: Swift.String?
+    /// The display name of the limit. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// The unique identifier of the farm that contains the limit.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The unique identifier of the limit.
+    /// This member is required.
+    public var limitId: Swift.String?
+    /// The maximum number of resources constrained by this limit. When all of the resources are in use, steps that require the limit won't be scheduled until the resource is available. The maxValue must not be 0. If the value is -1, there is no restriction on the number of resources that can be acquired for this limit.
+    /// This member is required.
+    public var maxCount: Swift.Int?
+    /// The Unix timestamp of the date and time that the limit was last updated.
+    public var updatedAt: Foundation.Date?
+    /// The user identifier of the person that last updated the limit.
+    public var updatedBy: Swift.String?
+
+    public init(
+        amountRequirementName: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        currentCount: Swift.Int? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        farmId: Swift.String? = nil,
+        limitId: Swift.String? = nil,
+        maxCount: Swift.Int? = nil,
+        updatedAt: Foundation.Date? = nil,
+        updatedBy: Swift.String? = nil
+    ) {
+        self.amountRequirementName = amountRequirementName
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.currentCount = currentCount
+        self.description = description
+        self.displayName = displayName
+        self.farmId = farmId
+        self.limitId = limitId
+        self.maxCount = maxCount
+        self.updatedAt = updatedAt
+        self.updatedBy = updatedBy
+    }
+}
+
+extension GetLimitOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetLimitOutput(amountRequirementName: \(Swift.String(describing: amountRequirementName)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), currentCount: \(Swift.String(describing: currentCount)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), limitId: \(Swift.String(describing: limitId)), maxCount: \(Swift.String(describing: maxCount)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\")"}
+}
+
 public struct GetStorageProfileInput: Swift.Sendable {
     /// The farm ID for the storage profile.
     /// This member is required.
@@ -5457,6 +5708,101 @@ public struct ListFarmsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.farms = farms
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListLimitsInput: Swift.Sendable {
+    /// The unique identifier of the farm that contains the limits.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The maximum number of limits to return in each page of results.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null to start from the beginning.
+    public var nextToken: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        maxResults: Swift.Int? = 100,
+        nextToken: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Provides information about a specific limit.
+    public struct LimitSummary: Swift.Sendable {
+        /// The value that you specify as the name in the amounts field of the hostRequirements in a step of a job template to declare the limit requirement.
+        /// This member is required.
+        public var amountRequirementName: Swift.String?
+        /// The Unix timestamp of the date and time that the limit was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The user identifier of the person that created the limit.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The number of resources from the limit that are being used by jobs. The result is delayed and may not be the count at the time that you called the operation.
+        /// This member is required.
+        public var currentCount: Swift.Int?
+        /// The name of the limit used in lists to identify the limit. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+        /// This member is required.
+        public var displayName: Swift.String?
+        /// The unique identifier of the farm that contains the limit.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The unique identifier of the limit.
+        /// This member is required.
+        public var limitId: Swift.String?
+        /// The maximum number of resources constrained by this limit. When all of the resources are in use, steps that require the limit won't be scheduled until the resource is available. The maxValue must not be 0. If the value is -1, there is no restriction on the number of resources that can be acquired for this limit.
+        /// This member is required.
+        public var maxCount: Swift.Int?
+        /// The Unix timestamp of the date and time that the limit was last updated.
+        public var updatedAt: Foundation.Date?
+        /// The user identifier of the person that last updated the limit.
+        public var updatedBy: Swift.String?
+
+        public init(
+            amountRequirementName: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            currentCount: Swift.Int? = nil,
+            displayName: Swift.String? = nil,
+            farmId: Swift.String? = nil,
+            limitId: Swift.String? = nil,
+            maxCount: Swift.Int? = nil,
+            updatedAt: Foundation.Date? = nil,
+            updatedBy: Swift.String? = nil
+        ) {
+            self.amountRequirementName = amountRequirementName
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.currentCount = currentCount
+            self.displayName = displayName
+            self.farmId = farmId
+            self.limitId = limitId
+            self.maxCount = maxCount
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+    }
+}
+
+public struct ListLimitsOutput: Swift.Sendable {
+    /// A list of limits that the farm contains.
+    /// This member is required.
+    public var limits: [DeadlineClientTypes.LimitSummary]?
+    /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
+    public var nextToken: Swift.String?
+
+    public init(
+        limits: [DeadlineClientTypes.LimitSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.limits = limits
         self.nextToken = nextToken
     }
 }
@@ -6126,6 +6472,8 @@ public struct GetJobOutput: Swift.Sendable {
     public var maxFailedTasksCount: Swift.Int?
     /// The maximum number of retries per failed tasks.
     public var maxRetriesPerTask: Swift.Int?
+    /// The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. If you don't set the maxWorkerCount when you create a job, this value is not returned in the response.
+    public var maxWorkerCount: Swift.Int?
     /// The name of the job.
     /// This member is required.
     public var name: Swift.String?
@@ -6162,6 +6510,7 @@ public struct GetJobOutput: Swift.Sendable {
         lifecycleStatusMessage: Swift.String? = nil,
         maxFailedTasksCount: Swift.Int? = nil,
         maxRetriesPerTask: Swift.Int? = nil,
+        maxWorkerCount: Swift.Int? = nil,
         name: Swift.String? = nil,
         parameters: [Swift.String: DeadlineClientTypes.JobParameter]? = nil,
         priority: Swift.Int? = nil,
@@ -6184,6 +6533,7 @@ public struct GetJobOutput: Swift.Sendable {
         self.lifecycleStatusMessage = lifecycleStatusMessage
         self.maxFailedTasksCount = maxFailedTasksCount
         self.maxRetriesPerTask = maxRetriesPerTask
+        self.maxWorkerCount = maxWorkerCount
         self.name = name
         self.parameters = parameters
         self.priority = priority
@@ -6200,7 +6550,7 @@ public struct GetJobOutput: Swift.Sendable {
 
 extension GetJobOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetJobOutput(attachments: \(Swift.String(describing: attachments)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), sourceJobId: \(Swift.String(describing: sourceJobId)), startedAt: \(Swift.String(describing: startedAt)), storageProfileId: \(Swift.String(describing: storageProfileId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
+        "GetJobOutput(attachments: \(Swift.String(describing: attachments)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), sourceJobId: \(Swift.String(describing: sourceJobId)), startedAt: \(Swift.String(describing: startedAt)), storageProfileId: \(Swift.String(describing: storageProfileId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetSessionInput: Swift.Sendable {
@@ -6469,6 +6819,8 @@ extension DeadlineClientTypes {
 }
 
 public struct GetSessionActionOutput: Swift.Sendable {
+    /// The limits and their amounts acquired during a session action. If no limits were acquired during the session, this field isn't returned.
+    public var acquiredLimits: [DeadlineClientTypes.AcquiredLimit]?
     /// The session action definition.
     /// This member is required.
     public var definition: DeadlineClientTypes.SessionActionDefinition?
@@ -6495,6 +6847,7 @@ public struct GetSessionActionOutput: Swift.Sendable {
     public var workerUpdatedAt: Foundation.Date?
 
     public init(
+        acquiredLimits: [DeadlineClientTypes.AcquiredLimit]? = nil,
         definition: DeadlineClientTypes.SessionActionDefinition? = nil,
         endedAt: Foundation.Date? = nil,
         processExitCode: Swift.Int? = nil,
@@ -6506,6 +6859,7 @@ public struct GetSessionActionOutput: Swift.Sendable {
         status: DeadlineClientTypes.SessionActionStatus? = nil,
         workerUpdatedAt: Foundation.Date? = nil
     ) {
+        self.acquiredLimits = acquiredLimits
         self.definition = definition
         self.endedAt = endedAt
         self.processExitCode = processExitCode
@@ -6521,7 +6875,7 @@ public struct GetSessionActionOutput: Swift.Sendable {
 
 extension GetSessionActionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetSessionActionOutput(definition: \(Swift.String(describing: definition)), endedAt: \(Swift.String(describing: endedAt)), processExitCode: \(Swift.String(describing: processExitCode)), progressPercent: \(Swift.String(describing: progressPercent)), sessionActionId: \(Swift.String(describing: sessionActionId)), sessionId: \(Swift.String(describing: sessionId)), startedAt: \(Swift.String(describing: startedAt)), status: \(Swift.String(describing: status)), workerUpdatedAt: \(Swift.String(describing: workerUpdatedAt)), progressMessage: \"CONTENT_REDACTED\")"}
+        "GetSessionActionOutput(acquiredLimits: \(Swift.String(describing: acquiredLimits)), definition: \(Swift.String(describing: definition)), endedAt: \(Swift.String(describing: endedAt)), processExitCode: \(Swift.String(describing: processExitCode)), progressPercent: \(Swift.String(describing: progressPercent)), sessionActionId: \(Swift.String(describing: sessionActionId)), sessionId: \(Swift.String(describing: sessionId)), startedAt: \(Swift.String(describing: startedAt)), status: \(Swift.String(describing: status)), workerUpdatedAt: \(Swift.String(describing: workerUpdatedAt)), progressMessage: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetStepInput: Swift.Sendable {
@@ -7223,6 +7577,8 @@ extension DeadlineClientTypes {
         public var maxFailedTasksCount: Swift.Int?
         /// The maximum number of retries for a job.
         public var maxRetriesPerTask: Swift.Int?
+        /// The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. You can't set the maxWorkerCount to 0. If you set it to -1, there is no maximum number of workers. If you don't specify the maxWorkerCount, the default is -1.
+        public var maxWorkerCount: Swift.Int?
         /// The job name.
         /// This member is required.
         public var name: Swift.String?
@@ -7273,6 +7629,7 @@ extension DeadlineClientTypes {
             lifecycleStatusMessage: Swift.String? = nil,
             maxFailedTasksCount: Swift.Int? = nil,
             maxRetriesPerTask: Swift.Int? = nil,
+            maxWorkerCount: Swift.Int? = nil,
             name: Swift.String? = nil,
             priority: Swift.Int? = nil,
             sourceJobId: Swift.String? = nil,
@@ -7291,6 +7648,7 @@ extension DeadlineClientTypes {
             self.lifecycleStatusMessage = lifecycleStatusMessage
             self.maxFailedTasksCount = maxFailedTasksCount
             self.maxRetriesPerTask = maxRetriesPerTask
+            self.maxWorkerCount = maxWorkerCount
             self.name = name
             self.priority = priority
             self.sourceJobId = sourceJobId
@@ -8071,6 +8429,8 @@ public struct UpdateJobInput: Swift.Sendable {
     public var maxFailedTasksCount: Swift.Int?
     /// The maximum number of retries for a job.
     public var maxRetriesPerTask: Swift.Int?
+    /// The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. You can't set the maxWorkerCount to 0. If you set it to -1, there is no maximum number of workers. If you don't specify the maxWorkerCount, the default is -1. The maximum number of workers that can process tasks in the job.
+    public var maxWorkerCount: Swift.Int?
     /// The job priority to update.
     public var priority: Swift.Int?
     /// The queue ID of the job to update.
@@ -8086,6 +8446,7 @@ public struct UpdateJobInput: Swift.Sendable {
         lifecycleStatus: DeadlineClientTypes.UpdateJobLifecycleStatus? = nil,
         maxFailedTasksCount: Swift.Int? = nil,
         maxRetriesPerTask: Swift.Int? = nil,
+        maxWorkerCount: Swift.Int? = nil,
         priority: Swift.Int? = nil,
         queueId: Swift.String? = nil,
         targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus? = nil
@@ -8096,6 +8457,7 @@ public struct UpdateJobInput: Swift.Sendable {
         self.lifecycleStatus = lifecycleStatus
         self.maxFailedTasksCount = maxFailedTasksCount
         self.maxRetriesPerTask = maxRetriesPerTask
+        self.maxWorkerCount = maxWorkerCount
         self.priority = priority
         self.queueId = queueId
         self.targetTaskRunStatus = targetTaskRunStatus
@@ -8682,6 +9044,45 @@ public struct UpdateFarmOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateLimitInput: Swift.Sendable {
+    /// The new description of the limit. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    public var description: Swift.String?
+    /// The new display name of the limit. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    public var displayName: Swift.String?
+    /// The unique identifier of the farm that contains the limit.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The unique identifier of the limit to update.
+    /// This member is required.
+    public var limitId: Swift.String?
+    /// The maximum number of resources constrained by this limit. When all of the resources are in use, steps that require the limit won't be scheduled until the resource is available. If more than the new maximum number is currently in use, running jobs finish but no new jobs are started until the number of resources in use is below the new maximum number. The maxCount must not be 0. If the value is -1, there is no restriction on the number of resources that can be acquired for this limit.
+    public var maxCount: Swift.Int?
+
+    public init(
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        farmId: Swift.String? = nil,
+        limitId: Swift.String? = nil,
+        maxCount: Swift.Int? = nil
+    ) {
+        self.description = description
+        self.displayName = displayName
+        self.farmId = farmId
+        self.limitId = limitId
+        self.maxCount = maxCount
+    }
+}
+
+extension UpdateLimitInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateLimitInput(displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), limitId: \(Swift.String(describing: limitId)), maxCount: \(Swift.String(describing: maxCount)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateLimitOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UpdateStorageProfileInput: Swift.Sendable {
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
@@ -8819,6 +9220,103 @@ public struct GetQueueFleetAssociationOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.fleetId = fleetId
+        self.queueId = queueId
+        self.status = status
+        self.updatedAt = updatedAt
+        self.updatedBy = updatedBy
+    }
+}
+
+public struct GetQueueLimitAssociationInput: Swift.Sendable {
+    /// The unique identifier of the farm that contains the associated queue and limit.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The unique identifier of the limit associated with the queue.
+    /// This member is required.
+    public var limitId: Swift.String?
+    /// The unique identifier of the queue associated with the limit.
+    /// This member is required.
+    public var queueId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        limitId: Swift.String? = nil,
+        queueId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.limitId = limitId
+        self.queueId = queueId
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum QueueLimitAssociationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case stopped
+        case stopLimitUsageAndCancelTasks
+        case stopLimitUsageAndCompleteTasks
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QueueLimitAssociationStatus] {
+            return [
+                .active,
+                .stopped,
+                .stopLimitUsageAndCancelTasks,
+                .stopLimitUsageAndCompleteTasks
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .stopped: return "STOPPED"
+            case .stopLimitUsageAndCancelTasks: return "STOP_LIMIT_USAGE_AND_CANCEL_TASKS"
+            case .stopLimitUsageAndCompleteTasks: return "STOP_LIMIT_USAGE_AND_COMPLETE_TASKS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetQueueLimitAssociationOutput: Swift.Sendable {
+    /// The Unix timestamp of the date and time that the association was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The user identifier of the person that created the association.
+    /// This member is required.
+    public var createdBy: Swift.String?
+    /// The unique identifier of the limit associated with the queue.
+    /// This member is required.
+    public var limitId: Swift.String?
+    /// The unique identifier of the queue associated with the limit.
+    /// This member is required.
+    public var queueId: Swift.String?
+    /// The current status of the limit.
+    /// This member is required.
+    public var status: DeadlineClientTypes.QueueLimitAssociationStatus?
+    /// The Unix timestamp of the date and time that the association was last updated.
+    public var updatedAt: Foundation.Date?
+    /// The user identifier of the person that last updated the association.
+    public var updatedBy: Swift.String?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        limitId: Swift.String? = nil,
+        queueId: Swift.String? = nil,
+        status: DeadlineClientTypes.QueueLimitAssociationStatus? = nil,
+        updatedAt: Foundation.Date? = nil,
+        updatedBy: Swift.String? = nil
+    ) {
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.limitId = limitId
         self.queueId = queueId
         self.status = status
         self.updatedAt = updatedAt
@@ -9430,6 +9928,102 @@ public struct ListQueueFleetAssociationsOutput: Swift.Sendable {
     }
 }
 
+public struct ListQueueLimitAssociationsInput: Swift.Sendable {
+    /// The unique identifier of the farm that contains the limits and associations.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// Specifies that the operation should return only the queue limit associations for the specified limit. If you specify both the queueId and the limitId, only the specified limit is returned if it exists.
+    public var limitId: Swift.String?
+    /// The maximum number of associations to return in each page of results.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null to start from the beginning.
+    public var nextToken: Swift.String?
+    /// Specifies that the operation should return only the queue limit associations for the specified queue. If you specify both the queueId and the limitId, only the specified limit is returned if it exists.
+    public var queueId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        limitId: Swift.String? = nil,
+        maxResults: Swift.Int? = 100,
+        nextToken: Swift.String? = nil,
+        queueId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.limitId = limitId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.queueId = queueId
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Provides information about the association between a queue and a limit.
+    public struct QueueLimitAssociationSummary: Swift.Sendable {
+        /// The Unix timestamp of the date and time that the association was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The user identifier of the person that created the association.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The unique identifier of the limit in the association.
+        /// This member is required.
+        public var limitId: Swift.String?
+        /// The unique identifier of the queue in the association.
+        /// This member is required.
+        public var queueId: Swift.String?
+        /// The status of task scheduling in the queue-limit association.
+        ///
+        /// * ACTIVE - Association is active.
+        ///
+        /// * STOP_LIMIT_USAGE_AND_COMPLETE_TASKS - Association has stopped scheduling new tasks and is completing current tasks.
+        ///
+        /// * STOP_LIMIT_USAGE_AND_CANCEL_TASKS - Association has stopped scheduling new tasks and is canceling current tasks.
+        ///
+        /// * STOPPED - Association has been stopped.
+        /// This member is required.
+        public var status: DeadlineClientTypes.QueueLimitAssociationStatus?
+        /// The Unix timestamp of the date and time that the association was last updated.
+        public var updatedAt: Foundation.Date?
+        /// The user identifier of the person that updated the association.
+        public var updatedBy: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            limitId: Swift.String? = nil,
+            queueId: Swift.String? = nil,
+            status: DeadlineClientTypes.QueueLimitAssociationStatus? = nil,
+            updatedAt: Foundation.Date? = nil,
+            updatedBy: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.limitId = limitId
+            self.queueId = queueId
+            self.status = status
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+    }
+}
+
+public struct ListQueueLimitAssociationsOutput: Swift.Sendable {
+    /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
+    public var nextToken: Swift.String?
+    /// A list of associations between limits and queues in the farm specified in the request.
+    /// This member is required.
+    public var queueLimitAssociations: [DeadlineClientTypes.QueueLimitAssociationSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        queueLimitAssociations: [DeadlineClientTypes.QueueLimitAssociationSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.queueLimitAssociations = queueLimitAssociations
+    }
+}
+
 public struct ListTagsForResourceInput: Swift.Sendable {
     /// The resource ARN to list tags for.
     /// This member is required.
@@ -9886,6 +10480,8 @@ extension DeadlineClientTypes {
         public var maxFailedTasksCount: Swift.Int?
         /// The maximum number of retries for a job.
         public var maxRetriesPerTask: Swift.Int?
+        /// The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. You can't set the maxWorkerCount to 0. If you set it to -1, there is no maximum number of workers. If you don't specify the maxWorkerCount, the default is -1.
+        public var maxWorkerCount: Swift.Int?
         /// The job name.
         public var name: Swift.String?
         /// The job priority.
@@ -9933,6 +10529,7 @@ extension DeadlineClientTypes {
             lifecycleStatusMessage: Swift.String? = nil,
             maxFailedTasksCount: Swift.Int? = nil,
             maxRetriesPerTask: Swift.Int? = nil,
+            maxWorkerCount: Swift.Int? = nil,
             name: Swift.String? = nil,
             priority: Swift.Int? = nil,
             queueId: Swift.String? = nil,
@@ -9951,6 +10548,7 @@ extension DeadlineClientTypes {
             self.lifecycleStatusMessage = lifecycleStatusMessage
             self.maxFailedTasksCount = maxFailedTasksCount
             self.maxRetriesPerTask = maxRetriesPerTask
+            self.maxWorkerCount = maxWorkerCount
             self.name = name
             self.priority = priority
             self.queueId = queueId
@@ -9965,7 +10563,7 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes.JobSearchSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "JobSearchSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), sourceJobId: \(Swift.String(describing: sourceJobId)), startedAt: \(Swift.String(describing: startedAt)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), jobParameters: \"CONTENT_REDACTED\")"}
+        "JobSearchSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), sourceJobId: \(Swift.String(describing: sourceJobId)), startedAt: \(Swift.String(describing: startedAt)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), jobParameters: \"CONTENT_REDACTED\")"}
 }
 
 public struct SearchJobsOutput: Swift.Sendable {
@@ -10526,6 +11124,70 @@ public struct UpdateQueueFleetAssociationOutput: Swift.Sendable {
 
 extension DeadlineClientTypes {
 
+    public enum UpdateQueueLimitAssociationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case stopLimitUsageAndCancelTasks
+        case stopLimitUsageAndCompleteTasks
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpdateQueueLimitAssociationStatus] {
+            return [
+                .active,
+                .stopLimitUsageAndCancelTasks,
+                .stopLimitUsageAndCompleteTasks
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .stopLimitUsageAndCancelTasks: return "STOP_LIMIT_USAGE_AND_CANCEL_TASKS"
+            case .stopLimitUsageAndCompleteTasks: return "STOP_LIMIT_USAGE_AND_COMPLETE_TASKS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct UpdateQueueLimitAssociationInput: Swift.Sendable {
+    /// The unique identifier of the farm that contains the associated queues and limits.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The unique identifier of the limit associated to the queue.
+    /// This member is required.
+    public var limitId: Swift.String?
+    /// The unique identifier of the queue associated to the limit.
+    /// This member is required.
+    public var queueId: Swift.String?
+    /// Sets the status of the limit. You can mark the limit active, or you can stop usage of the limit and either complete existing tasks or cancel any existing tasks immediately.
+    /// This member is required.
+    public var status: DeadlineClientTypes.UpdateQueueLimitAssociationStatus?
+
+    public init(
+        farmId: Swift.String? = nil,
+        limitId: Swift.String? = nil,
+        queueId: Swift.String? = nil,
+        status: DeadlineClientTypes.UpdateQueueLimitAssociationStatus? = nil
+    ) {
+        self.farmId = farmId
+        self.limitId = limitId
+        self.queueId = queueId
+        self.status = status
+    }
+}
+
+public struct UpdateQueueLimitAssociationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension DeadlineClientTypes {
+
     /// The type of search filter to apply.
     public indirect enum SearchFilterExpression: Swift.Sendable {
         /// Filters based on date and time.
@@ -10990,6 +11652,27 @@ extension CreateLicenseEndpointInput {
     }
 }
 
+extension CreateLimitInput {
+
+    static func urlPathProvider(_ value: CreateLimitInput) -> Swift.String? {
+        guard let farmId = value.farmId else {
+            return nil
+        }
+        return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/limits"
+    }
+}
+
+extension CreateLimitInput {
+
+    static func headerProvider(_ value: CreateLimitInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let clientToken = value.clientToken {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amz-Client-Token", value: Swift.String(clientToken)))
+        }
+        return items
+    }
+}
+
 extension CreateMonitorInput {
 
     static func urlPathProvider(_ value: CreateMonitorInput) -> Swift.String? {
@@ -11060,6 +11743,16 @@ extension CreateQueueFleetAssociationInput {
             return nil
         }
         return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/queue-fleet-associations"
+    }
+}
+
+extension CreateQueueLimitAssociationInput {
+
+    static func urlPathProvider(_ value: CreateQueueLimitAssociationInput) -> Swift.String? {
+        guard let farmId = value.farmId else {
+            return nil
+        }
+        return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/queue-limit-associations"
     }
 }
 
@@ -11165,6 +11858,19 @@ extension DeleteLicenseEndpointInput {
     }
 }
 
+extension DeleteLimitInput {
+
+    static func urlPathProvider(_ value: DeleteLimitInput) -> Swift.String? {
+        guard let farmId = value.farmId else {
+            return nil
+        }
+        guard let limitId = value.limitId else {
+            return nil
+        }
+        return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/limits/\(limitId.urlPercentEncoding())"
+    }
+}
+
 extension DeleteMeteredProductInput {
 
     static func urlPathProvider(_ value: DeleteMeteredProductInput) -> Swift.String? {
@@ -11230,6 +11936,22 @@ extension DeleteQueueFleetAssociationInput {
             return nil
         }
         return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/queue-fleet-associations/\(queueId.urlPercentEncoding())/\(fleetId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteQueueLimitAssociationInput {
+
+    static func urlPathProvider(_ value: DeleteQueueLimitAssociationInput) -> Swift.String? {
+        guard let farmId = value.farmId else {
+            return nil
+        }
+        guard let queueId = value.queueId else {
+            return nil
+        }
+        guard let limitId = value.limitId else {
+            return nil
+        }
+        return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/queue-limit-associations/\(queueId.urlPercentEncoding())/\(limitId.urlPercentEncoding())"
     }
 }
 
@@ -11388,6 +12110,19 @@ extension GetLicenseEndpointInput {
     }
 }
 
+extension GetLimitInput {
+
+    static func urlPathProvider(_ value: GetLimitInput) -> Swift.String? {
+        guard let farmId = value.farmId else {
+            return nil
+        }
+        guard let limitId = value.limitId else {
+            return nil
+        }
+        return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/limits/\(limitId.urlPercentEncoding())"
+    }
+}
+
 extension GetMonitorInput {
 
     static func urlPathProvider(_ value: GetMonitorInput) -> Swift.String? {
@@ -11440,6 +12175,22 @@ extension GetQueueFleetAssociationInput {
             return nil
         }
         return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/queue-fleet-associations/\(queueId.urlPercentEncoding())/\(fleetId.urlPercentEncoding())"
+    }
+}
+
+extension GetQueueLimitAssociationInput {
+
+    static func urlPathProvider(_ value: GetQueueLimitAssociationInput) -> Swift.String? {
+        guard let farmId = value.farmId else {
+            return nil
+        }
+        guard let queueId = value.queueId else {
+            return nil
+        }
+        guard let limitId = value.limitId else {
+            return nil
+        }
+        return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/queue-limit-associations/\(queueId.urlPercentEncoding())/\(limitId.urlPercentEncoding())"
     }
 }
 
@@ -11892,6 +12643,32 @@ extension ListLicenseEndpointsInput {
     }
 }
 
+extension ListLimitsInput {
+
+    static func urlPathProvider(_ value: ListLimitsInput) -> Swift.String? {
+        guard let farmId = value.farmId else {
+            return nil
+        }
+        return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/limits"
+    }
+}
+
+extension ListLimitsInput {
+
+    static func queryItemProvider(_ value: ListLimitsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListMeteredProductsInput {
 
     static func urlPathProvider(_ value: ListMeteredProductsInput) -> Swift.String? {
@@ -11999,6 +12776,40 @@ extension ListQueueFleetAssociationsInput {
         if let fleetId = value.fleetId {
             let fleetIdQueryItem = Smithy.URIQueryItem(name: "fleetId".urlPercentEncoding(), value: Swift.String(fleetId).urlPercentEncoding())
             items.append(fleetIdQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListQueueLimitAssociationsInput {
+
+    static func urlPathProvider(_ value: ListQueueLimitAssociationsInput) -> Swift.String? {
+        guard let farmId = value.farmId else {
+            return nil
+        }
+        return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/queue-limit-associations"
+    }
+}
+
+extension ListQueueLimitAssociationsInput {
+
+    static func queryItemProvider(_ value: ListQueueLimitAssociationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let queueId = value.queueId {
+            let queueIdQueryItem = Smithy.URIQueryItem(name: "queueId".urlPercentEncoding(), value: Swift.String(queueId).urlPercentEncoding())
+            items.append(queueIdQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let limitId = value.limitId {
+            let limitIdQueryItem = Smithy.URIQueryItem(name: "limitId".urlPercentEncoding(), value: Swift.String(limitId).urlPercentEncoding())
+            items.append(limitIdQueryItem)
         }
         return items
     }
@@ -12586,6 +13397,19 @@ extension UpdateJobInput {
     }
 }
 
+extension UpdateLimitInput {
+
+    static func urlPathProvider(_ value: UpdateLimitInput) -> Swift.String? {
+        guard let farmId = value.farmId else {
+            return nil
+        }
+        guard let limitId = value.limitId else {
+            return nil
+        }
+        return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/limits/\(limitId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateMonitorInput {
 
     static func urlPathProvider(_ value: UpdateMonitorInput) -> Swift.String? {
@@ -12660,6 +13484,22 @@ extension UpdateQueueFleetAssociationInput {
             return nil
         }
         return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/queue-fleet-associations/\(queueId.urlPercentEncoding())/\(fleetId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateQueueLimitAssociationInput {
+
+    static func urlPathProvider(_ value: UpdateQueueLimitAssociationInput) -> Swift.String? {
+        guard let farmId = value.farmId else {
+            return nil
+        }
+        guard let queueId = value.queueId else {
+            return nil
+        }
+        guard let limitId = value.limitId else {
+            return nil
+        }
+        return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/queue-limit-associations/\(queueId.urlPercentEncoding())/\(limitId.urlPercentEncoding())"
     }
 }
 
@@ -12913,6 +13753,7 @@ extension CreateJobInput {
         try writer["attachments"].write(value.attachments, with: DeadlineClientTypes.Attachments.write(value:to:))
         try writer["maxFailedTasksCount"].write(value.maxFailedTasksCount)
         try writer["maxRetriesPerTask"].write(value.maxRetriesPerTask)
+        try writer["maxWorkerCount"].write(value.maxWorkerCount)
         try writer["parameters"].writeMap(value.parameters, valueWritingClosure: DeadlineClientTypes.JobParameter.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["priority"].write(value.priority)
         try writer["sourceJobId"].write(value.sourceJobId)
@@ -12931,6 +13772,17 @@ extension CreateLicenseEndpointInput {
         try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["vpcId"].write(value.vpcId)
+    }
+}
+
+extension CreateLimitInput {
+
+    static func write(value: CreateLimitInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["amountRequirementName"].write(value.amountRequirementName)
+        try writer["description"].write(value.description)
+        try writer["displayName"].write(value.displayName)
+        try writer["maxCount"].write(value.maxCount)
     }
 }
 
@@ -12976,6 +13828,15 @@ extension CreateQueueFleetAssociationInput {
     static func write(value: CreateQueueFleetAssociationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["fleetId"].write(value.fleetId)
+        try writer["queueId"].write(value.queueId)
+    }
+}
+
+extension CreateQueueLimitAssociationInput {
+
+    static func write(value: CreateQueueLimitAssociationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["limitId"].write(value.limitId)
         try writer["queueId"].write(value.queueId)
     }
 }
@@ -13113,8 +13974,19 @@ extension UpdateJobInput {
         try writer["lifecycleStatus"].write(value.lifecycleStatus)
         try writer["maxFailedTasksCount"].write(value.maxFailedTasksCount)
         try writer["maxRetriesPerTask"].write(value.maxRetriesPerTask)
+        try writer["maxWorkerCount"].write(value.maxWorkerCount)
         try writer["priority"].write(value.priority)
         try writer["targetTaskRunStatus"].write(value.targetTaskRunStatus)
+    }
+}
+
+extension UpdateLimitInput {
+
+    static func write(value: UpdateLimitInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["displayName"].write(value.displayName)
+        try writer["maxCount"].write(value.maxCount)
     }
 }
 
@@ -13158,6 +14030,14 @@ extension UpdateQueueEnvironmentInput {
 extension UpdateQueueFleetAssociationInput {
 
     static func write(value: UpdateQueueFleetAssociationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["status"].write(value.status)
+    }
+}
+
+extension UpdateQueueLimitAssociationInput {
+
+    static func write(value: UpdateQueueLimitAssociationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["status"].write(value.status)
     }
@@ -13389,6 +14269,18 @@ extension CreateLicenseEndpointOutput {
     }
 }
 
+extension CreateLimitOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateLimitOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateLimitOutput()
+        value.limitId = try reader["limitId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension CreateMonitorOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateMonitorOutput {
@@ -13430,6 +14322,13 @@ extension CreateQueueFleetAssociationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateQueueFleetAssociationOutput {
         return CreateQueueFleetAssociationOutput()
+    }
+}
+
+extension CreateQueueLimitAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateQueueLimitAssociationOutput {
+        return CreateQueueLimitAssociationOutput()
     }
 }
 
@@ -13485,6 +14384,13 @@ extension DeleteLicenseEndpointOutput {
     }
 }
 
+extension DeleteLimitOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteLimitOutput {
+        return DeleteLimitOutput()
+    }
+}
+
 extension DeleteMeteredProductOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteMeteredProductOutput {
@@ -13517,6 +14423,13 @@ extension DeleteQueueFleetAssociationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteQueueFleetAssociationOutput {
         return DeleteQueueFleetAssociationOutput()
+    }
+}
+
+extension DeleteQueueLimitAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteQueueLimitAssociationOutput {
+        return DeleteQueueLimitAssociationOutput()
     }
 }
 
@@ -13651,6 +14564,7 @@ extension GetJobOutput {
         value.lifecycleStatusMessage = try reader["lifecycleStatusMessage"].readIfPresent() ?? ""
         value.maxFailedTasksCount = try reader["maxFailedTasksCount"].readIfPresent()
         value.maxRetriesPerTask = try reader["maxRetriesPerTask"].readIfPresent()
+        value.maxWorkerCount = try reader["maxWorkerCount"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: DeadlineClientTypes.JobParameter.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.priority = try reader["priority"].readIfPresent() ?? 0
@@ -13680,6 +14594,28 @@ extension GetLicenseEndpointOutput {
         value.statusMessage = try reader["statusMessage"].readIfPresent() ?? ""
         value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.vpcId = try reader["vpcId"].readIfPresent()
+        return value
+    }
+}
+
+extension GetLimitOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetLimitOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetLimitOutput()
+        value.amountRequirementName = try reader["amountRequirementName"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.currentCount = try reader["currentCount"].readIfPresent() ?? 0
+        value.description = try reader["description"].readIfPresent()
+        value.displayName = try reader["displayName"].readIfPresent() ?? ""
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.limitId = try reader["limitId"].readIfPresent() ?? ""
+        value.maxCount = try reader["maxCount"].readIfPresent() ?? 0
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
     }
 }
@@ -13771,6 +14707,24 @@ extension GetQueueFleetAssociationOutput {
     }
 }
 
+extension GetQueueLimitAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetQueueLimitAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetQueueLimitAssociationOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.limitId = try reader["limitId"].readIfPresent() ?? ""
+        value.queueId = try reader["queueId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        return value
+    }
+}
+
 extension GetSessionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSessionOutput {
@@ -13801,6 +14755,7 @@ extension GetSessionActionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetSessionActionOutput()
+        value.acquiredLimits = try reader["acquiredLimits"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.AcquiredLimit.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.definition = try reader["definition"].readIfPresent(with: DeadlineClientTypes.SessionActionDefinition.read(from:))
         value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.processExitCode = try reader["processExitCode"].readIfPresent()
@@ -14066,6 +15021,19 @@ extension ListLicenseEndpointsOutput {
     }
 }
 
+extension ListLimitsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListLimitsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListLimitsOutput()
+        value.limits = try reader["limits"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.LimitSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListMeteredProductsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListMeteredProductsOutput {
@@ -14114,6 +15082,19 @@ extension ListQueueFleetAssociationsOutput {
         var value = ListQueueFleetAssociationsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.queueFleetAssociations = try reader["queueFleetAssociations"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.QueueFleetAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListQueueLimitAssociationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListQueueLimitAssociationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListQueueLimitAssociationsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.queueLimitAssociations = try reader["queueLimitAssociations"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.QueueLimitAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -14403,6 +15384,13 @@ extension UpdateJobOutput {
     }
 }
 
+extension UpdateLimitOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateLimitOutput {
+        return UpdateLimitOutput()
+    }
+}
+
 extension UpdateMonitorOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateMonitorOutput {
@@ -14428,6 +15416,13 @@ extension UpdateQueueFleetAssociationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateQueueFleetAssociationOutput {
         return UpdateQueueFleetAssociationOutput()
+    }
+}
+
+extension UpdateQueueLimitAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateQueueLimitAssociationOutput {
+        return UpdateQueueLimitAssociationOutput()
     }
 }
 
@@ -14785,6 +15780,25 @@ enum CreateLicenseEndpointOutputError {
     }
 }
 
+enum CreateLimitOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateMonitorOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14842,6 +15856,24 @@ enum CreateQueueEnvironmentOutputError {
 }
 
 enum CreateQueueFleetAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateQueueLimitAssociationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -14971,6 +16003,23 @@ enum DeleteLicenseEndpointOutputError {
     }
 }
 
+enum DeleteLimitOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteMeteredProductOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15044,6 +16093,25 @@ enum DeleteQueueEnvironmentOutputError {
 }
 
 enum DeleteQueueFleetAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteQueueLimitAssociationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -15262,6 +16330,24 @@ enum GetLicenseEndpointOutputError {
     }
 }
 
+enum GetLimitOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetMonitorOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15317,6 +16403,24 @@ enum GetQueueEnvironmentOutputError {
 }
 
 enum GetQueueFleetAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetQueueLimitAssociationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -15654,6 +16758,24 @@ enum ListLicenseEndpointsOutputError {
     }
 }
 
+enum ListLimitsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListMeteredProductsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15708,6 +16830,23 @@ enum ListQueueEnvironmentsOutputError {
 }
 
 enum ListQueueFleetAssociationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListQueueLimitAssociationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -16178,6 +17317,24 @@ enum UpdateJobOutputError {
     }
 }
 
+enum UpdateLimitOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateMonitorOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -16233,6 +17390,24 @@ enum UpdateQueueEnvironmentOutputError {
 }
 
 enum UpdateQueueFleetAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateQueueLimitAssociationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -17323,6 +18498,17 @@ extension DeadlineClientTypes.EnvironmentEnterSessionActionDefinition {
     }
 }
 
+extension DeadlineClientTypes.AcquiredLimit {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.AcquiredLimit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.AcquiredLimit()
+        value.limitId = try reader["limitId"].readIfPresent() ?? ""
+        value.count = try reader["count"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension DeadlineClientTypes.Statistics {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.Statistics {
@@ -17586,6 +18772,7 @@ extension DeadlineClientTypes.JobSummary {
         value.taskRunStatusCounts = try reader["taskRunStatusCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.maxFailedTasksCount = try reader["maxFailedTasksCount"].readIfPresent()
         value.maxRetriesPerTask = try reader["maxRetriesPerTask"].readIfPresent()
+        value.maxWorkerCount = try reader["maxWorkerCount"].readIfPresent()
         value.sourceJobId = try reader["sourceJobId"].readIfPresent()
         return value
     }
@@ -17600,6 +18787,25 @@ extension DeadlineClientTypes.LicenseEndpointSummary {
         value.status = try reader["status"].readIfPresent()
         value.statusMessage = try reader["statusMessage"].readIfPresent()
         value.vpcId = try reader["vpcId"].readIfPresent()
+        return value
+    }
+}
+
+extension DeadlineClientTypes.LimitSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.LimitSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.LimitSummary()
+        value.displayName = try reader["displayName"].readIfPresent() ?? ""
+        value.amountRequirementName = try reader["amountRequirementName"].readIfPresent() ?? ""
+        value.maxCount = try reader["maxCount"].readIfPresent() ?? 0
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.limitId = try reader["limitId"].readIfPresent() ?? ""
+        value.currentCount = try reader["currentCount"].readIfPresent() ?? 0
         return value
     }
 }
@@ -17648,6 +18854,22 @@ extension DeadlineClientTypes.QueueFleetAssociationSummary {
         value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
+        return value
+    }
+}
+
+extension DeadlineClientTypes.QueueLimitAssociationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.QueueLimitAssociationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.QueueLimitAssociationSummary()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        value.queueId = try reader["queueId"].readIfPresent() ?? ""
+        value.limitId = try reader["limitId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -17915,6 +19137,7 @@ extension DeadlineClientTypes.JobSearchSummary {
         value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.jobParameters = try reader["jobParameters"].readMapIfPresent(valueReadingClosure: DeadlineClientTypes.JobParameter.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.maxWorkerCount = try reader["maxWorkerCount"].readIfPresent()
         value.sourceJobId = try reader["sourceJobId"].readIfPresent()
         return value
     }
