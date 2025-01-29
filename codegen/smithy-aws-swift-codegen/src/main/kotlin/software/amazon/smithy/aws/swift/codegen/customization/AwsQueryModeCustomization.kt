@@ -1,12 +1,12 @@
 package software.amazon.smithy.aws.swift.codegen.customization
 
-import software.amazon.smithy.swift.codegen.integration.middlewares.MutateHeadersMiddleware
 import software.amazon.smithy.aws.traits.protocols.AwsQueryCompatibleTrait
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
+import software.amazon.smithy.swift.codegen.integration.middlewares.MutateHeadersMiddleware
 import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 import software.amazon.smithy.swift.codegen.model.hasTrait
 
