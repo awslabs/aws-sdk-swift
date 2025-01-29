@@ -8,16 +8,18 @@
 import AWSS3
 import enum Smithy.ByteStream
 
-/// The synthetic input type for AWS S3 Transfer Manager's UploadObject operation.
-public struct UploadObjectInput {
-    let putObjectInput: PutObjectInput
-    let transferListeners: [TransferListener]
+/// The synthetic input type for the UploadObject operation of AWS S3 Transfer Manager.
+public struct UploadObjectInput: TransferInput {
+    public let operationType: OperationType = .uploadObject
 
-    /// Creates the input type for single object upload, used by AWS S3 Transfer Manager.
+    public let putObjectInput: PutObjectInput
+    public let transferListeners: [TransferListener]
+
+    /// Creates `UploadObjectInput` using `PutObjectInput`.
     ///
     /// - Parameters:
-    ///   - putObjectInput: An instance of AWSS3.PutObjectInput struct.
-    ///   - transferListeners: An array of TransferListeners. The transfer progress of UploadObject operation will be published to each transfer listener provided here.
+    ///   - putObjectInput: An instance of `PutObjectInput`.
+    ///   - transferListeners: An array of `TransferListener`. The transfer progress of the UploadObject operation will be published to each transfer listener provided here via hooks. Default value is an empty array.
     public init(
         putObjectInput: PutObjectInput,
         transferListeners: [TransferListener] = []
@@ -26,13 +28,14 @@ public struct UploadObjectInput {
         self.transferListeners = transferListeners
     }
 
-    // Helper function to construct CreateMultipartUploadInput from PutObjectInput.
+    // Helper function to construct `CreateMultipartUploadInput` from `self.putObjectInput`.
     func getCreateMultipartUploadInput() -> CreateMultipartUploadInput {
         return CreateMultipartUploadInput(
             acl: putObjectInput.acl,
             bucket: putObjectInput.bucket,
             bucketKeyEnabled: putObjectInput.bucketKeyEnabled,
             cacheControl: putObjectInput.cacheControl,
+            // Determine checksum algorithm to use by what's provided in `self.putObjectInput`.
             checksumAlgorithm: resolveChecksumAlgorithmForCreateMPUInput(putObjectInput),
             checksumType: resolveChecksumType(putObjectInput),
             contentDisposition: putObjectInput.contentDisposition,
@@ -63,7 +66,7 @@ public struct UploadObjectInput {
         )
     }
 
-    // Helper function to construct UploadPartInput from PutObjectInput.
+    // Helper function to construct `UploadPartInput` from `self.putObjectInput`.
     func getUploadPartInput(
         body: Smithy.ByteStream,
         partNumber: Int,
@@ -72,7 +75,8 @@ public struct UploadObjectInput {
         return UploadPartInput(
             body: body,
             bucket: putObjectInput.bucket,
-            checksumAlgorithm: putObjectInput.checksumAlgorithm,
+            // Determine checksum algorithm to use by what's provided in `self.putObjectInput`.
+            checksumAlgorithm: resolveChecksumAlgorithmForCreateMPUInput(putObjectInput),
             checksumCRC32: putObjectInput.checksumCRC32,
             checksumCRC32C: putObjectInput.checksumCRC32C,
             checksumSHA1: putObjectInput.checksumSHA1,
@@ -90,7 +94,7 @@ public struct UploadObjectInput {
         )
     }
 
-    // Helper function to construct CompleteMultipartUploadInput from PutObjectInput.
+    // Helper function to construct `CompleteMultipartUploadInput` from `self.putObjectInput`.
     func getCompleteMultipartUploadInput(
         multipartUpload: S3ClientTypes.CompletedMultipartUpload,
         uploadID: String,
@@ -117,7 +121,7 @@ public struct UploadObjectInput {
         )
     }
 
-    // Helper function to construct AbortMultipartUploadInput from PutObjectInput.
+    // Helper function to construct `AbortMultipartUploadInput` from `self.putObjectInput`.
     func getAbortMultipartUploadInput(
         uploadID: String
     ) -> AbortMultipartUploadInput {
@@ -130,6 +134,7 @@ public struct UploadObjectInput {
         )
     }
 
+    // Helper function for resolving which checksum algorithm to use for create MPU.
     private func resolveChecksumAlgorithmForCreateMPUInput(
         _ putObjectInput: PutObjectInput
     ) -> S3ClientTypes.ChecksumAlgorithm {
@@ -137,7 +142,7 @@ public struct UploadObjectInput {
         if let algo = putObjectInput.checksumAlgorithm {
             return algo
         }
-        // Otherwise, check for any checksum value provided; return algorithm if configured.
+        // Otherwise, check for any checksum value was provided; return mataching algorithm if present.
         // Follow the algorithm priority in smithy-swift/Sources/SmithyChecksums/ChecksumAlgorithm.swift.
         if let crc32cChecksum = putObjectInput.checksumCRC32C {
             return .crc32c
@@ -156,11 +161,14 @@ public struct UploadObjectInput {
         return .crc32
     }
 
+    // `CreateMultipartUploadInput` & `CompleteMultipartUploadInput` have `checksumType` input member.
+    // `PutObjectInput` doesn't have it, so for create / complete MPU inputs, determine the value based on
+    //  whether full object checksum was manually provided by the user in `PutObjectInput` or not.
     private func resolveChecksumType(
         _ input: PutObjectInput
     ) -> S3ClientTypes.ChecksumType? {
-        let checksum = input.checksumCRC32 ?? input.checksumCRC32C ?? input.checksumSHA1 ?? input.checksumSHA256 ?? input.checksumCRC64NVME
-        if let checksum {
+        let providedChecksum = input.checksumCRC32 ?? input.checksumCRC32C ?? input.checksumSHA1 ?? input.checksumSHA256 ?? input.checksumCRC64NVME
+        if let providedChecksum {
             return .fullObject
         } else {
             return .composite

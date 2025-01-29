@@ -9,37 +9,37 @@ import AWSS3
 
 /// The synthetic output type for the UploadObject operation of AWS S3 Transfer Manager.
 ///
-/// This type contains the intersection of PutObjectOutput & CompleteMultipartUploadOutput input members.
-public struct UploadObjectOutput {
+/// This type contains the member intersection of `PutObjectOutput` and `CompleteMultipartUploadOutput`.
+public struct UploadObjectOutput: TransferOutput {
     /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
-    public var bucketKeyEnabled: Swift.Bool?
+    public let bucketKeyEnabled: Swift.Bool?
     /// The base64-encoded, 32-bit CRC-32 checksum of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
-    public var checksumCRC32: Swift.String?
+    public let checksumCRC32: Swift.String?
     /// The base64-encoded, 32-bit CRC-32C checksum of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
-    public var checksumCRC32C: Swift.String?
+    public let checksumCRC32C: Swift.String?
     /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be present if it was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
-    public var checksumSHA1: Swift.String?
+    public let checksumSHA1: Swift.String?
     /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
-    public var checksumSHA256: Swift.String?
+    public let checksumSHA256: Swift.String?
     /// This header specifies the checksum type of the object, which determines how part-level checksums are combined to create an object-level checksum for multipart objects. For PutObject uploads, the checksum type is always FULL_OBJECT. You can use this header as a data integrity check to verify that the checksum type that is received is the same checksum that was specified. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-    public var checksumType: S3ClientTypes.ChecksumType?
+    public let checksumType: S3ClientTypes.ChecksumType?
     /// Entity tag that identifies the newly created object's data. Objects with different object data will have different entity tags. The entity tag is an opaque string. The entity tag may or may not be an MD5 digest of the object data. If the entity tag is not an MD5 digest of the object data, it will contain one or more nonhexadecimal characters and/or will consist of less than 32 or more than 32 hexadecimal digits. For more information about how the entity tag is calculated, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
-    public var eTag: Swift.String?
+    public let eTag: Swift.String?
     /// If the object expiration is configured, this will contain the expiration date (expiry-date) and rule ID (rule-id). The value of rule-id is URL-encoded. This functionality is not supported for directory buckets.
-    public var expiration: Swift.String?
+    public let expiration: Swift.String?
     /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
-    public var requestCharged: S3ClientTypes.RequestCharged?
+    public let requestCharged: S3ClientTypes.RequestCharged?
     /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
-    public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
+    public let serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// If present, indicates the ID of the KMS key that was used for object encryption.
-    public var ssekmsKeyId: Swift.String?
+    public let ssekmsKeyId: Swift.String?
     /// Version ID of the newly created object, in case the bucket has versioning turned on. This functionality is not supported for directory buckets.
-    public var versionId: Swift.String?
+    public let versionId: Swift.String?
 
-    /// Creates the synthetic output type used by S3 transfer manager for single file uploads using PutObjectInput.
+    /// Creates `UploadObjectOutput` using `PutObjectOutput`.
     ///
     /// - Parameters:
-    ///   - putObjectOutput: An instance of AWSS3.PutObjectOutput struct.
+    ///   - putObjectOutput: An instance of `PutObjectOutput`.
     init(putObjectOutput out: PutObjectOutput) {
         self.bucketKeyEnabled = out.bucketKeyEnabled
         self.checksumCRC32 = out.checksumCRC32
@@ -55,10 +55,10 @@ public struct UploadObjectOutput {
         self.versionId = out.versionId
     }
 
-    /// Creates the synthetic output type used by S3 transfer manager for single file uploads using CreateMultipartUploadOutput.
+    /// Creates `UploadObjectOutput` using `CompleteMultipartUploadOutput`.
     ///
     /// - Parameters:
-    ///   - completeMultipartUploadOutput: An instance of AWSS3.CompleteMultipartUploadOutput struct.
+    ///   - completeMultipartUploadOutput: An instance of `CompleteMultipartUploadOutput`.
     init(completeMultipartUploadOutput out: CompleteMultipartUploadOutput) {
         self.bucketKeyEnabled = out.bucketKeyEnabled
         self.checksumCRC32 = out.checksumCRC32
